@@ -26,7 +26,7 @@ public class LineDAOImpl implements LineDAO {
 
 	@Override
 	public List<LineVO> getLineList() {
-		return sqlSession.selectList(NAMESPACE + ".getLineList");
+		return sqlSession.selectList(NAMESPACE + ".getList");
 	}
 
 }

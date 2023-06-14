@@ -6,11 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.modernhome.service.LineService;
 
 @Controller
-@RequestMapping(value = "/production/*")
+@RequestMapping(value = "/production")
 public class ProductionController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProductionController.class);
@@ -19,8 +20,8 @@ public class ProductionController {
 	
 	
 	// 의존성 주입
-	@Inject
-	private LineService lineService;
+//	@Inject
+//	private LineService lineService;
 	
 	
 	// ===========================================
@@ -31,7 +32,12 @@ public class ProductionController {
 	// 라인 추가 처리(POST) - /production/line/add
 	
 	
+	// http://localhost:8088/production/line/lineList
 	// 라인 목록 조회(GET) - /production/line/lineList
+	@RequestMapping(value = "/line/lineList", method = RequestMethod.GET)
+	public void getLineList() {
+		logger.debug("getLineList() 호출");
+	}
 	
 	
 	// ===========================================
