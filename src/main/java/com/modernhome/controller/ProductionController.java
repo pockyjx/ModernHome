@@ -5,10 +5,13 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.service.LineService;
+import com.modernhome.service.WorkInstrService;
 
 @Controller
 @RequestMapping(value = "/production")
@@ -22,6 +25,9 @@ public class ProductionController {
 	// 의존성 주입
 	@Inject
 	private LineService lineService;
+	
+	@Inject
+	private WorkInstrService wiService;
 	
 	
 	// ===========================================
@@ -50,7 +56,22 @@ public class ProductionController {
 	
 	// 작업지시 리스트 출력(GET) - /production/instruct/list
 	
+	// http://localhost:8088/production/instruct/info
 	// 작업지시 상세보기 출력(GET) - /production/instruct/info
+	@RequestMapping(value = "/instruct/info", method = RequestMethod.GET)
+	public void getInstr(Model model) {
+		logger.debug("getInstr() 호출");
+		
+		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
+		int workId = 1;
+		WorkInstrVO resultVO = wiService.getInstr(workId);
+		
+		// 연결된 뷰페이지에 전달
+		model.addAttribute("resultVO", resultVO);
+		
+		// 페이지 이동
+		logger.debug("/production/instruct/info.jsp 뷰페이지로 이동");
+	}
 	
 	
 	// 작업지시 수정(GET) - /production/instruct/modify
