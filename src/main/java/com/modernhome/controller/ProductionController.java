@@ -20,8 +20,8 @@ public class ProductionController {
 	
 	
 	// 의존성 주입
-//	@Inject
-//	private LineService lineService;
+	@Inject
+	private LineService lineService;
 	
 	
 	// ===========================================
