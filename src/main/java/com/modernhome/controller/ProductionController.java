@@ -1,5 +1,7 @@
 package com.modernhome.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -54,7 +56,21 @@ public class ProductionController {
 	// 작업지시서 작성 처리(POST) - /production/instruct/add
 	
 	
+	// http://localhost:8088/production/instruct/list
 	// 작업지시 리스트 출력(GET) - /production/instruct/list
+	@RequestMapping(value = "/instruct/list", method = RequestMethod.GET)
+	public void getInstrList(Model model) {
+		logger.debug("getInstrList() 호출");
+		
+		// 작업지시 목록 출력 메서드 (서비스 -> DAO)
+		List<WorkInstrVO> instrList = wiService.getInstrList();
+		
+		// 연결된 뷰페이지에 전달
+		model.addAttribute("instrList", instrList);
+		
+		// 페이지 이동
+		logger.debug("/production/instruct/list.jsp 뷰페이지로 이동");
+	}
 	
 	// http://localhost:8088/production/instruct/info
 	// 작업지시 상세보기 출력(GET) - /production/instruct/info

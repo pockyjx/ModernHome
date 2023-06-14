@@ -1,5 +1,7 @@
 package com.modernhome.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,6 +28,12 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	public WorkInstrVO getInstr(int workId) {
 		logger.debug("WorkInstrDAOImpl_getInstr 실행");
 		return sqlSession.selectOne(NAMESPACE + ".getInstr", workId);
+	}
+
+	@Override
+	public List<WorkInstrVO> getInstrList() {
+		logger.debug("WorkInstrDAOImpl_getInstrList 실행");
+		return sqlSession.selectList(NAMESPACE + ".getList");
 	}
 
 }
