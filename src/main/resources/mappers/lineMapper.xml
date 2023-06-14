@@ -6,10 +6,12 @@
 <mapper namespace="com.modernhome.mapper.LineMapper">
 	
 	<!-- 라인 추가 -->
-	<insert id="addLine">
-		insert into line (line_num, line_name, user_yn, reg_date, emp_id) 
-		values (#{}, #{}, 'Y', now(), #{})
-	</insert>
 	<!-- 라인 추가 -->
+	
+	<!-- 라인 목록 조회 -->
+	<select id="getList" resultType="com.modernhome.domain.LineVO">
+		select * from line
+	</select>
+	<!-- 라인 목록 조회 -->
 	
 </mapper>
