@@ -30,14 +30,14 @@
 		</form>
 	</fieldset>
 
-	<hr>
+
 
 	<ul>
 		<li><a href="./productList">완제품</a></li>
 		<li><a href="./materialList">자재</a></li>
 	</ul>
-
-<h2>완제품 목록</h2>
+	
+	<h2>자재 목록</h2>
 
 	<table border="1">
 	
@@ -50,16 +50,16 @@
 			<th>단가</th>
 		</tr>
 		
-		<c:forEach items="${productList }" var="vo">
+		<c:forEach items="${materialList }" var="vo">
 		<tr>
 			<td><input type="checkbox"></td>
-			<td>${vo.pro_num }</td>
-			<td>${vo.pro_name }</td>
+			<td>${vo.ma_num }</td>
+			<td>${vo.ma_name }</td>
 			<td>
 				완제품
 			</td>
-			<td>${vo.pro_unit }</td>
-			<td>${vo.pro_price }</td>
+			<td>${vo.ma_unit }</td>
+			<td>${vo.ma_price }</td>
 		</tr>
 		</c:forEach>
 	

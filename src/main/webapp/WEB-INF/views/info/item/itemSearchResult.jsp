@@ -1,18 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>   
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 </head>
 <body>
 
-<h2>품목 검색</h2>
+<h2>검색 결과</h2>
 
 	<fieldset>
 		<form action="./itemSearchResult" method="POST">
@@ -29,17 +27,8 @@
 			<input type="submit" value="조회">
 		</form>
 	</fieldset>
-
-	<hr>
-
-	<ul>
-		<li><a href="./productList">완제품</a></li>
-		<li><a href="./materialList">자재</a></li>
-	</ul>
-
-<h2>완제품 목록</h2>
-
-	<table border="1">
+		
+		<table border="1">
 	
 		<tr>
 			<td><input type="checkbox"></td>
@@ -50,7 +39,9 @@
 			<th>단가</th>
 		</tr>
 		
-		<c:forEach items="${productList }" var="vo">
+		<!-- 완제품 검색 결과 -->
+		<c:if test="${proSearchList != null }">
+		<c:forEach items="${proSearchList }" var="vo">
 		<tr>
 			<td><input type="checkbox"></td>
 			<td>${vo.pro_num }</td>
@@ -62,6 +53,25 @@
 			<td>${vo.pro_price }</td>
 		</tr>
 		</c:forEach>
+		<!-- 완제품 검색 결과 -->
+		
+		<!-- 자재 검색 결과 -->
+		</c:if>
+		<c:if test="${maSearchList != null }">
+		<c:forEach items="${maSearchList }" var="vo">
+		<tr>
+			<td><input type="checkbox"></td>
+			<td>${vo.ma_num }</td>
+			<td>${vo.ma_name }</td>
+			<td>
+				자재
+			</td>
+			<td>${vo.ma_unit }</td>
+			<td>${vo.ma_price }</td>
+		</tr>
+		</c:forEach>
+		</c:if>
+		<!-- 자재 검색 결과 -->	
 	
 	</table>
 
