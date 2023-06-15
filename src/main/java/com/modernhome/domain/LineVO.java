@@ -1,5 +1,6 @@
 package com.modernhome.domain;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class LineVO {
@@ -7,12 +8,11 @@ public class LineVO {
 	private int line_id;
 	private String line_num;
 	private String line_name;
-	private String user_yn;
-	private LocalDateTime reg_date;
+	private String use_yn;
+	private Timestamp reg_date;
 	private int emp_id;
-	private LocalDateTime update_date;
+	private Timestamp update_date;
 	private int update_emp_id;
-	
 	public int getLine_id() {
 		return line_id;
 	}
@@ -31,16 +31,16 @@ public class LineVO {
 	public void setLine_name(String line_name) {
 		this.line_name = line_name;
 	}
-	public String getUser_yn() {
-		return user_yn;
+	public String getUse_yn() {
+		return use_yn;
 	}
-	public void setUser_yn(String user_yn) {
-		this.user_yn = user_yn;
+	public void setUse_yn(String use_yn) {
+		this.use_yn = use_yn;
 	}
-	public LocalDateTime getReg_date() {
+	public Timestamp getReg_date() {
 		return reg_date;
 	}
-	public void setReg_date(LocalDateTime reg_date) {
+	public void setReg_date(Timestamp reg_date) {
 		this.reg_date = reg_date;
 	}
 	public int getEmp_id() {
@@ -49,10 +49,10 @@ public class LineVO {
 	public void setEmp_id(int emp_id) {
 		this.emp_id = emp_id;
 	}
-	public LocalDateTime getUpdate_date() {
+	public Timestamp getUpdate_date() {
 		return update_date;
 	}
-	public void setUpdate_date(LocalDateTime update_date) {
+	public void setUpdate_date(Timestamp update_date) {
 		this.update_date = update_date;
 	}
 	public int getUpdate_emp_id() {
@@ -64,9 +64,17 @@ public class LineVO {
 	
 	@Override
 	public String toString() {
-		return "LineVO [line_id=" + line_id + ", line_num=" + line_num + ", line_name=" + line_name + ", user_yn="
-				+ user_yn + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
+		return "LineVO [line_id=" + line_id + ", line_num=" + line_num + ", line_name=" + line_name + ", use_yn="
+				+ use_yn + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
 				+ ", update_emp_id=" + update_emp_id + "]";
 	}
+
+	
+	
+
+	
+	
+	
+	
 	
 }
