@@ -12,4 +12,7 @@ public interface WorkInstrDAO {
 	// 작업지시 목록 조회
 	public List<WorkInstrVO> getInstrList();
 	
+	// 작업지시 검색
+	
+	
 }
