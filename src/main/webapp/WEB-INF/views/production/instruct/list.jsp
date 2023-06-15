@@ -10,31 +10,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function() {
-		// 버튼 클릭 시 행 추가
-		$("#addRowButton").click(function() {
-			var newRow = '<tr>' +
-						 '<td><input type="checkbox"></td>' +
-						 '<td><input type="text" name="work_num"></td>' +
-						 '<td><input type="text" name="line_id"></td>' +
-						 '<td><input type="text" name="pro_id"></td>' +
-						 '<td><input type="text" name="pro_id"></td>' +
-						 '<td>' +
-						 '<select name="work_state">' +
-						 '<option value="대기">대기</option>' +
-						 '<option value="진행중">진행중</option>' +
-						 '<option value="완료">완료</option>' +
-						 '</select>' +
-						 '</td>' +
-						 '<td><input type="text" name="out_or_id"></td>' +
-						 '<td><input type="text" name="reg_date"></td>' +
-						 '<td><input type="text" name="work_cnt"></td>' +
-						 '<td><input type="text" name="out_or_id"></td>' +
-						 '<td><input type="text" name="out_or_id"></td>' +
-						 '<td><input type="text" name="emp_id"></td>' +
-						 '</tr>';
-			$(".table-instrList").append(newRow);
-		});
-			
 		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
 		$(".table-instrList th input[type='checkbox']").click(function() {
 			var checkbox = $(this);
@@ -108,7 +83,7 @@
 	
 	<h2>작업지시 목록</h2>
 	<div>
-		<button id="addRowButton">추가</button>
+		<button onclick="location.href='/production/instruct/add'">추가</button>
 		<button>수정</button>
 		<button id="deleteRowsButton">삭제</button>
 		<button>취소</button>
@@ -154,7 +129,6 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<p></p>
 	
 </body>
 </html>

@@ -31,16 +31,29 @@ public class InstructController {
 	
 	// ===========================================
 	
-	
+	// http://localhost:8088/production/instruct/add.jsp
 	// 작업지시서 작성(GET) - /production/instruct/add
+	@RequestMapping(value = "/instruct/add", method = RequestMethod.GET)
+	public void addInstrGET() throws Exception {
+		logger.debug("addInstrGET() 호출");
+		logger.debug("/production/instruct/add 뷰페이지 이동");
+	}
 	
 	// 작업지시서 작성 처리(POST) - /production/instruct/add
+	@RequestMapping(value = "/instruct/add", method = RequestMethod.POST)
+	public String addInstrPOST(WorkInstrVO vo) throws Exception {
+		logger.debug("addInstrPOST() 호출");
+		
+		logger.debug("@@@@@@@@@@@@@@@@@vo : {}", vo);
+		
+		return "redirect:/production/instruct/list";
+	}
 	
 	
 	// http://localhost:8088/production/instruct/list
 	// 작업지시 리스트 출력(GET) - /production/instruct/list
 	@RequestMapping(value = "/instruct/list", method = RequestMethod.GET)
-	public void getInstrList(Model model) {
+	public void getInstrList(Model model) throws Exception {
 		logger.debug("getInstrList() 호출");
 		
 		// 작업지시 목록 출력 메서드 (서비스 -> DAO)
@@ -56,7 +69,7 @@ public class InstructController {
 	// http://localhost:8088/production/instruct/info
 	// 작업지시 상세보기 출력(GET) - /production/instruct/info
 	@RequestMapping(value = "/instruct/info", method = RequestMethod.GET)
-	public void getInstr(Model model) {
+	public void getInstr(Model model) throws Exception {
 		logger.debug("getInstr() 호출");
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)

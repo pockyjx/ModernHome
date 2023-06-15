@@ -1,6 +1,6 @@
 package com.modernhome.domain;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 public class WorkInstrVO {
 	
@@ -12,9 +12,9 @@ public class WorkInstrVO {
 	private int out_or_id;
 	private int work_cnt;
 	private String work_state;
-	private LocalDateTime reg_date;
+	private Date reg_date;
 	private int emp_id;
-	private LocalDateTime update_date;
+	private Date update_date;
 	private int update_emp_id;
 	
 	public int getWork_id() {
@@ -65,10 +65,10 @@ public class WorkInstrVO {
 	public void setWork_state(String work_state) {
 		this.work_state = work_state;
 	}
-	public LocalDateTime getReg_date() {
+	public Date getReg_date() {
 		return reg_date;
 	}
-	public void setReg_date(LocalDateTime reg_date) {
+	public void setReg_date(Date reg_date) {
 		this.reg_date = reg_date;
 	}
 	public int getEmp_id() {
@@ -77,10 +77,10 @@ public class WorkInstrVO {
 	public void setEmp_id(int emp_id) {
 		this.emp_id = emp_id;
 	}
-	public LocalDateTime getUpdate_date() {
+	public Date getUpdate_date() {
 		return update_date;
 	}
-	public void setUpdate_date(LocalDateTime update_date) {
+	public void setUpdate_date(Date update_date) {
 		this.update_date = update_date;
 	}
 	public int getUpdate_emp_id() {

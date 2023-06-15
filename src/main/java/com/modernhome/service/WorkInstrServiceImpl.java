@@ -17,12 +17,12 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	private WorkInstrDAO dao;
 	
 	@Override
-	public WorkInstrVO getInstr(int workId) {
+	public WorkInstrVO getInstr(int workId) throws Exception {
 		return dao.getInstr(workId);
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrList() {
+	public List<WorkInstrVO> getInstrList() throws Exception {
 		return dao.getInstrList();
 	}
 
