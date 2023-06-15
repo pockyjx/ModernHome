@@ -4,14 +4,14 @@ import java.sql.Timestamp;
 
 public class EmployeeVO {
 	
-	private int emp_id;
+	private Integer emp_id;
 	private String emp_pw;
 	private String emp_name;
 	private String emp_gender;
 	private Timestamp emp_birth;
 	private String emp_dept;
 	private String emp_rank;
-	private int emp_auth;
+	private Integer emp_auth;
 	private String emp_state;
 	private String emp_tel;
 	private String emp_email;
@@ -20,10 +20,11 @@ public class EmployeeVO {
 	private Timestamp emp_start_leave_date;
 	private Timestamp emp_end_leave_date;
 	private String emp_pic;
-	public int getEmp_id() {
+	
+	public Integer getEmp_id() {
 		return emp_id;
 	}
-	public void setEmp_id(int emp_id) {
+	public void setEmp_id(Integer emp_id) {
 		this.emp_id = emp_id;
 	}
 	public String getEmp_pw() {
@@ -62,10 +63,10 @@ public class EmployeeVO {
 	public void setEmp_rank(String emp_rank) {
 		this.emp_rank = emp_rank;
 	}
-	public int getEmp_auth() {
+	public Integer getEmp_auth() {
 		return emp_auth;
 	}
-	public void setEmp_auth(int emp_auth) {
+	public void setEmp_auth(Integer emp_auth) {
 		this.emp_auth = emp_auth;
 	}
 	public String getEmp_state() {
@@ -125,6 +126,8 @@ public class EmployeeVO {
 				+ ", emp_start_leave_date=" + emp_start_leave_date + ", emp_end_leave_date=" + emp_end_leave_date
 				+ ", emp_pic=" + emp_pic + "]";
 	}
+
+	
 
 	
 	

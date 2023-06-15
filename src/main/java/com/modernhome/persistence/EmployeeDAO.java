@@ -9,5 +9,8 @@ public interface EmployeeDAO {
 	// 사원조회
 	public List<EmployeeVO> employeeList();
 	
+	// 사원조회 + 검색
+	public List<EmployeeVO> employeeListSearch(EmployeeVO evo);
+	
 	
 }

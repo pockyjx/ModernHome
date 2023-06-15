@@ -8,7 +8,38 @@
 <title>Insert title here</title>
 </head>
 <body>
-		<h1>사원조회</h1>
+
+	<h1>사원조회</h1>
+	
+	<form action="" method="GET">
+	사원번호 <input type="text" name="emp_id">
+	이름 <input type="text" name="emp_name">
+	부서
+		<select name="emp_dept">
+			<option>전체</option>
+			<option>인사</option>
+			<option>영업</option>
+			<option>생산</option>
+			<option>자재</option>
+			<option>품질</option>
+		</select>
+	직급
+		<select name="emp_rank">
+			<option>전체</option>
+			<option>팀장</option>
+			<option>대리</option>
+			<option>사원</option>
+		</select>
+	상태
+		<select name="emp_state">
+			<option>전체</option>
+			<option>재직</option>
+			<option>휴직</option>
+			<option>퇴직</option>
+		</select>
+		
+		<input type="submit" value="조회">
+	</form>
 		
 
 	<table border="1">
