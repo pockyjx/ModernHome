@@ -18,42 +18,16 @@ import com.modernhome.service.WorkInstrService;
 
 @Controller
 @RequestMapping(value = "/production")
-public class ProductionController {
+public class InstructController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ProductionController.class);
+	private static final Logger logger = LoggerFactory.getLogger(InstructController.class);
 	
 	// ===========================================
 	
 	
 	// 의존성 주입
 	@Inject
-	private LineService lineService;
-
-	@Inject
 	private WorkInstrService wiService;
-	
-	
-	// ===========================================
-	
-	
-	// 라인 추가(GET) - /production/line/add
-	
-	// 라인 추가 처리(POST) - /production/line/add
-	
-	
-	// http://localhost:8088/production/line/lineList
-	// 라인 목록 조회(GET) - /production/line/lineList
-	@RequestMapping(value = "/line/lineList", method = RequestMethod.GET)
-	public void getLineList(Model model) {
-		logger.debug("getLineList() 호출");
-		
-		// 서비스 -> 라인목록 가져오기
-		List<LineVO> lineList = lineService.getLineList();
-		// Model 객체에 저장
-		model.addAttribute("lineList", lineList);
-
-		
-	}
 	
 	
 	// ===========================================
