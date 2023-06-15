@@ -12,4 +12,21 @@
 	</select>
 	<!-- 완제품 목록 조회 -->
 	
+	<!-- 완제품 검색 결과 조회 -->
+	<select id="proSearchList" resultType="com.modernhome.domain.ProductVO"
+		parameterType="java.util.Map">
+		select * from product
+		where
+		<choose>
+			<when test="itemOption == 'name'">
+				pro_name like CONCAT('%', #{search}, '%')
+			</when>
+			
+			<otherwise>
+				pro_num like CONCAT('%', #{search}, '%')
+			</otherwise>
+		</choose>
+	</select>	
+	<!-- 완제품 검색 결과 조회 -->
+	
 </mapper>

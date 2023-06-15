@@ -1,6 +1,8 @@
 package com.modernhome.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -30,6 +32,19 @@ public class ProductDAOImpl implements ProductDAO {
 		logger.debug("완제품 목록 조회!");
 		return sqlSession.selectList(NAMESPACRE + ".productList");
 	}
+	
+	// 완제품 검색 결과
+	@Override
+	public List<ProductVO> getProductList(String itemOption, String search) {
+		logger.debug("완제품 검색 결과 조회!");
+		
+		 Map<String, Object> parameterMap = new HashMap();
+		 parameterMap.put("itemOption", itemOption);
+		 parameterMap.put("search", search);	
+		
+		return sqlSession.selectList(NAMESPACRE + ".proSearchList", parameterMap);
+	}
+	
 	
 	
 	

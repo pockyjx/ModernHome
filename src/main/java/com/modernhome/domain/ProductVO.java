@@ -38,6 +38,12 @@ public class ProductVO {
 		this.pro_price = pro_price;
 	}
 	
+	@Override
+	public String toString() {
+		return "ProductVO [pro_id=" + pro_id + ", pro_num=" + pro_num + ", pro_name=" + pro_name + ", pro_unit="
+				+ pro_unit + ", pro_price=" + pro_price + "]";
+	}
+	
 	
 	
 	
