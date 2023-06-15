@@ -25,10 +25,19 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	// 사원조회
 	@Override
 	public List<EmployeeVO> employeeList() {
-		logger.debug("DAO -> mapper호출 -> SQL 실행");
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회)");
 		
 		return sqlSession.selectList(NAMESPACE + ".employeeList");
 	}
+
+	@Override
+	public List<EmployeeVO> employeeListSearch(EmployeeVO evo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회 - 검색된 데이터만 출력)");
+		
+		return sqlSession.selectList(NAMESPACE + ".employeeListSearch", evo);
+	}
+	
+	
 	
 	
 	

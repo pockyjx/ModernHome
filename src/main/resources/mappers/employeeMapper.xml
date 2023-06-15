@@ -7,8 +7,34 @@
 	
 	<!-- 사원리스트 불러오기 -->
 	<select id="employeeList" resultType="com.modernhome.domain.EmployeeVO">
-		SELECT * FROM employee WHERE emp_id != 0;
+		SELECT * FROM employee
 	</select>
 	<!-- 사원리스트 불러오기 -->
+	
+	<!-- 사원리스트 검색 -->
+	<select id="employeeListSearch" resultType="com.modernhome.domain.EmployeeVO">
+		SELECT * FROM employee 
+		<where>
+			<if test="emp_id != null">
+				emp_id = #{emp_id}
+			</if>
+			<if test="emp_name != ''">
+				AND emp_name = #{emp_name}
+			</if>
+			<if test="emp_dept != '전체'">
+				AND emp_dept = #{emp_dept}
+			</if>
+			<if test="emp_rank != '전체'">
+				AND emp_rank = #{emp_rank}
+			</if>
+			<if test="emp_state != '전체'">
+				AND emp_state = #{emp_state}
+			</if>
+		</where>
+	</select>
+	<!-- 사원리스트 검색 -->
+	
+	
+	
 
 </mapper>

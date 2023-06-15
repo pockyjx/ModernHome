@@ -20,6 +20,13 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<EmployeeVO> employeeList() {
 		return eDAO.employeeList();
 	}
+
+	// 사원조회 + 검색
+	@Override
+	public List<EmployeeVO> employeeListSearch(EmployeeVO evo) {
+		return eDAO.employeeListSearch(evo);
+	}
+	
 	
 	
 	
