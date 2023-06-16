@@ -6,7 +6,9 @@ import com.modernhome.domain.WarehouseVO;
 
 public interface WarehouseDAO {
 	
-	// 창고 목록 조회
-	public List<WarehouseVO> getWarehouseList();
+	// 창고 조회
+	public List<WarehouseVO> warehouseList();
 	
+	// 창고 조회 + 검색
+	public List<WarehouseVO> warehouseListSearch(WarehouseVO wvo);
 }
