@@ -18,36 +18,54 @@ import com.modernhome.service.LineService;
 @RequestMapping(value = "/production")
 public class LineController {
 	
+	LineVO lvo = null;
+	
 	private static final Logger logger = LoggerFactory.getLogger(LineController.class);
-	
-	// ===========================================
-	
 	
 	// 의존성 주입
 	@Inject
 	private LineService lineService;
 	
-	
-	// ===========================================
-	
-	
-	// 라인 추가(GET) - /production/line/add
-	
-	// 라인 추가 처리(POST) - /production/line/add
-	
-	
-	// http://localhost:8088/production/line/lineList
 	// 라인 목록 조회(GET) - /production/line/lineList
+	// http://localhost:8088/production/line/lineList
 	@RequestMapping(value = "/line/lineList", method = RequestMethod.GET)
-	public void getLineList(Model model) {
-		logger.debug("getLineList() 호출");
+	public void lineListGET(Model model, LineVO lvo) throws Exception{ 
+		logger.debug("lineListGET() 호출");
+		logger.debug("/line/lineList.jsp 페이지 이동");
 		
-		// 서비스 -> 라인목록 가져오기
-		List<LineVO> lineList = lineService.getLineList();
-		// Model 객체에 저장
-		model.addAttribute("lineList", lineList);
+		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
+		if(lvo.getLine_num()!= null || lvo.getLine_name() != null || lvo.getUse_yn() != null) {
+			logger.debug("검색어 O, 검색된 데이터만 출력" + lvo);
+			// 서비스 -> 라인목록 가져오기
+			List<LineVO> lineList = lineService.lineListSearch(lvo);
+			
+			// Model 객체에 저장
+			model.addAttribute("lineList",lineList);
+		}else {
+			
+			logger.debug("검색어 X, 전체 데이터 출력 " + lvo);
+			// 서비스 -> 라인목록 가져오기
+			List<LineVO> lineList = lineService.lineList();
+			
+			// Model 객체에 저장
+			model.addAttribute("lineList",lineList);
+		}
+		
+
 
 		
 	}
+
+
+
+
+
+
+
+
+
+
+
+
 	
 }
