@@ -12,38 +12,38 @@
 	<h1>/production/instruct/info.jsp</h1>
 	<h2>작업지시서 상세 출력</h2>
 	
-	${resultVO}
+<%-- 	${wiList} --%>
 	
 	<table border="1">
 		<tr>
 			<th>지시번호</th>
-			<td>${resultVO.work_num}</td>
+			<td>${wiList[0].work_num}</td>
 			<th>수주번호</th>
-			<td>${resultVO.out_or_id} 수주기본키로 수주번호 확인@@</td>
+			<td>${wiList[0].outOrderVO.oo_num}</td>
 		</tr>
 		<tr>
 			<th>품번</th>
-			<td>${resultVO.pro_id} 완제품기본키로 완제품번호 확인@@</td>
+			<td>${wiList[0].productVO.pro_num}</td>
 			<th>수량</th>
-			<td>${resultVO.work_cnt}</td>
+			<td>${wiList[0].outOrderVO.oo_cnt}</td>
 		</tr>
 		<tr>
 			<th>품명</th>
-			<td>${resultVO.pro_id} 완제품기본키로 완제품명 확인@@</td>
+			<td>${wiList[0].productVO.pro_name}</td>
 			<th>단위</th>
-			<td>${resultVO.pro_id} 완제품기본키로 단위 확인@@</td>
+			<td>${wiList[0].productVO.pro_unit}</td>
 		</tr>
 		<tr>
 			<th>납기일</th>
-			<td>${resultVO.out_or_id} 수주기본키로 납기일 확인@@</td>
+			<td>${wiList[0].outOrderVO.oo_end_date}</td>
 			<th>생산라인</th>
-			<td>${resultVO.line_id} 라인기본키로 라인명 확인@@</td>
+			<td>${wiList[0].lineVO.line_name}</td>
 		</tr>
 		<tr>
 			<th>납품지점</th>
-			<td>${resultVO.out_or_id} 수주기본키로 거래처 확인@@</td>
+			<td>${wiList[0].clientVO.clt_name}</td>
 			<th>작성일</th>
-			<td>${resultVO.reg_date}</td>
+			<td>${wiList[0].reg_date}</td>
 		</tr>
 		<tr>
 			<th rowspan="3">원재료</th>
@@ -51,15 +51,6 @@
 			<th>품목명</th>
 			<th>수량</th>
 		</tr>
-		
-<%-- 		<c:forEach var="req" items="소요량으로 필요한 자재 & 수량 받아서 출력"> --%>
-<!-- 			<tr> -->
-<!-- 				<td></td> -->
-<!-- 				<td></td> -->
-<!-- 				<td></td> -->
-<!-- 			</tr> -->
-<%-- 		</c:forEach> --%>
-		
 	</table>
 	
 </body>

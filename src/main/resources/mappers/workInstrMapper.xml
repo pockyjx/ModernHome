@@ -5,21 +5,72 @@
 
 <mapper namespace="com.modernhome.mapper.WorkInstrMapper">
 	
-	<!-- Join 결과 매핑 -->
-	
+	<!-- Join 결과 매핑 RM은 resultMap -->
+	<resultMap id="workInstrRM" type="WorkInstrVO">
+		<id property="work_id" column="work_id"/>
+		<result property="work_num" column="work_num"/>
+		<result property="work_cnt" column="work_cnt"/>
+		<result property="work_state" column="work_state"/>
+		<result property="reg_date" column="reg_date"/>
+		<result property="update_date" column="update_date"/>
+		<result property="update_emp_id" column="update_emp_id"/>
+		
+		<association property="clientVO" javaType="ClientVO">
+			<id property="clt_id" column="clt_id"/>
+			<result property="clt_name" column="clt_name"/>
+		</association>
+		
+		<association property="outOrderVO" javaType="OutOrderVO">
+			<id property="oo_id" column="oo_id"/>
+			<result property="oo_num" column="oo_num"/>
+			<result property="oo_cnt" column="oo_cnt"/>
+			<result property="oo_end_date" column="oo_end_date"/>
+		</association>
+		
+		<association property="lineVO" javaType="LineVO">
+			<id property="line_id" column="line_id"/>
+			<result property="line_num" column="line_num"/>
+			<result property="line_name" column="line_name"/>
+		</association>
+		
+		<association property="productVO" javaType="ProductVO">
+			<id property="pro_id" column="pro_id"/>
+			<result property="pro_num" column="pro_num"/>
+			<result property="pro_name" column="pro_name"/>
+			<result property="pro_unit" column="pro_unit"/>
+		</association>
+		
+		<association property="employeeVO" javaType="EmployeeVO">
+			<id property="emp_id" column="emp_id"/>
+			<result property="emp_name" column="emp_name"/>
+		</association>
+	</resultMap>
 	<!-- Join 결과 매핑 -->
 	
 	
 	<!-- 작업지시서 조회 -->
-	<select id="getInstr" resultType="com.modernhome.domain.WorkInstrVO">
-		select * from work_instr where work_id = #{work_id}
+	<select id="getInstr" resultMap="workInstrRM">
+		SELECT work_num, oo_num, pro_num, pro_name, oo_cnt, pro_unit, oo_end_date, clt_name, line_num, wi.reg_date 
+		FROM work_instr wi 
+		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
+		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
+		LEFT JOIN line l ON wi.line_id = l.line_id  
+		LEFT JOIN product pro ON wi.pro_id = pro.pro_id 
+		WHERE wi.work_id = #{work_id}
 	</select>
 	<!-- 작업지시서 조회 -->
 	
 	
 	<!-- 작업지시 목록 조회 -->
-	<select id="getList" resultType="com.modernhome.domain.WorkInstrVO">
-		select * from work_instr
+	<select id="getList" resultMap="workInstrRM">
+		SELECT work_num, line_name, pro_num, pro_name, wi.work_state, oo_cnt, wi.reg_date, 
+			wi.work_cnt, oo_num, oo_end_date, emp.emp_name 
+		FROM work_instr wi 
+		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
+		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
+		LEFT JOIN line l ON wi.line_id = l.line_id  
+		LEFT JOIN product pro ON wi.pro_id = pro.pro_id 
+		LEFT JOIN employee emp ON wi.emp_id = emp.emp_id
 	</select>
 	<!-- 작업지시 목록 조회 -->
 	

@@ -54,6 +54,9 @@
 			var selectedRows = $(".table-instrList tr.selected");
 			selectedRows.remove();
 		});
+		
+		// 모달창
+		
 	
 	});
 </script>
@@ -80,7 +83,6 @@
 			
 	</form>
 	
-	
 	<h2>작업지시 목록</h2>
 	<div>
 		<button onclick="location.href='/production/instruct/add'">추가</button>
@@ -106,26 +108,26 @@
 			<th>담당자</th>
 		</tr>
 		
-		<c:forEach var="list" items="${instrList}">
+		<c:forEach var="list" items="${instrList}" varStatus="status">
 			<tr>
 				<td><input type="checkbox"></td>
 				<td>${list.work_num}</td>
-				<td>${list.line_id} <br>라인기본키로 라인명</td>
-				<td>${list.pro_id} <br>완제품기본키로 완제품코드</td>
-				<td>${list.pro_id} <br>완제품기본키로 완제품명</td>
+				<td>${list.lineVO.line_name}</td>
+				<td>${list.productVO.pro_num}</td>
+				<td>${list.productVO.pro_name}</td>
 				<td>
 					<select>
-				       <option value="대기" <c:if test="${lise.work_state=='대기'}"> selected</c:if>>대기</option>
-				       <option value="진행중" <c:if test="${lise.work_state=='진행중'}"> selected</c:if>>진행중</option>
-				       <option value="완료" <c:if test="${lise.work_state=='완료'}"> selected</c:if>>완료</option>
+				       <option value="대기" <c:if test="${list.work_state=='대기'}"> selected</c:if>>대기</option>
+				       <option value="진행중" <c:if test="${list.work_state=='진행중'}"> selected</c:if>>진행중</option>
+				       <option value="완료" <c:if test="${list.work_state=='완료'}"> selected</c:if>>완료</option>
 				    </select>
 				</td>
-				<td>0 <br>수주기본키로 생산수량</td>
+				<td>${list.outOrderVO.oo_cnt}<br>(생산완료한 수량은 임의)</td>
 				<td>${list.reg_date}</td>
 				<td>${list.work_cnt}</td>
-				<td>${list.out_or_id} <br>수주기본키로 수주번호</td>
-				<td>${list.out_or_id} <br>수주기본키로 납품일자</td>
-				<td>${list.emp_id} <br>사원번호로 담당자</td>
+				<td>${list.outOrderVO.oo_num}</td>
+				<td>${list.outOrderVO.oo_end_date}</td>
+				<td>${list.employeeVO.emp_name}</td>
 			</tr>
 		</c:forEach>
 	</table>

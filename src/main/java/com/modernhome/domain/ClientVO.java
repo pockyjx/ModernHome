@@ -7,7 +7,6 @@ public class ClientVO {
 	private String clt_sort;
 	private String clt_name;
 	private String clt_rep;
-	private String clt_sec;
 	private String clt_tel;
 	private String clt_adr;
 	private String clt_post;
@@ -43,12 +42,6 @@ public class ClientVO {
 	public void setClt_rep(String clt_rep) {
 		this.clt_rep = clt_rep;
 	}
-	public String getClt_sec() {
-		return clt_sec;
-	}
-	public void setClt_sec(String clt_sec) {
-		this.clt_sec = clt_sec;
-	}
 	public String getClt_tel() {
 		return clt_tel;
 	}
@@ -72,6 +65,13 @@ public class ClientVO {
 	}
 	public void setClt_email(String clt_email) {
 		this.clt_email = clt_email;
+	}
+	
+	@Override
+	public String toString() {
+		return "ClientVO [clt_id=" + clt_id + ", clt_num=" + clt_num + ", clt_sort=" + clt_sort + ", clt_name="
+				+ clt_name + ", clt_rep=" + clt_rep + ", clt_tel=" + clt_tel + ", clt_adr="
+				+ clt_adr + ", clt_post=" + clt_post + ", clt_email=" + clt_email + "]";
 	}
 	
 }

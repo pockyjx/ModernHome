@@ -1,6 +1,6 @@
 package com.modernhome.domain;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class WorkInstrVO {
 	
@@ -9,12 +9,12 @@ public class WorkInstrVO {
 	private int line_id;
 	private int pro_id;
 	private int req_id;
-	private int out_or_id;
+	private int oo_id;
 	private int work_cnt;
 	private String work_state;
-	private Date reg_date;
+	private Timestamp reg_date;
 	private int emp_id;
-	private Date update_date;
+	private Timestamp update_date;
 	private int update_emp_id;
 	
 	// join을 위한 객체
@@ -22,6 +22,8 @@ public class WorkInstrVO {
 	private OutOrderVO outOrderVO;
 	private LineVO lineVO;
 	private ProductVO productVO;
+	private EmployeeVO employeeVO;
+	
 	
 	public int getWork_id() {
 		return work_id;
@@ -53,11 +55,11 @@ public class WorkInstrVO {
 	public void setReq_id(int req_id) {
 		this.req_id = req_id;
 	}
-	public int getOut_or_id() {
-		return out_or_id;
+	public int getOo_id() {
+		return oo_id;
 	}
-	public void setOut_or_id(int out_or_id) {
-		this.out_or_id = out_or_id;
+	public void setOo_id(int oo_id) {
+		this.oo_id = oo_id;
 	}
 	public int getWork_cnt() {
 		return work_cnt;
@@ -71,10 +73,10 @@ public class WorkInstrVO {
 	public void setWork_state(String work_state) {
 		this.work_state = work_state;
 	}
-	public Date getReg_date() {
+	public Timestamp getreg_date() {
 		return reg_date;
 	}
-	public void setReg_date(Date reg_date) {
+	public void setreg_date(Timestamp reg_date) {
 		this.reg_date = reg_date;
 	}
 	public int getEmp_id() {
@@ -83,25 +85,17 @@ public class WorkInstrVO {
 	public void setEmp_id(int emp_id) {
 		this.emp_id = emp_id;
 	}
-	public Date getUpdate_date() {
+	public Timestamp getupdate_date() {
 		return update_date;
 	}
-	public void setUpdate_date(Date update_date) {
+	public void setupdate_date(Timestamp update_date) {
 		this.update_date = update_date;
 	}
-	public int getUpdate_emp_id() {
+	public int getupdate_emp_id() {
 		return update_emp_id;
 	}
-	public void setUpdate_emp_id(int update_emp_id) {
+	public void setupdate_emp_id(int update_emp_id) {
 		this.update_emp_id = update_emp_id;
-	}
-	
-	@Override
-	public String toString() {
-		return "WorkInstrVO [work_id=" + work_id + ", work_num=" + work_num + ", line_id=" + line_id + ", pro_id="
-				+ pro_id + ", req_id=" + req_id + ", out_or_id=" + out_or_id + ", work_cnt=" + work_cnt
-				+ ", work_state=" + work_state + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date="
-				+ update_date + ", update_emp_id=" + update_emp_id + "]";
 	}
 	
 	public ClientVO getClientVO() {
@@ -127,6 +121,22 @@ public class WorkInstrVO {
 	}
 	public void setProductVO(ProductVO productVO) {
 		this.productVO = productVO;
+	}
+	
+	public EmployeeVO getEmployeeVO() {
+		return employeeVO;
+	}
+	public void setEmployeeVO(EmployeeVO employeeVO) {
+		this.employeeVO = employeeVO;
+	}
+	
+	@Override
+	public String toString() {
+		return "WorkInstrVO [work_id=" + work_id + ", work_num=" + work_num + ", line_id=" + line_id + ", pro_id="
+				+ pro_id + ", req_id=" + req_id + ", oo_id=" + oo_id + ", work_cnt=" + work_cnt + ", work_state="
+				+ work_state + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
+				+ ", update_emp_id=" + update_emp_id + ", clientVO=" + clientVO + ", outOrderVO=" + outOrderVO
+				+ ", lineVO=" + lineVO + ", productVO=" + productVO + ", employeeVO=" + employeeVO + "]";
 	}
 	
 }

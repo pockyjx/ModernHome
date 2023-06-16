@@ -90,4 +90,12 @@ public class OutOrderVO {
 		this.oo_update_date = oo_update_date;
 	}
 	
+	@Override
+	public String toString() {
+		return "OutOrderVO [oo_id=" + oo_id + ", oo_num=" + oo_num + ", emp_id=" + emp_id + ", clt_id=" + clt_id
+				+ ", pro_id=" + pro_id + ", clt_cost=" + clt_cost + ", oo_cnt=" + oo_cnt + ", oo_start_date="
+				+ oo_start_date + ", oo_end_date=" + oo_end_date + ", oo_state=" + oo_state + ", update_emp_id="
+				+ update_emp_id + ", oo_update_date=" + oo_update_date + "]";
+	}
+	
 }

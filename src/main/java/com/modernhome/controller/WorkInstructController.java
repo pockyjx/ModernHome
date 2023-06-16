@@ -8,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.EmployeeVO;
 import com.modernhome.domain.WorkInstrVO;
@@ -17,9 +19,9 @@ import com.modernhome.service.WorkInstrService;
 
 @Controller
 @RequestMapping(value = "/production")
-public class InstructController {
+public class WorkInstructController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(InstructController.class);
+	private static final Logger logger = LoggerFactory.getLogger(WorkInstructController.class);
 	
 	// ===========================================
 	
@@ -58,6 +60,7 @@ public class InstructController {
 		
 		// 작업지시 목록 출력 메서드 (서비스 -> DAO)
 		List<WorkInstrVO> instrList = wiService.getInstrList();
+		logger.debug("instrList : {}", instrList);
 		
 		// 연결된 뷰페이지에 전달
 		model.addAttribute("instrList", instrList);
@@ -66,42 +69,21 @@ public class InstructController {
 		logger.debug("/production/instruct/list.jsp 뷰페이지로 이동");
 	}
 	
-	// http://localhost:8088/production/instruct/info
+	// http://localhost:8088/production/instruct/info?work_id=
 	// 작업지시 상세보기 출력(GET) - /production/instruct/info
 	@RequestMapping(value = "/instruct/info", method = RequestMethod.GET)
-	public void getInstr(Model model) throws Exception {
+	public void getInstr(Model model, @RequestParam("work_id") int work_id) throws Exception {
 		logger.debug("getInstr() 호출");
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
-		int workId = 1;
-		WorkInstrVO resultVO = wiService.getInstr(workId);
+		List<WorkInstrVO> wiList = wiService.getInstr(work_id);
+		logger.debug("wiList : {}", wiList);
 		
 		// 연결된 뷰페이지에 전달
-		model.addAttribute("resultVO", resultVO);
+		model.addAttribute("wiList", wiList);
 		
 		// 페이지 이동
 		logger.debug("/production/instruct/info.jsp 뷰페이지로 이동");
-		
-		
-		
-		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
-//		if(evo.getEmp_id() != null || evo.getEmp_name() != null || evo.getEmp_dept() != null
-//				|| evo.getEmp_rank() != null	|| evo.getEmp_state() != null) {
-//			logger.debug("검색어 O, 검색된 데이터만 출력 " + evo);
-//			// 서비스 -> 회원목록 가져오기
-//			List<EmployeeVO> employeeList = eService.employeeListSearch(evo);
-//			
-//			// Model 객체에 저장
-//			model.addAttribute("employeeList", employeeList);
-//		}else {
-//
-//			logger.debug("검색어 X, 전체 데이터 출력 " + evo);
-//			// 서비스 -> 회원목록 가져오기
-//			List<EmployeeVO> employeeList = eService.employeeList();
-//			
-//			// Model 객체에 저장
-//			model.addAttribute("employeeList", employeeList);
-//		}
 	}
 	
 	
