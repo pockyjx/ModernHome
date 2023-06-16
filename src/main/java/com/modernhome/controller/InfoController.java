@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.ProductVO;
+import com.modernhome.domain.RequirementVO;
 import com.modernhome.service.ItemService;
+import com.modernhome.service.RequirmentService;
 
 @Controller
 @RequestMapping(value = "/info/*")
@@ -26,6 +29,9 @@ public class InfoController {
 	// 의존성 주입
 	@Inject
 	private ItemService iService;
+	
+	@Autowired
+	private RequirmentService rService;
 	
 	// 완제품 목록
 	// http://localhost:8088/info/item/productList
@@ -76,6 +82,18 @@ public class InfoController {
 			
 		}
 		
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	
+	// 소요량 목록
+	// http://localhost:8088/info/req/reqList
+	@RequestMapping(value = "/req/reqList", method = RequestMethod.GET)
+	public void reqListGET(Model model) throws Exception {
+		logger.debug("reqList() 호출!");
+		
+		List<RequirementVO> reqList = rService.getListAll();
+		model.addAttribute("reqList", reqList);
 	}
 	
 	
