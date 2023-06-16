@@ -87,36 +87,42 @@
 	<h2>라인 정보 관리</h2>
 	
 	
-	
-	<h2>라인</h2>
 	<button id="addRowButton">추가</button>
 	<button id="deleteRowsButton">삭제</button>
+	
+	<h2>라인조회</h2>
+	
+	<form action="" method="GET">
+	라인코드 <input type="text" name="line_num">
+	라인명 <input type="text" name="line_name">
+	사용여부
+		<select name="use_yn">
+			<option>전체</option>
+			<option>Y</option>
+			<option>N</option>
+		</select>
+		<input type="submit" value="조회">
+	</form>
+
 	<table class="table-lineList" border="1">
-			<tr>
-				<th><input type="checkbox"></th>
-				<th>라인코드</th>
-				<th>라인명</th>
-				<th>사용여부</th>
-				<th>등록일</th>
-				<th>등록자</th>
-			</tr>
-			<c:forEach var="vo" items="${lineList }">
-			<tr>	
-				<td><input type="checkbox"></td>
-				<td>${vo.line_num }</td>
-				<td>${vo.line_name }</td>
-				<td>
-				    <select>
-				       <option value="Y" <c:if test="${vo.use_yn=='Y'}"> selected</c:if>>Y</option>
-				       <option value="N" <c:if test="${vo.use_yn=='N'}"> selected</c:if>>N</option>
-				    </select>
-				</td>
-				<td>
-				<fmt:formatDate value="${vo.reg_date }" dateStyle="medium"/>
-				</td>
-				<td>${vo.emp_id }</td>
-			</tr>
-			</c:forEach>
+	    <tr>
+	        <th><input type="checkbox"></th>
+	        <th>라인코드</th>
+	        <th>라인명</th>
+	        <th>사용여부</th>
+	        <th>등록일</th>
+	        <th>등록자</th>
+	    </tr>
+	    <c:forEach var="vo" items="${lineList}">
+	        <tr>
+	            <td><input type="checkbox"></td>
+	            <td>${vo.line_num}</td>
+	            <td>${vo.line_name}</td>
+	            <td>${vo.use_yn}</td>
+	            <td>${vo.reg_date}</td>
+	            <td>${vo.update_emp_id}</td>
+	        </tr>
+	    </c:forEach>
 	</table>
 
 	

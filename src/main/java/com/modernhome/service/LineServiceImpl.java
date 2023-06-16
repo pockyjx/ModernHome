@@ -16,9 +16,18 @@ public class LineServiceImpl implements LineService {
 	@Inject
 	private LineDAO dao;
 
+	// 라인조회
 	@Override
-	public List<LineVO> getLineList() {
-		return dao.getLineList();
+	public List<LineVO> lineList() {
+		return dao.lineList();
 	}
-	
+
+	// 라인조회 + 검색
+	@Override
+	public List<LineVO> lineListSearch(LineVO lvo) {
+		return dao.lineListSearch(lvo);
+	}
+
+
+
 }
