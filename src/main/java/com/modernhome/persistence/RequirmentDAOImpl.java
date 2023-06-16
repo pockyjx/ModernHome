@@ -1,6 +1,8 @@
 package com.modernhome.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -19,10 +21,26 @@ public class RequirmentDAOImpl implements RequirmentDAO {
 	private static final Logger logger = LoggerFactory.getLogger(RequirmentDAOImpl.class);
 	private static final String NAMESPACE = "com.modernhome.mapper.RequirementMapper";
 
+	// 소요량 목록 조회
 	@Override
 	public List<RequirementVO> getRequirements() {
 		return sqlSession.selectList(NAMESPACE + ".getRequirements");
 	}
+	
+	// 소요량 검색 결과
+	@Override
+	public List<RequirementVO> getReqSearch(String option, String search) {
+		
+		Map<String, Object> parameterMap = new HashMap();
+		parameterMap.put("option", option);
+		parameterMap.put("search", search);
+		
+		return sqlSession.selectList(NAMESPACE + ".reqSearch", parameterMap);
+	}
+
+	
+	
+	
 
 	
 

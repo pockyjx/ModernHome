@@ -20,4 +20,13 @@ public class RequirmentServiceImpl implements RequirmentService {
 		return rdao.getRequirements();
 	}
 
+	@Override
+	public List<RequirementVO> getReqSearch(String option, String search) throws Exception {
+		return rdao.getReqSearch(option, search);
+	}
+
+	
+	
+	
+
 }
