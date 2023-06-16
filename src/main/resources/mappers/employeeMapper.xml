@@ -16,10 +16,10 @@
 		SELECT * FROM employee 
 		<where>
 			<if test="emp_id != null">
-				emp_id = #{emp_id}
+				emp_id LIKE CONCAT('%', #{emp_id}, '%') 
 			</if>
 			<if test="emp_name != ''">
-				AND emp_name = #{emp_name}
+				AND emp_name LIKE CONCAT('%', #{emp_name}, '%') 
 			</if>
 			<if test="emp_dept != '전체'">
 				AND emp_dept = #{emp_dept}

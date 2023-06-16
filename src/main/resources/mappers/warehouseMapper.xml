@@ -11,4 +11,18 @@
 	</select>
   	<!-- 창고 목록 조회 -->
   	
+  	<!-- 창고 검색 -->
+  	<select id="warehouseListSearch" resultType="com.modernhome.domain.WarehouseVO">
+  		SELECT * FROM warehouse
+  		<where>
+  			<if test="wh_type != '전체'">
+  				wh_type like CONCAT('%', #{wh_type}, '%')
+  			</if>
+  			<if test="wh_name != ''">
+  				AND wh_name like CONCAT('%', #{wh_name}, '%')
+  			</if>
+  		</where>
+  	</select>
+  	<!-- 창고 검색 -->
+  	
   </mapper>

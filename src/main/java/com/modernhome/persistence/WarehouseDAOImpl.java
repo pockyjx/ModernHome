@@ -24,10 +24,20 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	private static final Logger logger
 				= LoggerFactory.getLogger(WarehouseDAOImpl.class);
 	
-
+	// 창고 조회
 	@Override
-	public List<WarehouseVO> getWarehouseList() {
+	public List<WarehouseVO> warehouseList() {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (창고조회)");
+		
 		return sqlSession.selectList(NAMESPACE + ".warehouseList");
 	}
+
+	@Override
+	public List<WarehouseVO> warehouseListSearch(WarehouseVO wvo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (창고조회 - 검색된 데이터만 출력)");
+		
+		return sqlSession.selectList(NAMESPACE + ".warehouseListSearch", wvo);
+	}
+	
 	
 }
