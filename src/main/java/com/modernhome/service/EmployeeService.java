@@ -12,4 +12,10 @@ public interface EmployeeService {
 	// 사원조회 + 검색
 	public List<EmployeeVO> employeeListSearch(EmployeeVO evo);
 	
+	// 구현동작 설계
+	public void employeeJoin(EmployeeVO vo);
+		
+	// 로그인
+	public EmployeeVO employeeLogin(EmployeeVO vo); // vo - id,pw만 저장
+	
 }
