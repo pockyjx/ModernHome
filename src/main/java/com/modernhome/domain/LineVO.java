@@ -5,18 +5,19 @@ import java.time.LocalDateTime;
 
 public class LineVO {
 	
-	private int line_id;
+	private Integer line_id;
 	private String line_num;
 	private String line_name;
 	private String use_yn;
 	private Timestamp reg_date;
-	private int emp_id;
+	private Integer emp_id;
 	private Timestamp update_date;
-	private int update_emp_id;
-	public int getLine_id() {
+	private Integer update_emp_id;
+	
+	public Integer getLine_id() {
 		return line_id;
 	}
-	public void setLine_id(int line_id) {
+	public void setLine_id(Integer line_id) {
 		this.line_id = line_id;
 	}
 	public String getLine_num() {
@@ -43,10 +44,10 @@ public class LineVO {
 	public void setReg_date(Timestamp reg_date) {
 		this.reg_date = reg_date;
 	}
-	public int getEmp_id() {
+	public Integer getEmp_id() {
 		return emp_id;
 	}
-	public void setEmp_id(int emp_id) {
+	public void setEmp_id(Integer emp_id) {
 		this.emp_id = emp_id;
 	}
 	public Timestamp getUpdate_date() {
@@ -55,10 +56,10 @@ public class LineVO {
 	public void setUpdate_date(Timestamp update_date) {
 		this.update_date = update_date;
 	}
-	public int getUpdate_emp_id() {
+	public Integer getUpdate_emp_id() {
 		return update_emp_id;
 	}
-	public void setUpdate_emp_id(int update_emp_id) {
+	public void setUpdate_emp_id(Integer update_emp_id) {
 		this.update_emp_id = update_emp_id;
 	}
 	
@@ -68,13 +69,5 @@ public class LineVO {
 				+ use_yn + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
 				+ ", update_emp_id=" + update_emp_id + "]";
 	}
-
-	
-	
-
-	
-	
-	
-	
 	
 }
