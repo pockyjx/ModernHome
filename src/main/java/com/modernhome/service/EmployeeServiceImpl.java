@@ -26,6 +26,21 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<EmployeeVO> employeeListSearch(EmployeeVO evo) {
 		return eDAO.employeeListSearch(evo);
 	}
+
+	// 로그인 동작 설계
+	@Override
+	public void employeeJoin(EmployeeVO vo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	// 사원 로그인
+	@Override
+	public EmployeeVO employeeLogin(EmployeeVO vo) {
+		EmployeeVO resultVO = eDAO.loginMember(vo);
+		return resultVO;
+	}
+	
 	
 	
 	
