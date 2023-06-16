@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-		<h2> http://localhost:8088/member/login </h2>
+		<h2> http://localhost:8088/employee/login </h2>
 		
 		<h1>login.jsp</h1>
 		
