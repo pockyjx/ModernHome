@@ -17,6 +17,12 @@ public class WorkInstrVO {
 	private Date update_date;
 	private int update_emp_id;
 	
+	// join을 위한 객체
+	private ClientVO clientVO;
+	private OutOrderVO outOrderVO;
+	private LineVO lineVO;
+	private ProductVO productVO;
+	
 	public int getWork_id() {
 		return work_id;
 	}
@@ -96,6 +102,31 @@ public class WorkInstrVO {
 				+ pro_id + ", req_id=" + req_id + ", out_or_id=" + out_or_id + ", work_cnt=" + work_cnt
 				+ ", work_state=" + work_state + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date="
 				+ update_date + ", update_emp_id=" + update_emp_id + "]";
+	}
+	
+	public ClientVO getClientVO() {
+		return clientVO;
+	}
+	public void setClientVO(ClientVO clientVO) {
+		this.clientVO = clientVO;
+	}
+	public OutOrderVO getOutOrderVO() {
+		return outOrderVO;
+	}
+	public void setOutOrderVO(OutOrderVO outOrderVO) {
+		this.outOrderVO = outOrderVO;
+	}
+	public LineVO getLineVO() {
+		return lineVO;
+	}
+	public void setLineVO(LineVO lineVO) {
+		this.lineVO = lineVO;
+	}
+	public ProductVO getProductVO() {
+		return productVO;
+	}
+	public void setProductVO(ProductVO productVO) {
+		this.productVO = productVO;
 	}
 	
 }
