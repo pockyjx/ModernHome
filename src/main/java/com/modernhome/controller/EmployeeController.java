@@ -45,6 +45,7 @@ public class EmployeeController {
 			// 서비스 -> 회원목록 가져오기
 			List<EmployeeVO> employeeList = eService.employeeListSearch(evo);
 			
+			
 			// Model 객체에 저장
 			model.addAttribute("employeeList", employeeList);
 		}else {
@@ -52,6 +53,8 @@ public class EmployeeController {
 			logger.debug("검색어 X, 전체 데이터 출력 " + evo);
 			// 서비스 -> 회원목록 가져오기
 			List<EmployeeVO> employeeList = eService.employeeList();
+			
+			logger.debug(employeeList + "");
 			
 			// Model 객체에 저장
 			model.addAttribute("employeeList", employeeList);
@@ -127,15 +130,17 @@ public class EmployeeController {
 		
 		
 		// 사원등록
-		@RequestMapping(value = "/regEmployee", method = RequestMethod.GET)
-		public String regEmployeeGET(EmployeeVO evo) {
+		@RequestMapping(value = "/regEmployee", method = RequestMethod.POST)
+		public String regEmployeePOST(EmployeeVO evo) {
 			
 			
-			logger.debug("regEmployeeGET() 호출");
+			logger.debug("regEmployeePOST() 호출");
 			
 			logger.debug("evo : " + evo);
 			
-			return "";
+			eService.regEmployee(evo);
+			
+			return "redirect:/employee/employeeList";
 		}
 		
 		
