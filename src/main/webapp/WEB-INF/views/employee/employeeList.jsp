@@ -16,7 +16,7 @@
 				var newRow = '<tr>' +
 					'<td><input type="checkbox"></td>' +
 					'<td><input type="text" name="emp_pic"></td>' +
-					'<td><input type="text" name="emp_id"></td>' +
+					'<td><input type="text" name="emp_id" disabled="disabled" value="자동으로 부여"></td>' +
 					'<td><input type="text" name="emp_name"></td>' +
 					
 					'<td>' +
@@ -26,10 +26,10 @@
 						'</select>' +
 					'</td>' +
 					
-					'<td><input type="datetime" name="emp_birth"></td>' +
+					'<td><input type="date" name="emp_birth"></td>' +
 					
 					'<td>' +
-					'<select name="emp_rank">' +
+					'<select name="emp_dept">' +
 					'<option value="인사">인사</option>' +
 					'<option value="영업">영업</option>' +
 					'<option value="자재">자재</option>' +
@@ -39,19 +39,19 @@
 					'</td>' +
                     
 					'<td>' +
-					'<select name="emp_dept">' +
+					'<select name="emp_rank">' +
 					'<option value="팀장">팀장</option>' +
 					'<option value="대리">대리</option>' +
 					'<option value="사원">사원</option>' +
 					'</select>' +
 					'</td>' +
 					
-// 					'<td><input type="text" name="emp_auth"></td>' +
-// 					'<td><input type="text" name="emp_state"></td>' +
-// 					'<td><input type="text" name="emp_tel"></td>' +
-// 					'<td><input type="date" name="emp_hire_date"></td>' +
-// 					'<td><input type="date" name="emp_rsgnt_date"></td>' +
-// 					'<td><input type="date" name="emp_statr_leave_date"></td>' +
+					'<td><input type="text" name="emp_auth" disabled="disabled" value="자동으로 부여"></td>' +
+					'<td><input type="text" name="emp_state" value="재직" readonly="readonly"></td>' +
+					'<td><input type="text" name="emp_tel"></td>' +
+					'<td><input type="date" name="emp_hire_date"></td>' +
+					'<td><input type="date" name="emp_rsgnt_date" disabled="disabled"></td>' +
+					'<td><input type="date" name="emp_statr_leave_date" disabled="disabled"></td>' +
 					'</tr>';
 				
 				// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
@@ -117,7 +117,11 @@
 		
 		
     </script>
-
+    <style>
+        .selected {
+            background-color: #b3ccff;
+        }
+    </style>
 
 </head>
 <body>
@@ -128,7 +132,6 @@
 
 	<h1>사원조회</h1>
 	
-	<input type="datetime">
 	<!-- 검색칸 -->
 	<form action="" method="GET">
 	사원번호 <input type="text" name="emp_id">
@@ -162,7 +165,7 @@
 	<!-- 검색칸 -->
 	
 	
-	<form action="regEmployee" method="GET">
+	<form action="regEmployee" method="POST">
 	
 	<input type="button" id="addRowButton" value="추가">
 	<input type="button" id="deleteRowsButton" value="삭제">
@@ -196,23 +199,18 @@
 			<td>${employeeList.emp_id }</td>
 			<td>${employeeList.emp_name }</td>
 			<td>${employeeList.emp_gender }</td>
-			<td>
-				<fmt:formatDate value="${employeeList.emp_birth }" dateStyle="medium"/> 
-			</td>
+			
+			<td>${employeeList.emp_birth}</td>
+			
 			<td>${employeeList.emp_dept }</td>
 			<td>${employeeList.emp_rank }</td>
 			<td>${employeeList.emp_auth }</td>
 			<td>${employeeList.emp_state }</td>
 			<td>${employeeList.emp_tel }</td>
-			<td>
-				<fmt:formatDate value="${employeeList.emp_hire_date }" dateStyle="medium"/> 
-			</td>
-			<td>
-				<fmt:formatDate value="${employeeList.emp_rsgnt_date }" dateStyle="medium"/> 
-			</td>
-			<td>
-				<fmt:formatDate value="${employeeList.emp_start_leave_date }" dateStyle="medium"/> 
-			</td>
+			
+			<td>${employeeList.emp_hire_date }</td>
+			<td>${employeeList.emp_rsgnt_date }</td>
+			<td>${employeeList.emp_start_leave_date }</td>
 		</tr>
 		</c:forEach>
 	</table>

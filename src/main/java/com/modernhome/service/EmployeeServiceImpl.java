@@ -40,6 +40,14 @@ public class EmployeeServiceImpl implements EmployeeService{
 		EmployeeVO resultVO = eDAO.loginMember(vo);
 		return resultVO;
 	}
+
+	
+	
+	// 사원등록
+	@Override
+	public void regEmployee(EmployeeVO evo) {
+		eDAO.regEmployee(evo);
+	}
 	
 	
 	

@@ -31,14 +31,18 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		
 		return sqlSession.selectList(NAMESPACE + ".employeeList");
 	}
-
+	
+	
+	// 사원조회(검색)
 	@Override
 	public List<EmployeeVO> employeeListSearch(EmployeeVO evo) {
 		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회 - 검색된 데이터만 출력)");
 		
 		return sqlSession.selectList(NAMESPACE + ".employeeListSearch", evo);
 	}
-
+	
+	
+	// 로그인
 	@Override
 	public EmployeeVO loginMember(EmployeeVO vo) {
 		logger.debug(" 테스트 -> DAO 호출 : 로그인 동작 수행 ");
@@ -54,20 +58,34 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		return resultVO;
 	}
 
+	
+	// 로그인
 	@Override
 	public EmployeeVO loginMember(int id, String pw) {
 	
-				Map<String, Object> params = new HashMap<String, Object>();
-				
-					
-				params.put("emp_id", id);	
-				params.put("emp_pw", pw);
-				
-				// SQL 호출,실행
-				sqlSession.selectOne(NAMESPACE + ".login", params);
-				
-				return null;
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+			
+		params.put("emp_id", id);	
+		params.put("emp_pw", pw);
+		
+		// SQL 호출,실행
+		sqlSession.selectOne(NAMESPACE + ".login", params);
+		
+		return null;
 	}
+
+	
+	
+	// 사원등록
+	@Override
+	public void regEmployee(EmployeeVO evo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원등록)");
+		
+		sqlSession.insert(NAMESPACE + ".regEmployee", evo);  
+		
+	}
+	
 	
 	
 	
