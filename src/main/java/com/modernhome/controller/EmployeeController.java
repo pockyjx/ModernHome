@@ -133,7 +133,6 @@ public class EmployeeController {
 		@RequestMapping(value = "/regEmployee", method = RequestMethod.POST)
 		public String regEmployeePOST(EmployeeVO evo) {
 			
-			
 			logger.debug("regEmployeePOST() 호출");
 			
 			logger.debug("evo : " + evo);
@@ -144,7 +143,15 @@ public class EmployeeController {
 		}
 		
 		
-		
-		
+		// 사원삭제
+		@RequestMapping(value = "/deleteEmployee")
+		public String deleteEmployee(@RequestParam("selectedEmpId") Integer[] selectedEmpIds) {
+			
+		    for (Integer emp_id : selectedEmpIds) {
+		    	eService.deleteEmployee(emp_id);
+		    }
+		    
+		    return "redirect:/employee/employeeList";
+		}
 		
 }
