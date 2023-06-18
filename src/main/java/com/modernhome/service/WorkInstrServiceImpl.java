@@ -16,7 +16,7 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	private WorkInstrDAO dao;
 	
 	@Override
-	public List<WorkInstrVO> getInstr(int work_id) throws Exception {
+	public List<WorkInstrVO> getInstr(Integer work_id) throws Exception {
 		return dao.getInstr(work_id);
 	}
 

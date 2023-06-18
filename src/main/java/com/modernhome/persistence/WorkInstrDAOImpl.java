@@ -25,7 +25,7 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<WorkInstrVO> getInstr(int work_id) throws Exception {
+	public List<WorkInstrVO> getInstr(Integer work_id) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstr 실행");
 		return sqlSession.selectList(NAMESPACE + ".getInstr", work_id);
 	}

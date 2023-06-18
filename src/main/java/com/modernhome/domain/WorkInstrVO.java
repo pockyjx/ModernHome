@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class WorkInstrVO {
 	
-	private int work_id;
+	private Integer work_id;
 	private String work_num;
 	private int line_id;
 	private int pro_id;
@@ -25,10 +25,10 @@ public class WorkInstrVO {
 	private EmployeeVO employeeVO;
 	
 	
-	public int getWork_id() {
+	public Integer getWork_id() {
 		return work_id;
 	}
-	public void setWork_id(int work_id) {
+	public void setWork_id(Integer work_id) {
 		this.work_id = work_id;
 	}
 	public String getWork_num() {

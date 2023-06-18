@@ -72,7 +72,7 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/info?work_id=
 	// 작업지시 상세보기 출력(GET) - /production/instruct/info
 	@RequestMapping(value = "/instruct/info", method = RequestMethod.GET)
-	public void getInstr(Model model, @RequestParam("work_id") int work_id) throws Exception {
+	public void getInstr(Model model, @ModelAttribute("work_id") Integer work_id) throws Exception {
 		logger.debug("getInstr() 호출");
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
