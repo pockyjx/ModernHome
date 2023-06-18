@@ -57,7 +57,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
 		return resultVO;
 	}
-
+	
 	
 	// 로그인
 	@Override
@@ -74,7 +74,6 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		
 		return null;
 	}
-
 	
 	
 	// 사원등록
@@ -84,6 +83,15 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		
 		sqlSession.insert(NAMESPACE + ".regEmployee", evo);  
 		
+	}
+	
+	
+	// 사원삭제
+	@Override
+	public void deleteEmployee(int emp_id) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행(사원삭제)");
+		
+		sqlSession.delete(NAMESPACE + ".deleteEmployee", emp_id);
 	}
 	
 	
