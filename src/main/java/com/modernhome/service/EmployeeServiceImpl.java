@@ -48,8 +48,13 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public void regEmployee(EmployeeVO evo) {
 		eDAO.regEmployee(evo);
 	}
+
 	
-	
+	// 사원삭제
+	@Override
+	public void deleteEmployee(int emp_id) {
+		eDAO.deleteEmployee(emp_id);
+	}
 	
 	
 	

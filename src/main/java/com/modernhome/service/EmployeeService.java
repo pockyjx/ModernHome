@@ -21,4 +21,7 @@ public interface EmployeeService {
 	// 사원등록
 	public void regEmployee(EmployeeVO evo);
 	
+	// 사원삭제
+	public void deleteEmployee(int emp_id);
+	
 }

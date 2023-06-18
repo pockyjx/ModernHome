@@ -11,7 +11,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
 		$(document).ready(function() {
-            // 버튼 클릭 시 행 추가
+			// 버튼 클릭 시 행 추가
 			$("#addRowButton").click(function() {
 				var newRow = '<tr>' +
 					'<td><input type="checkbox"></td>' +
@@ -20,8 +20,8 @@
 					'<td><input type="text" name="emp_name"></td>' +
 					
 					'<td>' +
-	                    '<select name="emp_gender">' +
-	                    '<option value="남">남</option>' +
+						'<select name="emp_gender">' +
+						'<option value="남">남</option>' +
 						'<option value="여">여</option>' +
 						'</select>' +
 					'</td>' +
@@ -32,12 +32,12 @@
 					'<select name="emp_dept">' +
 					'<option value="인사">인사</option>' +
 					'<option value="영업">영업</option>' +
-					'<option value="자재">자재</option>' +
 					'<option value="생산">생산</option>' +
+					'<option value="자재">자재</option>' +
 					'<option value="품질">품질</option>' +
 					'</select>' +
 					'</td>' +
-                    
+					
 					'<td>' +
 					'<select name="emp_rank">' +
 					'<option value="팀장">팀장</option>' +
@@ -58,61 +58,42 @@
 				$(".table-employeeList tr:nth-child(1)").after(newRow);
 				
 			}); // 여기까지 추가 버튼
-		
-		
-    	
-		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-            $(".table-employeeList th input[type='checkbox']").click(function() {
-                var checkbox = $(this);
-                var isChecked = checkbox.prop('checked');
-                var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-                var table = checkbox.closest('table');
-                var rows = table.find('tr');
-
-                // <td> 부분의 행들을 선택하고 배경색 지정
-                rows.each(function() {
-                    var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-                    if (checkboxTd.length > 0) {
-                        checkboxTd.prop('checked', isChecked);
-                        if (isChecked) {
-                            $(this).addClass('selected');
-                        } else {
-                            $(this).removeClass('selected');
-                        }
-                    }
-                });
-            });
+			
+			
+    		
+			// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+			$(".table-employeeList th input[type='checkbox']").click(function() {
+				var checkbox = $(this);
+				var isChecked = checkbox.prop('checked');
+				var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+				var table = checkbox.closest('table');
+				var rows = table.find('tr');
+				
+				// <td> 부분의 행들을 선택하고 배경색 지정
+				rows.each(function() {
+					var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+					if (checkboxTd.length > 0) {
+						checkboxTd.prop('checked', isChecked);
+						if (isChecked) {
+							$(this).addClass('selected');
+						} else {
+							$(this).removeClass('selected');
+						}
+					}
+				});
+			});
 
             // <td> 쪽 체크박스 클릭 시 행 선택
-            $(".table-employeeList td input[type='checkbox']").click(function() {
-                var checkbox = $(this);
-                var isChecked = checkbox.prop('checked');
-                checkbox.closest('tr').toggleClass('selected', isChecked);
-            });
-            
-            // 체크박스 클릭 시 선택된 행 삭제 (추가된행 삭제)
-            $(".table-employeeList").on("click", "td input[type='checkbox']", function() {
-                var checkbox = $(this);
-                if (checkbox.prop("checked")) {
-                    checkbox.closest("tr").addClass("selected");
-                } else {
-                    checkbox.closest("tr").removeClass("selected");
-                }
-            });
-
-            // 선택된 행 삭제 버튼 클릭 시 행 삭제
-			$("#deleteRowsButton").click(function() {
-				var selectedRows = $(".table-employeeList tr.selected");
-				selectedRows.remove();
+			$(".table-employeeList td input[type='checkbox']").click(function() {
+				var checkbox = $(this);
+				var isChecked = checkbox.prop('checked');
+				checkbox.closest('tr').toggleClass('selected', isChecked);
 			});
 			
-            
-            
+			
+			
+			
 		}); // AJAX
-		
-		
-		
-		
 		
 		
 		
@@ -161,12 +142,14 @@
 	<!-- 검색칸 -->
 	
 	
-	<form action="regEmployee" method="POST">
+	<form>
 	
 	<input type="button" id="addRowButton" value="추가">
-	<input type="button" id="deleteRowsButton" value="삭제">
+	<input type="button" id="" value="취소">
+	<input type="button" id="" value="수정">
+	<input type="submit" id="deleteEmployeeButton" value="삭제" formaction="deleteEmployee" formmethod="post">
 	
-	<input type="submit" value="등록">
+	<input type="submit" value="저장" formaction="regEmployee" formmethod="post">
 
 	<table class="table-employeeList" border="1">
 		<tr>
@@ -190,7 +173,7 @@
 		
 		<c:forEach var="employeeList" items="${employeeList }">
 		<tr>
-			<td><input type="checkbox"></td>
+			<td><input type="checkbox" name="selectedEmpId" value="${employeeList.emp_id}"></td>
 			<td>사진</td>
 			<td>${employeeList.emp_id }</td>
 			<td>${employeeList.emp_name }</td>
