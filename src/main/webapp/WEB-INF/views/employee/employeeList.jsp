@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -126,10 +126,6 @@
 </head>
 <body>
 
-	<input type="date"> date
-	<input type="datetime-local"> datetime-local
-	<input type="datetime"> datetime
-
 	<h1>사원조회</h1>
 	
 	<!-- 검색칸 -->
@@ -200,7 +196,7 @@
 			<td>${employeeList.emp_name }</td>
 			<td>${employeeList.emp_gender }</td>
 			
-			<td>${employeeList.emp_birth}</td>
+			<td>${fn:substring(employeeList.emp_birth, 0, 10)}</td>
 			
 			<td>${employeeList.emp_dept }</td>
 			<td>${employeeList.emp_rank }</td>
@@ -208,9 +204,9 @@
 			<td>${employeeList.emp_state }</td>
 			<td>${employeeList.emp_tel }</td>
 			
-			<td>${employeeList.emp_hire_date }</td>
-			<td>${employeeList.emp_rsgnt_date }</td>
-			<td>${employeeList.emp_start_leave_date }</td>
+			<td>${fn:substring(employeeList.emp_hire_date, 0, 10) }</td>
+			<td>${fn:substring(employeeList.emp_rsgnt_date, 0, 10) }</td>
+			<td>${fn:substring(employeeList.emp_start_leave_date, 0, 10) }</td>
 		</tr>
 		</c:forEach>
 	</table>
