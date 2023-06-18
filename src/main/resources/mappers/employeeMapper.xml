@@ -5,6 +5,8 @@
   
 <mapper namespace="com.modernhome.mapper.EmployeeMapper">
 	
+	
+	
 	<!-- 사원리스트 불러오기 -->
 	<select id="employeeList" resultType="com.modernhome.domain.EmployeeVO">
 		SELECT * FROM employee
@@ -34,14 +36,37 @@
 	</select>
 	<!-- 사원리스트 검색 -->
 	
-	     <!-- 로그인 -->
-     <select id="login" resultType="com.modernhome.domain.EmployeeVO">
-        select * from employee
-        where emp_id=#{emp_id} and emp_pw=#{emp_pw}
-     </select>
-     <!-- 로그인 -->
+	<!-- 로그인 -->
+	<select id="login" resultType="com.modernhome.domain.EmployeeVO">
+		select * from employee
+		where emp_id=#{emp_id} and emp_pw=#{emp_pw}
+	</select>
+	<!-- 로그인 -->
 	
 	
+	<!-- 사원등록 -->
+	<insert id="regEmployee">
+		<selectKey keyProperty="emp_id" resultType="int" order="BEFORE">
+		SELECT CASE 
+			WHEN #{emp_dept} = '인사' THEN COALESCE((SELECT MAX(emp_id) FROM employee WHERE emp_dept = '인사'), 10000) + 1
+			WHEN #{emp_dept} = '영업' THEN COALESCE((SELECT MAX(emp_id) FROM employee WHERE emp_dept = '영업'), 20000) + 1
+			WHEN #{emp_dept} = '생산' THEN COALESCE((SELECT MAX(emp_id) FROM employee WHERE emp_dept = '생산'), 30000) + 1
+			WHEN #{emp_dept} = '자재' THEN COALESCE((SELECT MAX(emp_id) FROM employee WHERE emp_dept = '자재'), 40000) + 1
+			WHEN #{emp_dept} = '품질' THEN COALESCE((SELECT MAX(emp_id) FROM employee WHERE emp_dept = '품질'), 50000) + 1
+			ELSE 0
+		END
+		</selectKey>
+		
+		
+		INSERT INTO employee (emp_id, emp_pw, emp_name, emp_gender, emp_birth,
+			emp_dept, emp_rank, emp_state, emp_tel,
+			emp_email, emp_hire_date, emp_auth) 
+		VALUES (#{emp_id}, SUBSTR(#{emp_tel}, LENGTH(#{emp_tel}) - 3), #{emp_name}, #{emp_gender}, CASE WHEN #{emp_birth} = '' THEN NULL ELSE #{emp_birth} END
+			, #{emp_dept}, #{emp_rank}, #{emp_state}, #{emp_tel},
+			#{emp_email}, CASE WHEN #{emp_hire_date} = '' THEN NULL ELSE #{emp_hire_date} END, CASE WHEN #{emp_rank} = '팀장' THEN 3 ELSE 1 END)
+		
+	</insert>
+	<!-- 사원등록 -->
 	
 
 </mapper>

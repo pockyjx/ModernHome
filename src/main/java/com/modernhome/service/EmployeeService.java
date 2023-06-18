@@ -18,4 +18,7 @@ public interface EmployeeService {
 	// 로그인
 	public EmployeeVO employeeLogin(EmployeeVO vo); // vo - id,pw만 저장
 	
+	// 사원등록
+	public void regEmployee(EmployeeVO evo);
+	
 }
