@@ -7,15 +7,19 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.ProductVO;
+import com.modernhome.domain.RequirementVO;
 import com.modernhome.service.ItemService;
+import com.modernhome.service.RequirmentService;
 
 @Controller
 @RequestMapping(value = "/info/*")
@@ -26,6 +30,9 @@ public class InfoController {
 	// 의존성 주입
 	@Inject
 	private ItemService iService;
+	
+	@Autowired
+	private RequirmentService rService;
 	
 	// 완제품 목록
 	// http://localhost:8088/info/item/productList
@@ -55,9 +62,9 @@ public class InfoController {
 									@ModelAttribute("search") String search,
 									Model model) {
 		
-		logger.debug("itemType : " + itemType);
-		logger.debug("itemOption : " + itemOption);
-		logger.debug("search : " + search);
+//		logger.debug("itemType : " + itemType);
+//		logger.debug("itemOption : " + itemOption);
+//		logger.debug("search : " + search);
 		
 		List<ProductVO> proSearchList; // 완제품 결과 목록
 		List<MaterialVO> maSearchList; // 자재 결과 목록
@@ -78,6 +85,45 @@ public class InfoController {
 		
 	}
 	
+	// 완제품 등록
+	@RequestMapping(value = "/info/regProduct", method = RequestMethod.POST)
+	public String regProductPOST(ProductVO vo) {
+		
+		logger.debug("regProductPOST() 호출!");
+		iService.regProduct(vo);
+		
+		return "redirect:/info/item/productList";
+	}
 	
+	// 자재 등록
+	
+	///////////////////////////////////////////////////////////////////////
+	
+	// 소요량 목록
+	// http://localhost:8088/info/req/reqList
+	@RequestMapping(value = "/req/reqList", method = RequestMethod.GET)
+	public void reqListGET(Model model, 
+						@ModelAttribute("option") String option, 
+						@ModelAttribute("search") String search) throws Exception {
+		
+		logger.debug("reqListGET() 호출!");
+		
+		List<RequirementVO> reqList;
+		
+		
+		logger.debug(option);
+		logger.debug(search);
+		
+		if(option != null && search != null) {
+			reqList = rService.getReqSearch(option, search);
+			model.addAttribute("reqList", reqList);
+		}else {
+			reqList = rService.getListAll();
+			model.addAttribute("reqList", reqList);
+		}
+		
+		
+	}
+
 	
 }

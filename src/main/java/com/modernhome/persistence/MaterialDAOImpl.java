@@ -38,8 +38,8 @@ public class MaterialDAOImpl implements MaterialDAO {
 	public List<MaterialVO> getMaterialList(String itemOption, String search) {
 
 		Map<String, Object> parameterMap = new HashMap();
-		 parameterMap.put("itemOption", itemOption);
-		 parameterMap.put("search", search);
+		parameterMap.put("itemOption", itemOption);
+		parameterMap.put("search", search);
 		 
 		 return sqlSession.selectList(NAMESPACRE + ".maSearchList", parameterMap);
 

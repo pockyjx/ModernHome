@@ -3,6 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
   
-  <configuration>
   	<!-- mybatis 관련 설정정보 저장 -->
-  </configuration>
+
+	<configuration>
+		
+		<typeAliases>
+			<package name="com.modernhome.domain"/>
+		</typeAliases>
+		
+	</configuration>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.modernhome.mapper.RequirementMapper">
+
+    <!-- 소요량 목록 -->
+	<resultMap id="requirementResultMap" type="RequirementVO">
+	
+        <id property="req_id" column="req_id" />
+        <result property="req_num" column="req_num" />
+        <result property="pro_id" column="pro_id" />
+        <result property="ma_id" column="ma_id" />
+        <result property="req_cnt" column="req_cnt" />
+        <result property="req_unit" column="req_unit" />
+        <result property="req_reg_date" column="req_reg_date" />
+        <result property="emp_id" column="emp_id" />
+        <result property="req_update_date" column="req_update_date" />
+        <result property="update_emp_id" column="update_emp_id" />
+        
+        <association property="productVO" javaType="ProductVO">
+            <id property="pro_id" column="pro_id" />
+            <result property="pro_name" column="pro_name" />
+        </association>
+        
+        <association property="materialVO" javaType="MaterialVO">
+            <id property="ma_id" column="ma_id" />
+            <result property="ma_name" column="ma_name" />
+        </association>
+        
+    </resultMap>
+
+    <select id="getRequirements" resultMap="requirementResultMap">
+        SELECT req_num, p.pro_id, p.pro_name, m.ma_id, m.ma_name,
+               r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id
+        FROM requirement r
+        JOIN product p ON r.pro_id = p.pro_id
+        JOIN material m ON r.ma_id = m.ma_id
+    </select>
+    <!-- 소요량 목록 -->
+    
+    <select id="reqSearch" resultMap="requirementResultMap"
+    	 parameterType="java.util.Map">
+        SELECT req_num, p.pro_id, p.pro_name, m.ma_id, m.ma_name,
+               r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id
+        FROM requirement r
+        JOIN product p ON r.pro_id = p.pro_id
+        JOIN material m ON r.ma_id = m.ma_id
+        where
+        <choose>
+			<when test="option == 'pro_name'">
+				pro_name like CONCAT('%', #{search}, '%')
+			</when>
+			
+			<when test="option == 'ma_name'">
+				pro_name like CONCAT('%', #{search}, '%')
+			</when>
+			
+			<otherwise>
+				pro_name like CONCAT('%', #{search}, '%')
+				OR ma_name like CONCAT('%', #{search}, '%')
+			</otherwise>
+		</choose>
+    </select>
+    <!-- 소요량 검색 -->
+    	
+	
+</mapper>

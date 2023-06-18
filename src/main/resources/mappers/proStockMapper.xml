@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.modernhome.domain.ProductStockVO">
+
+	<!-- resultMap -->
+	<resultMap type="ProductStockVO" id="proStockResultMap">
+		<id property="ps_id" column="ps_id" />
+		<result property="ps_num" column="ps_num" />
+		<result property="pro_id" column="pro_id" />
+		<result property="ps_cnt" column="ps_cnt" />
+		<result property="wh_id" column="wh_id" />
+		<result property="ps_reg_date" column="ps_reg_date" />
+		<result property="emp_id" column="emp_id" />
+		<result property="ps_update_date" column="ps_update_date" />
+		<result property="update_emp_id" column="update_emp_id" />
+	
+		<association property="warehouseVO" javaType="WarehouseVO">
+			<id property="wh_id" column="wh_id" />
+			<result property="wh_name" column="wh_name" />
+		</association>
+		
+		<association property="productVO" javaType="ProductVO">
+            <id property="pro_id" column="pro_id" />
+            <result property="pro_name" column="pro_name" />
+        </association>
+	
+	</resultMap>
+	<!-- resultMap -->
+	
+	<!-- 자재 재고 목록 -->
+	<select id="getProStock" resultMap="proStockResultMap">
+		SELECT wh_name, ps.pro_id, pro_name, ps_cnt, ps_reg_date, ps.emp_id
+		FROM product_stock ps
+		JOIN product p ON p.pro_id = ps.pro_id
+		JOIN warehouse w ON w.wh_id = ps.wh_id;
+	</select>
+	<!-- 자재 재고 목록 -->
+	
+
+</mapper>

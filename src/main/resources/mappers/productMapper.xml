@@ -29,4 +29,23 @@
 	</select>	
 	<!-- 완제품 검색 결과 조회 -->
 	
+	<!-- 완제품 코드 부여 -->
+	<select id="setProNum" >
+		SELECT CONCAT(SUBSTRING(pro_num, 1, 2), LPAD(max(SUBSTRING(pro_num, 3)) + 1, 6, '0'))
+		FROM product
+		WHERE pro_num LIKE '%PR%';
+	</select>
+	
+	<!-- 완제품 코드 부여 -->
+	
+	<!-- 완제품 등록 -->
+	<insert id="regProduct">
+		insert into product (pro_num, pro_name, pro_unit, pro_price)
+		SELECT CONCAT(SUBSTRING(pro_num, 1, 2), LPAD(max(SUBSTRING(pro_num, 3)) + 1, 6, '0')), #{pro_name}, #{pro_unit}, #{pro_price}
+		FROM product
+		WHERE pro_num LIKE CONCAT('%', 'PR', '%')
+	</insert>
+	<!-- 완제품 등록 -->
+	
+	
 </mapper>
