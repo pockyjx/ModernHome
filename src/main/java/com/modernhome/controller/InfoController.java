@@ -85,6 +85,12 @@ public class InfoController {
 		
 	}
 	
+	// 완제품 등록
+	@RequestMapping(value = "/info/regProduct", method = RequestMethod.POST)
+	public String regProductPOST() {
+		return null;
+	}
+	
 	///////////////////////////////////////////////////////////////////////
 	
 	// 소요량 목록

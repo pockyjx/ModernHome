@@ -105,10 +105,14 @@
 	</ul>
 
 <h2>완제품 목록</h2>
+
+	<form action="/info/regProduct" method="POST">	
 	
 
-	<button id="addRowButton">추가</button>
-	<button id="deleteRowsButton">삭제</button>
+	<input type="button" id="addRowButton" value="추가">
+	<input type="button" id="deleteRowsButton" value="삭제">
+	
+	<input type="submit" value="등록">
 
 	<table border="1" class="table-proList">
 	
@@ -134,6 +138,7 @@
 	
 	</table>
 	
+	</form>
 
 </body>
 </html>
