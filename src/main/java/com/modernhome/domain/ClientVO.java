@@ -1,8 +1,8 @@
 package com.modernhome.domain;
 
 public class ClientVO {
-	
-	private int clt_id;
+
+	private Integer clt_id;
 	private String clt_num;
 	private String clt_sort;
 	private String clt_name;
@@ -12,10 +12,10 @@ public class ClientVO {
 	private String clt_post;
 	private String clt_email;
 	
-	public int getClt_id() {
+	public Integer getClt_id() {
 		return clt_id;
 	}
-	public void setClt_id(int clt_id) {
+	public void setClt_id(Integer clt_id) {
 		this.clt_id = clt_id;
 	}
 	public String getClt_num() {
@@ -66,12 +66,14 @@ public class ClientVO {
 	public void setClt_email(String clt_email) {
 		this.clt_email = clt_email;
 	}
-	
 	@Override
 	public String toString() {
 		return "ClientVO [clt_id=" + clt_id + ", clt_num=" + clt_num + ", clt_sort=" + clt_sort + ", clt_name="
-				+ clt_name + ", clt_rep=" + clt_rep + ", clt_tel=" + clt_tel + ", clt_adr="
-				+ clt_adr + ", clt_post=" + clt_post + ", clt_email=" + clt_email + "]";
+				+ clt_name + ", clt_rep=" + clt_rep + ", clt_tel=" + clt_tel + ", clt_adr=" + clt_adr + ", clt_post="
+				+ clt_post + ", clt_email=" + clt_email + "]";
 	}
+	
+	
+	
 	
 }

@@ -14,7 +14,11 @@ public interface EmployeeDAO {
 	
 	// 로그인 (회원정보 조회)
 	public EmployeeVO loginMember(EmployeeVO vo);
+	
 	public EmployeeVO loginMember(int id,String pw);
+	
+	// 사원등록
+	public void regEmployee(EmployeeVO evo);
 	
 	
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.modernhome.mapper.ClientMapper">
+	
+	<!-- 거래처 불러오기 -->
+	<select id="clientList" resultType="com.modernhome.domain.ClientVO">
+		SELECT * FROM client
+	</select>
+	<!-- 거래처 불러오기 -->
+	
+	<!-- 거래처 검색 -->
+	<select id="clientListSearch" resultType="com.modernhome.domain.ClientVO">
+		SELECT * FROM client 
+		<where>
+			<if test="clt_name != ''">
+				clt_name = #{clt_name}
+			</if>
+			<if test="clt_rep != ''">
+				AND clt_rep = #{clt_rep}
+			</if>
+			<if test="clt_sort != null">
+				AND clt_sort = #{clt_sort}
+			</if>
+		</where>
+	</select>
+	<!-- 거래처 검색 -->
+	
+	
+	
+
+</mapper>

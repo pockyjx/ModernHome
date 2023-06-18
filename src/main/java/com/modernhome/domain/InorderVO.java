@@ -4,22 +4,22 @@ import java.time.LocalDateTime;
 
 public class InorderVO {
 	
-	private int io_id;
+	private Integer io_id;
 	private String io_num;
-	private int ma_id;
-	private int io_cnt;
-	private int io_amount;
+	private Integer ma_id;
+	private Integer io_cnt;
+	private Integer io_amount;
 	private String io_unit;
 	private LocalDateTime io_date;
 	private String io_state;
 	private LocalDateTime oo_date;
-	private int clt_id;
-	private int emp_id;
+	private Integer clt_id;
+	private Integer emp_id;
 	
-	public int getIo_id() {
+	public Integer getIo_id() {
 		return io_id;
 	}
-	public void setIo_id(int io_id) {
+	public void setIo_id(Integer io_id) {
 		this.io_id = io_id;
 	}
 	public String getIo_num() {
@@ -28,22 +28,22 @@ public class InorderVO {
 	public void setIo_num(String io_num) {
 		this.io_num = io_num;
 	}
-	public int getMa_id() {
+	public Integer getMa_id() {
 		return ma_id;
 	}
-	public void setMa_id(int ma_id) {
+	public void setMa_id(Integer ma_id) {
 		this.ma_id = ma_id;
 	}
-	public int getIo_cnt() {
+	public Integer getIo_cnt() {
 		return io_cnt;
 	}
-	public void setIo_cnt(int io_cnt) {
+	public void setIo_cnt(Integer io_cnt) {
 		this.io_cnt = io_cnt;
 	}
-	public int getIo_amount() {
+	public Integer getIo_amount() {
 		return io_amount;
 	}
-	public void setIo_amount(int io_amount) {
+	public void setIo_amount(Integer io_amount) {
 		this.io_amount = io_amount;
 	}
 	public String getIo_unit() {
@@ -70,16 +70,16 @@ public class InorderVO {
 	public void setOo_date(LocalDateTime oo_date) {
 		this.oo_date = oo_date;
 	}
-	public int getClt_id() {
+	public Integer getClt_id() {
 		return clt_id;
 	}
-	public void setClt_id(int clt_id) {
+	public void setClt_id(Integer clt_id) {
 		this.clt_id = clt_id;
 	}
-	public int getEmp_id() {
+	public Integer getEmp_id() {
 		return emp_id;
 	}
-	public void setEmp_id(int emp_id) {
+	public void setEmp_id(Integer emp_id) {
 		this.emp_id = emp_id;
 	}
 	
