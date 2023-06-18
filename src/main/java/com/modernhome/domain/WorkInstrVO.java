@@ -23,7 +23,8 @@ public class WorkInstrVO {
 	private LineVO lineVO;
 	private ProductVO productVO;
 	private EmployeeVO employeeVO;
-	
+	private RequirementVO requirementVO;
+	private MaterialVO materialVO;
 	
 	public Integer getWork_id() {
 		return work_id;
@@ -73,10 +74,10 @@ public class WorkInstrVO {
 	public void setWork_state(String work_state) {
 		this.work_state = work_state;
 	}
-	public Timestamp getreg_date() {
+	public Timestamp getReg_date() {
 		return reg_date;
 	}
-	public void setreg_date(Timestamp reg_date) {
+	public void setReg_date(Timestamp reg_date) {
 		this.reg_date = reg_date;
 	}
 	public int getEmp_id() {
@@ -85,19 +86,18 @@ public class WorkInstrVO {
 	public void setEmp_id(int emp_id) {
 		this.emp_id = emp_id;
 	}
-	public Timestamp getupdate_date() {
+	public Timestamp getUpdate_date() {
 		return update_date;
 	}
-	public void setupdate_date(Timestamp update_date) {
+	public void setUpdate_date(Timestamp update_date) {
 		this.update_date = update_date;
 	}
-	public int getupdate_emp_id() {
+	public int getUpdate_emp_id() {
 		return update_emp_id;
 	}
-	public void setupdate_emp_id(int update_emp_id) {
+	public void setUpdate_emp_id(int update_emp_id) {
 		this.update_emp_id = update_emp_id;
 	}
-	
 	public ClientVO getClientVO() {
 		return clientVO;
 	}
@@ -122,12 +122,23 @@ public class WorkInstrVO {
 	public void setProductVO(ProductVO productVO) {
 		this.productVO = productVO;
 	}
-	
 	public EmployeeVO getEmployeeVO() {
 		return employeeVO;
 	}
 	public void setEmployeeVO(EmployeeVO employeeVO) {
 		this.employeeVO = employeeVO;
+	}
+	public RequirementVO getRequirementVO() {
+		return requirementVO;
+	}
+	public void setRequirementVO(RequirementVO requirementVO) {
+		this.requirementVO = requirementVO;
+	}
+	public MaterialVO getMaterialVO() {
+		return materialVO;
+	}
+	public void setMaterialVO(MaterialVO materialVO) {
+		this.materialVO = materialVO;
 	}
 	
 	@Override
@@ -136,7 +147,8 @@ public class WorkInstrVO {
 				+ pro_id + ", req_id=" + req_id + ", oo_id=" + oo_id + ", work_cnt=" + work_cnt + ", work_state="
 				+ work_state + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
 				+ ", update_emp_id=" + update_emp_id + ", clientVO=" + clientVO + ", outOrderVO=" + outOrderVO
-				+ ", lineVO=" + lineVO + ", productVO=" + productVO + ", employeeVO=" + employeeVO + "]";
+				+ ", lineVO=" + lineVO + ", productVO=" + productVO + ", employeeVO=" + employeeVO + ", requirementVO="
+				+ requirementVO + ", materialVO=" + materialVO + "]";
 	}
 	
 }

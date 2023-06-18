@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.modernhome.domain.MaterialStockVO">
+
+	<!-- resultMap -->
+	<resultMap type="MaterialStockVO" id="mateStockResultMap">
+		<id property="ms_id" column="ms_id" />
+		<result property="ms_num" column="ms_num" />
+		<result property="ma_id" column="ma_id" />
+		<result property="ms_cnt" column="ms_cnt" />
+		<result property="wh_id" column="wh_id" />
+		<result property="ms_reg_date" column="ms_reg_date" />
+		<result property="emp_id" column="emp_id" />
+		<result property="ms_update_date" column="ms_update_date" />
+		<result property="update_emp_id" column="update_emp_id" />
+	
+		<association property="warehouseVO" javaType="WarehouseVO">
+			<id property="wh_id" column="wh_id" />
+			<result property="wh_name" column="wh_name" />
+		</association>
+		
+		<association property="materialVO" javaType="MaterialVO">
+            <id property="ma_id" column="ma_id" />
+            <result property="ma_name" column="ma_name" />
+        </association>
+	
+	</resultMap>
+	<!-- resultMap -->
+	
+	<!-- 자재 재고 목록 -->
+	<select id="getMateStock" resultMap="mateStockResultMap">
+		SELECT ms_num, wh_name, ms.ma_id, ma_name, ms_cnt, ms_reg_date, ms.emp_id
+		FROM material_stock ms
+		JOIN material m ON m.ma_id = ms.ma_id
+		JOIN warehouse w ON w.wh_id = ms.wh_id;
+	</select>
+	<!-- 자재 재고 목록 -->
+	
+
+</mapper>

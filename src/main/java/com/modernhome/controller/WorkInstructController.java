@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.EmployeeVO;
+import com.modernhome.domain.RequirementVO;
 import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.service.WorkInstrService;
 
@@ -72,12 +73,14 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/info?work_id=
 	// 작업지시 상세보기 출력(GET) - /production/instruct/info
 	@RequestMapping(value = "/instruct/info", method = RequestMethod.GET)
-	public void getInstr(Model model, @ModelAttribute("work_id") Integer work_id) throws Exception {
+	public void getInstr(Model model, @ModelAttribute("work_id") Integer work_id, @ModelAttribute("pro_id") int pro_id) throws Exception {
 		logger.debug("getInstr() 호출");
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
 		List<WorkInstrVO> wiList = wiService.getInstr(work_id);
+		List<WorkInstrVO> reqList = wiService.getInstrReq(pro_id);
 		logger.debug("wiList : {}", wiList);
+		logger.debug("reqList : {}", reqList);
 		
 		// 연결된 뷰페이지에 전달
 		model.addAttribute("wiList", wiList);

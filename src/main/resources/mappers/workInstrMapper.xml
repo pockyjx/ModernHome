@@ -12,6 +12,7 @@
 		<result property="work_num" column="work_num"/>
 		<result property="work_cnt" column="work_cnt"/>
 		<result property="work_state" column="work_state"/>
+		<result property="pro_id" column="pro_id"/>
 		<result property="reg_date" column="reg_date"/>
 		<result property="update_date" column="update_date"/>
 		<result property="update_emp_id" column="update_emp_id"/>
@@ -45,13 +46,24 @@
 			<id property="emp_id" column="emp_id"/>
 			<result property="emp_name" column="emp_name"/>
 		</association>
+		
+		<association property="requirementVO" javaType="RequirementVO">
+			<id property="pro_id" column="pro_id"/>
+			<result property="req_cnt" column="req_cnt"/>
+		</association>
+		
+		<association property="materialVO" javaType="MaterialVO">
+			<id property="ma_id" column="ma_id"/>
+			<result property="ma_num" column="ma_num"/>
+			<result property="ma_name" column="ma_name"/>
+		</association>
 	</resultMap>
 	<!-- Join 결과 매핑 -->
 	
 	
 	<!-- 작업지시 목록 조회 -->
 	<select id="getList" resultMap="workInstrRM">
-		SELECT wi.work_id, work_num, line_name, pro_num, pro_name, wi.work_state, oo_cnt, wi.reg_date, wi.work_cnt, oo_num, oo_end_date, emp.emp_name 
+		SELECT wi.work_id, wi.pro_id, work_num, line_name, pro_num, pro_name, wi.work_state, oo_cnt, wi.reg_date, wi.work_cnt, oo_num, oo_end_date, emp.emp_name 
 		FROM work_instr wi 
 		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
 		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
@@ -64,7 +76,7 @@
 	
 	<!-- 작업지시서 조회 -->
 	<select id="getInstr" resultMap="workInstrRM">
-		SELECT wi.work_id, work_num, oo_num, pro_num, pro_name, oo_cnt, pro_unit, oo_end_date, clt_name, line_num, wi.reg_date 
+		SELECT wi.work_id, wi.pro_id, work_num, oo_num, pro_num, pro_name, oo_cnt, pro_unit, oo_end_date, clt_name, line_num, wi.reg_date 
 		FROM work_instr wi 
 		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
 		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
@@ -75,7 +87,14 @@
 	<!-- 작업지시서 조회 -->
 	
 	
-	<!-- 작업지시 추가 -->
-	<!-- 작업지시 추가 -->
+	<!-- 작업지시서 자재 출력 -->
+	<select id="getInstrReq" resultMap="workInstrRM">
+		SELECT wi.work_id, wi.pro_id, ma_num, ma_name, req_cnt * work_cnt 
+		FROM requirement req
+		LEFT JOIN work_instr wi ON wi.pro_id = req.pro_id 
+		LEFT JOIN material ma ON ma.ma_id = req.ma_id 
+		WHERE wi.work_id = #{work_id} AND wi.pro_id = #{pro_id};
+	</select>
+	<!-- 작업지시서 자재 출력 -->
 
 </mapper>

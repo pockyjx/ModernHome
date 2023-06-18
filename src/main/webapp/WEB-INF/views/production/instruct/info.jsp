@@ -13,6 +13,7 @@
 	<h2>작업지시서 상세 출력</h2>
 	
 <%-- 	${wiList} --%>
+	${reqList}
 	
 	<table border="1">
 		<tr>
@@ -46,11 +47,18 @@
 			<td>${wiList[0].reg_date}</td>
 		</tr>
 		<tr>
-			<th rowspan="3">원재료</th>
+			<th rowspan="10">원재료</th>
 			<th>품목코드</th>
 			<th>품목명</th>
 			<th>수량</th>
 		</tr>
+		<c:forEach var="req" items="${reqList}">
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</c:forEach>
 	</table>
 	
 </body>

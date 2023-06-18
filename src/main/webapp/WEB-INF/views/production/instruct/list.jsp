@@ -109,7 +109,7 @@
 		</tr>
 		
 		<c:forEach var="list" items="${instrList}" varStatus="status">
-			<tr onclick="location.href='/production/instruct/info?work_id=${list.work_id}'">
+			<tr onclick="location.href='/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}'">
 				<td><input type="checkbox"></td>
 				<td>${list.work_num}</td>
 				<td>${list.lineVO.line_name}</td>
