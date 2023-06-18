@@ -44,6 +44,22 @@ public class ProductDAOImpl implements ProductDAO {
 		
 		return sqlSession.selectList(NAMESPACRE + ".proSearchList", parameterMap);
 	}
+
+	@Override
+	public void regProduct(ProductVO vo) {
+		logger.debug("완제품 등록!");
+		
+		sqlSession.insert(NAMESPACRE + ".regProduct", vo);
+		
+	}
+
+//	@Override
+//	public String setProNum() {
+//		logger.debug("완제품 코드 자동 부여!");
+//		return sqlSession.selectOne(NAMESPACRE + ".setProNum");
+//	}
+	
+	
 	
 	
 	
