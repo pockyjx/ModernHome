@@ -87,9 +87,15 @@ public class InfoController {
 	
 	// 완제품 등록
 	@RequestMapping(value = "/info/regProduct", method = RequestMethod.POST)
-	public String regProductPOST() {
-		return null;
+	public String regProductPOST(ProductVO vo) {
+		
+		logger.debug("regProductPOST() 호출!");
+		iService.regProduct(vo);
+		
+		return "redirect:/info/item/productList";
 	}
+	
+	// 자재 등록
 	
 	///////////////////////////////////////////////////////////////////////
 	

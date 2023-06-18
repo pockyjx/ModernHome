@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -15,11 +16,11 @@
             $("#addRowButton").click(function() {
                 var newRow = '<tr>' +
                     '<td><input type="checkbox"></td>' +
-                    '<td><input type="text" name="pro_num"></td>' +
-                    '<td><input type="text" name="pro_name"></td>' +
-                    '<td><input type="text" value="완제품" readonly></td>' +
-                    '<td><input type="text" name="pro_unit"></td>' +
-                    '<td><input type="text" name="pro_price"></td>' +
+                    '<td><input type="text" name="pro_num" placeholder="완제품 코드" readonly></td>' +
+                    '<td><input type="text" name="pro_name" placeholder="품목명""></td>' +
+                    '<td><input type="text" value="완제품" disabled></td>' +
+                    '<td><input type="text" name="pro_unit" placeholder="품목 단위"></td>' +
+                    '<td><input type="text" name="pro_price" placeholder="품목 단가"></td>' +
                     '</tr>';
                 $(".table-proList tr:nth-child(1)").after(newRow);
             });
@@ -107,7 +108,6 @@
 <h2>완제품 목록</h2>
 
 	<form action="/info/regProduct" method="POST">	
-	
 
 	<input type="button" id="addRowButton" value="추가">
 	<input type="button" id="deleteRowsButton" value="삭제">
@@ -117,7 +117,7 @@
 	<table border="1" class="table-proList">
 	
 		<tr>
-			<td><input type="checkbox"></td>
+			<th><input type="checkbox"></th>
 			<th>품목 코드</th>
 			<th>품목명</th>
 			<th>품목 구분</th>
@@ -132,7 +132,7 @@
 			<td>${vo.pro_name }</td>
 			<td>완제품</td>
 			<td>${vo.pro_unit }</td>
-			<td>${vo.pro_price }</td>
+			<td><fmt:formatNumber value="${vo.pro_price }" />원 </td>
 		</tr>
 		</c:forEach>
 	
