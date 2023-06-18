@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>발주 관리</title>
+<title>입고 관리</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -59,10 +59,10 @@
 	                '<td><input type="text"></td>' +
 	                '<td><input type="text"></td>' +
 	                '</tr>';
-                $(".table-inorderList").append(newRow);
+                $(".table-receiveList").append(newRow);
             });
          	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-            $(".table-inorderList th input[type='checkbox']").click(function() {
+            $(".table-receiveList th input[type='checkbox']").click(function() {
                 var checkbox = $(this);
                 var isChecked = checkbox.prop('checked');
                 var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
@@ -82,14 +82,14 @@
                 });
             });
             // <td> 쪽 체크박스 클릭 시 행 선택
-            $(".table-inorderList td input[type='checkbox']").click(function() {
+            $(".table-receiveList td input[type='checkbox']").click(function() {
                 var checkbox = $(this);
                 var isChecked = checkbox.prop('checked');
                 checkbox.closest('tr').toggleClass('selected', isChecked);
             });
             
             // 체크박스 클릭 시 선택된 행 삭제
-            $(".table-inorderList").on("click", "td input[type='checkbox']", function() {
+            $(".table-receiveList").on("click", "td input[type='checkbox']", function() {
                 var checkbox = $(this);
                 if (checkbox.prop("checked")) {
                     checkbox.closest("tr").addClass("selected");
@@ -99,7 +99,7 @@
             });
             // 선택된 행 삭제 버튼 클릭 시 행 삭제
             $("#deleteRowsButton").click(function() {
-                var selectedRows = $(".table-inorderList tr.selected");
+                var selectedRows = $(".table-receiveList tr.selected");
                 selectedRows.remove();
             });
             
@@ -112,72 +112,57 @@
     </style>
 </head>
 <body>
-		<h2>발주 관리</h2>
+		<h2>입고 관리</h2>
 			<fieldset>
                	<form name="search" method="get" action="">
-                   	<div>
-                   		<label>발주일자</label>
-                   		<div>
-		                   	<input type="date" name="startDate">
-                   			~
-		                   	<input type="date" name="endDate">
-                   		</div>
-                   	</div>
-		       		<br>
-		       		<div>
-                   		<label>입고예정일</label>
-                   		<div>
-		                   	<input type="date" name="startDate">
-                   			~
-		                   	<input type="date" name="endDate">
-                   		</div>
-                   	</div>
 		       		<span>자재명 :
 		       			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
 		       		</span>
-		       		<span>발주상태
-		       			<select name="io_state">
-                   			<option>전체</option>
-                   			<option>완료</option>
-                   			<option>미완료</option>
-                 		</select>
+		       		<span>발주코드 :
+		       			<input type="text" name="io_num" placeholder="발주코드를 입력하세요">
 		       		</span>
+		       		<div>
+                   		<label>입고일자</label>
+                   		<div>
+		                   	<input type="date" name="startDate">
+                   			~
+		                   	<input type="date" name="endDate">
+                   		</div>
+                   	</div>
 		      		<input type="submit" value="조회">
              	</form>
              </fieldset>  
              
-		<h2>발주</h2>
+		<h2>입고</h2>
 			<button id="addRowButton">추가</button>
 			<button id="deleteRowsButton">삭제</button>
-			<table class="table-inorderList" border="1">
+			<table class="table-receiveList" border="1">
 				<tr>
 					<th><input type="checkbox"></th>
+			    	<th>입고코드</th>
 			    	<th>발주코드</th>
-			    	<th>자재코드</th>
 			    	<th>자재명</th>
-			    	<th>거래처코드</th>
-			    	<th>거래처명</th>
+			    	<th>입고량</th>
 			    	<th>발주량</th>
-			    	<th>단위</th>
-			    	<th>총금액</th>
-			    	<th>발주일자</th>
-			    	<th>발주상태</th>
-			    	<th>입고예정일</th>
+			    	<th>거래처명</th>
+			    	<th>자재상태</th>
+			    	<th>입고상태</th>
+			    	<th>창고명</th>
+			    	<th>입고일자</th>
 			    	<th>담당자</th>
 				</tr>
-			  	<c:forEach var="vo" items="${inorderList}">
+			  	<c:forEach var="vo" items="${receiveList}">
 					<tr>
 						<td><input type="checkbox"></td>
-				    	<td>${vo.io_num}</td>
-				    	<td>${vo.materialVO.ma_num}</td>
+				    	<td>${vo.rec_num}</td>
+				    	<td>${vo.inorderVO.io_num}</td>
 				    	<td>${vo.materialVO.ma_name}</td>
-				    	<td>${vo.clientVO.clt_num}</td>
+				    	<td>${vo.rec_cnt}</td>
+				    	<td>${vo.inorderVO.io_cnt}</td>
 				    	<td>${vo.clientVO.clt_name}</td>
-				    	<td>${vo.io_cnt}</td>
-				    	<td>${vo.io_unit}</td>
-				    	<td>${vo.io_amount}</td>
-				    	<td>${vo.io_date}</td>
-				   		<td>${vo.io_state}</td>
+				    	<td>${vo.rec_state}</td>
+				    	<td>${vo.rec_in_state}</td>
+				    	<td>${vo.warehouseVO.wh_name}</td>
 				   		<td>${vo.rec_date}</td>
 				   		<td>${vo.emp_id}</td>
 				    </tr>

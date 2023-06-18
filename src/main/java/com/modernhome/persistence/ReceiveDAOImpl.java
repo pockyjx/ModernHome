@@ -12,37 +12,37 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.modernhome.domain.InorderVO;
+import com.modernhome.domain.ReceiveVO;
 
 @Repository
-public class InorderDAOImpl implements InorderDAO {
+public class ReceiveDAOImpl implements ReceiveDAO {
 	
 	// 의존성 주입
 	@Inject
 	private SqlSession sqlSession;
 	
 	// 네임스페이스
-	private static final String NAMESPACE = "com.modernhome.mapper.inorderMapper";
+	private static final String NAMESPACE = "com.modernhome.mapper.receiveMapper";
 	
 	private static final Logger logger
-				= LoggerFactory.getLogger(InorderDAOImpl.class);
-	
+				= LoggerFactory.getLogger(ReceiveDAOImpl.class);
+
 	// 발주 조회
 	@Override
-	public List<InorderVO> getInorderList() {
-		return sqlSession.selectList(NAMESPACE + ".inorderList");
+	public List<ReceiveVO> getReceiveList() {
+		return sqlSession.selectList(NAMESPACE + ".receiveList");
 	}
 
 	@Override
-	public List<InorderVO> getInorderSearch(java.util.Date startDate, java.util.Date endDate, String ma_name, String io_state) {
+	public List<ReceiveVO> getReceiveSearch(java.util.Date startDate, java.util.Date endDate, String ma_name, String io_num) {
 		
 		Map<String, Object> parameterMap = new HashMap();
 		parameterMap.put("startDate", startDate);
 		parameterMap.put("endDate", endDate);
 		parameterMap.put("ma_name", ma_name);
-		parameterMap.put("io_state", io_state);
+		parameterMap.put("io_num", io_num);
 		
-		return sqlSession.selectList(NAMESPACE + ".inorderSearch" ,parameterMap);
+		return sqlSession.selectList(NAMESPACE + ".receiveSearch" ,parameterMap);
 	}
-	
-	
+
 }

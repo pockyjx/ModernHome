@@ -5,10 +5,61 @@
   
   <mapper namespace="com.modernhome.mapper.inorderMapper">
   
-  	<!-- 발주 목록 조회 -->
-  	<select id="inorderList" resultType="com.modernhome.domain.InorderVO">
-		select * from in_order
-	</select>
-  	<!-- 발주 목록 조회 -->
+  	<!-- 발주 목록 -->
+	<resultMap id="inorderResultMap" type="com.modernhome.domain.InorderVO">
+	
+        <id property="io_id" column="io_id" />
+        <result property="io_num" column="io_num" />
+        <result property="ma_id" column="ma_id" />
+        <result property="io_cnt" column="io_cnt" />
+        <result property="io_amount" column="io_amount" />
+        <result property="io_unit" column="io_unit" />
+        <result property="io_date" column="io_date" />
+        <result property="io_state" column="io_state" />
+        <result property="clt_id" column="clt_id" />
+        <result property="emp_id" column="emp_id" />
+        <result property="rec_date" column="rec_date" />
+        
+        <!-- MaterialVO 클래스 정의 -->
+	    <association property="materialVO" javaType="com.modernhome.domain.MaterialVO">
+	      <id property="ma_num" column="ma_num" />
+	      <result property="ma_name" column="ma_name" />
+	    </association>
+
+	    <!-- ClientVO 클래스 정의 -->
+	    <association property="clientVO" javaType="com.modernhome.domain.ClientVO">
+	      <id property="clt_num" column="clt_num" />
+	      <result property="clt_name" column="clt_name" />
+	    </association>
+	  </resultMap>
+    
+    <select id="getInorderList" resultMap="inorderResultMap">
+        SELECT io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
+				i.io_cnt, i.io_unit, i.io_amount, i.io_date, i.io_state, i.rec_date, i.emp_id
+        FROM in_order i
+        JOIN material m ON i.ma_id = m.ma_id
+        JOIN client c ON i.clt_id = c.clt_id;
+    </select>
+    <!-- 발주 목록 -->
+    
+    <!-- 발주 검색 -->
+    <select id="inorderSearch" resultMap="inorderResultMap" parameterType="java.util.Map">
+		SELECT io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
+				i.io_cnt, i.io_unit, i.io_amount, i.io_date, i.io_state, i.rec_date, i.emp_id
+		FROM in_order i
+		JOIN material m ON i.ma_id = m.ma_id
+		JOIN client c ON i.clt_id = c.clt_id
+	<where>
+        <if test="io_state != '전체'">
+            io_state = #{io_state}
+        </if>
+        <if test="ma_name != ''">
+            AND ma_name like CONCAT('%', #{ma_name}, '%')
+        </if>
+    </where>
+    </select>
+
+    <!-- 발주 검색 -->
+    	
   	
   </mapper>  
