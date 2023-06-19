@@ -86,7 +86,7 @@ public class EmployeeController {
 				//   로그인 아이디를 세션에 저장
 				session.setAttribute("emp_id", resultVO.getEmp_id());
 				logger.debug(" 로그인 성공! ");
-				return "redirect:/employee/employeeList";
+				return "redirect:/";
 			}else {
 				// 	X
 				//   다시 로그인페이지로 이동
