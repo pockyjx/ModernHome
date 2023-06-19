@@ -1,6 +1,8 @@
 package com.modernhome.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -24,8 +26,23 @@ public class InorderDAOImpl implements InorderDAO {
 	private static final Logger logger
 				= LoggerFactory.getLogger(InorderDAOImpl.class);
 	
-	
+	// 발주 조회
+	@Override
 	public List<InorderVO> getInorderList() {
-		return sqlSession.selectList(NAMESPACE + ".inorderList");
+		return sqlSession.selectList(NAMESPACE + ".getInorderList");
 	}
+
+	@Override
+	public List<InorderVO> getInorderSearch(String startDate, String endDate, String ma_name, String io_state) {
+		
+		Map<String, Object> parameterMap = new HashMap();
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		parameterMap.put("ma_name", ma_name);
+		parameterMap.put("io_state", io_state);
+		
+		return sqlSession.selectList(NAMESPACE + ".inorderSearch" ,parameterMap);
+	}
+	
+	
 }

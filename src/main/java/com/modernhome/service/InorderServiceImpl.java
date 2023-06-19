@@ -16,9 +16,15 @@ public class InorderServiceImpl implements InorderService {
 	private InorderDAO iodao;
 	
 	@Override
-	public List<InorderVO> getInorderList() {
-		
+	public List<InorderVO> getInorderList() throws Exception {
 		return iodao.getInorderList();
 	}
+
+	@Override
+	public List<InorderVO> getInorderSearch(String startDate, String endDate, String ma_name, String io_state)
+			throws Exception {
+		return iodao.getInorderSearch(startDate, endDate, ma_name, io_state);
+	}
+
 	
 }
