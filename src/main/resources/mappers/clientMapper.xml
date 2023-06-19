@@ -16,10 +16,10 @@
 		SELECT * FROM client 
 		<where>
 			<if test="clt_name != ''">
-				clt_name = #{clt_name}
+				clt_name LIKE CONCAT('%', #{clt_name}, '%')
 			</if>
 			<if test="clt_rep != ''">
-				AND clt_rep = #{clt_rep}
+				AND clt_rep LIKE CONCAT('%', #{clt_rep}, '%') 
 			</if>
 			<if test="clt_sort != null">
 				AND clt_sort = #{clt_sort}
