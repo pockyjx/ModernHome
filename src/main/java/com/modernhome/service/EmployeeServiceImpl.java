@@ -57,11 +57,23 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	
-	// 사원업데이트
+	// 사원업데이트(수정)
 	@Override
 	public void updateEmployee(EmployeeVO evo) {
 		eDAO.updateEmployee(evo);
 	}
+
+	// 팀원관리
+	@Override
+	public List<EmployeeVO> employeeManagement(Integer emp_id) {
+		return eDAO.employeeManagement(emp_id);
+	}
+
+	@Override
+	public List<EmployeeVO> employeeMngSearch(EmployeeVO evo, Integer session_emp_id) {
+		return eDAO.employeeMngSearch(evo, session_emp_id);
+	}
+	
 	
 	
 }

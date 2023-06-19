@@ -88,8 +88,37 @@
 		WHERE emp_id = #{emp_id}
 	</update>
 	<!-- 사원업데이트 -->
-
-
-
-
+	
+	<!-- 팀원관리 -->
+	<select id="employeeManagement" resultType="com.modernhome.domain.EmployeeVO">
+		SELECT * FROM employee
+		WHERE emp_dept = (SELECT emp_dept FROM employee WHERE emp_id = #{emp_id})
+	</select>
+	<!-- 팀원관리 -->
+	
+	
+	<!-- 팀원관리 - 검색 -->
+	<select id="employeeMngSearch" resultType="com.modernhome.domain.EmployeeVO">
+		SELECT * FROM employee 
+		<where>
+			emp_dept = (SELECT emp_dept FROM employee WHERE emp_id = #{session_emp_id})
+			<if test="emp_id != null">
+				AND emp_id LIKE CONCAT('%', #{emp_id}, '%') 
+			</if>
+			<if test="emp_name != ''">
+				AND emp_name LIKE CONCAT('%', #{emp_name}, '%') 
+			</if>
+			<if test="emp_rank != '전체'">
+				AND emp_rank = #{emp_rank}
+			</if>
+			<if test="emp_state != '전체'">
+				AND emp_state = #{emp_state}
+			</if>
+		</where>
+	</select>
+	<!-- 팀원관리 - 검색 -->
+	
+	
+	
+	
 </mapper>
