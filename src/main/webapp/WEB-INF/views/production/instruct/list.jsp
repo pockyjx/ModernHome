@@ -8,6 +8,9 @@
 <title>Insert title here</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script>
 	$(document).ready(function() {
 		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
@@ -80,6 +83,13 @@
 		<br>
 		품목코드
 			<input type="text" name="pro_num">
+		<br>
+		<div>
+			<label>지시일자</label>
+			<input type="date" name="startDate">
+				~
+			<input type="date" name="endDate">
+		</div>
 		<input type="submit" value="조회">
 	</form>
 	

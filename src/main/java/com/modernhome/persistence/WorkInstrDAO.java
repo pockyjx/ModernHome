@@ -20,6 +20,6 @@ public interface WorkInstrDAO {
 	public void addInstr(WorkInstrVO vo) throws Exception;
 	
 	// 작업지시 목록 조회
-	public List<WorkInstrVO> getInstrList(WijoinVO wjvo) throws Exception;
+	public List<WorkInstrVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception;
 	
 }

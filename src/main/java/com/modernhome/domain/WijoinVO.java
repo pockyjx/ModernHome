@@ -6,8 +6,6 @@ public class WijoinVO {
 	private Integer pro_id;
 	private String ma_num;
 	private String ma_name;
-	private String work_state;
-	private String pro_num;
 	private int req_cnt;
 	private int work_cnt;
 	
@@ -35,18 +33,6 @@ public class WijoinVO {
 	public void setMa_name(String ma_name) {
 		this.ma_name = ma_name;
 	}
-	public String getWork_state() {
-		return work_state;
-	}
-	public void setWork_state(String work_state) {
-		this.work_state = work_state;
-	}
-	public String getPro_num() {
-		return pro_num;
-	}
-	public void setPro_num(String pro_num) {
-		this.pro_num = pro_num;
-	}
 	public int getReq_cnt() {
 		return req_cnt;
 	}
@@ -63,8 +49,7 @@ public class WijoinVO {
 	@Override
 	public String toString() {
 		return "WireqVO [work_id=" + work_id + ", pro_id=" + pro_id + ", ma_num=" + ma_num + ", ma_name=" + ma_name
-				+ ", work_state=" + work_state + ", pro_num=" + pro_num + ", req_cnt=" + req_cnt + ", work_cnt="
-				+ work_cnt + "]";
+				+ ", req_cnt=" + req_cnt + ", work_cnt=" + work_cnt + "]";
 	}
 	
 }

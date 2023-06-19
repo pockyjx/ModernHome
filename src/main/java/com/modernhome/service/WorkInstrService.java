@@ -17,6 +17,6 @@ public interface WorkInstrService {
 	public List<WijoinVO> getInstrReq(WorkInstrVO wivo) throws Exception;
 	
 	// 작업지시 목록 조회 + 검색
-	public List<WorkInstrVO> getInstrList(WijoinVO wjvo) throws Exception;
+	public List<WorkInstrVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception;
 	
 }

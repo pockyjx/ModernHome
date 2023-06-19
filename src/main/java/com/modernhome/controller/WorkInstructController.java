@@ -59,15 +59,18 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/list
 	// 작업지시 리스트 출력(GET) - /production/instruct/list
 	@RequestMapping(value = "/instruct/list", method = RequestMethod.GET)
-	public void getInstrList(Model model, WijoinVO wjvo) throws Exception {
+	public void getInstrList(Model model, 
+			@ModelAttribute("work_state") String work_state, @ModelAttribute("pro_num") String pro_num, 
+			@ModelAttribute(value = "startDate") String startDate, @ModelAttribute(value = "endDate") String endDate) 
+			throws Exception {
 		logger.debug("getInstrList() 호출");
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
-		if(wjvo.getWork_state() != null || wjvo.getPro_num() != null) {
+		if(work_state != null || pro_num != null || !startDate.isEmpty() || !endDate.isEmpty()) {
 			logger.debug("검색어 O, 검색된 데이터만 출력");
 			
 			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-			List<WorkInstrVO> instrList = wiService.getInstrList(wjvo);
+			List<WorkInstrVO> instrList = wiService.getInstrList(work_state, pro_num, startDate, endDate);
 			logger.debug("instrList : {}", instrList);
 			
 			// 연결된 뷰페이지에 전달

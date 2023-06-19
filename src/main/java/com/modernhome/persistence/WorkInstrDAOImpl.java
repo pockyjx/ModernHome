@@ -1,6 +1,8 @@
 package com.modernhome.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -50,9 +52,16 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrList(WijoinVO wjvo) throws Exception {
+	public List<WorkInstrVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstList(검색) 실행");
-		return sqlSession.selectList(NAMESPACE + ".wiListSearch", wjvo);
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("work_state", work_state);
+		parameterMap.put("pro_num", pro_num);
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		
+		return sqlSession.selectList(NAMESPACE + ".wiListSearch", parameterMap);
 	}
 
 }

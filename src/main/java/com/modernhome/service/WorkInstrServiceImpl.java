@@ -32,8 +32,8 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrList(WijoinVO wjvo) throws Exception {
-		return dao.getInstrList(wjvo);
+	public List<WorkInstrVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception {
+		return dao.getInstrList(work_state, pro_num, startDate, endDate);
 	}
 
 }
