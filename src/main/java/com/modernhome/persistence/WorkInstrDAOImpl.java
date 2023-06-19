@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.WireqVO;
 import com.modernhome.domain.WorkInstrVO;
 
 @Repository
@@ -37,7 +38,7 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	}
 	
 	@Override
-	public List<WorkInstrVO> getInstrReq(WorkInstrVO wivo) throws Exception {
+	public List<WireqVO> getInstrReq(WorkInstrVO wivo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstrReq() 실행");
 		return sqlSession.selectList(NAMESPACE + ".getInstrReq", wivo);
 	}

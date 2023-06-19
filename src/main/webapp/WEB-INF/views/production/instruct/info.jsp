@@ -12,8 +12,8 @@
 	<h1>/production/instruct/info.jsp</h1>
 	<h2>작업지시서 상세 출력</h2>
 	
-	${wiList}<br>
-	${reqList}
+<%-- 	${wiList}<br> --%>
+<%-- 	${reqList} --%>
 	
 	<table border="1">
 		<tr>
@@ -54,9 +54,9 @@
 		</tr>
 		<c:forEach var="list" items="${reqList}">
 			<tr>
-				<td>${list.materialVO.ma_num}</td>
-				<td>${list.materialVO.ma_name}</td>
-				<td>${list.requirementVO.req_cnt * list.work_cnt}</td>
+				<td>${list.ma_num}</td>
+				<td>${list.ma_name}</td>
+				<td>${list.req_cnt * list.work_cnt}</td>
 			</tr>
 		</c:forEach>
 	</table>

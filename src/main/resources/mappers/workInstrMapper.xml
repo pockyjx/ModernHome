@@ -12,6 +12,7 @@
 		<result property="work_num" column="work_num"/>
 		<result property="work_cnt" column="work_cnt"/>
 		<result property="work_state" column="work_state"/>
+		<result property="req_id" column="req_id"/>
 		<result property="pro_id" column="pro_id"/>
 		<result property="reg_date" column="reg_date"/>
 		<result property="update_date" column="update_date"/>
@@ -47,18 +48,15 @@
 			<result property="emp_name" column="emp_name"/>
 		</association>
 		
-		<association property="requirementVO" javaType="RequirementVO">
-			<id property="req__id" column="req__id"/>
-			<result property="req_cnt" column="req_cnt"/>
-			<result property="pro_id" column="pro_id"/>
-			<result property="ma_id" column="ma_id"/>
-		</association>
-		
-		<association property="materialVO" javaType="MaterialVO">
-			<id property="ma_id" column="ma_id"/>
-			<result property="ma_num" column="ma_num"/>
-			<result property="ma_name" column="ma_name"/>
-		</association>
+	</resultMap>
+	
+	<resultMap id="wireqRM" type="WireqVO">
+		<result property="work_id" column="work_id"/>
+		<result property="pro_id" column="pro_id"/>
+		<result property="ma_num" column="ma_num"/>
+		<result property="ma_name" column="ma_name"/>
+		<result property="req_cnt" column="req_cnt"/>
+		<result property="work_cnt" column="work_cnt"/>
 	</resultMap>
 	<!-- Join 결과 매핑 -->
 	
@@ -106,7 +104,7 @@
 	
 	
 	<!-- 작업지시서 자재 출력 -->
-	<select id="getInstrReq" resultMap="workInstrRM">
+	<select id="getInstrReq" resultMap="wireqRM">
 		SELECT wi.work_id, wi.pro_id, ma_num, ma_name, req_cnt, work_cnt 
 		FROM  work_instr wi 
 		LEFT JOIN requirement req ON wi.pro_id = req.pro_id 

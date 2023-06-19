@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.modernhome.domain.EmployeeVO;
 import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.RequirementVO;
+import com.modernhome.domain.WireqVO;
 import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.service.WorkInstrService;
 
@@ -79,7 +80,7 @@ public class WorkInstructController {
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
 		List<WorkInstrVO> wiList = wiService.getInstr(wivo);
-		List<WorkInstrVO> reqList = wiService.getInstrReq(wivo);
+		List<WireqVO> reqList = wiService.getInstrReq(wivo);
 		logger.debug("wiList : {}", wiList);
 		logger.debug("reqList : {}", reqList);
 		

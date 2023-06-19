@@ -23,8 +23,6 @@ public class WorkInstrVO {
 	private LineVO lineVO;
 	private ProductVO productVO;
 	private EmployeeVO employeeVO;
-	private RequirementVO requirementVO;
-	private MaterialVO materialVO;
 	
 	public Integer getWork_id() {
 		return work_id;
@@ -128,18 +126,6 @@ public class WorkInstrVO {
 	public void setEmployeeVO(EmployeeVO employeeVO) {
 		this.employeeVO = employeeVO;
 	}
-	public RequirementVO getRequirementVO() {
-		return requirementVO;
-	}
-	public void setRequirementVO(RequirementVO requirementVO) {
-		this.requirementVO = requirementVO;
-	}
-	public MaterialVO getMaterialVO() {
-		return materialVO;
-	}
-	public void setMaterialVO(MaterialVO materialVO) {
-		this.materialVO = materialVO;
-	}
 	
 	@Override
 	public String toString() {
@@ -147,8 +133,7 @@ public class WorkInstrVO {
 				+ pro_id + ", req_id=" + req_id + ", oo_id=" + oo_id + ", work_cnt=" + work_cnt + ", work_state="
 				+ work_state + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
 				+ ", update_emp_id=" + update_emp_id + ", clientVO=" + clientVO + ", outOrderVO=" + outOrderVO
-				+ ", lineVO=" + lineVO + ", productVO=" + productVO + ", employeeVO=" + employeeVO + ", requirementVO="
-				+ requirementVO + ", materialVO=" + materialVO + "]";
+				+ ", lineVO=" + lineVO + ", productVO=" + productVO + ", employeeVO=" + employeeVO +  "]";
 	}
 	
 }

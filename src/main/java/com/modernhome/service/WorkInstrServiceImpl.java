@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.WireqVO;
 import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.persistence.WorkInstrDAO;
 
@@ -26,7 +27,7 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrReq(WorkInstrVO wivo) throws Exception {
+	public List<WireqVO> getInstrReq(WorkInstrVO wivo) throws Exception {
 		return dao.getInstrReq(wivo);
 	}
 
