@@ -27,5 +27,18 @@
 		</where>
 	</select>
 	<!-- 라인 목록 검색 -->
+	
+	<!-- 라인 등록 -->
+	<insert id="regLine">	
+		insert into line(line_num, line_name, use_yn, reg_date, emp_id)
+		values (#{line_num}, #{line_name}, #{use_yn}, #{reg_date}, #{emp_id})
+	</insert>
+	<!-- 라인 등록 -->
+	
+	<!-- 라인 삭제 -->
+	<delete id="deleteLine">
+		delete from line where emp_id = #{emp_id}
+	</delete>
+	<!-- 라인 삭제 -->
 
 </mapper>
