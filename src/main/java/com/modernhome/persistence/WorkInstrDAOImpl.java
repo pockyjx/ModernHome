@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 
 @Repository
@@ -25,15 +26,33 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public WorkInstrVO getInstr(int workId) {
+	public List<WorkInstrVO> getInstr(WorkInstrVO wivo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstr 실행");
-		return sqlSession.selectOne(NAMESPACE + ".getInstr", workId);
+		return sqlSession.selectList(NAMESPACE + ".getInstr", wivo);
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrList() {
+	public List<WorkInstrVO> getInstrList() throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstrList 실행");
 		return sqlSession.selectList(NAMESPACE + ".getList");
+	}
+	
+	@Override
+	public List<WijoinVO> getInstrReq(WorkInstrVO wivo) throws Exception {
+		logger.debug("WorkInstrDAOImpl_getInstrReq() 실행");
+		return sqlSession.selectList(NAMESPACE + ".getInstrReq", wivo);
+	}
+
+	@Override
+	public void addInstr(WorkInstrVO vo) throws Exception {
+		logger.debug("WorkInstrDAOImpl_addInstr() 실행");
+		sqlSession.insert(NAMESPACE + ".", vo);
+	}
+
+	@Override
+	public List<WorkInstrVO> getInstrList(WijoinVO wjvo) throws Exception {
+		logger.debug("WorkInstrDAOImpl_getInstList(검색) 실행");
+		return sqlSession.selectList(NAMESPACE + ".wiListSearch", wjvo);
 	}
 
 }

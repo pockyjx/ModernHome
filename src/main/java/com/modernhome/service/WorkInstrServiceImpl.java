@@ -2,10 +2,10 @@ package com.modernhome.service;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.persistence.WorkInstrDAO;
 
@@ -13,17 +13,27 @@ import com.modernhome.persistence.WorkInstrDAO;
 public class WorkInstrServiceImpl implements WorkInstrService {
 	
 	// 의존성 주입
-	@Inject
+	@Autowired
 	private WorkInstrDAO dao;
 	
 	@Override
-	public WorkInstrVO getInstr(int workId) {
-		return dao.getInstr(workId);
+	public List<WorkInstrVO> getInstr(WorkInstrVO wivo) throws Exception {
+		return dao.getInstr(wivo);
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrList() {
+	public List<WorkInstrVO> getInstrList() throws Exception {
 		return dao.getInstrList();
+	}
+
+	@Override
+	public List<WijoinVO> getInstrReq(WorkInstrVO wivo) throws Exception {
+		return dao.getInstrReq(wivo);
+	}
+
+	@Override
+	public List<WorkInstrVO> getInstrList(WijoinVO wjvo) throws Exception {
+		return dao.getInstrList(wjvo);
 	}
 
 }

@@ -2,14 +2,21 @@ package com.modernhome.service;
 
 import java.util.List;
 
+import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 
 public interface WorkInstrService {
 	
-	// 작업지시서 조회
-	public WorkInstrVO getInstr(int workId);
-	
 	// 작업지시 목록 조회
-	public List<WorkInstrVO> getInstrList();
+	public List<WorkInstrVO> getInstrList() throws Exception;
+	
+	// 작업지시서 조회
+	public List<WorkInstrVO> getInstr(WorkInstrVO wivo) throws Exception;
+	
+	// 작업지시서 - 원재료 출력
+	public List<WijoinVO> getInstrReq(WorkInstrVO wivo) throws Exception;
+	
+	// 작업지시 목록 조회 + 검색
+	public List<WorkInstrVO> getInstrList(WijoinVO wjvo) throws Exception;
 	
 }

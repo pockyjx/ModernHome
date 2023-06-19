@@ -87,11 +87,18 @@ public class RequirementVO {
 	public MaterialVO getMaterialVO() {
 		return materialVO;
 	}
+	public void setProductVO(ProductVO productVO) {
+		this.productVO = productVO;
+	}
+	public void setMaterialVO(MaterialVO materialVO) {
+		this.materialVO = materialVO;
+	}
 	@Override
 	public String toString() {
 		return "RequirementVO [req_id=" + req_id + ", req_num=" + req_num + ", pro_id=" + pro_id + ", ma_id=" + ma_id
 				+ ", req_cnt=" + req_cnt + ", req_unit=" + req_unit + ", req_reg_date=" + req_reg_date + ", emp_id="
-				+ emp_id + ", req_update_date=" + req_update_date + ", update_emp_id=" + update_emp_id + "]";
+				+ emp_id + ", req_update_date=" + req_update_date + ", update_emp_id=" + update_emp_id + ", productVO="
+				+ productVO + ", materialVO=" + materialVO + "]";
 	}
 	
 	
