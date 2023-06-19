@@ -9,11 +9,10 @@ public class LineVO {
 	private String line_num;
 	private String line_name;
 	private String use_yn;
-	private Timestamp reg_date;
+	private String reg_date;
 	private Integer emp_id;
-	private Timestamp update_date;
+	private String update_date;
 	private Integer update_emp_id;
-	
 	public Integer getLine_id() {
 		return line_id;
 	}
@@ -38,10 +37,10 @@ public class LineVO {
 	public void setUse_yn(String use_yn) {
 		this.use_yn = use_yn;
 	}
-	public Timestamp getReg_date() {
+	public String getReg_date() {
 		return reg_date;
 	}
-	public void setReg_date(Timestamp reg_date) {
+	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
 	public Integer getEmp_id() {
@@ -50,10 +49,10 @@ public class LineVO {
 	public void setEmp_id(Integer emp_id) {
 		this.emp_id = emp_id;
 	}
-	public Timestamp getUpdate_date() {
+	public String getUpdate_date() {
 		return update_date;
 	}
-	public void setUpdate_date(Timestamp update_date) {
+	public void setUpdate_date(String update_date) {
 		this.update_date = update_date;
 	}
 	public Integer getUpdate_emp_id() {
@@ -69,5 +68,8 @@ public class LineVO {
 				+ use_yn + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
 				+ ", update_emp_id=" + update_emp_id + "]";
 	}
+	
+
+	
 	
 }

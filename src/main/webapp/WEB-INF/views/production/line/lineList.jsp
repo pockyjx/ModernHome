@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
     <script>
         $(document).ready(function() {
             // 버튼 클릭 시 행 추가
@@ -25,8 +26,11 @@
                     '<td><input type="text" name="reg_date"></td>' +
                     '<td><input type="text" name="emp_id"></td>' +
                     '</tr>';
-                $(".table-lineList").append(newRow);
-            });
+                $(".table-lineList tr:nth-child(1)").after(newRow);
+            }); // addRowButton
+            
+ 
+            
          // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
             $(".table-lineList th input[type='checkbox']").click(function() {
                 var checkbox = $(this);
@@ -66,12 +70,12 @@
                 }
             });
 
-            // 선택된 행 삭제 버튼 클릭 시 행 삭제
-            $("#deleteRowsButton").click(function() {
-                var selectedRows = $(".table-lineList tr.selected");
-                selectedRows.remove();
-            });
-            
+//             // 선택된 행 삭제 버튼 클릭 시 행 삭제
+//             $("#deleteRowsButton").click(function() {
+//                 var selectedRows = $(".table-lineList tr.selected");
+//                 selectedRows.remove();
+//             });
+      
         });
     </script>
     <style>
@@ -86,13 +90,7 @@
 	
 	<h2>라인 정보 관리</h2>
 	
-	
-	<button id="addRowButton">추가</button>
-	<button id="deleteRowsButton">삭제</button>
-	
-	<h2>라인조회</h2>
-	
-	<form action="" method="GET">
+	<form action="" method="GET" >
 	라인코드 <input type="text" name="line_num">
 	라인명 <input type="text" name="line_name">
 	사용여부
@@ -103,7 +101,15 @@
 		</select>
 		<input type="submit" value="조회">
 	</form>
+	
+	<form>
 
+	<input type="button" id="addRowButton" value="추가">
+	<input type="button" id="" value="취소">
+	<input type="submit" id="deleteLineButton" value="삭제" formaction="deleteLine" formmethod="post">
+	
+	<input type="submit" value="저장" formaction="regLine" formmethod="post">
+	
 	<table class="table-lineList" border="1">
 	    <tr>
 	        <th><input type="checkbox"></th>
@@ -115,15 +121,17 @@
 	    </tr>
 	    <c:forEach var="vo" items="${lineList}">
 	        <tr>
-	            <td><input type="checkbox"></td>
+	            <td><input type="checkbox" name="selectedEmpId" value="${vo.emp_id}"></td>
 	            <td>${vo.line_num}</td>
 	            <td>${vo.line_name}</td>
 	            <td>${vo.use_yn}</td>
 	            <td>${vo.reg_date}</td>
-	            <td>${vo.update_emp_id}</td>
+	            <td>${vo.emp_id}</td>
 	        </tr>
 	    </c:forEach>
 	</table>
+	
+	</form>
 
 	
 </body>
