@@ -23,4 +23,7 @@ public interface EmployeeDAO {
 	// 사원삭제
 	public void deleteEmployee(int emp_id);
 	
+	// 사원업데이트
+	public void updateEmployee(EmployeeVO evo);
+	
 }

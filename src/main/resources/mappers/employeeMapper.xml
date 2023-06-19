@@ -76,5 +76,20 @@
 	</delete>
 	<!-- 사원삭제 -->
 	
+	<!-- 사원업데이트 -->
+	<update id="updateEmployee">
+		UPDATE employee SET emp_name = #{emp_name}, emp_rank = #{emp_rank}, emp_state = #{emp_state}, emp_tel = #{emp_tel},
+		
+		emp_rsgnt_date = CASE WHEN #{emp_rsgnt_date} = '' THEN NULL ELSE #{emp_rsgnt_date} END,
+		emp_start_leave_date = CASE WHEN #{emp_start_leave_date} = '' THEN NULL ELSE #{emp_start_leave_date} END,
+		emp_end_leave_date = CASE WHEN #{emp_end_leave_date} = '' THEN NULL ELSE #{emp_end_leave_date} END,
+		emp_pic = #{emp_pic}, emp_auth = CASE WHEN #{emp_rank} = '팀장' THEN 3 ELSE 1 END
+		
+		WHERE emp_id = #{emp_id}
+	</update>
+	<!-- 사원업데이트 -->
+
+
+
 
 </mapper>

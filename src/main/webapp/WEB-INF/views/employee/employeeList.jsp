@@ -9,9 +9,15 @@
 <title>Insert title here</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
+ 	<script>
+
+ 	var pageStatus = "";
+ 	
 		$(document).ready(function() {
-			// 버튼 클릭 시 행 추가
+			
+			
+			// 추가 버튼 클릭 시 행 추가
+			// 추가버튼 1번 누르면 추가버튼 비활성화
 			$("#addRowButton").click(function() {
 				var newRow = '<tr>' +
 					'<td><input type="checkbox"></td>' +
@@ -51,11 +57,20 @@
 					'<td><input type="text" name="emp_tel"></td>' +
 					'<td><input type="date" name="emp_hire_date"></td>' +
 					'<td><input type="date" name="emp_rsgnt_date" disabled="disabled"></td>' +
-					'<td><input type="date" name="emp_statr_leave_date" disabled="disabled"></td>' +
+					'<td><input type="date" name="emp_start_leave_date" disabled="disabled"></td>' +
 					'</tr>';
 				
 				// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
 				$(".table-employeeList tr:nth-child(1)").after(newRow);
+				
+				// 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
+				$("#addRowButton").attr("disabled", "disabled");
+				$("#updateButton").attr("disabled", "disabled");
+				
+				$("#cancleButton").removeAttr("disabled");
+				$("#submitButton").removeAttr("disabled");
+				
+				pageStatus = "reg";
 				
 			}); // 여기까지 추가 버튼
 			
@@ -91,9 +106,102 @@
 			});
 			
 			
+            // 취소 버튼 누를 시 
+			$("#cancleButton").click(function(){
+				
+				// 등록버튼 취소
+				if(pageStatus == "reg"){
+					// 두번째 tr (추가된 행)을 삭제함
+					$(".table-employeeList tr:nth-child(2)").remove();
+					
+					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+					$("#addRowButton").removeAttr("disabled");
+					$("#updateButton").removeAttr("disabled");
+					$("#cancleButton").attr("disabled", "disabled");
+					$("#submitButton").attr("disabled", "disabled");
+					
+					pageStatus = "";
+				}
+				// 수정버튼 취소
+				if(pageStatus == "update"){
+					
+					//
+					var row = $("input[name='selectedEmpId']:checked").closest("tr");
+					
+					// 각 셀의 값을 원래 상태로 되돌림
+					row.find("td:not(:first-child)").each(function(index) {
+						var cellValue = $(this).find("input").val();
+						$(this).html(cellValue);
+					});
+					
+					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+					$("#addRowButton").removeAttr("disabled");
+					$("#updateButton").removeAttr("disabled");
+					$("#cancleButton").attr("disabled", "disabled");
+					$("#submitButton").attr("disabled", "disabled");
+					
+					
+					pageStatus = "";
+					
+				}
 			
+			});
+            
+            
+            // 수정 버튼 누를 시
+			$("#updateButton").click(function(){
+				var selectedCheckbox = $("input[name='selectedEmpId']:checked");
+				
+				// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+				if (selectedCheckbox.length === 1) {
+					var empId = selectedCheckbox.val();
+					var row = selectedCheckbox.closest("tr");
+					
+					// input type의 name 값 지정
+					var cellNames = [
+			            "emp_pic",
+			            "emp_id",
+			            "emp_name",
+			            "emp_gender",
+			            "emp_birth",
+			            "emp_dept",
+			            "emp_rank",
+			            "emp_auth",
+			            "emp_state",
+			            "emp_tel",
+			            "emp_hire_date",
+			            "emp_rsgnt_date",
+			            "emp_start_leave_date"
+					];
+					
+					
+					// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
+					row.find("td:not(:first-child)").each(function(index) {
+						//
+						var cellValue = $(this).text();
+						var cellType = index === 4 || index === 10 || index === 11 || index === 12 ? "date" : "text"; // 날짜 타입은 date로 설정
+						var cellName = cellNames[index];
+						
+						$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
+						
+						$("#updateButton").attr("disabled", "disabled");
+						$("#addRowButton").attr("disabled", "disabled");
+						$("#cancleButton").removeAttr("disabled");
+						$("#submitButton").removeAttr("disabled");
+						
+						pageStatus = "update";
+					});
+					
+				}else if (selectedCheckbox.length === 0){
+					alert("수정할 행을 선택해주세요!")
+					
+				}else {
+					alert("수정은 하나의 행만 가능합니다!");
+				}
+			});
 			
-		}); // AJAX
+            
+		}); // jQuery
 		
 		
 		
@@ -145,11 +253,11 @@
 	<form>
 	
 	<input type="button" id="addRowButton" value="추가">
-	<input type="button" id="" value="취소">
-	<input type="button" id="" value="수정">
+	<input type="button" id="cancleButton" value="취소" disabled="disabled">
+	<input type="button" id="updateButton" value="수정">
 	<input type="submit" id="deleteEmployeeButton" value="삭제" formaction="deleteEmployee" formmethod="post">
 	
-	<input type="submit" value="저장" formaction="regEmployee" formmethod="post">
+	<input type="submit" id="submitButton" value="저장" formaction="regEmployee" formmethod="post" disabled="disabled">
 
 	<table class="table-employeeList" border="1">
 		<tr>
