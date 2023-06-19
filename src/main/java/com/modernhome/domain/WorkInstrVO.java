@@ -23,6 +23,7 @@ public class WorkInstrVO {
 	private LineVO lineVO;
 	private ProductVO productVO;
 	private EmployeeVO employeeVO;
+	private WijoinVO wijoinVO;
 	
 	public Integer getWork_id() {
 		return work_id;
@@ -127,13 +128,21 @@ public class WorkInstrVO {
 		this.employeeVO = employeeVO;
 	}
 	
+	public WijoinVO getWijoinVO() {
+		return wijoinVO;
+	}
+	public void setWijoinVO(WijoinVO wijoinVO) {
+		this.wijoinVO = wijoinVO;
+	}
+	
 	@Override
 	public String toString() {
 		return "WorkInstrVO [work_id=" + work_id + ", work_num=" + work_num + ", line_id=" + line_id + ", pro_id="
 				+ pro_id + ", req_id=" + req_id + ", oo_id=" + oo_id + ", work_cnt=" + work_cnt + ", work_state="
 				+ work_state + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
 				+ ", update_emp_id=" + update_emp_id + ", clientVO=" + clientVO + ", outOrderVO=" + outOrderVO
-				+ ", lineVO=" + lineVO + ", productVO=" + productVO + ", employeeVO=" + employeeVO +  "]";
+				+ ", lineVO=" + lineVO + ", productVO=" + productVO + ", employeeVO=" + employeeVO + ", wijoinVO="
+				+ wijoinVO + "]";
 	}
 	
 }

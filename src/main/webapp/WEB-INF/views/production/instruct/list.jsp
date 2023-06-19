@@ -74,13 +74,13 @@
 	<h2>작업지시 조회</h2>
 	<form method="get">
 		작업상태
-			<label><input type="checkbox" name="대기" checked> 대기</label>
-			<label><input type="checkbox" name="진행중" checked> 진행중</label>
-			<label><input type="checkbox" name="완료" checked> 완료</label>
+			<label><input type="radio" name="work_state" value="대기" checked> 대기</label>
+			<label><input type="radio" name="work_state" value="진행중"> 진행중</label>
+			<label><input type="radio" name="work_state" value="완료"> 완료</label>
+		<br>
 		품목코드
 			<input type="text" name="pro_num">
-		지시일자
-			
+		<input type="submit" value="조회">
 	</form>
 	
 	<h2>작업지시 목록</h2>
@@ -116,11 +116,9 @@
 				<td>${list.productVO.pro_num}</td>
 				<td>${list.productVO.pro_name}</td>
 				<td>
-					<select>
-				       <option value="대기" <c:if test="${list.work_state=='대기'}"> selected</c:if>>대기</option>
-				       <option value="진행중" <c:if test="${list.work_state=='진행중'}"> selected</c:if>>진행중</option>
-				       <option value="완료" <c:if test="${list.work_state=='완료'}"> selected</c:if>>완료</option>
-				    </select>
+				    <c:if test="${list.work_state=='대기'}">대기</c:if>
+				    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
+				    <c:if test="${list.work_state=='완료'}">완료</c:if>
 				</td>
 				<td>${list.outOrderVO.oo_cnt}<br>(생산완료한 수량은 임의)</td>
 				<td>${list.reg_date}</td>

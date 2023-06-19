@@ -47,16 +47,17 @@
 			<id property="emp_id" column="emp_id"/>
 			<result property="emp_name" column="emp_name"/>
 		</association>
-		
 	</resultMap>
 	
-	<resultMap id="wireqRM" type="WireqVO">
+	<resultMap id="wijoinRM" type="WijoinVO">
 		<result property="work_id" column="work_id"/>
 		<result property="pro_id" column="pro_id"/>
 		<result property="ma_num" column="ma_num"/>
 		<result property="ma_name" column="ma_name"/>
 		<result property="req_cnt" column="req_cnt"/>
 		<result property="work_cnt" column="work_cnt"/>
+		<result property="work_state" column="work_state"/>
+		<result property="pro_num" column="pro_num"/>
 	</resultMap>
 	<!-- Join 결과 매핑 -->
 	
@@ -87,24 +88,8 @@
 	<!-- 작업지시서 조회 -->
 	
 	
-	<!-- 작업지시서 조회 -->
-<!-- 	<select id="getInstr" resultMap="workInstrRM"> -->
-<!-- 		SELECT wi.work_id, wi.pro_id, work_num, oo_num, pro_num, pro_name, oo_cnt, pro_unit, oo_end_date, clt_name,  -->
-<!-- 			line_num, wi.reg_date, ma_num, ma_name, req_cnt  -->
-<!-- 		FROM work_instr wi  -->
-<!-- 		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id  -->
-<!-- 		LEFT JOIN client clt ON oo.clt_id = clt.clt_id  -->
-<!-- 		LEFT JOIN line l ON wi.line_id = l.line_id   -->
-<!-- 		LEFT JOIN product pro ON wi.pro_id = pro.pro_id  -->
-<!-- 		LEFT JOIN requirement req ON wi.pro_id = req.pro_id  -->
-<!-- 		LEFT JOIN material ma ON ma.ma_id = req.ma_id  -->
-<!-- 		WHERE wi.work_id = #{work_id} AND wi.pro_id = #{pro_id} -->
-<!-- 	</select> -->
-	<!-- 작업지시서 조회 -->
-	
-	
 	<!-- 작업지시서 자재 출력 -->
-	<select id="getInstrReq" resultMap="wireqRM">
+	<select id="getInstrReq" resultMap="wijoinRM">
 		SELECT wi.work_id, wi.pro_id, ma_num, ma_name, req_cnt, work_cnt 
 		FROM  work_instr wi 
 		LEFT JOIN requirement req ON wi.pro_id = req.pro_id 
@@ -112,5 +97,26 @@
 		WHERE wi.work_id = #{work_id} AND wi.pro_id = #{pro_id}
 	</select>
 	<!-- 작업지시서 자재 출력 -->
+	
+	
+	<!-- 작업지시 검색 -->
+	<select id="wiListSearch" resultMap="workInstrRM">
+		SELECT wi.work_id, wi.pro_id, work_num, line_name, pro_num, pro_name, work_state, oo_cnt, wi.reg_date, wi.work_cnt, oo_num, oo_end_date, emp.emp_name 
+		FROM work_instr wi 
+		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
+		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
+		LEFT JOIN line l ON wi.line_id = l.line_id  
+		LEFT JOIN product pro ON wi.pro_id = pro.pro_id 
+		LEFT JOIN employee emp ON wi.emp_id = emp.emp_id 
+		<where>
+			<if test="work_state != ''">
+				work_state = #{work_state}
+			</if>
+			<if test="pro_num != ''">
+				AND wi.pro_id = (SELECT pro.pro_id FROM product pro WHERE pro.pro_num = #{pro_num})
+			</if>
+		</where>
+	</select>
+	<!-- 작업지시 검색 -->
 
 </mapper>

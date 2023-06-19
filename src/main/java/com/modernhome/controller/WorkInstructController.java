@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.EmployeeVO;
 import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.RequirementVO;
-import com.modernhome.domain.WireqVO;
+import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.service.WorkInstrService;
 
@@ -58,15 +59,29 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/list
 	// 작업지시 리스트 출력(GET) - /production/instruct/list
 	@RequestMapping(value = "/instruct/list", method = RequestMethod.GET)
-	public void getInstrList(Model model) throws Exception {
+	public void getInstrList(Model model, WijoinVO wjvo) throws Exception {
 		logger.debug("getInstrList() 호출");
 		
-		// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-		List<WorkInstrVO> instrList = wiService.getInstrList();
-		logger.debug("instrList : {}", instrList);
-		
-		// 연결된 뷰페이지에 전달
-		model.addAttribute("instrList", instrList);
+		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
+		if(wjvo.getWork_state() != null || wjvo.getPro_num() != null) {
+			logger.debug("검색어 O, 검색된 데이터만 출력");
+			
+			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
+			List<WorkInstrVO> instrList = wiService.getInstrList(wjvo);
+			logger.debug("instrList : {}", instrList);
+			
+			// 연결된 뷰페이지에 전달
+			model.addAttribute("instrList", instrList);
+		}else {
+			logger.debug("검색어 X, 전체 데이터 출력 ");
+			
+			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
+			List<WorkInstrVO> instrList = wiService.getInstrList();
+			logger.debug("instrList : {}", instrList);
+			
+			// 연결된 뷰페이지에 전달
+			model.addAttribute("instrList", instrList);
+		}
 		
 		// 페이지 이동
 		logger.debug("/production/instruct/list.jsp 뷰페이지로 이동");
@@ -80,7 +95,7 @@ public class WorkInstructController {
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
 		List<WorkInstrVO> wiList = wiService.getInstr(wivo);
-		List<WireqVO> reqList = wiService.getInstrReq(wivo);
+		List<WijoinVO> reqList = wiService.getInstrReq(wivo);
 		logger.debug("wiList : {}", wiList);
 		logger.debug("reqList : {}", reqList);
 		
