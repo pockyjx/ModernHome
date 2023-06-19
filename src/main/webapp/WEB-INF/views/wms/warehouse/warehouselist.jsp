@@ -14,14 +14,12 @@
             $("#addRowButton").click(function() {
                 var newRow = '<tr>' +
                     '<td><input type="checkbox"></td>' +
-                    '<td>' +
-                    '<select name="wh_type">' +
-                    '<option>전체</option>' +
-                    '<option>자재</option>' +
-                    '<option>완제품</option>' +
-                    '</select>' +
-                    '</td>' +
-                    '<td><input type="text" name="wh_name"></td>' +
+                    '<td><input type="text"></td>' +
+                    '<td><input type="text"></td>' +
+                    '<td><input type="text"></td>' +
+                    '<td><input type="text"></td>' +
+                    '<td><input type="text"></td>' +
+                    '<td><input type="text"></td>' +
                     '</tr>';
                 $(".table-warehouseList").append(newRow);
             });
@@ -32,6 +30,7 @@
                 var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
                 var table = checkbox.closest('table');
                 var rows = table.find('tr');
+                
                 // <td> 부분의 행들을 선택하고 배경색 지정
                 rows.each(function() {
                     var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');

@@ -6,12 +6,13 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.modernhome.domain.EmployeeVO;
 import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.WarehouseVO;
 import com.modernhome.service.InorderService;
@@ -22,6 +23,7 @@ import com.modernhome.service.WarehouseService;
 public class WmsController {
 
 	WarehouseVO wvo = null;
+	InorderVO iovo = null;
 	
     private static final Logger logger = LoggerFactory.getLogger(WmsController.class);
     
@@ -29,7 +31,7 @@ public class WmsController {
     @Inject
     private WarehouseService wService;
     
-    @Inject
+    @Autowired
     private InorderService ioService;
     
     
@@ -56,15 +58,29 @@ public class WmsController {
     	}
     }
     
+    
     // 발주 조회
     // http://localhost:8088/wms/inorder/inorderlist
     @RequestMapping(value = "/inorder/inorderlist",method = RequestMethod.GET)
-    public void inorderGET(Model model) {
+    public void inorderGET(Model model, 
+    		@ModelAttribute("startDate") String startDate, 
+    		@ModelAttribute("endDate") String endDate,
+    		@ModelAttribute("ma_name") String ma_name,
+    		@ModelAttribute("io_state") String io_state) throws Exception {
     	logger.debug(" inorderGET() 호출 ");
     	
-    	List<InorderVO> inorderList = ioService.getInorderList();
-    	// Model 객체에 저장
-    	model.addAttribute("inorderList", inorderList);
+    	
+    	if(!startDate.isEmpty() || !endDate.isEmpty() || !ma_name.isEmpty() || !io_state.isEmpty()) {
+    		
+    		List<InorderVO> inorderList = ioService.getInorderSearch(startDate, endDate, ma_name, io_state);
+    		logger.debug("검색어O, 검색된 데이터만 출력");	
+    		
+    		model.addAttribute("inorderList", inorderList);
+    	}else {
+    		logger.debug("검색어X, 전체 데이터 출력");
+    		List<InorderVO> inorderList = ioService.getInorderList();
+    		model.addAttribute("inorderList", inorderList);
+    	}
     }
     
 }
