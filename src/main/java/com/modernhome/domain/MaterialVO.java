@@ -2,16 +2,16 @@ package com.modernhome.domain;
 
 public class MaterialVO {
 
-	private int ma_id;
+	private Integer ma_id;
 	private String ma_num;
 	private String ma_name;
 	private String ma_unit;
 	private int ma_price;
 	
-	public int getMa_id() {
+	public Integer getMa_id() {
 		return ma_id;
 	}
-	public void setMa_id(int ma_id) {
+	public void setMa_id(Integer ma_id) {
 		this.ma_id = ma_id;
 	}
 	public String getMa_num() {

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>   
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -16,14 +16,25 @@
             $("#addRowButton").click(function() {
                 var newRow = '<tr>' +
                     '<td><input type="checkbox"></td>' +
-                    '<td><input type="text" name="pro_num" placeholder="자재 코드" readonly></td>' +
-                    '<td><input type="text" name="pro_name" placeholder="자재명""></td>' +
+                    '<td><input type="text" name="ma_num" placeholder="자재 코드" readonly></td>' +
+                    '<td><input type="text" name="ma_name" placeholder="자재명""></td>' +
                     '<td><input type="text" value="자재" disabled></td>' +
-                    '<td><input type="text" name="pro_unit" placeholder="자재 단위"></td>' +
-                    '<td><input type="text" name="pro_price" placeholder="자재 단가"></td>' +
+                    '<td><input type="text" name="ma_unit" placeholder="자재 단위"></td>' +
+                    '<td><input type="text" name="ma_price" placeholder="자재 단가"></td>' +
                     '</tr>';
                 $(".table-mateList tr:nth-child(1)").after(newRow);
-            });
+                
+             // 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
+				$("#addRowButton").attr("disabled", "disabled");
+				$("#updateButton").attr("disabled", "disabled");
+				
+				$("#cancleButton").removeAttr("disabled");
+				$("#submitButton").removeAttr("disabled");
+				
+				pageStatus = "reg";
+				
+            }); // 추가 버튼
+            
          // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
             $(".table-mateList th input[type='checkbox']").click(function() {
                 var checkbox = $(this);
@@ -53,21 +64,89 @@
                 checkbox.closest('tr').toggleClass('selected', isChecked);
             });
             
-            // 체크박스 클릭 시 선택된 행 삭제
-            $(".table-mateList").on("click", "td input[type='checkbox']", function() {
-                var checkbox = $(this);
-                if (checkbox.prop("checked")) {
-                    checkbox.closest("tr").addClass("selected");
-                } else {
-                    checkbox.closest("tr").removeClass("selected");
-                }
-            });
-
-            // 선택된 행 삭제 버튼 클릭 시 행 삭제
-            $("#deleteRowsButton").click(function() {
-                var selectedRows = $(".table-mateList tr.selected");
-                selectedRows.remove();
-            });
+         // 취소 버튼 누를 시 
+			$("#cancleButton").click(function(){
+				
+				// 등록버튼 취소
+				if(pageStatus == "reg"){
+					// 두번째 tr (추가된 행)을 삭제함
+					$(".table-mateList tr:nth-child(2)").remove();
+					
+					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+					$("#addRowButton").removeAttr("disabled");
+					$("#updateButton").removeAttr("disabled");
+					$("#cancleButton").attr("disabled", "disabled");
+					$("#submitButton").attr("disabled", "disabled");
+					
+					pageStatus = "";
+				}
+				// 수정버튼 취소
+				if(pageStatus == "update"){
+					
+					//
+					var row = $("input[name='selectedMateId']:checked").closest("tr");
+					
+					// 각 셀의 값을 원래 상태로 되돌림
+					row.find("td:not(:first-child)").each(function(index) {
+						var cellValue = $(this).find("input").val();
+						$(this).html(cellValue);
+					});
+					
+					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+					$("#addRowButton").removeAttr("disabled");
+					$("#updateButton").removeAttr("disabled");
+					$("#cancleButton").attr("disabled", "disabled");
+					$("#submitButton").attr("disabled", "disabled");
+					
+					
+					pageStatus = "";
+					
+				}
+			
+			});
+         
+			// 수정 버튼 누를 시
+			$("#updateButton").click(function(){
+				var selectedCheckbox = $("input[name='selectedMaId']:checked");
+				
+				// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+				if (selectedCheckbox.length === 1) {
+					var empId = selectedCheckbox.val();
+					var row = selectedCheckbox.closest("tr");
+					
+					// input type의 name 값 지정
+					var cellNames = [
+						"ma_num",
+						"ma_name",
+						"type",
+						"ma_unit",
+						"ma_price"
+					];
+					
+					// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
+					row.find("td:not(:first-child)").each(function(index) {
+						//
+						var cellValue = $(this).text();
+						var cellOption = index === 0 || index === 2 ? "readonly" : "";
+						var cellName = cellNames[index];
+						
+						$(this).html('<input type="text" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');
+						
+						$("#updateButton").attr("disabled", "disabled");
+						$("#addRowButton").attr("disabled", "disabled");
+						$("#cancleButton").removeAttr("disabled");
+						$("#submitButton").removeAttr("disabled");
+						
+						pageStatus = "update";
+					});
+					
+				}else if (selectedCheckbox.length === 0){
+					alert("수정할 행을 선택해주세요!")
+					
+				}else {
+					alert("수정은 하나의 행만 가능합니다!");
+				}
+			});
             
         });
     </script>
@@ -86,7 +165,7 @@
 		<form action="./itemSearchResult" method="POST">
 			<b>품목 구분</b>
 			<label><input type="radio" name="itemType" value="product">완제품</label>
-			<label><input type="radio" name="itemType" value="material">자재</label>
+			<label><input type="radio" name="itemType" value="material" checked>자재</label>
 			
 			<select name="itemOption">
 				<option value="name">품목명</option>
@@ -107,34 +186,36 @@
 	
 	<h2>자재 목록</h2>
 	
-	<form action="/info/regProduct" method="POST">	
+	<form>	
 	
 	<input type="button" id="addRowButton" value="추가">
-	<input type="button" id="deleteRowsButton" value="삭제">
+	<input type="button" id="cancleButton" value="취소" disabled="disabled">
+	<input type="button" id="updateButton" value="수정">
+	<input type="submit" id="" value="삭제" formaction="/info/delMaterial" formmethod="post">
 	
-	<input type="submit" value="등록">
+	<input type="submit" id="submitButton" value="저장" formaction="/info/regMaterial" formmethod="post" disabled="disabled">
 
 	<table class="table-mateList" border="1">
 	
 		<tr>
 			<th><input type="checkbox"></th>
-			<th>품목 코드</th>
-			<th>품목명</th>
+			<th>자재 코드</th>
+			<th>자재명</th>
 			<th>품목 구분</th>
 			<th>단위</th>
-			<th>단가</th>
+			<th>단가(원)</th>
 		</tr>
 		
 		<c:forEach items="${materialList }" var="vo">
 		<tr>
-			<td><input type="checkbox"></td>
+			<td><input type="checkbox" name="selectedMaId" value="${vo.ma_id }"></td>
 			<td>${vo.ma_num }</td>
 			<td>${vo.ma_name }</td>
 			<td>
 				완제품
 			</td>
 			<td>${vo.ma_unit }</td>
-			<td>${vo.ma_price }</td>
+			<td><fmt:formatNumber value="${vo.ma_price }" /></td>
 		</tr>
 		</c:forEach>
 	

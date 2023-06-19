@@ -60,6 +60,22 @@ public class ProductDAOImpl implements ProductDAO {
 		logger.debug("완제품 목록 조회! (팝업)");
 		return sqlSession.selectList(NAMESPACRE + ".getPopUpPro");
 	}
+
+	// 완제품 삭제
+	@Override
+	public void deleteProduct(int pro_id) {
+		logger.debug("완제품 삭제!");
+		sqlSession.delete(NAMESPACRE + ".delProduct", pro_id);
+	}
+
+	// 완제품 수정
+	@Override
+	public void modifyProduct(ProductVO vo) {
+		logger.debug("완제품 수정!");
+		sqlSession.update(NAMESPACRE + ".updateProduct", vo);
+	}
+	
+	
 	
 	
 

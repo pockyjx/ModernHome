@@ -15,8 +15,11 @@
 	      var pro_id = $(this).find("td:eq(0)").text();
 	      var pro_num = $(this).find("td:eq(1)").text();
 	      var pro_name = $(this).find("td:eq(2)").text();
-	      window.opener.selectedPro(productId, productCode, productName);
+			
+	      opener.document.getElementById("proList").value = pro_id;
+	      
 	      window.close();
+	      
 		});
 	});
 </script>

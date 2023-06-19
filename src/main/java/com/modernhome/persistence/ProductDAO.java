@@ -18,4 +18,10 @@ public interface ProductDAO {
 	// 완제품 목록(팝업)
 	public List<ProductVO> getPopUpProduct();
 	
+	// 완제품 삭제
+	public void deleteProduct(int pro_id);
+	
+	// 완제품 수정
+	public void modifyProduct(ProductVO vo);
+	
 }

@@ -85,17 +85,69 @@ public class InfoController {
 		
 	}
 	
-	// 완제품 등록
+	// 완제품 등록 + 수정
 	@RequestMapping(value = "/info/regProduct", method = RequestMethod.POST)
 	public String regProductPOST(ProductVO vo) {
-		
 		logger.debug("regProductPOST() 호출!");
-		iService.regProduct(vo);
+		
+		if(vo.getPro_num() == "") {
+			logger.debug("완제품 정보 등록!");
+			iService.regProduct(vo);
+		}else {
+			logger.debug("완제품 정보 수정!");
+			iService.modifyProduct(vo);
+		}
 		
 		return "redirect:/info/item/productList";
 	}
 	
-	// 자재 등록
+	// 완제품 삭제
+	@RequestMapping(value = "/info/delProduct")
+	public String deleteProduct(@RequestParam(value = "selectedProId", required = false) Integer[] selectedProIds) {
+		logger.debug("deleteProduct() 호출!");
+		logger.debug(selectedProIds+"");
+		
+		if(selectedProIds != null) {
+			for(Integer pro_id : selectedProIds) {
+				iService.deleteProduct(pro_id);
+			}
+		}
+		
+		return "redirect:/info/item/productList";
+	}
+	
+	// 자재 등록 + 수정
+	@RequestMapping(value = "/info/regMaterial", method = RequestMethod.POST)
+	public String regMaterialPOST(MaterialVO mvo) {
+		logger.debug("regMaterialPOST() 호출!");
+		
+		if(mvo.getMa_num() == "") {
+			logger.debug("재고 정보 등록!");
+			iService.regMaterial(mvo);
+		}else {
+			logger.debug("재고 정보 수정!");
+			iService.modifyMaterial(mvo);
+		}
+		
+		return "redirect:/info/item/materialList";
+		
+	}
+	
+	// 자재 삭제
+	@RequestMapping(value = "/info/delMaterial")
+	public String deleteMaterial(@RequestParam(value = "selectedMaId", required = false) Integer[] selectedMaIds) {
+		logger.debug("deleteMaterial() 호출!");
+		logger.debug(selectedMaIds+"");
+		
+		if(selectedMaIds != null) {
+			for(Integer ma_id : selectedMaIds) {
+				iService.delMaterial(ma_id);
+			}
+		}
+		
+		return "redirect:/info/item/materialList";
+		
+	}
 	
 	///////////////////////////////////////////////////////////////////////
 	

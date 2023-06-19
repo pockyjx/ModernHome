@@ -32,7 +32,7 @@
 	<!-- 완제품 등록 -->
 	<insert id="regProduct">
 		insert into product (pro_num, pro_name, pro_unit, pro_price)
-		SELECT CONCAT(SUBSTRING(pro_num, 1, 2), LPAD(max(SUBSTRING(pro_num, 3)) + 1, 6, '0')), #{pro_name}, #{pro_unit}, #{pro_price}
+		SELECT CONCAT(SUBSTRING(pro_num, 1, 2), LPAD(max(pro_id) + 1, 6, '0')), #{pro_name}, #{pro_unit}, #{pro_price}
 		FROM product
 		WHERE pro_num LIKE CONCAT('%', 'PR', '%')
 	</insert>
@@ -44,6 +44,21 @@
 		from product
 	</select>
 	<!-- 완제품 목록 (팝업) -->
+	
+	<!-- 완제품 삭제 -->
+	<delete id="delProduct">
+		delete from product
+		where pro_id = #{pro_id}
+	</delete>
+	<!-- 완제품 삭제 -->
+	
+	<!-- 완제품 수정 -->
+	<update id="updateProduct">
+		update product
+		set pro_name = #{pro_name}, pro_unit = #{pro_unit}, pro_price = #{pro_price} 
+		where pro_num = #{pro_num}
+	</update>
+	<!-- 완제품 수정 -->
 	
 	
 </mapper>

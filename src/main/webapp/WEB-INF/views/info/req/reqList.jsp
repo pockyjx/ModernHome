@@ -9,6 +9,11 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+    
+    
+    
+    
+    
         $(document).ready(function() {
             // 버튼 클릭 시 행 추가
             $("#addRowButton").click(function() {
@@ -16,7 +21,7 @@
                     '<td><input type="checkbox"></td>' +
                     '<td><input type="text" name="req_num" placeholder="소요량 코드" readonly></td>' +
                     '<td><input type="text" name="productVO.pro_num" placeholder="완제품 코드" readonly id="proList"></td>' +
-                    '<td><input type="text" name="productVO.pro_name" value="" readonly ></td>' +
+                    '<td><input type="text" name="productVO.pro_name" id="pro_name" readonly ></td>' +
                     '<td><input type="text" name="materialVO.ma_num" placeholder="자재 코드"></td>' +
                     '<td><input type="text" name="pro_price" placeholder="품목 단가"></td>' +
                     '<td><input type="text" name="pro_price" placeholder="품목 단가"></td>' +
@@ -77,7 +82,7 @@
 	       $(document).on("click", "input[name='productVO.pro_num']", function() {
 	    	   window.open('/info/req/popUpProduct', 'popUpProduct', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	       });
-            
+	       
         });
     </script>
     <style>
@@ -108,6 +113,8 @@
 
 	<hr>
 	
+	<form action="">
+	
 	<h2>소요량</h2>
 	
 	<input type="button" id="addRowButton" value="추가">
@@ -116,6 +123,8 @@
 	<input type="submit" value="등록">
 	
 	<table class="table-reqList" border="1">
+	
+	<input type="hidden" id="pro_id">
 		
 		<tr>
 			<th><input type="checkbox"></th>
@@ -150,6 +159,8 @@
 		</c:forEach>
 		
 	</table>
+	
+	</form>
 	
 </body>
 </html>
