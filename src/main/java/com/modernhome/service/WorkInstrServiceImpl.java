@@ -36,4 +36,14 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 		return dao.getInstrList(work_state, pro_num, startDate, endDate);
 	}
 
+	@Override
+	public List<WijoinVO> getBeforeInstr() throws Exception {
+		return dao.getBeforeInstr();
+	}
+
+	@Override
+	public List<WijoinVO> getBeforeInstrReq(String oo_num) throws Exception {
+		return dao.getBeforeInstrReq(oo_num);
+	}
+
 }
