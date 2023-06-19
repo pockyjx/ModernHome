@@ -37,7 +37,22 @@ public class LineDAOImpl implements LineDAO {
 
 		return sqlSession.selectList(NAMESPACE +  ".lineListSearch",lvo);
 	}
-	
+
+	@Override
+	public void regLine(LineVO lvo) {
+		logger.debug("DAO -> mapper 호출 -> SQL 실행(라인등록)");
+		
+		sqlSession.insert(NAMESPACE+".regLine",lvo);
+		
+	}
+
+	@Override
+	public void deleteLine(int emp_id) {
+		logger.debug("DAO -> mapper 호출 -> SQL 실행(라인삭제)");
+		
+		sqlSession.delete(NAMESPACE+".deleteLine",emp_id);
+		
+	}
 
 
 
