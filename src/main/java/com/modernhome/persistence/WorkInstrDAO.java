@@ -10,7 +10,7 @@ public interface WorkInstrDAO {
 	public List<WorkInstrVO> getInstrList() throws Exception;
 	
 	// 작업지시서 조회
-	public List<WorkInstrVO> getInstr(Integer work_id) throws Exception;
+	public List<WorkInstrVO> getInstr(WorkInstrVO wivo) throws Exception;
 	
 	// 작업지시서 - 원재료 조회
 	public List<WorkInstrVO> getInstrReq(WorkInstrVO wivo) throws Exception;

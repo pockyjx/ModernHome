@@ -48,8 +48,10 @@
 		</association>
 		
 		<association property="requirementVO" javaType="RequirementVO">
-			<id property="pro_id" column="pro_id"/>
-			<result property="req_cnt" column="cnt"/>
+			<id property="req__id" column="req__id"/>
+			<result property="req_cnt" column="req_cnt"/>
+			<result property="pro_id" column="pro_id"/>
+			<result property="ma_id" column="ma_id"/>
 		</association>
 		
 		<association property="materialVO" javaType="MaterialVO">
@@ -87,13 +89,29 @@
 	<!-- 작업지시서 조회 -->
 	
 	
+	<!-- 작업지시서 조회 -->
+<!-- 	<select id="getInstr" resultMap="workInstrRM"> -->
+<!-- 		SELECT wi.work_id, wi.pro_id, work_num, oo_num, pro_num, pro_name, oo_cnt, pro_unit, oo_end_date, clt_name,  -->
+<!-- 			line_num, wi.reg_date, ma_num, ma_name, req_cnt  -->
+<!-- 		FROM work_instr wi  -->
+<!-- 		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id  -->
+<!-- 		LEFT JOIN client clt ON oo.clt_id = clt.clt_id  -->
+<!-- 		LEFT JOIN line l ON wi.line_id = l.line_id   -->
+<!-- 		LEFT JOIN product pro ON wi.pro_id = pro.pro_id  -->
+<!-- 		LEFT JOIN requirement req ON wi.pro_id = req.pro_id  -->
+<!-- 		LEFT JOIN material ma ON ma.ma_id = req.ma_id  -->
+<!-- 		WHERE wi.work_id = #{work_id} AND wi.pro_id = #{pro_id} -->
+<!-- 	</select> -->
+	<!-- 작업지시서 조회 -->
+	
+	
 	<!-- 작업지시서 자재 출력 -->
 	<select id="getInstrReq" resultMap="workInstrRM">
-		SELECT wi.work_id, wi.pro_id, ma_num, ma_name, req_cnt * work_cnt AS 'cnt' 
-		FROM requirement req 
-		LEFT JOIN work_instr wi ON wi.pro_id = req.pro_id 
+		SELECT wi.work_id, wi.pro_id, ma_num, ma_name, req_cnt, work_cnt 
+		FROM  work_instr wi 
+		LEFT JOIN requirement req ON wi.pro_id = req.pro_id 
 		LEFT JOIN material ma ON ma.ma_id = req.ma_id 
-		WHERE wi.work_id = #{work_id} AND wi.pro_id = #{pro_id};
+		WHERE wi.work_id = #{work_id} AND wi.pro_id = #{pro_id}
 	</select>
 	<!-- 작업지시서 자재 출력 -->
 

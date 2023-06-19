@@ -12,7 +12,7 @@
 	<h1>/production/instruct/info.jsp</h1>
 	<h2>작업지시서 상세 출력</h2>
 	
-<%-- 	${wiList} --%>
+	${wiList}<br>
 	${reqList}
 	
 	<table border="1">
@@ -52,11 +52,11 @@
 			<th>품목명</th>
 			<th>수량</th>
 		</tr>
-		<c:forEach var="req" items="${reqList}">
+		<c:forEach var="list" items="${reqList}">
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>${list.materialVO.ma_num}</td>
+				<td>${list.materialVO.ma_name}</td>
+				<td>${list.requirementVO.req_cnt * list.work_cnt}</td>
 			</tr>
 		</c:forEach>
 	</table>
