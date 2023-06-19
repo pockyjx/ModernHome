@@ -22,17 +22,19 @@
         <association property="productVO" javaType="ProductVO">
             <id property="pro_id" column="pro_id" />
             <result property="pro_name" column="pro_name" />
+            <result property="pro_num" column="pro_num" />
         </association>
         
         <association property="materialVO" javaType="MaterialVO">
             <id property="ma_id" column="ma_id" />
             <result property="ma_name" column="ma_name" />
+            <result property="ma_num" column="ma_num" />
         </association>
         
     </resultMap>
 
     <select id="getRequirements" resultMap="requirementResultMap">
-        SELECT req_num, p.pro_id, p.pro_name, m.ma_id, m.ma_name,
+        SELECT req_num, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
                r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id
         FROM requirement r
         JOIN product p ON r.pro_id = p.pro_id
@@ -42,7 +44,7 @@
     
     <select id="reqSearch" resultMap="requirementResultMap"
     	 parameterType="java.util.Map">
-        SELECT req_num, p.pro_id, p.pro_name, m.ma_id, m.ma_name,
+        SELECT req_num, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
                r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id
         FROM requirement r
         JOIN product p ON r.pro_id = p.pro_id

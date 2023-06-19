@@ -124,6 +124,17 @@ public class InfoController {
 		
 		
 	}
+	
+	// 소요량 등록 시 완제품 코드 조회 (팝업)
+	// http://localhost:8088/info/req/popUpProduct
+	@RequestMapping(value = "/req/popUpProduct", method = RequestMethod.GET )
+	public void popUpProductGET(Model model) {
+		logger.debug("popUpProductGET() 호출!");
+		
+		List<ProductVO> popUpPro = iService.getPopUpPro();
+		model.addAttribute("popUpPro", popUpPro);
+	}
+	
 
 	
 }

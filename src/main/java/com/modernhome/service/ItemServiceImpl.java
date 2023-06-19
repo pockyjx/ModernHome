@@ -33,17 +33,18 @@ public class ItemServiceImpl implements ItemService {
 		return pdao.getProductList(itemOption, search);
 	}
 	
-//	@Override
-//	public String setProNum() {
-//		return pdao.setProNum();
-//	}
-
-
 	// 완제품 등록
 	@Override
 	public void regProduct(ProductVO vo) {
 		pdao.regProduct(vo);
 	}
+	
+	// 완제품 팝업
+	@Override
+	public List<ProductVO> getPopUpPro() {
+		return pdao.getPopUpProduct();
+	}
+	
 
 	/////////////////////////////////////////////////////////////////////////
 	
@@ -52,7 +53,7 @@ public class ItemServiceImpl implements ItemService {
 	public List<MaterialVO> getMaterialList() {
 		return mdao.getMaterialList();
 	}
-	
+
 
 
 	// 자재 검색 결과
@@ -60,6 +61,8 @@ public class ItemServiceImpl implements ItemService {
 	public List<MaterialVO> getMaterialList(String itemOption, String search) {
 		return mdao.getMaterialList(itemOption, search);
 	}
+	
+	// 자재 등록
 	
 	
 	

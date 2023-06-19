@@ -14,11 +14,11 @@ public interface ItemService {
 	// 완제품 검색 결과
 	public List<ProductVO> getProductList(String itemOption, String search);
 	
-	// 완제품 코드 부여
-//	public String setProNum();
-	
 	// 완제품 등록
 	public void regProduct(ProductVO vo);
+	
+	// 완제품 팝업
+	public List<ProductVO> getPopUpPro();
 	
 	////////////////////////////////////////////////////////////////////////
 	

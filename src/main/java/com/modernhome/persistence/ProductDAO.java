@@ -15,7 +15,7 @@ public interface ProductDAO {
 	// 완제품 등록
 	public void regProduct(ProductVO vo);
 	
-	// 완제품 코드 자동 부여
-//	public String setProNum();
+	// 완제품 목록(팝업)
+	public List<ProductVO> getPopUpProduct();
 	
 }
