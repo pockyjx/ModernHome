@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.ReceiveVO;
 
 @Repository
@@ -30,13 +29,13 @@ public class ReceiveDAOImpl implements ReceiveDAO {
 	// 발주 조회
 	@Override
 	public List<ReceiveVO> getReceiveList() {
-		return sqlSession.selectList(NAMESPACE + ".receiveList");
+		return sqlSession.selectList(NAMESPACE + ".getReceiveList");
 	}
 
 	@Override
-	public List<ReceiveVO> getReceiveSearch(java.util.Date startDate, java.util.Date endDate, String ma_name, String io_num) {
+	public List<ReceiveVO> getReceiveSearch(String startDate, String endDate, String ma_name, String io_num) {
 		
-		Map<String, Object> parameterMap = new HashMap();
+		Map<String, Object> parameterMap = new HashMap<>();
 		parameterMap.put("startDate", startDate);
 		parameterMap.put("endDate", endDate);
 		parameterMap.put("ma_name", ma_name);

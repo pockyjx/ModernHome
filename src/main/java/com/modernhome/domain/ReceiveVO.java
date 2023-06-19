@@ -1,7 +1,5 @@
 package com.modernhome.domain;
 
-import java.util.Date;
-
 public class ReceiveVO {
 	
 	private Integer rec_id;
@@ -9,7 +7,7 @@ public class ReceiveVO {
 	private Integer io_id;
 	private Integer ma_id;
 	private Integer rec_cnt;
-	private Date rec_date;
+	private String rec_date;
 	private Integer clt_id;
 	private String rec_in_state;
 	private Integer wh_id;
@@ -54,10 +52,10 @@ public class ReceiveVO {
 	public void setRec_cnt(Integer rec_cnt) {
 		this.rec_cnt = rec_cnt;
 	}
-	public Date getRec_date() {
+	public String getRec_date() {
 		return rec_date;
 	}
-	public void setRec_date(Date rec_date) {
+	public void setRec_date(String rec_date) {
 		this.rec_date = rec_date;
 	}
 	public Integer getClt_id() {
@@ -102,19 +100,26 @@ public class ReceiveVO {
 	public void setInorderVO(InorderVO inorderVO) {
 		this.inorderVO = inorderVO;
 	}
-	
 	public MaterialVO getMaterialVO() {
 		return materialVO;
 	}
+	public void setMaterialVO(MaterialVO materialVO) {
+		this.materialVO = materialVO;
+	}
 	public ClientVO getClientVO() {
 		return clientVO;
+	}
+	public void setClientVO(ClientVO clientVO) {
+		this.clientVO = clientVO;
 	}
 	
 	@Override
 	public String toString() {
 		return "ReceiveVO [rec_id=" + rec_id + ", rec_num=" + rec_num + ", io_id=" + io_id + ", ma_id=" + ma_id
 				+ ", rec_cnt=" + rec_cnt + ", rec_date=" + rec_date + ", clt_id=" + clt_id + ", rec_in_state="
-				+ rec_in_state + ", wh_id=" + wh_id + ", rec_state=" + rec_state + ", emp_id=" + emp_id + "]";
+				+ rec_in_state + ", wh_id=" + wh_id + ", rec_state=" + rec_state + ", emp_id=" + emp_id
+				+ ", warehouseVO=" + warehouseVO + ", inorderVO=" + inorderVO + ", materialVO=" + materialVO
+				+ ", clientVO=" + clientVO + "]";
 	}
 	
 }

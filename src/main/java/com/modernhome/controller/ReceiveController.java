@@ -2,8 +2,6 @@ package com.modernhome.controller;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.ReceiveVO;
 import com.modernhome.service.ReceiveService;
 
@@ -21,7 +18,6 @@ import com.modernhome.service.ReceiveService;
 @RequestMapping(value = "/wms/*")
 public class ReceiveController {
 	
-	ReceiveController rvo = null;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReceiveController.class);
 	
@@ -33,29 +29,27 @@ public class ReceiveController {
 	// http://localhost:8088/wms/receive/receivelist
 	@RequestMapping(value = "/receive/receivelist",method = RequestMethod.GET)
     public void receiveGET(Model model, 
-    		@ModelAttribute("startDate") java.util.Date startDate, 
-    		@ModelAttribute("endDate") java.util.Date endDate,
-    		@ModelAttribute("ma_name") String ma_name,
-    		@ModelAttribute("io_num") String io_num) throws Exception {
+    		@ModelAttribute(value = "startDate") String startDate, 
+    		@ModelAttribute(value = "endDate") String endDate,
+    		@ModelAttribute(value = "ma_name") String ma_name,
+    		@ModelAttribute(value = "io_num") String io_num)
+    				throws Exception {
     	logger.debug(" receiveGET() 호출 ");
+
     	
-    	List<ReceiveVO> receiveList;
-    	
-    	logger.debug(ma_name);
-    	logger.debug(io_num);
-    	
-    	if(startDate != null || endDate != null || ma_name != null || io_num != null) {
-    		receiveList = rService.getReceiveSearch(startDate, endDate, ma_name, io_num);
+		if (!startDate.isEmpty() || !endDate.isEmpty() || !ma_name.isEmpty() || !io_num.isEmpty()) {
+    		
+			List<ReceiveVO> receiveList = rService.getReceiveSearch(startDate, endDate, ma_name, io_num);
+    		logger.debug("검색어O, 검색된 데이터만 출력");
+    		
     		model.addAttribute("receiveList", receiveList);
     	}else {
-    		receiveList = rService.getReceiveList();
+    		
+    		logger.debug("검색어X, 전체 데이터 출력");
+    		List<ReceiveVO> receiveList = rService.getReceiveList();
     		model.addAttribute("receiveList", receiveList);
     	}
     }
-	
-	
-	
-	
 	
 	
 }

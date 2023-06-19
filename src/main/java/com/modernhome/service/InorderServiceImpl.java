@@ -21,7 +21,7 @@ public class InorderServiceImpl implements InorderService {
 	}
 
 	@Override
-	public List<InorderVO> getInorderSearch(java.util.Date startDate, java.util.Date endDate, String ma_name, String io_state)
+	public List<InorderVO> getInorderSearch(String startDate, String endDate, String ma_name, String io_state)
 			throws Exception {
 		return iodao.getInorderSearch(startDate, endDate, ma_name, io_state);
 	}

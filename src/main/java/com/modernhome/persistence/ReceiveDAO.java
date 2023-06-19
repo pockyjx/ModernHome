@@ -6,10 +6,10 @@ import com.modernhome.domain.ReceiveVO;
 
 public interface ReceiveDAO {
 	
-	// 발주 조회
+	// 입고 조회
 	public List<ReceiveVO> getReceiveList();
 		
-	// 발주 조회 + 검색
-	public List<ReceiveVO> getReceiveSearch(java.util.Date startDate, java.util.Date endDate, String ma_name, String io_num);
+	// 입고 조회 + 검색
+	public List<ReceiveVO> getReceiveSearch(String startDate, String endDate, String ma_name, String io_num);
 
 }

@@ -63,22 +63,22 @@ public class WmsController {
     // http://localhost:8088/wms/inorder/inorderlist
     @RequestMapping(value = "/inorder/inorderlist",method = RequestMethod.GET)
     public void inorderGET(Model model, 
-    		@ModelAttribute("startDate") java.util.Date startDate, 
-    		@ModelAttribute("endDate") java.util.Date endDate,
+    		@ModelAttribute("startDate") String startDate, 
+    		@ModelAttribute("endDate") String endDate,
     		@ModelAttribute("ma_name") String ma_name,
     		@ModelAttribute("io_state") String io_state) throws Exception {
     	logger.debug(" inorderGET() 호출 ");
     	
-    	List<InorderVO> inorderList;
     	
-    	logger.debug(ma_name);
-    	logger.debug(io_state);
-    	
-    	if(startDate != null || endDate != null || ma_name != null || io_state != null) {
-    		inorderList = ioService.getInorderSearch(startDate, endDate, ma_name, io_state);
+    	if(!startDate.isEmpty() || !endDate.isEmpty() || !ma_name.isEmpty() || !io_state.isEmpty()) {
+    		
+    		List<InorderVO> inorderList = ioService.getInorderSearch(startDate, endDate, ma_name, io_state);
+    		logger.debug("검색어O, 검색된 데이터만 출력");	
+    		
     		model.addAttribute("inorderList", inorderList);
     	}else {
-    		inorderList = ioService.getInorderList();
+    		logger.debug("검색어X, 전체 데이터 출력");
+    		List<InorderVO> inorderList = ioService.getInorderList();
     		model.addAttribute("inorderList", inorderList);
     	}
     }

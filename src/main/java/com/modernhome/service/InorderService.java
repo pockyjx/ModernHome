@@ -10,6 +10,6 @@ public interface InorderService {
 	public List<InorderVO> getInorderList() throws Exception;
 	
 	// 발주 조회 + 검색
-	public List<InorderVO> getInorderSearch(java.util.Date startDate, java.util.Date endDate, 
+	public List<InorderVO> getInorderSearch(String startDate, String endDate, 
 											String ma_name, String io_state) throws Exception; 
 }	

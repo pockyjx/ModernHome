@@ -34,29 +34,38 @@
 	  </resultMap>
     
     <select id="getInorderList" resultMap="inorderResultMap">
-        SELECT io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
-				i.io_cnt, i.io_unit, i.io_amount, i.io_date, i.io_state, i.rec_date, i.emp_id
-        FROM in_order i
-        JOIN material m ON i.ma_id = m.ma_id
-        JOIN client c ON i.clt_id = c.clt_id;
+        <![CDATA[
+	        SELECT io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
+					i.io_cnt, i.io_unit, i.io_amount, i.io_date, i.io_state, i.rec_date, i.emp_id
+	        FROM in_order i
+	        JOIN material m ON i.ma_id = m.ma_id
+	        JOIN client c ON i.clt_id = c.clt_id;
+        ]]>
     </select>
     <!-- 발주 목록 -->
     
     <!-- 발주 검색 -->
     <select id="inorderSearch" resultMap="inorderResultMap" parameterType="java.util.Map">
-		SELECT io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
-				i.io_cnt, i.io_unit, i.io_amount, i.io_date, i.io_state, i.rec_date, i.emp_id
-		FROM in_order i
-		JOIN material m ON i.ma_id = m.ma_id
-		JOIN client c ON i.clt_id = c.clt_id
-	<where>
-        <if test="io_state != '전체'">
-            io_state = #{io_state}
-        </if>
-        <if test="ma_name != ''">
-            AND ma_name like CONCAT('%', #{ma_name}, '%')
-        </if>
-    </where>
+			SELECT io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
+					i.io_cnt, i.io_unit, i.io_amount, i.io_date, i.io_state, i.rec_date, i.emp_id
+			FROM in_order i
+			JOIN material m ON i.ma_id = m.ma_id
+			JOIN client c ON i.clt_id = c.clt_id
+			
+		<where>
+	        <if test="io_state != '전체'">
+	            io_state = #{io_state}
+	        </if>
+	        <if test="ma_name != ''">
+	            AND ma_name like CONCAT('%', #{ma_name}, '%')
+	        </if>
+	        <if test="startDate != ''">
+	        	AND r.rec_date &gt;= #{startDate}
+	        </if>
+	        <if test="endDate != ''">
+	        	AND #{endDate} &gt;= DATE(r.rec_date)
+	        </if>
+	    </where>
     </select>
 
     <!-- 발주 검색 -->

@@ -29,11 +29,11 @@ public class InorderDAOImpl implements InorderDAO {
 	// 발주 조회
 	@Override
 	public List<InorderVO> getInorderList() {
-		return sqlSession.selectList(NAMESPACE + ".inorderList");
+		return sqlSession.selectList(NAMESPACE + ".getInorderList");
 	}
 
 	@Override
-	public List<InorderVO> getInorderSearch(java.util.Date startDate, java.util.Date endDate, String ma_name, String io_state) {
+	public List<InorderVO> getInorderSearch(String startDate, String endDate, String ma_name, String io_state) {
 		
 		Map<String, Object> parameterMap = new HashMap();
 		parameterMap.put("startDate", startDate);

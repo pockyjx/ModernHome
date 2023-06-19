@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -176,9 +177,9 @@
 				    	<td>${vo.io_cnt}</td>
 				    	<td>${vo.io_unit}</td>
 				    	<td>${vo.io_amount}</td>
-				    	<td>${vo.io_date}</td>
+				    	<td>${fn:substring(vo.io_date, 0, 10)}</td>
 				   		<td>${vo.io_state}</td>
-				   		<td>${vo.rec_date}</td>
+				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
 				   		<td>${vo.emp_id}</td>
 				    </tr>
 			    </c:forEach>

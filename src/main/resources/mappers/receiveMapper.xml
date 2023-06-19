@@ -41,16 +41,17 @@
 	      <id property="clt_name" column="clt_name" />
 	    </association>
 	  </resultMap>
-    
-    <select id="getReceiveList" resultMap="receiveResultMap">
-        SELECT rec_num, i.io_num, m.ma_name, r.rec_cnt, i.io_cnt, c.clt_name,
-				r.rec_state, r.rec_in_state, w.wh_name, r.rec_date, r.emp_id
-		FROM receive r
-        JOIN warehouse w ON r.wh_id = w.wh_id
-        JOIN in_order i ON r.io_id = i.io_id
-        JOIN material m ON i.ma_id = m.ma_id
-        JOIN client c ON i.clt_id = c.clt_id;
-    </select>
+	<select id="getReceiveList" resultMap="receiveResultMap">
+    	<![CDATA[
+	        SELECT rec_num, i.io_num, m.ma_name, r.rec_cnt, i.io_cnt, c.clt_name,
+					r.rec_state, r.rec_in_state, w.wh_name, r.rec_date, r.emp_id
+			FROM receive r
+	        JOIN warehouse w ON r.wh_id = w.wh_id
+	        JOIN in_order i ON r.io_id = i.io_id
+	        JOIN material m ON i.ma_id = m.ma_id
+	        JOIN client c ON i.clt_id = c.clt_id;
+    	]]>
+	</select>
     <!-- 입고 목록 -->
     
     <!-- 입고 검색 -->
@@ -62,14 +63,21 @@
         JOIN in_order i ON r.io_id = i.io_id
         JOIN material m ON i.ma_id = m.ma_id
         JOIN client c ON i.clt_id = c.clt_id
-	<where>
-        <if test="io_num != ''">
-            io_num like CONCAT('%', #{io_num}, '%')
-        </if>
-        <if test="ma_name != ''">
-            AND ma_name like CONCAT('%', #{ma_name}, '%')
-        </if>
-    </where>
+        
+		<where>
+	        <if test="io_num != ''">
+	            AND io_num like CONCAT('%', #{io_num}, '%')
+	        </if>
+	        <if test="ma_name != ''">
+	            AND ma_name like CONCAT('%', #{ma_name}, '%')
+	        </if>
+	        <if test="startDate != ''">
+	        	AND r.rec_date &gt;= #{startDate}
+	        </if>
+	        <if test="endDate != ''">
+	        	AND #{endDate} &gt;= DATE(r.rec_date)
+	        </if>
+	    </where>
     </select>
 
     <!-- 입고 검색 -->

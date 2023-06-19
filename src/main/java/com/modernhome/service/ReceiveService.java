@@ -10,6 +10,6 @@ public interface ReceiveService {
 	public List<ReceiveVO> getReceiveList() throws Exception;
 		
 	// 입고 조회 + 검색
-	public List<ReceiveVO> getReceiveSearch(java.util.Date startDate, java.util.Date endDate, 
+	public List<ReceiveVO> getReceiveSearch(String startDate, String endDate, 
 											String ma_name, String io_num) throws Exception; 
 }
