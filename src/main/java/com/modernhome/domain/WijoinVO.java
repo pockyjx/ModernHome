@@ -26,8 +26,8 @@ public class WijoinVO {
 	private int work_cnt;
 	private int oo_cnt;
 	private int req_cnt;
-	private Date reg_date;
-	private Date oo_end_date;
+	private String reg_date;
+	private String oo_end_date;
 	
 	public Integer getWork_id() {
 		return work_id;
@@ -161,16 +161,16 @@ public class WijoinVO {
 	public void setReq_cnt(int req_cnt) {
 		this.req_cnt = req_cnt;
 	}
-	public Date getReg_date() {
+	public String getReg_date() {
 		return reg_date;
 	}
-	public void setReg_date(Date reg_date) {
+	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
-	public Date getOo_end_date() {
+	public String getOo_end_date() {
 		return oo_end_date;
 	}
-	public void setOo_end_date(Date oo_end_date) {
+	public void setOo_end_date(String oo_end_date) {
 		this.oo_end_date = oo_end_date;
 	}
 	

@@ -12,7 +12,7 @@
 	<h1>/production/instruct/add.jsp</h1>
 	<h2>작업지시서 작성</h2>
 	
-	<form role="form" method="post">
+	<form method="post">
 		<table border="1">
 			<tr>
 				<th>지시번호</th>

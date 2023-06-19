@@ -47,12 +47,12 @@ public class WorkInstructController {
 	
 	// 작업지시서 작성 처리(POST) - /production/instruct/add
 	@RequestMapping(value = "/instruct/add", method = RequestMethod.POST)
-	public String addInstrPOST(WorkInstrVO vo) throws Exception {
+	public void addInstrPOST(WijoinVO vo) throws Exception {
 		logger.debug("addInstrPOST() 호출");
 		
 		logger.debug("@@@@@@@@@@@@@@@@@vo : {}", vo);
 		
-		return "redirect:/production/instruct/list";
+//		return "redirect:/production/instruct/list";
 	}
 	
 	
