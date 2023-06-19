@@ -18,11 +18,6 @@ public class WorkInstrVO {
 	private int update_emp_id;
 	
 	// join을 위한 객체
-	private ClientVO clientVO;
-	private OutOrderVO outOrderVO;
-	private LineVO lineVO;
-	private ProductVO productVO;
-	private EmployeeVO employeeVO;
 	private WijoinVO wijoinVO;
 	
 	public Integer getWork_id() {
@@ -96,39 +91,7 @@ public class WorkInstrVO {
 	}
 	public void setUpdate_emp_id(int update_emp_id) {
 		this.update_emp_id = update_emp_id;
-	}
-	public ClientVO getClientVO() {
-		return clientVO;
-	}
-	public void setClientVO(ClientVO clientVO) {
-		this.clientVO = clientVO;
-	}
-	public OutOrderVO getOutOrderVO() {
-		return outOrderVO;
-	}
-	public void setOutOrderVO(OutOrderVO outOrderVO) {
-		this.outOrderVO = outOrderVO;
-	}
-	public LineVO getLineVO() {
-		return lineVO;
-	}
-	public void setLineVO(LineVO lineVO) {
-		this.lineVO = lineVO;
-	}
-	public ProductVO getProductVO() {
-		return productVO;
-	}
-	public void setProductVO(ProductVO productVO) {
-		this.productVO = productVO;
-	}
-	public EmployeeVO getEmployeeVO() {
-		return employeeVO;
-	}
-	public void setEmployeeVO(EmployeeVO employeeVO) {
-		this.employeeVO = employeeVO;
-	}
-	
-	public WijoinVO getWijoinVO() {
+	}public WijoinVO getWijoinVO() {
 		return wijoinVO;
 	}
 	public void setWijoinVO(WijoinVO wijoinVO) {
@@ -140,9 +103,7 @@ public class WorkInstrVO {
 		return "WorkInstrVO [work_id=" + work_id + ", work_num=" + work_num + ", line_id=" + line_id + ", pro_id="
 				+ pro_id + ", req_id=" + req_id + ", oo_id=" + oo_id + ", work_cnt=" + work_cnt + ", work_state="
 				+ work_state + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
-				+ ", update_emp_id=" + update_emp_id + ", clientVO=" + clientVO + ", outOrderVO=" + outOrderVO
-				+ ", lineVO=" + lineVO + ", productVO=" + productVO + ", employeeVO=" + employeeVO + ", wijoinVO="
-				+ wijoinVO + "]";
+				+ ", update_emp_id=" + update_emp_id +  ", wijoinVO=" + wijoinVO + "]";
 	}
 	
 }

@@ -12,37 +12,36 @@
 	<h1>/production/instruct/info.jsp</h1>
 	<h2>작업지시서 상세 출력</h2>
 	
-<%-- 	${wiList}<br> --%>
-<%-- 	${reqList} --%>
+<%-- 	${wiList} --%>
 	
 	<table border="1">
 		<tr>
 			<th>지시번호</th>
 			<td>${wiList[0].work_num}</td>
 			<th>수주번호</th>
-			<td>${wiList[0].outOrderVO.oo_num}</td>
+			<td>${wiList[0].oo_num}</td>
 		</tr>
 		<tr>
 			<th>품번</th>
-			<td>${wiList[0].productVO.pro_num}</td>
+			<td>${wiList[0].pro_num}</td>
 			<th>수량</th>
-			<td>${wiList[0].outOrderVO.oo_cnt}</td>
+			<td>${wiList[0].oo_cnt}</td>
 		</tr>
 		<tr>
 			<th>품명</th>
-			<td>${wiList[0].productVO.pro_name}</td>
+			<td>${wiList[0].pro_name}</td>
 			<th>단위</th>
-			<td>${wiList[0].productVO.pro_unit}</td>
+			<td>${wiList[0].pro_unit}</td>
 		</tr>
 		<tr>
 			<th>납기일</th>
-			<td>${wiList[0].outOrderVO.oo_end_date}</td>
+			<td>${wiList[0].oo_end_date}</td>
 			<th>생산라인</th>
-			<td>${wiList[0].lineVO.line_name}</td>
+			<td>${wiList[0].line_name}</td>
 		</tr>
 		<tr>
 			<th>납품지점</th>
-			<td>${wiList[0].clientVO.clt_name}</td>
+			<td>${wiList[0].clt_name}</td>
 			<th>작성일</th>
 			<td>${wiList[0].reg_date}</td>
 		</tr>

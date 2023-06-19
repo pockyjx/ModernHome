@@ -28,13 +28,13 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<WorkInstrVO> getInstr(WorkInstrVO wivo) throws Exception {
+	public List<WijoinVO> getInstr(WorkInstrVO wivo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstr 실행");
 		return sqlSession.selectList(NAMESPACE + ".getInstr", wivo);
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrList() throws Exception {
+	public List<WijoinVO> getInstrList() throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstrList 실행");
 		return sqlSession.selectList(NAMESPACE + ".getList");
 	}
@@ -52,7 +52,7 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception {
+	public List<WijoinVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstList(검색) 실행");
 		
 		Map<String, Object> parameterMap = new HashMap<>();

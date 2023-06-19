@@ -12,7 +12,7 @@
 	<h1>/production/instruct/add.jsp</h1>
 	<h2>작업지시서 작성</h2>
 	
-	<form method="post">
+	<form role="form" method="post">
 		<table border="1">
 			<tr>
 				<th>지시번호</th>
@@ -34,15 +34,15 @@
 			</tr>
 			<tr>
 				<th>납기일</th>
-				<td></td>
+				<td><input type="text" name="oo_end_date"></td>
 				<th>생산라인</th>
 				<td><input type="text" name="line_num"></td>
 			</tr>
 			<tr>
 				<th>납품지점</th>
-				<td><input type="text" name="cli_name"></td>
+				<td><input type="text" name="clt_name"></td>
 				<th>작성일</th>
-				<td></td>
+				<td><input type="text" name="reg_date"></td>
 			</tr>
 			<tr>
 				<th rowspan="2">원재료</th>
@@ -51,17 +51,16 @@
 				<th>수량</th>
 			</tr>
 			<tr>
-				<td><input type="text" name="ma_num"></td>
-				<td><input type="text" name="ma_name"></td>
-				<td><!-- 일단 비워둠 --></td>
-			</tr>
-			<tr>
-				<th colspan="4">
-					<input type="button" value="취소" onclick="close">
-					<input type="submit" value="저장">
-				</th>
+				<td>품목코드</td>
+				<td>품목명</td>
+				<td>수량</td>
 			</tr>
 		</table>
+		
+		<div>
+			<input type="button" value="취소" onclick="close">
+			<input type="submit" value="저장">
+		</div>
 	</form>
 	
 </body>

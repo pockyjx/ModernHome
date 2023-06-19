@@ -17,12 +17,12 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	private WorkInstrDAO dao;
 	
 	@Override
-	public List<WorkInstrVO> getInstr(WorkInstrVO wivo) throws Exception {
+	public List<WijoinVO> getInstr(WorkInstrVO wivo) throws Exception {
 		return dao.getInstr(wivo);
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrList() throws Exception {
+	public List<WijoinVO> getInstrList() throws Exception {
 		return dao.getInstrList();
 	}
 
@@ -32,7 +32,7 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception {
+	public List<WijoinVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception {
 		return dao.getInstrList(work_state, pro_num, startDate, endDate);
 	}
 

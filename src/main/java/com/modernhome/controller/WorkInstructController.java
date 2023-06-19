@@ -70,7 +70,7 @@ public class WorkInstructController {
 			logger.debug("검색어 O, 검색된 데이터만 출력");
 			
 			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-			List<WorkInstrVO> instrList = wiService.getInstrList(work_state, pro_num, startDate, endDate);
+			List<WijoinVO> instrList = wiService.getInstrList(work_state, pro_num, startDate, endDate);
 			logger.debug("instrList : {}", instrList);
 			
 			// 연결된 뷰페이지에 전달
@@ -79,7 +79,7 @@ public class WorkInstructController {
 			logger.debug("검색어 X, 전체 데이터 출력 ");
 			
 			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-			List<WorkInstrVO> instrList = wiService.getInstrList();
+			List<WijoinVO> instrList = wiService.getInstrList();
 			logger.debug("instrList : {}", instrList);
 			
 			// 연결된 뷰페이지에 전달
@@ -97,7 +97,7 @@ public class WorkInstructController {
 		logger.debug("getInstr() 호출");
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
-		List<WorkInstrVO> wiList = wiService.getInstr(wivo);
+		List<WijoinVO> wiList = wiService.getInstr(wivo);
 		List<WijoinVO> reqList = wiService.getInstrReq(wivo);
 		logger.debug("wiList : {}", wiList);
 		logger.debug("reqList : {}", reqList);

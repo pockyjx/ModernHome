@@ -122,20 +122,20 @@
 			<tr onclick="location.href='/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}'">
 				<td><input type="checkbox"></td>
 				<td>${list.work_num}</td>
-				<td>${list.lineVO.line_name}</td>
-				<td>${list.productVO.pro_num}</td>
-				<td>${list.productVO.pro_name}</td>
+				<td>${list.line_name}</td>
+				<td>${list.pro_num}</td>
+				<td>${list.pro_name}</td>
 				<td>
 				    <c:if test="${list.work_state=='대기'}">대기</c:if>
 				    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
 				    <c:if test="${list.work_state=='완료'}">완료</c:if>
 				</td>
-				<td>${list.outOrderVO.oo_cnt}<br>(생산완료한 수량은 임의)</td>
+				<td>${list.oo_cnt}<br>(생산완료한 수량은 임의)</td>
 				<td>${list.reg_date}</td>
 				<td>${list.work_cnt}</td>
-				<td>${list.outOrderVO.oo_num}</td>
-				<td>${list.outOrderVO.oo_end_date}</td>
-				<td>${list.employeeVO.emp_name}</td>
+				<td>${list.oo_num}</td>
+				<td>${list.oo_end_date}</td>
+				<td>${list.emp_name}</td>
 			</tr>
 		</c:forEach>
 	</table>
