@@ -93,6 +93,14 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		
 		sqlSession.delete(NAMESPACE + ".deleteEmployee", emp_id);
 	}
+
+	// 사원업데이트
+	@Override
+	public void updateEmployee(EmployeeVO evo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행(사원업데이트)");
+		
+		sqlSession.update(NAMESPACE + ".updateEmployee", evo);
+	}
 	
 	
 	

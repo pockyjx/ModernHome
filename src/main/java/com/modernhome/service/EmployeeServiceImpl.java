@@ -55,7 +55,13 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public void deleteEmployee(int emp_id) {
 		eDAO.deleteEmployee(emp_id);
 	}
+
 	
+	// 사원업데이트
+	@Override
+	public void updateEmployee(EmployeeVO evo) {
+		eDAO.updateEmployee(evo);
+	}
 	
 	
 }
