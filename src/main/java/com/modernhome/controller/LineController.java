@@ -6,10 +6,15 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.LineVO;
 import com.modernhome.service.LineService;
@@ -50,22 +55,40 @@ public class LineController {
 			// Model 객체에 저장
 			model.addAttribute("lineList",lineList);
 		}
-		
 
-
+	}
+	
+	// 라인 등록
+	@RequestMapping(value = "/line/regLine", method = RequestMethod.POST)
+	public String regLinePOST(LineVO lvo) {
 		
+		logger.debug("regLinePOST() 호출");
+		
+		logger.debug("lvo : "+lvo);
+		
+		lineService.regLine(lvo);
+		
+		return "redirect:/production/line/lineList";
+	}
+	
+	// 라인 삭제
+	@RequestMapping(value = "/line/deleteLine")
+	public String deleteLine(@RequestParam("selectedEmpId") Integer[] selectedEmpIds) {
+		
+		for(Integer emp_id : selectedEmpIds) {
+			lineService.deleteLine(emp_id);
+		}
+		
+		return "redirect:/production/line/lineList";
 	}
 
-
-
-
-
-
-
-
-
-
+	
+	
 
 
 	
-}
+	
+	
+	
+	
+} // Controller

@@ -28,6 +28,19 @@ public class LineServiceImpl implements LineService {
 		return dao.lineListSearch(lvo);
 	}
 
+	// 라인등록
+	@Override
+	public void regLine(LineVO lvo) {
+		dao.regLine(lvo);
+		
+	}
+
+	// 라인삭제
+	@Override
+	public void deleteLine(int emp_id) {
+		dao.deleteLine(emp_id);
+		
+	}
 
 
-}
+} // LineServiceImpl
