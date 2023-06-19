@@ -13,6 +13,6 @@ public interface WorkInstrService {
 	public List<WorkInstrVO> getInstr(Integer work_id) throws Exception;
 	
 	// 작업지시서 - 원재료 출력
-	public List<WorkInstrVO> getInstrReq(int pro_id) throws Exception;
+	public List<WorkInstrVO> getInstrReq(WorkInstrVO wivo) throws Exception;
 	
 }

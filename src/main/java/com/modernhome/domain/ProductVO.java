@@ -2,15 +2,15 @@ package com.modernhome.domain;
 
 public class ProductVO {
 	
-	private int pro_id;
+	private Integer pro_id;
 	private String pro_num;
 	private String pro_name;
 	private String pro_unit;
 	private int pro_price;
-	public int getPro_id() {
+	public Integer getPro_id() {
 		return pro_id;
 	}
-	public void setPro_id(int pro_id) {
+	public void setPro_id(Integer pro_id) {
 		this.pro_id = pro_id;
 	}
 	public String getPro_num() {

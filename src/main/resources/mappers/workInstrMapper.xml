@@ -49,7 +49,7 @@
 		
 		<association property="requirementVO" javaType="RequirementVO">
 			<id property="pro_id" column="pro_id"/>
-			<result property="req_cnt" column="req_cnt"/>
+			<result property="req_cnt" column="cnt"/>
 		</association>
 		
 		<association property="materialVO" javaType="MaterialVO">
@@ -89,8 +89,8 @@
 	
 	<!-- 작업지시서 자재 출력 -->
 	<select id="getInstrReq" resultMap="workInstrRM">
-		SELECT wi.work_id, wi.pro_id, ma_num, ma_name, req_cnt * work_cnt 
-		FROM requirement req
+		SELECT wi.work_id, wi.pro_id, ma_num, ma_name, req_cnt * work_cnt AS 'cnt' 
+		FROM requirement req 
 		LEFT JOIN work_instr wi ON wi.pro_id = req.pro_id 
 		LEFT JOIN material ma ON ma.ma_id = req.ma_id 
 		WHERE wi.work_id = #{work_id} AND wi.pro_id = #{pro_id};

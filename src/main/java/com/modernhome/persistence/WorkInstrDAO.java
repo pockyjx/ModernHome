@@ -13,7 +13,7 @@ public interface WorkInstrDAO {
 	public List<WorkInstrVO> getInstr(Integer work_id) throws Exception;
 	
 	// 작업지시서 - 원재료 조회
-	public List<WorkInstrVO> getInstrReq(int pro_id) throws Exception;
+	public List<WorkInstrVO> getInstrReq(WorkInstrVO wivo) throws Exception;
 	
 	// 작업지시 추가
 	public void addInstr(WorkInstrVO vo) throws Exception;

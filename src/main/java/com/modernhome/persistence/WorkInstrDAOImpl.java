@@ -43,9 +43,9 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	}
 
 	@Override
-	public List<WorkInstrVO> getInstrReq(int pro_id) throws Exception {
+	public List<WorkInstrVO> getInstrReq(WorkInstrVO wivo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstrReq() 실행");
-		return sqlSession.selectList(NAMESPACE + ".getInstrReq", pro_id);
+		return sqlSession.selectList(NAMESPACE + ".getInstrReq", wivo);
 	}
 
 }
