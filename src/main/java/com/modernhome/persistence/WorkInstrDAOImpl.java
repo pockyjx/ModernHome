@@ -64,4 +64,16 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 		return sqlSession.selectList(NAMESPACE + ".wiListSearch", parameterMap);
 	}
 
+	@Override
+	public List<WijoinVO> getBeforeInstr() throws Exception {
+		logger.debug("WorkInstrDAOImpl_getBeforeInstr() 실행");
+		return sqlSession.selectList(NAMESPACE + ".getBeforeInstr");
+	}
+
+	@Override
+	public List<WijoinVO> getBeforeInstrReq(String oo_num) throws Exception {
+		logger.debug("WorkInstrDAOImpl_getBeforeInstrReq() 실행");
+		return sqlSession.selectList(NAMESPACE + ".getBeforeInstrReq", oo_num);
+	}
+
 }

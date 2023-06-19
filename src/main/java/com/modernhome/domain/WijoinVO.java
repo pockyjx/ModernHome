@@ -1,7 +1,5 @@
 package com.modernhome.domain;
 
-import java.util.Date;
-
 public class WijoinVO {
 	
 	private Integer work_id;

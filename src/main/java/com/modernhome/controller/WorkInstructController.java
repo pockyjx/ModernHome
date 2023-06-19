@@ -1,5 +1,6 @@
 package com.modernhome.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,10 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.modernhome.domain.ClientVO;
-import com.modernhome.domain.EmployeeVO;
-import com.modernhome.domain.MaterialVO;
-import com.modernhome.domain.RequirementVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.service.WorkInstrService;
@@ -40,9 +37,31 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/add.jsp
 	// 작업지시서 작성(GET) - /production/instruct/add
 	@RequestMapping(value = "/instruct/add", method = RequestMethod.GET)
-	public void addInstrGET() throws Exception {
+	public void addInstrGET(@ModelAttribute("oo_num") String oo_num, WijoinVO wjvo, Model model) throws Exception {
 		logger.debug("addInstrGET() 호출");
+		
+		// 해당 수주번호에 해당하는 소요량
+		List<WijoinVO> reqList = wiService.getBeforeInstrReq(wjvo.getOo_num());
+		logger.debug("reqList : {}", reqList);
+		
+		// 연결된 뷰페이지에 전달
+		model.addAttribute("reqList", reqList);
+		
 		logger.debug("/production/instruct/add 뷰페이지 이동");
+	}
+	
+	// 작업지시서 관련 팝업(GET) - /production/instruct/addPopup
+	@RequestMapping(value = "/instruct/addPopup", method = RequestMethod.GET)
+	public void addInstrPop(Model model) throws Exception {
+		logger.debug("addInstrPop() 호출");
+		
+		// 작업지시서를 작성하지 않은 수주번호 출력
+		List<WijoinVO> onumList = wiService.getBeforeInstr();
+		
+		// 연결된 뷰페이지에 전달
+		model.addAttribute("onumList", onumList);
+		
+		logger.debug("add 뷰페이지로 다시 이동");
 	}
 	
 	// 작업지시서 작성 처리(POST) - /production/instruct/add
