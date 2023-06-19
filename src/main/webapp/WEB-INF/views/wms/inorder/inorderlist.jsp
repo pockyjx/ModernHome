@@ -119,18 +119,18 @@
                    	<div>
                    		<label>발주일자</label>
                    		<div>
-		                   	<input type="date" name="startDate">
+		                   	<input type="date" name="istartDate">
                    			~
-		                   	<input type="date" name="endDate">
+		                   	<input type="date" name="iendDate">
                    		</div>
                    	</div>
 		       		<br>
 		       		<div>
                    		<label>입고예정일</label>
                    		<div>
-		                   	<input type="date" name="startDate">
+		                   	<input type="date" name="rstartDate">
                    			~
-		                   	<input type="date" name="endDate">
+		                   	<input type="date" name="rendDate">
                    		</div>
                    	</div>
 		       		<span>자재명 :
@@ -176,7 +176,7 @@
 				    	<td>${vo.clientVO.clt_name}</td>
 				    	<td>${vo.io_cnt}</td>
 				    	<td>${vo.io_unit}</td>
-				    	<td>${vo.io_amount}</td>
+				    	<td>${vo.materialVO.ma_price*vo.io_cnt}</td>
 				    	<td>${fn:substring(vo.io_date, 0, 10)}</td>
 				   		<td>${vo.io_state}</td>
 				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>

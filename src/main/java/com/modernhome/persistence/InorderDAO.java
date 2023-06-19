@@ -10,5 +10,5 @@ public interface InorderDAO {
 	public List<InorderVO> getInorderList();
 	
 	// 발주 조회 + 검색
-	public List<InorderVO> getInorderSearch(String startDate, String endDate, String ma_name, String io_state);
+	public List<InorderVO> getInorderSearch(String istartDate, String iendDate,String rstartDate, String rendDate, String ma_name, String io_state);
 }

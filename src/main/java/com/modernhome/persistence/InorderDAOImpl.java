@@ -33,11 +33,13 @@ public class InorderDAOImpl implements InorderDAO {
 	}
 
 	@Override
-	public List<InorderVO> getInorderSearch(String startDate, String endDate, String ma_name, String io_state) {
+	public List<InorderVO> getInorderSearch(String istartDate, String iendDate,String rstartDate, String rendDate, String ma_name, String io_state) {
 		
 		Map<String, Object> parameterMap = new HashMap();
-		parameterMap.put("startDate", startDate);
-		parameterMap.put("endDate", endDate);
+		parameterMap.put("istartDate", istartDate);
+		parameterMap.put("iendDate", iendDate);
+		parameterMap.put("rstartDate", rstartDate);
+		parameterMap.put("rendDate", rendDate);
 		parameterMap.put("ma_name", ma_name);
 		parameterMap.put("io_state", io_state);
 		

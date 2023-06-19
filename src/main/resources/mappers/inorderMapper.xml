@@ -24,6 +24,7 @@
 	    <association property="materialVO" javaType="com.modernhome.domain.MaterialVO">
 	      <id property="ma_num" column="ma_num" />
 	      <result property="ma_name" column="ma_name" />
+	      <result property="ma_price" column="ma_price" />
 	    </association>
 
 	    <!-- ClientVO 클래스 정의 -->
@@ -36,7 +37,7 @@
     <select id="getInorderList" resultMap="inorderResultMap">
         <![CDATA[
 	        SELECT io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
-					i.io_cnt, i.io_unit, i.io_amount, i.io_date, i.io_state, i.rec_date, i.emp_id
+					i.io_cnt, i.io_unit, m.ma_price, i.io_date, i.io_state, i.rec_date, i.emp_id
 	        FROM in_order i
 	        JOIN material m ON i.ma_id = m.ma_id
 	        JOIN client c ON i.clt_id = c.clt_id;
@@ -47,7 +48,7 @@
     <!-- 발주 검색 -->
     <select id="inorderSearch" resultMap="inorderResultMap" parameterType="java.util.Map">
 			SELECT io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
-					i.io_cnt, i.io_unit, i.io_amount, i.io_date, i.io_state, i.rec_date, i.emp_id
+					i.io_cnt, i.io_unit, m.ma_price, i.io_date, i.io_state, i.rec_date, i.emp_id
 			FROM in_order i
 			JOIN material m ON i.ma_id = m.ma_id
 			JOIN client c ON i.clt_id = c.clt_id
@@ -59,11 +60,17 @@
 	        <if test="ma_name != ''">
 	            AND ma_name like CONCAT('%', #{ma_name}, '%')
 	        </if>
-	        <if test="startDate != ''">
-	        	AND r.rec_date &gt;= #{startDate}
+	        <if test="istartDate != ''">
+	        	AND i.io_date &gt;= #{istartDate}
 	        </if>
-	        <if test="endDate != ''">
-	        	AND #{endDate} &gt;= DATE(r.rec_date)
+	        <if test="iendDate != ''">
+	        	AND #{iendDate} &gt;= DATE(i.io_date)
+	        </if>
+	        <if test="rstartDate != ''">
+	        	AND i.rec_date &gt;= #{rstartDate}
+	        </if>
+	        <if test="rendDate != ''">
+	        	AND #{rendDate} &gt;= DATE(i.rec_date)
 	        </if>
 	    </where>
     </select>
