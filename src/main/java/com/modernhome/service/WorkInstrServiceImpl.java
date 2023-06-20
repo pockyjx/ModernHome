@@ -2,7 +2,8 @@ package com.modernhome.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.WijoinVO;
@@ -10,10 +11,10 @@ import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.persistence.WorkInstrDAO;
 
 @Service
-public abstract class WorkInstrServiceImpl implements WorkInstrService {
+public class WorkInstrServiceImpl implements WorkInstrService {
 	
 	// 의존성 주입
-	@Autowired
+	@Inject
 	private WorkInstrDAO dao;
 	
 	@Override

@@ -124,7 +124,7 @@
 	
 	
 	<!-- 작업지시 번호 자동 생성 -->
-	<select id="createWorkNum" resultType="String">
+	<select id="createWorkNum" resultType="string">
 		SELECT concat('WI', lpad(work_id + 1, 4, 0)) AS work_num FROM work_instr ORDER BY work_id DESC LIMIT 1
 	</select>
 	<!-- 작업지시 번호 자동 생성 -->

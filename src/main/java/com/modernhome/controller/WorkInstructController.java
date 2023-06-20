@@ -31,9 +31,9 @@ public class WorkInstructController {
 	
 	// 의존성 주입
 	@Inject
-	private WorkInstrService wiService;
-	@Inject
 	private LineService lineService;
+	@Inject
+	private WorkInstrService wiService;
 	
 	
 	// ===========================================
