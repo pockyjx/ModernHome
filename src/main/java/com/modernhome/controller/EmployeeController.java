@@ -166,7 +166,7 @@ public class EmployeeController {
 		    return "redirect:/employee/employeeList";
 		}
 		
-		
+		// http://localhost:8088/employee/employeeList
 		// http://localhost:8088/employee/employeeManagement
 		// 팀원관리
 		@RequestMapping(value = "/employeeManagement")
@@ -193,9 +193,10 @@ public class EmployeeController {
 				logger.debug("evo 값 O -> 검색어 O -> 검색된 데이터만 출력");
 				logger.debug("evo : " + evo);
 				
-				List<EmployeeVO> employeeMngSearch = eService.employeeMngSearch(evo, session_emp_id);
+				// employeeManagement로 하는 이유 => 하나의 뷰페이지에서 출력 위해서
+				List<EmployeeVO> employeeManagement = eService.employeeMngSearch(evo, session_emp_id);
 				
-				model.addAttribute("employeeMngSearch", employeeMngSearch);
+				model.addAttribute("employeeManagement", employeeManagement);
 			}
 			
 		}

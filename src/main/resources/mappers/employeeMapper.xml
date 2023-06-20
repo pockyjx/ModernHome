@@ -47,14 +47,8 @@
 	<!-- 사원등록 -->
 	<insert id="regEmployee">
 		<selectKey keyProperty="emp_id" resultType="int" order="BEFORE">
-		SELECT CASE 
-			WHEN #{emp_dept} = '인사' THEN COALESCE((SELECT MAX(emp_id) FROM employee WHERE emp_dept = '인사'), 10000) + 1
-			WHEN #{emp_dept} = '영업' THEN COALESCE((SELECT MAX(emp_id) FROM employee WHERE emp_dept = '영업'), 20000) + 1
-			WHEN #{emp_dept} = '생산' THEN COALESCE((SELECT MAX(emp_id) FROM employee WHERE emp_dept = '생산'), 30000) + 1
-			WHEN #{emp_dept} = '자재' THEN COALESCE((SELECT MAX(emp_id) FROM employee WHERE emp_dept = '자재'), 40000) + 1
-			WHEN #{emp_dept} = '품질' THEN COALESCE((SELECT MAX(emp_id) FROM employee WHERE emp_dept = '품질'), 50000) + 1
-			ELSE 0
-		END
+		SELECT CONCAT(YEAR(CURRENT_DATE()), LPAD(COALESCE(MAX(SUBSTRING(emp_id, 5)) + 1, '1'), 4, '0'))
+		FROM employee
 		</selectKey>
 		
 		
@@ -78,8 +72,8 @@
 	
 	<!-- 사원업데이트 -->
 	<update id="updateEmployee">
-		UPDATE employee SET emp_name = #{emp_name}, emp_rank = #{emp_rank}, emp_state = #{emp_state}, emp_tel = #{emp_tel},
-		
+		UPDATE employee SET emp_name = #{emp_name}, emp_dept = #{emp_dept}, emp_rank = #{emp_rank}, emp_state = #{emp_state}, emp_tel = #{emp_tel},
+		emp_birth = CASE WHEN #{emp_birth} = '' THEN NULL ELSE #{emp_birth} END,
 		emp_rsgnt_date = CASE WHEN #{emp_rsgnt_date} = '' THEN NULL ELSE #{emp_rsgnt_date} END,
 		emp_start_leave_date = CASE WHEN #{emp_start_leave_date} = '' THEN NULL ELSE #{emp_start_leave_date} END,
 		emp_end_leave_date = CASE WHEN #{emp_end_leave_date} = '' THEN NULL ELSE #{emp_end_leave_date} END,
@@ -102,17 +96,17 @@
 		SELECT * FROM employee 
 		<where>
 			emp_dept = (SELECT emp_dept FROM employee WHERE emp_id = #{session_emp_id})
-			<if test="emp_id != null">
-				AND emp_id LIKE CONCAT('%', #{emp_id}, '%') 
+			<if test="evo.emp_id != null">
+				AND emp_id LIKE CONCAT('%', #{evo.emp_id}, '%') 
 			</if>
-			<if test="emp_name != ''">
-				AND emp_name LIKE CONCAT('%', #{emp_name}, '%') 
+			<if test="evo.emp_name != ''">
+				AND emp_name LIKE CONCAT('%', #{evo.emp_name}, '%') 
 			</if>
-			<if test="emp_rank != '전체'">
-				AND emp_rank = #{emp_rank}
+			<if test="evo.emp_rank != '전체'">
+				AND emp_rank = #{evo.emp_rank}
 			</if>
-			<if test="emp_state != '전체'">
-				AND emp_state = #{emp_state}
+			<if test="evo.emp_state != '전체'">
+				AND emp_state = #{evo.emp_state}
 			</if>
 		</where>
 	</select>

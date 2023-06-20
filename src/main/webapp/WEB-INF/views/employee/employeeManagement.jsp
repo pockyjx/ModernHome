@@ -43,7 +43,7 @@
 	<!-- 검색칸 -->
 	
 	
-	
+	<form action="auth" method="post">
 	
 	<table class="" border="1">
 		<tr>
@@ -70,7 +70,21 @@
 			<td>${fn:substring(empMng.emp_birth, 0, 10)}</td>
 			<td>${empMng.emp_dept }</td>
 			<td>${empMng.emp_rank }</td>
-			<td>${empMng.emp_auth }</td>
+			
+			<td>
+			<c:choose>
+				<c:when test="${empMng.emp_auth == 3}">
+					<input type="checkbox" disabled="disabled" checked="checked">
+				</c:when>
+				<c:when test="${empMng.emp_auth == 2}">
+					<input type="checkbox" checked="checked">
+				</c:when>
+				<c:when test="${empMng.emp_auth == 1}">
+					<input type="checkbox">
+				</c:when>
+			</c:choose>
+			</td>
+			
 			<td>${empMng.emp_state }</td>
 			<td>${empMng.emp_tel }</td>
 			
@@ -83,7 +97,7 @@
 	
 	</table>
 	
-	
+	</form>
 	
 	
 	

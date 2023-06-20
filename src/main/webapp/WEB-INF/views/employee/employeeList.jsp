@@ -63,9 +63,10 @@
 				// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
 				$(".table-employeeList tr:nth-child(1)").after(newRow);
 				
-				// 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
+				// 버튼 활성화, 비활성화
 				$("#addRowButton").attr("disabled", "disabled");
 				$("#updateButton").attr("disabled", "disabled");
+				$("#deleteEmployeeButton").attr("disabled", "disabled");
 				
 				$("#cancleButton").removeAttr("disabled");
 				$("#submitButton").removeAttr("disabled");
@@ -114,38 +115,53 @@
 					// 두번째 tr (추가된 행)을 삭제함
 					$(".table-employeeList tr:nth-child(2)").remove();
 					
-					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+					// 버튼 활성화, 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
+					$("#deleteEmployeeButton").removeAttr("disabled");
+					
 					$("#cancleButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
 					pageStatus = "";
 				}
+				
 				// 수정버튼 취소
 				if(pageStatus == "update"){
 					
-					//
+					// selectedEmpid 이름을 가진 input 요소의 부모 테이블 행을 찾음
 					var row = $("input[name='selectedEmpId']:checked").closest("tr");
+					
+					// 폼 초기화(기존내용으로)
+					// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
+					$("#employeeList")[0].reset();
 					
 					// 각 셀의 값을 원래 상태로 되돌림
 					row.find("td:not(:first-child)").each(function(index) {
 						var cellValue = $(this).find("input").val();
-						$(this).html(cellValue);
+						if ($(this).find("select").length) {
+							// <select>가 있는 경우 선택된 옵션의 텍스트로 변경
+							var selectedOptionText = $(this).find("select option:selected").text();
+							$(this).html(selectedOptionText);
+						}else {
+							// <select>가 없는 경우 셀 값을 그대로 표시
+							$(this).html(cellValue);
+						}
 					});
 					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
+					$("#deleteEmployeeButton").removeAttr("disabled");
+					
 					$("#cancleButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
 					
 					pageStatus = "";
-					
-				}
+				} // if(update)문
 			
-			});
+			}); // 취소버튼
             
             
             // 수정 버튼 누를 시
@@ -180,12 +196,47 @@
 						//
 						var cellValue = $(this).text();
 						var cellType = index === 4 || index === 10 || index === 11 || index === 12 ? "date" : "text"; // 날짜 타입은 date로 설정
+						var cellReadonly = index === 1 || index === 3 || index === 7 ? "readonly='readonly'" : "";
 						var cellName = cellNames[index];
+						var cellContent;
 						
-						$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
+						if (index === 5){
+							cellContent = '<td>' +
+							'<select name="' + cellName + '">' +
+							'<option value="인사" ' + (cellValue === '인사' ? 'selected' : '') + '>인사</option>' +
+							'<option value="영업" ' + (cellValue === '영업' ? 'selected' : '') + '>영업</option>' +
+							'<option value="생산" ' + (cellValue === '생산' ? 'selected' : '') + '>생산</option>' +
+							'<option value="자재" ' + (cellValue === '자재' ? 'selected' : '') + '>자재</option>' +
+							'<option value="품질" ' + (cellValue === '품질' ? 'selected' : '') + '>품질</option>' +
+							'</select>' +
+							'</td>';
+						}else if (index === 6){
+							cellContent = '<td>' +
+							'<select name="' + cellName + '">' +
+							'<option value="팀장" ' + (cellValue === '팀장' ? 'selected' : '') + '>팀장</option>' +
+							'<option value="대리" ' + (cellValue === '대리' ? 'selected' : '') + '>대리</option>' +
+							'<option value="사원" ' + (cellValue === '사원' ? 'selected' : '') + '>사원</option>' +
+							'</select>' +
+							'</td>';
+						}else if (index === 8){
+							cellContent = '<td>' +
+							'<select name="' + cellName + '">' +
+							'<option value="재직" ' + (cellValue === '재직' ? 'selected' : '') + '>재직</option>' +
+							'<option value="휴직" ' + (cellValue === '휴직' ? 'selected' : '') + '>휴직</option>' +
+							'<option value="퇴직" ' + (cellValue === '퇴직' ? 'selected' : '') + '>퇴직</option>' +
+							'</select>' +
+							'</td>';
+						}else {
+							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+						}
 						
+						$(this).html(cellContent);
+						
+						// 버튼 활성화, 비활성화
 						$("#updateButton").attr("disabled", "disabled");
 						$("#addRowButton").attr("disabled", "disabled");
+						$("#deleteEmployeeButton").attr("disabled", "disabled");
+						
 						$("#cancleButton").removeAttr("disabled");
 						$("#submitButton").removeAttr("disabled");
 						
@@ -250,7 +301,7 @@
 	<!-- 검색칸 -->
 	
 	
-	<form>
+	<form id="employeeList">
 	
 	<input type="button" id="addRowButton" value="추가">
 	<input type="button" id="cancleButton" value="취소" disabled="disabled">

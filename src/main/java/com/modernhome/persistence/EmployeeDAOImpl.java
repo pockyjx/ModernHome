@@ -117,8 +117,8 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	public List<EmployeeVO> employeeMngSearch(EmployeeVO evo, Integer session_emp_id) {
 		logger.debug("DAO -> mapper호출 -> SQL 실행(팀원관리 - 검색)");
 		
-		Map<String, Object> parameterMap = new HashMap();
-		parameterMap.put("EmployeeVO", evo);
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("evo", evo);
 		parameterMap.put("session_emp_id", session_emp_id);
 		
 		System.out.println(parameterMap);
