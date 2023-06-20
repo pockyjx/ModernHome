@@ -32,12 +32,38 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 		return sqlSession.selectList(NAMESPACE + ".warehouseList");
 	}
 
+	// 창고 검색 결과
 	@Override
 	public List<WarehouseVO> warehouseListSearch(WarehouseVO wvo) {
 		logger.debug("DAO -> mapper호출 -> SQL 실행 (창고조회 - 검색된 데이터만 출력)");
 		
 		return sqlSession.selectList(NAMESPACE + ".warehouseListSearch", wvo);
 	}
+
+	// 창고 등록
+	@Override
+	public void regWarehouse(WarehouseVO wvo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (창고등록)");
+		
+		sqlSession.insert(NAMESPACE + ".regWarehouse", wvo); 
+	}
+
+	// 창고 수정
+	@Override
+	public void updateWarehouse(WarehouseVO wvo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (창고수정)");
+		
+		sqlSession.update(NAMESPACE + ".updateWarehouse", wvo);
+	}
+
+	// 창고 삭제
+	@Override
+	public void deleteWarehouse(int wh_id) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행(창고삭제)");
+	
+		sqlSession.delete(NAMESPACE + ".deleteWarehouse", wh_id);
+	}
+	
 	
 	
 }

@@ -32,6 +32,7 @@ public class InorderDAOImpl implements InorderDAO {
 		return sqlSession.selectList(NAMESPACE + ".getInorderList");
 	}
 
+	// 발주 검색 결과
 	@Override
 	public List<InorderVO> getInorderSearch(String istartDate, String iendDate,String rstartDate, String rendDate, String ma_name, String io_state) {
 		
@@ -46,5 +47,27 @@ public class InorderDAOImpl implements InorderDAO {
 		return sqlSession.selectList(NAMESPACE + ".inorderSearch" ,parameterMap);
 	}
 	
+	// 발주 등록
+	@Override
+	public void regInorder(InorderVO iovo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (발주등록)");
+		
+		sqlSession.insert(NAMESPACE + ".regInorder", iovo); 
+	}
+
+	// 발주 수정
+	@Override
+	public void updateInorder(InorderVO iovo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (발주수정)");
+		
+		sqlSession.update(NAMESPACE + ".updateInorder", iovo);
+	}
+
+	// 발주 삭제
+	@Override
+	public void deleteInorder(int io_id) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행(창고삭제)");
 	
+		sqlSession.delete(NAMESPACE + ".deleteInorder", io_id);
+	}
 }

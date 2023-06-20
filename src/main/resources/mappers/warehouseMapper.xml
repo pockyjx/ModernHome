@@ -24,5 +24,29 @@
   		</where>
   	</select>
   	<!-- 창고 검색 -->
+  		
+  	<!-- 창고 등록 -->
+  	<insert id="regWarehouse">
+  		insert into warehouse (wh_num, wh_name, wh_type, wh_tel)
+        SELECT CONCAT(SUBSTRING(wh_num, 1, 2), LPAD(max(wh_id) + 1, 6, '0')), #{wh_name}, #{wh_type}, #{wh_tel}
+		FROM warehouse
+		WHERE wh_num LIKE CONCAT('%', 'WH', '%')
+  	</insert>
+  	<!-- 창고 등록 -->
+  	
+  	<!-- 창고 삭제 -->
+  	<delete id="deleteWarehouse">
+		DELETE FROM warehouse 
+		WHERE wh_id = #{wh_id}
+	</delete>
+  	<!-- 창고 삭제 -->
+  	
+  	<!-- 창고 수정 -->
+  	<update id="updateWarehouse">
+		UPDATE warehouse
+		SET wh_name = #{wh_name}, wh_type = #{wh_type}, wh_tel = #{wh_tel} 
+		WHERE wh_num = #{wh_num}
+	</update>
+  	<!-- 창고 수정 -->
   	
   </mapper>
