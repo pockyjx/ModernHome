@@ -3,6 +3,7 @@ package com.modernhome.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.modernhome.domain.LineVO;
 import com.modernhome.domain.WijoinVO;
@@ -39,8 +41,19 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/add.jsp
 	// 작업지시서 작성(GET) - /production/instruct/add
 	@RequestMapping(value = "/instruct/add", method = RequestMethod.GET)
-	public void addInstrGET(@ModelAttribute("oo_num") String oo_num, WijoinVO wjvo, Model model) throws Exception {
+	public void addInstrGET(@ModelAttribute("oo_num") String oo_num, WijoinVO wjvo, 
+			HttpSession session, Model model, @ModelAttribute("result") String result)
+			throws Exception {
 		logger.debug("addInstrGET() 호출");
+		logger.debug("result : " + result);
+		
+		// 지시번호를 자동으로 부여(checkViewCnt가 true일 때만)
+		boolean checkValue = (Boolean) session.getAttribute("checkWorkNum");
+		if(checkValue) {	// true일 때
+			String work_num = wiService.createWorkNum();
+			model.addAttribute("work_num", work_num);
+			session.setAttribute("checkWorkNum", false);
+		}
 		
 		// 해당 수주번호에 해당하는 소요량
 		List<WijoinVO> reqList = wiService.getBeforeInstrReq(wjvo.getOo_num());
@@ -78,7 +91,7 @@ public class WorkInstructController {
 			// 연결된 뷰페이지에 전달
 			model.addAttribute("liList", liList);
 			
-			return "/production/instruct/addPopupli";
+			return "/production/instruct/addPopupli2";
 		}
 
 		logger.debug("add 뷰페이지로 다시 이동");
@@ -101,7 +114,8 @@ public class WorkInstructController {
 	@RequestMapping(value = "/instruct/list", method = RequestMethod.GET)
 	public void getInstrList(Model model, 
 			@ModelAttribute("work_state") String work_state, @ModelAttribute("pro_num") String pro_num, 
-			@ModelAttribute(value = "startDate") String startDate, @ModelAttribute(value = "endDate") String endDate) 
+			@ModelAttribute(value = "startDate") String startDate, @ModelAttribute(value = "endDate") String endDate, 
+			HttpSession session, RedirectAttributes rttr) 
 			throws Exception {
 		logger.debug("getInstrList() 호출");
 		
@@ -125,6 +139,10 @@ public class WorkInstructController {
 			// 연결된 뷰페이지에 전달
 			model.addAttribute("instrList", instrList);
 		}
+		
+		// 지시번호 부여 여부 체크 값 - checkWorkNum가 true일 때만 지시번호 출력
+		rttr.addFlashAttribute("result", "CREATEOK");
+		session.setAttribute("checkWorkNum", true);
 		
 		// 페이지 이동
 		logger.debug("/production/instruct/list.jsp 뷰페이지로 이동");

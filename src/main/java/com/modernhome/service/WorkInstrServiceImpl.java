@@ -10,7 +10,7 @@ import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.persistence.WorkInstrDAO;
 
 @Service
-public class WorkInstrServiceImpl implements WorkInstrService {
+public abstract class WorkInstrServiceImpl implements WorkInstrService {
 	
 	// 의존성 주입
 	@Autowired
@@ -44,6 +44,11 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	@Override
 	public List<WijoinVO> getBeforeInstrReq(String oo_num) throws Exception {
 		return dao.getBeforeInstrReq(oo_num);
+	}
+
+	@Override
+	public String createWorkNum() throws Exception {
+		return dao.createWorkNum();
 	}
 
 }

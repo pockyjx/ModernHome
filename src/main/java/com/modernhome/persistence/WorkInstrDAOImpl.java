@@ -76,4 +76,10 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 		return sqlSession.selectList(NAMESPACE + ".getBeforeInstrReq", oo_num);
 	}
 
+	@Override
+	public String createWorkNum() throws Exception {
+		logger.debug("WorkInstrDAOImpl_createWorkNum() 실행");
+		return sqlSession.selectOne(NAMESPACE + ".createWorkNum");
+	}
+
 }

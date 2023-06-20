@@ -15,7 +15,10 @@ public interface ProductDAO {
 	// 완제품 등록
 	public void regProduct(ProductVO vo);
 	
-	// 완제품 코드 자동 부여
-//	public String setProNum();
+	// 완제품 삭제
+	public void deleteProduct(int pro_id);
+	
+	// 완제품 수정
+	public void modifyProduct(ProductVO vo);
 	
 }

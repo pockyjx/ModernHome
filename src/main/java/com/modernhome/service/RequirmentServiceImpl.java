@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.RequirementVO;
 import com.modernhome.persistence.RequirmentDAO;
 
@@ -16,12 +17,12 @@ public class RequirmentServiceImpl implements RequirmentService {
 	private RequirmentDAO rdao;
 	
 	@Override
-	public List<RequirementVO> getListAll() throws Exception {
+	public List<ReqJoinVO> getListAll() throws Exception {
 		return rdao.getRequirements();
 	}
 
 	@Override
-	public List<RequirementVO> getReqSearch(String option, String search) throws Exception {
+	public List<ReqJoinVO> getReqSearch(String option, String search) throws Exception {
 		return rdao.getReqSearch(option, search);
 	}
 

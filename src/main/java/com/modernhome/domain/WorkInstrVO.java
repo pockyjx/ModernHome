@@ -12,9 +12,9 @@ public class WorkInstrVO {
 	private int oo_id;
 	private int work_cnt;
 	private String work_state;
-	private Timestamp reg_date;
+	private String reg_date;
 	private int emp_id;
-	private Timestamp update_date;
+	private String update_date;
 	private int update_emp_id;
 	
 	// join을 위한 객체
@@ -68,10 +68,10 @@ public class WorkInstrVO {
 	public void setWork_state(String work_state) {
 		this.work_state = work_state;
 	}
-	public Timestamp getReg_date() {
+	public String getReg_date() {
 		return reg_date;
 	}
-	public void setReg_date(Timestamp reg_date) {
+	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
 	public int getEmp_id() {
@@ -80,10 +80,10 @@ public class WorkInstrVO {
 	public void setEmp_id(int emp_id) {
 		this.emp_id = emp_id;
 	}
-	public Timestamp getUpdate_date() {
+	public String getUpdate_date() {
 		return update_date;
 	}
-	public void setUpdate_date(Timestamp update_date) {
+	public void setUpdate_date(String update_date) {
 		this.update_date = update_date;
 	}
 	public int getUpdate_emp_id() {

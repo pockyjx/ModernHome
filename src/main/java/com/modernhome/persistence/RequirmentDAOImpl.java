@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.RequirementVO;
 
 @Repository
@@ -23,13 +24,13 @@ public class RequirmentDAOImpl implements RequirmentDAO {
 
 	// 소요량 목록 조회
 	@Override
-	public List<RequirementVO> getRequirements() {
+	public List<ReqJoinVO> getRequirements() {
 		return sqlSession.selectList(NAMESPACE + ".getRequirements");
 	}
 	
 	// 소요량 검색 결과
 	@Override
-	public List<RequirementVO> getReqSearch(String option, String search) {
+	public List<ReqJoinVO> getReqSearch(String option, String search) {
 		
 		Map<String, Object> parameterMap = new HashMap();
 		parameterMap.put("option", option);
