@@ -44,6 +44,37 @@ public class MaterialDAOImpl implements MaterialDAO {
 		 return sqlSession.selectList(NAMESPACRE + ".maSearchList", parameterMap);
 
 	}
+
+	// 자재 등록
+	@Override
+	public void regMaterial(MaterialVO vo) {
+		logger.debug("자재 등록!");
+		sqlSession.insert(NAMESPACRE + ".regMaterial", vo);
+	}
+	
+	// 자재 삭제
+	@Override
+	public void delMaterial(int ma_id) {
+		logger.debug("자재 삭제!");
+		sqlSession.delete(NAMESPACRE + ".delMaterial", ma_id);
+	}
+
+	// 자재 수정
+	@Override
+	public void modifyMaterial(MaterialVO vo) {
+		logger.debug("자재 수정!");
+		sqlSession.update(NAMESPACRE + ".updateMaterial", vo);
+	}
+	
+	// 자재 팝업
+	@Override
+	public List<MaterialVO> getPopUpMate() {
+		logger.debug("자재 목록 조회! (팝업)");
+		return null;
+	}
+	
+	
+	
 	
 
 }
