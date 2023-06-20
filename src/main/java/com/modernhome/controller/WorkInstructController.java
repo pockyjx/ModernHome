@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.modernhome.domain.LineVO;
@@ -157,17 +158,53 @@ public class WorkInstructController {
 		model.addAttribute("reqList", reqList);
 		
 		// 페이지 이동
-		logger.debug("/production/instruct/info.jsp 뷰페이지로 이동");
+		logger.debug("/production/instruct/info 뷰페이지로 이동");
 	}
 	
 	
 	// 작업지시 수정(GET) - /production/instruct/modify
+	@RequestMapping(value = "/instruct/modify", method = RequestMethod.GET)
+	public void modifyInstrGET(Model model, @ModelAttribute("work_id") Integer work_id, WorkInstrVO wivo) throws Exception {
+		logger.debug("modifyInstrGET() 호출");
+		
+		// 전달 받은 값 확인 (work_id)
+		logger.debug("##################work_id : " + work_id);
+		
+		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
+		List<WijoinVO> wiList = wiService.getInstr(wivo);
+		List<WijoinVO> reqList = wiService.getInstrReq(wivo);
+		logger.debug("wiList : {}", wiList);
+		logger.debug("reqList : {}", reqList);
+		
+		// 연결된 뷰페이지에 전달
+		model.addAttribute("wiList", wiList);
+		model.addAttribute("reqList", reqList);
+		
+		// 페이지 이동
+		logger.debug("/production/instruct/modify 뷰페이지로 이동");
+	}
 	
 	// 작업지시 수정 처리(POST) - /production/instruct/modify
+	@RequestMapping(value = "/instruct/modify", method = RequestMethod.POST)
+	public String modifyInstrPOST(WijoinVO vo) throws Exception {
+		logger.debug("modifyInstrPOST() 호출");
+		
+		wiService.modifyInstr(vo);
+		
+		return "redirect:/production/instruct/list";
+	}
 	
 	
-	// 작업지시 삭제(GET) - /production/instruct/delete
-	
-	// 작업지시 삭제 처리(POST) - /production/instruct/delete
+	// 작업지시 삭제 - /production/instruct/delete
+	@RequestMapping(value = "/production/instruct/delete")
+	public String deleteInstr(@RequestParam("selectedEmpId") Integer[] selectedEmpIds) throws Exception {
+		logger.debug("deleteInstr() 호출");
+		
+		for(Integer emp_id : selectedEmpIds) {
+			wiService.deleteInstr(emp_id);
+		}
+		
+		return "";
+	}
 	
 }

@@ -31,4 +31,10 @@ public interface WorkInstrService {
 	// 작업지시 추가
 	public void addInstr(WijoinVO vo) throws Exception;
 	
+	// 작업지시 수정
+	public void modifyInstr(WijoinVO vo) throws Exception;
+	
+	// 작업지시 삭제
+	public void deleteInstr(Integer emp_id) throws Exception;
+	
 }

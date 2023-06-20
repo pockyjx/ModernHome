@@ -57,4 +57,14 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 		dao.addInstr(vo);
 	}
 
+	@Override
+	public void modifyInstr(WijoinVO vo) throws Exception {
+		dao.modifyInstr(vo);
+	}
+
+	@Override
+	public void deleteInstr(Integer emp_id) throws Exception {
+		dao.deleteInstr(emp_id);
+	}
+
 }

@@ -82,4 +82,16 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 		sqlSession.insert(NAMESPACE + ".addInstr", vo);
 	}
 
+	@Override
+	public void modifyInstr(WijoinVO vo) throws Exception {
+		logger.debug("WorkInstrDAOImpl_modifyInstr() 실행");
+		sqlSession.update(NAMESPACE + ".modifyInstr", vo);
+	}
+
+	@Override
+	public void deleteInstr(Integer emp_id) throws Exception {
+		logger.debug("WorkInstrDAOImpl_deleteInstr() 실행");
+		sqlSession.delete(NAMESPACE + ".deleteInstr", emp_id);
+	}
+
 }

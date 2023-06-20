@@ -31,6 +31,7 @@
 		<result property="work_cnt" column="work_cnt"/>
 		<result property="work_state" column="work_state"/>
 		<result property="reg_date" column="reg_date"/>
+		<result property="update_date" column="update_date"/>
 		<result property="oo_end_date" column="oo_end_date"/>
 	</resultMap>
 	<!-- Join 결과 매핑 -->
@@ -38,7 +39,7 @@
 	
 	<!-- 작업지시 목록 조회 -->
 	<select id="getList" resultMap="wijoinRM">
-		SELECT wi.work_id, wi.pro_id, work_num, line_name, pro_num, pro_name, wi.work_state, oo_cnt, wi.reg_date, wi.work_cnt, oo_num, oo_end_date, emp.emp_name 
+		SELECT wi.work_id, wi.pro_id, work_num, line_name, pro_num, pro_name, wi.work_state, oo_cnt, wi.reg_date, wi.update_date, wi.work_cnt, oo_num, oo_end_date, emp.emp_name 
 		FROM work_instr wi 
 		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
 		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
@@ -51,7 +52,8 @@
 	
 	<!-- 작업지시서 조회 -->
 	<select id="getInstr" resultMap="wijoinRM">
-		SELECT wi.work_id, wi.pro_id, work_num, oo_num, pro_num, pro_name, oo_cnt, pro_unit, oo_end_date, clt_name, line_num, wi.reg_date 
+		SELECT wi.work_id, wi.pro_id, work_num, oo_num, pro_num, pro_name, work_cnt, work_state, oo_cnt, pro_unit, oo_end_date, 
+			clt_name, line_num, wi.reg_date, wi.update_date 
 		FROM work_instr wi 
 		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
 		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
@@ -68,14 +70,14 @@
 		FROM  work_instr wi 
 		LEFT JOIN requirement req ON wi.pro_id = req.pro_id 
 		LEFT JOIN material ma ON ma.ma_id = req.ma_id 
-		WHERE wi.work_id = #{work_id} AND wi.pro_id = #{pro_id}
+		WHERE wi.work_id = #{work_id}
 	</select>
 	<!-- 작업지시서 자재 출력 -->
 	
 	
 	<!-- 작업지시 검색 -->
 	<select id="wiListSearch" resultMap="wijoinRM">
-		SELECT wi.work_id, wi.pro_id, work_num, line_name, pro_num, pro_name, work_state, oo_cnt, wi.reg_date, wi.work_cnt, oo_num, oo_end_date, emp.emp_name 
+		SELECT wi.work_id, wi.pro_id, work_num, line_name, pro_num, pro_name, work_state, oo_cnt, wi.reg_date, wi.update_date, wi.work_cnt, oo_num, oo_end_date, emp.emp_name 
 		FROM work_instr wi 
 		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
 		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
@@ -140,5 +142,24 @@
 		VALUES (#{work_num}, #{line_id}, #{pro_id}, #{req_id}, #{oo_id}, #{work_cnt}, '대기', #{emp_id}) 
 	</insert>
 	<!-- 작업지시서 추가 -->
+	
+	
+	<!-- 작업지시서 수정 -->
+	<update id="modifyInstr" parameterType="WijoinVO">
+		<selectKey keyProperty="line_id" resultType="int" order="BEFORE">
+			SELECT line_id FROM line WHERE line_num = #{line_num} 
+		</selectKey>
+		
+		UPDATE work_instr SET work_cnt = #{work_cnt}, line_id = #{line_id}, work_state = #{work_state}, update_date = now() 
+		WHERE work_id = #{work_id}
+	</update>
+	<!-- 작업지시서 수정 -->
+	
+	
+	<!-- 작업지시 삭제 -->
+	<delete id="deleteInstr">
+		DELETE FROM work_instr WHERE emp_id = #{emp_id}
+	</delete>
+	<!-- 작업지시 삭제 -->
 
 </mapper>

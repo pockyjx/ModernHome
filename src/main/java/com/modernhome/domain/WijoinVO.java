@@ -25,6 +25,7 @@ public class WijoinVO {
 	private int oo_cnt;
 	private int req_cnt;
 	private String reg_date;
+	private String update_date;
 	private String oo_end_date;
 	
 	public Integer getWork_id() {
@@ -165,6 +166,12 @@ public class WijoinVO {
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
+	public String getUpdate_date() {
+		return update_date;
+	}
+	public void setUpdate_date(String update_date) {
+		this.update_date = update_date;
+	}
 	public String getOo_end_date() {
 		return oo_end_date;
 	}
@@ -175,12 +182,12 @@ public class WijoinVO {
 	@Override
 	public String toString() {
 		return "WijoinVO [work_id=" + work_id + ", pro_id=" + pro_id + ", req_id=" + req_id + ", clt_id=" + clt_id
-				+ ", oo_id=" + oo_id + ", line_id=" + line_id + ", emp_id=" + emp_id + ", work_num=" + work_num
-				+ ", work_state=" + work_state + ", clt_name=" + clt_name + ", pro_num=" + pro_num + ", pro_name="
-				+ pro_name + ", pro_unit=" + pro_unit + ", ma_num=" + ma_num + ", ma_name=" + ma_name + ", oo_num="
+				+ ", oo_id=" + oo_id + ", line_id=" + line_id + ", emp_id=" + emp_id + ", work_state=" + work_state
+				+ ", clt_name=" + clt_name + ", pro_name=" + pro_name + ", pro_unit=" + pro_unit + ", work_num="
+				+ work_num + ", pro_num=" + pro_num + ", ma_num=" + ma_num + ", ma_name=" + ma_name + ", oo_num="
 				+ oo_num + ", line_num=" + line_num + ", line_name=" + line_name + ", emp_name=" + emp_name
 				+ ", work_cnt=" + work_cnt + ", oo_cnt=" + oo_cnt + ", req_cnt=" + req_cnt + ", reg_date=" + reg_date
-				+ ", oo_end_date=" + oo_end_date + "]";
+				+ ", update_date=" + update_date + ", oo_end_date=" + oo_end_date + "]";
 	}
 	
 }
