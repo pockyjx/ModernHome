@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<script>
+	<script>
 		<!-- 캘린터 위젯 적용 -->
 // 			/* 설정 */	
 // 			const config = {
@@ -42,20 +42,23 @@
 // 			});
 			
 //-------------------------------------------------------------------------------------------------
-        $(document).ready(function() {
-            // 버튼 클릭 시 행 추가
+	var pageStatus = "";
+	
+		$(document).ready(function() {
+			// 추가 버튼 클릭 시 행 추가
+            // 추가버튼 1번 누르면 추가버튼 비활성화
             $("#addRowButton").click(function() {
             	var newRow = '<tr>' +
 	                '<td><input type="checkbox"></td>' +
+	                '<td><input type="text" name="io_num" placeholder="발주 코드" readonly></td>' +
 	                '<td><input type="text"></td>' +
 	                '<td><input type="text"></td>' +
 	                '<td><input type="text"></td>' +
 	                '<td><input type="text"></td>' +
-	                '<td><input type="text"></td>' +
-	                '<td><input type="text"></td>' +
-	                '<td><input type="text"></td>' +
-	                '<td><input type="text"></td>' +
-	                '<td><input type="text"></td>' +
+	                '<td><input type="text" name="io_cnt" placeholder="발주량"></td>' +
+	                '<td><input type="text" name="io_unit" placeholder="단위"></td>' +
+	                '<td><input type="text" name="" placeholder="총금액"></td>' +
+	                '<td><input type="text" name="" place></td>' +
 	                '<td><input type="text"></td>' +
 	                '<td><input type="text"></td>' +
 	                '<td><input type="text"></td>' +
@@ -119,18 +122,18 @@
                    	<div>
                    		<label>발주일자</label>
                    		<div>
-		                   	<input type="date" name="startDate">
+		                   	<input type="date" name="istartDate">
                    			~
-		                   	<input type="date" name="endDate">
+		                   	<input type="date" name="iendDate">
                    		</div>
                    	</div>
 		       		<br>
 		       		<div>
                    		<label>입고예정일</label>
                    		<div>
-		                   	<input type="date" name="startDate">
+		                   	<input type="date" name="rstartDate">
                    			~
-		                   	<input type="date" name="endDate">
+		                   	<input type="date" name="rendDate">
                    		</div>
                    	</div>
 		       		<span>자재명 :
@@ -176,7 +179,7 @@
 				    	<td>${vo.clientVO.clt_name}</td>
 				    	<td>${vo.io_cnt}</td>
 				    	<td>${vo.io_unit}</td>
-				    	<td>${vo.io_amount}</td>
+				    	<td>${vo.materialVO.ma_price*vo.io_cnt}</td>
 				    	<td>${fn:substring(vo.io_date, 0, 10)}</td>
 				   		<td>${vo.io_state}</td>
 				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>

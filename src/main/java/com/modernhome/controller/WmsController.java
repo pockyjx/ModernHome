@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.WarehouseVO;
@@ -58,21 +59,56 @@ public class WmsController {
     	}
     }
     
+    // 창고 등록 + 수정
+    @RequestMapping(value = "/wms/regWarehouse", method = RequestMethod.POST)
+    public String regWarehousePOST(WarehouseVO wvo) {
+    		
+    	if(wvo.getWh_num() == "") {
+    		logger.debug("regWarehousePOST() 호출-창고등록");
+    		logger.debug("wvo : " + wvo);
+    		
+    		wService.regWarehouse(wvo);
+    	}else {
+    		logger.debug("regWarehousePOST() 호출-창고수정");
+			logger.debug("wvo : " + wvo);
+			
+			wService.updateWarehouse(wvo);
+    	}	
+    		
+    		return "redirect:/wms/warehouse/warehouselist";
+    }
+    
+    // 창고 삭제
+    @RequestMapping(value = "/wms/deleteWarehouse")
+    public String deleteWarehouse(@RequestParam(value = "selectedWhId", required = false) Integer[] selectedWhIds) {
+    	
+    	if(selectedWhIds != null) {
+		    for (Integer wh_id : selectedWhIds) {
+		    	wService.deleteWarehouse(wh_id);
+		    }
+		}
+	    
+	    return "redirect:/wms/warehouse/warehouselist";
+    }
+    
     
     // 발주 조회
     // http://localhost:8088/wms/inorder/inorderlist
     @RequestMapping(value = "/inorder/inorderlist",method = RequestMethod.GET)
     public void inorderGET(Model model, 
-    		@ModelAttribute("startDate") String startDate, 
-    		@ModelAttribute("endDate") String endDate,
+    		@ModelAttribute("istartDate") String istartDate, 
+    		@ModelAttribute("iendDate") String iendDate,
+    		@ModelAttribute("rstartDate") String rstartDate, 
+    		@ModelAttribute("rendDate") String rendDate,
     		@ModelAttribute("ma_name") String ma_name,
     		@ModelAttribute("io_state") String io_state) throws Exception {
     	logger.debug(" inorderGET() 호출 ");
     	
     	
-    	if(!startDate.isEmpty() || !endDate.isEmpty() || !ma_name.isEmpty() || !io_state.isEmpty()) {
+    	if(!istartDate.isEmpty() || !iendDate.isEmpty() || !rstartDate.isEmpty() || !rendDate.isEmpty() ||
+    			!ma_name.isEmpty() || !io_state.isEmpty()) {
     		
-    		List<InorderVO> inorderList = ioService.getInorderSearch(startDate, endDate, ma_name, io_state);
+    		List<InorderVO> inorderList = ioService.getInorderSearch(istartDate, iendDate,rstartDate, rendDate, ma_name, io_state);
     		logger.debug("검색어O, 검색된 데이터만 출력");	
     		
     		model.addAttribute("inorderList", inorderList);
@@ -82,5 +118,41 @@ public class WmsController {
     		model.addAttribute("inorderList", inorderList);
     	}
     }
+    
+    
+    // 발주 등록
+    @RequestMapping(value = "/wms/regInorder", method = RequestMethod.POST)
+    public String regInorderPOST(InorderVO iovo) {
+    		
+    	if(iovo.getIo_id() == null) {
+    		logger.debug("regInorderPOST() 호출-발주등록");
+    		logger.debug("iovo : " + iovo);
+    		
+    		ioService.regInorder(iovo);
+    	}else {
+    		logger.debug("regInorderPOST() 호출-발주수정");
+			logger.debug("iovo : " + iovo);
+			
+			ioService.updateInorder(iovo);
+    	}	
+    		
+    		return "redirect:/wms/inorder/inorderlist";
+    }
+    
+    // 발주 삭제
+    @RequestMapping(value = "/wms/deleteInorder")
+    public String deleteInorder(@RequestParam(value = "selectedIoId", required = false) Integer[] selectedIoIds) {
+    	
+    	if(selectedIoIds != null) {
+		    for (Integer io_id : selectedIoIds) {
+		    	wService.deleteWarehouse(io_id);
+		    }
+		}
+	    
+	    return "redirect:/wms/inorder/inorderlist";
+    }
+    
+    
+    
     
 }

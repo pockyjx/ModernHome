@@ -11,4 +11,13 @@ public interface WarehouseDAO {
 	
 	// 창고 조회 + 검색
 	public List<WarehouseVO> warehouseListSearch(WarehouseVO wvo);
+	
+	// 창고 등록
+	public void regWarehouse(WarehouseVO wvo);
+	
+	// 창고 수정
+	public void updateWarehouse(WarehouseVO wvo);
+	
+	// 창고 삭제
+	public void deleteWarehouse(int wh_id);
 }

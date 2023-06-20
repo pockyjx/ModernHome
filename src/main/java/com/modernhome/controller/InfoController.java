@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.ProductVO;
+import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.RequirementVO;
 import com.modernhome.service.ItemService;
 import com.modernhome.service.RequirmentService;
@@ -85,17 +86,69 @@ public class InfoController {
 		
 	}
 	
-	// 완제품 등록
+	// 완제품 등록 + 수정
 	@RequestMapping(value = "/info/regProduct", method = RequestMethod.POST)
 	public String regProductPOST(ProductVO vo) {
-		
 		logger.debug("regProductPOST() 호출!");
-		iService.regProduct(vo);
+		
+		if(vo.getPro_num() == "") {
+			logger.debug("완제품 정보 등록!");
+			iService.regProduct(vo);
+		}else {
+			logger.debug("완제품 정보 수정!");
+			iService.modifyProduct(vo);
+		}
 		
 		return "redirect:/info/item/productList";
 	}
 	
-	// 자재 등록
+	// 완제품 삭제
+	@RequestMapping(value = "/info/delProduct")
+	public String deleteProduct(@RequestParam(value = "selectedProId", required = false) Integer[] selectedProIds) {
+		logger.debug("deleteProduct() 호출!");
+		logger.debug(selectedProIds+"");
+		
+		if(selectedProIds != null) {
+			for(Integer pro_id : selectedProIds) {
+				iService.deleteProduct(pro_id);
+			}
+		}
+		
+		return "redirect:/info/item/productList";
+	}
+	
+	// 자재 등록 + 수정
+	@RequestMapping(value = "/info/regMaterial", method = RequestMethod.POST)
+	public String regMaterialPOST(MaterialVO mvo) {
+		logger.debug("regMaterialPOST() 호출!");
+		
+		if(mvo.getMa_num() == "") {
+			logger.debug("재고 정보 등록!");
+			iService.regMaterial(mvo);
+		}else {
+			logger.debug("재고 정보 수정!");
+			iService.modifyMaterial(mvo);
+		}
+		
+		return "redirect:/info/item/materialList";
+		
+	}
+	
+	// 자재 삭제
+	@RequestMapping(value = "/info/delMaterial")
+	public String deleteMaterial(@RequestParam(value = "selectedMaId", required = false) Integer[] selectedMaIds) {
+		logger.debug("deleteMaterial() 호출!");
+		logger.debug(selectedMaIds+"");
+		
+		if(selectedMaIds != null) {
+			for(Integer ma_id : selectedMaIds) {
+				iService.delMaterial(ma_id);
+			}
+		}
+		
+		return "redirect:/info/item/materialList";
+		
+	}
 	
 	///////////////////////////////////////////////////////////////////////
 	
@@ -108,7 +161,7 @@ public class InfoController {
 		
 		logger.debug("reqListGET() 호출!");
 		
-		List<RequirementVO> reqList;
+		List<ReqJoinVO> reqList;
 		
 		
 		logger.debug(option);
@@ -124,6 +177,47 @@ public class InfoController {
 		
 		
 	}
-
+	
+	// 소요량 등록 시 팝업
+	// http://localhost:8088/info/req/popUpProduct
+	@RequestMapping(value = "/req/addPopup", method = RequestMethod.GET )
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt) throws Exception {
+		logger.debug("popUpProductGET() 호출!");
+		
+		if(txt.equals("pro")) { // 완제품 목록 팝업
+			List<ProductVO> popUpPro = iService.getProductList();
+			model.addAttribute("popUpPro", popUpPro);
+			
+			return "/info/req/popUpProduct";
+			
+		}else if(txt.equals("ma")) { // 자재 목록 팝업
+			List<MaterialVO> popUpMate = iService.getMaterialList();
+			model.addAttribute("popUpMate", popUpMate);
+			
+			return "/info/req/popUpMaterial";
+		}
+		
+		return "/info/req/reqList";
+		
+	}
+	
+	// 소요량 등록 + 수정
+	@RequestMapping(value = "/info/regRequirement", method = RequestMethod.POST)
+	public String regRequirementPOST(ReqJoinVO vo) throws Exception {
+		logger.debug("regMaterialPOST() 호출!");
+		
+		logger.debug(vo + "");
+		
+		if(vo.getReq_num() == "") {
+			logger.debug("재고 정보 등록!");
+			rService.regRequirement(vo);
+		}else {
+			logger.debug("재고 정보 수정!");
+		
+		
+		}
+		
+		return "redirect:/info/req/reqList";
+	}
 	
 }
