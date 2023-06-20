@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.modernhome.domain.LineVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
+import com.modernhome.service.LineService;
 import com.modernhome.service.WorkInstrService;
 
 @Controller
@@ -28,6 +30,8 @@ public class WorkInstructController {
 	// 의존성 주입
 	@Inject
 	private WorkInstrService wiService;
+	@Inject
+	private LineService lineService;
 	
 	
 	// ===========================================
@@ -55,6 +59,7 @@ public class WorkInstructController {
 		
 		// 작업지시서를 작성하지 않은 수주번호 출력
 		List<WijoinVO> onumList = wiService.getBeforeInstr();
+		List<LineVO> liList = lineService.lineList();
 		
 		if(txt.equals("oo")) {
 			logger.debug("txt : " + txt);
@@ -71,19 +76,9 @@ public class WorkInstructController {
 			logger.debug("addPopupli 페이지 이동");
 			
 			// 연결된 뷰페이지에 전달
-			model.addAttribute("onumList", onumList);
+			model.addAttribute("liList", liList);
 			
 			return "/production/instruct/addPopupli";
-		}
-		
-		if(txt.equals("clt")) {
-			logger.debug("txt : " + txt);
-			logger.debug("addPopupclt 페이지 이동");
-			
-			// 연결된 뷰페이지에 전달
-			model.addAttribute("onumList", onumList);
-			
-			return "/production/instruct/addPopupclt";
 		}
 
 		logger.debug("add 뷰페이지로 다시 이동");

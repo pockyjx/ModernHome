@@ -9,6 +9,10 @@
 </head>
 
 <script type="text/javascript">
+	$(document).ready(function() {
+		
+	});
+	
 	function popSub(form) {
 		form.taget = opener.name;
 		form.submit();
@@ -20,18 +24,21 @@
 	
 	<h1>addPopupli</h1>
 	
-<%-- 	${onumList} <hr> --%>
+	${liList} <hr>
 	
-	<form id="fr" action="/production/instruct/add?oo_num=${onum.oo_num}&line_num=${onum.line_num}" 
+	<form id="fr" action="/production/instruct/add?oo_num=${onum.oo_num}&line_num=${liList[0].line_num}" 
 			method="get" target="add">
 		<table border="1">
 			<tr>
 				<th>라인번호</th>
 				<td>
+					<input type="hidden" >
 					<select id="selectLnum" name="line_num">
 						<option value="">라인을 선택하세요.</option>
-						<c:forEach var="lnum" items="${onumList}">
-							<option value="${lnum.line_num}">${lnum.line_num}</option>
+						<c:forEach var="lnum" items="${liList}">
+							<c:if test="${lnum.use_yn == 'Y'}">
+								<option value="${lnum.line_num}">${lnum.line_num}</option>
+							</c:if>
 						</c:forEach>
 					</select>
 				</td>

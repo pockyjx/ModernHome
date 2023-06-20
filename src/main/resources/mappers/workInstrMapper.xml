@@ -111,12 +111,13 @@
 	
 	<!-- 작업지시서를 작성하지 않은 수주번호와 관련된 작업지시서 내용 출력 -->
 	<select id="getBeforeInstrReq" resultMap="wijoinRM">
-		SELECT wi.work_id, oo.pro_id, oo.oo_id, pro_num, pro_name, pro_unit, ma_num, ma_name, req_cnt, oo_cnt, oo_end_date 
+		SELECT wi.work_id, oo.pro_id, oo.oo_id, oo.clt_id, pro_num, pro_name, pro_unit, ma_num, ma_name, clt_name, req_cnt, oo_cnt, oo_end_date 
 		FROM work_instr wi 
 		RIGHT JOIN out_order oo ON wi.pro_id = oo.pro_id 
 		RIGHT JOIN requirement req ON oo.pro_id = req.pro_id 
 		RIGHT JOIN material ma ON req.ma_id = ma.ma_id 
 		RIGHT JOIN product pro ON req.pro_id = pro.pro_id 
+		RIGHT JOIN client clt ON oo.clt_id = clt.clt_id 
 		WHERE oo_num = #{oo_num}
 	</select>
 	<!-- 작업지시서를 작성하지 않은 수주번호와 관련된 작업지시서 내용 출력 -->
