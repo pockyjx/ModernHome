@@ -16,7 +16,9 @@
 	      var pro_num = $(this).find("td:eq(1)").text();
 	      var pro_name = $(this).find("td:eq(2)").text();
 			
-	      opener.document.getElementById("proList").value = pro_id;
+	      opener.document.getElementById("pro_id").value = pro_id;
+	      opener.document.getElementById("pro_num").value = pro_num;
+	      opener.document.getElementById("pro_name").value = pro_name;
 	      
 	      window.close();
 	      

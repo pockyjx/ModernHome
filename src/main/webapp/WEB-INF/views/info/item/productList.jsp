@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         $(document).ready(function() {
             // 버튼 클릭 시 행 추가

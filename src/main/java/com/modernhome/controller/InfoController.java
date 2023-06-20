@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.ProductVO;
+import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.RequirementVO;
 import com.modernhome.service.ItemService;
 import com.modernhome.service.RequirmentService;
@@ -160,7 +161,7 @@ public class InfoController {
 		
 		logger.debug("reqListGET() 호출!");
 		
-		List<RequirementVO> reqList;
+		List<ReqJoinVO> reqList;
 		
 		
 		logger.debug(option);
@@ -177,14 +178,28 @@ public class InfoController {
 		
 	}
 	
-	// 소요량 등록 시 완제품 코드 조회 (팝업)
+	// 소요량 등록 시 팝업
 	// http://localhost:8088/info/req/popUpProduct
-	@RequestMapping(value = "/req/popUpProduct", method = RequestMethod.GET )
-	public void popUpProductGET(Model model) {
+	@RequestMapping(value = "/req/addPopup", method = RequestMethod.GET )
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt) throws Exception {
 		logger.debug("popUpProductGET() 호출!");
 		
-		List<ProductVO> popUpPro = iService.getPopUpPro();
-		model.addAttribute("popUpPro", popUpPro);
+		if(txt.equals("pro")) { // 완제품 목록 팝업
+			List<ProductVO> popUpPro = iService.getProductList();
+			model.addAttribute("popUpPro", popUpPro);
+			
+			return "/info/req/popUpProduct";
+			
+		}else if(txt.equals("ma")) { // 자재 목록 팝업
+			List<MaterialVO> popUpMate = iService.getMaterialList();
+			model.addAttribute("popUpMate", popUpMate);
+			
+			return "/info/req/popUpMaterial";
+		}
+		
+		
+		return "/info/req/reqList";
+		
 	}
 	
 

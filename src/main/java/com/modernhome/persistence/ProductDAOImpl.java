@@ -54,13 +54,6 @@ public class ProductDAOImpl implements ProductDAO {
 		
 	}
 
-	// 완제품 팝업
-	@Override
-	public List<ProductVO> getPopUpProduct() {
-		logger.debug("완제품 목록 조회! (팝업)");
-		return sqlSession.selectList(NAMESPACRE + ".getPopUpPro");
-	}
-
 	// 완제품 삭제
 	@Override
 	public void deleteProduct(int pro_id) {

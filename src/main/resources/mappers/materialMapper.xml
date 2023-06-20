@@ -52,5 +52,6 @@
 		where ma_num = #{ma_num}
 	</update>
 	<!-- 자재 수정 -->
+
 	
 </mapper>

@@ -21,5 +21,8 @@ public interface MaterialDAO {
 	
 	// 자재 수정
 	public void modifyMaterial(MaterialVO vo);
+	
+	// 자재 목록 팝업
+	public List<MaterialVO> getPopUpMate();
 
 }

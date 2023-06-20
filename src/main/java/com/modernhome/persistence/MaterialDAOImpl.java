@@ -66,6 +66,13 @@ public class MaterialDAOImpl implements MaterialDAO {
 		sqlSession.update(NAMESPACRE + ".updateMaterial", vo);
 	}
 	
+	// 자재 팝업
+	@Override
+	public List<MaterialVO> getPopUpMate() {
+		logger.debug("자재 목록 조회! (팝업)");
+		return null;
+	}
+	
 	
 	
 	

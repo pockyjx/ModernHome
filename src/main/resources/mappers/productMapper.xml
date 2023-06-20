@@ -38,13 +38,6 @@
 	</insert>
 	<!-- 완제품 등록 -->
 	
-	<!-- 완제품 목록 (팝업) -->
-	<select id="getPopUpPro" resultType="ProductVO">
-		select pro_id, pro_num, pro_name
-		from product
-	</select>
-	<!-- 완제품 목록 (팝업) -->
-	
 	<!-- 완제품 삭제 -->
 	<delete id="delProduct">
 		delete from product

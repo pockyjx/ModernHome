@@ -39,12 +39,6 @@ public class ItemServiceImpl implements ItemService {
 		pdao.regProduct(vo);
 	}
 	
-	// 완제품 팝업
-	@Override
-	public List<ProductVO> getPopUpPro() {
-		return pdao.getPopUpProduct();
-	}
-	
 	// 완제품 삭제
 	@Override
 	public void deleteProduct(int pro_id) {

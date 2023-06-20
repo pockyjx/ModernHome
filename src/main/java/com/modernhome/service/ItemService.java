@@ -17,9 +17,6 @@ public interface ItemService {
 	// 완제품 등록
 	public void regProduct(ProductVO vo);
 	
-	// 완제품 팝업
-	public List<ProductVO> getPopUpPro();
-	
 	// 완제품 삭제
 	public void deleteProduct(int pro_id);
 	

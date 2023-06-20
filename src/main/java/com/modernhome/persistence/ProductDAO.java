@@ -15,9 +15,6 @@ public interface ProductDAO {
 	// 완제품 등록
 	public void regProduct(ProductVO vo);
 	
-	// 완제품 목록(팝업)
-	public List<ProductVO> getPopUpProduct();
-	
 	// 완제품 삭제
 	public void deleteProduct(int pro_id);
 	
