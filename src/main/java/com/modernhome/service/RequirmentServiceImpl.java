@@ -16,14 +16,22 @@ public class RequirmentServiceImpl implements RequirmentService {
 	@Autowired
 	private RequirmentDAO rdao;
 	
+	// 소요량 조회
 	@Override
 	public List<ReqJoinVO> getListAll() throws Exception {
 		return rdao.getRequirements();
 	}
-
+	
+	// 소요량 검색
 	@Override
 	public List<ReqJoinVO> getReqSearch(String option, String search) throws Exception {
 		return rdao.getReqSearch(option, search);
+	}
+
+	// 소요량 등록
+	@Override
+	public void regRequirement(ReqJoinVO vo) throws Exception {
+		rdao.regRequirement(vo);
 	}
 
 	

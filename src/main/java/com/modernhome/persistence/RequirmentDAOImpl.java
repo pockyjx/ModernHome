@@ -38,6 +38,15 @@ public class RequirmentDAOImpl implements RequirmentDAO {
 		
 		return sqlSession.selectList(NAMESPACE + ".reqSearch", parameterMap);
 	}
+	
+	// 소요량 등록
+	@Override
+	public void regRequirement(ReqJoinVO vo) {
+		logger.debug("소요량 등록!");
+		sqlSession.insert(NAMESPACE + ".regRequirement", vo);
+		
+		
+	}
 
 	
 	
