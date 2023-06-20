@@ -1,6 +1,5 @@
 package com.modernhome.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
@@ -51,17 +49,45 @@ public class WorkInstructController {
 	}
 	
 	// 작업지시서 관련 팝업(GET) - /production/instruct/addPopup
-	@RequestMapping(value = "/instruct/addPopup", method = RequestMethod.GET)
-	public void addInstrPop(Model model) throws Exception {
+	@RequestMapping(value = "/instruct/addPopup")
+	public String addInstrPop(Model model, @ModelAttribute("txt") String txt) throws Exception {
 		logger.debug("addInstrPop() 호출");
 		
 		// 작업지시서를 작성하지 않은 수주번호 출력
 		List<WijoinVO> onumList = wiService.getBeforeInstr();
 		
-		// 연결된 뷰페이지에 전달
-		model.addAttribute("onumList", onumList);
+		if(txt.equals("oo")) {
+			logger.debug("txt : " + txt);
+			logger.debug("addPopupoo 페이지 이동");
+			
+			// 연결된 뷰페이지에 전달
+			model.addAttribute("onumList", onumList);
+			
+			return "/production/instruct/addPopupoo";
+		}
 		
+		if(txt.equals("li")) {
+			logger.debug("txt : " + txt);
+			logger.debug("addPopupli 페이지 이동");
+			
+			// 연결된 뷰페이지에 전달
+			model.addAttribute("onumList", onumList);
+			
+			return "/production/instruct/addPopupli";
+		}
+		
+		if(txt.equals("clt")) {
+			logger.debug("txt : " + txt);
+			logger.debug("addPopupclt 페이지 이동");
+			
+			// 연결된 뷰페이지에 전달
+			model.addAttribute("onumList", onumList);
+			
+			return "/production/instruct/addPopupclt";
+		}
+
 		logger.debug("add 뷰페이지로 다시 이동");
+		return "/production/instruct/add";
 	}
 	
 	// 작업지시서 작성 처리(POST) - /production/instruct/add

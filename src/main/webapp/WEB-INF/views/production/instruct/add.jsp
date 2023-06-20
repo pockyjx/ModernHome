@@ -17,8 +17,21 @@
 	function popWin(txt) {
 		window.name = "add";
 		
+		// 현재 url 주소 가져오기
+		var url = window.location.href;
+		
+		// 파라미터 이름
+		var oo_num = 'param';
+		
+		// url에 파라미터 값이 있는지 확인
+		if(url.indecOf(oo_num) === -1) {
+			// 파라미터 값이 없으면 alert 창 띄우고 페이지 이동X
+			alert("수주번호를 먼저 선택해주세요.");
+			return false;
+		}
+		
 		//클릭 시 팝업창 열기
-		var popupWin = window.open("/production/instruct/addPopup", "_blank", "width=600, height=400, top=50%, left=50%");
+		var popupWin = window.open("/production/instruct/addPopup?txt=" + txt, "_blank", "width=400, height=200, top=300, left=650");
 		popupWin.focus();
 	}
 </script>
@@ -26,11 +39,11 @@
 <body>
 	
 	<c:set var="now" value="<%=new java.util.Date()%>"/>
-	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd hh:mm:ss"/></c:set>
+	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
 	
 	<h1>/production/instruct/add.jsp</h1>
 	<h2>작업지시서 작성</h2>
-${reqList}
+<%-- ${reqList} --%>
 	<form method="post">
 		<table border="1">
 			<tr>
@@ -39,7 +52,7 @@ ${reqList}
 				<th>수주번호</th>
 				<td>
 					<input type="text" name="oo_num" <c:if test='${!empty param.oo_num}'>value="${param.oo_num}"</c:if> readonly>
-					<button id="btn_oo_num" onclick="popWin('oo'); return false;">수주번호 검색</button>
+					<button id="btn_oo_num" onclick="popWin('oo'); return false;">검색</button>
 				</td>
 			</tr>
 			<tr>
@@ -58,11 +71,17 @@ ${reqList}
 				<th>납기일</th>
 				<td><input type="text" name="oo_end_date" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_end_date}"</c:if> readonly></td>
 				<th>생산라인</th>
-				<td><input type="text" name="line_num"></td>
+				<td>
+					<input type="text" name="line_num">
+					<button id="btn_li_num" onclick="popWin('li'); return false;">검색</button>
+				</td>
 			</tr>
 			<tr>
 				<th>납품지점</th>
-				<td><input type="text" name="clt_name"></td>
+				<td>
+					<input type="text" name="clt_name">
+					<button id="btn_clt_num" onclick="popWin('clt'); return false;">검색</button>
+				</td>
 				<th>작성일</th>
 				<td><input type="text" name="reg_date" value="<c:out value='${today}'/>"></td>
 			</tr>
