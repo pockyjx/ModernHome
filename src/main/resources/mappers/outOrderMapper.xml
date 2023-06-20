@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.modernhome.mapper.OutOrderMapper">
+
+	<!-- 사원리스트 불러오기 -->
+		<select id="outOrderList" resultType="com.modernhome.domain.OutOrderVO">
+			SELECT * FROM out_order
+		</select>
+		<!-- 사원리스트 불러오기 -->
+		
+		<!-- 사원리스트 검색 -->
+		<select id="outOrderListSearch" resultType="com.modernhome.domain.OutOrderVO">
+			SELECT * FROM out_order 
+			<where>
+			<if test="clt_id != null">
+				clt_id LIKE CONCAT('%', #{clt_id}, '%')
+			</if>
+			<if test="emp_id != null">
+				AND emp_id LIKE CONCAT('%', #{emp_id}, '%') 
+			</if>
+
+			</where>
+		</select>
+		<!-- 사원리스트 검색 -->
+
+</mapper>
