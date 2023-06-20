@@ -7,7 +7,7 @@
 	
 	<!-- 자재 목록 조회 -->
 	<select id="materialList" resultType="com.modernhome.domain.MaterialVO">
-		select ma_num, ma_name, ma_unit, ma_price 
+		select *
 		from material
 	</select>
 	<!-- 자재 목록 조회 -->
@@ -28,5 +28,30 @@
 		</choose>
 	</select>
 	<!-- 자재 검색 결과 조회 -->
+	
+	<!-- 자재 등록 -->
+	<insert id="regMaterial">
+		insert into material (ma_num, ma_name, ma_unit, ma_price)
+		SELECT CONCAT(SUBSTRING(ma_num, 1, 2), LPAD(max(ma_id) + 1, 6, '0')), #{ma_name}, #{ma_unit}, #{ma_price}
+		FROM material
+		WHERE ma_num LIKE CONCAT('%', 'MA', '%')
+	</insert>
+	<!-- 자재 등록 -->
+	
+	<!-- 자재 삭제 -->
+	<delete id="delMaterial">
+		delete from material
+		where ma_id = #{ma_id}
+	</delete>
+	<!-- 자재 삭제 -->
+	
+	<!-- 자재 수정 -->
+	<update id="updateMaterial">
+		update material 
+		set ma_name = #{ma_name}, ma_unit = #{ma_unit}, ma_price = #{ma_price}
+		where ma_num = #{ma_num}
+	</update>
+	<!-- 자재 수정 -->
+
 	
 </mapper>
