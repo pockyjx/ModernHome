@@ -212,7 +212,7 @@
 	<table class="table-reqList" border="1">
 	
 	<input type="input" id="pro_id">
-	<input type="input" id="ma_id">
+	<input type="input" id="ma_id"> 
 		
 		<tr>
 			<th><input type="checkbox" name="selectedReqId" value="${vo.req_id}"></th>
