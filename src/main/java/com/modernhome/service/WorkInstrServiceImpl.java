@@ -52,4 +52,9 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 		return dao.createWorkNum();
 	}
 
+	@Override
+	public void addInstr(WijoinVO vo) throws Exception {
+		dao.addInstr(vo);
+	}
+
 }

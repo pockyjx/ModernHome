@@ -29,20 +29,18 @@
 				<th>라인번호</th>
 				<td>
 					<input type="hidden" name="oo_num" value="${param.oo_num}">
-					<c:forEach var="lnum" items="${liList}">
 						<select id="selectLnum" name="line_num">
 							<option value="">라인을 선택하세요.</option>
+							<c:forEach var="lnum" items="${liList}">
 								<c:if test="${lnum.use_yn == 'Y'}">
 									<option value="${lnum.line_num}">${lnum.line_num}</option>
 								</c:if>
+							</c:forEach>
 						</select>
-						<input type="hidden" name="line_id" value="${lnum.line_id}">
-					</c:forEach>
 				</td>
 			</tr>
 		</table>
 		<button class="fr-submit" onclick="window.close();">확인</button>
-		<button onclick="window.close();">닫기</button>
 	</form>
 	
 </body>

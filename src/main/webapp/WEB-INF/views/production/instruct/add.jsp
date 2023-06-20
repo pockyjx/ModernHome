@@ -15,12 +15,12 @@
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script>
 	// 클릭 시 팝업창 열기
-	$(document).on("click", "input[name='oo_num']", function() {
+	$(document).on("click", "td[id='oo_num']", function() {
 		window.name = "add";
 		window.open('/production/instruct/addPopup?txt=oo', 'popup', 'width=400, height=200, top=300, left=650, location=no, status=no');
 	});
 	
-	$(document).on("click", "input[name='line_num']", function() {
+	$(document).on("click", "td[id='line_num']", function() {
 		window.name = "add";
 		var url = window.location.href;
 		var onumVal = new URLSearchParams(new URL(url).search).get('oo_num');
@@ -35,9 +35,27 @@
 	});
 	
 	$(document).ready(function() {
+		var cntVal = 1;
+		var reqValArr = [];
+		
 		$("#wcntInput").on('input', function() {
-			var cntVal = $(this).val();
-			$("#rcnt-wcnt").text(cntVal);
+			cntVal = parseInt($(this).val());
+		});
+		
+		$(".cl_req_cnt").each(function(idx) {
+			reqValArr[idx] = parseInt($(this).text());
+		});
+		
+		$("#wcntInput").on('change', function() {
+			$(".cl_req_cnt").each(function(idx) {
+				if(cntVal) {
+					if(reqValArr[idx]) {
+						var reqVal = reqValArr[idx];
+						var mulResult = reqVal * cntVal;
+						$(this).text(mulResult);
+					}
+				}
+			});
 		});
 	});
 </script>
@@ -49,22 +67,22 @@
 	
 	<h1>/production/instruct/add.jsp</h1>
 	<h2>작업지시서 작성</h2>
-${reqList}
+<%-- ${reqList} <br> ${work_num} --%>
 	<form method="post">
 		<table border="1">
 			<tr>
 				<th>지시번호</th>
-				<td><input type="text" name="work_num" value="${work_num}"></td>
+				<td><input type="text" name="work_num" value="${work_num}" readonly></td>
 				<th>수주번호</th>
-				<td>
-					<input type="text" name="oo_num" <c:if test='${!empty param.oo_num}'>value="${param.oo_num}"</c:if> readonly>
+				<td id="oo_num">
+					<c:if test="${!empty param.oo_num}">${param.oo_num}</c:if>
 				</td>
 			</tr>
 			<tr>
 				<th>품번</th>
 				<td><input type="text" name="pro_num" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_num}"</c:if> readonly></td>
 				<th>수량</th>
-				<td><input type="number" name="work_cnt" id="wcntInput"></td>
+				<td><input type="text" name="work_cnt" id="wcntInput"></td>
 			</tr>
 			<tr>
 				<th>품명</th>
@@ -76,8 +94,8 @@ ${reqList}
 				<th>납기일</th>
 				<td><input type="text" name="oo_end_date" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_end_date}"</c:if> readonly></td>
 				<th>생산라인</th>
-				<td>
-					<input type="text" name="line_num" <c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if> readonly>
+				<td id="line_num">
+					<c:if test="${!empty param.line_num}">${param.line_num}</c:if>
 				</td>
 			</tr>
 			<tr>
@@ -96,7 +114,7 @@ ${reqList}
 				<tr>
 					<td>${req.ma_num}</td>
 					<td>${req.ma_name}</td>
-					<td id="rcnt-wcnt">${req.req_cnt}</td>
+					<td class="cl_req_cnt">${req.req_cnt}</td>
 				</tr>
 			</c:forEach>
 		</table>

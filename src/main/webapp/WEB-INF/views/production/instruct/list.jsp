@@ -110,7 +110,6 @@
 			<th>품목코드</th>
 			<th>품목명</th>
 			<th>작업상태</th>
-			<th>생산수량</th>
 			<th>지시일자</th>
 			<th>지시수량</th>
 			<th>수주번호</th>
@@ -130,7 +129,6 @@
 				    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
 				    <c:if test="${list.work_state=='완료'}">완료</c:if>
 				</td>
-				<td>${list.oo_cnt}<br>(생산완료한 수량은 임의)</td>
 				<td>${list.reg_date}</td>
 				<td>${list.work_cnt}</td>
 				<td>${list.oo_num}</td>

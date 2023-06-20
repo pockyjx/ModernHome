@@ -41,25 +41,21 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/add.jsp
 	// 작업지시서 작성(GET) - /production/instruct/add
 	@RequestMapping(value = "/instruct/add", method = RequestMethod.GET)
-	public void addInstrGET(@ModelAttribute("oo_num") String oo_num, WijoinVO wjvo, 
-			HttpSession session, Model model, @ModelAttribute("result") String result)
+	public void addInstrGET(@ModelAttribute("oo_num") String oo_num, WijoinVO wjvo, Model model)
 			throws Exception {
 		logger.debug("addInstrGET() 호출");
-		logger.debug("result : " + result);
+		logger.debug("################oo_num : " + oo_num);
 		
-		// 지시번호를 자동으로 부여(checkViewCnt가 true일 때만)
-		boolean checkValue = (Boolean) session.getAttribute("checkWorkNum");
-		if(checkValue) {	// true일 때
-			String work_num = wiService.createWorkNum();
-			model.addAttribute("work_num", work_num);
-			session.setAttribute("checkWorkNum", false);
-		}
+		// 지시번호를 자동으로 부여
+		String work_num = wiService.createWorkNum();
+		logger.debug("################work_num : " + work_num);
 		
 		// 해당 수주번호에 해당하는 소요량
-		List<WijoinVO> reqList = wiService.getBeforeInstrReq(wjvo.getOo_num());
+		List<WijoinVO> reqList = wiService.getBeforeInstrReq(oo_num);
 		logger.debug("reqList : {}", reqList);
 		
 		// 연결된 뷰페이지에 전달
+		model.addAttribute("work_num", work_num);
 		model.addAttribute("reqList", reqList);
 		
 		logger.debug("/production/instruct/add 뷰페이지 이동");
@@ -100,12 +96,13 @@ public class WorkInstructController {
 	
 	// 작업지시서 작성 처리(POST) - /production/instruct/add
 	@RequestMapping(value = "/instruct/add", method = RequestMethod.POST)
-	public void addInstrPOST(WijoinVO vo) throws Exception {
+	public String addInstrPOST(WijoinVO vo) throws Exception {
 		logger.debug("addInstrPOST() 호출");
 		
 		logger.debug("@@@@@@@@@@@@@@@@@vo : {}", vo);
+		wiService.addInstr(vo);
 		
-//		return "redirect:/production/instruct/list";
+		return "redirect:/production/instruct/list";
 	}
 	
 	
@@ -114,8 +111,7 @@ public class WorkInstructController {
 	@RequestMapping(value = "/instruct/list", method = RequestMethod.GET)
 	public void getInstrList(Model model, 
 			@ModelAttribute("work_state") String work_state, @ModelAttribute("pro_num") String pro_num, 
-			@ModelAttribute(value = "startDate") String startDate, @ModelAttribute(value = "endDate") String endDate, 
-			HttpSession session, RedirectAttributes rttr) 
+			@ModelAttribute(value = "startDate") String startDate, @ModelAttribute(value = "endDate") String endDate) 
 			throws Exception {
 		logger.debug("getInstrList() 호출");
 		
@@ -139,10 +135,6 @@ public class WorkInstructController {
 			// 연결된 뷰페이지에 전달
 			model.addAttribute("instrList", instrList);
 		}
-		
-		// 지시번호 부여 여부 체크 값 - checkWorkNum가 true일 때만 지시번호 출력
-		rttr.addFlashAttribute("result", "CREATEOK");
-		session.setAttribute("checkWorkNum", true);
 		
 		// 페이지 이동
 		logger.debug("/production/instruct/list.jsp 뷰페이지로 이동");

@@ -28,4 +28,7 @@ public interface WorkInstrService {
 	// 작업지시번호 자동 생성
 	public String createWorkNum() throws Exception;
 	
+	// 작업지시 추가
+	public void addInstr(WijoinVO vo) throws Exception;
+	
 }

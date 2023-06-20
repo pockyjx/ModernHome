@@ -102,7 +102,7 @@
 	
 	<!-- 작업지시서를 작성하지 않은 수주 번호 출력 -->
 	<select id="getBeforeInstr" resultMap="wijoinRM">
-		SELECT wi.work_id, oo_num FROM work_instr wi 
+		SELECT oo_num FROM work_instr wi 
 		RIGHT JOIN out_order oo ON wi.oo_id = oo.oo_id 
 		WHERE wi.work_id IS NULL
 	</select>
@@ -128,5 +128,17 @@
 		SELECT concat('WI', lpad(work_id + 1, 4, 0)) AS work_num FROM work_instr ORDER BY work_id DESC LIMIT 1
 	</select>
 	<!-- 작업지시 번호 자동 생성 -->
+	
+	
+	<!-- 작업지시서 추가 -->
+	<insert id="addInstr" parameterType="WijoinVO">
+		<selectKey keyProperty="line_id" resultType="int" order="BEFORE">
+			SELECT line_id FROM line WHERE line_num = #{line_num} 
+		</selectKey>
+		
+		INSERT INTO work_instr (work_num, line_id, pro_id, req_id, oo_id, work_cnt, work_state, emp_id) 
+		VALUES (#{work_num}, #{line_id}, #{pro_id}, #{req_id}, #{oo_id}, #{work_cnt}, '대기', #{emp_id}) 
+	</insert>
+	<!-- 작업지시서 추가 -->
 
 </mapper>

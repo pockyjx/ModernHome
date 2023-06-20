@@ -29,6 +29,6 @@ public interface WorkInstrDAO {
 	public String createWorkNum() throws Exception;
 	
 	// 작업지시 추가
-	public void addInstr(WorkInstrVO vo) throws Exception;
+	public void addInstr(WijoinVO vo) throws Exception;
 	
 }
