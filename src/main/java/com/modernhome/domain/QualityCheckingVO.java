@@ -1,24 +1,22 @@
 package com.modernhome.domain;
 
-import java.time.LocalDateTime;
-
 public class QualityCheckingVO {
 	
-	private int qc_id;
+	private Integer qc_id;
 	private String qc_num;
-	private int pro_id;
-	private int line_id;
-	private int ma_id;
+	private	Integer pro_id;
+	private Integer line_id;
+	private Integer ma_id;
 	private String qc_yn;
-	private int qc_cnt;
-	private LocalDateTime qc_date;
-	private int emp_id;
-	private int repaired;
+	private Integer qc_cnt;
+	private String qc_date;
+	private Integer emp_id;
+	private Integer repaired;
 	
-	public int getQc_id() {
+	public Integer getQc_id() {
 		return qc_id;
 	}
-	public void setQc_id(int qc_id) {
+	public void setQc_id(Integer qc_id) {
 		this.qc_id = qc_id;
 	}
 	public String getQc_num() {
@@ -27,22 +25,22 @@ public class QualityCheckingVO {
 	public void setQc_num(String qc_num) {
 		this.qc_num = qc_num;
 	}
-	public int getPro_id() {
+	public Integer getPro_id() {
 		return pro_id;
 	}
-	public void setPro_id(int pro_id) {
+	public void setPro_id(Integer pro_id) {
 		this.pro_id = pro_id;
 	}
-	public int getLine_id() {
+	public Integer getLine_id() {
 		return line_id;
 	}
-	public void setLine_id(int line_id) {
+	public void setLine_id(Integer line_id) {
 		this.line_id = line_id;
 	}
-	public int getMa_id() {
+	public Integer getMa_id() {
 		return ma_id;
 	}
-	public void setMa_id(int ma_id) {
+	public void setMa_id(Integer ma_id) {
 		this.ma_id = ma_id;
 	}
 	public String getQc_yn() {
@@ -51,28 +49,28 @@ public class QualityCheckingVO {
 	public void setQc_yn(String qc_yn) {
 		this.qc_yn = qc_yn;
 	}
-	public int getQc_cnt() {
+	public Integer getQc_cnt() {
 		return qc_cnt;
 	}
-	public void setQc_cnt(int qc_cnt) {
+	public void setQc_cnt(Integer qc_cnt) {
 		this.qc_cnt = qc_cnt;
 	}
-	public LocalDateTime getQc_date() {
+	public String getQc_date() {
 		return qc_date;
 	}
-	public void setQc_date(LocalDateTime qc_date) {
+	public void setQc_date(String qc_date) {
 		this.qc_date = qc_date;
 	}
-	public int getEmp_id() {
+	public Integer getEmp_id() {
 		return emp_id;
 	}
-	public void setEmp_id(int emp_id) {
+	public void setEmp_id(Integer emp_id) {
 		this.emp_id = emp_id;
 	}
-	public int getRepaired() {
+	public Integer getRepaired() {
 		return repaired;
 	}
-	public void setRepaired(int repaired) {
+	public void setRepaired(Integer repaired) {
 		this.repaired = repaired;
 	}
 	
