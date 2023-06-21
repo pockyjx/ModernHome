@@ -86,7 +86,7 @@ public class EmployeeController {
 				//   로그인 아이디, 직급을 세션에 저장
 				session.setAttribute("emp_id", resultVO.getEmp_id());
 				session.setAttribute("emp_rank", resultVO.getEmp_rank());
-				logger.debug(" 로그인 성공! ");
+				logger.debug(" 로그인 성공! "+resultVO.getEmp_id());
 				return "redirect:/employee/employeeList";
 			}else {
 				// 	X

@@ -7,22 +7,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>수주 관리</title>
+<title>출하 관리</title>
 </head>
 
-<!-- http://localhost:8088/client/outOrderList -->
+<!-- http://localhost:8088/client/shipmentList -->
 <body>
-		<h2>수주 관리</h2>
+		<h2>출하 관리</h2>
 			<fieldset>
                	<form name="search" method="get" action="">
-                   	<div>
-                   		<label>수주일자</label>
-                   		<div>
-		                   	<input type="date" name="startDate">
-                   			~
-		                   	<input type="date" name="endDate">
-                   		</div>
-                   	</div>
 		       		<br>
 		       		<div>
                    		<label>출하일자</label>
@@ -43,30 +35,26 @@
              	</form>
              </fieldset>  
              
-		<h2>수주</h2>
+		<h2>출하</h2>
 			<table border="1">
 				<tr>
-			    	<td>수주코드</td>
+			    	<td>출하코드</td>
 			    	<td>담당자</td>
 			    	<td>거래처</td>
 			    	<td>품목명</td>
 			    	<td>품목코드</td>
-			    	<td>주문량</td>
-			    	<td>수주일자</td>
+			    	<td>출하량</td>
 			    	<td>출하일자</td>
-			    	<td>진행상황</td>
 				</tr>
-			  	<c:forEach var="outOrderList" items="${outOrderList }">
+			  	<c:forEach var="shipmentList" items="${shipmentList }">
 					<tr>
-				    	<td>${outOrderList.oo_num}</td>
-				    	<td>${outOrderList.emp_id}</td>
-				    	<td>${outOrderList.clt_id}</td>
-				    	<td>${outOrderList.pro_id}</td>
-				    	<td>${outOrderList.pro_id}</td>
-				    	<td>${outOrderList.oo_cnt}</td>
-				    	<td>${fn:substring(outOrderList.oo_start_date, 0, 10)}</td>
-				   		<td>${fn:substring(outOrderList.oo_end_date, 0, 10)}</td>
-				   		<td>${outOrderList.oo_state}</td>
+				    	<td>${shipmentList.shp_num}</td>
+				    	<td>${shipmentList.emp_id}</td>
+				    	<td>${shipmentList.clt_id}</td>
+				    	<td>${shipmentList.pro_id}</td>
+				    	<td>${shipmentList.pro_id}</td>
+				    	<td>${shipmentList.shp_cnt}</td>
+				    	<td>${fn:substring(shipmentList.shp_date, 0, 10)}</td>
 				    </tr>
 			    </c:forEach>
 			</table>
