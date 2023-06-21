@@ -66,7 +66,7 @@ public class InorderDAOImpl implements InorderDAO {
 	// 발주 삭제
 	@Override
 	public void deleteInorder(int io_id) {
-		logger.debug("DAO -> mapper호출 -> SQL 실행(창고삭제)");
+		logger.debug("DAO -> mapper호출 -> SQL 실행(발주삭제)");
 	
 		sqlSession.delete(NAMESPACE + ".deleteInorder", io_id);
 	}
