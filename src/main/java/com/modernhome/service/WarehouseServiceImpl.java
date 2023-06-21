@@ -12,6 +12,7 @@ import com.modernhome.persistence.WarehouseDAO;
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
 
+	// DAO 객체 주입
 	@Inject
 	private WarehouseDAO wdao;
 	

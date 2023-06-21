@@ -1,7 +1,7 @@
 package com.modernhome.domain;
 
 public class ClientVO {
-	
+
 	private Integer clt_id;
 	private String clt_num;
 	private String clt_sort;
