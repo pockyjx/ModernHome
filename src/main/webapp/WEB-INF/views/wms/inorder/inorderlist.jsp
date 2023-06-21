@@ -183,10 +183,18 @@
 					
 					// input type의 name 값 지정
 					var cellNames = [
-						"",
+						"io_num",
+						"ma_num",
+						"ma_name",
+						"clt_num",
+						"clt_name",
 			            "io_cnt",
+			            "io_unit",
+			            "io_amount",
+			            "io_date",
 			            "io_state",
-			            "rec_date"
+			            "rec_date",
+			            "emp_id"
 					];
 					
 					
@@ -305,7 +313,7 @@
 			<input type="hidden" name="ma_id" id="ma_id">	
 				
 				<tr>
-					<th><input type="checkbox" name="selectedIoId"></th>
+					<th><input type="checkbox"></th>
 			    	<th>발주코드</th>
 			    	<th>자재코드</th>
 			    	<th>자재명</th>

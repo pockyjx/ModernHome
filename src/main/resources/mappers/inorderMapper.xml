@@ -29,7 +29,7 @@
     
     <select id="getInorderList" resultMap="inorderResultMap">
         <![CDATA[
-	        SELECT io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
+	        SELECT io_id, io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
 					i.io_cnt, i.io_unit, m.ma_price, i.io_date, i.io_state, i.rec_date, i.emp_id
 	        FROM in_order i
 	        JOIN material m ON i.ma_id = m.ma_id
