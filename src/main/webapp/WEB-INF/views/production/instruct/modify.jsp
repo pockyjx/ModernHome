@@ -51,7 +51,7 @@
 	
 	<h1>/production/instruct/modify.jsp</h1>
 	<h2>작업지시서 수정</h2>
-${wiList} <br> 
+<%-- ${wiList} <br>  --%>
 <%-- ${reqList} <br>  --%>
 <%-- ${param.work_id} --%>
 	<form method="post">
@@ -118,7 +118,7 @@ ${wiList} <br>
 		<input type="hidden" name="emp_id" value="${reqList[0].emp_id}">
 		<div>
 			<input type="button" value="취소" onclick="history.back();">
-			<input type="submit" value="수정">
+			<input type="submit" value="수정"> 
 		</div>
 	</form>
 	
