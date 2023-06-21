@@ -18,18 +18,18 @@
                    	<div>
                    		<label>수주일자</label>
                    		<div>
-		                   	<input type="date" name="startDate">
+		                   	<input type="date" name="oo_start_date_1">
                    			~
-		                   	<input type="date" name="endDate">
+		                   	<input type="date" name="oo_start_date_2">
                    		</div>
                    	</div>
 		       		<br>
 		       		<div>
                    		<label>출하일자</label>
                    		<div>
-		                   	<input type="date" name="startDate">
+		                   	<input type="date" name="oo_end_date_1">
                    			~
-		                   	<input type="date" name="endDate">
+		                   	<input type="date" name="oo_end_date_2">
                    		</div>
                    	</div>
 		       		<span>거래처명 :
