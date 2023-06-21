@@ -37,7 +37,6 @@
 			</tr>
 		</table>
 		<button class="fr-submit" onclick="window.close();">확인</button>
-		<button onclick="window.close();">닫기</button>
 	</form>
 	
 </body>

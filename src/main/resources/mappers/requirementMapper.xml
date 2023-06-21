@@ -5,10 +5,9 @@
 
 <mapper namespace="com.modernhome.mapper.RequirementMapper">
 
-    <!-- 소요량 목록 -->
-	<resultMap id="requirementResultMap" type="RequirementVO">
-	
-        <id property="req_id" column="req_id" />
+    <resultMap type="ReqJoinVO" id="reqjoinRM">
+    
+    	<result property="req_id" column="req_id" />
         <result property="req_num" column="req_num" />
         <result property="pro_id" column="pro_id" />
         <result property="ma_id" column="ma_id" />
@@ -18,21 +17,15 @@
         <result property="emp_id" column="emp_id" />
         <result property="req_update_date" column="req_update_date" />
         <result property="update_emp_id" column="update_emp_id" />
-        
-        <association property="productVO" javaType="ProductVO">
-            <id property="pro_id" column="pro_id" />
-            <result property="pro_name" column="pro_name" />
-        </association>
-        
-        <association property="materialVO" javaType="MaterialVO">
-            <id property="ma_id" column="ma_id" />
-            <result property="ma_name" column="ma_name" />
-        </association>
+     	<result property="pro_name" column="pro_name" />
+        <result property="pro_num" column="pro_num" />
+        <result property="ma_name" column="ma_name" />
+        <result property="ma_num" column="ma_num" />
         
     </resultMap>
 
-    <select id="getRequirements" resultMap="requirementResultMap">
-        SELECT req_num, p.pro_id, p.pro_name, m.ma_id, m.ma_name,
+    <select id="getRequirements" resultMap="reqjoinRM">
+        SELECT req_id, req_num, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
                r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id
         FROM requirement r
         JOIN product p ON r.pro_id = p.pro_id
@@ -40,9 +33,9 @@
     </select>
     <!-- 소요량 목록 -->
     
-    <select id="reqSearch" resultMap="requirementResultMap"
+    <select id="reqSearch" resultMap="reqjoinRM"
     	 parameterType="java.util.Map">
-        SELECT req_num, p.pro_id, p.pro_name, m.ma_id, m.ma_name,
+        SELECT req_id, req_num, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
                r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id
         FROM requirement r
         JOIN product p ON r.pro_id = p.pro_id
@@ -64,6 +57,55 @@
 		</choose>
     </select>
     <!-- 소요량 검색 -->
+    
+    <!-- 소요량 등록 -->
+	<insert id="regRequirement">
+	
+	    <selectKey keyProperty="req_num" resultType="String" order="BEFORE">
+	        <![CDATA[
+	        SELECT COALESCE((SELECT CONCAT('REQ', #{pro_id}, '-001') FROM requirement WHERE pro_id = #{pro_id} LIMIT 1), CONCAT('REQ', #{pro_id}, '-001')) AS req_num
+	        FROM dual
+	        ]]>
+    	</selectKey>
+    
+	    INSERT INTO requirement (req_num, pro_id, ma_id, req_cnt, req_unit, req_reg_date, emp_id)
+	    SELECT
+	        CASE
+	            WHEN #{req_num} IS NULL THEN CONCAT('REQ', #{pro_id}, '-001')
+	            ELSE
+	                CONCAT('REQ', #{pro_id},
+	                    (SELECT CONCAT('-', LPAD(COUNT(*) + 1, 3, '0'))
+	                    FROM requirement
+	                    WHERE req_num LIKE CONCAT('REQ', #{pro_id}, '-%')))
+	        END,
+	        #{pro_id},
+	        #{ma_id},
+	        #{req_cnt},
+	        #{req_unit},
+	        NOW(),
+	        #{emp_id}
+	    FROM dual;
+	    
+	</insert>
+    <!-- 소요량 등록 -->
+    
+    <!-- 소요량 수정 -->
+	<update id="updateReq">
+		update requirement
+		set req_cnt = #{req_cnt}
+		where req_num = #{req_num}
+	</update>
+    <!-- 소요량 수정 -->
+    
+	<!-- 소요량 삭제 -->
+	<delete id="delRequirement">
+		delete from requirement
+		where req_id = #{req_num}
+	</delete>
+	<!-- 소요량 삭제 -->
+    
+    
+    
     	
 	
 </mapper>

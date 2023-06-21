@@ -37,13 +37,16 @@
 			<th>납기일</th>
 			<td>${wiList[0].oo_end_date}</td>
 			<th>생산라인</th>
-			<td>${wiList[0].line_name}</td>
+			<td>${wiList[0].line_num}</td>
 		</tr>
 		<tr>
 			<th>납품지점</th>
 			<td>${wiList[0].clt_name}</td>
 			<th>작성일</th>
-			<td>${wiList[0].reg_date}</td>
+			<td>
+				<c:if test="${!empty wiList[0].update_date}">${wiList[0].update_date}</c:if>
+				<c:if test="${empty wiList[0].update_date}">${wiList[0].reg_date}</c:if>
+			</td>
 		</tr>
 		<tr>
 			<th rowspan="10">원재료</th>

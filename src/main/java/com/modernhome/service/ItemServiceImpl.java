@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.MaterialVO;
+import com.modernhome.domain.PagingVO;
 import com.modernhome.domain.ProductVO;
 import com.modernhome.persistence.MaterialDAO;
 import com.modernhome.persistence.ProductDAO;
@@ -29,22 +30,40 @@ public class ItemServiceImpl implements ItemService {
 
 	// 완제품 검색 결과
 	@Override
-	public List<ProductVO> getProductList(String itemOption, String search) {
-		return pdao.getProductList(itemOption, search);
+	public List<ProductVO> getProductList(ProductVO vo) {
+		return pdao.getProductList(vo);
 	}
 	
-//	@Override
-//	public String setProNum() {
-//		return pdao.setProNum();
-//	}
-
-
 	// 완제품 등록
 	@Override
 	public void regProduct(ProductVO vo) {
 		pdao.regProduct(vo);
 	}
-
+	
+	// 완제품 삭제
+	@Override
+	public void deleteProduct(int pro_id) {
+		pdao.deleteProduct(pro_id);
+	}
+	
+	// 완제품 수정
+	@Override
+	public void modifyProduct(ProductVO vo) {
+		pdao.modifyProduct(vo);
+	}
+	
+	// 총 게시글 개수
+	@Override
+	public int countProduct() {
+		return pdao.countProduct();
+	}
+	
+	// 페이징 처리 게시글 조회
+	@Override
+	public List<ProductVO> pagingProduct(PagingVO vo) {
+		return pdao.pagingProduct(vo);
+	}
+	
 	/////////////////////////////////////////////////////////////////////////
 	
 	// 자재 목록
@@ -52,14 +71,34 @@ public class ItemServiceImpl implements ItemService {
 	public List<MaterialVO> getMaterialList() {
 		return mdao.getMaterialList();
 	}
-	
-
 
 	// 자재 검색 결과
 	@Override
-	public List<MaterialVO> getMaterialList(String itemOption, String search) {
-		return mdao.getMaterialList(itemOption, search);
+	public List<MaterialVO> getMaterialList(MaterialVO vo) {
+		return mdao.getMaterialList(vo);
 	}
+
+	// 자재 등록
+	@Override
+	public void regMaterial(MaterialVO vo) {
+		mdao.regMaterial(vo);
+	}
+
+	// 자제 삭제
+	@Override
+	public void delMaterial(int ma_id) {
+		mdao.delMaterial(ma_id);
+	}
+
+
+	// 자재 수정
+	@Override
+	public void modifyMaterial(MaterialVO vo) {
+		mdao.modifyMaterial(vo);
+	}
+	
+	
+	
 	
 	
 	

@@ -25,4 +25,16 @@ public interface WorkInstrService {
 	// 작업지시서를 작성하지 않은 수주번호와 관련된 작업지시서 내용 출력
 	public List<WijoinVO> getBeforeInstrReq(String oo_num) throws Exception;
 	
+	// 작업지시번호 자동 생성
+	public String createWorkNum() throws Exception;
+	
+	// 작업지시 추가
+	public void addInstr(WijoinVO vo) throws Exception;
+	
+	// 작업지시 수정
+	public void modifyInstr(WijoinVO vo) throws Exception;
+	
+	// 작업지시 삭제
+	public void deleteInstr(int work_id) throws Exception;
+	
 }

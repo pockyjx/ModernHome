@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.RequirementVO;
 
 @Repository
@@ -23,13 +24,13 @@ public class RequirmentDAOImpl implements RequirmentDAO {
 
 	// 소요량 목록 조회
 	@Override
-	public List<RequirementVO> getRequirements() {
+	public List<ReqJoinVO> getRequirements() {
 		return sqlSession.selectList(NAMESPACE + ".getRequirements");
 	}
 	
 	// 소요량 검색 결과
 	@Override
-	public List<RequirementVO> getReqSearch(String option, String search) {
+	public List<ReqJoinVO> getReqSearch(String option, String search) {
 		
 		Map<String, Object> parameterMap = new HashMap();
 		parameterMap.put("option", option);
@@ -37,6 +38,31 @@ public class RequirmentDAOImpl implements RequirmentDAO {
 		
 		return sqlSession.selectList(NAMESPACE + ".reqSearch", parameterMap);
 	}
+	
+	// 소요량 등록
+	@Override
+	public void regRequirement(ReqJoinVO vo) {
+		logger.debug("소요량 등록!");
+		sqlSession.insert(NAMESPACE + ".regRequirement", vo);
+		
+		
+	}
+
+	// 소요량 수정
+	@Override
+	public void modifyRequirement(ReqJoinVO vo) {
+		logger.debug("소요량 수정!");
+		sqlSession.update(NAMESPACE + ".updateReq", vo);
+	}
+	
+	// 소요량 삭제
+	@Override
+	public void deleteRequirement(int req_id) {
+		logger.debug("소요량 삭제!");
+		sqlSession.delete(NAMESPACE + ".delRequirement", req_id);
+	}
+	
+	
 
 	
 	

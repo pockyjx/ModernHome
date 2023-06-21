@@ -26,4 +26,10 @@ public interface EmployeeDAO {
 	// 사원업데이트
 	public void updateEmployee(EmployeeVO evo);
 	
+	// 팀원관리
+	public List<EmployeeVO> employeeManagement(Integer emp_id);
+	
+	// 팀원관리 - 검색
+	public List<EmployeeVO> employeeMngSearch(EmployeeVO evo, Integer session_emp_id);
+	
 }

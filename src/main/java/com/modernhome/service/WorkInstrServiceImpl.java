@@ -2,7 +2,8 @@ package com.modernhome.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.WijoinVO;
@@ -13,7 +14,7 @@ import com.modernhome.persistence.WorkInstrDAO;
 public class WorkInstrServiceImpl implements WorkInstrService {
 	
 	// 의존성 주입
-	@Autowired
+	@Inject
 	private WorkInstrDAO dao;
 	
 	@Override
@@ -44,6 +45,26 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	@Override
 	public List<WijoinVO> getBeforeInstrReq(String oo_num) throws Exception {
 		return dao.getBeforeInstrReq(oo_num);
+	}
+
+	@Override
+	public String createWorkNum() throws Exception {
+		return dao.createWorkNum();
+	}
+
+	@Override
+	public void addInstr(WijoinVO vo) throws Exception {
+		dao.addInstr(vo);
+	}
+
+	@Override
+	public void modifyInstr(WijoinVO vo) throws Exception {
+		dao.modifyInstr(vo);
+	}
+
+	@Override
+	public void deleteInstr(int work_id) throws Exception {
+		dao.deleteInstr(work_id);
 	}
 
 }

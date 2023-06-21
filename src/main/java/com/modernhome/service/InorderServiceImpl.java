@@ -12,18 +12,39 @@ import com.modernhome.persistence.InorderDAO;
 @Service
 public class InorderServiceImpl implements InorderService {
 	
+	// DAO 객체 주입
 	@Inject
 	private InorderDAO iodao;
 	
+	// 발주 조회
 	@Override
 	public List<InorderVO> getInorderList() throws Exception {
 		return iodao.getInorderList();
 	}
 
+	// 발주 조회 + 검색
 	@Override
-	public List<InorderVO> getInorderSearch(String startDate, String endDate, String ma_name, String io_state)
+	public List<InorderVO> getInorderSearch(String istartDate, String iendDate,String rstartDate, String rendDate, String ma_name, String io_state)
 			throws Exception {
-		return iodao.getInorderSearch(startDate, endDate, ma_name, io_state);
+		return iodao.getInorderSearch(istartDate, iendDate,rstartDate, rendDate, ma_name, io_state);
+	}
+	
+	// 발주 등록
+	@Override
+	public void regInorder(InorderVO iovo) {
+		iodao.regInorder(iovo);
+	}
+
+	// 발주 수정
+	@Override
+	public void updateInorder(InorderVO iovo) {
+		iodao.updateInorder(iovo);
+	}
+
+	// 발주 삭제
+	@Override
+	public void deleteInorder(int io_id) {
+		iodao.deleteInorder(io_id);
 	}
 
 	

@@ -46,12 +46,6 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	}
 
 	@Override
-	public void addInstr(WorkInstrVO vo) throws Exception {
-		logger.debug("WorkInstrDAOImpl_addInstr() 실행");
-		sqlSession.insert(NAMESPACE + ".", vo);
-	}
-
-	@Override
 	public List<WijoinVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstList(검색) 실행");
 		
@@ -74,6 +68,30 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	public List<WijoinVO> getBeforeInstrReq(String oo_num) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getBeforeInstrReq() 실행");
 		return sqlSession.selectList(NAMESPACE + ".getBeforeInstrReq", oo_num);
+	}
+
+	@Override
+	public String createWorkNum() throws Exception {
+		logger.debug("WorkInstrDAOImpl_createWorkNum() 실행");
+		return sqlSession.selectOne(NAMESPACE + ".createWorkNum");
+	}
+	
+	@Override
+	public void addInstr(WijoinVO vo) throws Exception {
+		logger.debug("WorkInstrDAOImpl_addInstr() 실행");
+		sqlSession.insert(NAMESPACE + ".addInstr", vo);
+	}
+
+	@Override
+	public void modifyInstr(WijoinVO vo) throws Exception {
+		logger.debug("WorkInstrDAOImpl_modifyInstr() 실행");
+		sqlSession.update(NAMESPACE + ".modifyInstr", vo);
+	}
+
+	@Override
+	public void deleteInstr(int work_id) throws Exception {
+		logger.debug("WorkInstrDAOImpl_deleteInstr() 실행");
+		sqlSession.delete(NAMESPACE + ".deleteInstr", work_id);
 	}
 
 }

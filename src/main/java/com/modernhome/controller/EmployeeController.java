@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.EmployeeVO;
 import com.modernhome.service.EmployeeService;
+import com.mysql.cj.Session;
 
 @Controller
 @RequestMapping(value = "/employee/*")
@@ -82,8 +83,9 @@ public class EmployeeController {
 			if(resultVO != null) {
 				// 	O
 				//   메인페이지로 이동(redirect)
-				//   로그인 아이디를 세션에 저장
+				//   로그인 아이디, 직급을 세션에 저장
 				session.setAttribute("emp_id", resultVO.getEmp_id());
+				session.setAttribute("emp_rank", resultVO.getEmp_rank());
 				logger.debug(" 로그인 성공! ");
 				return "redirect:/employee/employeeList";
 			}else {
@@ -117,7 +119,7 @@ public class EmployeeController {
 		
 		// 로그아웃
 		@RequestMapping(value = "/logout",method = RequestMethod.GET)
-		public String logoutGET(HttpSession session) {
+		public String logoutGET(HttpSession session) throws Exception{
 			logger.debug("logoutGET() 호출!");
 			
 			// 세션정보 초기화
@@ -130,7 +132,7 @@ public class EmployeeController {
 		
 		// 사원등록, 사원 업데이트
 		@RequestMapping(value = "/regEmployee", method = RequestMethod.POST)
-		public String regEmployeePOST(EmployeeVO evo) {
+		public String regEmployeePOST(EmployeeVO evo) throws Exception{
 			
 			if(evo.getEmp_id() == null) {
 				logger.debug("regEmployeePOST() 호출(사원 등록)");
@@ -152,8 +154,9 @@ public class EmployeeController {
 		
 		// 사원삭제
 		@RequestMapping(value = "/deleteEmployee")
-		public String deleteEmployee(@RequestParam(value = "selectedEmpId", required = false) Integer[] selectedEmpIds) {
+		public String deleteEmployee(@RequestParam(value = "selectedEmpId", required = false) Integer[] selectedEmpIds) throws Exception {
 			
+			logger.debug("deleteEmployee() 호출(사원삭제)");
 			if(selectedEmpIds != null) {
 			    for (Integer emp_id : selectedEmpIds) {
 			    	eService.deleteEmployee(emp_id);
@@ -162,5 +165,42 @@ public class EmployeeController {
 		    
 		    return "redirect:/employee/employeeList";
 		}
+		
+		// http://localhost:8088/employee/employeeList
+		// http://localhost:8088/employee/employeeManagement
+		// 팀원관리
+		@RequestMapping(value = "/employeeManagement")
+		public void employeeManagament(Model model, HttpSession session, EmployeeVO evo) {
+			logger.debug("employeeManagement()호출 (팀원관리)");
+			
+			// 임시 생성용 세션, 나중엔 세션값 받아오게 해야함
+			session.setAttribute("emp_id", 10001);
+			session.setAttribute("emp_rank", "팀장");
+			
+			// 세션값 저장
+			Integer session_emp_id = (Integer)session.getAttribute("emp_id");
+			String session_emp_rank = (String)session.getAttribute("emp_rank");
+			
+			// 검색어 없으면 if문 실행
+			if(evo.getEmp_id() == null && evo.getEmp_name() == null && evo.getEmp_rank() == null && evo.getEmp_state() == null) {
+				logger.debug("세션 테스트/ session_emp_id : " + session_emp_id + " emp_rank : " + session_emp_rank);
+				logger.debug("evo : " + evo);
+				
+				List<EmployeeVO> employeeManagement = eService.employeeManagement(session_emp_id);
+				
+				model.addAttribute("employeeManagement", employeeManagement);
+			}else {
+				logger.debug("evo 값 O -> 검색어 O -> 검색된 데이터만 출력");
+				logger.debug("evo : " + evo);
+				
+				// employeeManagement로 하는 이유 => 하나의 뷰페이지에서 출력 위해서
+				List<EmployeeVO> employeeManagement = eService.employeeMngSearch(evo, session_emp_id);
+				
+				model.addAttribute("employeeManagement", employeeManagement);
+			}
+			
+		}
+		
+		
 		
 }

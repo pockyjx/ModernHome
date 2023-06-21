@@ -7,45 +7,63 @@
 	
 	<!-- 완제품 목록 조회 -->
 	<select id="productList" resultType="com.modernhome.domain.ProductVO">
-		select pro_num, pro_name, pro_unit, pro_price 
+		select *
 		from product
 	</select>
 	<!-- 완제품 목록 조회 -->
 	
 	<!-- 완제품 검색 결과 조회 -->
-	<select id="proSearchList" resultType="com.modernhome.domain.ProductVO"
-		parameterType="java.util.Map">
+	<select id="proSearchList" resultType="com.modernhome.domain.ProductVO">
 		select * from product
-		where
-		<choose>
-			<when test="itemOption == 'name'">
-				pro_name like CONCAT('%', #{search}, '%')
-			</when>
-			
-			<otherwise>
-				pro_num like CONCAT('%', #{search}, '%')
-			</otherwise>
-		</choose>
+		<where>
+			<if test="pro_num != ''">
+				pro_num like CONCAT('%', #{pro_num}, '%')
+			</if>
+			<if test="pro_name != ''">
+				AND pro_name like CONCAT('%', #{pro_name}, '%')
+			</if>
+		</where>
 	</select>	
 	<!-- 완제품 검색 결과 조회 -->
-	
-	<!-- 완제품 코드 부여 -->
-	<select id="setProNum" >
-		SELECT CONCAT(SUBSTRING(pro_num, 1, 2), LPAD(max(SUBSTRING(pro_num, 3)) + 1, 6, '0'))
-		FROM product
-		WHERE pro_num LIKE '%PR%';
-	</select>
-	
-	<!-- 완제품 코드 부여 -->
 	
 	<!-- 완제품 등록 -->
 	<insert id="regProduct">
 		insert into product (pro_num, pro_name, pro_unit, pro_price)
-		SELECT CONCAT(SUBSTRING(pro_num, 1, 2), LPAD(max(SUBSTRING(pro_num, 3)) + 1, 6, '0')), #{pro_name}, #{pro_unit}, #{pro_price}
+		SELECT CONCAT(SUBSTRING(pro_num, 1, 2), LPAD(max(pro_id) + 1, 6, '0')), #{pro_name}, #{pro_unit}, #{pro_price}
 		FROM product
 		WHERE pro_num LIKE CONCAT('%', 'PR', '%')
 	</insert>
 	<!-- 완제품 등록 -->
+	
+	<!-- 완제품 삭제 -->
+	<delete id="delProduct">
+		delete from product
+		where pro_id = #{pro_id}
+	</delete>
+	<!-- 완제품 삭제 -->
+	
+	<!-- 완제품 수정 -->
+	<update id="updateProduct">
+		update product
+		set pro_name = #{pro_name}, pro_unit = #{pro_unit}, pro_price = #{pro_price} 
+		where pro_num = #{pro_num}
+	</update>
+	<!-- 완제품 수정 -->
+	
+	<!-- 총 개시글 개수 출력 -->
+	<select id="countProduct" resultType="int">
+		select count(*) from product
+	</select>
+	<!-- 총 개시글 개수 출력 -->
+	
+	<!-- 페이징 처리 후 게시글 조회 -->
+	<select id="pagingProduct" resultType="ProductVO">
+		SELECT * 
+		FROM (SELECT ROWNUM rn, A.*
+				FROM (SELECT * FORM product ORDER BY pro_id desc) A)
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	<!-- 페이징 처리 후 게시글 조회 -->
 	
 	
 </mapper>

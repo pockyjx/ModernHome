@@ -264,7 +264,4 @@ public class WijoinVO {
 				+ ", ma_id=" + ma_id + "]";
 	}
 	
-	
-
-	
 }

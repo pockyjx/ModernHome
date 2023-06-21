@@ -12,7 +12,7 @@
 </head>
 <body>
 		<h2>품질현황 조회</h2>
-		<form action="get">
+		<form action="get"> 
 			품질코드 <input type="text" name="qc_num">
 			품질검사여부
 				<select name="qc_yn">
