@@ -76,7 +76,7 @@
 			<if test="endDate != ''">
 				AND #{endDate} &gt;= DATE(qc.qc_date) 
 			</if>
-			<if test="qc_yn != ''">
+			<if test="qc_yn != '전체'">
 				AND qc_yn = #{qc_yn}
 			</if>
 		</where>

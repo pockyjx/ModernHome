@@ -55,6 +55,7 @@ public class QualityController {
 			
 			logger.debug("검색어 X, 전체 데이터 출력");
 			List<WijoinVO> qualityList = qService.getQualityList();
+			
 			model.addAttribute("qualityList",qualityList);
 		}
 		

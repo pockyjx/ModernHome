@@ -12,7 +12,7 @@
 </head>
 <body>
 		<h2>품질현황 조회</h2>
-		<form action="get"> 
+		<form method="get"> 
 			품질코드 <input type="text" name="qc_num">
 			품질검사여부
 				<select name="qc_yn">
@@ -22,7 +22,7 @@
 					<option>완료</option>
 				</select>
 			<div>
-				<label>지시일자</label>
+				<label>검수일자</label>
 				<input type="date" name="startDate">
 					~
 				<input type="date" name="endDate">
