@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ include file="../../inc/header.jsp"%>
+<%@ include file="../../inc/sidebar.jsp"%>
+<%@ include file="../../inc/nav.jsp"%>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
@@ -141,41 +138,31 @@
 	}
 </style>
 
-</head>
-<body>
-	
-	<h1>/production/instruct/list.jsp</h1>
-	
-	<h2>작업지시 조회</h2>
+	<h2>작업지시 목록</h2>
+
 	<form method="get">
 		작업상태
 			<label><input type="radio" name="work_state" value="대기"> 대기</label>
 			<label><input type="radio" name="work_state" value="진행중"> 진행중</label>
 			<label><input type="radio" name="work_state" value="완료"> 완료</label>
-		<br>
 		품목코드
 			<input type="text" name="pro_num">
 		<br>
-		<div>
-			<label>지시일자</label>
-			<input type="date" name="startDate">
-				~
-			<input type="date" name="endDate">
-		</div>
-		<input type="submit" value="조회">
+		<label>지시일자</label>
+		<input type="date" name="startDate">
+			~
+		<input type="date" name="endDate">
+		<button type="submit">조회</button>
 	</form>
 	
 <%-- 	${instrList} --%>
 	
-	<h2>작업지시 목록</h2>
 	<span id="selectedCheckboxCount">0</span>
 	
 	<div>
 		<button id="addRowButton" onclick="location.href='/production/instruct/add'">추가</button>
-		<button id="cancleButton" disabled="disabled">취소</button>
 		<button id="updateButton">수정</button>
 		<button id="deleteInstrButton">삭제</button>
-		<button id="submitButton" formaction="regInstr" formmethod="post" disabled="disabled">저장</button>
 	</div>
 	
 	<table border="1" class="table-instrList">
@@ -220,5 +207,4 @@
 		</c:forEach>
 	</table>
 	
-</body>
-</html>
+<%@ include file="../../inc/footer.jsp"%>

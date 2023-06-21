@@ -1,13 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<%@ include file="../../inc/header.jsp"%>
+<%@ include file="../../inc/sidebar.jsp"%>
+<%@ include file="../../inc/nav.jsp"%>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
@@ -75,13 +71,10 @@
 		});
 	});
 </script>
-
-<body>
 	
 	<c:set var="now" value="<%=new java.util.Date()%>"/>
 	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
 	
-	<h1>/production/instruct/add.jsp</h1>
 	<h2>작업지시서 작성</h2>
 <%-- ${reqList} <br> ${work_num} --%>
 	<form method="post">
@@ -139,10 +132,9 @@
 		<input type="hidden" name="oo_id" value="${reqList[0].oo_id}">
 		<input type="hidden" name="clt_id" value="${reqList[0].clt_id}">
 		<div>
-			<input type="button" value="취소" onclick="history.back();">
+			<input type="button" value="취소" onclick="location.href='/production/instruct/list'">
 			<input type="submit" value="저장">
 		</div>
 	</form>
 	
-</body>
-</html>
+<%@ include file="../../inc/footer.jsp"%>

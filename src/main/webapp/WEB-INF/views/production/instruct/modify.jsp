@@ -1,13 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<%@ include file="../../inc/header.jsp"%>
+<%@ include file="../../inc/sidebar.jsp"%>
+<%@ include file="../../inc/nav.jsp"%>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
@@ -17,8 +12,9 @@
 	$(document).on("click", "td[id='line_num']", function() {
 		window.name = "add";
 		var url = window.location.href;
-		var onumVal = new URLSearchParams(new URL(url).search).get('oo_num');
-		console.log(onumVal);
+		var wiVal = new URLSearchParams(new URL(url).search).get('work_id');
+		console.log(wiVal);
+		window.open('/production/instruct/addPopup?txt=li&work_id=' + wiVal, 'popup', 'width=400, height=200, top=300, left=650, location=no, status=no');
 	});
 	
 	$(document).ready(function() {
@@ -47,9 +43,6 @@
 	});
 </script>
 
-<body>
-	
-	<h1>/production/instruct/modify.jsp</h1>
 	<h2>작업지시서 수정</h2>
 <%-- ${wiList} <br>  --%>
 <%-- ${reqList} <br>  --%>
@@ -85,7 +78,12 @@
 				<td>${wiList[0].oo_end_date}</td>
 				<th>생산라인</th>
 				<td id="line_num">
-					<input type="text" name="line_num" value="${wiList[0].line_num}">
+					<c:if test="${empty param.line_num}">
+						<input type="text" name="line_num" value="${wiList[0].line_num}" readonly>
+					</c:if>
+					<c:if test="${!empty param.line_num}">
+						<input type="text" name="line_num" value="${param.line_num}" readonly>
+					</c:if>
 				</td>
 			</tr>
 			<tr>
@@ -117,10 +115,9 @@
 		<input type="hidden" name="clt_id" value="${reqList[0].clt_id}">
 		<input type="hidden" name="emp_id" value="${reqList[0].emp_id}">
 		<div>
-			<input type="button" value="취소" onclick="history.back();">
+			<input type="button" value="취소" onclick="location.href='/production/instruct/list'">
 			<input type="submit" value="수정"> 
 		</div>
 	</form>
 	
-</body>
-</html>
+<%@ include file="../../inc/footer.jsp"%>

@@ -8,6 +8,16 @@
 <title>Insert title here</title>
 </head>
 
+<link href="/resources/img/favicon.ico" rel="icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+<link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/style.css" rel="stylesheet">
 <script type="text/javascript">
 	function popSub(form) {
 		form.taget = opener.name;
@@ -17,8 +27,6 @@
 </script>
 
 <body>
-	
-	<h1>addPopupoo</h1>
 	
 <%-- 	${onumList} <hr> --%>
 	
@@ -36,7 +44,7 @@
 				</td>
 			</tr>
 		</table>
-		<button class="fr-submit" onclick="window.close();">확인</button>
+		<button class="btn btn-primary m-2" onclick="window.close();">확인</button>
 	</form>
 	
 </body>
