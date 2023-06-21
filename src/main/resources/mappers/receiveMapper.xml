@@ -47,7 +47,7 @@
         JOIN warehouse w ON r.wh_id = w.wh_id
         JOIN in_order i ON r.io_id = i.io_id
         JOIN material m ON i.ma_id = m.ma_id
-        JOIN client c ON i.clt_id = c.clt_id
+        JOIN client c ON r.clt_id = c.clt_id
         
 		<where>
 	        <if test="io_num != ''">
@@ -99,7 +99,7 @@
     <!-- 입고 수정 -->
     <update id="updateReceive">
 		UPDATE receive
-		SET rec_cnt = #{rec_cnt}, rec_in_state = #{rec_in_state} 
+		SET rec_cnt = #{rec_cnt}, rec_in_state = #{rec_in_state}, rec_date = #{rec_date} 
 		WHERE rec_num = #{rec_num}
 	</update>	
     <!-- 입고 수정 -->

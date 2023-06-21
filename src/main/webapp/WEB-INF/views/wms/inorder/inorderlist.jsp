@@ -202,9 +202,17 @@
 					row.find("td:not(:first-child)").each(function(index) {
 						var cellValue = $(this).text();
 						var cellType = index === 8 || index === 10 ? "date" : "text"; // 날짜 타입은 date로 설정
-						var cellReadonly = index === 5 || index === 9 || index === 10 ? "" : "readonly='readonly'";
 						var cellName = cellNames[index];
 						var cellContent;
+						var cellOption = "";
+						
+						if(index == 5 || index == 9 || index == 10) {
+							cellOption = "";
+						}else if(index == 0){
+							cellOption = "readonly";
+						}else {
+							cellOption = "disabled";
+						}
 						
 						if (index === 9){
 							cellContent = '<td>' +
@@ -214,7 +222,7 @@
 							'</select>' +
 							'</td>';
 						}else {
-							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '></td>';
 						}
 						
 						$(this).html(cellContent);
