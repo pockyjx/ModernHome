@@ -13,19 +13,16 @@
 	<!-- 완제품 목록 조회 -->
 	
 	<!-- 완제품 검색 결과 조회 -->
-	<select id="proSearchList" resultType="com.modernhome.domain.ProductVO"
-		parameterType="java.util.Map">
+	<select id="proSearchList" resultType="com.modernhome.domain.ProductVO">
 		select * from product
-		where
-		<choose>
-			<when test="itemOption == 'name'">
-				pro_name like CONCAT('%', #{search}, '%')
-			</when>
-			
-			<otherwise>
-				pro_num like CONCAT('%', #{search}, '%')
-			</otherwise>
-		</choose>
+		<where>
+			<if test="pro_num != ''">
+				pro_num like CONCAT('%', #{pro_num}, '%')
+			</if>
+			<if test="pro_name != ''">
+				AND pro_name like CONCAT('%', #{pro_name}, '%')
+			</if>
+		</where>
 	</select>	
 	<!-- 완제품 검색 결과 조회 -->
 	

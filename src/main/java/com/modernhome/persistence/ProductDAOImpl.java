@@ -36,14 +36,10 @@ public class ProductDAOImpl implements ProductDAO {
 	
 	// 완제품 검색 결과
 	@Override
-	public List<ProductVO> getProductList(String itemOption, String search) {
+	public List<ProductVO> getProductList(ProductVO vo) {
 		logger.debug("완제품 검색 결과 조회!");
 		
-		 Map<String, Object> parameterMap = new HashMap();
-		 parameterMap.put("itemOption", itemOption);
-		 parameterMap.put("search", search);	
-		
-		return sqlSession.selectList(NAMESPACRE + ".proSearchList", parameterMap);
+		return sqlSession.selectList(NAMESPACRE + ".proSearchList", vo);
 	}
 	
 	// 완제품 등록

@@ -30,8 +30,8 @@ public class ItemServiceImpl implements ItemService {
 
 	// 완제품 검색 결과
 	@Override
-	public List<ProductVO> getProductList(String itemOption, String search) {
-		return pdao.getProductList(itemOption, search);
+	public List<ProductVO> getProductList(ProductVO vo) {
+		return pdao.getProductList(vo);
 	}
 	
 	// 완제품 등록
@@ -74,8 +74,8 @@ public class ItemServiceImpl implements ItemService {
 
 	// 자재 검색 결과
 	@Override
-	public List<MaterialVO> getMaterialList(String itemOption, String search) {
-		return mdao.getMaterialList(itemOption, search);
+	public List<MaterialVO> getMaterialList(MaterialVO vo) {
+		return mdao.getMaterialList(vo);
 	}
 
 	// 자재 등록

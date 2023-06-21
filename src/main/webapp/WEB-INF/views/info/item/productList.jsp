@@ -190,17 +190,11 @@
 <h2>품목 검색</h2>
 
 	<fieldset>
-		<form action="./itemSearchResult" method="POST">
-			<b>품목 구분</b>
-			<label><input type="radio" name="itemType" value="product" checked>완제품</label>
-			<label><input type="radio" name="itemType" value="material">자재</label>
-			
-			<select name="itemOption">
-				<option value="name">품목명</option>
-				<option value="num">품목코드</option>
-			</select>
-			
-			<label><input type="text" name="search"></label>
+		<form action="" method="GET">
+
+			<label><b>완제품코드</b> <input type="text" name="pro_num"></label>
+			<label><b>완제품명</b> <input type="text" name="pro_name"></label>
+
 			<input type="submit" value="조회">
 		</form>
 	</fieldset>

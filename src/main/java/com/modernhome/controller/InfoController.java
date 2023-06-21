@@ -38,53 +38,70 @@ public class InfoController {
 	// 완제품 목록
 	// http://localhost:8088/info/item/productList
 	@RequestMapping(value = "/item/productList", method = RequestMethod.GET)
-	public void productListGET(Model model) {
+	public void productListGET(Model model, ProductVO vo) {
 		logger.debug("productListGET() 호출!");
 		
-		List<ProductVO> productList = iService.getProductList();
-		model.addAttribute("productList", productList);
+		List<ProductVO> productList;
+		
+		// 검색어가 하나라도 있으면 if문 실행, 아닐 경우
+		if(vo.getPro_num() != null || vo.getPro_name() != null) {
+			productList = iService.getProductList(vo);
+			model.addAttribute("productList", productList);
+		} else {
+			productList = iService.getProductList();
+			model.addAttribute("productList", productList);
+		}
 		
 	}
 	
 	// 자재 목록
 	// http://localhost:8088/info/item/materialList
 	@RequestMapping(value = "/item/materialList", method = RequestMethod.GET)
-	public void materialListGET(Model model) {
+	public void materialListGET(Model model, MaterialVO vo) {
 		logger.debug("materialList() 호출!");
 		
-		List<MaterialVO> materialList = iService.getMaterialList();
-		model.addAttribute("materialList", materialList);
-	}
-	
-	// 검색 결과
-	@RequestMapping(value = "/item/itemSearchResult", method = RequestMethod.POST)
-	public void itemSearchResultPOST(@ModelAttribute("itemType") String itemType,
-									@ModelAttribute("itemOption") String itemOption,
-									@ModelAttribute("search") String search,
-									Model model) {
+		List<MaterialVO> materialList;
 		
-//		logger.debug("itemType : " + itemType);
-//		logger.debug("itemOption : " + itemOption);
-//		logger.debug("search : " + search);
-		
-		List<ProductVO> proSearchList; // 완제품 결과 목록
-		List<MaterialVO> maSearchList; // 자재 결과 목록
-		
-		if(itemType.equals("product")) {
-			
-			// 완제품 선택 시 완제품 테이블에서 조건 검색
-			proSearchList = iService.getProductList(itemOption, search);
-			model.addAttribute("proSearchList", proSearchList);
-			
-		}else {
-			
-			// 자재 선택 시, 자재 테이블에서 조건 검색
-			maSearchList = iService.getMaterialList(itemOption, search);
-			model.addAttribute("maSearchList", maSearchList);
-			
+		// 검색어가 하나라도 있으면 if문 실행, 아닐 경우
+		if(vo.getMa_name() != null || vo.getMa_num() != null) {
+			materialList = iService.getMaterialList(vo);
+			model.addAttribute("materialList", materialList);
+		} else {
+			materialList = iService.getMaterialList();
+			model.addAttribute("materialList", materialList);
 		}
 		
 	}
+	
+	// 검색 결과
+//	@RequestMapping(value = "/item/itemSearchResult", method = RequestMethod.POST)
+//	public void itemSearchResultPOST(@ModelAttribute("itemType") String itemType,
+//									@ModelAttribute("itemOption") String itemOption,
+//									@ModelAttribute("search") String search,
+//									Model model) {
+//		
+////		logger.debug("itemType : " + itemType);
+////		logger.debug("itemOption : " + itemOption);
+////		logger.debug("search : " + search);
+//		
+//		List<ProductVO> proSearchList; // 완제품 결과 목록
+//		List<MaterialVO> maSearchList; // 자재 결과 목록
+//		
+//		if(itemType.equals("product")) {
+//			
+//			// 완제품 선택 시 완제품 테이블에서 조건 검색
+//			proSearchList = iService.getProductList(itemOption, search);
+//			model.addAttribute("proSearchList", proSearchList);
+//			
+//		}else {
+//			
+//			// 자재 선택 시, 자재 테이블에서 조건 검색
+//			maSearchList = iService.getMaterialList(itemOption, search);
+//			model.addAttribute("maSearchList", maSearchList);
+//			
+//		}
+//		
+//	}
 	
 	// 완제품 등록 + 수정
 	@RequestMapping(value = "/info/regProduct", method = RequestMethod.POST)

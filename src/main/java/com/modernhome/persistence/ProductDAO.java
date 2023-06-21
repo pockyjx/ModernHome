@@ -11,7 +11,7 @@ public interface ProductDAO {
 	public List<ProductVO> getProductList();
 	
 	// 완제품 검색 결과 
-	public List<ProductVO> getProductList(String itemOption, String search);
+	public List<ProductVO> getProductList(ProductVO vo);
 	
 	// 완제품 등록
 	public void regProduct(ProductVO vo);

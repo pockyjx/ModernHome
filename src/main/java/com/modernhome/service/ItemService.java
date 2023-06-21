@@ -13,7 +13,7 @@ public interface ItemService {
 	
 	
 	// 완제품 검색 결과
-	public List<ProductVO> getProductList(String itemOption, String search);
+	public List<ProductVO> getProductList(ProductVO vo);
 	
 	// 완제품 등록
 	public void regProduct(ProductVO vo);
@@ -36,7 +36,7 @@ public interface ItemService {
 	public List<MaterialVO> getMaterialList();
 	
 	// 자재 검색 결과
-	public List<MaterialVO> getMaterialList(String itemOption, String search);
+	public List<MaterialVO> getMaterialList(MaterialVO vo);
 	
 	// 자재 등록
 	public void regMaterial(MaterialVO vo);
