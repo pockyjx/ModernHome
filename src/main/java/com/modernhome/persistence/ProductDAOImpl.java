@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.PagingVO;
 import com.modernhome.domain.ProductVO;
 
 @Repository
@@ -67,6 +68,19 @@ public class ProductDAOImpl implements ProductDAO {
 		logger.debug("완제품 수정!");
 		sqlSession.update(NAMESPACRE + ".updateProduct", vo);
 	}
+	
+	// 게시물 총 개수
+	@Override
+	public int countProduct() {
+		return sqlSession.selectOne(NAMESPACRE + ".countProduct");
+	}
+	
+	// 페이징 처리 게시글 조회
+	@Override
+	public List<ProductVO> pagingProduct(PagingVO pvo) {
+		return sqlSession.selectList(NAMESPACRE + ".pagingProduct");
+	}
+	
 	
 	
 	

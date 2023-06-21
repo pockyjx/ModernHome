@@ -21,18 +21,15 @@
                     '<td><input type="text" name="pro_name" placeholder="완제품명" id="pro_name" readonly ></td>' +
                     '<td><input type="text" name="ma_num" placeholder="자재 코드" id="ma_num" readonly></td>' +
                     '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly></td>' +
-                    '<td><input type="text" name="req_cnt" placeholder="소요량"></td>' +
+                    '<td><input type="number" name="req_cnt" placeholder="소요량" min="0"></td>' +
                     '<td><input type="text" name="req_unit" placeholder="단위"></td>' +
-                    '<td></td>' +
-                    '<td><input type="text" name="emp_id" placeholder="등록자"></td>' +
-                    '<td></td>' +
-                    '<td></td>' +
                     '</tr>';
                 $(".table-reqList tr:nth-child(1)").after(newRow);
                 
                 // 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
 				$("#addRowButton").attr("disabled", "disabled");
 				$("#updateButton").attr("disabled", "disabled");
+				$("#deleteButton").attr("disabled", "disabled");
 				
 				$("#cancleButton").removeAttr("disabled");
 				$("#submitButton").removeAttr("disabled");
@@ -81,6 +78,8 @@
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
+					$("#deleteButton").attr("disabled", "disabled");
+					
 					$("#cancleButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
@@ -89,8 +88,11 @@
 				// 수정버튼 취소
 				if(pageStatus == "update"){
 					
-					//
+					// selectedReqid 이름을 가진 input 요소의 부모 테이블 행을 찾음
 					var row = $("input[name='selectedReqId']:checked").closest("tr");
+					
+					// 폼 초기화(기존내용으로)
+					$("#reqList")[0].reset();
 					
 					// 각 셀의 값을 원래 상태로 되돌림
 					row.find("td:not(:first-child)").each(function(index) {
@@ -101,6 +103,8 @@
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
+					$("#deleteButton").removeAttr("disabled");
+					
 					$("#cancleButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
@@ -122,11 +126,13 @@
 					
 					// input type의 name 값 지정
 					var cellNames = [
-						"pro_num", 
-						"pro_name", 
-						"type", 
-						"pro_unit", 
-						"pro_price"
+						"req_num",
+						"pro_num",
+						"pro_name",
+						"ma_num",
+						"ma_name",
+						"req_cnt",
+						"req_unit"
 					];
 					
 					
@@ -134,13 +140,26 @@
 					row.find("td:not(:first-child)").each(function(index) {
 						//
 						var cellValue = $(this).text();
-						var cellOption = index === 0 || index === 2 ? "readonly" : "";
+						var cellOption = "";
+						
+						if(index == 0) {
+							cellOption = "readonly";
+						}else if(index == 5){
+							cellOption = "";
+						}else {
+							cellOption = "disabled";
+						}
+						
+						
+						var cellType = index === 5 ? "number" : "text";
 						var cellName = cellNames[index];
 						
-						$(this).html('<input type="text" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');
+						$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');
 						
 						$("#updateButton").attr("disabled", "disabled");
 						$("#addRowButton").attr("disabled", "disabled");
+						$("#deleteButton").attr("disabled", "disabled");
+						
 						$("#cancleButton").removeAttr("disabled");
 						$("#submitButton").removeAttr("disabled");
 						
@@ -155,6 +174,22 @@
 				}
 			});
             
+			updateSelectedCheckboxCount();
+			
+			// <td> 쪽 체크박스 클릭 시 행 선택
+	        $(".table-proList td input[type='checkbox']").click(function() {
+	            var checkbox = $(this);
+	            var isChecked = checkbox.prop('checked');
+	            checkbox.closest('tr').toggleClass('selected', isChecked);
+
+	            updateSelectedCheckboxCount(); 
+	        });
+
+	        function updateSelectedCheckboxCount() {
+	            var totalCheckboxes = $(".table-proList td input[type='checkbox']").length;
+	            var selectedCheckboxes = $(".table-proList td input[type='checkbox']:checked").length;
+	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+	        } // 체크박스 선택 시 체크박스 개수 구하기
             
         });
             
@@ -198,14 +233,16 @@
 
 	<hr>
 	
-	<form action="">
+	<form id="reqList">
 	
 	<h2>소요량</h2>
+	
+	<span id="selectedCheckboxCount">0</span>
 	
 	<input type="button" id="addRowButton" value="추가">
 	<input type="button" id="cancleButton" value="취소" disabled="disabled">
 	<input type="button" id="updateButton" value="수정">
-	<input type="submit" id="" value="삭제" formaction="/info/delRequirement" formmethod="post">
+	<input type="submit" id="deleteButton" value="삭제" formaction="/info/delRequirement" formmethod="post">
 	
 	<input type="submit" id="submitButton" value="저장" formaction="/info/regRequirement" formmethod="post" disabled="disabled">
 	
@@ -215,7 +252,7 @@
 	<input type="hidden" name="ma_id" id="ma_id"> 
 		
 		<tr>
-			<th><input type="checkbox" name="selectedReqId" value="${vo.req_id}"></th>
+			<th><input type="checkbox"></th>
 			<th>소요량 코드</th>
 			<th>완제품 코드</th>
 			<th>완제품명</th>
@@ -223,15 +260,11 @@
 			<th>자재명</th>
 			<th>소요량</th>
 			<th>단위</th>
-			<th>등록일</th>
-			<th>등록자</th>
-			<th>수정일</th>
-			<th>수정자</th>
 		</tr>
 		
 		<c:forEach var="vo" items="${reqList }">
 		<tr>	
-			<td><input type="checkbox"></td>
+			<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}"></td>
 			<td>${vo.req_num }</td>
 			<td>${vo.pro_num }</td>
 			<td>${vo.pro_name }</td>
@@ -239,10 +272,10 @@
 			<td>${vo.ma_name }</td>
 			<td>${vo.req_cnt }</td>
 			<td>${vo.req_unit }</td>
-			<td>${fn:substring(vo.req_reg_date, 0, 10) }</td>
-			<td>${vo.emp_id }</td>
-			<td>${fn:substring(vo.req_update_date, 0, 10) }</td>
-			<td>${vo.update_emp_id }</td>
+<%-- 			<td>${fn:substring(vo.req_reg_date, 0, 10) }</td> --%>
+<%-- 			<td>${vo.emp_id }</td> --%>
+<%-- 			<td>${fn:substring(vo.req_update_date, 0, 10) }</td> --%>
+<%-- 			<td>${vo.update_emp_id }</td> --%>
 		</tr>	
 		</c:forEach>
 		

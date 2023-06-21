@@ -53,5 +53,20 @@
 	</update>
 	<!-- 완제품 수정 -->
 	
+	<!-- 총 개시글 개수 출력 -->
+	<select id="countProduct" resultType="int">
+		select count(*) from product
+	</select>
+	<!-- 총 개시글 개수 출력 -->
+	
+	<!-- 페이징 처리 후 게시글 조회 -->
+	<select id="pagingProduct" resultType="ProductVO">
+		SELECT * 
+		FROM (SELECT ROWNUM rn, A.*
+				FROM (SELECT * FORM product ORDER BY pro_id desc) A)
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	<!-- 페이징 처리 후 게시글 조회 -->
+	
 	
 </mapper>

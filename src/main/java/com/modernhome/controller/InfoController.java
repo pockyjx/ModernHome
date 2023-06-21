@@ -91,6 +91,8 @@ public class InfoController {
 	public String regProductPOST(ProductVO vo) {
 		logger.debug("regProductPOST() 호출!");
 		
+		logger.debug(vo + "");
+		
 		if(vo.getPro_num() == "") {
 			logger.debug("완제품 정보 등록!");
 			iService.regProduct(vo);
@@ -209,15 +211,31 @@ public class InfoController {
 		logger.debug(vo + "");
 		
 		if(vo.getReq_num() == "") {
-			logger.debug("재고 정보 등록!");
+			logger.debug("소요량 정보 등록!");
 			rService.regRequirement(vo);
 		}else {
-			logger.debug("재고 정보 수정!");
-		
-		
+			logger.debug("소요량 정보 수정!");
+			rService.modifyRequirement(vo);;
+			
 		}
 		
 		return "redirect:/info/req/reqList";
+	}
+	
+	// 소요량 삭제
+	@RequestMapping(value = "/info/delRequirement")
+	public String deleteRequirement(@RequestParam(value = "selectedReqId", required = false) Integer[] selectedReqIds) throws Exception {
+		logger.debug("deleteRequirement() 호출!");
+		logger.debug(selectedReqIds+"");
+		
+		if(selectedReqIds != null) {
+			for(Integer req_id : selectedReqIds) {
+				rService.deleteRequirement(req_id);
+			}
+		}
+		
+		return "redirect:/info/req/reqList";
+		
 	}
 	
 }

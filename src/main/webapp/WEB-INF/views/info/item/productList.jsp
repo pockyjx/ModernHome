@@ -19,7 +19,6 @@
                     '<td><input type="checkbox"></td>' +
                     '<td><input type="text" name="pro_num" placeholder="완제품 코드" readonly></td>' +
                     '<td><input type="text" name="pro_name" placeholder="완제품명"></td>' +
-                    '<td><input type="text" value="완제품" disabled></td>' +
                     '<td><input type="text" name="pro_unit" placeholder="완제품 단위"></td>' +
                     '<td><input type="text" name="pro_price" placeholder="완제품 단가"></td>' +
                     '</tr>';
@@ -29,6 +28,7 @@
             	// 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
 				$("#addRowButton").attr("disabled", "disabled");
 				$("#updateButton").attr("disabled", "disabled");
+				$("#deleteButton").attr("disabled", "disabled");
 				
 				$("#cancleButton").removeAttr("disabled");
 				$("#submitButton").removeAttr("disabled");
@@ -77,6 +77,8 @@
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
+					$("#deleteButton").removeAttr("disabled");
+					
 					$("#cancleButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
@@ -88,6 +90,8 @@
 					//
 					var row = $("input[name='selectedProId']:checked").closest("tr");
 					
+					$("#productList")[0].reset();
+					
 					// 각 셀의 값을 원래 상태로 되돌림
 					row.find("td:not(:first-child)").each(function(index) {
 						var cellValue = $(this).find("input").val();
@@ -97,6 +101,8 @@
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
+					$("#deleteButton").removeAttr("disabled");
+					
 					$("#cancleButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
@@ -120,7 +126,6 @@
 					var cellNames = [
 						"pro_num", 
 						"pro_name", 
-						"type", 
 						"pro_unit", 
 						"pro_price"
 					];
@@ -130,13 +135,15 @@
 					row.find("td:not(:first-child)").each(function(index) {
 						//
 						var cellValue = $(this).text();
-						var cellOption = index === 0 || index === 2 ? "readonly" : "";
+						var cellOption = index === 0 ? "readonly" : "";
 						var cellName = cellNames[index];
 						
 						$(this).html('<input type="text" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');
 						
 						$("#updateButton").attr("disabled", "disabled");
 						$("#addRowButton").attr("disabled", "disabled");
+						$("#deleteButton").attr("disabled", "disabled");
+						
 						$("#cancleButton").removeAttr("disabled");
 						$("#submitButton").removeAttr("disabled");
 						
@@ -150,6 +157,23 @@
 					alert("수정은 하나의 행만 가능합니다!");
 				}
 			});
+         	
+			updateSelectedCheckboxCount();
+			
+			// <td> 쪽 체크박스 클릭 시 행 선택
+	        $(".table-proList td input[type='checkbox']").click(function() {
+	            var checkbox = $(this);
+	            var isChecked = checkbox.prop('checked');
+	            checkbox.closest('tr').toggleClass('selected', isChecked);
+
+	            updateSelectedCheckboxCount(); 
+	        });
+
+	        function updateSelectedCheckboxCount() {
+	            var totalCheckboxes = $(".table-proList td input[type='checkbox']").length;
+	            var selectedCheckboxes = $(".table-proList td input[type='checkbox']:checked").length;
+	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+	        } // 체크박스 선택 시 체크박스 개수 구하기
             
             
         });
@@ -190,12 +214,14 @@
 
 <h2>완제품 목록</h2>
 
-	<form>	
+	<form id="productList">	
+	
+	<span id="selectedCheckboxCount">0</span>
 
 	<input type="button" id="addRowButton" value="추가">
 	<input type="button" id="cancleButton" value="취소" disabled="disabled">
 	<input type="button" id="updateButton" value="수정">
-	<input type="submit" id="" value="삭제" formaction="/info/delProduct" formmethod="post">
+	<input type="submit" id="deleteButton" value="삭제" formaction="/info/delProduct" formmethod="post">
 	
 	<input type="submit" id="submitButton" value="저장" formaction="/info/regProduct" formmethod="post" disabled="disabled">
 
@@ -205,7 +231,6 @@
 			<th><input type="checkbox"></th>
 			<th>품목 코드</th>
 			<th>품목명</th>
-			<th>품목 구분</th>
 			<th>단위</th>
 			<th>단가(원)</th>
 		</tr>
@@ -215,7 +240,6 @@
 			<td><input type="checkbox" name="selectedProId" value="${vo.pro_id}"></td>
 			<td>${vo.pro_num }</td>
 			<td>${vo.pro_name }</td>
-			<td>완제품</td>
 			<td>${vo.pro_unit }</td>
 			<td><fmt:formatNumber value="${vo.pro_price }" /> </td>
 		</tr>

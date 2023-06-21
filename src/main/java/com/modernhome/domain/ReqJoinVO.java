@@ -19,6 +19,7 @@ public class ReqJoinVO {
 	
 	private String ma_num;
 	private String ma_name;
+	
 	public Integer getReq_id() {
 		return req_id;
 	}
