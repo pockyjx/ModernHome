@@ -5,25 +5,44 @@
 
 <mapper namespace="com.modernhome.mapper.OutOrderMapper">
 
-	<!-- 사원리스트 불러오기 -->
+	<!-- 수주 불러오기 -->
 		<select id="outOrderList" resultType="com.modernhome.domain.OutOrderVO">
 			SELECT * FROM out_order
 		</select>
-		<!-- 사원리스트 불러오기 -->
+	<!-- 수주 -->
 		
-		<!-- 사원리스트 검색 -->
-		<select id="outOrderListSearch" resultType="com.modernhome.domain.OutOrderVO">
-			SELECT * FROM out_order 
-			<where>
-			<if test="clt_id != null">
-				clt_id LIKE CONCAT('%', #{clt_id}, '%')
-			</if>
-			<if test="emp_id != null">
-				AND emp_id LIKE CONCAT('%', #{emp_id}, '%') 
-			</if>
+	<!-- 수주 검색 -->
+	<select id="outOrderListSearch" resultType="com.modernhome.domain.OutOrderVO">
+		SELECT * FROM out_order 
+		<where>
+		<if test="clt_id != null">
+			clt_id LIKE CONCAT('%', #{clt_id}, '%')
+		</if>
+		<if test="emp_id != null">
+			AND emp_id LIKE CONCAT('%', #{emp_id}, '%') 
+		</if>
 
-			</where>
-		</select>
-		<!-- 사원리스트 검색 -->
+		</where>
+	</select>
+	<!-- 수주 검색 -->
+		
+	<!-- 수주 등록 -->
+	<insert id="regOutOrder">
+		<selectKey keyProperty="oo_num" resultType="String" order="BEFORE">
+			SELECT CONCAT('OO', LPAD(COALESCE(MAX(SUBSTR(oo_num, 3)), 0) + 1, 4, '0'))
+			FROM out_order
+		</selectKey>
+	
+	
+		INSERT INTO out_order (oo_num, emp_id, clt_id, pro_id, oo_cnt, oo_start_date, oo_end_date)
+		VALUES (#{oo_num}, #{emp_id}, #{clt_id}, #{pro_id}, #{oo_cnt},
+		CASE WHEN #{oo_start_date} = '' THEN NULL ELSE #{oo_start_date} END,
+		CASE WHEN #{oo_end_date} = '' THEN NULL ELSE #{oo_end_date} END)
+	</insert>
+	<!-- 수주 등록 -->
+	
+	
+	
+	
 
 </mapper>
