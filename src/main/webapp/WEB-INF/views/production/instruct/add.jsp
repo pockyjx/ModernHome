@@ -34,6 +34,22 @@
 		}
 	});
 	
+	$(document).on("click", "input[type='submit']", function() {
+		var url = window.location.href;
+		var onumVal = new URLSearchParams(new URL(url).search).get('oo_num');
+		var lnumVal = new URLSearchParams(new URL(url).search).get('line_num');
+		console.log(onumVal);
+		console.log(lnumVal);
+		
+		if(onumVal == null) {
+			alert("수주번호를 선택해주세요.");
+			return false;
+		} else if(lnumVal == null) {
+			alert("라인번호를 선택해주세요.");
+			return false;
+		}
+	});
+	
 	$(document).ready(function() {
 		var cntVal = 1;
 		var reqValArr = [];
@@ -82,7 +98,7 @@
 				<th>품번</th>
 				<td><input type="text" name="pro_num" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_num}"</c:if> readonly></td>
 				<th>수량</th>
-				<td><input type="text" name="work_cnt" id="wcntInput"></td>
+				<td><input type="text" name="work_cnt" id="wcntInput" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_cnt}"</c:if>></td>
 			</tr>
 			<tr>
 				<th>품명</th>

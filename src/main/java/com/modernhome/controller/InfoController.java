@@ -197,11 +197,27 @@ public class InfoController {
 			return "/info/req/popUpMaterial";
 		}
 		
-		
 		return "/info/req/reqList";
 		
 	}
 	
-
+	// 소요량 등록 + 수정
+	@RequestMapping(value = "/info/regRequirement", method = RequestMethod.POST)
+	public String regRequirementPOST(ReqJoinVO vo) throws Exception {
+		logger.debug("regMaterialPOST() 호출!");
+		
+		logger.debug(vo + "");
+		
+		if(vo.getReq_num() == "") {
+			logger.debug("재고 정보 등록!");
+			rService.regRequirement(vo);
+		}else {
+			logger.debug("재고 정보 수정!");
+		
+		
+		}
+		
+		return "redirect:/info/req/reqList";
+	}
 	
 }

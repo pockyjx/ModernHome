@@ -165,7 +165,7 @@
 		<input type="submit" value="조회">
 	</form>
 	
-	${instrList}
+<%-- 	${instrList} --%>
 	
 	<h2>작업지시 목록</h2>
 	<span id="selectedCheckboxCount">0</span>

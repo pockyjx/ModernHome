@@ -12,5 +12,8 @@ public interface RequirmentDAO {
 	public List<ReqJoinVO> getRequirements();
 	
 	// 소요량 검색 결과
-	public List<ReqJoinVO> getReqSearch(String option, String search);
+	public List<ReqJoinVO> getReqSearch(String option, String search); 
+	
+	// 소요량 등록
+	public void regRequirement(ReqJoinVO vo);
 }

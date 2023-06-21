@@ -94,14 +94,36 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		sqlSession.delete(NAMESPACE + ".deleteEmployee", emp_id);
 	}
 
-	// 사원업데이트
+	// 사원업데이트(수정)
 	@Override
 	public void updateEmployee(EmployeeVO evo) {
 		logger.debug("DAO -> mapper호출 -> SQL 실행(사원업데이트)");
 		
 		sqlSession.update(NAMESPACE + ".updateEmployee", evo);
 	}
+
 	
+	// 팀원관리
+	@Override
+	public List<EmployeeVO> employeeManagement(Integer emp_id) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행(팀원관리)");
+		
+		return sqlSession.selectList(NAMESPACE + ".employeeManagement", emp_id);
+	}
+
+
+	// 팀원관리 - 검색
+	@Override
+	public List<EmployeeVO> employeeMngSearch(EmployeeVO evo, Integer session_emp_id) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행(팀원관리 - 검색)");
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("evo", evo);
+		parameterMap.put("session_emp_id", session_emp_id);
+		
+		System.out.println(parameterMap);
+		return sqlSession.selectList(NAMESPACE + ".employeeMngSearch", parameterMap);
+	}
 	
 	
 	

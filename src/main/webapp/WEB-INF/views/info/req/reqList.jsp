@@ -24,7 +24,7 @@
                     '<td><input type="text" name="req_cnt" placeholder="소요량"></td>' +
                     '<td><input type="text" name="req_unit" placeholder="단위"></td>' +
                     '<td></td>' +
-                    '<td><input type="text" name="pro_price" placeholder="품목 단가"></td>' +
+                    '<td><input type="text" name="emp_id" placeholder="등록자"></td>' +
                     '<td></td>' +
                     '<td></td>' +
                     '</tr>';
@@ -211,8 +211,8 @@
 	
 	<table class="table-reqList" border="1">
 	
-	<input type="input" id="pro_id">
-	<input type="input" id="ma_id"> 
+	<input type="hidden" name="pro_id" id="pro_id">
+	<input type="hidden" name="ma_id" id="ma_id"> 
 		
 		<tr>
 			<th><input type="checkbox" name="selectedReqId" value="${vo.req_id}"></th>
@@ -239,7 +239,7 @@
 			<td>${vo.ma_name }</td>
 			<td>${vo.req_cnt }</td>
 			<td>${vo.req_unit }</td>
-			<td>${vo.req_reg_date }</td>
+			<td>${fn:substring(vo.req_reg_date, 0, 10) }</td>
 			<td>${vo.emp_id }</td>
 			<td>${fn:substring(vo.req_update_date, 0, 10) }</td>
 			<td>${vo.update_emp_id }</td>
