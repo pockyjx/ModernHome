@@ -8,7 +8,7 @@
   	<!-- 발주 목록 -->
 	<resultMap id="inorderResultMap" type="com.modernhome.domain.InorderVO">
 	
-        <id property="io_id" column="io_id" />
+        <result property="io_id" column="io_id" />
         <result property="io_num" column="io_num" />
         <result property="ma_id" column="ma_id" />
         <result property="io_cnt" column="io_cnt" />
@@ -19,20 +19,13 @@
         <result property="clt_id" column="clt_id" />
         <result property="emp_id" column="emp_id" />
         <result property="rec_date" column="rec_date" />
-        
-        <!-- MaterialVO 클래스 정의 -->
-	    <association property="materialVO" javaType="com.modernhome.domain.MaterialVO">
-	      <id property="ma_num" column="ma_num" />
-	      <result property="ma_name" column="ma_name" />
-	      <result property="ma_price" column="ma_price" />
-	    </association>
+		<result property="ma_num" column="ma_num" />
+		<result property="ma_name" column="ma_name" />
+		<result property="ma_price" column="ma_price" />
+		<result property="clt_name" column="clt_name" />
+		<result property="clt_num" column="clt_num" />
 
-	    <!-- ClientVO 클래스 정의 -->
-	    <association property="clientVO" javaType="com.modernhome.domain.ClientVO">
-	      <id property="clt_num" column="clt_num" />
-	      <result property="clt_name" column="clt_name" />
-	    </association>
-	  </resultMap>
+	</resultMap>
     
     <select id="getInorderList" resultMap="inorderResultMap">
         <![CDATA[
@@ -77,12 +70,36 @@
     <!-- 발주 검색 -->
     	
     <!-- 발주 등록 -->	
+    <insert id="regInorder">
+	    INSERT INTO in_order (io_num, ma_id, clt_id, io_cnt, io_unit, io_date, io_state, rec_date, emp_id)
+	    SELECT
+	        CONCAT(SUBSTRING(io_num, 1, 2), LPAD(max(io_id) + 1, 6, '0')),
+	        #{ma_id},
+	        #{clt_id},
+	        #{io_cnt},
+	        #{io_unit},
+	        #{io_date},
+	        #{io_state},
+	        #{rec_date},
+	        #{emp_id}
+	    FROM in_order
+	    WHERE io_num LIKE CONCAT('%', 'IO', '%');
+	</insert>
     <!-- 발주 등록 -->	
   	
-    <!-- 발주 삭제 -->	
+    <!-- 발주 삭제 -->
+    <delete id="deleteInorder">
+		DELETE FROM in_order
+		WHERE io_id = #{io_id}
+	</delete>	
     <!-- 발주 삭제 -->	
 
-    <!-- 발주 수정 -->	
+    <!-- 발주 수정 -->
+    <update id="updateInorder">
+		UPDATE in_order
+		SET io_cnt = #{io_cnt}, io_state = #{io_state}, rec_date = #{rec_date} 
+		WHERE io_num = #{io_num}
+	</update>	
     <!-- 발주 수정 -->	
 	
   </mapper>  

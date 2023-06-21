@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.InorderVO;
+import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.WarehouseVO;
+import com.modernhome.service.ClientService;
 import com.modernhome.service.InorderService;
+import com.modernhome.service.ItemService;
 import com.modernhome.service.WarehouseService;
 
 @Controller
@@ -35,6 +39,11 @@ public class WmsController {
     @Autowired
     private InorderService ioService;
     
+    @Autowired
+    private ItemService iService;
+    
+    @Autowired
+    private ClientService cService;
     
     
     // 창고 조회
@@ -91,7 +100,7 @@ public class WmsController {
 	    return "redirect:/wms/warehouse/warehouselist";
     }
     
-    
+    // --------------------------------------------------------
     // 발주 조회
     // http://localhost:8088/wms/inorder/inorderlist
     @RequestMapping(value = "/inorder/inorderlist",method = RequestMethod.GET)
@@ -119,12 +128,37 @@ public class WmsController {
     	}
     }
     
+    // 발주 등록 시 팝업
+    // http://localhost:8088/wms/inorder/popUpInorder
+    @RequestMapping(value = "/inorder/addPopup", method = RequestMethod.GET )
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt) throws Exception {
+		logger.debug("popUpInorderGET() 호출!");
+		
+		if(txt.equals("clt")) { // 거래처 목록 팝업
+			List<ClientVO> popUpClt = cService.clientList();
+			model.addAttribute("popUpClt", popUpClt);
+			
+			return "/wms/inorder/popUpClient";
+			
+		}else if(txt.equals("ma")) { // 자재 목록 팝업
+			List<MaterialVO> popUpMate = iService.getMaterialList();
+			model.addAttribute("popUpMate", popUpMate);
+			
+			return "/wms/inorder/popUpMaterial";
+		}
+		
+		return "/wms/inorder/inorderlist";
+		
+	}
     
-    // 발주 등록
+    
+    
+    
+    // 발주 등록 + 수정
     @RequestMapping(value = "/wms/regInorder", method = RequestMethod.POST)
-    public String regInorderPOST(InorderVO iovo) {
+    public String regInorderPOST(InorderVO iovo) throws Exception {
     		
-    	if(iovo.getIo_id() == null) {
+    	if(iovo.getIo_num() == "") {
     		logger.debug("regInorderPOST() 호출-발주등록");
     		logger.debug("iovo : " + iovo);
     		
@@ -145,7 +179,7 @@ public class WmsController {
     	
     	if(selectedIoIds != null) {
 		    for (Integer io_id : selectedIoIds) {
-		    	wService.deleteWarehouse(io_id);
+		    	ioService.deleteInorder(io_id);
 		    }
 		}
 	    
