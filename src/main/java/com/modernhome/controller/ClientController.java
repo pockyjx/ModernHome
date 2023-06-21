@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.EmployeeVO;
 import com.modernhome.domain.OutOrderVO;
+import com.modernhome.domain.ShipmentVO;
 import com.modernhome.service.ClientService;
 import com.modernhome.service.OutOrderService;
+import com.modernhome.service.ShipmentService;
 
 @Controller
 @RequestMapping(value = "/client/*")
@@ -25,6 +27,7 @@ public class ClientController {
 	
 	ClientVO cvo = null;
 	OutOrderVO ovo = null;
+	ShipmentVO svo = null;
 
 	// http://localhost:8088/client/clientList
 	private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
@@ -34,6 +37,9 @@ public class ClientController {
 	
 	@Autowired
 	private OutOrderService oService;
+	
+	@Autowired
+	private ShipmentService sService;
 	
 	@RequestMapping(value = "/clientList", method = RequestMethod.GET)
 	public void clientListGET(Model model, ClientVO cvo) throws Exception {
@@ -60,7 +66,7 @@ public class ClientController {
 	
 	// http://localhost:8088/client/outOrderList
 	  @RequestMapping(value = "/outOrderList", method = RequestMethod.GET)
-	  public void outOrderGET(Model model, @ModelAttribute("startDate") String startDate, 
+	  public void outOrderListGET(Model model, @ModelAttribute("startDate") String startDate, 
 	    		@ModelAttribute("endDate") String endDate, OutOrderVO ovo) throws Exception {
 		  logger.debug("outOrderListGET() 호출");
 		  // 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
@@ -81,5 +87,30 @@ public class ClientController {
 		  
 		  
 	  }
+	  
+	// http://localhost:8088/client/shipmentList
+		  @RequestMapping(value = "/shipmentList", method = RequestMethod.GET)
+		  public void shipmentListGET(Model model, @ModelAttribute("startDate") String startDate, 
+				  @ModelAttribute("endDate") String endDate, ShipmentVO svo) throws Exception {
+			  logger.debug("shipmentListGET() 호출");
+			  // 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
+			  if(svo.getShp_date() != null || svo.getClt_id() != null || svo.getEmp_id() != null) {
+				  logger.debug("검색어O, 검색된 데이터만 출력"+svo);
+				  // 서비스 -> 출하목록 가져오기
+				  List<ShipmentVO> shipmentList = sService.shipmentListSearch(svo);
+				  // Model 객체에 저장
+				  model.addAttribute("shipmentList", shipmentList);
+			  }else {
+				  logger.debug("검색어 X, 전체 데이터 출력"+svo);
+				  // 서비스 출하목록 가져오기
+				  List<ShipmentVO> shipmeList = sService.shipmentList();
+				  // Model 객체에 저장
+				  model.addAttribute("shipmentList", shipmeList);
+		  }
+			  
+			  
+			  
+		  
+}
 }
  

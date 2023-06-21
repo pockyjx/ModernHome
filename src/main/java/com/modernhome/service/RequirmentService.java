@@ -17,4 +17,10 @@ public interface RequirmentService {
 	// 소요량 등록
 	public void regRequirement(ReqJoinVO vo) throws Exception;
 
+	// 소요량 수정
+	public void modifyRequirement(ReqJoinVO vo) throws Exception;
+	
+	// 소요량 삭제
+	public void deleteRequirement(int req_id) throws Exception;
+	
 }

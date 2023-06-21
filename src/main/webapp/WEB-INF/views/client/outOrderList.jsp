@@ -18,22 +18,22 @@
                    	<div>
                    		<label>수주일자</label>
                    		<div>
-		                   	<input type="date" name="startDate">
+		                   	<input type="date" name="oo_start_date_1">
                    			~
-		                   	<input type="date" name="endDate">
+		                   	<input type="date" name="oo_start_date_2">
                    		</div>
                    	</div>
 		       		<br>
 		       		<div>
                    		<label>출하일자</label>
                    		<div>
-		                   	<input type="date" name="startDate">
+		                   	<input type="date" name="oo_end_date_1">
                    			~
-		                   	<input type="date" name="endDate">
+		                   	<input type="date" name="oo_end_date_2">
                    		</div>
                    	</div>
-		       		<span>상호명 :
-		       			<input type="text" name="clt_id" placeholder="상호명을 입력하세요">
+		       		<span>거래처명 :
+		       			<input type="text" name="clt_id" placeholder="거래처명을 입력하세요">
 		       		</span>
 		       		<span>담당자 :
 		       			<input type="text" name="emp_id" placeholder="담당자를 입력하세요">

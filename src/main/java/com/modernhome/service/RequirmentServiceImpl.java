@@ -34,6 +34,20 @@ public class RequirmentServiceImpl implements RequirmentService {
 		rdao.regRequirement(vo);
 	}
 
+	// 소요량 수정
+	@Override
+	public void modifyRequirement(ReqJoinVO vo) throws Exception {
+		rdao.modifyRequirement(vo);
+	}
+
+	// 소요량 삭제
+	@Override
+	public void deleteRequirement(int req_id) throws Exception {
+		rdao.deleteRequirement(req_id);
+	}
+	
+	
+
 	
 	
 	
