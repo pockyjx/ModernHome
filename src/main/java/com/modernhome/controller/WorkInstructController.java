@@ -99,7 +99,7 @@ public class WorkInstructController {
 	@RequestMapping(value = "/instruct/add", method = RequestMethod.POST)
 	public String addInstrPOST(WijoinVO vo) throws Exception {
 		logger.debug("addInstrPOST() 호출");
-		
+		 
 		logger.debug("@@@@@@@@@@@@@@@@@vo : {}", vo);
 		wiService.addInstr(vo);
 		
@@ -202,6 +202,7 @@ public class WorkInstructController {
 		
 		wiService.deleteInstr(work_id);
 		
+		// 페이지 이동
 		return "redirect:/production/instruct/list";
 	}
 	
