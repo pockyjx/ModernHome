@@ -35,13 +35,9 @@ public class MaterialDAOImpl implements MaterialDAO {
 
 	// 자재 검색 결과
 	@Override
-	public List<MaterialVO> getMaterialList(String itemOption, String search) {
+	public List<MaterialVO> getMaterialList(MaterialVO vo) {
 
-		Map<String, Object> parameterMap = new HashMap();
-		parameterMap.put("itemOption", itemOption);
-		parameterMap.put("search", search);
-		 
-		 return sqlSession.selectList(NAMESPACRE + ".maSearchList", parameterMap);
+		 return sqlSession.selectList(NAMESPACRE + ".maSearchList", vo);
 
 	}
 
