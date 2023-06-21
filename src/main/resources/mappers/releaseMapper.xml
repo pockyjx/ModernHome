@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.modernhome.mapper.releaseMapper">
+  
+	<resultMap id="WorkInstrVO" type="WorkInstrVO">
+        <id property="work_id" column="work_id" />
+        <result property="work_num" column="work_num" />
+        <result property="reg_date" column="reg_date" />
+    </resultMap>
+	<resultMap id="MaterialVO" type="MaterialVO">
+        <id property="ma_id" column="ma_id" />
+        <result property="ma_name" column="ma_name" />
+    </resultMap>
+	<resultMap id="MaterialStockVO" type="MaterialStockVO">
+        <result property="ma_id" column="ma_id" />
+        <result property="ms_cnt" column="ms_cnt" />
+    </resultMap>
+	<resultMap id="WarehouseVO" type="WarehouseVO">
+        <id property="wh_id" column="wh_id" />
+        <result property="wh_name" column="wh_name" />
+    </resultMap>
+
+	<resultMap type="MaterialReleaseVO" id="MaterialReleaseVO">
+        <id property="mr_id" column="mr_id" />
+        <result property="mr_num" column="mr_num" />
+        <result property="ma_id" column="ma_id" />
+        <result property="work_id" column="work_id" />
+        <result property="wh_id" column="wh_id" />
+        <result property="mr_cnt" column="mr_cnt" />
+        <result property="mr_date" column="mr_date" />
+        <result property="mr_state" column="mr_state" />
+        <result property="emp_id" column="emp_id" />
+        <collection property="workInstrVO" resultMap="WorkInstrVO"/>
+        <collection property="materialVO" resultMap="MaterialVO"/>
+        <collection property="materialStockVO" resultMap="MaterialStockVO"/>
+        <collection property="warehouseVO" resultMap="WarehouseVO"/>
+	</resultMap>
+	<select id="getMaterialReleaseList" parameterType="MaterialReleaseVO" resultMap="MaterialReleaseVO">
+  		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt 
+		from material_release mr 
+		join work_instr wi on mr.work_id = wi.work_id 
+		join material m on mr.ma_id = m.ma_id 
+		join warehouse w on mr.wh_id = w.wh_id
+		join material_stock ms on mr.ma_id = ms.ma_id
+  	</select>
+  	
+  	<resultMap type="OutOrderVO" id="OutOrderVO">
+  		<id property="oo_id" column="oo_id" />
+  		<result property="oo_num" column="oo_num" />
+  		<result property="oo_end_date" column="oo_end_date" />
+  	</resultMap>
+  	<resultMap type="ClientVO" id="ClientVO">
+  		<id property="clt_id" column="clt_id" />
+  		<result property="clt_name" column="clt_name" />
+  	</resultMap>
+  	<resultMap type="ProductVO" id="ProductVO">
+  		<id property="pro_id" column="pro_id" />
+  		<result property="pro_name" column="pro_name" />
+  	</resultMap>
+  	<resultMap type="ProductStockVO" id="ProductStockVO">
+  		<result property="pro_id" column="pro_id" />
+  		<result property="ps_cnt" column="ps_cnt" />
+  	</resultMap>	
+  	
+  	<resultMap type="ProductReleaseVO" id="ProductReleaseVO">
+  		<id property="pr_id" column="pr_id" />
+  		<result property="pr_num" column="pr_num" />
+  		<result property="pr_cnt" column="pr_cnt" />
+  		<collection property="outOrderVO" resultMap="OutOrderVO"/>
+  		<collection property="clientVO" resultMap="ClientVO"/>
+  		<collection property="productVO" resultMap="ProductVO"/>
+  		<collection property="warehouseVO" resultMap="WarehouseVO"/>
+  	</resultMap>
+  	<select id="getProductReleaseList" parameterType="ProductReleaseVO" resultType="ProductReleaseVO">
+  		select oo.oo_num, pr_num, c.clt_name, p.pro_name, pr_cnt, ps.ps_cnt, w.wh_name, oo.oo_end_date, pr_state, pr.emp_id, pr_date
+		from product_release pr 
+		join out_order oo on pr.oo_id = oo.oo_id
+		join warehouse w on pr.wh_id = w.wh_id 
+		join client c on oo.clt_id = c.clt_id
+		join product p on pr.pro_id = p.pro_id 
+		join product_stock ps on pr.pro_id = ps.pro_id
+  	</select>
+  </mapper>
