@@ -12,6 +12,7 @@ import com.modernhome.persistence.InorderDAO;
 @Service
 public class InorderServiceImpl implements InorderService {
 	
+	// DAO 객체 주입
 	@Inject
 	private InorderDAO iodao;
 	

@@ -14,13 +14,12 @@
 		var pageStatus = "";
 	
         $(document).ready(function() {
-
 			// 추가 버튼 클릭 시 행 추가
             // 추가버튼 1번 누르면 추가버튼 비활성화
             $("#addRowButton").click(function() {
                 var newRow = '<tr>' +
                     '<td><input type="checkbox"></td>' +
-                    '<td><input type="text" name="wh_num" placeholder="창고 코드" readonly></td>' +
+                    '<td><input type="text" name="wh_num" placeholder="자동으로 부여" readonly></td>' +
                     '<td><input type="text" name="wh_name" placeholder="창고명"></td>' +
                     '<td>' +
 					'<select name="wh_type">' +
@@ -28,7 +27,7 @@
 					'<option value="완제품">완제품</option>' +
 					'</select>' +
 					'</td>' +
-                    '<td><input type="tel" name="wh_tel" placeholder="연락처"></td>'
+                    '<td><input type="tel" name="wh_tel" placeholder="연락처"></td>' +
                     '</tr>';
                     
                  // 첫번째 자식<tr> 뒤에서 부터 행을 추가함    
@@ -91,6 +90,7 @@
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
 					$("#deleteWarehouseButton").removeAttr("disabled");
+					
 					$("#cancleButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
@@ -100,25 +100,37 @@
 				if(pageStatus == "update"){
 					var row = $("input[name='selectedWhId']:checked").closest("tr");
 					
+					// 폼 초기화(기존내용으로)
+					// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
+					$("#warehouseList")[0].reset();
+					
 					// 각 셀의 값을 원래 상태로 되돌림
 					row.find("td:not(:first-child)").each(function(index) {
 						var cellValue = $(this).find("input").val();
-						$(this).html(cellValue);
+						if ($(this).find("select").length) {
+							// <select>가 있는 경우 선택된 옵션의 텍스트로 변경
+							var selectedOptionText = $(this).find("select option:selected").text();
+							$(this).html(selectedOptionText);
+						}else {
+							// <select>가 없는 경우 셀 값을 그대로 표시
+							$(this).html(cellValue);
+						}
 					});
 					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
 					$("#deleteWarehouseButton").removeAttr("disabled");
+					
 					$("#cancleButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
 					
 					pageStatus = "";
 					
-				}
+				} // if(update)문
 			
-			});
+			}); // 취소버튼
             
             
             // 수정 버튼 누를 시
@@ -143,12 +155,27 @@
 					row.find("td:not(:first-child)").each(function(index) {
 						var cellValue = $(this).text();
 						var cellOption = index === 0 ? "readonly" : "";
-						var cellName = cellNames[index];
+						var cellName = cellNames[index]
+						var cellContent;
 						
-						$(this).html('<input type="text" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');
+						if (index === 2){
+							cellContent = '<td>' +
+							'<select name="' + cellName + '">' +
+							'<option value="자재" ' + (cellValue === '자재' ? 'selected' : '') + '>자재</option>' +
+							'<option value="완제품" ' + (cellValue === '완제품' ? 'selected' : '') + '>완제품</option>' +
+							'</select>' +
+							'</td>';
+						}else {
+							cellContent = '<td><input type="text" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '></td>';
+						}
 						
+						$(this).html(cellContent);
+						
+						// 버튼 활성화, 비활성화
 						$("#updateButton").attr("disabled", "disabled");
 						$("#addRowButton").attr("disabled", "disabled");
+						$("#deleteWarehouseButton").attr("disabled", "disabled");
+						
 						$("#cancleButton").removeAttr("disabled");
 						$("#submitButton").removeAttr("disabled");
 						
@@ -193,7 +220,7 @@
 		<!-- 검색칸 -->	
              
 		<h2>창고</h2>
-			<form action="" method="GET">
+			<form id="warehouseList" action="" method="GET">
 		
 			<input type="button" id="addRowButton" value="추가">
 			<input type="button" id="cancleButton" value="취소" disabled="disabled">

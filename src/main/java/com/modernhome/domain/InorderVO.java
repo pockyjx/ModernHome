@@ -14,10 +14,17 @@ public class InorderVO {
 	private Integer clt_id;
 	private Integer emp_id;
 	
+	private String ma_num;
+	private String ma_name;
+	private String ma_price;
+	
+	private String clt_num;
+	private String clt_name;
+	
 	
 	// join 할 테이블
-	private MaterialVO materialVO;
-	private ClientVO clientVO;
+//	private MaterialVO materialVO;
+//	private ClientVO clientVO;
 	
 	
 	public Integer getIo_id() {
@@ -86,25 +93,44 @@ public class InorderVO {
 	public void setEmp_id(Integer emp_id) {
 		this.emp_id = emp_id;
 	}
-	public MaterialVO getMaterialVO() {
-		return materialVO;
+	public String getMa_num() {
+		return ma_num;
 	}
-	public void setMaterialVO(MaterialVO materialVO) {
-		this.materialVO = materialVO;
+	public void setMa_num(String ma_num) {
+		this.ma_num = ma_num;
 	}
-	public ClientVO getClientVO() {
-		return clientVO;
+	public String getMa_name() {
+		return ma_name;
 	}
-	public void setClientVO(ClientVO clientVO) {
-		this.clientVO = clientVO;
+	public void setMa_name(String ma_name) {
+		this.ma_name = ma_name;
+	}
+	public String getMa_price() {
+		return ma_price;
+	}
+	public void setMa_price(String ma_price) {
+		this.ma_price = ma_price;
+	}
+	public String getClt_num() {
+		return clt_num;
+	}
+	public void setClt_num(String clt_num) {
+		this.clt_num = clt_num;
+	}
+	public String getClt_name() {
+		return clt_name;
+	}
+	public void setClt_name(String clt_name) {
+		this.clt_name = clt_name;
 	}
 	
 	@Override
 	public String toString() {
 		return "InorderVO [io_id=" + io_id + ", io_num=" + io_num + ", ma_id=" + ma_id + ", io_cnt=" + io_cnt
 				+ ", io_amount=" + io_amount + ", io_unit=" + io_unit + ", io_date=" + io_date + ", io_state="
-				+ io_state + ", rec_date=" + rec_date + ", clt_id=" + clt_id + ", emp_id=" + emp_id + ", materialVO="
-				+ materialVO + ", clientVO=" + clientVO + "]";
+				+ io_state + ", rec_date=" + rec_date + ", clt_id=" + clt_id + ", emp_id=" + emp_id + ", ma_num="
+				+ ma_num + ", ma_name=" + ma_name + ", ma_price=" + ma_price + ", clt_num=" + clt_num + ", clt_name="
+				+ clt_name + "]";
 	}
 	
 }
