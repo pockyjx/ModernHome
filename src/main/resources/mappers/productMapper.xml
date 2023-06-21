@@ -13,19 +13,16 @@
 	<!-- 완제품 목록 조회 -->
 	
 	<!-- 완제품 검색 결과 조회 -->
-	<select id="proSearchList" resultType="com.modernhome.domain.ProductVO"
-		parameterType="java.util.Map">
+	<select id="proSearchList" resultType="com.modernhome.domain.ProductVO">
 		select * from product
-		where
-		<choose>
-			<when test="itemOption == 'name'">
-				pro_name like CONCAT('%', #{search}, '%')
-			</when>
-			
-			<otherwise>
-				pro_num like CONCAT('%', #{search}, '%')
-			</otherwise>
-		</choose>
+		<where>
+			<if test="pro_num != ''">
+				pro_num like CONCAT('%', #{pro_num}, '%')
+			</if>
+			<if test="pro_name != ''">
+				AND pro_name like CONCAT('%', #{pro_name}, '%')
+			</if>
+		</where>
 	</select>	
 	<!-- 완제품 검색 결과 조회 -->
 	
@@ -52,6 +49,21 @@
 		where pro_num = #{pro_num}
 	</update>
 	<!-- 완제품 수정 -->
+	
+	<!-- 총 개시글 개수 출력 -->
+	<select id="countProduct" resultType="int">
+		select count(*) from product
+	</select>
+	<!-- 총 개시글 개수 출력 -->
+	
+	<!-- 페이징 처리 후 게시글 조회 -->
+	<select id="pagingProduct" resultType="ProductVO">
+		SELECT * 
+		FROM (SELECT ROWNUM rn, A.*
+				FROM (SELECT * FORM product ORDER BY pro_id desc) A)
+		WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	<!-- 페이징 처리 후 게시글 조회 -->
 	
 	
 </mapper>

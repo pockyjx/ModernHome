@@ -48,6 +48,22 @@ public class RequirmentDAOImpl implements RequirmentDAO {
 		
 	}
 
+	// 소요량 수정
+	@Override
+	public void modifyRequirement(ReqJoinVO vo) {
+		logger.debug("소요량 수정!");
+		sqlSession.update(NAMESPACE + ".updateReq", vo);
+	}
+	
+	// 소요량 삭제
+	@Override
+	public void deleteRequirement(int req_id) {
+		logger.debug("소요량 삭제!");
+		sqlSession.delete(NAMESPACE + ".delRequirement", req_id);
+	}
+	
+	
+
 	
 	
 	

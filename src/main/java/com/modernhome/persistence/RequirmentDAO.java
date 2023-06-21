@@ -16,4 +16,10 @@ public interface RequirmentDAO {
 	
 	// 소요량 등록
 	public void regRequirement(ReqJoinVO vo);
+	
+	// 소요량 수정
+	public void modifyRequirement(ReqJoinVO vo);
+	
+	// 소요량 삭제
+	public void deleteRequirement(int req_id);
 }
