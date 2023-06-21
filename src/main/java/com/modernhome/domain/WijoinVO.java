@@ -39,6 +39,8 @@ public class WijoinVO {
 	private int prfrm_cnt;
 	private Integer ma_id;
 	
+	private String prfrm_num;
+	
 	public Integer getWork_id() {
 		return work_id;
 	}
@@ -250,6 +252,13 @@ public class WijoinVO {
 		this.ma_id = ma_id;
 	}
 	
+	public String getPrfrm_num() {
+		return prfrm_num;
+	}
+	public void setPrfrm_num(String prfrm_num) {
+		this.prfrm_num = prfrm_num;
+	}
+	
 	@Override
 	public String toString() {
 		return "WijoinVO [work_id=" + work_id + ", pro_id=" + pro_id + ", req_id=" + req_id + ", clt_id=" + clt_id
@@ -261,7 +270,7 @@ public class WijoinVO {
 				+ ", reg_date=" + reg_date + ", update_date=" + update_date + ", oo_end_date=" + oo_end_date
 				+ ", qc_id=" + qc_id + ", qc_num=" + qc_num + ", qc_yn=" + qc_yn + ", qc_cnt=" + qc_cnt + ", qc_date="
 				+ qc_date + ", repaired=" + repaired + ", prfrm_id=" + prfrm_id + ", prfrm_cnt=" + prfrm_cnt
-				+ ", ma_id=" + ma_id + "]";
+				+ ", ma_id=" + ma_id + ", prfrm_num=" + prfrm_num + "]";
 	}
 	
 }
