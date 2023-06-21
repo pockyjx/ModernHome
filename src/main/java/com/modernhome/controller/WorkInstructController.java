@@ -196,15 +196,13 @@ public class WorkInstructController {
 	
 	
 	// 작업지시 삭제 - /production/instruct/delete
-	@RequestMapping(value = "/production/instruct/delete")
-	public String deleteInstr(@RequestParam("selectedEmpId") Integer[] selectedEmpIds) throws Exception {
+	@RequestMapping(value = "/instruct/delete")
+	public String deleteInstr(@ModelAttribute("work_id") int work_id) throws Exception {
 		logger.debug("deleteInstr() 호출");
 		
-		for(Integer emp_id : selectedEmpIds) {
-			wiService.deleteInstr(emp_id);
-		}
+		wiService.deleteInstr(work_id);
 		
-		return "";
+		return "redirect:/production/instruct/list";
 	}
 	
 }

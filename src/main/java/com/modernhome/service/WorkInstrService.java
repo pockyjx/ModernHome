@@ -35,6 +35,6 @@ public interface WorkInstrService {
 	public void modifyInstr(WijoinVO vo) throws Exception;
 	
 	// 작업지시 삭제
-	public void deleteInstr(Integer emp_id) throws Exception;
+	public void deleteInstr(int work_id) throws Exception;
 	
 }

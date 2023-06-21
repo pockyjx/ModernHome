@@ -63,8 +63,8 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	}
 
 	@Override
-	public void deleteInstr(Integer emp_id) throws Exception {
-		dao.deleteInstr(emp_id);
+	public void deleteInstr(int work_id) throws Exception {
+		dao.deleteInstr(work_id);
 	}
 
 }

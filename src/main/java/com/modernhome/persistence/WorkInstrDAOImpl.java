@@ -89,9 +89,9 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	}
 
 	@Override
-	public void deleteInstr(Integer emp_id) throws Exception {
+	public void deleteInstr(int work_id) throws Exception {
 		logger.debug("WorkInstrDAOImpl_deleteInstr() 실행");
-		sqlSession.delete(NAMESPACE + ".deleteInstr", emp_id);
+		sqlSession.delete(NAMESPACE + ".deleteInstr", work_id);
 	}
 
 }

@@ -37,7 +37,7 @@
 		
 		// 수정 버튼 누를 시
 		$("#updateButton").click(function(){
-			var selectedCheckbox = $("input[name='selectedEmpId']:checked");
+			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
 			
 			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 			if (selectedCheckbox.length === 1) {
@@ -82,11 +82,19 @@
         $(".table-instrList").on("click", "td input[type='checkbox']", function() {
             var checkbox = $(this);
             if (checkbox.prop("checked")) {
+            	var workId = selectedCheckbox.val();
+				location.href = "/production/instruct/delete?work_id=" + workId;
                 checkbox.closest("tr").addClass("selected");
             } else {
                 checkbox.closest("tr").removeClass("selected");
             }
         });
+        // 삭제 버튼 누를 시
+		$("#deleteInstrButton").click(function(){
+			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
+			var workId = selectedCheckbox.val();
+			location.href = "/production/instruct/delete?work_id=" + workId;
+		});
         
 		// 체크박스 선택 시 체크박스의 개수 구하기
         updateSelectedCheckboxCount();
@@ -157,13 +165,16 @@
 		<input type="submit" value="조회">
 	</form>
 	
+	${instrList}
+	
 	<h2>작업지시 목록</h2>
 	<span id="selectedCheckboxCount">0</span>
+	
 	<div>
 		<button id="addRowButton" onclick="location.href='/production/instruct/add'">추가</button>
 		<button id="cancleButton" disabled="disabled">취소</button>
 		<button id="updateButton">수정</button>
-		<button id="deleteInstrButton" onclick="location.href='/production/instruct/delete'">삭제</button>
+		<button id="deleteInstrButton">삭제</button>
 		<button id="submitButton" formaction="regInstr" formmethod="post" disabled="disabled">저장</button>
 	</div>
 	
@@ -184,7 +195,7 @@
 		
 		<c:forEach var="list" items="${instrList}" varStatus="status">
 			<tr>
-				<td><input type="checkbox" name="selectedEmpId" value="${list.work_id}"></td>
+				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}"></td>
 				<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
 				<td>${list.line_name}</td>
 				<td>${list.pro_num}</td>
@@ -201,7 +212,10 @@
 				<td>${list.work_cnt}</td>
 				<td>${list.oo_num}</td>
 				<td>${list.oo_end_date}</td>
-				<td>${list.emp_name}</td>
+				<td>
+					<c:if test="${!empty list.update_emp_id}">${list.emp_name}</c:if>
+					<c:if test="${empty list.update_emp_id}">${list.emp_name}</c:if>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

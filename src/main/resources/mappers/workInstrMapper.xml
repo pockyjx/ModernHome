@@ -39,7 +39,8 @@
 	
 	<!-- 작업지시 목록 조회 -->
 	<select id="getList" resultMap="wijoinRM">
-		SELECT wi.work_id, wi.pro_id, work_num, line_name, pro_num, pro_name, wi.work_state, oo_cnt, wi.reg_date, wi.update_date, wi.work_cnt, oo_num, oo_end_date, emp.emp_name 
+		SELECT wi.work_id, wi.pro_id, work_num, line_name, pro_num, pro_name, wi.work_state, oo_cnt, 
+			wi.reg_date, wi.update_date, wi.work_cnt, oo_num, oo_end_date, wi.emp_id, wi.update_emp_id, emp_name 
 		FROM work_instr wi 
 		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
 		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
@@ -158,7 +159,7 @@
 	
 	<!-- 작업지시 삭제 -->
 	<delete id="deleteInstr">
-		DELETE FROM work_instr WHERE emp_id = #{emp_id}
+		DELETE FROM work_instr WHERE work_id = #{work_id}
 	</delete>
 	<!-- 작업지시 삭제 -->
 
