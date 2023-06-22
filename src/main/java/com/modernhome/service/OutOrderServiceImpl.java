@@ -26,6 +26,16 @@ public class OutOrderServiceImpl implements OutOrderService {
 		
 		return oDAO.outOrderListSearch(ovo);
 	}
+	
+	
+	// 수주정보 등록
+	@Override
+	public void regOutOrder(OutOrderVO ovo) {
+		oDAO.regOutOrder(ovo);
+	}
+	
+	
+	
 
 	
 }

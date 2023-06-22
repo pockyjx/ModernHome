@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.ReceiveVO;
 
 @Repository
@@ -26,12 +27,13 @@ public class ReceiveDAOImpl implements ReceiveDAO {
 	private static final Logger logger
 				= LoggerFactory.getLogger(ReceiveDAOImpl.class);
 
-	// 발주 조회
+	// 입고 조회
 	@Override
 	public List<ReceiveVO> getReceiveList() {
 		return sqlSession.selectList(NAMESPACE + ".getReceiveList");
 	}
 
+	// 입고 검색 결과
 	@Override
 	public List<ReceiveVO> getReceiveSearch(String startDate, String endDate, String ma_name, String io_num) {
 		
@@ -44,4 +46,30 @@ public class ReceiveDAOImpl implements ReceiveDAO {
 		return sqlSession.selectList(NAMESPACE + ".receiveSearch" ,parameterMap);
 	}
 
+	// 입고 등록
+	@Override
+	public void regReceive(ReceiveVO rvo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (입고등록)");
+		
+		sqlSession.insert(NAMESPACE + ".regReceive", rvo); 
+	}
+	
+	
+	// 입고 수정
+	@Override
+	public void updateReceive(ReceiveVO rvo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (입고수정)");
+		
+		sqlSession.update(NAMESPACE + ".updateReceive", rvo);
+	}
+	
+	// 입고 삭제
+	@Override
+	public void deleteReceive(int rec_id) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행(입고삭제)");
+	
+		sqlSession.delete(NAMESPACE + ".deleteReceive", rec_id);
+	}
+	
+	
 }
