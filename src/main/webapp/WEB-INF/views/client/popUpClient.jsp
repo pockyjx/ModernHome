@@ -41,7 +41,7 @@
 		</tr>
 		
 		<c:forEach items="${popUpClt }" var="vo">
-		<c:if test="${vo.clt_sort.equals('발주') }">
+		<c:if test="${vo.clt_sort.equals('수주') }">
 		
 		<tr>
 			<td>${vo.clt_id }</td>

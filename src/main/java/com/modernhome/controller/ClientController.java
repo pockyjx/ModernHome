@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.EmployeeVO;
 import com.modernhome.domain.MaterialVO;
+import com.modernhome.domain.OutOrderJoinVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.ProductVO;
 import com.modernhome.domain.ShipmentVO;
@@ -105,22 +106,24 @@ public class ClientController {
 	
 	// ----------------------------- 수주 ------------------------------------
 	// http://localhost:8088/client/outOrderList
-	// 수주관리
+	// 수주관리 - 리스트 + 검색
 	@RequestMapping(value = "/outOrderList", method = RequestMethod.GET)
-	public void outOrderListGET(Model model, @ModelAttribute("startDate") String startDate, 
-		@ModelAttribute("endDate") String endDate, OutOrderVO ovo) throws Exception {
+	public void outOrderListGET(Model model, OutOrderJoinVO ovo) throws Exception {
 		logger.debug("outOrderListGET() 호출");
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
-		if(ovo.getOo_start_date() != null || ovo.getOo_end_date() != null || ovo.getClt_id() != null || ovo.getEmp_id() != null) {
+		if(ovo.getOo_start_date() != null || ovo.getOo_end_date() != null || ovo.getClt_name() != null || ovo.getEmp_name() != null) {
 		logger.debug("검색어O, 검색된 데이터만 출력"+ovo);
 		// 서비스 -> 수주목록 가져오기
-		List<OutOrderVO> outOrderList = oService.outOrderListSearch(ovo);
+		List<OutOrderJoinVO> outOrderList = oService.outOrderListSearch(ovo);
 		// Model 객체에 저장
 		model.addAttribute("outOrderList", outOrderList);
+		
+		
 		}else {
 			logger.debug("검색어 X, 전체 데이터 출력"+ovo);
 			// 서비스 수주목록 가져오기
-			List<OutOrderVO> outOrderList = oService.outOrderList();
+			List<OutOrderJoinVO> outOrderList = oService.outOrderList();
+			logger.debug("outOrderList : " + outOrderList);
 			// Model 객체에 저장
 			model.addAttribute("outOrderList", outOrderList);
 		}
