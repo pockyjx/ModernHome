@@ -6,22 +6,43 @@
 <mapper namespace="com.modernhome.mapper.OutOrderMapper">
 
 	<!-- 수주 불러오기 -->
-		<select id="outOrderList" resultType="com.modernhome.domain.OutOrderVO">
-			SELECT * FROM out_order
+		<select id="outOrderList" resultType="com.modernhome.domain.OutOrderJoinVO">
+			SELECT oo_num, emp_name, clt_num, clt_name, pro_num, pro_name,
+			oo_cnt, oo_start_date, oo_end_date, oo_state
+			FROM out_order
+			join employee e on out_order.emp_id = e.emp_id
+			join client c on out_order.clt_id = c.clt_id
+			join product p on out_order.pro_id = p.pro_id;
 		</select>
 	<!-- 수주 -->
 		
 	<!-- 수주 검색 -->
-	<select id="outOrderListSearch" resultType="com.modernhome.domain.OutOrderVO">
-		SELECT * FROM out_order 
+	<select id="outOrderListSearch" resultType="com.modernhome.domain.OutOrderJoinVO">
+			SELECT oo_num, emp_name, clt_num, clt_name, pro_num, pro_name,
+			oo_cnt, oo_start_date, oo_end_date, oo_state
+			FROM out_order
+			join employee e on out_order.emp_id = e.emp_id
+			join client c on out_order.clt_id = c.clt_id
+			join product p on out_order.pro_id = p.pro_id
 		<where>
-		<if test="clt_id != null">
-			clt_id LIKE CONCAT('%', #{clt_id}, '%')
+		<if test="clt_name != null">
+			clt_name LIKE CONCAT('%', #{clt_name}, '%')
 		</if>
-		<if test="emp_id != null">
-			AND emp_id LIKE CONCAT('%', #{emp_id}, '%') 
+		<if test="emp_name != null">
+			AND emp_name LIKE CONCAT('%', #{emp_name}, '%') 
 		</if>
-
+		<if test="oo_start_date_1 != ''">
+			AND oo_start_date &gt;= #{oo_start_date_1}
+		</if>
+		<if test="oo_start_date_2 != ''">
+   	 		AND #{oo_start_date_2} &gt;= DATE(oo_start_date)
+		</if>
+		<if test="oo_end_date_1 != ''">
+			AND oo_end_date &gt;= #{oo_end_date_1}
+		</if>
+		<if test="oo_end_date_2 != ''">
+   	 		AND #{oo_end_date_2} &gt;= DATE(oo_end_date)
+		</if>
 		</where>
 	</select>
 	<!-- 수주 검색 -->

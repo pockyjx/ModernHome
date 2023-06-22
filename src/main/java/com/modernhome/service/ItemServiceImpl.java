@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.MaterialVO;
-import com.modernhome.domain.PagingVO;
 import com.modernhome.domain.ProductVO;
 import com.modernhome.persistence.MaterialDAO;
 import com.modernhome.persistence.ProductDAO;
@@ -58,11 +57,6 @@ public class ItemServiceImpl implements ItemService {
 		return pdao.countProduct();
 	}
 	
-	// 페이징 처리 게시글 조회
-	@Override
-	public List<ProductVO> pagingProduct(PagingVO vo) {
-		return pdao.pagingProduct(vo);
-	}
 	
 	/////////////////////////////////////////////////////////////////////////
 	
