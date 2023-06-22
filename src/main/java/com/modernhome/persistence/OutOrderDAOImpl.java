@@ -37,6 +37,17 @@ public class OutOrderDAOImpl implements OutOrderDAO {
 		
 		return sqlSession.selectList(NAMESAPCE+ ".outOrderListSearch", ovo);
 	}
+
+	
+	// 수주 등록
+	@Override
+	public void regOutOrder(OutOrderVO ovo) {
+		logger.debug("DAO -> mapper -> SQL 실행(수주 등록)");
+		
+		logger.debug("ovo : " + ovo);
+		sqlSession.insert(NAMESAPCE + ".regOutOrder", ovo);
+		
+	}
 	
 	
 

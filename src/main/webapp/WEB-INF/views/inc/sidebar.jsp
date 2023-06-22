@@ -35,7 +35,7 @@
                             <a href="/stock/productStockList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>완제품재고현황</a>
                             <a href="/stock/materialStockList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>자재재고현황</a>
                             <a href="/wms/inorder/inorderlist" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>발주관리</a>
-                            <a href="" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>입고관리</a>
+                            <a href="/wms/receive/receivelist" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>입고관리</a>
                             <a href="/release/materialRelease" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>자재출고관리</a>
                             <a href="/release/productRelease" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>제품출고관리</a>
                             <a href="/wms/warehouse/warehouselist" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>창고관리</a>
@@ -54,15 +54,15 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>영업관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="/client/clientList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>거래처관리</a>
-                            <a href="" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>수주관리</a>
+                            <a href="/client/outOrderList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>수주관리</a>
                             <a href="" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>출하관리</a>
                         </div>
                     </div>
- 					<a href="/" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>품질관리</a>
+ 					<a href="" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>품질관리</a>
  					<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>사원관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>팀원관리</a>
+                            <a href="employee/employeeManagement" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>팀원관리</a>
                             <a href="/employee/employeeList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>사원조회</a>
                         </div>
                     </div>
