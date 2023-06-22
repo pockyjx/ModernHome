@@ -49,5 +49,17 @@ public class QualityDAOImpl implements QualityDAO{
 	}
 
 
+	
+	// 품질 업데이트
+	@Override
+	public void updateQuality(WijoinVO wvo) {
+		logger.debug("DAO -> mapper 호출 -> SQL 실행(품질등록)");
+		
+		sqlSession.update(NAMESPACE+".updateQuality",wvo);
+		
+	}
+
+
+
 
 }

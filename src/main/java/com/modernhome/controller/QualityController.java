@@ -27,12 +27,7 @@ public class QualityController {
 	private QualityService qService;
 	
 	// ===========================================
-	
-	
-	// 품질현황 추가(GET) - /quality/check/add
-	
-	// 품질현황 추가 처리(POST) - /quality/check/add
-	
+		
 	// http://localhost:8088/production/quality/qualitylist
 	// 품질현황 리스트 출력(GET) - /quality/qualitylist
 	@RequestMapping(value = "/quality/qualitylist", method = RequestMethod.GET)
@@ -59,28 +54,29 @@ public class QualityController {
 			model.addAttribute("qualityList",qualityList);
 		}
 		
-	}// getQualityList
+	}// QualityList
 	
+	// 품질등록, 품질 업데이트
+	@RequestMapping(value="/quality/updateQuality", method = RequestMethod.POST)
+	public String updateQualityPOST(WijoinVO wvo) throws Exception {
+		
+		logger.debug("updateQualityPOST() 호출(품질업데이트)");
+		
+		logger.debug("wvo : " + wvo);
+		
+		qService.updateQuality(wvo);
+
+			
+		return "redirect:/production/quality/qualitylist";
+		
+	}// updateQuality
 	
 	
 	// ===========================================
 	
+		
+
 	
-	// 불량 추가(GET) - /quality/defective/add
-	
-	// 불량 추가 처리(POST) - /quality/defective/add
-	
-	
-	// 불량 리스트 조회(GET) - /quality/defective/list
-	
-	
-	// 불량 수정(GET) - /quality/defective/modify
-	
-	// 불량 수정 처리(POST) - /quality/defective/modify
-	
-	
-	// 불량 삭제(GET) - /quality/defective/delete
-	
-	// 불량 삭제 처리(POST) - /quality/defective/delete
+
 	
 }

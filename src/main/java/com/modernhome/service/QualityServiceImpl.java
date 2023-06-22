@@ -28,6 +28,15 @@ public class QualityServiceImpl implements QualityService{
 		return qdao.getQualitySearch(qc_num, startDate, endDate, qc_yn);
 	}
 
+	
+	// 품질 업데이트
+	@Override
+	public void updateQuality(WijoinVO wvo) {
+		qdao.updateQuality(wvo);
+		
+	}
+
+
 
 	
 

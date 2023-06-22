@@ -84,4 +84,13 @@
 	
 	<!-- 품질 작업 검색 -->
 	
+	<!-- 품질 업데이트 -->
+	<update id="updateQuality">
+		UPDATE quality_checking 
+		SET qc_yn = #{qc_yn}
+		WHERE emp_id = #{emp_id}
+	</update>
+	<!-- 품질 업데이트 -->
+	
+	
 </mapper>
