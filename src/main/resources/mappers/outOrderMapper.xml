@@ -62,7 +62,11 @@
 	</insert>
 	<!-- 수주 등록 -->
 	
-	
+	<!-- 수주 삭제 -->
+	<delete id="deleteOutOrder">
+		DELETE FROM out_order WHERE oo_num = #{oo_num}
+	</delete>
+	<!-- 수주 삭제 -->
 	
 	
 

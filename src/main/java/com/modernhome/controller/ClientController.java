@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.EmployeeVO;
@@ -111,7 +112,8 @@ public class ClientController {
 	public void outOrderListGET(Model model, OutOrderJoinVO ovo) throws Exception {
 		logger.debug("outOrderListGET() 호출");
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
-		if(ovo.getOo_start_date() != null || ovo.getOo_end_date() != null || ovo.getClt_name() != null || ovo.getEmp_name() != null) {
+		if(ovo.getOo_start_date_1() != null || ovo.getOo_start_date_2() != null || ovo.getOo_end_date_1() != null
+				|| ovo.getOo_end_date_2() != null || ovo.getClt_name() != null || ovo.getEmp_name() != null) {
 		logger.debug("검색어O, 검색된 데이터만 출력"+ovo);
 		// 서비스 -> 수주목록 가져오기
 		List<OutOrderJoinVO> outOrderList = oService.outOrderListSearch(ovo);
@@ -168,7 +170,19 @@ public class ClientController {
 	}
 	
 	
-	
+	// 수주 삭제
+	@RequestMapping(value = "/deleteOutOrder")
+	public String deleteOutOrder(@RequestParam(value = "selected", required = false) String[] selected) throws Exception{
+		
+		logger.debug("deleteOutOrder() 호출 (수주 삭제)");
+		if(selected != null) {
+			for(String oo_num : selected) {
+				oService.deleteOutOrder(oo_num);
+			}
+		}
+		
+		return "redirect:/client/outOrderList";
+	}
 	
 	
 	
