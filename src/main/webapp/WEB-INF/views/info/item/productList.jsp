@@ -234,7 +234,7 @@
 			<td>${vo.pro_num }</td>
 			<td>${vo.pro_name }</td>
 			<td>${vo.pro_unit }</td>
-			<td><fmt:formatNumber value="${vo.pro_price }" /> </td>
+			<td>${vo.pro_price } </td>
 		</tr>
 		</c:forEach>
 	
