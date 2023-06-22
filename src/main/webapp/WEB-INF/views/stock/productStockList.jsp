@@ -25,8 +25,7 @@
 			<th>완제품 코드</th>
 			<th>완제품명</th>
 			<th>현 재고</th>
-			<th>등록자</th>
-			<th>등록일자</th>
+			<th>단위</th>
 		</tr>
 		
 		<c:forEach items="${psList }" var="vo">
@@ -36,8 +35,7 @@
 			<td>${vo.pro_id }</td>
 			<td>${vo.productVO.pro_name }</td>
 			<td>${vo.ps_cnt }</td>
-			<td>${vo.emp_id }</td>
-			<td>${vo.ps_reg_date }</td>
+			<td></td>
 		</tr>
 		</c:forEach>
 	</table>

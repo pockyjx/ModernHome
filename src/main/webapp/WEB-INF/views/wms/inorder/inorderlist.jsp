@@ -1,8 +1,12 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="../../inc/header.jsp"%>
+<%@ include file="../../inc/sidebar.jsp"%>
+<%@ include file="../../inc/nav.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,20 +56,15 @@
 	                '<td><input type="checkbox"></td>' +
 	                '<td><input type="text" name="io_num" placeholder="자동으로 부여" readonly></td>' +
 	                '<td><input type="text" name="ma_num" placeholder="자재코드" id="ma_num" readonly></td>' +
-	                '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly"></td>' +
+	                '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly></td>' +
 	                '<td><input type="text" name="clt_num" placeholder="거래처 코드" id="clt_num" readonly></td>' +
 	                '<td><input type="text" name="clt_name" placeholder="거래처명" id="clt_name" readonly></td>' +
 	                '<td><input type="text" name="io_cnt" placeholder="발주량"></td>' +
 	                '<td><input type="text" name="io_unit" placeholder="단위"></td>' +
 	                '<td><input type="text" name="io_amount" placeholder="총금액(자동계산)" readonly></td>' +
-	                '<td><input type="date" name="io_date" placeholder="발주일자"></td>' +
-	                '<td>' +
-					'<select name="io_state">' +
-					'<option value="완료">완료</option>' +
-					'<option value="미완료">미완료</option>' +
-					'</select>' +
-					'</td>' +
-	                '<td><input type="date" name="rec_date" placeholder="입고예정일"></td>' +
+	                '<td><input type="date" name="io_date" readonly></td>' +
+	                '<td><input type="text" name="io_state" value="미완료" readonly></td>' +
+	                '<td><input type="date" name="rec_date" placeholder="입고예정일" min="<fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/>"></td>' +
 	                '<td><input type="text" name="emp_id" placeholder="담당자"></td>' +
 	                '</tr>';
             	// 첫번째 자식<tr> 뒤에서 부터 행을 추가함    
@@ -202,9 +201,17 @@
 					row.find("td:not(:first-child)").each(function(index) {
 						var cellValue = $(this).text();
 						var cellType = index === 8 || index === 10 ? "date" : "text"; // 날짜 타입은 date로 설정
-						var cellReadonly = index === 5 || index === 9 || index === 10 ? "" : "readonly='readonly'";
 						var cellName = cellNames[index];
 						var cellContent;
+						var cellOption = "";
+						
+						if(index == 5 || index == 9 || index == 10) {
+							cellOption = "";
+						}else if(index == 0){
+							cellOption = "readonly";
+						}else {
+							cellOption = "disabled";
+						}
 						
 						if (index === 9){
 							cellContent = '<td>' +
@@ -214,7 +221,7 @@
 							'</select>' +
 							'</td>';
 						}else {
-							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '></td>';
 						}
 						
 						$(this).html(cellContent);
@@ -240,6 +247,76 @@
 			
             
 		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+        
+        // 체크박스 클릭 시 선택된 행 삭제
+        $(".table-inorderList").on("click", "td input[type='checkbox']", function() {
+            var checkbox = $(this);
+            if (checkbox.prop("checked")) {
+                checkbox.closest("tr").addClass("selected");
+            } else {
+                checkbox.closest("tr").removeClass("selected");
+            }
+        });
+
+		// 체크박스 선택 시 체크박스의 개수 구하기
+        updateSelectedCheckboxCount();
+
+        // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+        $(".table-inorderList th input[type='checkbox']").click(function() {
+            var checkbox = $(this);
+            var isChecked = checkbox.prop('checked');
+            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+            var table = checkbox.closest('table');
+            var rows = table.find('tr');
+
+            // <td> 부분의 행들을 선택하고 배경색 지정
+            rows.each(function() {
+                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+                if (checkboxTd.length > 0) {
+                    checkboxTd.prop('checked', isChecked);
+                    $(this).toggleClass('selected', isChecked);
+                }
+            });
+
+            updateSelectedCheckboxCount();
+        });
+
+        // <td> 쪽 체크박스 클릭 시 행 선택
+        $(".table-inoderList td input[type='checkbox']").click(function() {
+            var checkbox = $(this);
+            var isChecked = checkbox.prop('checked');
+            checkbox.closest('tr').toggleClass('selected', isChecked);
+
+            updateSelectedCheckboxCount(); 
+        });
+
+        function updateSelectedCheckboxCount() {
+            var totalCheckboxes = $(".table-inorderList td input[type='checkbox']").length;
+            var selectedCheckboxes = $(".table-inorderList td input[type='checkbox']:checked").length;
+            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+        } // 체크박스 선택 시 체크박스 개수 구하기
+     
+      
+		
+		
+		
+		
+        
+        
+        
 		
 		
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
@@ -300,6 +377,8 @@
 		<h2>발주</h2>
 			<form id="inorderList" action="" method="GET">
 			
+			<span id="selectedCheckboxCount">0</span>
+			
 			<input type="button" id="addRowButton" value="추가">
 			<input type="button" id="cancleButton" value="취소" disabled="disabled">
 			<input type="button" id="updateButton" value="수정">
@@ -310,7 +389,8 @@
 			<table class="table-inorderList" border="1">
 				
 			<input type="hidden" name="clt_id" id="clt_id">
-			<input type="hidden" name="ma_id" id="ma_id">	
+			<input type="hidden" name="ma_id" id="ma_id">
+			<c:set var="today" value="<%= new Date() %>" />
 				
 				<tr>
 					<th><input type="checkbox"></th>
@@ -349,3 +429,4 @@
 			</form>
 </body>
 </html>
+<%@ include file="../../inc/footer.jsp"%>

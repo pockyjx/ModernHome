@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -38,33 +39,29 @@
             }); // 추가 버튼
             
          // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-            $(".table-proList th input[type='checkbox']").click(function() {
-                var checkbox = $(this);
-                var isChecked = checkbox.prop('checked');
-                var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-                var table = checkbox.closest('table');
-                var rows = table.find('tr');
+         $(".table-proList th input[type='checkbox']").click(function() {
+             var checkbox = $(this);
+             var isChecked = checkbox.prop('checked');
+             var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+             var table = checkbox.closest('table');
+             var rows = table.find('tr');
 
-                // <td> 부분의 행들을 선택하고 배경색 지정
-                rows.each(function() {
-                    var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-                    if (checkboxTd.length > 0) {
-                        checkboxTd.prop('checked', isChecked);
-                        if (isChecked) {
-                            $(this).addClass('selected');
-                        } else {
-                            $(this).removeClass('selected');
-                        }
-                    }
-                });
-            });
+             // <td> 부분의 행들을 선택하고 배경색 지정
+             rows.each(function() {
+                 var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+                 if (checkboxTd.length > 0) {
+                     checkboxTd.prop('checked', isChecked);
+                     if (isChecked) {
+                         $(this).addClass('selected');
+                     } else {
+                         $(this).removeClass('selected');
+                     }
+                 }
+             });
+             
+             updateSelectedCheckboxCount();
+         });
 
-            // <td> 쪽 체크박스 클릭 시 행 선택
-            $(".table-proList td input[type='checkbox']").click(function() {
-                var checkbox = $(this);
-                var isChecked = checkbox.prop('checked');
-                checkbox.closest('tr').toggleClass('selected', isChecked);
-            });
             
          // 취소 버튼 누를 시 
 			$("#cancleButton").click(function(){
@@ -158,16 +155,15 @@
 				}
 			});
          	
-			updateSelectedCheckboxCount();
-			
 			// <td> 쪽 체크박스 클릭 시 행 선택
 	        $(".table-proList td input[type='checkbox']").click(function() {
 	            var checkbox = $(this);
 	            var isChecked = checkbox.prop('checked');
 	            checkbox.closest('tr').toggleClass('selected', isChecked);
 
-	            updateSelectedCheckboxCount(); 
+		        updateSelectedCheckboxCount();
 	        });
+			
 
 	        function updateSelectedCheckboxCount() {
 	            var totalCheckboxes = $(".table-proList td input[type='checkbox']").length;
@@ -178,6 +174,7 @@
             
         });
     </script>
+    
     <style>
         .selected {
             background-color: #b3ccff;

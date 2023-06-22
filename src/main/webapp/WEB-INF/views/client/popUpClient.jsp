@@ -41,13 +41,15 @@
 		</tr>
 		
 		<c:forEach items="${popUpClt }" var="vo">
-			<c:if test="${vo.clt_sort.equals('발주') }">
-				<tr>
-					<td>${vo.clt_id }</td>
-					<td>${vo.clt_num }</td>
-					<td>${vo.clt_name }</td>
-				</tr>
-			</c:if>
+		<c:if test="${vo.clt_sort.equals('수주') }">
+		
+		<tr>
+			<td>${vo.clt_id }</td>
+			<td>${vo.clt_num }</td>
+			<td>${vo.clt_name }</td>
+		</tr>
+		
+		</c:if>
 		</c:forEach>
 	
 	</table>

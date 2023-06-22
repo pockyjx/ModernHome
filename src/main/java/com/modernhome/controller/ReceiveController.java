@@ -10,8 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.modernhome.domain.ClientVO;
+import com.modernhome.domain.InorderVO;
+import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.ReceiveVO;
+import com.modernhome.service.ClientService;
+import com.modernhome.service.InorderService;
 import com.modernhome.service.ReceiveService;
 
 @Controller
@@ -24,6 +30,12 @@ public class ReceiveController {
 	// 의존성 주입
 	@Autowired
 	private ReceiveService rService;
+	
+	@Autowired
+    private InorderService ioService;
+	
+	@Autowired
+	private ClientService cService;
 	
 	// 입고 조회
 	// http://localhost:8088/wms/receive/receivelist
@@ -50,6 +62,66 @@ public class ReceiveController {
     		model.addAttribute("receiveList", receiveList);
     	}
     }
+	
+	
+	// 입고 등록 시 팝업
+    // http://localhost:8088/wms/receive/popUpReceive
+    @RequestMapping(value = "/receive/addPopup", method = RequestMethod.GET )
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt) throws Exception {
+		logger.debug("popUpReceiveGET() 호출!");
+		
+		if(txt.equals("io")) { // 발주 목록 팝업
+			List<InorderVO> popUpIo = ioService.getInorderList();
+			model.addAttribute("popUpIo", popUpIo);
+			
+			return "/wms/receive/popUpInorder";
+			
+		}else if(txt.equals("clt")) { // 거래처 목록 팝업
+			List<ClientVO> popUpClt = cService.clientList();
+			model.addAttribute("popUpClt", popUpClt);
+			
+			return "/wms/receive/popUpClt";
+		}
+		
+			return "/wms/receive/receivelist";
+    }		
+		
+    
+    
+    // 입고 등록 + 수정
+    @RequestMapping(value = "/wms/regReceive", method = RequestMethod.POST)
+    public String regReceivePOST(ReceiveVO rvo) throws Exception {
+    		
+    	if(rvo.getRec_num() == "") {
+    		logger.debug("regReceivePOST() 호출-입고등록");
+    		logger.debug("rvo : " + rvo);
+    		
+    		rService.regReceive(rvo);
+    	}else {
+    		logger.debug("regReceivePOST() 호출-입고수정");
+			logger.debug("rvo : " + rvo);
+			
+			rService.updateReceive(rvo);
+    	}	
+    		
+    		return "redirect:/wms/receive/receivelist";
+    }
+    
+    // 입고 삭제
+    @RequestMapping(value = "/wms/deleteReceive")
+    public String deleteReceive(@RequestParam(value = "selectedRecId", required = false) Integer[] selectedRecIds) {
+    	
+    	if(selectedRecIds != null) {
+		    for (Integer rec_id : selectedRecIds) {
+		    	rService.deleteReceive(rec_id);
+		    }
+		}
+	    
+	    return "redirect:/wms/receive/receivelist";
+    }
+	
+	
+	
 	
 	
 }
