@@ -158,13 +158,22 @@ public class ClientController {
 	}
 	
 	
-	// 수주 등록
+	// 수주 등록, 수정
 	@RequestMapping(value = "/regOutOrder")
 	public String regOutOrder(OutOrderVO ovo) throws Exception{
 		
-		logger.debug("ovo : " + ovo);
-		
-		oService.regOutOrder(ovo);
+		if(ovo.getOo_num() == null) {
+			logger.debug("ovo : " + ovo);
+			
+			logger.debug("regOutOrder() - 수주 등록");
+			oService.regOutOrder(ovo);
+			
+		}else {
+			logger.debug("regOutOrder() - 수주 수정");
+			logger.debug("ovo : " + ovo);
+			
+			oService.updateOutOrder(ovo);
+		}
 		
 		return "redirect:/client/outOrderList";
 	}

@@ -46,6 +46,13 @@ public class OutOrderServiceImpl implements OutOrderService {
 	public void deleteOutOrder(String oo_num) {
 		oDAO.deleteOutOrder(oo_num);
 	}
+
+
+	// 수주정보 수정
+	@Override
+	public void updateOutOrder(OutOrderVO ovo) {
+		oDAO.updateOutOrder(ovo);
+	}
 	
 	
 	

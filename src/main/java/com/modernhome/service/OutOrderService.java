@@ -19,6 +19,9 @@ public interface OutOrderService {
 	
 	// 수주정보 삭제
 	public void deleteOutOrder(String oo_num);
+	
+	// 수주정보 수정
+	public void updateOutOrder(OutOrderVO ovo);
 }
 
 	
