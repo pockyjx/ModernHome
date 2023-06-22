@@ -40,6 +40,7 @@ public class WijoinVO {
 	private Integer ma_id;
 	
 	private String prfrm_num;
+	private char gb_yn;
 	
 	public Integer getWork_id() {
 		return work_id;
@@ -258,6 +259,12 @@ public class WijoinVO {
 	public void setPrfrm_num(String prfrm_num) {
 		this.prfrm_num = prfrm_num;
 	}
+	public char getGb_yn() {
+		return gb_yn;
+	}
+	public void setGb_yn(char gb_yn) {
+		this.gb_yn = gb_yn;
+	}
 	
 	@Override
 	public String toString() {
@@ -270,7 +277,7 @@ public class WijoinVO {
 				+ ", reg_date=" + reg_date + ", update_date=" + update_date + ", oo_end_date=" + oo_end_date
 				+ ", qc_id=" + qc_id + ", qc_num=" + qc_num + ", qc_yn=" + qc_yn + ", qc_cnt=" + qc_cnt + ", qc_date="
 				+ qc_date + ", repaired=" + repaired + ", prfrm_id=" + prfrm_id + ", prfrm_cnt=" + prfrm_cnt
-				+ ", ma_id=" + ma_id + ", prfrm_num=" + prfrm_num + "]";
+				+ ", ma_id=" + ma_id + ", prfrm_num=" + prfrm_num + ", gb_yn=" + gb_yn + "]";
 	}
 	
 }

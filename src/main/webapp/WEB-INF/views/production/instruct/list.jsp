@@ -81,7 +81,7 @@
 	    });
 	    
 	    // 체크박스 클릭 시 선택된 행 삭제
-	    $(".table-prfrmList").on("click", "td input[type='checkbox']", function() {
+	    $(".table-instrList").on("click", "td input[type='checkbox']", function() {
 	        var checkbox = $(this);
 	        if (checkbox.prop("checked")) {
 	        	var workId = selectedCheckbox.val();
@@ -99,7 +99,7 @@
 		});
 	
 	    // <td> 쪽 체크박스 클릭 시 행 선택
-	    $(".table-prfrmList td input[type='checkbox']").click(function() {
+	    $(".table-instrList td input[type='checkbox']").click(function() {
 	        var checkbox = $(this);
 	        var isChecked = checkbox.prop('checked');
 	        checkbox.closest('tr').toggleClass('selected', isChecked);
@@ -109,8 +109,8 @@
 		
 		// 체크박스 선택 시 체크박스 개수 구하기
 	    function updateSelectedCheckboxCount() {
-	        var totalCheckboxes = $(".table-prfrmList td input[type='checkbox']").length;
-	        var selectedCheckboxes = $(".table-prfrmList td input[type='checkbox']:checked").length;
+	        var totalCheckboxes = $(".table-instrList td input[type='checkbox']").length;
+	        var selectedCheckboxes = $(".table-instrList td input[type='checkbox']:checked").length;
 	        $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	    }
 	});
