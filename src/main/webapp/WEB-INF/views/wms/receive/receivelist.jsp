@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="../../inc/header.jsp"%>
+<%@ include file="../../inc/sidebar.jsp"%>
+<%@ include file="../../inc/nav.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +55,7 @@
 	                '<td><input type="checkbox"></td>' +
 	                '<td><input type="text" name="rec_num" placeholder="자동으로 부여" readonly></td>' +
 	                '<td><input type="text" name="io_num" placeholder="발주코드" id="io_num" readonly></td>' +
-	                '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly"></td>' +
+	                '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly></td>' +
 	                '<td><input type="text" name="io_cnt" placeholder="발주량" id="io_cnt" readonly></td>' +
 	                '<td><input type="text" name="rec_cnt" placeholder="입고량" id="rec_cnt"></td>' +
 	                '<td><input type="text" id="clt_name" name="clt_name" placeholder="거래처명"></td>' +
@@ -330,3 +333,4 @@
 			</form>
 </body>
 </html>
+<%@ include file="../../inc/footer.jsp"%>

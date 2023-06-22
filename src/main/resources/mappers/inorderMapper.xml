@@ -78,7 +78,7 @@
 	        #{clt_id},
 	        #{io_cnt},
 	        #{io_unit},
-	        #{io_date},
+	        now(),
 	        #{io_state},
 	        #{rec_date},
 	        #{emp_id}

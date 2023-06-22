@@ -28,10 +28,12 @@ public class ClientDAOImpl implements ClientDAO {
 		
 		return sqlSession.selectList(NAMESPACE+".clientList");
 	}
-
+	
+	
+	// 거래처조회 - 검색
 	@Override
 	public List<ClientVO> clientListSearch(ClientVO cvo) {
-		logger.debug("DAO -> mapper호출 -> SQL 실행(거러채조회 - 검색된 데이터 출력)");
+		logger.debug("DAO -> mapper호출 -> SQL 실행(거래처조회 - 검색된 데이터 출력)");
 		
 		return sqlSession.selectList(NAMESPACE + ".clientListSearch", cvo);
 	}
