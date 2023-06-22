@@ -8,5 +8,6 @@ public interface MateStockDAO {
 	
 	// 자재 재고 목록
 	public List<MaterialStockVO> getMsList();
+	
 
 }

@@ -21,6 +21,7 @@ import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.RequirementVO;
 import com.modernhome.service.ItemService;
 import com.modernhome.service.RequirmentService;
+import com.modernhome.service.StockService;
 
 @Controller
 @RequestMapping(value = "/info/*")
@@ -35,6 +36,9 @@ public class InfoController {
 	@Autowired
 	private RequirmentService rService;
 	
+	@Autowired
+	private StockService sService;
+	
 	// 완제품 목록
 	// http://localhost:8088/info/item/productList
 	@RequestMapping(value = "/item/productList", method = RequestMethod.GET)
@@ -47,7 +51,8 @@ public class InfoController {
 		if(vo.getPro_num() != null || vo.getPro_name() != null) {
 			productList = iService.getProductList(vo);
 			model.addAttribute("productList", productList);
-		} else {
+			
+		} else { 
 			productList = iService.getProductList();
 			model.addAttribute("productList", productList);
 		}
@@ -113,6 +118,8 @@ public class InfoController {
 		if(vo.getPro_num() == "") {
 			logger.debug("완제품 정보 등록!");
 			iService.regProduct(vo);
+			
+			
 		}else {
 			logger.debug("완제품 정보 수정!");
 			iService.modifyProduct(vo);
@@ -141,9 +148,11 @@ public class InfoController {
 	public String regMaterialPOST(MaterialVO mvo) {
 		logger.debug("regMaterialPOST() 호출!");
 		
-		if(mvo.getMa_num() == "") {
+		if(mvo.getMa_num() == "") { 
+			// 새 완제품 등록 시 재고 테이블에 정보 업데이트
 			logger.debug("재고 정보 등록!");
 			iService.regMaterial(mvo);
+			
 		}else {
 			logger.debug("재고 정보 수정!");
 			iService.modifyMaterial(mvo);
@@ -198,7 +207,6 @@ public class InfoController {
 	}
 	
 	// 소요량 등록 시 팝업
-	// http://localhost:8088/info/req/popUpProduct
 	@RequestMapping(value = "/req/addPopup", method = RequestMethod.GET )
 	public String popUpGET(Model model, @ModelAttribute("txt") String txt) throws Exception {
 		logger.debug("popUpProductGET() 호출!");
