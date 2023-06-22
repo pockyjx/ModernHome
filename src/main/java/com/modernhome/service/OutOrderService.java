@@ -13,7 +13,6 @@ public interface OutOrderService {
 	// 수주 조회 + 검색
 	public List<OutOrderJoinVO> outOrderListSearch(OutOrderJoinVO ovo);
 	
-	
 	// 수주정보 등록
 	public void regOutOrder(OutOrderVO ovo);
 }
