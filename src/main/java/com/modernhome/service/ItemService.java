@@ -23,9 +23,8 @@ public interface ItemService {
 	// 완제품 수정
 	public void modifyProduct(ProductVO vo);
 	
-	// 총 게시글 개수
-	public int countProduct();
-	
+	// 완제품 id값 가져오기
+	public int getProId();
 	
 	////////////////////////////////////////////////////////////////////////
 	
@@ -43,5 +42,8 @@ public interface ItemService {
 	
 	// 자재 수정
 	public void modifyMaterial(MaterialVO vo);
+	
+	// 자재 id값 가져오기
+	public int getMaId();
 	
 }

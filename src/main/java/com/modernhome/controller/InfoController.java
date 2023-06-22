@@ -110,15 +110,16 @@ public class InfoController {
 	
 	// 완제품 등록 + 수정
 	@RequestMapping(value = "/info/regProduct", method = RequestMethod.POST)
-	public String regProductPOST(ProductVO vo) {
+	public String regProductPOST(ProductVO vo) throws Exception {
 		logger.debug("regProductPOST() 호출!");
-		
-		logger.debug(vo + "");
 		
 		if(vo.getPro_num() == "") {
 			logger.debug("완제품 정보 등록!");
 			iService.regProduct(vo);
 			
+			// 완제품 재고 테이블에 재고 정보 자동 업데이트
+			int maxProId = iService.getProId();
+			sService.regProStock(maxProId);
 			
 		}else {
 			logger.debug("완제품 정보 수정!");
@@ -145,13 +146,16 @@ public class InfoController {
 	
 	// 자재 등록 + 수정
 	@RequestMapping(value = "/info/regMaterial", method = RequestMethod.POST)
-	public String regMaterialPOST(MaterialVO mvo) {
+	public String regMaterialPOST(MaterialVO mvo) throws Exception {
 		logger.debug("regMaterialPOST() 호출!");
 		
 		if(mvo.getMa_num() == "") { 
-			// 새 완제품 등록 시 재고 테이블에 정보 업데이트
 			logger.debug("재고 정보 등록!");
 			iService.regMaterial(mvo);
+			
+			// 자재 재고 테이블에 재고 정보 자동 업데이트
+			int maxMaId = iService.getMaId();
+			sService.regMaStock(maxMaId);
 			
 		}else {
 			logger.debug("재고 정보 수정!");

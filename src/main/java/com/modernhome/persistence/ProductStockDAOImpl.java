@@ -11,12 +11,12 @@ import org.springframework.stereotype.Repository;
 import com.modernhome.domain.ProductStockVO;
 
 @Repository
-public class ProStockImpl implements ProductStockDAO {
+public class ProductStockDAOImpl implements ProductStockDAO {
 	
 	@Autowired
 	SqlSession sqlSession;
 
-	private static final Logger logger = LoggerFactory.getLogger(ProStockImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProductStockDAOImpl.class);
 	private static final String NAMESPACE = "com.modernhome.domain.ProductStockVO";
 	
 	// 완제품 재고 목록
@@ -25,5 +25,14 @@ public class ProStockImpl implements ProductStockDAO {
 		logger.debug("완제품 재고 목록 출력!");
 		return sqlSession.selectList(NAMESPACE + ".getProStock");
 	}
+
+	// 완제품 재고 등록
+	@Override
+	public void regProStock(int maxProId) {
+		logger.debug("완제품 재고 정보 자동 등록!");
+		sqlSession.insert(NAMESPACE + ".regProStock", maxProId);
+	}
+	
+	
 
 }
