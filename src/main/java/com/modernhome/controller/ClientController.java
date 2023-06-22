@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.EmployeeVO;
 import com.modernhome.domain.MaterialVO;
+
 import com.modernhome.domain.OutOrderJoinVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.ProductVO;
@@ -106,6 +107,7 @@ public class ClientController {
 	
 	// ----------------------------- 수주 ------------------------------------
 	// http://localhost:8088/client/outOrderList
+
 	// 수주관리 - 리스트 + 검색
 	@RequestMapping(value = "/outOrderList", method = RequestMethod.GET)
 	public void outOrderListGET(Model model, OutOrderJoinVO ovo) throws Exception {
@@ -117,13 +119,12 @@ public class ClientController {
 		List<OutOrderJoinVO> outOrderList = oService.outOrderListSearch(ovo);
 		// Model 객체에 저장
 		model.addAttribute("outOrderList", outOrderList);
-		
-		
 		}else {
 			logger.debug("검색어 X, 전체 데이터 출력"+ovo);
 			// 서비스 수주목록 가져오기
 			List<OutOrderJoinVO> outOrderList = oService.outOrderList();
 			logger.debug("outOrderList : " + outOrderList);
+
 			// Model 객체에 저장
 			model.addAttribute("outOrderList", outOrderList);
 		}
