@@ -48,15 +48,29 @@
 	
 	<!-- 작업지시 목록 중 품질검사가 완료인 목록만 출력 -->
 	<select id="getqcEndInstr" resultMap="wijoinRM">
-		SELECT wp.prfrm_id, prfrm_num, wp.work_id, work_num, wp.line_id, line_name, wp.pro_id, pro_num, pro_name, wp.reg_date, wp.update_date, 
-			prfrm_cnt, work_cnt, wp.emp_id, wp.update_emp_id 
+		SELECT wp.prfrm_id, prfrm_num, wp.work_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, oo_num, 
+			oo_end_date, wi.reg_date, wi.update_date, prfrm_cnt, work_cnt, work_state, wi.emp_id, wi.update_emp_id 
 		FROM work_prfrm wp 
 		LEFT JOIN work_instr wi ON wi.work_id = wp.work_id 
 		LEFT JOIN line li ON li.line_id = wp.line_id 
 		LEFT JOIN product pro ON pro.pro_id = wp.pro_id 
 		LEFT JOIN quality_checking qc ON qc.prfrm_id = wp.prfrm_id 
+		LEFT JOIN out_order oo ON oo.oo_id = wi.oo_id  
 		WHERE qc.qc_yn = '완료';
 	</select>
 	<!-- 작업지시 목록 중 품질검사가 완료인 목록만 출력 -->
+	
+	
+	<!-- 생산실적 목록 출력 -->
+	<select id="getPrfrmList" resultMap="wijoinRM">
+		SELECT prfrm_num, wp.work_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, wp.reg_date, wp.update_date, gb_yn, prfrm_cnt, work_cnt, 
+			wp.emp_id, wp.update_emp_id, emp_name 
+		FROM work_prfrm wp 
+		LEFT JOIN work_instr wi ON wp.work_id = wi.work_id 
+		LEFT JOIN line li ON wp.line_id = li.line_id 
+		LEFT JOIN product pro ON wp.pro_id = pro.pro_id 
+		LEFT JOIN employee emp ON wp.emp_id = emp.emp_id
+	</select>
+	<!-- 생산실적 목록 출력 -->
 
 </mapper>

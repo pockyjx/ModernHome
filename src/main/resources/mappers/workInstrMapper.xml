@@ -40,7 +40,7 @@
 	
 	<!-- 작업지시 목록 조회 -->
 	<select id="getList" resultMap="wijoinRM">
-		SELECT wi.work_id, wi.pro_id, wi.oo_id, work_num, line_name, pro_num, pro_name, wi.work_state, oo_cnt, 
+		SELECT wi.work_id, wi.pro_id, wi.oo_id, work_num, line_num, pro_num, pro_name, wi.work_state, oo_cnt, 
 			wi.reg_date, wi.update_date, wi.work_cnt, oo_num, oo_end_date, wi.emp_id, wi.update_emp_id, emp_name 
 		FROM work_instr wi 
 		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
@@ -79,7 +79,7 @@
 	
 	<!-- 작업지시 검색 -->
 	<select id="wiListSearch" resultMap="wijoinRM">
-		SELECT wi.work_id, wi.pro_id, wi.oo_id, work_num, line_name, pro_num, pro_name, wi.work_state, oo_cnt, 
+		SELECT wi.work_id, wi.pro_id, wi.oo_id, work_num, line_num, pro_num, pro_name, wi.work_state, oo_cnt, 
 			wi.reg_date, wi.update_date, wi.work_cnt, oo_num, oo_end_date, wi.emp_id, wi.update_emp_id, emp_name 
 		FROM work_instr wi 
 		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
@@ -130,7 +130,9 @@
 	
 	<!-- 작업지시 번호 자동 생성 -->
 	<select id="createWorkNum" resultType="string">
-		SELECT concat('WI', lpad(work_id + 1, 4, 0)) AS work_num FROM work_instr ORDER BY work_id DESC LIMIT 1
+		SELECT concat('WI', lpad((SELECT work_id FROM work_instr ORDER BY work_id DESC LIMIT 1) + 1, 4, 0)) AS work_num 
+		FROM work_instr 
+		ORDER BY work_id DESC LIMIT 1
 	</select>
 	<!-- 작업지시 번호 자동 생성 -->
 	

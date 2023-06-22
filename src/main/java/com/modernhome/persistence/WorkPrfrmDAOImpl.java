@@ -17,7 +17,7 @@ public class WorkPrfrmDAOImpl implements WorkPrfrmDAO {
 	private static final Logger logger = LoggerFactory.getLogger(WorkPrfrmDAOImpl.class);
 
 	// 네임스페이스
-	private static final String NAMESPACE = "com.modernhome.mapper.WorkInstrMapper";
+	private static final String NAMESPACE = "com.modernhome.mapper.WorkPrfrmMapper";
 	
 	// 의존성 주입
 	@Autowired
@@ -26,8 +26,14 @@ public class WorkPrfrmDAOImpl implements WorkPrfrmDAO {
 	@Override
 	
 	public List<WijoinVO> getqcEndInstr() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		logger.debug("WP DAOImpl_getqcEndInstr() 실행");
+		return sqlSession.selectList(NAMESPACE + ".getqcEndInstr");
+	}
+
+	@Override
+	public List<WijoinVO> getPrfrmList() throws Exception {
+		logger.debug("WP DAOImpl_getPrfrmList() 실행");
+		return sqlSession.selectList(NAMESPACE + ".getPrfrmList");
 	}
 	
 }

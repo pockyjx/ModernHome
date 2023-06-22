@@ -10,8 +10,11 @@
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script>
 	$(document).ready(function() {
+		// 체크박스 선택 시 체크박스의 개수 구하기
+	    updateSelectedCheckboxCount();
+		
 		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-		$(".table-instrList th input[type='checkbox']").click(function() {
+		$("table th input[type='checkbox']").click(function() {
 			var checkbox = $(this);
 			var isChecked = checkbox.prop('checked');
 			var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
@@ -30,6 +33,7 @@
 					}
 				}
 			});
+			updateSelectedCheckboxCount();
 		});
 		
 		// 수정 버튼 누를 시
@@ -46,90 +50,69 @@
 				alert("수정은 하나의 행만 가능합니다!");
 			}
 		});
+		
 		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-        $(".table-instrList th input[type='checkbox']").click(function() {
-            var checkbox = $(this);
-            var isChecked = checkbox.prop('checked');
-            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-            var table = checkbox.closest('table');
-            var rows = table.find('tr');
-
-            // <td> 부분의 행들을 선택하고 배경색 지정
-            rows.each(function() {
-                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-                if (checkboxTd.length > 0) {
-                    checkboxTd.prop('checked', isChecked);
-                    if (isChecked) {
-                        $(this).addClass('selected');
-                    } else {
-                        $(this).removeClass('selected');
-                    }
-                }
-            });
-        });
-
-        // <td> 쪽 체크박스 클릭 시 행 선택
-        $(".table-instrList td input[type='checkbox']").click(function() {
-            var checkbox = $(this);
-            var isChecked = checkbox.prop('checked');
-            checkbox.closest('tr').toggleClass('selected', isChecked);
-        });
-        
-        // 체크박스 클릭 시 선택된 행 삭제
-        $(".table-instrList").on("click", "td input[type='checkbox']", function() {
-            var checkbox = $(this);
-            if (checkbox.prop("checked")) {
-            	var workId = selectedCheckbox.val();
+	    $("table th input[type='checkbox']").click(function() {
+	        var checkbox = $(this);
+	        var isChecked = checkbox.prop('checked');
+	        var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+	        var table = checkbox.closest('table');
+	        var rows = table.find('tr');
+	
+	        // <td> 부분의 행들을 선택하고 배경색 지정
+	        rows.each(function() {
+	            var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+	            if (checkboxTd.length > 0) {
+	                checkboxTd.prop('checked', isChecked);
+	                if (isChecked) {
+	                    $(this).addClass('selected');
+	                } else {
+	                    $(this).removeClass('selected');
+	                }
+	            }
+	        });
+	    });
+	
+	    // <td> 쪽 체크박스 클릭 시 행 선택
+	    $("table td input[type='checkbox']").click(function() {
+	        var checkbox = $(this);
+	        var isChecked = checkbox.prop('checked');
+	        checkbox.closest('tr').toggleClass('selected', isChecked);
+	    });
+	    
+	    // 체크박스 클릭 시 선택된 행 삭제
+	    $(".table-prfrmList").on("click", "td input[type='checkbox']", function() {
+	        var checkbox = $(this);
+	        if (checkbox.prop("checked")) {
+	        	var workId = selectedCheckbox.val();
 				location.href = "/production/instruct/delete?work_id=" + workId;
-                checkbox.closest("tr").addClass("selected");
-            } else {
-                checkbox.closest("tr").removeClass("selected");
-            }
-        });
-        // 삭제 버튼 누를 시
+	            checkbox.closest("tr").addClass("selected");
+	        } else {
+	            checkbox.closest("tr").removeClass("selected");
+	        }
+	    });
+	    // 삭제 버튼 누를 시
 		$("#deleteInstrButton").click(function(){
 			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
 			var workId = selectedCheckbox.val();
 			location.href = "/production/instruct/delete?work_id=" + workId;
 		});
-        
-		// 체크박스 선택 시 체크박스의 개수 구하기
-        updateSelectedCheckboxCount();
-
-        // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-        $(".table-instrList th input[type='checkbox']").click(function() {
-            var checkbox = $(this);
-            var isChecked = checkbox.prop('checked');
-            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-            var table = checkbox.closest('table');
-            var rows = table.find('tr');
-
-            // <td> 부분의 행들을 선택하고 배경색 지정
-            rows.each(function() {
-                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-                if (checkboxTd.length > 0) {
-                    checkboxTd.prop('checked', isChecked);
-                    $(this).toggleClass('selected', isChecked);
-                }
-            });
-
-            updateSelectedCheckboxCount();
-        });
-
-        // <td> 쪽 체크박스 클릭 시 행 선택
-        $(".table-instrList td input[type='checkbox']").click(function() {
-            var checkbox = $(this);
-            var isChecked = checkbox.prop('checked');
-            checkbox.closest('tr').toggleClass('selected', isChecked);
-
-            updateSelectedCheckboxCount(); 
-        });
-
-        function updateSelectedCheckboxCount() {
-            var totalCheckboxes = $(".table-instrList td input[type='checkbox']").length;
-            var selectedCheckboxes = $(".table-instrList td input[type='checkbox']:checked").length;
-            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
-        } // 체크박스 선택 시 체크박스 개수 구하기
+	
+	    // <td> 쪽 체크박스 클릭 시 행 선택
+	    $(".table-prfrmList td input[type='checkbox']").click(function() {
+	        var checkbox = $(this);
+	        var isChecked = checkbox.prop('checked');
+	        checkbox.closest('tr').toggleClass('selected', isChecked);
+	
+	        updateSelectedCheckboxCount(); 
+	    });
+		
+		// 체크박스 선택 시 체크박스 개수 구하기
+	    function updateSelectedCheckboxCount() {
+	        var totalCheckboxes = $(".table-prfrmList td input[type='checkbox']").length;
+	        var selectedCheckboxes = $(".table-prfrmList td input[type='checkbox']:checked").length;
+	        $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+	    }
 	});
 </script>
 <style>
@@ -160,16 +143,16 @@
 	<span id="selectedCheckboxCount">0</span>
 	
 	<div>
-		<button id="addRowButton" onclick="location.href='/production/instruct/add'">추가</button>
-		<button id="updateButton">수정</button>
-		<button id="deleteInstrButton">삭제</button>
+		<button class="btn btn-primary m-2" id="addRowButton" onclick="location.href='/production/instruct/add'">추가</button>
+		<button class="btn btn-primary m-2" id="updateButton">수정</button>
+		<button class="btn btn-primary m-2" id="deleteInstrButton">삭제</button>
 	</div>
 	
 	<table border="1" class="table-instrList">
 		<tr>
 			<th><input type="checkbox"></th>
 			<th>작업지시코드</th>
-			<th>라인명</th>
+			<th>라인코드</th>
 			<th>품목코드</th>
 			<th>품목명</th>
 			<th>작업상태</th>
@@ -184,7 +167,7 @@
 			<tr>
 				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}"></td>
 				<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
-				<td>${list.line_name}</td>
+				<td>${list.line_num}</td>
 				<td>${list.pro_num}</td>
 				<td>${list.pro_name}</td>
 				<td>
