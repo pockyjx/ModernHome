@@ -139,10 +139,10 @@ $(document).ready(function() {
                   		</div>
                   	</div>
 	       		<span>거래처명 :
-	       			<input type="text" name="clt_id" placeholder="거래처명을 입력하세요">
+	       			<input type="text" name="clt_name" placeholder="거래처명을 입력하세요">
 	       		</span>
 	       		<span>담당자 :
-	       			<input type="text" name="emp_id" placeholder="담당자를 입력하세요">
+	       			<input type="text" name="emp_name" placeholder="담당자를 입력하세요">
 	       		</span>
 	       		
 	      		<input type="submit" value="조회">
@@ -175,18 +175,18 @@ $(document).ready(function() {
 	    	<th>완제품명</th>
 	    	<th>주문량</th>
 	    	<th>수주일자</th>
-	    	<th>출하일자</th>
+	    	<th>출하예정일자</th>
 	    	<th>진행상황</th>
 		</tr>
 	  	<c:forEach var="outOrderList" items="${outOrderList }">
 		<tr>
 			<td><input type="checkbox" name="selected" value="${outOrderList.oo_num}"></td>
 	    	<td>${outOrderList.oo_num}</td>
-	    	<td>${outOrderList.emp_id}</td>
-	    	<td>${outOrderList.clt_id}</td>
-	    	<td>(조인)</td>
-	    	<td>${outOrderList.pro_id}</td>
-	    	<td>${outOrderList.pro_id}</td>
+	    	<td>${outOrderList.emp_name}</td>
+	    	<td>${outOrderList.clt_num}</td>
+	    	<td>${outOrderList.clt_name}</td>
+	    	<td>${outOrderList.pro_num}</td>
+	    	<td>${outOrderList.pro_name}</td>
 	    	<td>${outOrderList.oo_cnt}</td>
 	    	<td>${fn:substring(outOrderList.oo_start_date, 0, 10)}</td>
 	   		<td>${fn:substring(outOrderList.oo_end_date, 0, 10)}</td>

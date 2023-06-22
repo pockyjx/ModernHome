@@ -3,7 +3,6 @@ package com.modernhome.service;
 import java.util.List;
 
 import com.modernhome.domain.MaterialVO;
-import com.modernhome.domain.PagingVO;
 import com.modernhome.domain.ProductVO;
 
 public interface ItemService {
@@ -27,8 +26,6 @@ public interface ItemService {
 	// 총 게시글 개수
 	public int countProduct();
 	
-	// 페이징 처리 게시글 조회
-	public List<ProductVO> pagingProduct(PagingVO vo);
 	
 	////////////////////////////////////////////////////////////////////////
 	

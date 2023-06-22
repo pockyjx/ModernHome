@@ -2,7 +2,6 @@ package com.modernhome.persistence;
 
 import java.util.List;
 
-import com.modernhome.domain.PagingVO;
 import com.modernhome.domain.ProductVO;
 
 public interface ProductDAO {
@@ -25,7 +24,5 @@ public interface ProductDAO {
 	// 게시물 총 개수
 	public int countProduct();
 	
-	// 페이징 처리 게시글 조회
-	public List<ProductVO> pagingProduct(PagingVO pvo);
 	
 }

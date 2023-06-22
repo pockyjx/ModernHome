@@ -8,7 +8,7 @@
   	<!-- 입고 목록 -->
 	<resultMap id="receiveResultMap" type="com.modernhome.domain.ReceiveVO">
 	
-        <id property="rec_id" column="rec_id" />
+        <result property="rec_id" column="rec_id" />
         <result property="rec_num" column="rec_num" />
         <result property="io_id" column="io_id" />
         <result property="ma_id" column="ma_id" />
@@ -17,39 +17,24 @@
         <result property="clt_id" column="clt_id" />
         <result property="rec_in_state" column="rec_in_state" />
         <result property="wh_id" column="wh_id" />
-        <result property="rec_state" column="rec_state" />
         <result property="emp_id" column="emp_id" />
-        
-        <!-- WarehouseVO 클래스 정의 -->
-	    <association property="warehouseVO" javaType="com.modernhome.domain.WarehouseVO">
-	      <id property="wh_name" column="wh_name" />
-	    </association>
+		<result property="wh_name" column="wh_name" />
+		<result property="io_num" column="io_num" />
+		<result property="io_cnt" column="io_cnt" />
+		<result property="ma_name" column="ma_name" />
+		<result property="clt_name" column="clt_name" />
+	</resultMap>
 
-	    <!-- InorderVO 클래스 정의 -->
-	    <association property="inorderVO" javaType="com.modernhome.domain.InorderVO">
-	      <id property="io_num" column="io_num" />
-	      <result property="io_cnt" column="io_cnt" />
-	    </association>
-        
-        <!-- MaterialVO 클래스 정의 -->
-	    <association property="materialVO" javaType="com.modernhome.domain.MaterialVO">
-	      <id property="ma_name" column="ma_name" />
-	    </association>
 
-	    <!-- ClientVO 클래스 정의 -->
-	    <association property="clientVO" javaType="com.modernhome.domain.ClientVO">
-	      <id property="clt_name" column="clt_name" />
-	    </association>
-	  </resultMap>
 	<select id="getReceiveList" resultMap="receiveResultMap">
     	<![CDATA[
-	        SELECT rec_num, i.io_num, m.ma_name, r.rec_cnt, i.io_cnt, c.clt_name,
-					r.rec_state, r.rec_in_state, w.wh_name, r.rec_date, r.emp_id
+	        SELECT rec_id, rec_num, i.io_num, m.ma_name, r.rec_cnt, i.io_cnt, c.clt_name,
+					r.rec_in_state, w.wh_name, r.rec_date, r.emp_id
 			FROM receive r
 	        JOIN warehouse w ON r.wh_id = w.wh_id
 	        JOIN in_order i ON r.io_id = i.io_id
 	        JOIN material m ON i.ma_id = m.ma_id
-	        JOIN client c ON i.clt_id = c.clt_id;
+	        JOIN client c ON r.clt_id = c.clt_id;
     	]]>
 	</select>
     <!-- 입고 목록 -->
@@ -57,12 +42,12 @@
     <!-- 입고 검색 -->
     <select id="receiveSearch" resultMap="receiveResultMap" parameterType="java.util.Map">
 		SELECT rec_num, i.io_num, m.ma_name, r.rec_cnt, i.io_cnt, c.clt_name,
-				r.rec_state, r.rec_in_state, w.wh_name, r.rec_date, r.emp_id
+				r.rec_in_state, w.wh_name, r.rec_date, r.emp_id
 		FROM receive r
         JOIN warehouse w ON r.wh_id = w.wh_id
         JOIN in_order i ON r.io_id = i.io_id
         JOIN material m ON i.ma_id = m.ma_id
-        JOIN client c ON i.clt_id = c.clt_id
+        JOIN client c ON r.clt_id = c.clt_id
         
 		<where>
 	        <if test="io_num != ''">
@@ -81,6 +66,43 @@
     </select>
 
     <!-- 입고 검색 -->
+    
+    
+    <!-- 입고 등록 -->	
+    <insert id="regReceive">
+    	<selectKey keyProperty="ma_id" resultType="int" order="BEFORE">
+    		SELECT ma_id FROM material WHERE ma_name = #{ma_name}
+    	</selectKey>
+	    INSERT INTO receive (rec_num, io_id, ma_id, rec_cnt, clt_id, rec_in_state, wh_id, rec_date, emp_id)
+	    SELECT
+	        CONCAT(SUBSTRING(rec_num, 1, 2), LPAD(max(rec_id) + 1, 6, '0')),
+	        #{io_id},
+	        #{ma_id},
+	        #{rec_cnt},
+	        #{clt_id},
+	        #{rec_in_state},
+	        2,
+	        #{rec_date},
+	        #{emp_id}
+	    FROM receive
+	    WHERE rec_num LIKE CONCAT('%' ,'RE', '%');
+	</insert>
+    <!-- 입고 등록 -->	
+  	
+    <!-- 입고 삭제 -->
+    <delete id="deleteReceive">
+		DELETE FROM receive
+		WHERE rec_id = #{rec_id}
+	</delete>	
+    <!-- 입고 삭제 -->	
+
+    <!-- 입고 수정 -->
+    <update id="updateReceive">
+		UPDATE receive
+		SET rec_cnt = #{rec_cnt}, rec_in_state = #{rec_in_state}, rec_date = #{rec_date} 
+		WHERE rec_num = #{rec_num}
+	</update>	
+    <!-- 입고 수정 -->
     	
   	
   </mapper>
