@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.modernhome.domain.PagingVO;
 import com.modernhome.domain.ProductVO;
 
 @Repository
@@ -25,13 +24,13 @@ public class ProductDAOImpl implements ProductDAO {
 	private SqlSession sqlSession;
 	
 	// 네임스페이스
-	private static final String NAMESPACRE = "com.modernhome.mapper.ProductMapper";
+	private static final String NAMESPACE = "com.modernhome.mapper.ProductMapper";
 	
 	// 완제품 목록 조회
 	@Override
 	public List<ProductVO> getProductList() {
 		logger.debug("완제품 목록 조회!");
-		return sqlSession.selectList(NAMESPACRE + ".productList");
+		return sqlSession.selectList(NAMESPACE + ".productList");
 	}
 	
 	// 완제품 검색 결과
@@ -39,7 +38,7 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<ProductVO> getProductList(ProductVO vo) {
 		logger.debug("완제품 검색 결과 조회!");
 		
-		return sqlSession.selectList(NAMESPACRE + ".proSearchList", vo);
+		return sqlSession.selectList(NAMESPACE + ".proSearchList", vo);
 	}
 	
 	// 완제품 등록
@@ -47,7 +46,7 @@ public class ProductDAOImpl implements ProductDAO {
 	public void regProduct(ProductVO vo) {
 		logger.debug("완제품 등록!");
 		
-		sqlSession.insert(NAMESPACRE + ".regProduct", vo);
+		sqlSession.insert(NAMESPACE + ".regProduct", vo);
 		
 	}
 
@@ -55,27 +54,22 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public void deleteProduct(int pro_id) {
 		logger.debug("완제품 삭제!");
-		sqlSession.delete(NAMESPACRE + ".delProduct", pro_id);
+		sqlSession.delete(NAMESPACE + ".delProduct", pro_id);
 	}
 
 	// 완제품 수정
 	@Override
 	public void modifyProduct(ProductVO vo) {
 		logger.debug("완제품 수정!");
-		sqlSession.update(NAMESPACRE + ".updateProduct", vo);
+		sqlSession.update(NAMESPACE + ".updateProduct", vo);
 	}
 	
 	// 게시물 총 개수
 	@Override
 	public int countProduct() {
-		return sqlSession.selectOne(NAMESPACRE + ".countProduct");
+		return sqlSession.selectOne(NAMESPACE + ".countProduct");
 	}
 	
-	// 페이징 처리 게시글 조회
-	@Override
-	public List<ProductVO> pagingProduct(PagingVO pvo) {
-		return sqlSession.selectList(NAMESPACRE + ".pagingProduct");
-	}
 	
 	
 	
