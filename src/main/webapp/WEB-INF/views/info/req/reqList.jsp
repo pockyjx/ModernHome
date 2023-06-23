@@ -33,6 +33,8 @@
 	                 '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly></td>' +
 	                 '<td><input type="number" name="req_cnt" placeholder="소요량" min="0"></td>' +
 	                 '<td><input type="text" name="req_unit" placeholder="단위"></td>' +
+	                 '<td><input type="text" name="req_reg_date" placeholder="단위"></td>' +
+	                 '<td><input type="text" name="emp_id" placeholder="단위"></td>' +
 	                 '</tr>';
 	             $(".table-reqList tr:nth-child(1)").after(newRow);
 	             
@@ -266,9 +268,7 @@
 
 </div>
 
-<div class="bg-light text-center rounded p-4">
-
-	<table class="table-reqList table text-start align-middle table-bordered table-hover mb-0">
+	<table class="table-reqList" border="1">
 
 	<input type="hidden" name="pro_id" id="pro_id">
 	<input type="hidden" name="ma_id" id="ma_id"> 
@@ -282,6 +282,8 @@
 			<th>자재명</th>
 			<th>소요량</th>
 			<th>단위</th>
+			<th>등록일</th>
+			<th>등록자</th>
 		</tr>
 		
 		<c:forEach var="vo" items="${reqList }">
@@ -294,17 +296,17 @@
 			<td>${vo.ma_name }</td>
 			<td>${vo.req_cnt }</td>
 			<td>${vo.req_unit }</td>
-<%-- 			<td>${fn:substring(vo.req_reg_date, 0, 10) }</td> --%>
-<%-- 			<td>${vo.emp_id }</td> --%>
-<%-- 			<td>${fn:substring(vo.req_update_date, 0, 10) }</td> --%>
-<%-- 			<td>${vo.update_emp_id }</td> --%>
+			<td>
+				<c:if test="${!empty vo.req_update_date}">${fn:substring(vo.req_update_date, 0, 10) }</c:if>
+				<c:if test="${empty vo.req_update_date}">${fn:substring(vo.req_reg_date, 0, 10) }</c:if>
+			</td>
+			<td>${vo.emp_name }</td>
 		</tr>	
 		</c:forEach>
 		
 	</table>
 	
 	
-</div>
 	
 	</form>
 
