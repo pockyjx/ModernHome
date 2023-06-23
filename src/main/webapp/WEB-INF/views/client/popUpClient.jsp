@@ -12,7 +12,7 @@
 	$(document).ready(function() {
 		
 		$("tr").click(function() {
-	      var clt_id = $(this).find("td:eq(0)").text();
+		  var clt_id = $(this).find("td:eq(0)").text();
 	      var clt_num = $(this).find("td:eq(1)").text();
 	      var clt_name = $(this).find("td:eq(2)").text();
 			
@@ -25,7 +25,6 @@
 		});
 	});
 </script>
-
 
 </head>
 <body>

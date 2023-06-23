@@ -4,23 +4,26 @@ import java.sql.Timestamp;
 
 public class ProductStockVO {
 	
-	private int ps_id;
+	private Integer ps_id;
 	private String ps_num;
-	private int pro_id;
+	private Integer pro_id;
 	private int ps_cnt;
-	private int wh_id;
-	private Timestamp ps_reg_date;
-	private int emp_id;
-	private Timestamp ps_update_date;
-	private int update_emp_id;
+	private Integer wh_id;
+//	private	String ps_reg_date;
+//	private int emp_id;
+//	private Timestamp ps_update_date;
+//	private int update_emp_id;
 	
-	private ProductVO productVO;
-	private WarehouseVO warehouseVO;
+	private String wh_name;
 	
-	public int getPs_id() {
+	private String pro_num;
+	private String pro_name;
+	private String pro_unit;
+	
+	public Integer getPs_id() {
 		return ps_id;
 	}
-	public void setPs_id(int ps_id) {
+	public void setPs_id(Integer ps_id) {
 		this.ps_id = ps_id;
 	}
 	public String getPs_num() {
@@ -29,10 +32,10 @@ public class ProductStockVO {
 	public void setPs_num(String ps_num) {
 		this.ps_num = ps_num;
 	}
-	public int getPro_id() {
+	public Integer getPro_id() {
 		return pro_id;
 	}
-	public void setPro_id(int pro_id) {
+	public void setPro_id(Integer pro_id) {
 		this.pro_id = pro_id;
 	}
 	public int getPs_cnt() {
@@ -41,56 +44,45 @@ public class ProductStockVO {
 	public void setPs_cnt(int ps_cnt) {
 		this.ps_cnt = ps_cnt;
 	}
-	public int getWh_id() {
+	public Integer getWh_id() {
 		return wh_id;
 	}
-	public void setWh_id(int wh_id) {
+	public void setWh_id(Integer wh_id) {
 		this.wh_id = wh_id;
 	}
-	public Timestamp getPs_reg_date() {
-		return ps_reg_date;
+	public String getWh_name() {
+		return wh_name;
 	}
-	public void setPs_reg_date(Timestamp ps_reg_date) {
-		this.ps_reg_date = ps_reg_date;
+	public void setWh_name(String wh_name) {
+		this.wh_name = wh_name;
 	}
-	public int getEmp_id() {
-		return emp_id;
+	public String getPro_num() {
+		return pro_num;
 	}
-	public void setEmp_id(int emp_id) {
-		this.emp_id = emp_id;
+	public void setPro_num(String pro_num) {
+		this.pro_num = pro_num;
 	}
-	public Timestamp getPs_update_date() {
-		return ps_update_date;
+	public String getPro_name() {
+		return pro_name;
 	}
-	public void setPs_update_date(Timestamp ps_update_date) {
-		this.ps_update_date = ps_update_date;
+	public void setPro_name(String pro_name) {
+		this.pro_name = pro_name;
 	}
-	public int getUpdate_emp_id() {
-		return update_emp_id;
+	public String getPro_unit() {
+		return pro_unit;
 	}
-	public void setUpdate_emp_id(int update_emp_id) {
-		this.update_emp_id = update_emp_id;
-	}
-	public ProductVO getProductVO() {
-		return productVO;
-	}
-	public void setProductVO(ProductVO productVO) {
-		this.productVO = productVO;
-	}
-	public WarehouseVO getWarehouseVO() {
-		return warehouseVO;
-	}
-	public void setWarehouseVO(WarehouseVO warehouseVO) {
-		this.warehouseVO = warehouseVO;
+	public void setPro_unit(String pro_unit) {
+		this.pro_unit = pro_unit;
 	}
 	
 	@Override
 	public String toString() {
 		return "ProductStockVO [ps_id=" + ps_id + ", ps_num=" + ps_num + ", pro_id=" + pro_id + ", ps_cnt=" + ps_cnt
-				+ ", wh_id=" + wh_id + ", ps_reg_date=" + ps_reg_date + ", emp_id=" + emp_id + ", ps_update_date="
-				+ ps_update_date + ", update_emp_id=" + update_emp_id + ", productVO=" + productVO + ", warehouseVO="
-				+ warehouseVO + "]";
+				+ ", wh_id=" + wh_id + ", wh_name=" + wh_name + ", pro_num=" + pro_num + ", pro_name=" + pro_name
+				+ ", pro_unit=" + pro_unit + "]";
 	}
+	
+	
 	
 	
 	

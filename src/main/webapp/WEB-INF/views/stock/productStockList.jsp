@@ -31,11 +31,11 @@
 		<c:forEach items="${psList }" var="vo">
 		<tr>
 			<td><input type="checkbox"> </th>
-			<td>${vo.warehouseVO.wh_name}</td>
-			<td>${vo.pro_id }</td>
-			<td>${vo.productVO.pro_name }</td>
+			<td>${vo.wh_name}</td>
+			<td>${vo.pro_num }</td>
+			<td>${vo.pro_name }</td>
 			<td>${vo.ps_cnt }</td>
-			<td></td>
+			<td>${vo.pro_unit }</td>
 		</tr>
 		</c:forEach>
 	</table>

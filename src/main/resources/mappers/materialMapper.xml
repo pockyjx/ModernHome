@@ -49,6 +49,12 @@
 		where ma_num = #{ma_num}
 	</update>
 	<!-- 자재 수정 -->
+	
+	<!-- 자재 id값 가져오기 -->
+	<select id="getMaId" resultType="int">
+		SELECT max(ma_id) from material
+	</select>
+	<!-- 자재 id값 가져오기 -->
 
 	
 </mapper>
