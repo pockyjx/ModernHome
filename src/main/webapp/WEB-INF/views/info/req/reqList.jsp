@@ -33,8 +33,8 @@
 	                 '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly></td>' +
 	                 '<td><input type="number" name="req_cnt" placeholder="소요량" min="0"></td>' +
 	                 '<td><input type="text" name="req_unit" placeholder="단위"></td>' +
-	                 '<td><input type="text" name="req_reg_date" placeholder="단위"></td>' +
-	                 '<td><input type="text" name="emp_id" placeholder="단위"></td>' +
+	                 '<td><input type="date" name="req_reg_date" readonly></td>' +
+	                 '<td><input type="text" name="emp_id" value="${sessionScope.emp_id }" readonly></td>' +
 	                 '</tr>';
 	             $(".table-reqList tr:nth-child(1)").after(newRow);
 	             
@@ -116,7 +116,9 @@
 				"ma_num",
 				"ma_name",
 				"req_cnt",
-				"req_unit"
+				"req_unit",
+				"req_update_date", 
+				"update_emp_id"
 			];
 			
 			
@@ -126,7 +128,11 @@
 				var cellValue = $(this).text();
 				var cellOption = "";
 				
-				if(index == 0) {
+				if(index == 8) {
+					cellValue = ${sessionScope.emp_id}
+				}
+				
+				if(index == 0 || index == 8) {
 					cellOption = "readonly";
 				}else if(index == 5){
 					cellOption = "";
@@ -136,6 +142,9 @@
 				
 				
 				var cellType = index === 5 ? "number" : "text";
+				
+			
+				
 				var cellName = cellNames[index];
 				
 				$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');
@@ -267,6 +276,8 @@
 	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 
 </div>
+
+	
 
 	<table class="table-reqList" border="1">
 
