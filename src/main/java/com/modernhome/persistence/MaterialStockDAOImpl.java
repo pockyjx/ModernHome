@@ -25,4 +25,12 @@ public class MaterialStockDAOImpl implements MateStockDAO {
 		return sqlSession.selectList(NAMESPACE + ".getMateStock");
 	}
 
+	// 자재 재고 등록
+	@Override
+	public void regMaStock(int maxMaId) {
+		logger.debug("자재 재고 정보 자동 등록!");
+		sqlSession.insert(NAMESPACE + ".regMaStock", maxMaId); 
+	}
+
+	
 }

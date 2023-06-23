@@ -21,8 +21,7 @@ public interface ProductDAO {
 	// 완제품 수정
 	public void modifyProduct(ProductVO vo);
 	
-	// 게시물 총 개수
-	public int countProduct();
-	
+	// 완제품 id값 가져오기
+	public int getMaxProId();
 	
 }

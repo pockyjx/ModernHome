@@ -51,12 +51,11 @@ public class ItemServiceImpl implements ItemService {
 		pdao.modifyProduct(vo);
 	}
 	
-	// 총 게시글 개수
+	// 완제품 id값 가져오기
 	@Override
-	public int countProduct() {
-		return pdao.countProduct();
+	public int getProId() {
+		return pdao.getMaxProId();
 	}
-	
 	
 	/////////////////////////////////////////////////////////////////////////
 	
@@ -89,6 +88,12 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void modifyMaterial(MaterialVO vo) {
 		mdao.modifyMaterial(vo);
+	}
+
+	// 자재 id값 가져오기
+	@Override
+	public int getMaId() {
+		return mdao.getMaxMaId();
 	}
 	
 	

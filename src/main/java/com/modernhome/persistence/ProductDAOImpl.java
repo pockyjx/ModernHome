@@ -63,12 +63,14 @@ public class ProductDAOImpl implements ProductDAO {
 		logger.debug("완제품 수정!");
 		sqlSession.update(NAMESPACE + ".updateProduct", vo);
 	}
-	
-	// 게시물 총 개수
+
+	// 완제품 id값 가져오기
 	@Override
-	public int countProduct() {
-		return sqlSession.selectOne(NAMESPACE + ".countProduct");
+	public int getMaxProId() {
+		return sqlSession.selectOne(NAMESPACE + ".getProId");
 	}
+	
+	
 	
 	
 	
