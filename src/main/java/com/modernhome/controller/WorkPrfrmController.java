@@ -32,7 +32,7 @@ public class WorkPrfrmController {
 	// http://localhost:8088/production/performance/list
 	// 생산실적 목록 출력 (+ 검색)
 	@RequestMapping(value = "/list")
-	public void getPrfrmList(Model model) throws Exception {
+	public void getPrfrmList(Model model, WijoinVO wjvo) throws Exception {
 		logger.debug("getPrfrmList() 호출");
 		
 		// 작업지시 목록 출력 -> 뷰페이지에서 작업상태가 '완료'인 목록
@@ -40,6 +40,13 @@ public class WorkPrfrmController {
 		
 		// 생산실적 목록 출력
 		List<WijoinVO> wpList = wpService.getPrfrmList();
+		
+		// url에 work_id가 있다면 해당 작업지시서에 대한 생산실적 추가
+		if(wjvo.getWork_id() != null) {
+			// 생산실적번호 자동 생성
+			String prfrm_num =  wpService.createPrfrmNum();
+			model.addAttribute("prfrm_num", prfrm_num);
+		}
 		
 		// 연결된 뷰페이지에 전달
 		model.addAttribute("qiList", qiList);

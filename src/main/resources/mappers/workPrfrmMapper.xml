@@ -72,5 +72,14 @@
 		LEFT JOIN employee emp ON wp.emp_id = emp.emp_id
 	</select>
 	<!-- 생산실적 목록 출력 -->
+	
+	
+	<!-- 생산실적번호 자동 생성 -->
+	<select id="createPrfrmNum" resultType="string">
+		SELECT concat('WP', lpad((SELECT prfrm_id FROM work_prfrm ORDER BY prfrm_id DESC LIMIT 1) + 1, 4, 0)) 
+		AS prfrm_num FROM work_prfrm 
+		ORDER BY prfrm_id DESC LIMIT 1;
+	</select>
+	<!-- 생산실적번호 자동 생성 -->
 
 </mapper>

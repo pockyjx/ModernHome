@@ -24,5 +24,10 @@ public class WorkPrfrmServiceImpl implements WorkPrfrmService {
 	public List<WijoinVO> getPrfrmList() throws Exception {
 		return dao.getPrfrmList();
 	}
+
+	@Override
+	public String createPrfrmNum() throws Exception {
+		return dao.createPrfrmNum();
+	}
 	
 }

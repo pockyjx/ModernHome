@@ -12,4 +12,7 @@ public interface WorkPrfrmService {
 	// 생산실적 목록 출력
 	public List<WijoinVO> getPrfrmList() throws Exception;
 	
+	// 생산실적번호 자동 생성
+	public String createPrfrmNum() throws Exception;
+	
 }

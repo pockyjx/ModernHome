@@ -18,11 +18,16 @@
 			// 작업 지시를 먼저 선택하여 해당 지시에 대한 실적 등록 실행 
 			if(work_id) {
 				var url = window.location.href;
-				history.pushState(null, '', url + '?work_id=' + work_id);
+				var paramTrue = new URLSearchParams(new URL(url).search).get('work_id');
+				
+				// url에 작업지시번호가 없으면 추가하기 (중복으로 주소줄에 들어가는 것 방지)
+				if(!paramTrue) {
+					history.pushState(null, '', url + '?work_id=' + work_id);
+				}
 				
 				var newRow = '<tr>' +
 							 '<td><input type="checkbox"></td>' +
-							 '<td><input id="add_pnum" type="text" name="prfrm_num"></td>' +
+							 '<td><input id="add_pnum" type="text" name="prfrm_num" value="${prfrm_num}"></td>' +
 							 '<td><input id="add_wnum" type="text" name="work_num"></td>' +
 							 '<td><input id="add_lnum" type="text" name="line_num"></td>' +
 							 '<td><input id="add_prnum" type="text" name="pro_num"></td>' +
@@ -236,104 +241,109 @@
 
 <br>
 
-<form>
-	<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
-	<table border="1" class="table-instrList">
-		<tr>
-			<th>　</th>
-			<th>작업지시코드</th>
-			<th>라인코드</th>
-			<th>품목코드</th>
-			<th>품목명</th>
-			<th>작업상태</th>
-			<th>지시일자</th>
-			<th>지시수량</th>
-			<th>수주번호</th>
-			<th>납품예정일</th>
-			<th>담당자</th>
-		</tr>
-	
-		<c:forEach var="qi" items="${qiList}" varStatus="status">
+<div class="bg-light text-center rounded p-4">
+	<form>
+		<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
+		<table border="1" class="table-instrList">
 			<tr>
-				<td><input type="checkbox" name="selectedWorkId" value="${qi.work_id}"></td>
-				<td>${qi.work_num}</td>
-				<td>${qi.line_num}</td>
-				<td>${qi.pro_num}</td>
-				<td>${qi.pro_name}</td>
-				<td>${qi.work_state}</td>
-				<td>
-					<c:if test="${!empty qi.update_date}">${qi.update_date}</c:if>
-					<c:if test="${empty qi.update_date}">${qi.reg_date}</c:if>
-				</td>
-				<td>${qi.work_cnt}</td>
-				<td>${qi.oo_num}</td>
-				<td>${qi.oo_end_date}</td>
-				<td>
-					<c:if test="${!empty qi.update_emp_id}">${qi.emp_name}</c:if>
-					<c:if test="${empty qi.update_emp_id}">${qi.emp_name}</c:if>
-				</td>
+				<th>　</th>
+				<th>작업지시코드</th>
+				<th>라인코드</th>
+				<th>품목코드</th>
+				<th>품목명</th>
+				<th>작업상태</th>
+				<th>지시일자</th>
+				<th>지시수량</th>
+				<th>수주번호</th>
+				<th>납품예정일</th>
+				<th>담당자</th>
 			</tr>
-		</c:forEach>
-	</table>
-	<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
+		
+			<c:forEach var="qi" items="${qiList}" varStatus="status">
+				<tr>
+					<td><input type="checkbox" name="selectedWorkId" value="${qi.work_id}"></td>
+					<td>${qi.work_num}</td>
+					<td>${qi.line_num}</td>
+					<td>${qi.pro_num}</td>
+					<td>${qi.pro_name}</td>
+					<td>${qi.work_state}</td>
+					<td>
+						<c:if test="${!empty qi.update_date}">${qi.update_date}</c:if>
+						<c:if test="${empty qi.update_date}">${qi.reg_date}</c:if>
+					</td>
+					<td>${qi.work_cnt}</td>
+					<td>${qi.oo_num}</td>
+					<td>${qi.oo_end_date}</td>
+					<td>
+						<c:if test="${!empty qi.update_emp_id}">${qi.emp_name}</c:if>
+						<c:if test="${empty qi.update_emp_id}">${qi.emp_name}</c:if>
+					</td>
+				</tr>
+			</c:forEach>
+		</table>
+		<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
+		
+		<hr>
+		<!-- ================================================================================== -->
 	
-	<hr>
-	<!-- ================================================================================== -->
-
-	<span id="selectedCheckboxCount">0</span>
-	
-	<div>
-		<button class="btn btn-primary m-2" id="addRowButton" formmethod="get">추가</button>
-		<button class="btn btn-primary m-2" id="cancleButton" disabled>취소</button>
-		<button class="btn btn-primary m-2" id="updateButton">수정</button>
-		<button type="submit" class="btn btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">삭제</button>
-		<button type="submit" class="btn btn-primary m-2" id="submitButton" 
-			<c:if test="${param.work_id}">formaction="regPrfrm"</c:if> 
-			<c:if test="">formaction="regPrfrm"</c:if> 
-			formmethod="post" disabled>저장</button>
-	</div>
-	
-	<!-- 생산실적 리스트 -->
-	<table border="1" class="table-prfrmList">
-		<tr>
-			<th><input type="checkbox"></th>
-			<th>생산실적코드</th>
-			<th>작업지시코드</th>
-			<th>라인코드</th>
-			<th>품목코드</th>
-			<th>품목명</th>
-			<th>등록일</th>
-			<th>양불여부</th>
-			<th>실적수량</th>
-			<th>불량수량</th>
-			<th>담당자</th>
-			<th>목표수량</th>
-		</tr>
-	
-		<c:forEach var="wp" items="${wpList}" varStatus="status">
+		
+		<div>
+			<button class="btn btn-primary m-2" id="addRowButton" formmethod="get">추가</button>
+			<button class="btn btn-primary m-2" id="cancleButton" disabled>취소</button>
+			<button class="btn btn-primary m-2" id="updateButton">수정</button>
+			<button type="submit" class="btn btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">삭제</button>
+			<button type="submit" class="btn btn-primary m-2" id="submitButton" 
+				<c:if test="${param.work_id}">formaction="regPrfrm"</c:if> 
+				<c:if test="">formaction="regPrfrm"</c:if> 
+				formmethod="post" disabled>저장</button>
+		</div>
+		
+		<div class="d-flex align-items-center justify-content-between mb-4">
+			<span id="selectedCheckboxCount">0</span>
+		</div>
+		
+		<!-- 생산실적 리스트 -->
+		<table border="1" class="table-prfrmList">
 			<tr>
-				<td><input type="checkbox" name="selectedPrfrm" value="${wp.prfrm_id}"></td>
-				<td>${wp.prfrm_num}</td>
-				<td>${wp.work_num}</td>
-				<td>${wp.line_num}</td>
-				<td>${wp.pro_num}</td>
-				<td>${wp.pro_name}</td>
-				<td>
-					<c:if test="${!empty wp.update_date}">${wp.update_date}</c:if>
-					<c:if test="${empty wp.update_date}">${wp.reg_date}</c:if>
-				</td>
-				<td>${wp.gb_yn}</td>
-				<td>${wp.prfrm_cnt}</td>
-				<td>${wp.work_cnt - wp.prfrm_cnt}</td>
-				<td>
-					<c:if test="${!empty wp.update_emp_id}">${wp.emp_name}</c:if>
-					<c:if test="${empty wp.update_emp_id}">${wp.emp_name}</c:if>
-				</td>
-				<td>${wp.work_cnt}</td>
+				<th><input type="checkbox"></th>
+				<th>생산실적코드</th>
+				<th>작업지시코드</th>
+				<th>라인코드</th>
+				<th>품목코드</th>
+				<th>품목명</th>
+				<th>등록일</th>
+				<th>양불여부</th>
+				<th>실적수량</th>
+				<th>불량수량</th>
+				<th>담당자</th>
+				<th>목표수량</th>
 			</tr>
-		</c:forEach>
-	</table>
-</form>
+		
+			<c:forEach var="wp" items="${wpList}" varStatus="status">
+				<tr>
+					<td><input type="checkbox" name="selectedPrfrm" value="${wp.prfrm_id}"></td>
+					<td>${wp.prfrm_num}</td>
+					<td>${wp.work_num}</td>
+					<td>${wp.line_num}</td>
+					<td>${wp.pro_num}</td>
+					<td>${wp.pro_name}</td>
+					<td>
+						<c:if test="${!empty wp.update_date}">${wp.update_date}</c:if>
+						<c:if test="${empty wp.update_date}">${wp.reg_date}</c:if>
+					</td>
+					<td>${wp.gb_yn}</td>
+					<td>${wp.prfrm_cnt}</td>
+					<td>${wp.work_cnt - wp.prfrm_cnt}</td>
+					<td>
+						<c:if test="${!empty wp.update_emp_id}">${wp.emp_name}</c:if>
+						<c:if test="${empty wp.update_emp_id}">${wp.emp_name}</c:if>
+					</td>
+					<td>${wp.work_cnt}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</form>
+</div>
 <!-- 생산실적 리스트 -->
 
 <%@ include file="../../inc/footer.jsp"%>
