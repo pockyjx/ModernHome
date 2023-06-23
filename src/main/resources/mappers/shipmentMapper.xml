@@ -6,24 +6,52 @@
 <mapper namespace="com.modernhome.mapper.ShipmentMapper">
 	
 	<!-- 출하 불러오기 -->
-	<select id="shipmentList" resultType="com.modernhome.domain.ShipmentVO">
-		SELECT * FROM shipment
+	<select id="shipmentList" resultType="com.modernhome.domain.ShipmentJoinVO">
+		SELECT shp_num, emp_name, clt_name, pro_num, pro_name,  shp_cnt, shp_date
+		from shipment
+		join employee e on shipment.emp_id = e.emp_id
+		join client c on shipment.clt_id = c.clt_id
+		join product p on shipment.pro_id = p.pro_id
 	</select>
 	<!-- 출하 불러오기 -->
 	
 	<!-- 출하 검색 -->
-	<select id="shipmentListSearch" resultType="com.modernhome.domain.ShipmentVO">
-		SELECT * FROM shipment 
-		<where>
-			<if test="clt_id != null">
-				clt_id LIKE CONCAT('%', #{clt_id}, '%')
-			</if>
-			<if test="emp_id != null">
-				AND emp_id LIKE CONCAT('%', #{emp_id}, '%') 
-			</if>
-		</where>
-	</select>
+	<select id="shipmentListSearch" resultType="com.modernhome.domain.ShipmentJoinVO">
+	SELECT shp_num, emp_name, clt_name, pro_num, pro_name,  shp_cnt, shp_date
+	FROM shipment
+	JOIN employee e ON shipment.emp_id = e.emp_id
+	JOIN client c ON shipment.clt_id = c.clt_id
+	JOIN product p ON shipment.pro_id = p.pro_id
+	<where>
+		<if test="clt_name != null">
+			AND clt_name LIKE CONCAT('%', #{clt_name}, '%')
+		</if>
+		<if test="emp_name != null">
+			AND emp_name LIKE CONCAT('%', #{emp_name}, '%') 
+		</if>
+		<if test="startDate != ''">
+			AND shp_date &gt;= #{startDate}
+		</if>
+		<if test="endDate != ''">
+			AND #{endDate} &gt;= DATE(shp_date)
+		</if>
+	</where>
+</select>
 	<!-- 출하 검색 -->
+	
+	<!-- 출하 등록 -->
+	<insert id="regShipment">
+		<selectKey keyProperty="shp_num" resultType="String" order="BEFORE">
+			SELECT CONCAT('SP', LPAD(COALESCE(MAX(SUBSTR(shp_num, 3)), 0) + 1, 4, '0'))
+			FROM shipment
+		</selectKey>
+	
+	
+		INSERT INTO shipment (shp_num, emp_id, clt_id, pro_id, shp_cnt, shp_date)
+		VALUES (#{shp_num}, #{emp_id}, #{clt_id}, #{pro_id}, #{shp_cnt},
+		CASE WHEN #{shp_date} = '' THEN NULL ELSE #{shp_date} END)
+	</insert>
+	<!-- 출하 등록 -->
 	
 	
 	
