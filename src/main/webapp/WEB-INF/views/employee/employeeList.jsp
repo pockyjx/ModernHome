@@ -267,7 +267,6 @@
 <body>
 
 	<h1>사원조회</h1>
-	
 	<!-- 검색칸 -->
 	<form action="" method="GET">
 	사원번호 <input type="text" name="emp_id">

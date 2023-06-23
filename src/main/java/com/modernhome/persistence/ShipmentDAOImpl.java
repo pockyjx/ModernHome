@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.ShipmentJoinVO;
 import com.modernhome.domain.ShipmentVO;
 
 @Repository
@@ -25,18 +26,28 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	
 	// 출하조회
 	@Override
-	public List<ShipmentVO> shipmentList() {
-		logger.debug("DAO -> mapper호출 -> SQL 실행");
+	public List<ShipmentJoinVO> shipmentList() {
+		logger.debug("DAO -> mapper호출 -> SQL 실행(출하조회)");
 		
 		return sqlSession.selectList(NAMESAPCE+".shipmentList");
 	}
 
+	// 출하 조회 검색
 	@Override
-	public List<ShipmentVO> shipmentListSearch(ShipmentVO svo) {
+	public List<ShipmentJoinVO> shipmentListSearch(ShipmentJoinVO svo) {
 		
-		logger.debug("DAO -> mapper호출 -> SQL 실행(검색된 데이터 출력)"+svo);
+		logger.debug("DAO -> mapper호출 -> SQL 실행(출하 검색된 데이터 출력)"+svo);
 		
 		return sqlSession.selectList(NAMESAPCE+".shipmentListSearch", svo);
+	}
+
+	@Override
+	public void regShipment(ShipmentVO svo) {
+		logger.debug("DAO -> mapper -> SQL 실행(출하 등록)");
+		
+		logger.debug("svo : " + svo);
+		sqlSession.insert(NAMESAPCE + ".regShipment", svo);
+		
 	}
 	
 	
