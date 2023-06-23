@@ -43,15 +43,19 @@ public class QualityController {
 		if(!qc_num.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty() || !qc_yn.isEmpty()) {
 			
 			List<WijoinVO> qualityList = qService.getQualitySearch(qc_num, startDate, endDate ,qc_yn);
+			List<WijoinVO> materialQualityList = qService.getMaterialQualitySearch(qc_num, startDate, endDate ,qc_yn);
 			logger.debug("검색어 O, 검색된 데이터만 출력");
 			
 			model.addAttribute("qualityList",qualityList);
+			model.addAttribute("materialQualityList",materialQualityList);
 		}else {
 			
 			logger.debug("검색어 X, 전체 데이터 출력");
 			List<WijoinVO> qualityList = qService.getQualityList();
+			List<WijoinVO> materialQualityList = qService.getMaterialQualityList();
 			
 			model.addAttribute("qualityList",qualityList);
+			model.addAttribute("materialQualityList",materialQualityList);
 		}
 		
 	}// QualityList
@@ -65,6 +69,7 @@ public class QualityController {
 		logger.debug("wvo : " + wvo);
 		
 		qService.updateQuality(wvo);
+		qService.updateMaterialQuality(wvo);
 
 			
 		return "redirect:/production/quality/qualitylist";
@@ -73,10 +78,29 @@ public class QualityController {
 	
 	
 	// ===========================================
-	
-		
+//@RequestMapping(value = "/quality/materialQualitylist", method = RequestMethod.GET)
+//	public void materialQualityGET(Model model,
+//			@ModelAttribute(value = "qc_num") String qc_num,
+//			@ModelAttribute(value = "startDate") String startDate,
+//			@ModelAttribute(value = "endDate") String endDate,
+//			@ModelAttribute(value = "qc_yn") String qc_yn)
+//					throws Exception{
+//		logger.debug(" materialQualityGET() 호출 ");
+//		
+//		if(!qc_num.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty() || !qc_yn.isEmpty()) {
+//			
+//			logger.debug("검색어 O, 검색된 데이터만 출력");
+//			
+//		}else {
+//			
+//			logger.debug("검색어 X, 전체 데이터 출력");
+//		}
+//	}
 
 	
 
 	
-}
+	
+	
+	
+} // Controller

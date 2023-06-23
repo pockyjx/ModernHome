@@ -16,25 +16,46 @@ public class QualityServiceImpl implements QualityService{
 	@Inject
 	private QualityDAO qdao;
 
-	// 품질현황 목록 조회
+	// 품질검사(완제품) 목록 조회
 	@Override
 	public List<WijoinVO> getQualityList() throws Exception {
 		return qdao.getQualityList();
 	}
 
-	// 품질현황 목록 조회 + 검색
+	// 품질검사(완제품) 목록 조회 + 검색
 	@Override
 	public List<WijoinVO> getQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
 		return qdao.getQualitySearch(qc_num, startDate, endDate, qc_yn);
 	}
 
 	
-	// 품질 업데이트
+	// 품질검사(완제품) 수정
 	@Override
 	public void updateQuality(WijoinVO wvo) {
 		qdao.updateQuality(wvo);
 		
 	}
+
+	// 품질검사(자재) 목록 조회
+	@Override
+	public List<WijoinVO> getMaterialQualityList() throws Exception {
+		return qdao.getMaterialQualityList();
+	}
+
+	// 품질검사(자재) 목록 조회 + 검색
+	@Override
+	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
+		return qdao.getMaterialQualitySearch(qc_num, startDate, endDate, qc_yn);
+	}
+
+	// 품질거사(자재) 수정
+	@Override
+	public void updateMaterialQuality(WijoinVO wvo) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	// 품질검사(자재) 수정
 
 
 

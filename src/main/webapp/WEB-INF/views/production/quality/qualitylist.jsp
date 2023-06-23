@@ -201,7 +201,7 @@
 			<input type="submit" value="조회">
 		</form>
 		
-		<h2>품질현황 목록</h2>
+		<h2>품질현황(완제품) 목록</h2>
 		
 		<form id="qualityList">
 				<span id="selectedCheckboxCount">0</span>
@@ -239,6 +239,44 @@
 						<td>${vo.qc_cnt }</td>
 						<td>${vo.prfrm_cnt }</td>
 						<td>${vo.qc_yn }</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</form>
+		
+		<h2>품질현황(자재) 목록</h2>
+		<form id="materialQualityList">
+		<span id="selectedCheckboxCount">0</span>
+
+<!-- 			<input type="button" id="cancleButton" value="취소" disabled="disabled"> -->
+<!-- 			<input type="button" id="updateButton" value="수정"> -->
+<!-- 			<input type="submit" id="submitButton" value="저장" formaction="updateQuality" formmethod="post" disabled="disabled"> -->
+			
+			<table class="table-materialQualityList" border="1">
+				<tr>
+					<th><input type="checkbox"></th>
+					<th>발주코드</th>
+					<th>품질검사코드</th>
+					<th>자재코드</th>
+					<th>자재명</th>
+					<th>검수자</th>
+					<th>검수일자</th>
+					<th>검수량</th>
+					<th>입고량</th>
+					<th>검수상태</th>
+				</tr>
+				<c:forEach var="mq" items="${materialQualityList }">
+					<tr>
+						<td><input type="checkbox" name="selectedEmpId" value="${mq.emp_id }"></td>
+						<td>${mq.io_num }</td>
+						<td>${mq.qc_num }</td>
+						<td>${mq.ma_num }</td>
+						<td>${mq.ma_name }</td>
+						<td>${mq.emp_id }</td>
+						<td>${fn:substring(mq.qc_date,0,10) }</td>
+						<td>${mq.qc_cnt }</td>
+						<td>${mq.rec_cnt }</td>
+						<td>${mq.qc_yn }</td>
 					</tr>
 				</c:forEach>
 			</table>
