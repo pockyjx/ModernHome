@@ -26,7 +26,7 @@ public class StockController {
 
 	private static final Logger logger = LoggerFactory.getLogger(StockController.class);
 	
-	// 재고 목록
+	// 자재 재고 목록
 	// http://localhost:8088/stock/materialStockList
 	@RequestMapping(value = "/materialStockList", method = RequestMethod.GET)
 	public void materialStockListGET(Model model) throws Exception {

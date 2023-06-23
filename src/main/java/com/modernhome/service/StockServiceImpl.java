@@ -26,11 +26,27 @@ public class StockServiceImpl implements StockService {
 	public List<MaterialStockVO> getMsList() throws Exception {
 		return msdao.getMsList();
 	}
+	
+	// 자재 재고 정보 등록
+	@Override
+	public void regMaStock(int maxMaId) throws Exception {
+		msdao.regMaStock(maxMaId);
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	
 
 	// 완제품 재고 목록
 	@Override
 	public List<ProductStockVO> getPsList() throws Exception {
 		return psdao.getPsList();
+	}
+
+
+	// 완제품 재고 정보 등록
+	@Override
+	public void regProStock(int maxProId) throws Exception {
+		psdao.regProStock(maxProId);
 	}
 	
 	
