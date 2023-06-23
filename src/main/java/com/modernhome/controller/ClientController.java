@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.EmployeeVO;
@@ -80,25 +81,40 @@ public class ClientController {
 	
 	// 거래처등록, 거래처 업데이트
 	@RequestMapping(value = "/regClient", method = RequestMethod.POST)
-	public String regEmployeePOST(ClientVO cvo) throws Exception{
+	public String regClientPOST(ClientVO cvo) throws Exception{
 		
 		if(cvo.getClt_num() == null) {
-			logger.debug("regEmployeePOST() 호출(사원 등록)");
+			logger.debug("regEmployeePOST() 호출(거래처 등록)");
 			
 			logger.debug("cvo : " + cvo);
 			
-//			cService.regEmployee(evo);
-		}//else {
-//			logger.debug("regEmployePOST() 호출(사원 업데이트)");
-//			
-//			logger.debug("evo : " + evo);
-//			
-//			cService.updateEmployee(evo);
-//		}
+			cService.regClient(cvo);
+			
+			
+		}else {
+			logger.debug("regClientPOST() 호출(거래처 업데이트)");
+			
+			logger.debug("cvo : " + cvo);
+			
+			cService.updateClient(cvo);
+		}
 		
-		return "";
+		return "redirect:/client/clientList";
 	}
 	
+	// 거래처삭제
+		@RequestMapping(value = "/deleteClient")
+		public String deleteClient(@RequestParam(value = "selectedCltId", required = false) Integer[] selectedCltIds) throws Exception {
+			
+			logger.debug("deleteClient() 호출(사원삭제)");
+			if(selectedCltIds != null) {
+			    for (Integer clt_id : selectedCltIds) {
+			    	cService.deleteClient(clt_id);
+			    }
+			}
+		    
+		    return "redirect:/client/clientList";
+		}
 	
 	
 	
