@@ -41,16 +41,13 @@ public class WorkPrfrmController {
 		// 생산실적 목록 출력
 		List<WijoinVO> wpList = wpService.getPrfrmList();
 		
-		// url에 work_id가 있다면 해당 작업지시서에 대한 생산실적 추가
-		if(wjvo.getWork_id() != null) {
-			// 생산실적번호 자동 생성
-			String prfrm_num =  wpService.createPrfrmNum();
-			model.addAttribute("prfrm_num", prfrm_num);
-		}
+		// 생산실적번호 자동 생성
+		String prfrm_num =  wpService.createPrfrmNum();
 		
 		// 연결된 뷰페이지에 전달
 		model.addAttribute("qiList", qiList);
 		model.addAttribute("wpList", wpList);
+		model.addAttribute("prfrm_num", prfrm_num);
 	}
 	
 	

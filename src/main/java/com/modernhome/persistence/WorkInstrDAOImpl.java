@@ -71,9 +71,9 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	}
 
 	@Override
-	public String createWorkNum() throws Exception {
+	public List<WijoinVO> createIdNum() throws Exception {
 		logger.debug("WorkInstrDAOImpl_createWorkNum() 실행");
-		return sqlSession.selectOne(NAMESPACE + ".createWorkNum");
+		return sqlSession.selectList(NAMESPACE + ".createIdNum");
 	}
 	
 	@Override

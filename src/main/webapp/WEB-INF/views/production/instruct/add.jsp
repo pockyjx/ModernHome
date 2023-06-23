@@ -76,12 +76,12 @@
 	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
 	
 	<h2>작업지시서 작성</h2>
-<%-- ${reqList} <br> ${work_num} --%>
+<%-- ${idnum[0].work_id} --%>
 	<form method="post">
 		<table border="1">
 			<tr>
 				<th>지시번호</th>
-				<td><input type="text" name="work_num" value="${work_num}" readonly></td>
+				<td><input type="text" name="work_num" value="${idnum[0].work_num}" readonly></td>
 				<th>수주번호</th>
 				<td id="oo_num">
 					<c:if test="${!empty param.oo_num}">${param.oo_num}</c:if>
@@ -127,6 +127,7 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<input type="hidden" name="work_id" value="${idnum[0].work_id}">
 		<input type="hidden" name="pro_id" value="${reqList[0].pro_id}">
 		<input type="hidden" name="req_id" value="${reqList[0].req_id}">
 		<input type="hidden" name="oo_id" value="${reqList[0].oo_id}">

@@ -47,7 +47,12 @@
 		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
 		LEFT JOIN line l ON wi.line_id = l.line_id  
 		LEFT JOIN product pro ON wi.pro_id = pro.pro_id 
-		LEFT JOIN employee emp ON wi.emp_id = emp.emp_id
+		<if test="update_emp_id == ''">
+			LEFT JOIN employee emp ON wi.emp_id = emp.emp_id
+		</if>
+		<if test="update_emp_id != ''">
+			LEFT JOIN employee emp ON wi.update_emp_id = emp.emp_id
+		</if>
 	</select>
 	<!-- 작업지시 목록 조회 -->
 	
@@ -128,13 +133,13 @@
 	<!-- 작업지시서를 작성하지 않은 수주번호와 관련된 작업지시서 내용 출력 -->
 	
 	
-	<!-- 작업지시 번호 자동 생성 -->
-	<select id="createWorkNum" resultType="string">
-		SELECT concat('WI', lpad((SELECT work_id FROM work_instr ORDER BY work_id DESC LIMIT 1) + 1, 4, 0)) AS work_num 
+	<!-- 작업지시 id, 번호 자동 생성 -->
+	<select id="createIdNum" resultMap="wijoinRM">
+		SELECT max(work_id) + 1 AS work_id, concat('WI', lpad((SELECT max(work_id) FROM work_instr) + 1, 4, 0)) AS work_num 
 		FROM work_instr 
 		ORDER BY work_id DESC LIMIT 1
 	</select>
-	<!-- 작업지시 번호 자동 생성 -->
+	<!-- 작업지시 id, 번호 자동 생성 -->
 	
 	
 	<!-- 작업지시서 추가 -->
@@ -143,8 +148,9 @@
 			SELECT line_id FROM line WHERE line_num = #{line_num} 
 		</selectKey>
 		
-		INSERT INTO work_instr (work_num, line_id, pro_id, req_id, oo_id, work_cnt, work_state, emp_id) 
-		VALUES (#{work_num}, #{line_id}, #{pro_id}, #{req_id}, #{oo_id}, #{work_cnt}, '대기', #{emp_id}) 
+		INSERT INTO work_instr (work_id, work_num, line_id, pro_id, req_id, oo_id, work_cnt, work_state, emp_id) 
+		VALUES ((SELECT MAX(#{work_id}) + 1 FROM work_instr), #{work_num}, #{line_id}, #{pro_id}, 
+				#{req_id}, #{oo_id}, #{work_cnt}, '대기', #{emp_id}) 
 	</insert>
 	<!-- 작업지시서 추가 -->
 	

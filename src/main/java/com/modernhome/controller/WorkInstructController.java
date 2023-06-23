@@ -48,15 +48,15 @@ public class WorkInstructController {
 		logger.debug("################oo_num : " + oo_num);
 		
 		// 지시번호를 자동으로 부여
-		String work_num = wiService.createWorkNum();
-		logger.debug("################work_num : " + work_num);
+		List<WijoinVO> idnum = wiService.createIdNum();
+		logger.debug("################idnum : " + idnum);
 		
 		// 해당 수주번호에 해당하는 소요량
 		List<WijoinVO> reqList = wiService.getBeforeInstrReq(oo_num);
 		logger.debug("reqList : {}", reqList);
 		
 		// 연결된 뷰페이지에 전달
-		model.addAttribute("work_num", work_num);
+		model.addAttribute("idnum", idnum);
 		model.addAttribute("reqList", reqList);
 		
 		logger.debug("/production/instruct/add 뷰페이지 이동");

@@ -26,7 +26,7 @@ public interface WorkInstrService {
 	public List<WijoinVO> getBeforeInstrReq(String oo_num) throws Exception;
 	
 	// 작업지시번호 자동 생성
-	public String createWorkNum() throws Exception;
+	public List<WijoinVO> createIdNum() throws Exception;
 	
 	// 작업지시 추가
 	public void addInstr(WijoinVO vo) throws Exception;

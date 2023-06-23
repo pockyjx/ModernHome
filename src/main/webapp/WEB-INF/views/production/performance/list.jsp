@@ -17,14 +17,6 @@
 			
 			// 작업 지시를 먼저 선택하여 해당 지시에 대한 실적 등록 실행 
 			if(work_id) {
-				var url = window.location.href;
-				var paramTrue = new URLSearchParams(new URL(url).search).get('work_id');
-				
-				// url에 작업지시번호가 없으면 추가하기 (중복으로 주소줄에 들어가는 것 방지)
-				if(!paramTrue) {
-					history.pushState(null, '', url + '?work_id=' + work_id);
-				}
-				
 				var newRow = '<tr>' +
 							 '<td><input type="checkbox"></td>' +
 							 '<td><input id="add_pnum" type="text" name="prfrm_num" value="${prfrm_num}"></td>' +
@@ -79,7 +71,7 @@
 			}
 			// 수정버튼 취소
 			if(pageStatus == "update"){
-				var row = $("input[name='selectedPrfrm']:checked").closest("tr");
+				var row = $("input[name='prfrm_id']:checked").closest("tr");
 				
 				// 각 셀의 값을 원래 상태로 되돌림
 				row.find("td:not(:first-child)").each(function(index) {
@@ -126,29 +118,48 @@
 		
 		// 수정 버튼 누를 시
 		$("#updateButton").click(function(){
-			var selectedCheckbox = $("input[name='selectedPrfrm']:checked");
+			var prfrmCheckbox = $("input[name='prfrm_id']:checked");
 			
 			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
-			if (selectedCheckbox.length === 1) {
-				var prfrmId = selectedCheckbox.val();
-				var row = selectedCheckbox.closest("tr");
+			if (prfrmCheckbox.length === 1) {
+				var prfrm_id = prfrmCheckbox.val();
+				var row = prfrmCheckbox.closest("tr");
 				
 				// input type의 name 값 지정
 				var cellNames = [
+					"prfrm_num",
+					"work_num",
 					"line_num",
-					"line_name",
-					"use_yn",
+					"pro_num",
+					"pro_name",
 					"reg_date",
-					"emp_id"
+					"gb_yn",
+					"prfrm_cnt",
+					"df_cnt",
+					"emp_name",
+					"work_cnt",
 				];
 				
 				// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 				row.find("td:not(:first-child)").each(function(index) {
 					var cellValue = $(this).text();
-					var cellType = index === 3 ? "date" : "text"; // 날짜 타입은 date로 설정
-					var cellName = cellNames[index];
+					var cellType = "text";
+					var cellName = (index == 5) ? "update_date" : cellNames[index];
 					
-					$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
+					if(index == 6) {
+						$(this).html(
+							'<select name="' + cellNames[index] + '">'
+							+ '<option value="Y" <c:if test="${wp.gb_yn.equals('+N+')}">selected</c:if>>양품</option>'
+							+ '<option value="N" <c:if test="${wp.gb_yn.equals('+Y+')}">selected</c:if>>불량품</option>'
+							+ '</select>');
+					}
+					if(index == 7) {
+						$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
+					}
+// 					if(index == 8) {
+// 						$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="${work_cnt - prfrm_cnt}">');
+// 					}
+					
 					
 					$("#updateButton").attr("disabled", "disabled");
 					$("#addRowButton").attr("disabled", "disabled");
@@ -157,7 +168,7 @@
 					
 					pageStatus = "update";
 				});
-			}else if (selectedCheckbox.length === 0){
+			}else if (prfrmCheckbox.length === 0){
 				alert("수정할 행을 선택해주세요!")
 				return false;
 			}else {
@@ -209,8 +220,8 @@
 		
 		// 삭제 버튼 누를 시
 		$("#deleteInstrButton").click(function(){
-			var selectedCheckbox = $("input[name='selectedPrfrm']:checked");
-			var workId = selectedCheckbox.val();
+			var prfrmCheckbox = $("input[name='prfrm_id']:checked");
+			var prfrm_id = prfrmCheckbox.val();
 		});
 		
 		// 체크박스 선택 시 체크박스 개수 구하기
@@ -231,8 +242,8 @@
 
 <form method="get">
 	양불 여부
-		<label><input type="radio" name="gb_yn" value="Y">양품</label>
-		<label><input type="radio" name="gb_yn" value="N">불량품</label>
+		<label><input type="radio" name="gb_yn" value="Y">불량품</label>
+		<label><input type="radio" name="gb_yn" value="N">양품</label>
 	작업지시코드 <input type="text" name="work_num"> <br>
 	<label>등록일자</label>
 	<input type="date" name="startDate"> ~ <input type="date" name="endDate">
@@ -241,8 +252,6 @@
 
 <br>
 
-<div class="bg-light text-center rounded p-4">
-	<form>
 		<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
 		<table border="1" class="table-instrList">
 			<tr>
@@ -259,7 +268,7 @@
 				<th>담당자</th>
 			</tr>
 		
-			<c:forEach var="qi" items="${qiList}" varStatus="status">
+			<c:forEach var="qi" items="${qiList}">
 				<tr>
 					<td><input type="checkbox" name="selectedWorkId" value="${qi.work_id}"></td>
 					<td>${qi.work_num}</td>
@@ -287,15 +296,14 @@
 		<!-- ================================================================================== -->
 	
 		
+<form>
+	<div class="bg-light text-center rounded p-4">
 		<div>
-			<button class="btn btn-primary m-2" id="addRowButton" formmethod="get">추가</button>
+			<button class="btn btn-primary m-2" id="addRowButton">추가</button>
 			<button class="btn btn-primary m-2" id="cancleButton" disabled>취소</button>
 			<button class="btn btn-primary m-2" id="updateButton">수정</button>
 			<button type="submit" class="btn btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">삭제</button>
-			<button type="submit" class="btn btn-primary m-2" id="submitButton" 
-				<c:if test="${param.work_id}">formaction="regPrfrm"</c:if> 
-				<c:if test="">formaction="regPrfrm"</c:if> 
-				formmethod="post" disabled>저장</button>
+			<button type="submit" class="btn btn-primary m-2" id="submitButton" formmethod="post" disabled>저장</button>
 		</div>
 		
 		<div class="d-flex align-items-center justify-content-between mb-4">
@@ -319,9 +327,9 @@
 				<th>목표수량</th>
 			</tr>
 		
-			<c:forEach var="wp" items="${wpList}" varStatus="status">
+			<c:forEach var="wp" items="${wpList}">
 				<tr>
-					<td><input type="checkbox" name="selectedPrfrm" value="${wp.prfrm_id}"></td>
+					<td><input type="checkbox" name="prfrm_id" value="${wp.prfrm_id}"></td>
 					<td>${wp.prfrm_num}</td>
 					<td>${wp.work_num}</td>
 					<td>${wp.line_num}</td>
@@ -331,7 +339,9 @@
 						<c:if test="${!empty wp.update_date}">${wp.update_date}</c:if>
 						<c:if test="${empty wp.update_date}">${wp.reg_date}</c:if>
 					</td>
-					<td>${wp.gb_yn}</td>
+					<td>
+						${wp.gb_yn.equals('Y') ? "불량품" : "양품"}
+					</td>
 					<td>${wp.prfrm_cnt}</td>
 					<td>${wp.work_cnt - wp.prfrm_cnt}</td>
 					<td>
@@ -342,8 +352,8 @@
 				</tr>
 			</c:forEach>
 		</table>
-	</form>
-</div>
+	</div>
+</form>
 <!-- 생산실적 리스트 -->
 
 <%@ include file="../../inc/footer.jsp"%>

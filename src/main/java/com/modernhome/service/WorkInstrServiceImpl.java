@@ -48,8 +48,8 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	}
 
 	@Override
-	public String createWorkNum() throws Exception {
-		return dao.createWorkNum();
+	public List<WijoinVO> createIdNum() throws Exception {
+		return dao.createIdNum();
 	}
 
 	@Override
