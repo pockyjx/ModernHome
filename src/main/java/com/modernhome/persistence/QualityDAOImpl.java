@@ -80,6 +80,15 @@ public class QualityDAOImpl implements QualityDAO{
 		return sqlSession.selectList(NAMESPACE+".getMaterialQualitySearch", parameterMap);
 	}
 
+	// 품질검사(자재) 수정
+	@Override
+	public void updateMaterialQuality(WijoinVO wvo) {
+		logger.debug("DAO -> mapper 호출 -> SQL 실행(품질등록)");
+		
+		sqlSession.update(NAMESPACE+".updateMaterialQuality",wvo);
+		
+	}
+
 
 
 

@@ -48,18 +48,13 @@ public class QualityServiceImpl implements QualityService{
 		return qdao.getMaterialQualitySearch(qc_num, startDate, endDate, qc_yn);
 	}
 
-	// 품질거사(자재) 수정
+	// 품질검사(자재) 수정
 	@Override
 	public void updateMaterialQuality(WijoinVO wvo) {
-		// TODO Auto-generated method stub
+		qdao.updateMaterialQuality(wvo);
 		
 	}
-	
-	// 품질검사(자재) 수정
-
-
-
-	
+		
 
 	
 	

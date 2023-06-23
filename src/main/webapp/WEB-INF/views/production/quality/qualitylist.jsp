@@ -171,6 +171,83 @@
             var selectedCheckboxes = $(".table-qualityList td input[type='checkbox']:checked").length;
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         }  // 체크박스 선택 시 체크박스 개수 구하기
+
+   
+		// --------------------------------------------------------------------------------------------
+		// 품질현황(자재) 목록
+        
+		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+        $(".table-materialQualityList th input[type='checkbox']").click(function() {
+            var checkbox = $(this);
+            var isChecked = checkbox.prop('checked');
+            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+            var table = checkbox.closest('table');
+            var rows = table.find('tr');
+
+            // <td> 부분의 행들을 선택하고 배경색 지정
+            rows.each(function() {
+                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+                if (checkboxTd.length > 0) {
+                    checkboxTd.prop('checked', isChecked);
+                    if (isChecked) {
+                        $(this).addClass('selected');
+                    } else {
+                        $(this).removeClass('selected');
+                    }
+                }
+            });
+        });
+
+        // <td> 쪽 체크박스 클릭 시 행 선택
+        $(".table-materialQualityList td input[type='checkbox']").click(function() {
+            var checkbox = $(this);
+            var isChecked = checkbox.prop('checked');
+            checkbox.closest('tr').toggleClass('selected', isChecked);
+        });
+        
+
+
+
+		// 체크박스 선택 시 체크박스의 개수 구하기
+        updateSelectedCheckboxCount1();
+
+        // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+        $(".table-materialQualityList th input[type='checkbox']").click(function() {
+            var checkbox = $(this);
+            var isChecked = checkbox.prop('checked');
+            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+            var table = checkbox.closest('table');
+            var rows = table.find('tr');
+
+            // <td> 부분의 행들을 선택하고 배경색 지정
+            rows.each(function() {
+                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+                if (checkboxTd.length > 0) {
+                    checkboxTd.prop('checked', isChecked);
+                    $(this).toggleClass('selected', isChecked);
+                }
+            });
+
+            updateSelectedCheckboxCount1();
+        });
+
+        // <td> 쪽 체크박스 클릭 시 행 선택
+        $(".table-materialQualityList td input[type='checkbox']").click(function() {
+            var checkbox = $(this);
+            var isChecked = checkbox.prop('checked');
+            checkbox.closest('tr').toggleClass('selected', isChecked);
+
+            updateSelectedCheckboxCount1(); 
+        });
+
+        function updateSelectedCheckboxCount1() {
+            var totalCheckboxes = $(".table-materialQualityList td input[type='checkbox']").length;
+            var selectedCheckboxes = $(".table-materialQualityList td input[type='checkbox']:checked").length;
+            $("#selectedCheckboxCount1").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+        }  // 체크박스 선택 시 체크박스 개수 구하기
+        
+        // 품질현황(자재) 목록
+        
         
 	     });
     </script>
@@ -245,12 +322,13 @@
 		</form>
 		
 		<h2>품질현황(자재) 목록</h2>
+		
 		<form id="materialQualityList">
-		<span id="selectedCheckboxCount">0</span>
+			<span id="selectedCheckboxCount1">0</span>
 
-<!-- 			<input type="button" id="cancleButton" value="취소" disabled="disabled"> -->
-<!-- 			<input type="button" id="updateButton" value="수정"> -->
-<!-- 			<input type="submit" id="submitButton" value="저장" formaction="updateQuality" formmethod="post" disabled="disabled"> -->
+			<input type="button" id="cancleButton" value="취소" disabled="disabled">
+			<input type="button" id="updateButton" value="수정">
+			<input type="submit" id="submitButton" value="저장" formaction="updateMaterialQuality" formmethod="post" disabled="disabled">
 			
 			<table class="table-materialQualityList" border="1">
 				<tr>
