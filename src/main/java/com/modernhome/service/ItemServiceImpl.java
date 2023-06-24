@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.MaterialVO;
-import com.modernhome.domain.PagingVO;
 import com.modernhome.domain.ProductVO;
 import com.modernhome.persistence.MaterialDAO;
 import com.modernhome.persistence.ProductDAO;
@@ -52,16 +51,10 @@ public class ItemServiceImpl implements ItemService {
 		pdao.modifyProduct(vo);
 	}
 	
-	// 총 게시글 개수
+	// 완제품 id값 가져오기
 	@Override
-	public int countProduct() {
-		return pdao.countProduct();
-	}
-	
-	// 페이징 처리 게시글 조회
-	@Override
-	public List<ProductVO> pagingProduct(PagingVO vo) {
-		return pdao.pagingProduct(vo);
+	public int getProId() {
+		return pdao.getMaxProId();
 	}
 	
 	/////////////////////////////////////////////////////////////////////////
@@ -95,6 +88,12 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void modifyMaterial(MaterialVO vo) {
 		mdao.modifyMaterial(vo);
+	}
+
+	// 자재 id값 가져오기
+	@Override
+	public int getMaId() {
+		return mdao.getMaxMaId();
 	}
 	
 	

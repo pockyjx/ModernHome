@@ -28,6 +28,35 @@
 	</select>
 	<!-- 거래처 검색 -->
 	
+	<!-- 거래처등록 -->
+	<insert id="regClient">
+		<selectKey keyProperty="clt_num" resultType="String" order="BEFORE">
+		SELECT CONCAT('CL', LPAD(COALESCE(MAX(SUBSTR(clt_num, 3)), 0) + 1, 4, '0'))
+			FROM client
+		</selectKey>
+		
+		
+		INSERT INTO client (clt_num, clt_sort, clt_name, clt_rep,
+			clt_tel, clt_adr, clt_post, clt_email)
+		
+		VALUES (#{clt_num}, #{clt_sort}, #{clt_name}, #{clt_rep}, #{clt_tel}, #{clt_adr}, #{clt_post}, #{clt_email})
+		
+	</insert>
+	<!-- 거래처등록 -->
+	
+	<!-- 거래처삭제 -->
+	<delete id="deleteClient">
+		DELETE FROM client WHERE clt_id = #{clt_id}
+	</delete>
+	<!-- 거래처삭제 -->
+	
+	<!-- 거래처업데이트 -->
+	<update id="updateClient">
+		UPDATE client SET clt_sort = #{clt_sort}, clt_name = #{clt_name},
+		 clt_rep = #{clt_rep}, clt_tel = #{clt_tel}, clt_adr = #{clt_adr}, clt_post = #{clt_post}, clt_email = #{clt_email}	
+		WHERE clt_num = #{clt_num}
+	</update>
+	<!-- 거래처업데이트 -->
 	
 	
 

@@ -3,6 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<%@ include file="../../inc/header.jsp"%>
+<%@ include file="../../inc/sidebar.jsp"%>
+<%@ include file="../../inc/nav.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -236,7 +240,7 @@
 			<td>${vo.ma_num }</td>
 			<td>${vo.ma_name }</td>
 			<td>${vo.ma_unit }</td>
-			<td><fmt:formatNumber value="${vo.ma_price }" /></td>
+			<td>${vo.ma_price }</td>
 		</tr>
 		</c:forEach>
 	
@@ -246,3 +250,5 @@
 
 </body>
 </html>
+
+<%@ include file="../../inc/footer.jsp"%>

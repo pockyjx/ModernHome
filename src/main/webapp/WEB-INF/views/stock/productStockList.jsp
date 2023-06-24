@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ include file="../inc/header.jsp"%>
+<%@ include file="../inc/sidebar.jsp"%>
+<%@ include file="../inc/nav.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,22 +30,22 @@
 			<th>완제품 코드</th>
 			<th>완제품명</th>
 			<th>현 재고</th>
-			<th>등록자</th>
-			<th>등록일자</th>
+			<th>단위</th>
 		</tr>
 		
 		<c:forEach items="${psList }" var="vo">
 		<tr>
 			<td><input type="checkbox"> </th>
-			<td>${vo.warehouseVO.wh_name}</td>
-			<td>${vo.pro_id }</td>
-			<td>${vo.productVO.pro_name }</td>
+			<td>${vo.wh_name}</td>
+			<td>${vo.pro_num }</td>
+			<td>${vo.pro_name }</td>
 			<td>${vo.ps_cnt }</td>
-			<td>${vo.emp_id }</td>
-			<td>${vo.ps_reg_date }</td>
+			<td>${vo.pro_unit }</td>
 		</tr>
 		</c:forEach>
 	</table>
 
 </body>
 </html>
+
+<%@ include file="../inc/footer.jsp"%>
