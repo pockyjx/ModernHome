@@ -21,26 +21,39 @@
         <result property="pro_num" column="pro_num" />
         <result property="ma_name" column="ma_name" />
         <result property="ma_num" column="ma_num" />
+        <result property="emp_name" column="emp_name" />
         
     </resultMap>
 
     <select id="getRequirements" resultMap="reqjoinRM">
         SELECT req_id, req_num, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
-               r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id
-        FROM requirement r
-        JOIN product p ON r.pro_id = p.pro_id
-        JOIN material m ON r.ma_id = m.ma_id
+       			r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id,
+        CASE
+        	WHEN r.update_emp_id IS NULL THEN
+               (SELECT emp_name FROM employee WHERE emp_id = r.emp_id)
+           ELSE
+               (SELECT emp_name FROM employee WHERE emp_id = r.update_emp_id)
+        END AS emp_name
+		FROM requirement r
+		JOIN product p ON r.pro_id = p.pro_id
+		JOIN material m ON r.ma_id = m.ma_id
+        
     </select>
     <!-- 소요량 목록 -->
     
-    <select id="reqSearch" resultMap="reqjoinRM"
-    	 parameterType="java.util.Map">
+    <select id="reqSearch" resultMap="reqjoinRM" parameterType="java.util.Map">
         SELECT req_id, req_num, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
-               r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id
-        FROM requirement r
-        JOIN product p ON r.pro_id = p.pro_id
-        JOIN material m ON r.ma_id = m.ma_id
-        where
+       			r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id,
+        CASE
+        	WHEN r.update_emp_id IS NULL THEN
+               (SELECT emp_name FROM employee WHERE emp_id = r.emp_id)
+           ELSE
+               (SELECT emp_name FROM employee WHERE emp_id = r.update_emp_id)
+        END AS emp_name
+		FROM requirement r
+		JOIN product p ON r.pro_id = p.pro_id
+		JOIN material m ON r.ma_id = m.ma_id
+		where
         <choose>
 			<when test="option == 'pro_name'">
 				pro_name like CONCAT('%', #{search}, '%')
@@ -92,7 +105,7 @@
     <!-- 소요량 수정 -->
 	<update id="updateReq">
 		update requirement
-		set req_cnt = #{req_cnt}
+		set req_cnt = #{req_cnt}, req_update_date = now(), update_emp_id = #{update_emp_id}
 		where req_num = #{req_num}
 	</update>
     <!-- 소요량 수정 -->

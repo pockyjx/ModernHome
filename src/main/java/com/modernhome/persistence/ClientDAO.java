@@ -11,5 +11,14 @@ public interface ClientDAO {
 	
 	// 거래처조회 + 검색
 	public List<ClientVO> clientListSearch(ClientVO cvo);
+	
+	// 사원등록
+	public void regClient(ClientVO cvo);
+		
+	// 사원삭제
+	public void deleteClient(int clt_id);
+		
+	// 사원업데이트
+	public void updateClient(ClientVO cvo);
 
 }
