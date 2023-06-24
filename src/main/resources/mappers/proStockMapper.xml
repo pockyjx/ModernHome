@@ -43,6 +43,23 @@
 	</insert>
 	<!-- 완제품 재고 등록 -->
 	
+	<!-- 완제품 재고 검색 -->
+	<select id="searchProStock" resultType="ProductStockVO">
+		SELECT ps_id, wh_name, p.pro_num, pro_name, ps_cnt, p.pro_unit
+		FROM product_stock ps
+		JOIN product p ON p.pro_id = ps.pro_id
+		JOIN warehouse w ON w.wh_id = ps.wh_id
+		<where>
+			<if test="pro_num != ''">
+				pro_num like CONCAT('%', #{pro_num}, '%')
+			</if>
+			<if test="pro_name != ''">
+				AND pro_name like CONCAT('%', #{pro_name}, '%')
+			</if>
+		</where>
+	</select>
+	<!-- 완제품 재고 검색 -->
+	
 	
 
 </mapper>

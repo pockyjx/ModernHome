@@ -16,35 +16,37 @@
 
 <h1>재고 현황</h1>
 
-	<ul>
-		<li><a href="./productStockList">완제품</a></li>
-		<li><a href="./materialStockList">자재</a></li>
+<div>
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link active" aria-current="page" href="/stock/materialStockList">자재</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="/stock/productStockList">완제품</a>
+		</li>
 	</ul>
-	
-	<h2>재고 검색</h2>
+</div>
+
+<hr>
+
+	<h4>재고 검색</h4>
 
 	<fieldset>
-		<form action="./stockSearchResult" method="GET">
-			
-			<label><b>창고명</b>
-			<input type="text" name="wh_name"></label>
-			
-			<select name="itemOption">
-				<option value="pro">완제품</option>
-				<option value="material">자재</option>
-			</select>
-			
-			<input type="text" name="search">
+		<form action="" method="GET">
+
+			<label><b>자재코드</b> <input type="text" name="ma_num"></label>
+			<label><b>자재명</b> <input type="text" name="ma_name"></label>
+
 			<input type="submit" value="조회">
 		</form>
 	</fieldset>
 	
+<hr>
 
-<h2>자재 재고</h2>
+<h4>자재 재고</h4>
 
 	<table border="1">
 		<tr>
-			<th><input type="checkbox"> </th>
 			<th>창고명</th>
 			<th>자재 코드</th>
 			<th>자재명</th>
@@ -54,7 +56,6 @@
 		
 		<c:forEach items="${msList }" var="vo">
 		<tr>
-			<td><input type="checkbox"> </th>
 			<td>${vo.wh_name}</td>
 			<td>${vo.ma_num }</td>
 			<td>${vo.ma_name }</td>

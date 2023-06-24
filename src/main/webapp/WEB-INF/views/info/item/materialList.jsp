@@ -16,6 +16,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+        	
+        	updateSelectedCheckboxCount();
+        	
             // 버튼 클릭 시 행 추가
             $("#addRowButton").click(function() {
                 var newRow = '<tr>' +
@@ -38,35 +41,6 @@
 				pageStatus = "reg";
 				
             }); // 추가 버튼
-            
-         // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-            $(".table-mateList th input[type='checkbox']").click(function() {
-                var checkbox = $(this);
-                var isChecked = checkbox.prop('checked');
-                var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-                var table = checkbox.closest('table');
-                var rows = table.find('tr');
-
-                // <td> 부분의 행들을 선택하고 배경색 지정
-                rows.each(function() {
-                    var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-                    if (checkboxTd.length > 0) {
-                        checkboxTd.prop('checked', isChecked);
-                        if (isChecked) {
-                            $(this).addClass('selected');
-                        } else {
-                            $(this).removeClass('selected');
-                        }
-                    }
-                });
-            });
-
-            // <td> 쪽 체크박스 클릭 시 행 선택
-            $(".table-mateList td input[type='checkbox']").click(function() {
-                var checkbox = $(this);
-                var isChecked = checkbox.prop('checked');
-                checkbox.closest('tr').toggleClass('selected', isChecked);
-            });
             
          // 취소 버튼 누를 시 
 			$("#cancleButton").click(function(){
@@ -159,29 +133,50 @@
 				}
 			});
 			
-			updateSelectedCheckboxCount();
 			
-			// <td> 쪽 체크박스 클릭 시 행 선택
-	        $(".table-mateList td input[type='checkbox']").click(function() {
+			// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+	        $(".table-mateList th input[type='checkbox']").click(function() {
 	            var checkbox = $(this);
 	            var isChecked = checkbox.prop('checked');
-	            checkbox.closest('tr').toggleClass('selected', isChecked);
+	            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+	            var table = checkbox.closest('table');
+	            var rows = table.find('tr');
 
-	            updateSelectedCheckboxCount(); 
-	        });
+	            // <td> 부분의 행들을 선택하고 배경색 지정
+	            rows.each(function() {
+	                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+	                if (checkboxTd.length > 0) {
+	                    checkboxTd.prop('checked', isChecked);
+	                    if (isChecked) {
+	                        $(this).addClass('selected');
+	                    } else {
+	                        $(this).removeClass('selected');
+	                    }
+	                }
+	            });
+				
+	            updateSelectedCheckboxCount();
+	            
+	        }); // 배경색 지정
 
-	        function updateSelectedCheckboxCount() {
-	            var totalCheckboxes = $(".table-mateList td input[type='checkbox']").length;
-	            var selectedCheckboxes = $(".table-mateList td input[type='checkbox']:checked").length;
-	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
-	        } // 체크박스 선택 시 체크박스 개수 구하기
-	     
+	         // <td> 쪽 체크박스 클릭 시 행 선택
+	         $(".table-mateList td input[type='checkbox']").click(function() {
+	             var checkbox = $(this);
+	             var isChecked = checkbox.prop('checked');
+	             checkbox.closest('tr').toggleClass('selected', isChecked);
+	             
+	             updateSelectedCheckboxCount(); 
+	         }); // <td> 쪽 체크박스 클릭 시 행 선택
+	         
+
+	    	function updateSelectedCheckboxCount() {
+	          var totalCheckboxes = $(".table-mateList td input[type='checkbox']").length;
+	          var selectedCheckboxes = $(".table-mateList td input[type='checkbox']:checked").length;
+	          $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+	      } // 체크박스 선택 시 체크박스 개수 구하기
             
-        });
-        
+        });    
      
-      
-        
     </script>
     <style>
         .selected {
@@ -191,6 +186,20 @@
 
 </head>
 <body>
+
+<div>
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link active" aria-current="page" href="/info/item/materialList">자재</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="/info/item/productList">완제품</a>
+		</li>
+	</ul>
+</div>
+
+<hr>
+
 
 <h2>자재 검색</h2>
 
@@ -205,11 +214,7 @@
 	</fieldset>
 
 
-
-	<ul>
-		<li><a href="./productList">완제품</a></li>
-		<li><a href="./materialList">자재</a></li>
-	</ul>
+<hr>
 	
 	<h2>자재 목록</h2>
 	
@@ -217,13 +222,17 @@
 	
 	<span id="selectedCheckboxCount">0</span>	
 	
-	<input type="button" id="addRowButton" value="추가">
-	<input type="button" id="cancleButton" value="취소" disabled="disabled">
-	<input type="button" id="updateButton" value="수정">
-	<input type="submit" id="deleteButton" value="삭제" formaction="/info/delMaterial" formmethod="post">
+	<div>
 	
-	<input type="submit" id="submitButton" value="저장" formaction="/info/regMaterial" formmethod="post" disabled="disabled">
-
+	<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+	<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+	<button class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+	<button type="submit" class="btn btn-primary m-2" id="/info/delMaterial" formaction="/info/delProduct" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+	
+	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/info/regMaterial" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+	
+	</div>
+	
 	<table class="table-mateList" border="1">
 	
 		<tr>

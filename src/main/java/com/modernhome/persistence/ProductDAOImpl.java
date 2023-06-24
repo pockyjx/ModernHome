@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductVO;
 
 @Repository
@@ -35,10 +36,13 @@ public class ProductDAOImpl implements ProductDAO {
 	
 	// 완제품 검색 결과
 	@Override
-	public List<ProductVO> getProductList(ProductVO vo) {
+	public List<ProductVO> getProductList(ProductVO vo, PageVO pvo) {
 		logger.debug("완제품 검색 결과 조회!");
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("productVO", vo);
+		paramMap.put("pageVO", pvo);
 		
-		return sqlSession.selectList(NAMESPACE + ".proSearchList", vo);
+		return sqlSession.selectList(NAMESPACE + ".proSearchList", paramMap);
 	}
 	
 	// 완제품 등록
@@ -69,7 +73,25 @@ public class ProductDAOImpl implements ProductDAO {
 	public int getMaxProId() {
 		return sqlSession.selectOne(NAMESPACE + ".getProId");
 	}
-	
+
+	// 완제품 목록 (페이징)
+	@Override
+	public List<ProductVO> getProListPage(PageVO vo) throws Exception {
+		logger.debug("완제품 목록(페이징) 조회!");
+		return sqlSession.selectList(NAMESPACE + ".proListPage", vo);
+	}
+
+	// 총 개수 계산
+	@Override
+	public int getTotalCntPro() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".proTotalCnt");
+	}
+
+	// 검색 결과 개수
+	@Override
+	public int getProSearchCnt(ProductVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".proSearchCnt", vo);
+	}
 	
 	
 	

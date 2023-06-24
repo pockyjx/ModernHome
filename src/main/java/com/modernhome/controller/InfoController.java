@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.MaterialVO;
+import com.modernhome.domain.PageMaker;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductVO;
 import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.RequirementVO;
@@ -42,19 +44,31 @@ public class InfoController {
 	// 완제품 목록
 	// http://localhost:8088/info/item/productList
 	@RequestMapping(value = "/item/productList", method = RequestMethod.GET)
-	public void productListGET(Model model, ProductVO vo) {
+	public void productListGET(Model model, ProductVO vo /* PageVO pvo */) throws Exception {
 		logger.debug("productListGET() 호출!");
 		
 		List<ProductVO> productList;
+		PageMaker pm = new PageMaker();
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐 경우
 		if(vo.getPro_num() != null || vo.getPro_name() != null) {
-			productList = iService.getProductList(vo);
-			model.addAttribute("productList", productList);
+//			productList = iService.getProductList(vo, pvo);
+//			model.addAttribute("productList", productList);
+			
+//			pm.setPageVO(pvo);
+//			pm.setTotalCount(iService.getProSearchCnt(vo));
+			model.addAttribute("pm", pm);
+			
 			
 		} else { 
+//			productList = iService.getProListPage(pvo);
 			productList = iService.getProductList();
 			model.addAttribute("productList", productList);
+			
+//			pm.setPageVO(pvo);
+//			pm.setTotalCount(iService.getTotalCntPro());
+			
+//			model.addAttribute("pm", pm);
 		}
 		
 	}
@@ -191,18 +205,18 @@ public class InfoController {
 						@ModelAttribute("option") String option, 
 						@ModelAttribute("search") String search) throws Exception {
 		
-		logger.debug("reqListGET() 호출!");
-		
 		List<ReqJoinVO> reqList;
 		
 		
 		logger.debug(option);
 		logger.debug(search);
 		
-		if(option != null && search != null) {
+		if(option != null || search != null) {
+			logger.debug("reqListGET(search) 호출!");
 			reqList = rService.getReqSearch(option, search);
 			model.addAttribute("reqList", reqList);
 		}else {
+			logger.debug("reqListGET(all) 호출!");
 			reqList = rService.getListAll();
 			model.addAttribute("reqList", reqList);
 		}

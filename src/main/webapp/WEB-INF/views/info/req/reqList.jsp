@@ -39,19 +39,21 @@
 	             $(".table-reqList tr:nth-child(1)").after(newRow);
 	             
 	             // 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
-		$("#addRowButton").attr("disabled", "disabled");
-		$("#updateButton").attr("disabled", "disabled");
-		$("#deleteButton").attr("disabled", "disabled");
-		
-		$("#cancleButton").removeAttr("disabled");
-		$("#submitButton").removeAttr("disabled");
-		
-		pageStatus = "reg";
+				$("#addRowButton").attr("disabled", "disabled");
+				$("#updateButton").attr("disabled", "disabled");
+				$("#deleteButton").attr("disabled", "disabled");
+				
+				$("#cancleButton").removeAttr("disabled");
+				$("#submitButton").removeAttr("disabled");
+				
+				pageStatus = "reg";
+				
+
 	             
 	         });  // 버튼 클릭 시 행 추가
 	         
 	     	// 취소 버튼 누를 시 
-	$("#cancleButton").click(function(){
+			$("#cancleButton").click(function(){
 		
 		// 등록버튼 취소
 		if(pageStatus == "reg"){
@@ -223,6 +225,9 @@
      
 	      
 	  </script>
+	 
+	  
+	  
     <style>
         .selected {
             background-color: #b3ccff;
@@ -241,7 +246,6 @@
 				<option value="all">전체</option>
 				<option value="pro_name">완제품명</option>
 				<option value="ma_name">자재명</option>
-<!-- 				<option value="req_num">소요량 코드</option> -->
 			</select>
 			
 			<label><input type="text" name="search"></label>
