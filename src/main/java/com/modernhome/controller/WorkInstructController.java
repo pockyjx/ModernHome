@@ -117,26 +117,25 @@ public class WorkInstructController {
 			throws Exception {
 		logger.debug("getInstrList() 호출");
 		
+		// 작업지시 목록 출력 메서드 (서비스 -> DAO)
+		List<WijoinVO> instrList = null;
+		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
 		if(work_state != null || pro_num != null || !startDate.isEmpty() || !endDate.isEmpty()) {
 			logger.debug("검색어 O, 검색된 데이터만 출력");
 			
 			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-			List<WijoinVO> instrList = wiService.getInstrList(work_state, pro_num, startDate, endDate);
-			logger.debug("instrList : {}", instrList);
-			
-			// 연결된 뷰페이지에 전달
-			model.addAttribute("instrList", instrList);
+			instrList = wiService.getInstrList(work_state, pro_num, startDate, endDate);
 		}else {
 			logger.debug("검색어 X, 전체 데이터 출력 ");
 			
 			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-			List<WijoinVO> instrList = wiService.getInstrList();
-			logger.debug("instrList : {}", instrList);
-			
-			// 연결된 뷰페이지에 전달
-			model.addAttribute("instrList", instrList);
+			instrList = wiService.getInstrList();
 		}
+		logger.debug("instrList : {}", instrList);
+		
+		// 연결된 뷰페이지에 전달
+		model.addAttribute("instrList", instrList);
 		
 		// 페이지 이동
 		logger.debug("/production/instruct/list.jsp 뷰페이지로 이동");
@@ -189,6 +188,10 @@ public class WorkInstructController {
 	@RequestMapping(value = "/instruct/modify", method = RequestMethod.POST)
 	public String modifyInstrPOST(WijoinVO vo) throws Exception {
 		logger.debug("modifyInstrPOST() 호출");
+		logger.debug("##############################################수정 vo-line_num : "+ vo.getLine_num());
+		
+		// 라인코드 끝의 ',' 제거
+		vo.setLine_num(vo.getLine_num().replaceAll(",", ""));
 		
 		wiService.modifyInstr(vo);
 		

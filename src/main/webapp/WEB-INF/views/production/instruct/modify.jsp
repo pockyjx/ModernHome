@@ -41,23 +41,11 @@
 			});
 		});
 	});
-	
-	$(document).on("click", "input[type='submit']", function() {
-		var url = window.location.href;
-		var lnumVal = new URLSearchParams(new URL(url).search).get('line_num');
-		console.log(lnumVal);
-		
-		if(lnumVal == null) {
-			alert("라인번호를 선택해주세요.");
-			return false;
-		}
-	});
 </script>
 
 	<h2>작업지시서 수정</h2>
 <%-- ${wiList} <br>  --%>
 <%-- ${reqList} <br>  --%>
-<%-- ${param.work_id} --%>
 	<form method="post">
 		<table border="1">
 			<tr>
@@ -90,10 +78,10 @@
 				<th>생산라인</th>
 				<td id="line_num">
 					<c:if test="${empty param.line_num}">
-						<input type="text" name="line_num" value="${wiList[0].line_num}" readonly>
+						<input type="text" name="line_num" placeholder="${wiList[0].line_num}" readonly>
 					</c:if>
 					<c:if test="${!empty param.line_num}">
-						<input type="text" name="line_num" value="${param.line_num}" readonly>
+						<input type="text" name="line_num" placeholder="${param.line_num}" readonly>
 					</c:if>
 				</td>
 			</tr>
@@ -120,12 +108,11 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<input type="hidden" name="pro_id" value="${reqList[0].pro_id}">
-		<input type="hidden" name="req_id" value="${reqList[0].req_id}">
-		<input type="hidden" name="oo_id" value="${reqList[0].oo_id}">
-		<input type="hidden" name="clt_id" value="${reqList[0].clt_id}">
-		<input type="hidden" name="emp_id" value="${reqList[0].emp_id}">
-		<input type="hidden" name="line_id" value="${reqList[0].line_id}">
+		<input type="hidden" name="pro_id" value="${wiList[0].pro_id}">
+		<input type="hidden" name="req_id" value="${wiList[0].req_id}">
+		<input type="hidden" name="oo_id" value="${wiList[0].oo_id}">
+		<input type="hidden" name="clt_id" value="${wiList[0].clt_id}">
+		<input type="hidden" name="emp_id" value="${wiList[0].emp_id}">
 		<div>
 			<input type="button" value="취소" onclick="location.href='/production/instruct/list'">
 			<input type="submit" value="수정"> 

@@ -31,12 +31,10 @@
 <%-- 	${liList} <hr> --%>
 <c:choose>
 	<c:when test="${empty param.work_id}">
-		<form id="fr" action="/production/instruct/add?line_num=${liList[0].line_num}" 
-				method="get" target="add">
+		<form id="fr" action="/production/instruct/add" method="get" target="add">
 	</c:when>
 	<c:when test="${!empty param.work_id}">
-		<form id="fr" action="/production/instruct/modify?line_num=${liList[0].line_num}" 
-				method="get" target="add">
+		<form id="fr" action="/production/instruct/modify" method="get" target="add">
 	</c:when>
 </c:choose>
 		<table border="1">
