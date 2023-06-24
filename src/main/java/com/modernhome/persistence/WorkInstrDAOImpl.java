@@ -28,9 +28,9 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<WijoinVO> getInstr(WorkInstrVO wivo) throws Exception {
+	public List<WijoinVO> getInstr(WijoinVO wjvo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstr 실행");
-		return sqlSession.selectList(NAMESPACE + ".getInstr", wivo);
+		return sqlSession.selectList(NAMESPACE + ".getInstr", wjvo);
 	}
 
 	@Override
@@ -65,9 +65,9 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	}
 
 	@Override
-	public List<WijoinVO> getBeforeInstrReq(String oo_num) throws Exception {
+	public List<WijoinVO> getBeforeInstrReq(WijoinVO wjvo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getBeforeInstrReq() 실행");
-		return sqlSession.selectList(NAMESPACE + ".getBeforeInstrReq", oo_num);
+		return sqlSession.selectList(NAMESPACE + ".getBeforeInstrReq", wjvo);
 	}
 
 	@Override

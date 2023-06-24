@@ -18,8 +18,8 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	private WorkInstrDAO dao;
 	
 	@Override
-	public List<WijoinVO> getInstr(WorkInstrVO wivo) throws Exception {
-		return dao.getInstr(wivo);
+	public List<WijoinVO> getInstr(WijoinVO wjvo) throws Exception {
+		return dao.getInstr(wjvo);
 	}
 
 	@Override
@@ -43,8 +43,8 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 	}
 
 	@Override
-	public List<WijoinVO> getBeforeInstrReq(String oo_num) throws Exception {
-		return dao.getBeforeInstrReq(oo_num);
+	public List<WijoinVO> getBeforeInstrReq(WijoinVO wjvo) throws Exception {
+		return dao.getBeforeInstrReq(wjvo);
 	}
 
 	@Override

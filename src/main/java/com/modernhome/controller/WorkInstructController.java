@@ -42,17 +42,18 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/add.jsp
 	// 작업지시서 작성(GET) - /production/instruct/add
 	@RequestMapping(value = "/instruct/add", method = RequestMethod.GET)
-	public void addInstrGET(@ModelAttribute("oo_num") String oo_num, WijoinVO wjvo, Model model)
+	public void addInstrGET(WijoinVO wjvo, Model model)
 			throws Exception {
 		logger.debug("addInstrGET() 호출");
-		logger.debug("################oo_num : " + oo_num);
+		logger.debug("################oo_num : " + wjvo.getOo_num());
+		logger.debug("################line_num : " + wjvo.getLine_num());
 		
 		// 지시번호를 자동으로 부여
 		List<WijoinVO> idnum = wiService.createIdNum();
 		logger.debug("################idnum : " + idnum);
 		
 		// 해당 수주번호에 해당하는 소요량
-		List<WijoinVO> reqList = wiService.getBeforeInstrReq(oo_num);
+		List<WijoinVO> reqList = wiService.getBeforeInstrReq(wjvo);
 		logger.debug("reqList : {}", reqList);
 		
 		// 연결된 뷰페이지에 전달
@@ -144,11 +145,11 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/info?work_id=
 	// 작업지시 상세보기 출력(GET) - /production/instruct/info
 	@RequestMapping(value = "/instruct/info", method = RequestMethod.GET)
-	public void getInstr(Model model, WorkInstrVO wivo) throws Exception {
+	public void getInstr(Model model, WorkInstrVO wivo, WijoinVO wjvo) throws Exception {
 		logger.debug("getInstr() 호출");
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
-		List<WijoinVO> wiList = wiService.getInstr(wivo);
+		List<WijoinVO> wiList = wiService.getInstr(wjvo);
 		List<WijoinVO> reqList = wiService.getInstrReq(wivo);
 		logger.debug("wiList : {}", wiList);
 		logger.debug("reqList : {}", reqList);
@@ -164,14 +165,14 @@ public class WorkInstructController {
 	
 	// 작업지시 수정(GET) - /production/instruct/modify
 	@RequestMapping(value = "/instruct/modify", method = RequestMethod.GET)
-	public void modifyInstrGET(Model model, @ModelAttribute("work_id") Integer work_id, WorkInstrVO wivo) throws Exception {
+	public void modifyInstrGET(Model model, WorkInstrVO wivo, WijoinVO wjvo) throws Exception {
 		logger.debug("modifyInstrGET() 호출");
 		
 		// 전달 받은 값 확인 (work_id)
-		logger.debug("##################work_id : " + work_id);
+		logger.debug("##################work_id : " + wivo.getWork_id());
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
-		List<WijoinVO> wiList = wiService.getInstr(wivo);
+		List<WijoinVO> wiList = wiService.getInstr(wjvo);
 		List<WijoinVO> reqList = wiService.getInstrReq(wivo);
 		logger.debug("wiList : {}", wiList);
 		logger.debug("reqList : {}", reqList);

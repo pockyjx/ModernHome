@@ -76,15 +76,17 @@
 	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
 	
 	<h2>작업지시서 작성</h2>
-<%-- ${idnum[0].work_id} --%>
+<%-- ${idnum} <hr> --%>
+<%-- ${reqList} --%>
 	<form method="post">
 		<table border="1">
 			<tr>
 				<th>지시번호</th>
 				<td><input type="text" name="work_num" value="${idnum[0].work_num}" readonly></td>
+					
 				<th>수주번호</th>
 				<td id="oo_num">
-					<c:if test="${!empty param.oo_num}">${param.oo_num}</c:if>
+					<input type="button" name="oo_num" <c:if test='${!empty param.oo_num}'> value="${param.oo_num}"</c:if> readonly>
 				</td>
 			</tr>
 			<tr>
@@ -104,7 +106,7 @@
 				<td><input type="text" name="oo_end_date" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_end_date}"</c:if> readonly></td>
 				<th>생산라인</th>
 				<td id="line_num">
-					<c:if test="${!empty param.line_num}">${param.line_num}</c:if>
+					<input type="button" name="line_num" <c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if> readonly>
 				</td>
 			</tr>
 			<tr>
@@ -132,6 +134,7 @@
 		<input type="hidden" name="req_id" value="${reqList[0].req_id}">
 		<input type="hidden" name="oo_id" value="${reqList[0].oo_id}">
 		<input type="hidden" name="clt_id" value="${reqList[0].clt_id}">
+		<input type="hidden" name="line_id" value="${reqList[0].line_id}">
 		<div>
 			<input type="button" value="취소" onclick="location.href='/production/instruct/list'">
 			<input type="submit" value="저장">

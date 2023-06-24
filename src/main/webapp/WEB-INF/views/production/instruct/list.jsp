@@ -138,7 +138,7 @@
 		<button type="submit">조회</button>
 	</form>
 	
-<%-- 	${instrList} --%>
+	${instrList}
 	
 	<span id="selectedCheckboxCount">0</span>
 	
