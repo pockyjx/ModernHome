@@ -7,7 +7,7 @@
 
 	<!-- resultMap -->
 	<resultMap type="MaterialStockVO" id="mateStockResultMap">
-		<id property="ms_id" column="ms_id" />
+		<result property="ms_id" column="ms_id" />
 		<result property="ms_num" column="ms_num" />
 		<result property="ma_id" column="ma_id" />
 		<result property="ms_cnt" column="ms_cnt" />
@@ -16,28 +16,32 @@
 		<result property="emp_id" column="emp_id" />
 		<result property="ms_update_date" column="ms_update_date" />
 		<result property="update_emp_id" column="update_emp_id" />
-	
-		<association property="warehouseVO" javaType="WarehouseVO">
-			<id property="wh_id" column="wh_id" />
-			<result property="wh_name" column="wh_name" />
-		</association>
-		
-		<association property="materialVO" javaType="MaterialVO">
-            <id property="ma_id" column="ma_id" />
-            <result property="ma_name" column="ma_name" />
-        </association>
+		<result property="wh_name" column="wh_name" />
+		<result property="ma_num" column="ma_num" />
+		<result property="ma_name" column="ma_name" />
+		<result property="ma_unit" column="ma_unit" />
 	
 	</resultMap>
 	<!-- resultMap -->
 	
 	<!-- 자재 재고 목록 -->
 	<select id="getMateStock" resultMap="mateStockResultMap">
-		SELECT ms_num, wh_name, ms.ma_id, ma_name, ms_cnt, ms_reg_date, ms.emp_id
+		SELECT ms_id, ma_num, wh_name, ms.ma_id, ma_name, ms_cnt, m.ma_unit
 		FROM material_stock ms
 		JOIN material m ON m.ma_id = ms.ma_id
-		JOIN warehouse w ON w.wh_id = ms.wh_id;
+		JOIN warehouse w ON w.wh_id = ms.wh_id
+		ORDER BY ms_id desc
 	</select>
 	<!-- 자재 재고 목록 -->
+	
+	<!-- 자재 재고 등록 -->
+	<insert id="regMaStock">
+		INSERT INTO material_stock (ms_num, ma_id)
+		SELECT CONCAT(SUBSTRING(ms_num, 1, 2), LPAD(max(ms_id) + 1, 6, '0')), #{maxMaId}
+		FROM material_stock
+		WHERE ms_num LIKE CONCAT('%', 'MS', '%')
+	</insert>
+	<!-- 자재 재고 등록 -->
 	
 	
 	

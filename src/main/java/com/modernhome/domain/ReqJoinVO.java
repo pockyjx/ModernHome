@@ -20,6 +20,14 @@ public class ReqJoinVO {
 	private String ma_num;
 	private String ma_name;
 	
+	private String emp_name;
+	
+	public String getEmp_name() {
+		return emp_name;
+	}
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
 	public Integer getReq_id() {
 		return req_id;
 	}
@@ -104,14 +112,16 @@ public class ReqJoinVO {
 	public void setMa_name(String ma_name) {
 		this.ma_name = ma_name;
 	}
+	
 	@Override
 	public String toString() {
 		return "ReqJoinVO [req_id=" + req_id + ", req_num=" + req_num + ", pro_id=" + pro_id + ", ma_id=" + ma_id
 				+ ", req_cnt=" + req_cnt + ", req_unit=" + req_unit + ", req_reg_date=" + req_reg_date + ", emp_id="
 				+ emp_id + ", req_update_date=" + req_update_date + ", update_emp_id=" + update_emp_id + ", pro_num="
-				+ pro_num + ", pro_name=" + pro_name + ", ma_num=" + ma_num + ", ma_name=" + ma_name + "]";
+				+ pro_num + ", pro_name=" + pro_name + ", ma_num=" + ma_num + ", ma_name=" + ma_name + ", emp_name="
+				+ emp_name + "]";
 	}
-	
+
 	
 	
 

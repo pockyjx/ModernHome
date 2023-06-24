@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.EmployeeVO;
@@ -20,6 +21,7 @@ import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.OutOrderJoinVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.ProductVO;
+import com.modernhome.domain.ShipmentJoinVO;
 import com.modernhome.domain.ShipmentVO;
 import com.modernhome.service.ClientService;
 import com.modernhome.service.ItemService;
@@ -79,25 +81,40 @@ public class ClientController {
 	
 	// 거래처등록, 거래처 업데이트
 	@RequestMapping(value = "/regClient", method = RequestMethod.POST)
-	public String regEmployeePOST(ClientVO cvo) throws Exception{
+	public String regClientPOST(ClientVO cvo) throws Exception{
 		
 		if(cvo.getClt_num() == null) {
-			logger.debug("regEmployeePOST() 호출(사원 등록)");
+			logger.debug("regEmployeePOST() 호출(거래처 등록)");
 			
 			logger.debug("cvo : " + cvo);
 			
-//			cService.regEmployee(evo);
-		}//else {
-//			logger.debug("regEmployePOST() 호출(사원 업데이트)");
-//			
-//			logger.debug("evo : " + evo);
-//			
-//			cService.updateEmployee(evo);
-//		}
+			cService.regClient(cvo);
+			
+			
+		}else {
+			logger.debug("regClientPOST() 호출(거래처 업데이트)");
+			
+			logger.debug("cvo : " + cvo);
+			
+			cService.updateClient(cvo);
+		}
 		
-		return "";
+		return "redirect:/client/clientList";
 	}
 	
+	// 거래처삭제
+		@RequestMapping(value = "/deleteClient")
+		public String deleteClient(@RequestParam(value = "selectedCltId", required = false) Integer[] selectedCltIds) throws Exception {
+			
+			logger.debug("deleteClient() 호출(사원삭제)");
+			if(selectedCltIds != null) {
+			    for (Integer clt_id : selectedCltIds) {
+			    	cService.deleteClient(clt_id);
+			    }
+			}
+		    
+		    return "redirect:/client/clientList";
+		}
 	
 	
 	
@@ -145,11 +162,17 @@ public class ClientController {
 			
 			return "/client/popUpProduct";
 			
-		}else if(txt.equals("clt")) { // 자재 목록 팝업
+		}else if(txt.equals("clt")) { // 거래처 목록 팝업
 			List<ClientVO> popUpClt = cService.clientList();
 			model.addAttribute("popUpClt", popUpClt);
 			
 			return "/client/popUpClient";
+		}
+		else if(txt.equals("clt2")) { // 거래처 목록 팝업2
+			List<ClientVO> popUpClt2 = cService.clientList();
+			model.addAttribute("popUpClt2", popUpClt2);
+			
+			return "/client/popUpClient2";
 		}
 		
 		return "/client/clientList";
@@ -175,27 +198,41 @@ public class ClientController {
 	
 	
 	// ----------------------------- 출하 ------------------------------------
-	// http://localhost:8088/client/shipmentList
-	// 출하관리
-	@RequestMapping(value = "/shipmentList", method = RequestMethod.GET)
-	public void shipmentListGET(Model model, @ModelAttribute("startDate") String startDate, 
-			@ModelAttribute("endDate") String endDate, ShipmentVO svo) throws Exception {
-		logger.debug("shipmentListGET() 호출");
-		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
-		if(svo.getShp_date() != null || svo.getClt_id() != null || svo.getEmp_id() != null) {
-			logger.debug("검색어O, 검색된 데이터만 출력"+svo);
-			// 서비스 -> 출하목록 가져오기
-			List<ShipmentVO> shipmentList = sService.shipmentListSearch(svo);
-			// Model 객체에 저장
-			model.addAttribute("shipmentList", shipmentList);
-		}else {
-			logger.debug("검색어 X, 전체 데이터 출력"+svo);
-			// 서비스 출하목록 가져오기
-			List<ShipmentVO> shipmeList = sService.shipmentList();
-			// Model 객체에 저장
-			model.addAttribute("shipmentList", shipmeList);
+		// http://localhost:8088/client/shipmentList
+		// 출하관리
+		@RequestMapping(value = "/shipmentList", method = RequestMethod.GET)
+		public void shipmentListGET(Model model, ShipmentJoinVO svo) throws Exception {
+			logger.debug("shipmentListGET() 호출");
+			// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
+			if(svo.getStartDate() != null || svo.getEndDate() != null || svo.getClt_id() != null || svo.getEmp_id() != null) {
+				logger.debug("검색어O, 검색된 데이터만 출력"+svo);
+				// 서비스 -> 출하목록 가져오기
+				List<ShipmentJoinVO> shipmentList = sService.shipmentListSearch(svo);
+				// Model 객체에 저장
+				model.addAttribute("shipmentList", shipmentList);
+			}else {
+				logger.debug("검색어 X, 전체 데이터 출력"+svo);
+				// 서비스 출하목록 가져오기
+				List<ShipmentJoinVO> shipmeList = sService.shipmentList();
+				// Model 객체에 저장
+				model.addAttribute("shipmentList", shipmeList);
+			}
 		}
-	}	
+		
+		// 출하 등록
+		@RequestMapping(value = "/regShipment")
+		public String regShipment(ShipmentVO svo) throws Exception{
+			
+			logger.debug("svo : " + svo);
+			
+			sService.regShipment(svo);
+			
+			return "redirect:/client/shipmentList";
+		}
+		
+		
+		
+		
 	
 	
 	

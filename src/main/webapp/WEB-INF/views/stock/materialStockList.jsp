@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ include file="../inc/header.jsp"%>
+<%@ include file="../inc/sidebar.jsp"%>
+<%@ include file="../inc/nav.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,19 +49,17 @@
 			<th>자재 코드</th>
 			<th>자재명</th>
 			<th>현 재고</th>
-			<th>등록자</th>
-			<th>등록일자</th>
+			<th>단위</th>
 		</tr>
 		
 		<c:forEach items="${msList }" var="vo">
 		<tr>
 			<td><input type="checkbox"> </th>
-			<td>${vo.warehouseVO.wh_name}</td>
-			<td>${vo.ma_id }</td>
-			<td>${vo.materialVO.ma_name }</td>
+			<td>${vo.wh_name}</td>
+			<td>${vo.ma_num }</td>
+			<td>${vo.ma_name }</td>
 			<td>${vo.ms_cnt }</td>
-			<td>${vo.emp_id }</td>
-			<td>${vo.ms_reg_date }</td>
+			<td>${vo.ma_unit }</td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -65,3 +68,5 @@
 
 </body>
 </html>
+
+<%@ include file="../inc/footer.jsp"%>

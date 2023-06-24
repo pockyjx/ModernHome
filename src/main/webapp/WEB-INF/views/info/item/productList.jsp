@@ -3,6 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<%@ include file="../../inc/header.jsp"%>
+<%@ include file="../../inc/sidebar.jsp"%>
+<%@ include file="../../inc/nav.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +18,9 @@
 
     <script>
         $(document).ready(function() {
+        	
+        	updateSelectedCheckboxCount();
+        	
             // 버튼 클릭 시 행 추가
             $("#addRowButton").click(function() {
                 var newRow = '<tr>' +
@@ -38,31 +45,6 @@
                 
             }); // 추가 버튼
             
-         // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-         $(".table-proList th input[type='checkbox']").click(function() {
-             var checkbox = $(this);
-             var isChecked = checkbox.prop('checked');
-             var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-             var table = checkbox.closest('table');
-             var rows = table.find('tr');
-
-             // <td> 부분의 행들을 선택하고 배경색 지정
-             rows.each(function() {
-                 var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-                 if (checkboxTd.length > 0) {
-                     checkboxTd.prop('checked', isChecked);
-                     if (isChecked) {
-                         $(this).addClass('selected');
-                     } else {
-                         $(this).removeClass('selected');
-                     }
-                 }
-             });
-             
-             updateSelectedCheckboxCount();
-         });
-
-            
          // 취소 버튼 누를 시 
 			$("#cancleButton").click(function(){
 				
@@ -81,10 +63,10 @@
 					
 					pageStatus = "";
 				}
+				
 				// 수정버튼 취소
 				if(pageStatus == "update"){
 					
-					//
 					var row = $("input[name='selectedProId']:checked").closest("tr");
 					
 					$("#productList")[0].reset();
@@ -155,22 +137,46 @@
 				}
 			});
          	
-			// <td> 쪽 체크박스 클릭 시 행 선택
-	        $(".table-proList td input[type='checkbox']").click(function() {
+			// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+	        $(".table-proList th input[type='checkbox']").click(function() {
 	            var checkbox = $(this);
 	            var isChecked = checkbox.prop('checked');
-	            checkbox.closest('tr').toggleClass('selected', isChecked);
+	            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+	            var table = checkbox.closest('table');
+	            var rows = table.find('tr');
 
-		        updateSelectedCheckboxCount();
-	        });
-			
+	            // <td> 부분의 행들을 선택하고 배경색 지정
+	            rows.each(function() {
+	                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+	                if (checkboxTd.length > 0) {
+	                    checkboxTd.prop('checked', isChecked);
+	                    if (isChecked) {
+	                        $(this).addClass('selected');
+	                    } else {
+	                        $(this).removeClass('selected');
+	                    }
+	                }
+	            });
+				
+	            updateSelectedCheckboxCount();
+	            
+	        }); // 배경색 지정
 
-	        function updateSelectedCheckboxCount() {
-	            var totalCheckboxes = $(".table-proList td input[type='checkbox']").length;
-	            var selectedCheckboxes = $(".table-proList td input[type='checkbox']:checked").length;
-	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
-	        } // 체크박스 선택 시 체크박스 개수 구하기
-            
+	         // <td> 쪽 체크박스 클릭 시 행 선택
+	         $(".table-proList td input[type='checkbox']").click(function() {
+	             var checkbox = $(this);
+	             var isChecked = checkbox.prop('checked');
+	             checkbox.closest('tr').toggleClass('selected', isChecked);
+	             
+	             updateSelectedCheckboxCount(); 
+	         }); // <td> 쪽 체크박스 클릭 시 행 선택
+	         
+
+	    	function updateSelectedCheckboxCount() {
+	          var totalCheckboxes = $(".table-proList td input[type='checkbox']").length;
+	          var selectedCheckboxes = $(".table-proList td input[type='checkbox']:checked").length;
+	          $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+	      } // 체크박스 선택 시 체크박스 개수 구하기
             
         });
     </script>
@@ -232,7 +238,7 @@
 			<td>${vo.pro_num }</td>
 			<td>${vo.pro_name }</td>
 			<td>${vo.pro_unit }</td>
-			<td><fmt:formatNumber value="${vo.pro_price }" /> </td>
+			<td>${vo.pro_price } </td>
 		</tr>
 		</c:forEach>
 	
@@ -242,3 +248,5 @@
 
 </body>
 </html>
+
+<%@ include file="../../inc/footer.jsp"%>

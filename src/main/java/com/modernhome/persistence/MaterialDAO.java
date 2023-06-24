@@ -22,7 +22,7 @@ public interface MaterialDAO {
 	// 자재 수정
 	public void modifyMaterial(MaterialVO vo);
 	
-	// 자재 목록 팝업
-	public List<MaterialVO> getPopUpMate();
+	// 자재 id값 가져오기
+	public int getMaxMaId();
 
 }
