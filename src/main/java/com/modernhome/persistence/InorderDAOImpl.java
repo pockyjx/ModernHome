@@ -28,13 +28,13 @@ public class InorderDAOImpl implements InorderDAO {
 	
 	// 발주 조회
 	@Override
-	public List<InorderVO> getInorderList() {
+	public List<InorderVO> getInorderList() throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getInorderList");
 	}
 
 	// 발주 검색 결과
 	@Override
-	public List<InorderVO> getInorderSearch(String istartDate, String iendDate,String rstartDate, String rendDate, String ma_name, String io_state) {
+	public List<InorderVO> getInorderSearch(String istartDate, String iendDate,String rstartDate, String rendDate, String ma_name, String io_state) throws Exception {
 		
 		Map<String, Object> parameterMap = new HashMap();
 		parameterMap.put("istartDate", istartDate);
@@ -49,7 +49,7 @@ public class InorderDAOImpl implements InorderDAO {
 	
 	// 발주 등록
 	@Override
-	public void regInorder(InorderVO iovo) {
+	public void regInorder(InorderVO iovo) throws Exception {
 		logger.debug("DAO -> mapper호출 -> SQL 실행 (발주등록)");
 		
 		sqlSession.insert(NAMESPACE + ".regInorder", iovo); 
@@ -57,7 +57,7 @@ public class InorderDAOImpl implements InorderDAO {
 
 	// 발주 수정
 	@Override
-	public void updateInorder(InorderVO iovo) {
+	public void updateInorder(InorderVO iovo) throws Exception {
 		logger.debug("DAO -> mapper호출 -> SQL 실행 (발주수정)");
 		
 		sqlSession.update(NAMESPACE + ".updateInorder", iovo);
@@ -65,7 +65,7 @@ public class InorderDAOImpl implements InorderDAO {
 
 	// 발주 삭제
 	@Override
-	public void deleteInorder(int io_id) {
+	public void deleteInorder(int io_id) throws Exception {
 		logger.debug("DAO -> mapper호출 -> SQL 실행(발주삭제)");
 	
 		sqlSession.delete(NAMESPACE + ".deleteInorder", io_id);
