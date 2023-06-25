@@ -47,8 +47,11 @@
 			
 //-------------------------------------------------------------------------------------------------
 		var pageStatus = "";
-	
+		
 		$(document).ready(function() {
+			
+			updateSelectedCheckboxCount();
+			
 			// 추가 버튼 클릭 시 행 추가
             // 추가버튼 1번 누르면 추가버튼 비활성화
             $("#addRowButton").click(function() {
@@ -64,9 +67,10 @@
 	                '<td><input type="text" name="io_amount" placeholder="총금액(자동계산)" readonly></td>' +
 	                '<td><input type="date" name="io_date" readonly></td>' +
 	                '<td><input type="text" name="io_state" value="미완료" readonly></td>' +
-	                '<td><input type="date" name="rec_date" placeholder="입고예정일" min="<fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/>"></td>' +
-	                '<td><input type="text" name="emp_id" placeholder="담당자"></td>' +
+	                '<td><input type="date" name="rec_date" placeholder="입고예정일"></td>' +
+	                '<td><input type="text" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id }" readonly></td>' +
 	                '</tr>';
+	                
             	// 첫번째 자식<tr> 뒤에서 부터 행을 추가함    
                 $(".table-inorderList tr:nth-child(1)").after(newRow);
                  
@@ -75,7 +79,7 @@
 				$("#updateButton").attr("disabled", "disabled");
 				$("#deleteInorderButton").attr("disabled", "disabled");
 				
-				$("#cancleButton").removeAttr("disabled");
+				$("#cancelButton").removeAttr("disabled");
 				$("#submitButton").removeAttr("disabled");
 				
 				pageStatus = "reg";
@@ -84,61 +88,39 @@
             
             
             
-         	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-            $(".table-inorderList th input[type='checkbox']").click(function() {
-                var checkbox = $(this);
-                var isChecked = checkbox.prop('checked');
-                var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-                var table = checkbox.closest('table');
-                var rows = table.find('tr');
-                
-                // <td> 부분의 행들을 선택하고 배경색 지정
-                rows.each(function() {
-                    var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-                    if (checkboxTd.length > 0) {
-                        checkboxTd.prop('checked', isChecked);
-                        if (isChecked) {
-                            $(this).addClass('selected');
-                        } else {
-                            $(this).removeClass('selected');
-                        }
-                    }
-                });
-            });
-         	
-            // <td> 쪽 체크박스 클릭 시 행 선택
-            $(".table-inorderList td input[type='checkbox']").click(function() {
-                var checkbox = $(this);
-                var isChecked = checkbox.prop('checked');
-                checkbox.closest('tr').toggleClass('selected', isChecked);
-            });
-            
-            
             
          	// 취소 버튼 누를 시 
-			$("#cancleButton").click(function(){
+			$("#cancelButton").click(function(){
 				
 				// 등록버튼 취소
 				if(pageStatus == "reg"){
 					// 두번째 tr (추가된 행)을 삭제함
 					$(".table-inorderList tr:nth-child(2)").remove();
 					
+					// 모든 체크박스의 체크 해제
+					$(".table-inorderList input[type='checkbox']").prop("checked", false);
+					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-inorderList tr").removeClass("selected");
+					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
 					$("#deleteInorderButton").removeAttr("disabled");
 					
-					$("#cancleButton").attr("disabled", "disabled");
+					$("#cancelButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
 					pageStatus = "";
 				}
 				// 수정버튼 취소
 				if(pageStatus == "update"){
-					var row = $("input[name='selectedIoId']:checked").closest("tr");
 					
+					// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+					$(".table-inorderList tr").each(function() {
+					var row = $(this);
+						
 					// 폼 초기화(기존내용으로)
-					// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
 					$("#inorderList")[0].reset();
 					
 					// 각 셀의 값을 원래 상태로 되돌림
@@ -152,20 +134,24 @@
 							// <select>가 없는 경우 셀 값을 그대로 표시
 							$(this).html(cellValue);
 						}
-						
+					
 					});
+					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-inorderList tr").removeClass("selected");
 					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
 					$("#deleteInorderButton").removeAttr("disabled");
 					
-					$("#cancleButton").attr("disabled", "disabled");
+					$("#cancelButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
 					
 					pageStatus = "";
 					
+					});
 				} // if(update)문
 			
 			}); // 취소버튼
@@ -190,24 +176,27 @@
 			            "io_cnt",
 			            "io_unit",
 			            "io_amount",
-			            "io_date",
+			            "io_update_date",
 			            "io_state",
 			            "rec_date",
-			            "emp_id"
+			            "update_emp_id"
 					];
 					
 					
 					// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 					row.find("td:not(:first-child)").each(function(index) {
 						var cellValue = $(this).text();
-						var cellType = index === 8 || index === 10 ? "date" : "text"; // 날짜 타입은 date로 설정
+						if(index == 11) {
+		                    cellValue = ${sessionScope.emp_id}
+		                }
+						var cellType = index === 10 ? "date" : "text"; // 날짜 타입은 date로 설정
 						var cellName = cellNames[index];
 						var cellContent;
 						var cellOption = "";
 						
 						if(index == 5 || index == 9 || index == 10) {
 							cellOption = "";
-						}else if(index == 0){
+						}else if(index == 0 || index == 11){
 							cellOption = "readonly";
 						}else {
 							cellOption = "disabled";
@@ -231,7 +220,7 @@
 						$("#addRowButton").attr("disabled", "disabled");
 						$("#deleteInorderButton").attr("disabled", "disabled");
 						
-						$("#cancleButton").removeAttr("disabled");
+						$("#cancelButton").removeAttr("disabled");
 						$("#submitButton").removeAttr("disabled");
 						
 						pageStatus = "update";
@@ -243,81 +232,53 @@
 				}else {
 					alert("수정은 하나의 행만 가능합니다!");
 				}
-			});
 			
-            
-		});
+		}); // 수정 버튼 누를 시
 		
 		
+			
+			// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+	        $(".table-inorderList th input[type='checkbox']").click(function() {
+	            var checkbox = $(this);
+	            var isChecked = checkbox.prop('checked');
+	            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+	            var table = checkbox.closest('table');
+	            var rows = table.find('tr');
+	            
+	            // <td> 부분의 행들을 선택하고 배경색 지정
+	            rows.each(function() {
+	                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+	                if (checkboxTd.length > 0) {
+	                    checkboxTd.prop('checked', isChecked);
+	                    if (isChecked) {
+	                        $(this).addClass('selected');
+	                    } else {
+	                        $(this).removeClass('selected');
+	                    }
+	                }
+	            });
+	            
+	            updateSelectedCheckboxCount();
+	            
+	        }); // 배경색 지정
+	     	
+	        // <td> 쪽 체크박스 클릭 시 행 선택
+	        $(".table-inorderList td input[type='checkbox']").click(function() {
+	            var checkbox = $(this);
+	            var isChecked = checkbox.prop('checked');
+	            checkbox.closest('tr').toggleClass('selected', isChecked);
+	        
+	            updateSelectedCheckboxCount();
+	        }); // <td> 쪽 체크박스 클릭 시 행 선택
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-        
-        // 체크박스 클릭 시 선택된 행 삭제
-        $(".table-inorderList").on("click", "td input[type='checkbox']", function() {
-            var checkbox = $(this);
-            if (checkbox.prop("checked")) {
-                checkbox.closest("tr").addClass("selected");
-            } else {
-                checkbox.closest("tr").removeClass("selected");
-            }
-        });
-
-		// 체크박스 선택 시 체크박스의 개수 구하기
-        updateSelectedCheckboxCount();
-
-        // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-        $(".table-inorderList th input[type='checkbox']").click(function() {
-            var checkbox = $(this);
-            var isChecked = checkbox.prop('checked');
-            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-            var table = checkbox.closest('table');
-            var rows = table.find('tr');
-
-            // <td> 부분의 행들을 선택하고 배경색 지정
-            rows.each(function() {
-                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-                if (checkboxTd.length > 0) {
-                    checkboxTd.prop('checked', isChecked);
-                    $(this).toggleClass('selected', isChecked);
-                }
-            });
-
-            updateSelectedCheckboxCount();
-        });
-
-        // <td> 쪽 체크박스 클릭 시 행 선택
-        $(".table-inoderList td input[type='checkbox']").click(function() {
-            var checkbox = $(this);
-            var isChecked = checkbox.prop('checked');
-            checkbox.closest('tr').toggleClass('selected', isChecked);
-
-            updateSelectedCheckboxCount(); 
-        });
-
-        function updateSelectedCheckboxCount() {
-            var totalCheckboxes = $(".table-inorderList td input[type='checkbox']").length;
-            var selectedCheckboxes = $(".table-inorderList td input[type='checkbox']:checked").length;
-            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
-        } // 체크박스 선택 시 체크박스 개수 구하기
-     
-      
-		
-		
-		
-		
-        
-        
-        
-		
+			
+	        function updateSelectedCheckboxCount() {
+	            var totalCheckboxes = $(".table-inorderList td input[type='checkbox']").length;
+	            var selectedCheckboxes = $(".table-inorderList td input[type='checkbox']:checked").length;
+	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+	        } // 체크박스 선택 시 체크박스 개수 구하기
+	           
+	       });
 		
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='clt_num']", function() {
@@ -328,7 +289,8 @@
        $(document).on("click", "input[name='ma_num']", function() {
     	   window.open('/wms/inorder/addPopup?txt=ma', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
        });
-		
+	
+
 		
     </script>
     <style>
@@ -344,20 +306,16 @@
                	<form name="search" method="get" action="">
                    	<div>
                    		<label>발주일자</label>
-                   		<div>
-		                   	<input type="date" name="istartDate">
-                   			~
-		                   	<input type="date" name="iendDate">
-                   		</div>
+	                   	<input type="date" name="istartDate">
+                  			~
+	                   	<input type="date" name="iendDate">
                    	</div>
 		       		<br>
 		       		<div>
                    		<label>입고예정일</label>
-                   		<div>
-		                   	<input type="date" name="rstartDate">
-                   			~
-		                   	<input type="date" name="rendDate">
-                   		</div>
+	                   	<input type="date" name="rstartDate">
+                  			~
+	                   	<input type="date" name="rendDate">
                    	</div>
 		       		<span>자재명 :
 		       			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
@@ -374,23 +332,24 @@
              </fieldset> 
 		<!-- 검색칸 --> 
              
+		<hr>    
+             
 		<h2>발주</h2>
 			<form id="inorderList" action="" method="GET">
 			
 			<span id="selectedCheckboxCount">0</span>
 			
-			<input type="button" id="addRowButton" value="추가">
-			<input type="button" id="cancleButton" value="취소" disabled="disabled">
-			<input type="button" id="updateButton" value="수정">
-			<input type="submit" id="deleteInorderButton" value="삭제" formaction="/wms/deleteInorder" formmethod="post">
+			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+    		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+    		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+		    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 			
-			<input type="submit" id="submitButton" value="저장" formaction="/wms/regInorder" formmethod="post" disabled="disabled">
 
 			<table class="table-inorderList" border="1">
 				
 			<input type="hidden" name="clt_id" id="clt_id">
 			<input type="hidden" name="ma_id" id="ma_id">
-			<c:set var="today" value="<%= new Date() %>" />
 				
 				<tr>
 					<th><input type="checkbox"></th>
@@ -407,7 +366,8 @@
 			    	<th>입고예정일</th>
 			    	<th>담당자</th>
 				</tr>
-			  	<c:forEach var="vo" items="${inorderList}">
+				
+			  	<c:forEach var="vo" items="${inorderList}" varStatus="status">
 					<tr>
 						<td><input type="checkbox" name="selectedIoId" value="${vo.io_id}"></td>
 				    	<td>${vo.io_num}</td>
@@ -418,10 +378,13 @@
 				    	<td>${vo.io_cnt}</td>
 				    	<td>${vo.io_unit}</td>
 				    	<td>${vo.ma_price*vo.io_cnt}</td>
-				    	<td>${fn:substring(vo.io_date, 0, 10)}</td>
+				    	<td>
+							<c:if test="${!empty vo.io_update_date}">${fn:substring(vo.io_update_date, 0, 10)}</c:if>
+							<c:if test="${empty vo.io_update_date}">${fn:substring(vo.io_date, 0, 10)}</c:if>
+						</td>
 				   		<td>${vo.io_state}</td>
 				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
-				   		<td>${vo.emp_id}</td>
+				   		<td>${vo.emp_name}</td>
 				    </tr>
 			    </c:forEach>
 			</table>
