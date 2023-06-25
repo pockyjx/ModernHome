@@ -12,4 +12,7 @@ public interface ProductStockDAO {
 	
 	// 완제품 재고 등록
 	public void regProStock(int maxProId);
+	
+	// 완제품 재고 검색
+	public List<ProductStockVO> searchProStock(ProductStockVO vo);
 }

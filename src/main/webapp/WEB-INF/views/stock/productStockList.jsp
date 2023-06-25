@@ -16,16 +16,39 @@
 
 <h1>재고 현황</h1>
 
-	<ul>
-		<li><a href="./productStockList">완제품</a></li>
-		<li><a href="./materialStockList">자재</a></li>
-	</ul>
 
-<h2>완제품 재고</h2> 
+<div>
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link" aria-current="page" href="/stock/materialStockList">자재</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link active" href="/stock/productStockList">완제품</a>
+		</li>
+	</ul>
+</div>
+
+<hr>
+
+	<h4>재고 검색</h4>
+
+	<fieldset>
+		<form action="" method="GET">
+
+			<label><b>완제품코드</b> <input type="text" name="pro_num"></label>
+			<label><b>완제품명</b> <input type="text" name="pro_name"></label>
+
+			<input type="submit" value="조회">
+		</form>
+	</fieldset>
+
+
+<hr>
+
+<h4>완제품 재고</h4> 
 
 	<table border="1">
 		<tr>
-			<th><input type="checkbox"> </th>
 			<th>창고명</th>
 			<th>완제품 코드</th>
 			<th>완제품명</th>
@@ -35,7 +58,6 @@
 		
 		<c:forEach items="${psList }" var="vo">
 		<tr>
-			<td><input type="checkbox"> </th>
 			<td>${vo.wh_name}</td>
 			<td>${vo.pro_num }</td>
 			<td>${vo.pro_name }</td>

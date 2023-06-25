@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.modernhome.domain.MaterialStockVO;
 
 @Repository
-public class MaterialStockDAOImpl implements MateStockDAO {
+public class MaterialStockDAOImpl implements MaterialStockDAO {
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -32,5 +32,14 @@ public class MaterialStockDAOImpl implements MateStockDAO {
 		sqlSession.insert(NAMESPACE + ".regMaStock", maxMaId); 
 	}
 
+	// 자재 재고 검색
+	@Override
+	public List<MaterialStockVO> searchMateStock(MaterialStockVO vo) {
+		logger.debug("자재 재고 검색!");
+		return sqlSession.selectList(NAMESPACE + ".searchMateStock", vo);
+	}
+
+	
+	
 	
 }
