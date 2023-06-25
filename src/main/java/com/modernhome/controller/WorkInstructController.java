@@ -42,21 +42,22 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/add.jsp
 	// 작업지시서 작성(GET) - /production/instruct/add
 	@RequestMapping(value = "/instruct/add", method = RequestMethod.GET)
-	public void addInstrGET(@ModelAttribute("oo_num") String oo_num, WijoinVO wjvo, Model model)
+	public void addInstrGET(WijoinVO wjvo, Model model)
 			throws Exception {
 		logger.debug("addInstrGET() 호출");
-		logger.debug("################oo_num : " + oo_num);
+//		logger.debug("################oo_num : " + wjvo.getOo_num());
+//		logger.debug("################line_num : " + wjvo.getLine_num());
 		
 		// 지시번호를 자동으로 부여
-		String work_num = wiService.createWorkNum();
-		logger.debug("################work_num : " + work_num);
+		List<WijoinVO> idnum = wiService.createIdNum();
+		logger.debug("################idnum : " + idnum);
 		
 		// 해당 수주번호에 해당하는 소요량
-		List<WijoinVO> reqList = wiService.getBeforeInstrReq(oo_num);
+		List<WijoinVO> reqList = wiService.getBeforeInstrReq(wjvo);
 		logger.debug("reqList : {}", reqList);
 		
 		// 연결된 뷰페이지에 전달
-		model.addAttribute("work_num", work_num);
+		model.addAttribute("idnum", idnum);
 		model.addAttribute("reqList", reqList);
 		
 		logger.debug("/production/instruct/add 뷰페이지 이동");
@@ -99,7 +100,7 @@ public class WorkInstructController {
 	@RequestMapping(value = "/instruct/add", method = RequestMethod.POST)
 	public String addInstrPOST(WijoinVO vo) throws Exception {
 		logger.debug("addInstrPOST() 호출");
-		
+		 
 		logger.debug("@@@@@@@@@@@@@@@@@vo : {}", vo);
 		wiService.addInstr(vo);
 		
@@ -116,26 +117,25 @@ public class WorkInstructController {
 			throws Exception {
 		logger.debug("getInstrList() 호출");
 		
+		// 작업지시 목록 출력 메서드 (서비스 -> DAO)
+		List<WijoinVO> instrList = null;
+		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
 		if(work_state != null || pro_num != null || !startDate.isEmpty() || !endDate.isEmpty()) {
 			logger.debug("검색어 O, 검색된 데이터만 출력");
 			
 			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-			List<WijoinVO> instrList = wiService.getInstrList(work_state, pro_num, startDate, endDate);
-			logger.debug("instrList : {}", instrList);
-			
-			// 연결된 뷰페이지에 전달
-			model.addAttribute("instrList", instrList);
+			instrList = wiService.getInstrList(work_state, pro_num, startDate, endDate);
 		}else {
 			logger.debug("검색어 X, 전체 데이터 출력 ");
 			
 			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-			List<WijoinVO> instrList = wiService.getInstrList();
-			logger.debug("instrList : {}", instrList);
-			
-			// 연결된 뷰페이지에 전달
-			model.addAttribute("instrList", instrList);
+			instrList = wiService.getInstrList();
 		}
+		logger.debug("instrList : {}", instrList);
+		
+		// 연결된 뷰페이지에 전달
+		model.addAttribute("instrList", instrList);
 		
 		// 페이지 이동
 		logger.debug("/production/instruct/list.jsp 뷰페이지로 이동");
@@ -144,11 +144,11 @@ public class WorkInstructController {
 	// http://localhost:8088/production/instruct/info?work_id=
 	// 작업지시 상세보기 출력(GET) - /production/instruct/info
 	@RequestMapping(value = "/instruct/info", method = RequestMethod.GET)
-	public void getInstr(Model model, WorkInstrVO wivo) throws Exception {
+	public void getInstr(Model model, WorkInstrVO wivo, WijoinVO wjvo) throws Exception {
 		logger.debug("getInstr() 호출");
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
-		List<WijoinVO> wiList = wiService.getInstr(wivo);
+		List<WijoinVO> wiList = wiService.getInstr(wjvo);
 		List<WijoinVO> reqList = wiService.getInstrReq(wivo);
 		logger.debug("wiList : {}", wiList);
 		logger.debug("reqList : {}", reqList);
@@ -164,14 +164,15 @@ public class WorkInstructController {
 	
 	// 작업지시 수정(GET) - /production/instruct/modify
 	@RequestMapping(value = "/instruct/modify", method = RequestMethod.GET)
-	public void modifyInstrGET(Model model, @ModelAttribute("work_id") Integer work_id, WorkInstrVO wivo) throws Exception {
+	public void modifyInstrGET(Model model, WorkInstrVO wivo, WijoinVO wjvo) throws Exception {
 		logger.debug("modifyInstrGET() 호출");
 		
 		// 전달 받은 값 확인 (work_id)
-		logger.debug("##################work_id : " + work_id);
+		logger.debug("##################work_id : " + wivo.getWork_id());
+		logger.debug("##################line_num & line_id : " + wjvo.getLine_num() + " & " + wjvo.getLine_id());
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
-		List<WijoinVO> wiList = wiService.getInstr(wivo);
+		List<WijoinVO> wiList = wiService.getInstr(wjvo);
 		List<WijoinVO> reqList = wiService.getInstrReq(wivo);
 		logger.debug("wiList : {}", wiList);
 		logger.debug("reqList : {}", reqList);
@@ -189,7 +190,15 @@ public class WorkInstructController {
 	public String modifyInstrPOST(WijoinVO vo) throws Exception {
 		logger.debug("modifyInstrPOST() 호출");
 		
+		// 라인코드 끝의 ',' 제거
+		vo.setLine_num(vo.getLine_num().substring(0, 6));
+//		logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@수정 vo-line_num : " + vo.getLine_num());
+		
 		wiService.modifyInstr(vo);
+		// 업데이트 시, 작업지시 상태가 '완료'라면 품질검사 등록 실행
+		if(vo.getWork_state().equals("완료")) {
+			wiService.addQC(vo);
+		}
 		
 		return "redirect:/production/instruct/list";
 	}
@@ -202,6 +211,7 @@ public class WorkInstructController {
 		
 		wiService.deleteInstr(work_id);
 		
+		// 페이지 이동
 		return "redirect:/production/instruct/list";
 	}
 	
