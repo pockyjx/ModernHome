@@ -18,7 +18,7 @@
 			<td>${BOMList[0].pro_num}</td>
 			<th>완제품명</th>
 			<td>${BOMList[0].pro_name}</td>
-		</tr>
+		</tr> 
 	</table>
 	
 	<br>
