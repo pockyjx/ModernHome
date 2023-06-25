@@ -45,8 +45,8 @@ public class WorkInstructController {
 	public void addInstrGET(WijoinVO wjvo, Model model)
 			throws Exception {
 		logger.debug("addInstrGET() 호출");
-		logger.debug("################oo_num : " + wjvo.getOo_num());
-		logger.debug("################line_num : " + wjvo.getLine_num());
+//		logger.debug("################oo_num : " + wjvo.getOo_num());
+//		logger.debug("################line_num : " + wjvo.getLine_num());
 		
 		// 지시번호를 자동으로 부여
 		List<WijoinVO> idnum = wiService.createIdNum();
@@ -169,6 +169,7 @@ public class WorkInstructController {
 		
 		// 전달 받은 값 확인 (work_id)
 		logger.debug("##################work_id : " + wivo.getWork_id());
+		logger.debug("##################line_num & line_id : " + wjvo.getLine_num() + " & " + wjvo.getLine_id());
 		
 		// 작업지시 아이디에 해당하는 작업지시 조회 (서비스 -> DAO)
 		List<WijoinVO> wiList = wiService.getInstr(wjvo);
@@ -188,12 +189,16 @@ public class WorkInstructController {
 	@RequestMapping(value = "/instruct/modify", method = RequestMethod.POST)
 	public String modifyInstrPOST(WijoinVO vo) throws Exception {
 		logger.debug("modifyInstrPOST() 호출");
-		logger.debug("##############################################수정 vo-line_num : "+ vo.getLine_num());
 		
 		// 라인코드 끝의 ',' 제거
-		vo.setLine_num(vo.getLine_num().replaceAll(",", ""));
+		vo.setLine_num(vo.getLine_num().substring(0, 6));
+//		logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@수정 vo-line_num : " + vo.getLine_num());
 		
 		wiService.modifyInstr(vo);
+		// 업데이트 시, 작업지시 상태가 '완료'라면 품질검사 등록 실행
+		if(vo.getWork_state().equals("완료")) {
+			wiService.addQC(vo);
+		}
 		
 		return "redirect:/production/instruct/list";
 	}

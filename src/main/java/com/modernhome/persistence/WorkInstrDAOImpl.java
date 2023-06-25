@@ -94,4 +94,10 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 		sqlSession.delete(NAMESPACE + ".deleteInstr", work_id);
 	}
 
+	@Override
+	public void addQC(WijoinVO vo) throws Exception {
+		logger.debug("WorkInstrDAOImpl_addQC() 실행");
+		sqlSession.insert(NAMESPACE + ".addQC", vo);
+	}
+
 }

@@ -37,4 +37,7 @@ public interface WorkInstrService {
 	// 작업지시 삭제
 	public void deleteInstr(int work_id) throws Exception;
 	
+	// 작업지시 상태가 완료라면 품질검사 등록
+	public void addQC(WijoinVO vo) throws Exception;
+	
 }

@@ -67,4 +67,9 @@ public class WorkInstrServiceImpl implements WorkInstrService {
 		dao.deleteInstr(work_id);
 	}
 
+	@Override
+	public void addQC(WijoinVO vo) throws Exception {
+		dao.addQC(vo);
+	}
+
 }

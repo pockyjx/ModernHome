@@ -91,11 +91,18 @@
 	            checkbox.closest("tr").removeClass("selected");
 	        }
 	    });
+	    
 	    // 삭제 버튼 누를 시
 		$("#deleteInstrButton").click(function(){
 			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
 			var workId = selectedCheckbox.val();
-			location.href = "/production/instruct/delete?work_id=" + workId;
+			
+			if(selectedCheckbox.length === 1) {
+				location.href = "/production/instruct/delete?work_id=" + workId;
+			} else {
+				alert("삭제할 행을 선택해주세요.");
+				return false;
+			}
 		});
 	
 	    // <td> 쪽 체크박스 클릭 시 행 선택

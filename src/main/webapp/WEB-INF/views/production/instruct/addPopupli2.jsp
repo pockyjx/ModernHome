@@ -18,12 +18,37 @@
 <link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script type="text/javascript">
-	function popSub(form) {
-		form.taget = opener.name;
-		form.submit();
-		self.close();
-	}
+// 	function popSub(form) {
+// 		form.taget = opener.name;
+// 		form.submit();
+// 		self.close();
+// 	}
+	$(document).ready(function() {
+		$("tr").click(function() {
+			var line_id = $(this).find("td:eq(0)").text();
+			var line_num = $(this).find("td:eq(1)").text();
+			
+			console.log(line_id);
+			console.log(line_num);
+			
+			var opUrl = opener.location.href;
+			
+			// 부모창의 URL에 line_id와 line_num이 있으면 삭제
+			if(opUrl.includes("&line_id") && opUrl.includes("&line_num")) {
+				opUrl = opUrl.replace(/&line_id=[^&]+&line_num=[^&]+/, "");
+			}
+			
+			opUrl += "&line_id=" + line_id + "&line_num=" + line_num;
+			opener.location.href = opUrl;
+			window.close();
+		});
+	});
 </script>
 
 <body>
@@ -39,26 +64,17 @@
 </c:choose>
 		<table border="1">
 			<tr>
-				<th>라인번호</th>
-				<td>
-					<c:if test="${empty param.work_id}">
-						<input type="hidden" name="oo_num" value="${param.oo_num}">
-					</c:if>
-					<c:if test="${!empty param.work_id}">
-						<input type="hidden" name="work_id" value="${param.work_id}">
-					</c:if>
-					<select id="selectLnum" name="line_num">
-						<option value="">라인을 선택하세요.</option>
-						<c:forEach var="lnum" items="${liList}">
-							<c:if test="${lnum.use_yn == 'Y'}">
-								<option value="${lnum.line_num}">${lnum.line_num}</option>
-							</c:if>
-						</c:forEach>
-					</select>
-				</td>
+				<th colspan="2">라인번호</th>
 			</tr>
+			<c:forEach var="lnum" items="${liList}">
+				<c:if test="${lnum.use_yn == 'Y'}">
+					<tr>
+						<td>${lnum.line_id}</td>
+						<td>${lnum.line_num}</td>
+					</tr>
+				</c:if>
+			</c:forEach>
 		</table>
-		<button class="btn btn-primary m-2" onclick="window.close();">확인</button>
 	</form>
 	
 </body>
