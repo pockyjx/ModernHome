@@ -230,7 +230,7 @@ public class InfoController {
 			if(mvo.getMa_name() != null) { // 자재 팝업창에서 검색했을 때
 				
 				logger.debug("자재 팝업(검색) 호출!");
-				popUpMate = iService.getMaterialList(mvo);
+				popUpMate = iService.getMaterialList(mvo); // 기존 자재 검색 메서드 사용
 				model.addAttribute("popUpMate", popUpMate);
 				
 			}else { // 자재 팝업 처음 실행했을 때
