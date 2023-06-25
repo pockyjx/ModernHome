@@ -22,4 +22,8 @@ public interface RequirmentDAO {
 	
 	// 소요량 삭제
 	public void deleteRequirement(int req_id);
+	
+	// 완제품 별 소요량 조회
+	public List<RequirementVO> getBOMList(int pro_id);
+	
 }

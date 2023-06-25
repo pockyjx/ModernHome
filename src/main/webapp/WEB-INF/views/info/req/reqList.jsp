@@ -305,7 +305,7 @@
 		<tr>	
 			<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}"></td>
 			<td>${vo.req_num }</td>
-			<td>${vo.pro_num }</td>
+			<td><a href="/info/req/BOM?pro_id=${vo.pro_id}">${vo.pro_num }</a></td>
 			<td>${vo.pro_name }</td>
 			<td>${vo.ma_num }</td>
 			<td>${vo.ma_name }</td>

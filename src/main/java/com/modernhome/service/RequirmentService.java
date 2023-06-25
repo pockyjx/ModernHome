@@ -22,5 +22,8 @@ public interface RequirmentService {
 	
 	// 소요량 삭제
 	public void deleteRequirement(int req_id) throws Exception;
+
+	// 완제품 별 소요량 조회
+	public List<RequirementVO> getBOMList(int pro_id) throws Exception;
 	
 }

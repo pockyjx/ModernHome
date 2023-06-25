@@ -281,4 +281,17 @@ public class InfoController {
 		
 	}
 	
+	// BOM
+	// http://localhost:8088/info/req/BOM
+	@RequestMapping(value = "/req/BOM", method = RequestMethod.GET)
+	public void BOMList(@RequestParam(value = "pro_id") Integer pro_id, Model model) throws Exception {
+		logger.debug("BOMList() 호출!");
+		
+		List<RequirementVO> BOMList = rService.getBOMList(pro_id);
+		model.addAttribute("BOMList", BOMList);
+		
+		
+		
+	}
+	
 }
