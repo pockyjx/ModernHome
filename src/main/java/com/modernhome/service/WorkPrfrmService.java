@@ -13,6 +13,6 @@ public interface WorkPrfrmService {
 	public List<WijoinVO> getPrfrmList() throws Exception;
 	
 	// 생산실적번호 자동 생성
-	public String createPrfrmNum() throws Exception;
+	public List<WijoinVO> createPrfrmNum() throws Exception;
 	
 }

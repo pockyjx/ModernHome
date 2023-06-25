@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
@@ -13,29 +14,56 @@
 	$(document).ready(function() {
 		// 버튼 클릭 시 행 추가
         $("#addRowButton").click(function() {
-			var work_id = $("input[name='selectedWorkId']:checked").val();
+			var selectedWorkId = $("input[name='selectedWorkId']:checked");
+			var work_num;
+			var line_num;
+			var pro_num;
+			var pro_name;
+			var work_cnt;
+			var now = new Date();
+			var today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + now.getDate();
 			
 			// 작업 지시를 먼저 선택하여 해당 지시에 대한 실적 등록 실행 
-			if(work_id) {
+			if(selectedWorkId.val()) {
+				selectedWorkId.closest('tr').each(function() {
+					work_num = $(this).find('td:eq(1)').text();
+					line_num = $(this).find('td:eq(2)').text();
+					pro_num = $(this).find('td:eq(3)').text();
+					pro_name = $(this).find('td:eq(4)').text();
+					work_cnt = $(this).find('td:eq(7)').text();
+				});
+				
 				var newRow = '<tr>' +
 							 '<td><input type="checkbox"></td>' +
-							 '<td><input id="add_pnum" type="text" name="prfrm_num" value="${prfrm_num}"></td>' +
-							 '<td><input id="add_wnum" type="text" name="work_num"></td>' +
-							 '<td><input id="add_lnum" type="text" name="line_num"></td>' +
-							 '<td><input id="add_prnum" type="text" name="pro_num"></td>' +
-							 '<td><input id="add_prname" type="text" name="pro_name"></td>' +
-							 '<td><input type="text" name="reg_date"></td>' +
+							 '<td><input type="text" name="prfrm_num" value="${idNum[0].prfrm_num}"></td>' +
+							 '<td><input type="text" name="work_num" value="' + work_num + '"></td>' +
+							 '<td><input type="text" name="line_num" value="' + line_num + '"></td>' +
+							 '<td><input type="text" name="pro_num" value="' + pro_num + '"></td>' +
+							 '<td><input type="text" name="pro_name" value="' + pro_name + '"></td>' +
+							 '<td><input type="text" name="reg_date" value="' + today + '"></td>' +
 							 '<td>' +
 							 '<select name="gb_yn">' +
 							 '<option value="Y">양품</option>' +
 							 '<option value="N">불량품</option>' +
 							 '</select>' +
 							 '</td>' +
-							 '<td><input id="add_pcnt" type="text" name="prfrm_cnt"></td>' +
-							 '<td><input id="add_dcnt" type="text" name="df_cnt"></td>' +
+							 '<td><input type="text" name="prfrm_cnt"></td>' +
+							 '<td><input type="text" name="df_cnt" value="0" disabled></td>' +
 							 '<td><input type="text" name="emp_id"></td>' +
-							 '<td><input id="add_wcnt" type="text" name="work_cnt"></td>' +
+							 '<td><input type="text" name="work_cnt" value="' + work_cnt + '"></td>' +
 							 '</tr>';
+				
+				// gb_yn이 Y라면 df_cnt를 비활성화 시킴
+				$(document).on('change', 'select[name="gb_yn"]', function() {
+					var dfCntInput = $(this).closest('tr').find('input[name="df_cnt"]');
+					var selectedValue = $(this).val();
+					
+					if(selectedValue === 'Y') {
+						dfCntInput.prop('disabled', true);
+					} else {
+						dfCntInput.prop('disabled', false);
+					}
+				});
 				
 				// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
 				$(".table-prfrmList tr:nth-child(1)").after(newRow);
@@ -149,8 +177,8 @@
 					if(index == 6) {
 						$(this).html(
 							'<select name="' + cellNames[index] + '">'
-							+ '<option value="Y" <c:if test="${wp.gb_yn.equals('+N+')}">selected</c:if>>양품</option>'
-							+ '<option value="N" <c:if test="${wp.gb_yn.equals('+Y+')}">selected</c:if>>불량품</option>'
+							+ '<option value="Y" <c:if test="${wp.gb_yn.equals(' + Y + ')}">selected</c:if>>양품</option>'
+							+ '<option value="N" <c:if test="${wp.gb_yn.equals(' + N + ')}">selected</c:if>>불량품</option>'
 							+ '</select>');
 					}
 					if(index == 7) {
@@ -294,7 +322,7 @@
 		
 		<hr>
 		<!-- ================================================================================== -->
-	
+<%-- ${idNum} --%>
 		
 <form>
 	<div class="bg-light text-center rounded p-4">
@@ -340,7 +368,7 @@
 						<c:if test="${empty wp.update_date}">${wp.reg_date}</c:if>
 					</td>
 					<td>
-						${wp.gb_yn.equals('Y') ? "불량품" : "양품"}
+						${wp.gb_yn.equals('Y') ? "양품" : "불량품"}
 					</td>
 					<td>${wp.prfrm_cnt}</td>
 					<td>${wp.work_cnt - wp.prfrm_cnt}</td>

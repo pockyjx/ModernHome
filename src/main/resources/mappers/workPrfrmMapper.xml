@@ -48,15 +48,14 @@
 	
 	<!-- 작업지시 목록 중 품질검사가 완료인 목록만 출력 -->
 	<select id="getqcEndInstr" resultMap="wijoinRM">
-		SELECT wp.prfrm_id, prfrm_num, wp.qc_id, wp.work_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, oo_num, 
-			oo_end_date, wi.reg_date, wi.update_date, prfrm_cnt, work_cnt, work_state, wi.emp_id, wi.update_emp_id 
-		FROM work_prfrm wp 
-		LEFT JOIN work_instr wi ON wi.work_id = wp.work_id 
-		LEFT JOIN line li ON li.line_id = wp.line_id 
-		LEFT JOIN product pro ON pro.pro_id = wp.pro_id 
-		LEFT JOIN quality_checking qc ON qc.qc_id = wp.qc_id 
-		LEFT JOIN out_order oo ON oo.oo_id = wi.oo_id  
-		WHERE qc.qc_yn = '완료';
+		SELECT qc.qc_id, wi.work_id, work_num, wi.line_id, line_num, wi.pro_id, pro_num, pro_name, oo_num, 
+			oo_end_date, wi.reg_date, wi.update_date, work_cnt, work_state, wi.emp_id, wi.update_emp_id 
+		FROM work_instr wi 
+		LEFT JOIN line li ON li.line_id = wi.line_id 
+		LEFT JOIN product pro ON pro.pro_id = wi.pro_id 
+		LEFT JOIN quality_checking qc ON qc.work_id = wi.work_id 
+		LEFT JOIN out_order oo ON oo.oo_id = wi.oo_id 
+		WHERE qc_yn = '완료'
 	</select>
 	<!-- 작업지시 목록 중 품질검사가 완료인 목록만 출력 -->
 	
@@ -75,10 +74,8 @@
 	
 	
 	<!-- 생산실적번호 자동 생성 -->
-	<select id="createPrfrmNum" resultType="string">
-		SELECT concat('WP', lpad((SELECT prfrm_id FROM work_prfrm ORDER BY prfrm_id DESC LIMIT 1) + 1, 4, 0)) 
-		AS prfrm_num FROM work_prfrm 
-		ORDER BY prfrm_id DESC LIMIT 1;
+	<select id="createPrfrmNum" resultType="WijoinVO">
+		SELECT ifnull(max(prfrm_id), 0) + 1 AS prfrm_id, concat('WP', lpad(ifnull(max(prfrm_id), 0) + 1, 4, 0)) AS prfrm_num FROM work_prfrm
 	</select>
 	<!-- 생산실적번호 자동 생성 -->
 	
