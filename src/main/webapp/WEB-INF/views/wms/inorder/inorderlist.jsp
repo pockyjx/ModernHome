@@ -47,8 +47,11 @@
 			
 //-------------------------------------------------------------------------------------------------
 		var pageStatus = "";
-	
+		
 		$(document).ready(function() {
+			
+			updateSelectedCheckboxCount();
+			
 			// 추가 버튼 클릭 시 행 추가
             // 추가버튼 1번 누르면 추가버튼 비활성화
             $("#addRowButton").click(function() {
@@ -94,6 +97,12 @@
 					// 두번째 tr (추가된 행)을 삭제함
 					$(".table-inorderList tr:nth-child(2)").remove();
 					
+					// 모든 체크박스의 체크 해제
+					$(".table-inorderList input[type='checkbox']").prop("checked", false);
+					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-inorderList tr").removeClass("selected");
+					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
@@ -106,10 +115,12 @@
 				}
 				// 수정버튼 취소
 				if(pageStatus == "update"){
-					var row = $("input[name='selectedIoId']:checked").closest("tr");
 					
+					// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+					$(".table-inorderList tr").each(function() {
+					var row = $(this);
+						
 					// 폼 초기화(기존내용으로)
-					// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
 					$("#inorderList")[0].reset();
 					
 					// 각 셀의 값을 원래 상태로 되돌림
@@ -126,6 +137,9 @@
 					
 					});
 					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-inorderList tr").removeClass("selected");
+					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
@@ -137,6 +151,7 @@
 					
 					pageStatus = "";
 					
+					});
 				} // if(update)문
 			
 			}); // 취소버튼
@@ -161,7 +176,7 @@
 			            "io_cnt",
 			            "io_unit",
 			            "io_amount",
-			            "update_date",
+			            "io_update_date",
 			            "io_state",
 			            "rec_date",
 			            "update_emp_id"
@@ -217,7 +232,6 @@
 				}else {
 					alert("수정은 하나의 행만 가능합니다!");
 				}
-			});
 			
 		}); // 수정 버튼 누를 시
 		
@@ -246,7 +260,7 @@
 	            
 	            updateSelectedCheckboxCount();
 	            
-	        });
+	        }); // 배경색 지정
 	     	
 	        // <td> 쪽 체크박스 클릭 시 행 선택
 	        $(".table-inorderList td input[type='checkbox']").click(function() {
@@ -292,20 +306,16 @@
                	<form name="search" method="get" action="">
                    	<div>
                    		<label>발주일자</label>
-                   		<div>
-		                   	<input type="date" name="istartDate">
-                   			~
-		                   	<input type="date" name="iendDate">
-                   		</div>
+	                   	<input type="date" name="istartDate">
+                  			~
+	                   	<input type="date" name="iendDate">
                    	</div>
 		       		<br>
 		       		<div>
                    		<label>입고예정일</label>
-                   		<div>
-		                   	<input type="date" name="rstartDate">
-                   			~
-		                   	<input type="date" name="rendDate">
-                   		</div>
+	                   	<input type="date" name="rstartDate">
+                  			~
+	                   	<input type="date" name="rendDate">
                    	</div>
 		       		<span>자재명 :
 		       			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
@@ -322,17 +332,19 @@
              </fieldset> 
 		<!-- 검색칸 --> 
              
+		<hr>    
+             
 		<h2>발주</h2>
 			<form id="inorderList" action="" method="GET">
 			
 			<span id="selectedCheckboxCount">0</span>
 			
-			<input type="button" id="addRowButton" value="추가">
-			<input type="button" id="cancelButton" value="취소" disabled="disabled">
-			<input type="button" id="updateButton" value="수정">
-			<input type="submit" id="deleteInorderButton" value="삭제" formaction="/wms/deleteInorder" formmethod="post">
+			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+    		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+    		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+		    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 			
-			<input type="submit" id="submitButton" value="저장" formaction="/wms/regInorder" formmethod="post" disabled="disabled">
 
 			<table class="table-inorderList" border="1">
 				
@@ -354,6 +366,7 @@
 			    	<th>입고예정일</th>
 			    	<th>담당자</th>
 				</tr>
+				
 			  	<c:forEach var="vo" items="${inorderList}" varStatus="status">
 					<tr>
 						<td><input type="checkbox" name="selectedIoId" value="${vo.io_id}"></td>
@@ -366,15 +379,12 @@
 				    	<td>${vo.io_unit}</td>
 				    	<td>${vo.ma_price*vo.io_cnt}</td>
 				    	<td>
-							<c:if test="${!empty vo.update_date}">${fn:substring(vo.update_date, 0, 10)}</c:if>
-							<c:if test="${empty vo.update_date}">${fn:substring(vo.io_date, 0, 10)}</c:if>
+							<c:if test="${!empty vo.io_update_date}">${fn:substring(vo.io_update_date, 0, 10)}</c:if>
+							<c:if test="${empty vo.io_update_date}">${fn:substring(vo.io_date, 0, 10)}</c:if>
 						</td>
 				   		<td>${vo.io_state}</td>
 				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
-				   		<td>
-							<c:if test="${!empty vo.update_emp_id}">${vo.emp_name}</c:if>
-							<c:if test="${empty vo.update_emp_id}">${vo.emp_name}</c:if>
-						</td>
+				   		<td>${vo.emp_name}</td>
 				    </tr>
 			    </c:forEach>
 			</table>

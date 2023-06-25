@@ -36,7 +36,7 @@ public class InorderDAOImpl implements InorderDAO {
 	@Override
 	public List<InorderVO> getInorderSearch(String istartDate, String iendDate,String rstartDate, String rendDate, String ma_name, String io_state) throws Exception {
 		
-		Map<String, Object> parameterMap = new HashMap();
+		Map<String, Object> parameterMap = new HashMap<>();
 		parameterMap.put("istartDate", istartDate);
 		parameterMap.put("iendDate", iendDate);
 		parameterMap.put("rstartDate", rstartDate);
