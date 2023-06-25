@@ -233,6 +233,7 @@
              </fieldset>  
 		<!-- 검색칸 -->	
              
+             
 		<h2>창고</h2>
 			<form id="warehouseList" action="" method="GET">
 			
