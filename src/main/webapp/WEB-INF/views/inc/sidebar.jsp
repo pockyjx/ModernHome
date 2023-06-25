@@ -45,7 +45,7 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>생산관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="/production/instruct/list" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>작업지시관리</a>
-                            <a href="" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>생산실적관리</a>
+                            <a href="/production/performance/list" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>생산실적관리</a>
                             <a href="/production/line/lineList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>생산라인관리</a>
                             <a href="" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>생산관리현황</a>
                         </div>

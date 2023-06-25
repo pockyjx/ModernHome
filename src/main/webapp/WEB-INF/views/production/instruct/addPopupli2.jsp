@@ -8,39 +8,73 @@
 <title>Insert title here</title>
 </head>
 
+<link href="/resources/img/favicon.ico" rel="icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+<link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/style.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script type="text/javascript">
-	function popSub(form) {
-		form.taget = opener.name;
-		form.submit();
-		self.close();
-	}
+// 	function popSub(form) {
+// 		form.taget = opener.name;
+// 		form.submit();
+// 		self.close();
+// 	}
+	$(document).ready(function() {
+		$("tr").click(function() {
+			var line_id = $(this).find("td:eq(0)").text();
+			var line_num = $(this).find("td:eq(1)").text();
+			
+			console.log(line_id);
+			console.log(line_num);
+			
+			var opUrl = opener.location.href;
+			
+			// 부모창의 URL에 line_id와 line_num이 있으면 삭제
+			if(opUrl.includes("&line_id") && opUrl.includes("&line_num")) {
+				opUrl = opUrl.replace(/&line_id=[^&]+&line_num=[^&]+/, "");
+			}
+			
+			opUrl += "&line_id=" + line_id + "&line_num=" + line_num;
+			opener.location.href = opUrl;
+			window.close();
+		});
+	});
 </script>
 
 <body>
 	
-	<h1>addPopupli</h1>
-	
 <%-- 	${liList} <hr> --%>
-	
-	<form id="fr" action="/production/instruct/add?oo_num=${param.oo_num}&line_num=${liList[0].line_num}" 
-			method="get" target="add">
+<c:choose>
+	<c:when test="${empty param.work_id}">
+		<form id="fr" action="/production/instruct/add" method="get" target="add">
+	</c:when>
+	<c:when test="${!empty param.work_id}">
+		<form id="fr" action="/production/instruct/modify" method="get" target="add">
+	</c:when>
+</c:choose>
 		<table border="1">
 			<tr>
-				<th>라인번호</th>
-				<td>
-					<input type="hidden" name="oo_num" value="${param.oo_num}">
-						<select id="selectLnum" name="line_num">
-							<option value="">라인을 선택하세요.</option>
-							<c:forEach var="lnum" items="${liList}">
-								<c:if test="${lnum.use_yn == 'Y'}">
-									<option value="${lnum.line_num}">${lnum.line_num}</option>
-								</c:if>
-							</c:forEach>
-						</select>
-				</td>
+				<th colspan="2">라인번호</th>
 			</tr>
+			<c:forEach var="lnum" items="${liList}">
+				<c:if test="${lnum.use_yn == 'Y'}">
+					<tr>
+						<td>${lnum.line_id}</td>
+						<td>${lnum.line_num}</td>
+					</tr>
+				</c:if>
+			</c:forEach>
 		</table>
-		<button class="fr-submit" onclick="window.close();">확인</button>
 	</form>
 	
 </body>
