@@ -1,16 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ include file="../../inc/header.jsp"%>
+<%@ include file="../../inc/sidebar.jsp"%>
+<%@ include file="../../inc/nav.jsp"%>
 	
-	<h1>/production/instruct/info.jsp</h1>
-	<h2>작업지시서 상세 출력</h2>
+	<h2>작업지시서</h2>
 	
 <%-- 	${wiList} --%>
 	
@@ -63,5 +57,4 @@
 		</c:forEach>
 	</table>
 	
-</body>
-</html>
+<%@ include file="../../inc/footer.jsp"%>

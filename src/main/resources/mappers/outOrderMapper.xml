@@ -7,10 +7,15 @@
 
 	<!-- 수주 불러오기 -->
 		<select id="outOrderList" resultType="com.modernhome.domain.OutOrderJoinVO">
-			SELECT oo_num, emp_name, clt_num, clt_name, pro_num, pro_name,
-			oo_cnt, oo_start_date, oo_end_date, oo_state
+			SELECT oo_num, out_order.emp_id, update_emp_id, clt_num, clt_name, pro_num, pro_name,
+			oo_cnt, oo_start_date, oo_end_date, oo_state,
+				CASE
+				WHEN update_emp_id IS NULL THEN
+				(SELECT emp_name FROM employee WHERE emp_id = out_order.emp_id)
+				ELSE
+				(SELECT emp_name FROM employee WHERE emp_id = out_order.update_emp_id)
+				END AS emp_name
 			FROM out_order
-			join employee e on out_order.emp_id = e.emp_id
 			join client c on out_order.clt_id = c.clt_id
 			join product p on out_order.pro_id = p.pro_id;
 		</select>
@@ -57,13 +62,24 @@
 	
 		INSERT INTO out_order (oo_num, emp_id, clt_id, pro_id, oo_cnt, oo_start_date, oo_end_date)
 		VALUES (#{oo_num}, #{emp_id}, #{clt_id}, #{pro_id}, #{oo_cnt},
-		CASE WHEN #{oo_start_date} = '' THEN NULL ELSE #{oo_start_date} END,
+		CASE WHEN #{oo_start_date} = '' THEN CURRENT_TIMESTAMP ELSE #{oo_start_date} END,
 		CASE WHEN #{oo_end_date} = '' THEN NULL ELSE #{oo_end_date} END)
 	</insert>
 	<!-- 수주 등록 -->
 	
+	<!-- 수주 삭제 -->
+	<delete id="deleteOutOrder">
+		DELETE FROM out_order WHERE oo_num = #{oo_num}
+	</delete>
+	<!-- 수주 삭제 -->
 	
-	
-	
+	<!-- 수주 수정 -->
+	<update id="updateOutOrder">
+		UPDATE out_order SET update_emp_id = #{update_emp_id}, oo_cnt = #{oo_cnt}, oo_state = #{oo_state},
+		oo_start_date = CASE WHEN #{oo_start_date} = '' THEN NULL ELSE #{oo_start_date} END,
+		oo_end_date = CASE WHEN #{oo_end_date} = '' THEN NULL ELSE #{oo_end_date} END
+		WHERE oo_num = #{oo_num}
+	</update>
+	<!-- 수주 수정 -->
 
 </mapper>
