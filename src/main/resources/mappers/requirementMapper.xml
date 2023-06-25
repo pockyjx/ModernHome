@@ -126,6 +126,7 @@
 		WHERE p.pro_id = #{pro_id};
 	</select>
 	<!-- 완제품 id에 따른 소요량 조회 -->
+	
     
     
     

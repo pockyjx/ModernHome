@@ -64,10 +64,11 @@ public class RequirmentDAOImpl implements RequirmentDAO {
 
 	// 완제품 별 소요량 조회
 	@Override
-	public List<RequirementVO> getBOMList(int pro_id) {
+	public List<ReqJoinVO> getBOMList(int pro_id) {
 		logger.debug(pro_id + "번 완제품 소요량 조회!");
 		return sqlSession.selectList(NAMESPACE + ".getBOMList", pro_id);
 	}
+
 	
 	
 

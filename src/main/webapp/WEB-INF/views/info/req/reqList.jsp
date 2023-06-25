@@ -236,6 +236,34 @@
 
 </head>
 <body>
+
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+		data-bs-target="#staticBackdrop">모달 테스트
+	</button>
+
+	<!-- Modal -->
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">...</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Understood</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
 	
 	<h1>소요량 관리</h1>
 	
@@ -265,13 +293,13 @@
 	
 	<!-- input 타입 button 타입으로 바꿔줘야 아이콘 적용됨! -->
 	<!-- <input type="button" id="addRowButton" value="추가" class="btn btn-primary m-2 fa fa-plus""> -->
-	<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 
 	<!-- <input type="button" id="cancleButton" value="취소" disabled="disabled" class="btn btn-primary m-2"> -->
-	<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 
 	<!-- <input type="button" id="updateButton" value="수정" class="btn btn-primary m-2"> -->
-	<button class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 
 	<!-- <input type="submit" id="deleteButton" value="삭제" formaction="/info/delRequirement" formmethod="post" class="btn btn-primary m-2"> -->
 	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/info/delRequirement" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>

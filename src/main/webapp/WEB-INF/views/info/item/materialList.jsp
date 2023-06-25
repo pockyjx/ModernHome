@@ -224,9 +224,9 @@
 	
 	<div>
 	
-	<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-	<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-	<button class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 	<button type="submit" class="btn btn-primary m-2" id="/info/delMaterial" formaction="/info/delProduct" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 	
 	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/info/regMaterial" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
