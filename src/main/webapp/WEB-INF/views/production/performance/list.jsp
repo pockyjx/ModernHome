@@ -35,7 +35,7 @@
 				
 				var newRow = '<tr>' +
 							 '<td><input type="checkbox"></td>' +
-							 '<td><input type="text" name="prfrm_num" value="${idNum[0].prfrm_num}"></td>' +
+							 '<td><input type="text" name="prfrm_num" value="${prfrmNum}"></td>' +
 							 '<td><input type="text" name="work_num" value="' + work_num + '"></td>' +
 							 '<td><input type="text" name="line_num" value="' + line_num + '"></td>' +
 							 '<td><input type="text" name="pro_num" value="' + pro_num + '"></td>' +
@@ -270,8 +270,8 @@
 
 <form method="get">
 	양불 여부
-		<label><input type="radio" name="gb_yn" value="Y">불량품</label>
-		<label><input type="radio" name="gb_yn" value="N">양품</label>
+		<label><input type="radio" name="gb_yn" value="Y">양품</label>
+		<label><input type="radio" name="gb_yn" value="N">불량품</label>
 	작업지시코드 <input type="text" name="work_num"> <br>
 	<label>등록일자</label>
 	<input type="date" name="startDate"> ~ <input type="date" name="endDate">
@@ -322,16 +322,16 @@
 		
 		<hr>
 		<!-- ================================================================================== -->
-<%-- ${idNum} --%>
+<%-- ${prfrmNum} --%>
 		
 <form>
 	<div class="bg-light text-center rounded p-4">
 		<div>
-			<button class="btn btn-primary m-2" id="addRowButton">추가</button>
-			<button class="btn btn-primary m-2" id="cancleButton" disabled>취소</button>
-			<button class="btn btn-primary m-2" id="updateButton">수정</button>
-			<button type="submit" class="btn btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">삭제</button>
-			<button type="submit" class="btn btn-primary m-2" id="submitButton" formmethod="post" disabled>저장</button>
+			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+			<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+			<button type="submit" class="btn btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+			<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 		</div>
 		
 		<div class="d-flex align-items-center justify-content-between mb-4">
@@ -368,7 +368,7 @@
 						<c:if test="${empty wp.update_date}">${wp.reg_date}</c:if>
 					</td>
 					<td>
-						${wp.gb_yn.equals('Y') ? "양품" : "불량품"}
+						${wp.gb_yn.equals("Y") ? "양품" : "불량품"}
 					</td>
 					<td>${wp.prfrm_cnt}</td>
 					<td>${wp.work_cnt - wp.prfrm_cnt}</td>

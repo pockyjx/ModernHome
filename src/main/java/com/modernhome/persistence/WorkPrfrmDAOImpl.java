@@ -37,9 +37,15 @@ public class WorkPrfrmDAOImpl implements WorkPrfrmDAO {
 	}
 
 	@Override
-	public List<WijoinVO> createPrfrmNum() throws Exception {
+	public String createPrfrmNum() throws Exception {
 		logger.debug("WP DAOImpl_createPrfrmNum() 실행");
-		return sqlSession.selectList(NAMESPACE + ".createPrfrmNum");
+		return sqlSession.selectOne(NAMESPACE + ".createPrfrmNum");
+	}
+
+	@Override
+	public void addPrfrm(WijoinVO vo) throws Exception {
+		logger.debug("WP DAOImpl_addPrfrm() 실행");
+		sqlSession.insert(NAMESPACE + ".addPrfrm", vo);
 	}
 	
 }

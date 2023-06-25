@@ -42,12 +42,12 @@ public class WorkPrfrmController {
 		List<WijoinVO> wpList = wpService.getPrfrmList();
 		
 		// 생산실적번호 자동 생성
-		List<WijoinVO> idNum =  wpService.createPrfrmNum();
+		String prfrmNum =  wpService.createPrfrmNum();
 		
 		// 연결된 뷰페이지에 전달
 		model.addAttribute("qiList", qiList);
 		model.addAttribute("wpList", wpList);
-		model.addAttribute("idNum", idNum);
+		model.addAttribute("prfrmNum", prfrmNum);
 	}
 	
 	
@@ -55,6 +55,18 @@ public class WorkPrfrmController {
 	
 	
 	// 생산실적 추가 & 수정
+	@RequestMapping(value = "/regPrfrm")
+	public String regPrfrmInfo(Model model, WijoinVO vo) throws Exception {
+		logger.debug("regPrfrmInfo() 호출");
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@ vo : {}", vo);
+		
+		if(vo.getPrfrm_id() == null) {
+			logger.debug("생산실적 등록");
+			wpService.addPrfrm(vo);
+		}
+		
+		return "redirect:/production/performance/list";
+	}
 	
 	
 	// ===========================================

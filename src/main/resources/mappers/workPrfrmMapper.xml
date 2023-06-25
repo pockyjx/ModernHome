@@ -74,14 +74,25 @@
 	
 	
 	<!-- 생산실적번호 자동 생성 -->
-	<select id="createPrfrmNum" resultType="WijoinVO">
-		SELECT ifnull(max(prfrm_id), 0) + 1 AS prfrm_id, concat('WP', lpad(ifnull(max(prfrm_id), 0) + 1, 4, 0)) AS prfrm_num FROM work_prfrm
+	<select id="createPrfrmNum" resultType="string">
+		SELECT concat('WP', lpad(ifnull(max(prfrm_id), 0) + 1, 4, 0)) AS prfrm_num FROM work_prfrm
 	</select>
 	<!-- 생산실적번호 자동 생성 -->
 	
 	
 	<!-- 생산실적 추가 저장 -->
-	
+	<insert id="addPrfrm" parameterType="WijoinVO">
+		<selectKey keyProperty="prfrm_id,work_id,qc_id,line_id,pro_id" resultType="WijoinVO" order="BEFORE">
+			SELECT ifnull(max(wp.prfrm_id), 0) + 1 AS prfrm_id, wi.work_id, qc.qc_id, wi.line_id, wi.pro_id  
+			FROM work_prfrm wp 
+			RIGHT JOIN work_instr wi ON wp.work_id = wi.work_id 
+			LEFT JOIN quality_checking qc ON wi.work_id = qc.work_id 
+			WHERE wi.work_num = #{work_num}
+		</selectKey>
+		
+		INSERT INTO work_prfrm (prfrm_id, prfrm_num, work_id, qc_id, line_id, pro_id, gb_yn, prfrm_cnt, emp_id) 
+		VALUES (#{prfrm_id}, #{prfrm_num}, #{work_id}, #{qc_id}, #{line_id}, #{pro_id}, #{gb_yn}, #{prfrm_cnt}, #{emp_id})
+	</insert>
 	<!-- 생산실적 추가 저장 -->
 
 </mapper>

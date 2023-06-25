@@ -13,6 +13,9 @@ public interface WorkPrfrmDAO {
 	public List<WijoinVO> getPrfrmList() throws Exception;
 	
 	// 생산실적번호 자동 생성
-	public List<WijoinVO> createPrfrmNum() throws Exception;
+	public String createPrfrmNum() throws Exception;
+	
+	// 생산실적 등록
+	public void addPrfrm(WijoinVO vo) throws Exception;
 	
 }
