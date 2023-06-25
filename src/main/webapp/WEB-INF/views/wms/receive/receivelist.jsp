@@ -45,9 +45,12 @@
 // 			});
 			
 //-------------------------------------------------------------------------------------------------
-        var pageStatus = "";
-	
+		var pageStatus = "";
+		
 		$(document).ready(function() {
+			
+			updateSelectedCheckboxCount();
+			
 			// 추가 버튼 클릭 시 행 추가
             // 추가버튼 1번 누르면 추가버튼 비활성화
             $("#addRowButton").click(function() {
@@ -61,8 +64,9 @@
 	                '<td><input type="text" id="clt_name" name="clt_name" placeholder="거래처명"></td>' +
 	                '<td><input type="text" name="rec_in_state" value="입고전" readonly></td>' +
 	                '<td><input type="text" name="wh_name" placeholder="B창고" readonly></td>' +
-	                '<td><input type="date" name="rec_date" placeholder="입고일자"></td>' +
-	                '<td><input type="text" name="emp_id" placeholder="담당자"></td>' +
+	                '<td><input type="date" name="rec_date"></td>' +
+	                '<td><input type="date" name="reg_date" readonly></td>' +
+	                '<td><input type="text" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id }" readonly></td>' +
 	                '</tr>';
 	                
             	// 첫번째 자식<tr> 뒤에서 부터 행을 추가함    
@@ -73,7 +77,7 @@
 				$("#updateButton").attr("disabled", "disabled");
 				$("#deleteReceiveButton").attr("disabled", "disabled");
 				
-				$("#cancleButton").removeAttr("disabled");
+				$("#cancelButton").removeAttr("disabled");
 				$("#submitButton").removeAttr("disabled");
 				
 				pageStatus = "reg";
@@ -82,61 +86,39 @@
             
             
             
-         	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-            $(".table-receiveList th input[type='checkbox']").click(function() {
-                var checkbox = $(this);
-                var isChecked = checkbox.prop('checked');
-                var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-                var table = checkbox.closest('table');
-                var rows = table.find('tr');
-                
-                // <td> 부분의 행들을 선택하고 배경색 지정
-                rows.each(function() {
-                    var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-                    if (checkboxTd.length > 0) {
-                        checkboxTd.prop('checked', isChecked);
-                        if (isChecked) {
-                            $(this).addClass('selected');
-                        } else {
-                            $(this).removeClass('selected');
-                        }
-                    }
-                });
-            });
-         	
-            // <td> 쪽 체크박스 클릭 시 행 선택
-            $(".table-receiveList td input[type='checkbox']").click(function() {
-                var checkbox = $(this);
-                var isChecked = checkbox.prop('checked');
-                checkbox.closest('tr').toggleClass('selected', isChecked);
-            });
-            
-            
             
          	// 취소 버튼 누를 시 
-			$("#cancleButton").click(function(){
+			$("#cancelButton").click(function(){
 				
 				// 등록버튼 취소
 				if(pageStatus == "reg"){
 					// 두번째 tr (추가된 행)을 삭제함
 					$(".table-receiveList tr:nth-child(2)").remove();
 					
+					// 모든 체크박스의 체크 해제
+					$(".table-receiveList input[type='checkbox']").prop("checked", false);
+					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-receiveList tr").removeClass("selected");
+					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
 					$("#deleteReceiveButton").removeAttr("disabled");
 					
-					$("#cancleButton").attr("disabled", "disabled");
+					$("#cancelButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
 					pageStatus = "";
 				}
 				// 수정버튼 취소
 				if(pageStatus == "update"){
-					var row = $("input[name='selectedRecId']:checked").closest("tr");
+					
+					// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+					$(".table-receiveList tr").each(function() {
+					var row = $(this);
 					
 					// 폼 초기화(기존내용으로)
-					// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
 					$("#receiveList")[0].reset();
 					
 					// 각 셀의 값을 원래 상태로 되돌림
@@ -153,17 +135,22 @@
 						
 					});
 					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-receiveList tr").removeClass("selected");
+					
+					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
 					$("#deleteReceiveButton").removeAttr("disabled");
 					
-					$("#cancleButton").attr("disabled", "disabled");
+					$("#cancelButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
 					
 					pageStatus = "";
 					
+					});
 				} // if(update)문
 			
 			}); // 취소버튼
@@ -189,13 +176,17 @@
 			            "rec_in_state",
 			            "wh_name",
 			            "rec_date",
-			            "emp_id"
+			            "update_date",
+			            "update_emp_id"
 					];
 					
 					
 					// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 					row.find("td:not(:first-child)").each(function(index) {
 						var cellValue = $(this).text();
+						if(index == 10) {
+		                    cellValue = ${sessionScope.emp_id}
+		                }
 						var cellType = index === 8 ? "date" : "text"; // 날짜 타입은 date로 설정
 						var cellName = cellNames[index];
 						var cellContent;
@@ -203,7 +194,7 @@
 						
 						if(index == 4 || index == 6 || index == 8) {
 							cellOption = "";
-						}else if(index == 0){
+						}else if(index == 0 || index == 10){
 							cellOption = "readonly";
 						}else {
 							cellOption = "disabled";
@@ -228,7 +219,7 @@
 						$("#addRowButton").attr("disabled", "disabled");
 						$("#deleteReceiveButton").attr("disabled", "disabled");
 						
-						$("#cancleButton").removeAttr("disabled");
+						$("#cancelButton").removeAttr("disabled");
 						$("#submitButton").removeAttr("disabled");
 						
 						pageStatus = "update";
@@ -240,11 +231,52 @@
 				}else {
 					alert("수정은 하나의 행만 가능합니다!");
 				}
-			});
-			
             
-		});
+		}); // 수정 버튼 누를 시
 		
+			
+			// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+	        $(".table-receiveList th input[type='checkbox']").click(function() {
+	            var checkbox = $(this);
+	            var isChecked = checkbox.prop('checked');
+	            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+	            var table = checkbox.closest('table');
+	            var rows = table.find('tr');
+	            
+	            // <td> 부분의 행들을 선택하고 배경색 지정
+	            rows.each(function() {
+	                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+	                if (checkboxTd.length > 0) {
+	                    checkboxTd.prop('checked', isChecked);
+	                    if (isChecked) {
+	                        $(this).addClass('selected');
+	                    } else {
+	                        $(this).removeClass('selected');
+	                    }
+	                }
+	            });
+	            
+	            updateSelectedCheckboxCount();
+	            
+	        }); // 배경색 지정
+	     	
+	        // <td> 쪽 체크박스 클릭 시 행 선택
+	        $(".table-receiveList td input[type='checkbox']").click(function() {
+	            var checkbox = $(this);
+	            var isChecked = checkbox.prop('checked');
+	            checkbox.closest('tr').toggleClass('selected', isChecked);
+	        
+	            updateSelectedCheckboxCount();
+	        }); // <td> 쪽 체크박스 클릭 시 행 선택
+		
+			
+	        function updateSelectedCheckboxCount() {
+	            var totalCheckboxes = $(".table-receiveList td input[type='checkbox']").length;
+	            var selectedCheckboxes = $(".table-receiveList td input[type='checkbox']:checked").length;
+	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+	        } // 체크박스 선택 시 체크박스 개수 구하기
+	           
+	       });
 		
 		// 발주 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[id='io_num']", function() {
@@ -265,6 +297,7 @@
 </head>
 <body>
 		<h2>입고 관리</h2>
+		<!-- 검색칸 -->
 			<fieldset>
                	<form name="search" method="get" action="">
 		       		<span>자재명 :
@@ -275,25 +308,26 @@
 		       		</span>
 		       		<div>
                    		<label>입고일자</label>
-                   		<div>
-		                   	<input type="date" name="startDate">
-                   			~
-		                   	<input type="date" name="endDate">
-                   		</div>
+	                   	<input type="date" name="startDate">
+                  			~
+	                   	<input type="date" name="endDate">
                    	</div>
 		      		<input type="submit" value="조회">
              	</form>
              </fieldset>  
+		<!-- 검색칸 -->
              
 		<h2>입고</h2>
 			<form id="receiveList" action="" method="GET">
-		
-			<input type="button" id="addRowButton" value="추가">
-			<input type="button" id="cancleButton" value="취소" disabled="disabled">
-			<input type="button" id="updateButton" value="수정">
-			<input type="submit" id="deleteReceiveButton" value="삭제" formaction="/wms/deleteReceive" formmethod="post">
 			
-			<input type="submit" id="submitButton" value="저장" formaction="/wms/regReceive" formmethod="post" disabled="disabled">
+			<span id="selectedCheckboxCount">0</span>
+			
+			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+    		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+    		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+		    <button type="submit" class="btn btn-primary m-2" id="deleteReceiveButton" formaction="/wms/deleteReceive" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regReceive" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			
 			
 			<table class="table-receiveList" border="1">
 			
@@ -311,9 +345,10 @@
 			    	<th>입고상태</th>
 			    	<th>창고명</th>
 			    	<th>입고일자</th>
+			    	<th>등록일</th>
 			    	<th>담당자</th>
 				</tr>
-			  	<c:forEach var="vo" items="${receiveList}">
+			  	<c:forEach var="vo" items="${receiveList}" varStatus="status">
 					<tr>
 						<td><input type="checkbox" name="selectedRecId" value="${vo.rec_id}"></td>
 				    	<td>${vo.rec_num}</td>
@@ -325,7 +360,11 @@
 				    	<td>${vo.rec_in_state}</td>
 				    	<td>${vo.wh_name}</td>
 				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
-				   		<td>${vo.emp_id}</td>
+				   		<td>
+							<c:if test="${!empty vo.update_date}">${fn:substring(vo.update_date, 0, 10)}</c:if>
+							<c:if test="${empty vo.update_date}">${fn:substring(vo.reg_date, 0, 10)}</c:if>
+						</td>
+				   		<td>${vo.emp_name}</td>
 				    </tr>
 			    </c:forEach>
 			</table>

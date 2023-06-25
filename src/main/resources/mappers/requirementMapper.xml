@@ -26,7 +26,7 @@
     </resultMap>
 
     <select id="getRequirements" resultMap="reqjoinRM">
-        SELECT req_id, req_num, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
+        SELECT req_id, req_num, p.pro_id, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
        			r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id,
         CASE
         	WHEN r.update_emp_id IS NULL THEN
@@ -42,7 +42,7 @@
     <!-- 소요량 목록 -->
     
     <select id="reqSearch" resultMap="reqjoinRM" parameterType="java.util.Map">
-        SELECT req_id, req_num, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
+        SELECT req_id, req_num, p.pro_id, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
        			r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id,
         CASE
         	WHEN r.update_emp_id IS NULL THEN
@@ -116,6 +116,17 @@
 		where req_id = #{req_num}
 	</delete>
 	<!-- 소요량 삭제 -->
+	
+	<!-- 완제품 id에 따른 소요량 조회 -->
+	<select id="getBOMList" resultMap="reqjoinRM">
+		SELECT pro_num, pro_name, ma_num, ma_name, req_cnt, req_unit
+		FROM requirement r
+		JOIN product p ON p.pro_id = r.pro_id
+		JOIN material m ON m.ma_id = r.ma_id
+		WHERE p.pro_id = #{pro_id};
+	</select>
+	<!-- 완제품 id에 따른 소요량 조회 -->
+	
     
     
     

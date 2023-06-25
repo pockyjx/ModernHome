@@ -43,6 +43,23 @@
 	</insert>
 	<!-- 자재 재고 등록 -->
 	
+	<!-- 자재 검색  -->
+	<select id="searchMateStock" resultType="MaterialStockVO">
+		SELECT ms_id, ma_num, wh_name, ms.ma_id, ma_name, ms_cnt, m.ma_unit 
+		FROM material_stock ms
+		JOIN material m ON m.ma_id = ms.ma_id
+		JOIN warehouse w ON w.wh_id = ms.wh_id
+		<where>
+			<if test="ma_num != ''">
+				ma_num like CONCAT('%', #{ma_num}, '%')
+			</if>
+			<if test="ma_name != ''">
+				AND ma_name like CONCAT('%', #{ma_name}, '%')
+			</if>
+		</where>
+	</select>
+	<!-- 자재 검색  -->
+	
 	
 	
 

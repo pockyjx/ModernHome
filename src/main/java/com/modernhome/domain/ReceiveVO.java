@@ -12,6 +12,9 @@ public class ReceiveVO {
 	private String rec_in_state;
 	private Integer wh_id;
 	private Integer emp_id;
+	private String reg_date;
+	private String update_date;
+	private Integer update_emp_id;
 	
 	private String wh_name;
 	
@@ -21,8 +24,9 @@ public class ReceiveVO {
 	private String ma_name;
 	
 	private String clt_name;
-
 	
+	private String emp_name;
+
 	// join 할 테이블
 //	private WarehouseVO warehouseVO;
 //	private InorderVO inorderVO;
@@ -110,6 +114,30 @@ public class ReceiveVO {
 		this.emp_id = emp_id;
 	}
 
+	public String getReg_date() {
+		return reg_date;
+	}
+
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
+	}
+
+	public String getUpdate_date() {
+		return update_date;
+	}
+
+	public void setUpdate_date(String update_date) {
+		this.update_date = update_date;
+	}
+
+	public Integer getUpdate_emp_id() {
+		return update_emp_id;
+	}
+
+	public void setUpdate_emp_id(Integer update_emp_id) {
+		this.update_emp_id = update_emp_id;
+	}
+
 	public String getWh_name() {
 		return wh_name;
 	}
@@ -150,12 +178,22 @@ public class ReceiveVO {
 		this.clt_name = clt_name;
 	}
 
+	public String getEmp_name() {
+		return emp_name;
+	}
+
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+
 	@Override
 	public String toString() {
 		return "ReceiveVO [rec_id=" + rec_id + ", rec_num=" + rec_num + ", io_id=" + io_id + ", ma_id=" + ma_id
 				+ ", rec_cnt=" + rec_cnt + ", rec_date=" + rec_date + ", clt_id=" + clt_id + ", rec_in_state="
-				+ rec_in_state + ", wh_id=" + wh_id + ", emp_id=" + emp_id + ", wh_name=" + wh_name + ", io_num="
-				+ io_num + ", io_cnt=" + io_cnt + ", ma_name=" + ma_name + ", clt_name=" + clt_name + "]";
+				+ rec_in_state + ", wh_id=" + wh_id + ", emp_id=" + emp_id + ", reg_date=" + reg_date + ", update_date="
+				+ update_date + ", update_emp_id=" + update_emp_id + ", wh_name=" + wh_name + ", io_num=" + io_num
+				+ ", io_cnt=" + io_cnt + ", ma_name=" + ma_name + ", clt_name=" + clt_name + ", emp_name=" + emp_name
+				+ "]";
 	}
-	
+
 }

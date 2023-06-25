@@ -9,14 +9,14 @@ import com.modernhome.domain.MaterialStockVO;
 import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.ProductStockVO;
 import com.modernhome.domain.RequirementVO;
-import com.modernhome.persistence.MateStockDAO;
+import com.modernhome.persistence.MaterialStockDAO;
 import com.modernhome.persistence.ProductStockDAO;
 
 @Service
 public class StockServiceImpl implements StockService {
 	
 	@Autowired
-	MateStockDAO msdao;
+	MaterialStockDAO msdao;
 	
 	@Autowired
 	ProductStockDAO psdao;
@@ -33,6 +33,12 @@ public class StockServiceImpl implements StockService {
 		msdao.regMaStock(maxMaId);
 	}
 	
+	// 자재 재고 검색
+	@Override
+	public List<MaterialStockVO> searchMS(MaterialStockVO vo) throws Exception {
+		return msdao.searchMateStock(vo);
+	}
+	
 	/////////////////////////////////////////////////////////////////
 	
 
@@ -42,14 +48,17 @@ public class StockServiceImpl implements StockService {
 		return psdao.getPsList();
 	}
 
-
 	// 완제품 재고 정보 등록
 	@Override
 	public void regProStock(int maxProId) throws Exception {
 		psdao.regProStock(maxProId);
 	}
-	
-	
-	
+
+	// 완제품 재고 검색
+	@Override
+	public List<ProductStockVO> searchPS(ProductStockVO vo) throws Exception {
+		return psdao.searchProStock(vo);
+	}
+
 
 }

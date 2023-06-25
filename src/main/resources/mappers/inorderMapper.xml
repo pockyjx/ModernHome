@@ -16,36 +16,52 @@
         <result property="io_unit" column="io_unit" />
         <result property="io_date" column="io_date" />
         <result property="io_state" column="io_state" />
+        <result property="rec_date" column="rec_date" />
         <result property="clt_id" column="clt_id" />
         <result property="emp_id" column="emp_id" />
-        <result property="rec_date" column="rec_date" />
+        <result property="io_update_date" column="io_update_date" />
+        <result property="update_emp_id" column="update_emp_id" />
 		<result property="ma_num" column="ma_num" />
 		<result property="ma_name" column="ma_name" />
 		<result property="ma_price" column="ma_price" />
 		<result property="clt_name" column="clt_name" />
 		<result property="clt_num" column="clt_num" />
+		<result property="emp_name" column="emp_name" />
 
 	</resultMap>
     
     <select id="getInorderList" resultMap="inorderResultMap">
         <![CDATA[
 	        SELECT io_id, io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
-					i.io_cnt, i.io_unit, m.ma_price, i.io_date, i.io_state, i.rec_date, i.emp_id
+					i.io_cnt, i.io_unit, m.ma_price, i.io_date, i.io_state, i.rec_date, i.emp_id, i.io_update_date, i.update_emp_id,
+	        CASE
+	        	WHEN i.update_emp_id IS NULL THEN
+	        		(SELECT emp_name FROM employee WHERE emp_id = i.emp_id)
+	        	ELSE
+	        		(SELECT emp_name FROM employee WHERE emp_id = i.update_emp_id)	
+	        END AS emp_name
 	        FROM in_order i
+	        JOIN employee e ON i.emp_id = e.emp_id
 	        JOIN material m ON i.ma_id = m.ma_id
-	        JOIN client c ON i.clt_id = c.clt_id;
+	        JOIN client c ON i.clt_id = c.clt_id
         ]]>
     </select>
     <!-- 발주 목록 -->
     
     <!-- 발주 검색 -->
     <select id="inorderSearch" resultMap="inorderResultMap" parameterType="java.util.Map">
-			SELECT io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
-					i.io_cnt, i.io_unit, m.ma_price, i.io_date, i.io_state, i.rec_date, i.emp_id
-			FROM in_order i
-			JOIN material m ON i.ma_id = m.ma_id
-			JOIN client c ON i.clt_id = c.clt_id
-			
+			SELECT io_id, io_num, m.ma_num, m.ma_name, c.clt_num, c.clt_name,
+					i.io_cnt, i.io_unit, m.ma_price, i.io_date, i.io_state, i.rec_date, i.emp_id, i.io_update_date, i.update_emp_id,
+	        CASE
+	        	WHEN i.update_emp_id IS NULL THEN
+	        		(SELECT emp_name FROM employee WHERE emp_id = i.emp_id)
+	        	ELSE
+	        		(SELECT emp_name FROM employee WHERE emp_id = i.update_emp_id)	
+	        END AS emp_name
+	        FROM in_order i
+	        JOIN employee e ON i.emp_id = e.emp_id
+	        JOIN material m ON i.ma_id = m.ma_id
+	        JOIN client c ON i.clt_id = c.clt_id
 		<where>
 	        <if test="io_state != '전체'">
 	            io_state = #{io_state}
@@ -97,7 +113,7 @@
     <!-- 발주 수정 -->
     <update id="updateInorder">
 		UPDATE in_order
-		SET io_cnt = #{io_cnt}, io_state = #{io_state}, rec_date = #{rec_date} 
+		SET io_cnt = #{io_cnt}, io_state = #{io_state}, rec_date = #{rec_date}, io_update_date = now(), update_emp_id = #{update_emp_id} 
 		WHERE io_num = #{io_num}
 	</update>	
     <!-- 발주 수정 -->	

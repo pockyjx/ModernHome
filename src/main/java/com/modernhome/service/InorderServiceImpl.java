@@ -31,19 +31,19 @@ public class InorderServiceImpl implements InorderService {
 	
 	// 발주 등록
 	@Override
-	public void regInorder(InorderVO iovo) {
+	public void regInorder(InorderVO iovo) throws Exception {
 		iodao.regInorder(iovo);
 	}
 
 	// 발주 수정
 	@Override
-	public void updateInorder(InorderVO iovo) {
+	public void updateInorder(InorderVO iovo) throws Exception {
 		iodao.updateInorder(iovo);
 	}
 
 	// 발주 삭제
 	@Override
-	public void deleteInorder(int io_id) {
+	public void deleteInorder(int io_id) throws Exception {
 		iodao.deleteInorder(io_id);
 	}
 

@@ -29,39 +29,48 @@ public class StockController {
 	// 자재 재고 목록
 	// http://localhost:8088/stock/materialStockList
 	@RequestMapping(value = "/materialStockList", method = RequestMethod.GET)
-	public void materialStockListGET(Model model) throws Exception {
-		logger.debug("stockListGET() 호출!");
+	public void materialStockListGET(Model model,
+									MaterialStockVO vo) throws Exception {
 		
-		// 자재 재고 목록
-		List<MaterialStockVO> msList = sService.getMsList();
-		model.addAttribute("msList", msList);
+		List<MaterialStockVO> msList;
+		
+		if(vo.getMa_num() != null || vo.getMa_name() != null) {
+			logger.debug("stockListGET(search) 호출!");
+			msList = sService.searchMS(vo);
+			model.addAttribute("msList", msList);
+			
+		}else {
+			logger.debug("stockListGET() 호출!");
+			msList = sService.getMsList();
+			model.addAttribute("msList", msList);
+		}
+		
 	}
 	
 	// 완제품 재고 목록
 	// http://localhost:8088/stock/productStockList
 	@RequestMapping(value = "/productStockList", method = RequestMethod.GET)
-	public void productStockListGET(Model model) throws Exception {
+	public void productStockListGET(Model model, ProductStockVO vo) throws Exception {
 		logger.debug("stockListGET() 호출!");
 		
-		// 완제품 재고 목록
-		List<ProductStockVO> psList = sService.getPsList();
-		model.addAttribute("psList", psList);
+		List<ProductStockVO> psList;
+		
+		if(vo.getPro_num() != null || vo.getPro_name() != null) {
+			logger.debug("stockListGET(search) 호출!");
+			psList = sService.searchPS(vo);
+			model.addAttribute("psList", psList);
+			
+		}else {
+			logger.debug("stockListGET() 호출!");
+			psList = sService.getPsList();
+			model.addAttribute("psList", psList);
+		}
 	}
 	
-	// 재고 검색 결과
-	@RequestMapping(value = "/stockSearchResult", method = RequestMethod.GET)
-	public void stockSearchResult(@ModelAttribute("wh_name") String wh_name,
-								@ModelAttribute("itemOption") String itemOption,
-								@ModelAttribute("search") String search) {
-		
-		logger.debug("stockSearchResult() 호출!");
-		logger.debug(wh_name);
-		logger.debug(itemOption);
-		logger.debug(search);
-		
-			
-		}
-		
-	}
+
+
+
+
+}
 	
 

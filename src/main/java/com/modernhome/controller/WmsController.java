@@ -117,7 +117,7 @@ public class WmsController {
     	if(!istartDate.isEmpty() || !iendDate.isEmpty() || !rstartDate.isEmpty() || !rendDate.isEmpty() ||
     			!ma_name.isEmpty() || !io_state.isEmpty()) {
     		
-    		List<InorderVO> inorderList = ioService.getInorderSearch(istartDate, iendDate,rstartDate, rendDate, ma_name, io_state);
+    		List<InorderVO> inorderList = ioService.getInorderSearch(istartDate, iendDate, rstartDate, rendDate, ma_name, io_state);
     		logger.debug("검색어O, 검색된 데이터만 출력");	
     		
     		model.addAttribute("inorderList", inorderList);
@@ -173,7 +173,7 @@ public class WmsController {
     
     // 발주 삭제
     @RequestMapping(value = "/wms/deleteInorder")
-    public String deleteInorder(@RequestParam(value = "selectedIoId", required = false) Integer[] selectedIoIds) {
+    public String deleteInorder(@RequestParam(value = "selectedIoId", required = false) Integer[] selectedIoIds) throws Exception {
     	
     	if(selectedIoIds != null) {
 		    for (Integer io_id : selectedIoIds) {
