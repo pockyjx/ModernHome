@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.ClientVO;
-import com.modernhome.domain.EmployeeVO;
-import com.modernhome.domain.MaterialVO;
-
 import com.modernhome.domain.OutOrderJoinVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.ProductVO;
@@ -129,6 +126,8 @@ public class ClientController {
 	@RequestMapping(value = "/outOrderList", method = RequestMethod.GET)
 	public void outOrderListGET(Model model, OutOrderJoinVO ovo) throws Exception {
 		logger.debug("outOrderListGET() 호출");
+		
+		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
 		if(ovo.getOo_start_date_1() != null || ovo.getOo_start_date_2() != null || ovo.getOo_end_date_1() != null
 				|| ovo.getOo_end_date_2() != null || ovo.getClt_name() != null || ovo.getEmp_name() != null) {
@@ -150,35 +149,6 @@ public class ClientController {
 	} // 수주관리
 	
 	
-	// 수주 등록시 팝업
-	// http://localhost:8088/client/popUpProduct
-	@RequestMapping(value = "/addPopup", method = RequestMethod.GET )
-	public String popUpGET(Model model, @ModelAttribute("txt") String txt) throws Exception {
-		logger.debug("popUpProductGET() 호출!");
-		
-		if(txt.equals("pro")) { // 완제품 목록 팝업
-			logger.debug("client컨트롤러 - popUpproduct 호출");
-			List<ProductVO> popUpPro = iService.getProductList();
-			model.addAttribute("popUpPro", popUpPro);
-			
-			return "/client/popUpProduct";
-			
-		}else if(txt.equals("clt")) { // 거래처 목록 팝업
-			List<ClientVO> popUpClt = cService.clientList();
-			model.addAttribute("popUpClt", popUpClt);
-			
-			return "/client/popUpClient";
-		}
-		else if(txt.equals("clt2")) { // 거래처 목록 팝업2
-			List<ClientVO> popUpClt2 = cService.clientList();
-			model.addAttribute("popUpClt2", popUpClt2);
-			
-			return "/client/popUpClient2";
-		}
-		
-		return "/client/clientList";
-		
-	}
 	
 	
 	// 수주 등록, 수정
@@ -256,6 +226,45 @@ public class ClientController {
 		
 		
 	
+		
+	
+		
+		
+		
+		
+	// 수주, 출하 등록시 팝업 -------------------------------------------------------------------
+	// http://localhost:8088/client/popUpProduct
+	@RequestMapping(value = "/addPopup", method = RequestMethod.GET )
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt) throws Exception {
+		logger.debug("popUpGET() 호출!");
+		
+		// - 수주 등록시 팝업
+		if(txt.equals("pro")) { // 완제품 목록 팝업
+			logger.debug("client컨트롤러 - popUpproduct 호출");
+			List<ProductVO> popUpPro = iService.getProductList();
+			model.addAttribute("popUpPro", popUpPro);
+			
+			return "/client/popUpProduct";
+			
+		}else if(txt.equals("clt")) { // 거래처 목록 팝업
+			List<ClientVO> popUpClt = cService.clientList();
+			model.addAttribute("popUpClt", popUpClt);
+			
+			return "/client/popUpClient";
+		}
+		// - 수주 등록시 팝업
+		
+		// 출하등록할때 팝업
+		else if(txt.equals("clt2")) { // 거래처 목록 팝업2
+			List<ClientVO> popUpClt2 = cService.clientList();
+			model.addAttribute("popUpClt2", popUpClt2);
+			
+			return "/client/popUpClient2";
+		}
+		
+		return "/client/clientList";
+		
+	}
 	
 	
 	

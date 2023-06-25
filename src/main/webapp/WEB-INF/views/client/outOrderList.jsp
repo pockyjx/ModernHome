@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="../inc/header.jsp"%>
+<%@ include file="../inc/sidebar.jsp"%>
+<%@ include file="../inc/nav.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,14 +61,14 @@ $(document).ready(function() {
 		'<td><input type="checkbox"></td>' +
 		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
 
-		'<td><input type="text" name="emp_id"></td>' +
+		'<td><input type="text" name="emp_id" value="' + '${sessionScope.emp_id}' + '" readonly></td>' +
 		'<td><input type="text" name="clt_num" id="clt_num" readonly></td>' +
-		'<td><input type="text" name="clt_name" id="clt_name" disabled></td>' +
+		'<td><input type="text" name="clt_name" id="clt_name" readonly placeholder="거래처코드를 선택해주세요"></td>' +
 		'<td><input type="text" name="pro_num" id="pro_num" readonly></td>' +
-		'<td><input type="text" name="pro_name" id="pro_name" disabled></td>' +
-		'<td><input type="text" name="oo_cnt"></td>' +
-		'<td><input type="text" name="oo_start_date"></td>' +
-		'<td><input type="text" name="oo_end_date"></td>' +
+		'<td><input type="text" name="pro_name" id="pro_name" readonly placeholder="완제품코드를 선택해주세요"></td>' +
+		'<td><input type="text" name="oo_cnt" value=0></td>' +
+		'<td><input type="date" name="oo_start_date"></td>' +
+		'<td><input type="date" name="oo_end_date"></td>' +
 		'<td>' +
 		'<select name="oo_state">' +
 		'<option value="대기">대기</option>' +
@@ -111,6 +114,13 @@ $(document).ready(function() {
 		if(pageStatus == "reg"){
 			// 두번째 tr (추가된 행)을 삭제함
 			$(".table-outOrderList tr:nth-child(2)").remove();
+
+			// 모든 체크박스의 체크 해제
+			$(".table-outOrderList input[type='checkbox']").prop("checked", false);
+			
+			// selected 클래스를 없앰 (css 없애기)
+			$(".table-outOrderList tr").removeClass("selected");
+			
 			
 			// 버튼 활성화, 비활성화
 			$("#addRowButton").removeAttr("disabled");
@@ -126,8 +136,9 @@ $(document).ready(function() {
 		// 수정버튼 취소
 		if(pageStatus == "update"){
 			
-			// selected 이름을 가진 input 요소의 부모 테이블 행을 찾음
-			var row = $("input[name='selected']:checked").closest("tr");
+			// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+			$(".table-outOrderList tr").each(function() {
+			var row = $(this);
 			
 			// 폼 초기화(기존내용으로)
 			// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
@@ -146,6 +157,11 @@ $(document).ready(function() {
 				}
 			});
 			
+			
+			
+			// selected 클래스를 없앰 (css 없애기)
+			$(".table-outOrderList tr").removeClass("selected");
+			
 			// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 			$("#addRowButton").removeAttr("disabled");
 			$("#updateButton").removeAttr("disabled");
@@ -156,6 +172,8 @@ $(document).ready(function() {
 			
 			
 			pageStatus = "";
+			
+			});
 		} // if(update)문
 	
 	}); // 취소버튼
@@ -166,6 +184,7 @@ $(document).ready(function() {
 	
     // 수정 버튼 누를 시
 	$("#updateButton").click(function(){
+		 
 		var selectedCheckbox = $("input[name='selected']:checked");
 		
 		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
@@ -176,13 +195,13 @@ $(document).ready(function() {
 			// input type의 name 값 지정
 			var cellNames = [
 	            "oo_num",
-	            "emp_id",
+	            "update_emp_id",
 	            "clt_id",
 	            "clt_name",
 	            "pro_id",
 	            "pro_name",
 	            "oo_cnt",
-	            "oo_start_date",
+	            "oo_update_date",
 	            "oo_end_date",
 	            "oo_state",
 			];
@@ -193,7 +212,7 @@ $(document).ready(function() {
 				//
 				var cellValue = $(this).text();
 				var cellType = [7, 8].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
-				var cellReadonly = [0, 2, 4, 7].includes(index) ? "readonly='readonly'" : "";
+				var cellReadonly = [0, 1, 2, 4].includes(index) ? "readonly='readonly'" : "";
 				var cellName = cellNames[index];
 				var cellDisabled = [2, 3, 4, 5].includes(index)? "disabled" : "";
 				var cellContent;
@@ -206,6 +225,8 @@ $(document).ready(function() {
 					'<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
 					'</select>' +
 					'</td>';
+				}else if (index === 1){
+					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
 				}else {
 					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="'
 					+ cellValue + '"' + cellReadonly + ' ' + cellDisabled + '></td>';
@@ -260,7 +281,7 @@ $(document).ready(function() {
                   	</div>
 	       		<br>
 	       		<div>
-                  		<label>출하일자</label>
+                  		<label>출하(예정)일자</label>
                   		<div>
 	                   	<input type="date" name="oo_end_date_1">
                   			~
@@ -286,11 +307,15 @@ $(document).ready(function() {
 	<input type="hidden" name="clt_id" id="clt_id">
 	
 	
-	<input type="button" id="addRowButton" value="추가">
-	<input type="button" id="cancleButton" value="취소" disabled="disabled">
-	<input type="button" id="updateButton" value="수정">
-	<input type="submit" id="deleteButton" value="삭제" formaction="deleteOutOrder" formmethod="post">
-	<input type="submit" id="submitButton" value="저장" formaction="regOutOrder" formmethod="post" disabled="disabled">
+<%-- 	<c:if test="${sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2 || sessionScope.emp_auth == 3}"> --%>
+	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteOutOrder" formmethod="post">
+	<i class="fa fa-trash"></i> 삭제</button>
+	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regOutOrder" formmethod="post" disabled>
+	<i class="fa fa-download"></i> 저장</button>
+<%-- 	</c:if> --%>
 	
 	
 	<table class="table-outOrderList" border="1">
@@ -310,20 +335,24 @@ $(document).ready(function() {
 	  	<c:forEach var="outOrderList" items="${outOrderList }">
 		<tr>
 			<td><input type="checkbox" name="selected" value="${outOrderList.oo_num}"></td>
-	    	<td>${outOrderList.oo_num}</td>
-	    	<td>${outOrderList.emp_name}</td>
-	    	<td>${outOrderList.clt_num}</td>
-	    	<td>${outOrderList.clt_name}</td>
-	    	<td>${outOrderList.pro_num}</td>
-	    	<td>${outOrderList.pro_name}</td>
-	    	<td>${outOrderList.oo_cnt}</td>
-	    	<td>${fn:substring(outOrderList.oo_start_date, 0, 10)}</td>
-	   		<td>${fn:substring(outOrderList.oo_end_date, 0, 10)}</td>
-	   		<td>${outOrderList.oo_state}</td>
-	    </tr>
-	    </c:forEach>
+			<td>${outOrderList.oo_num}</td>
+			
+			<td>${outOrderList.emp_name}</td>
+	
+			<td>${outOrderList.clt_num}</td>
+			<td>${outOrderList.clt_name}</td>
+			<td>${outOrderList.pro_num}</td>
+			<td>${outOrderList.pro_name}</td>
+			<td>${outOrderList.oo_cnt}</td>
+			<td>${fn:substring(outOrderList.oo_start_date, 0, 10)}</td>
+			<td>${fn:substring(outOrderList.oo_end_date, 0, 10)}</td>
+			<td>${outOrderList.oo_state}</td>
+		</tr>
+		</c:forEach>
 	</table>
 	</form>
 	
 </body>
 </html>
+
+<%@ include file="../inc/footer.jsp"%>

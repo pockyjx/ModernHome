@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.EmployeeVO;
 import com.modernhome.service.EmployeeService;
-import com.mysql.cj.Session;
 
 @Controller
 @RequestMapping(value = "/employee/*")
@@ -53,9 +52,11 @@ public class EmployeeController {
 		if(resultVO != null) {
 			// 	O
 			//   메인페이지로 이동(redirect)
-			//   로그인 아이디, 직급을 세션에 저장
+			//   로그인 아이디, 이름, 부서, 권한을 세션에 저장
 			session.setAttribute("emp_id", resultVO.getEmp_id());
-			session.setAttribute("emp_rank", resultVO.getEmp_rank());
+			session.setAttribute("emp_name", resultVO.getEmp_name());
+			session.setAttribute("emp_dept", resultVO.getEmp_dept());
+			session.setAttribute("emp_auth", resultVO.getEmp_auth());
 			logger.debug(" 로그인 성공! "+resultVO.getEmp_id());
 			return "redirect:/employee/employeeList";
 		}else {
@@ -111,6 +112,7 @@ public class EmployeeController {
 	public void employeeListGET(Model model, EmployeeVO evo) throws Exception{
 		logger.debug("employeeListGET() 호출");
 		logger.debug("/emp/employeeList.jsp 페이지 이동");
+		
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
 		if(evo.getEmp_id() != null || evo.getEmp_name() != null || evo.getEmp_dept() != null
