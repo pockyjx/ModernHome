@@ -74,8 +74,9 @@
 		// 수정버튼 취소
 		if(pageStatus == "update"){
 			
-			// selectedReqid 이름을 가진 input 요소의 부모 테이블 행을 찾음
-			var row = $("input[name='selectedReqId']:checked").closest("tr");
+			// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+			$(".table-reqList tr").each(function() {
+			var row = $(this);
 			
 			// 폼 초기화(기존내용으로)
 			$("#reqList")[0].reset();
@@ -85,6 +86,9 @@
 				var cellValue = $(this).find("input").val();
 				$(this).html(cellValue);
 			});
+			
+			// selected 클래스를 없앰 (css 없애기)
+			$(".table-reqList tr").removeClass("selected");
 			
 			// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 			$("#addRowButton").removeAttr("disabled");
@@ -97,6 +101,7 @@
 			
 			pageStatus = "";
 			
+			});		
 		}
 	
 	}); // 취소 버튼 누를 시
@@ -291,6 +296,8 @@
 	
 <div>
 	
+	<c:if test="${sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산'}">
+	
 	<!-- input 타입 button 타입으로 바꿔줘야 아이콘 적용됨! -->
 	<!-- <input type="button" id="addRowButton" value="추가" class="btn btn-primary m-2 fa fa-plus""> -->
 	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
@@ -307,6 +314,7 @@
 	<!-- <input type="submit"  id="submitButton" value="저장" formaction="/info/regRequirement" formmethod="post" disabled="disabled" class="btn btn-primary m-2"> -->
 	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 
+	</c:if>
 </div>
 
 	

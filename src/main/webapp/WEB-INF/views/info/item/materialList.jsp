@@ -63,8 +63,9 @@
 				// 수정버튼 취소
 				if(pageStatus == "update"){
 					
-					//
-					var row = $("input[name='selectedMateId']:checked").closest("tr");
+					// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+					$(".table-mateList tr").each(function() {
+					var row = $(this);
 					
 					$("#materialList")[0].reset();
 					
@@ -73,6 +74,9 @@
 						var cellValue = $(this).find("input").val();
 						$(this).html(cellValue);
 					});
+					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-mateList tr").removeClass("selected");
 					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
@@ -84,7 +88,9 @@
 					
 					
 					pageStatus = "";
-					
+				
+					});
+				
 				}
 			
 			});
@@ -224,12 +230,16 @@
 	
 	<div>
 	
+	<c:if test="${sessionScope.emp_dept eq '자재'}">
+	
 	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 	<button type="submit" class="btn btn-primary m-2" id="/info/delMaterial" formaction="/info/delProduct" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 	
 	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/info/regMaterial" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+	
+	</c:if>
 	
 	</div>
 	
