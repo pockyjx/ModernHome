@@ -27,4 +27,27 @@ public class ClientServiceImpl implements ClientService {
 		return cDAO.clientListSearch(cvo);
 	}
 
+	// 거래처 등록
+	@Override
+	public void regClient(ClientVO cvo) {
+		cDAO.regClient(cvo);
+		
+	}
+
+	// 거래처 삭제
+	@Override
+	public void deleteClient(String clt_num) {
+		cDAO.deleteClient(clt_num);
+		
+	}
+
+	// 거래처 업데이트
+	@Override
+	public void updateClient(ClientVO cvo) {
+		cDAO.updateClient(cvo);
+		
+	}
+	
+	
+
 }

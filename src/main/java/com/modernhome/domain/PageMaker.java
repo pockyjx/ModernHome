@@ -10,7 +10,7 @@ public class PageMaker {
 	private boolean prev; // 이전
 	private boolean next; // 다음
 	
-	private int pageBlock = 10;
+	private int pageBlock = 5;
 	
 	//	private int page; // 페이지 번호
 	//	private int pageSize; // 페이지 크기
@@ -40,10 +40,9 @@ public class PageMaker {
 			endPage = tmpEndpage;
 		}
 		
-		startPage = (endPage - pageBlock) + 1;
-		
-		// prev = (stargPage == 1) ? false ; true;
+//		prev = (startPage == 1) ? false : true;
 		prev = startPage != 1;
+		
 		next = (endPage * pageVO.getPageSize() >= totalCount)? false : true;
 		
 		// 페이징처리 하단 필요한 정보 계산 - 끝

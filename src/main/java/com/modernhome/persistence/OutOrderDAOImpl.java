@@ -50,6 +50,24 @@ public class OutOrderDAOImpl implements OutOrderDAO {
 		
 	}
 	
+	// 수주 삭제
+	@Override
+	public void deleteOutOrder(String oo_num) {
+		logger.debug("DAO -> mapper -> SQL 실행 - 수주 삭제");
+		
+		logger.debug("oo_num : " + oo_num);
+		sqlSession.delete(NAMESAPCE + ".deleteOutOrder", oo_num);
+	}
+
+	
+	// 수주 수정
+	@Override
+	public void updateOutOrder(OutOrderVO ovo) {
+		logger.debug("DAo -> 수주 수정");
+		
+		sqlSession.update(NAMESAPCE + ".updateOutOrder", ovo);
+	}
+	
 	
 
 }

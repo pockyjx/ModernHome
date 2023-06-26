@@ -37,6 +37,34 @@ public class ClientDAOImpl implements ClientDAO {
 		
 		return sqlSession.selectList(NAMESPACE + ".clientListSearch", cvo);
 	}
+
+	// 거래처 등록
+	@Override
+	public void regClient(ClientVO cvo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (거래처등록)");
+		
+		sqlSession.insert(NAMESPACE + ".regClient", cvo);  
+		
+	}
+
+	// 거래처 삭제
+	@Override
+	public void deleteClient(String clt_num) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행(거래처삭제)");
+		
+		sqlSession.delete(NAMESPACE + ".deleteClient", clt_num);
+		
+	}
+
+	// 거래처 수정
+	@Override
+	public void updateClient(ClientVO cvo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행(거래처업데이트)");
+		
+		sqlSession.update(NAMESPACE + ".updateClient", cvo);
+		
+	}
+	
 	
 	
 

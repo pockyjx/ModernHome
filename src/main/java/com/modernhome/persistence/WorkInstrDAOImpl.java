@@ -28,9 +28,9 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<WijoinVO> getInstr(WorkInstrVO wivo) throws Exception {
+	public List<WijoinVO> getInstr(WijoinVO wjvo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstr 실행");
-		return sqlSession.selectList(NAMESPACE + ".getInstr", wivo);
+		return sqlSession.selectList(NAMESPACE + ".getInstr", wjvo);
 	}
 
 	@Override
@@ -65,15 +65,15 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	}
 
 	@Override
-	public List<WijoinVO> getBeforeInstrReq(String oo_num) throws Exception {
+	public List<WijoinVO> getBeforeInstrReq(WijoinVO wjvo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getBeforeInstrReq() 실행");
-		return sqlSession.selectList(NAMESPACE + ".getBeforeInstrReq", oo_num);
+		return sqlSession.selectList(NAMESPACE + ".getBeforeInstrReq", wjvo);
 	}
 
 	@Override
-	public String createWorkNum() throws Exception {
+	public List<WijoinVO> createIdNum() throws Exception {
 		logger.debug("WorkInstrDAOImpl_createWorkNum() 실행");
-		return sqlSession.selectOne(NAMESPACE + ".createWorkNum");
+		return sqlSession.selectList(NAMESPACE + ".createIdNum");
 	}
 	
 	@Override
@@ -92,6 +92,12 @@ public class WorkInstrDAOImpl implements WorkInstrDAO {
 	public void deleteInstr(int work_id) throws Exception {
 		logger.debug("WorkInstrDAOImpl_deleteInstr() 실행");
 		sqlSession.delete(NAMESPACE + ".deleteInstr", work_id);
+	}
+
+	@Override
+	public void addQC(WijoinVO vo) throws Exception {
+		logger.debug("WorkInstrDAOImpl_addQC() 실행");
+		sqlSession.insert(NAMESPACE + ".addQC", vo);
 	}
 
 }

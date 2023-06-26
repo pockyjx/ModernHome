@@ -14,12 +14,12 @@ public interface InorderService {
 											String ma_name, String io_state) throws Exception; 
 
 	// 발주 등록
-	public void regInorder(InorderVO iovo);
+	public void regInorder(InorderVO iovo) throws Exception;
 	
 	// 발주 수정
-	public void updateInorder(InorderVO iovo);
+	public void updateInorder(InorderVO iovo) throws Exception;
 	
 	// 발주 삭제
-	public void deleteInorder(int io_id);
+	public void deleteInorder(int io_id) throws Exception;
 	
 }	

@@ -32,6 +32,13 @@ public class ProductStockDAOImpl implements ProductStockDAO {
 		logger.debug("완제품 재고 정보 자동 등록!");
 		sqlSession.insert(NAMESPACE + ".regProStock", maxProId);
 	}
+
+	// 완제품 재고 검색
+	@Override
+	public List<ProductStockVO> searchProStock(ProductStockVO vo) {
+		logger.debug("완제품 재고 검색!");
+		return sqlSession.selectList(NAMESPACE + ".searchProStock", vo);
+	}
 	
 	
 

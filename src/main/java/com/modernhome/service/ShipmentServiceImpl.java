@@ -34,6 +34,21 @@ public class ShipmentServiceImpl implements ShipmentService {
 		sDAO.regShipment(svo);
 		
 	}
+
+	// 출하정보 삭제
+	@Override
+	public void deleteShipment(String shp_num) {
+		sDAO.deleteShipment(shp_num);
+		
+	}
+
+	// 출하정보 수정
+	@Override
+	public void updateShipment(ShipmentVO svo) {
+		sDAO.updateShipment(svo);
+		
+	}
+	
 	
 	
 	

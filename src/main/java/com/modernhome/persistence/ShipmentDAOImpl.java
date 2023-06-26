@@ -49,6 +49,27 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		sqlSession.insert(NAMESAPCE + ".regShipment", svo);
 		
 	}
+
+	
+	// 출하 삭제
+	@Override
+	public void deleteShipment(String shp_num) {
+		logger.debug("DAO -> mapper -> SQL 실행 - 출하 삭제");
+		
+		logger.debug("shp_num : " + shp_num);
+		sqlSession.delete(NAMESAPCE + ".deleteShipment", shp_num);
+		
+	}
+
+	// 출하 수정
+	@Override
+	public void updateShipment(ShipmentVO svo) {
+		logger.debug("DAO -> 출하 수정");
+		
+		sqlSession.update(NAMESAPCE + ".updateShipment", svo);
+		
+	}
+	
 	
 	
 

@@ -33,23 +33,27 @@
 	                 '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly></td>' +
 	                 '<td><input type="number" name="req_cnt" placeholder="소요량" min="0"></td>' +
 	                 '<td><input type="text" name="req_unit" placeholder="단위"></td>' +
+	                 '<td><input type="date" name="req_reg_date" readonly></td>' +
+	                 '<td><input type="text" name="emp_id" value="${sessionScope.emp_id }" readonly></td>' +
 	                 '</tr>';
 	             $(".table-reqList tr:nth-child(1)").after(newRow);
 	             
 	             // 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
-		$("#addRowButton").attr("disabled", "disabled");
-		$("#updateButton").attr("disabled", "disabled");
-		$("#deleteButton").attr("disabled", "disabled");
-		
-		$("#cancleButton").removeAttr("disabled");
-		$("#submitButton").removeAttr("disabled");
-		
-		pageStatus = "reg";
+				$("#addRowButton").attr("disabled", "disabled");
+				$("#updateButton").attr("disabled", "disabled");
+				$("#deleteButton").attr("disabled", "disabled");
+				
+				$("#cancleButton").removeAttr("disabled");
+				$("#submitButton").removeAttr("disabled");
+				
+				pageStatus = "reg";
+				
+
 	             
 	         });  // 버튼 클릭 시 행 추가
 	         
 	     	// 취소 버튼 누를 시 
-	$("#cancleButton").click(function(){
+			$("#cancleButton").click(function(){
 		
 		// 등록버튼 취소
 		if(pageStatus == "reg"){
@@ -70,8 +74,9 @@
 		// 수정버튼 취소
 		if(pageStatus == "update"){
 			
-			// selectedReqid 이름을 가진 input 요소의 부모 테이블 행을 찾음
-			var row = $("input[name='selectedReqId']:checked").closest("tr");
+			// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+			$(".table-reqList tr").each(function() {
+			var row = $(this);
 			
 			// 폼 초기화(기존내용으로)
 			$("#reqList")[0].reset();
@@ -81,6 +86,9 @@
 				var cellValue = $(this).find("input").val();
 				$(this).html(cellValue);
 			});
+			
+			// selected 클래스를 없앰 (css 없애기)
+			$(".table-reqList tr").removeClass("selected");
 			
 			// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 			$("#addRowButton").removeAttr("disabled");
@@ -93,6 +101,7 @@
 			
 			pageStatus = "";
 			
+			});		
 		}
 	
 	}); // 취소 버튼 누를 시
@@ -114,7 +123,9 @@
 				"ma_num",
 				"ma_name",
 				"req_cnt",
-				"req_unit"
+				"req_unit",
+				"req_update_date", 
+				"update_emp_id"
 			];
 			
 			
@@ -124,7 +135,11 @@
 				var cellValue = $(this).text();
 				var cellOption = "";
 				
-				if(index == 0) {
+				if(index == 8) {
+					cellValue = ${sessionScope.emp_id}
+				}
+				
+				if(index == 0 || index == 8) {
 					cellOption = "readonly";
 				}else if(index == 5){
 					cellOption = "";
@@ -134,6 +149,9 @@
 				
 				
 				var cellType = index === 5 ? "number" : "text";
+				
+			
+				
 				var cellName = cellNames[index];
 				
 				$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');
@@ -212,6 +230,9 @@
      
 	      
 	  </script>
+	 
+	  
+	  
     <style>
         .selected {
             background-color: #b3ccff;
@@ -220,6 +241,34 @@
 
 </head>
 <body>
+
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+		data-bs-target="#staticBackdrop">모달 테스트
+	</button>
+
+	<!-- Modal -->
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+		data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">...</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Understood</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr>
 	
 	<h1>소요량 관리</h1>
 	
@@ -230,7 +279,6 @@
 				<option value="all">전체</option>
 				<option value="pro_name">완제품명</option>
 				<option value="ma_name">자재명</option>
-<!-- 				<option value="req_num">소요량 코드</option> -->
 			</select>
 			
 			<label><input type="text" name="search"></label>
@@ -248,15 +296,17 @@
 	
 <div>
 	
+	<c:if test="${sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산'}">
+	
 	<!-- input 타입 button 타입으로 바꿔줘야 아이콘 적용됨! -->
 	<!-- <input type="button" id="addRowButton" value="추가" class="btn btn-primary m-2 fa fa-plus""> -->
-	<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 
 	<!-- <input type="button" id="cancleButton" value="취소" disabled="disabled" class="btn btn-primary m-2"> -->
-	<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 
 	<!-- <input type="button" id="updateButton" value="수정" class="btn btn-primary m-2"> -->
-	<button class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 
 	<!-- <input type="submit" id="deleteButton" value="삭제" formaction="/info/delRequirement" formmethod="post" class="btn btn-primary m-2"> -->
 	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/info/delRequirement" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
@@ -264,11 +314,12 @@
 	<!-- <input type="submit"  id="submitButton" value="저장" formaction="/info/regRequirement" formmethod="post" disabled="disabled" class="btn btn-primary m-2"> -->
 	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 
+	</c:if>
 </div>
 
-<div class="bg-light text-center rounded p-4">
+	
 
-	<table class="table-reqList table text-start align-middle table-bordered table-hover mb-0">
+	<table class="table-reqList" border="1">
 
 	<input type="hidden" name="pro_id" id="pro_id">
 	<input type="hidden" name="ma_id" id="ma_id"> 
@@ -282,29 +333,31 @@
 			<th>자재명</th>
 			<th>소요량</th>
 			<th>단위</th>
+			<th>등록일</th>
+			<th>등록자</th>
 		</tr>
 		
 		<c:forEach var="vo" items="${reqList }">
 		<tr>	
 			<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}"></td>
 			<td>${vo.req_num }</td>
-			<td>${vo.pro_num }</td>
+			<td><a href="/info/req/BOM?pro_id=${vo.pro_id}">${vo.pro_num }</a></td>
 			<td>${vo.pro_name }</td>
 			<td>${vo.ma_num }</td>
 			<td>${vo.ma_name }</td>
 			<td>${vo.req_cnt }</td>
 			<td>${vo.req_unit }</td>
-<%-- 			<td>${fn:substring(vo.req_reg_date, 0, 10) }</td> --%>
-<%-- 			<td>${vo.emp_id }</td> --%>
-<%-- 			<td>${fn:substring(vo.req_update_date, 0, 10) }</td> --%>
-<%-- 			<td>${vo.update_emp_id }</td> --%>
+			<td>
+				<c:if test="${!empty vo.req_update_date}">${fn:substring(vo.req_update_date, 0, 10) }</c:if>
+				<c:if test="${empty vo.req_update_date}">${fn:substring(vo.req_reg_date, 0, 10) }</c:if>
+			</td>
+			<td>${vo.emp_name }</td>
 		</tr>	
 		</c:forEach>
 		
 	</table>
 	
 	
-</div>
 	
 	</form>
 

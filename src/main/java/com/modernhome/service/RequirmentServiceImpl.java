@@ -45,9 +45,15 @@ public class RequirmentServiceImpl implements RequirmentService {
 	public void deleteRequirement(int req_id) throws Exception {
 		rdao.deleteRequirement(req_id);
 	}
-	
-	
 
+	// 완제품 별 소요량 조회
+	@Override
+	public List<ReqJoinVO> getBOMList(int pro_id) throws Exception {
+		return rdao.getBOMList(pro_id);
+	}
+	
+	
+	
 	
 	
 	

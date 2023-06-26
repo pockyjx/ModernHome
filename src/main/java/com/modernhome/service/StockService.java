@@ -10,8 +10,11 @@ public interface StockService {
 	// 자재 재고 목록 조회
 	public List<MaterialStockVO> getMsList() throws Exception;
 	
-	// 완제품 재고 등록
+	// 자재 재고 등록
 	public void regMaStock(int maxMaId) throws Exception;
+	
+	// 자재 재고 검색
+	public List<MaterialStockVO> searchMS(MaterialStockVO vo) throws Exception;
 	
 	
 	////////////////////////////////////////////////////////////////
@@ -21,4 +24,8 @@ public interface StockService {
 	
 	// 완제품 재고 등록
 	public void regProStock(int maxProId) throws Exception;
+	
+	// 완제품 재고 검색
+	public List<ProductStockVO> searchPS(ProductStockVO vo) throws Exception;
+	
 }
