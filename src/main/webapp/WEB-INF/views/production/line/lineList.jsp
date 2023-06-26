@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../../inc/header.jsp"%>
-<%@ include file="../../inc/sidebar.jsp"%>
-<%@ include file="../../inc/nav.jsp"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<%@ include file="../../inc/header.jsp"%>
+<%@ include file="../../inc/sidebar.jsp"%>
+<%@ include file="../../inc/nav.jsp"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +17,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
     <script>
+    var pageStatus = "";
+    
         $(document).ready(function() {
             // 버튼 클릭 시 행 추가
             $("#addRowButton").click(function() {
@@ -34,9 +39,10 @@
 				// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
 				$(".table-lineList tr:nth-child(1)").after(newRow);
 				
-				// 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
+             	// 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
 				$("#addRowButton").attr("disabled", "disabled");
 				$("#updateButton").attr("disabled", "disabled");
+				$("#deleteReceiveButton").attr("disabled", "disabled");
 				
 				$("#cancleButton").removeAttr("disabled");
 				$("#submitButton").removeAttr("disabled");
@@ -44,6 +50,18 @@
 				pageStatus = "reg";
 				
             }); // addRowButton
+            
+   
+            
+//             // 체크박스 클릭 시 선택된 행 삭제
+//             $(".table-lineList").on("click", "td input[type='checkbox']", function() {
+//                 var checkbox = $(this);
+//                 if (checkbox.prop("checked")) {
+//                     checkbox.closest("tr").addClass("selected");
+//                 } else {
+//                     checkbox.closest("tr").removeClass("selected");
+//                 }
+//             });
             
             
             // 취소 버튼 누를 시 
@@ -57,6 +75,8 @@
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
+					$("#deleteReceiveButton").removeAttr("disabled");
+					
 					$("#cancleButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
 					
@@ -64,19 +84,30 @@
 				}
 				// 수정버튼 취소
 				if(pageStatus == "update"){
+					var row = $("input[name='selectedLineId']:checked").closest("tr");
 					
-					//
-					var row = $("input[name='selectedEmpId']:checked").closest("tr");
+					// 폼 초기화(기존내용으로)
+					// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
+// 					$("#lineList")[0].reset();
 					
 					// 각 셀의 값을 원래 상태로 되돌림
 					row.find("td:not(:first-child)").each(function(index) {
 						var cellValue = $(this).find("input").val();
-						$(this).html(cellValue);
+						if ($(this).find("select").length) {
+							// <select>가 있는 경우 선택된 옵션의 텍스트로 변경
+							var selectedOptionText = $(this).find("select option:selected").text();
+							$(this).html(selectedOptionText);
+						}else {
+							// <select>가 없는 경우 셀 값을 그대로 표시
+							$(this).html(cellValue);
+						}
+						
 					});
 					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
+					$("#deleteReceiveButton").removeAttr("disabled");
 					
 					$("#cancleButton").attr("disabled", "disabled");
 					$("#submitButton").attr("disabled", "disabled");
@@ -84,58 +115,75 @@
 					
 					pageStatus = "";
 					
-				}
+				} // if(update)문
 			
-			});
+			}); // 취소버튼
             
-            
-            // 수정 버튼 누를 시
-			$("#updateButton").click(function(){
-				var selectedCheckbox = $("input[name='selectedEmpId']:checked");
-				
-				// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
-				if (selectedCheckbox.length === 1) {
-					var empId = selectedCheckbox.val();
-					var row = selectedCheckbox.closest("tr");
-					
-					// input type의 name 값 지정
-					var cellNames = [
+			// 수정 버튼 누를 시
+			$("#updateButton").click(function() {
+			    var selectedCheckbox = $("input[name='selectedLineId']:checked");
+
+			    // 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+			    if (selectedCheckbox.length === 1) {
+			        var empId = selectedCheckbox.val();
+			        var row = selectedCheckbox.closest("tr");
+
+			        // input type의 name 값 지정
+			        var cellNames = [
 			            "line_num",
 			            "line_name",
 			            "use_yn",
 			            "reg_date",
 			            "emp_id"
+			        ];
 
-					];
-					
-					
-					// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
-					row.find("td:not(:first-child)").each(function(index) {
-						//
-						var cellValue = $(this).text();
-						var cellType = index === 3 ? "date" : "text"; // 날짜 타입은 date로 설정
-						var cellName = cellNames[index];
-						
-						$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
-						
-						$("#updateButton").attr("disabled", "disabled");
-						$("#addRowButton").attr("disabled", "disabled");
-						$("#cancleButton").removeAttr("disabled");
-						$("#submitButton").removeAttr("disabled");
-						
-						pageStatus = "update";
-					});
-					
-				}else if (selectedCheckbox.length === 0){
-					alert("수정할 행을 선택해주세요!")
-					
-				}else {
-					alert("수정은 하나의 행만 가능합니다!");
-				}
+			        // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
+			        row.find("td:not(:first-child)").each(function(index) {
+			            var cellValue = $(this).text();
+			            var cellType = index === 3 ? "date" : "text"; // 날짜 타입은 date로 설정
+			            var cellName = cellNames[index];
+			            var cellContent;
+
+			            if (index === 2) {
+			                cellContent = '<td>' +
+			                    '<select name="' + cellName + '">' +
+			                    '<option value="Y" ' + (cellValue === 'Y' ? 'selected' : '') + '>Y</option>' +
+			                    '<option value="N" ' + (cellValue === 'N' ? 'selected' : '') + '>N</option>' +
+			                    '</select>' +
+			                    '</td>';
+			            } else {
+			                cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"></td>';
+			            }
+
+			            $(this).html(cellContent);
+			        });
+
+			        // 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+			        $("#addRowButton").attr("disabled", "disabled");
+			        $("#updateButton").attr("disabled", "disabled");
+			        $("#deleteReceiveButton").attr("disabled", "disabled");
+
+			        $("#cancleButton").removeAttr("disabled");
+			        $("#submitButton").removeAttr("disabled");
+
+			        pageStatus = "update";
+			    } else if (selectedCheckbox.length === 0) {
+			        alert("수정할 행을 선택해주세요!");
+			    } else {
+			        alert("수정은 하나의 행만 가능합니다!");
+			    }
 			});
- 
-            
-         	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+
+            // 선택된 행 삭제 버튼 클릭 시 행 삭제
+            $("#deleteRowsButton").click(function() {
+                var selectedRows = $(".table-lineList tr.selected");
+                selectedRows.remove();
+            });
+	
+			//체크박스 선택 시 체크박스의 개수 구하기
+	        updateSelectedCheckboxCount();
+
+	      	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
             $(".table-lineList th input[type='checkbox']").click(function() {
                 var checkbox = $(this);
                 var isChecked = checkbox.prop('checked');
@@ -163,26 +211,8 @@
                 var isChecked = checkbox.prop('checked');
                 checkbox.closest('tr').toggleClass('selected', isChecked);
             });
-            
-            // 체크박스 클릭 시 선택된 행 삭제
-            $(".table-lineList").on("click", "td input[type='checkbox']", function() {
-                var checkbox = $(this);
-                if (checkbox.prop("checked")) {
-                    checkbox.closest("tr").addClass("selected");
-                } else {
-                    checkbox.closest("tr").removeClass("selected");
-                }
-            });
-
-//             // 선택된 행 삭제 버튼 클릭 시 행 삭제
-//             $("#deleteRowsButton").click(function() {
-//                 var selectedRows = $(".table-lineList tr.selected");
-//                 selectedRows.remove();
-//             });
-	
-			// 체크박스 선택 시 체크박스의 개수 구하기
-	        updateSelectedCheckboxCount();
-
+			
+			
 	        // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
 	        $(".table-lineList th input[type='checkbox']").click(function() {
 	            var checkbox = $(this);
@@ -268,7 +298,7 @@
 		    </tr>
 		    <c:forEach var="vo" items="${lineList}">
 		        <tr>
-		            <td><input type="checkbox" name="selectedEmpId" value="${vo.emp_id}"></td>
+		            <td><input type="checkbox" name="selectedLineId" value="${vo.line_id}"></td>
 		            <td>${vo.line_num}</td>
 		            <td>${vo.line_name}</td>
 		            <td>${vo.use_yn}</td>

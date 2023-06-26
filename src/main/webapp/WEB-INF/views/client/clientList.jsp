@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../inc/header.jsp"%>
+<%@ include file="../inc/sidebar.jsp"%>
+<%@ include file="../inc/nav.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -121,8 +124,9 @@
 		// 수정버튼 취소
 		if(pageStatus == "update"){
 			
-			// selected 이름을 가진 input 요소의 부모 테이블 행을 찾음
-			var row = $("input[name='selected']:checked").closest("tr");
+			// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+			$(".table-clientList tr").each(function() {
+			var row = $(this);
 			
 			// 폼 초기화(기존내용으로)
 			// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
@@ -130,7 +134,10 @@
 			
 			// 각 셀의 값을 원래 상태로 되돌림
 			row.find("td:not(:first-child)").each(function(index) {
-				var cellValue = $(this).find("input").val();
+				
+				var cellValue = $(this).data('prevValue'); // 수정 전의 기존값을 가져옴
+				
+				
 				if ($(this).find("select").length) {
 					// <select>가 있는 경우 선택된 옵션의 텍스트로 변경
 					var selectedOptionText = $(this).find("select option:selected").text();
@@ -140,6 +147,11 @@
 					$(this).html(cellValue);
 				}
 			});
+			
+			
+			
+			// selected 클래스를 없앰 (css 없애기)
+			$(".table-clientList tr").removeClass("selected");
 			
 			// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 			$("#addRowButton").removeAttr("disabled");
@@ -151,6 +163,8 @@
 			
 			
 			pageStatus = "";
+			
+			});
 		} // if(update)문
 	
 	}); // 취소버튼
@@ -161,7 +175,7 @@
 	
     // 수정 버튼 누를 시
 	$("#updateButton").click(function(){
-		var selectedCheckbox = $("input[name='selected']:checked");
+		var selectedCheckbox = $("input[name='selectedCltId']:checked");
 		
 		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 		if (selectedCheckbox.length === 1) {
@@ -195,6 +209,8 @@
 					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="'
 					+ cellValue + '"' + cellReadonly + ' ' + cellDisabled + '></td>';
 				
+				$(this).data('prevValue', cellValue);
+					
 				$(this).html(cellContent);
 				
 				// 버튼 활성화, 비활성화
@@ -272,12 +288,13 @@
 		
 	<form id="clientList">
 	
-	<input type="button" id="addRowButton" value="추가">
-	<input type="button" id="cancleButton" value="취소" disabled="disabled">
-	<input type="button" id="updateButton" value="수정">
-	<input type="submit" id="deleteClientButton" value="삭제" formaction="deleteClient" formmethod="post">
-	<input type="submit" id="submitButton" value="저장" formaction="regClient" formmethod="post" disabled="disabled">
-	
+	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteClient" formmethod="post">
+	<i class="fa fa-trash"></i> 삭제</button>
+	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regClient" formmethod="post" disabled>
+	<i class="fa fa-download"></i> 저장</button>
 	
 	<table class="table-clientList" border="1">
 		<tr>
@@ -293,7 +310,7 @@
 		</tr>
 		<c:forEach var="clientList" items="${clientList }">
 		<tr>
-			<td><input type="checkbox" name="selected" value="${clientList.clt_num}"></td>
+			<td><input type="checkbox" name="selectedCltId" value="${clientList.clt_num}"></td>
 			<td>${clientList.clt_num }</td>
 			<td>${clientList.clt_sort }</td>	
 			<td>${clientList.clt_name }</td>
@@ -310,3 +327,4 @@
 
 </body>
 </html>
+<%@ include file="../inc/footer.jsp"%>

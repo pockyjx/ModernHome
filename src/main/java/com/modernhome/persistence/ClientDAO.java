@@ -16,7 +16,7 @@ public interface ClientDAO {
 	public void regClient(ClientVO cvo);
 		
 	// 사원삭제
-	public void deleteClient(int clt_id);
+	public void deleteClient(String clt_num);
 		
 	// 사원업데이트
 	public void updateClient(ClientVO cvo);

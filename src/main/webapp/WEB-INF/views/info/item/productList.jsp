@@ -67,7 +67,9 @@
 				// 수정버튼 취소
 				if(pageStatus == "update"){
 					
-					var row = $("input[name='selectedProId']:checked").closest("tr");
+					// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+					$(".table-proList tr").each(function() {
+					var row = $(this);
 					
 					$("#productList")[0].reset();
 					
@@ -76,6 +78,9 @@
 						var cellValue = $(this).find("input").val();
 						$(this).html(cellValue);
 					});
+					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-proList tr").removeClass("selected");
 					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
@@ -88,6 +93,8 @@
 					
 					pageStatus = "";
 					
+					});
+				
 				}
 			
 			});
@@ -190,6 +197,19 @@
 </head>
 <body>
 
+<div>
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link" aria-current="page" href="/info/item/materialList">자재</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link active" href="/info/item/productList">완제품</a>
+		</li>
+	</ul>
+</div>
+
+<hr>
+
 <h2>품목 검색</h2>
 
 	<fieldset>
@@ -204,23 +224,28 @@
 
 	<hr>
 
-	<ul>
-		<li><a href="./productList">완제품</a></li>
-		<li><a href="./materialList">자재</a></li>
-	</ul>
+	
 
 <h2>완제품 목록</h2>
 
 	<form id="productList">	
 	
 	<span id="selectedCheckboxCount">0</span>
-
-	<input type="button" id="addRowButton" value="추가">
-	<input type="button" id="cancleButton" value="취소" disabled="disabled">
-	<input type="button" id="updateButton" value="수정">
-	<input type="submit" id="deleteButton" value="삭제" formaction="/info/delProduct" formmethod="post">
 	
-	<input type="submit" id="submitButton" value="저장" formaction="/info/regProduct" formmethod="post" disabled="disabled">
+	<div>
+	
+	<c:if test="${sessionScope.emp_dept eq '자재'}">
+	
+	<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+	<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/info/delProduct" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+	
+	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/info/regProduct" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+	
+	</c:if>
+	
+	</div>
 
 	<table border="1" class="table-proList">
 	
@@ -245,7 +270,37 @@
 	</table>
 	
 	</form>
-
+	
+	<nav aria-label="Page navigation example">
+  		<ul class="pagination justify-content-center pagination-sm">
+  		
+  			<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/info/item/productList?page=${pm.startPage-1 }" aria-label="Previous">
+       			<span aria-hidden="true">&laquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+    		<li 
+    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+    		>
+    			<a class="page-link" href="/info/item/productList?page=${idx }">${idx }</a>
+    		</li>
+    		</c:forEach>
+			
+			<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+      			<a class="page-link" href="/info/item/productList?page=${pm.endPage+1 }" aria-label="Next">
+        		<span aria-hidden="true">&raquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+  		</ul>
+	</nav>
+	
 </body>
 </html>
 

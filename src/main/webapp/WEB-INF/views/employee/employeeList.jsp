@@ -299,7 +299,22 @@
 				}
 			$(this).val(telVal);
 		});
-
+			
+			
+			
+		$("#deleteButton").click(function(){
+			
+			var selectedCheckbox = $("input[name='selectedEmpId']:checked");
+			
+			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+			if (selectedCheckbox.length === 0){
+				alert("삭제할 행을 선택해주세요!");
+				
+				// 선택안하면 submit을 막음
+				event.preventDefault();
+			}
+			
+		});
 			
 			
 	}); // jQuery
@@ -354,7 +369,7 @@
 	
 	<form id="employeeList">
 	
-	<c:if test="${sessionScope.emp_dept eq '인사' && sessionScope.emp_auth == 2 || sessionScope.emp_auth == 3}">
+<%-- 	<c:if test="${sessionScope.emp_dept eq '인사' && sessionScope.emp_auth == 2 || sessionScope.emp_auth == 3}"> --%>
 		<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 		<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
@@ -362,7 +377,7 @@
 		<i class="fa fa-trash"></i> 삭제</button>
 		<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regEmployee" formmethod="post" disabled>
 		<i class="fa fa-download"></i> 저장</button>
-	</c:if>
+<%-- 	</c:if> --%>
 	
 <!-- 	<input type="button" id="addRowButton" value="추가"> -->
 <!-- 	<input type="button" id="cancleButton" value="취소" disabled="disabled"> -->

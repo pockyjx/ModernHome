@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.MaterialVO;
+import com.modernhome.domain.PageMaker;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductVO;
 import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.RequirementVO;
@@ -42,19 +44,31 @@ public class InfoController {
 	// 완제품 목록
 	// http://localhost:8088/info/item/productList
 	@RequestMapping(value = "/item/productList", method = RequestMethod.GET)
-	public void productListGET(Model model, ProductVO vo) {
+	public void productListGET(Model model, ProductVO vo, PageVO pvo) throws Exception {
 		logger.debug("productListGET() 호출!");
 		
 		List<ProductVO> productList;
+		PageMaker pm = new PageMaker();
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐 경우
 		if(vo.getPro_num() != null || vo.getPro_name() != null) {
-			productList = iService.getProductList(vo);
-			model.addAttribute("productList", productList);
+//			productList = iService.getProductList(vo, pvo);
+//			model.addAttribute("productList", productList);
+			
+//			pm.setPageVO(pvo);
+//			pm.setTotalCount(iService.getProSearchCnt(vo));
+			model.addAttribute("pm", pm);
+			
 			
 		} else { 
-			productList = iService.getProductList();
+			productList = iService.getProListPage(pvo);
+//			productList = iService.getProductList();
 			model.addAttribute("productList", productList);
+			
+			pm.setPageVO(pvo);
+			pm.setTotalCount(iService.getTotalCntPro());
+			
+			model.addAttribute("pm", pm);
 		}
 		
 	}
@@ -67,46 +81,20 @@ public class InfoController {
 		
 		List<MaterialVO> materialList;
 		
+		logger.debug(vo + "");
+		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐 경우
 		if(vo.getMa_name() != null || vo.getMa_num() != null) {
 			materialList = iService.getMaterialList(vo);
 			model.addAttribute("materialList", materialList);
 		} else {
+			
 			materialList = iService.getMaterialList();
 			model.addAttribute("materialList", materialList);
 		}
 		
 	}
 	
-	// 검색 결과
-//	@RequestMapping(value = "/item/itemSearchResult", method = RequestMethod.POST)
-//	public void itemSearchResultPOST(@ModelAttribute("itemType") String itemType,
-//									@ModelAttribute("itemOption") String itemOption,
-//									@ModelAttribute("search") String search,
-//									Model model) {
-//		
-////		logger.debug("itemType : " + itemType);
-////		logger.debug("itemOption : " + itemOption);
-////		logger.debug("search : " + search);
-//		
-//		List<ProductVO> proSearchList; // 완제품 결과 목록
-//		List<MaterialVO> maSearchList; // 자재 결과 목록
-//		
-//		if(itemType.equals("product")) {
-//			
-//			// 완제품 선택 시 완제품 테이블에서 조건 검색
-//			proSearchList = iService.getProductList(itemOption, search);
-//			model.addAttribute("proSearchList", proSearchList);
-//			
-//		}else {
-//			
-//			// 자재 선택 시, 자재 테이블에서 조건 검색
-//			maSearchList = iService.getMaterialList(itemOption, search);
-//			model.addAttribute("maSearchList", maSearchList);
-//			
-//		}
-//		
-//	}
 	
 	// 완제품 등록 + 수정
 	@RequestMapping(value = "/info/regProduct", method = RequestMethod.POST)
@@ -191,18 +179,18 @@ public class InfoController {
 						@ModelAttribute("option") String option, 
 						@ModelAttribute("search") String search) throws Exception {
 		
-		logger.debug("reqListGET() 호출!");
-		
 		List<ReqJoinVO> reqList;
 		
 		
 		logger.debug(option);
 		logger.debug(search);
 		
-		if(option != null && search != null) {
+		if(option != null || search != null) {
+			logger.debug("reqListGET(search) 호출!");
 			reqList = rService.getReqSearch(option, search);
 			model.addAttribute("reqList", reqList);
 		}else {
+			logger.debug("reqListGET(all) 호출!");
 			reqList = rService.getListAll();
 			model.addAttribute("reqList", reqList);
 		}
@@ -212,18 +200,46 @@ public class InfoController {
 	
 	// 소요량 등록 시 팝업
 	@RequestMapping(value = "/req/addPopup", method = RequestMethod.GET )
-	public String popUpGET(Model model, @ModelAttribute("txt") String txt) throws Exception {
-		logger.debug("popUpProductGET() 호출!");
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt, 
+							ProductVO pvo, MaterialVO mvo) throws Exception {
 		
 		if(txt.equals("pro")) { // 완제품 목록 팝업
-			List<ProductVO> popUpPro = iService.getProductList();
-			model.addAttribute("popUpPro", popUpPro);
+			
+			List<ProductVO> popUpPro;
+			
+			if(pvo.getPro_name() != null) { // 완제품 팝업창에서 검색했을 때 - 페이징 오류 때문에 잠시 보류,,
+				
+				logger.debug("완제품 팝업(검색) 호출!");
+//				popUpPro = iService.getProductList(vo, pvo);
+//				model.addAttribute("popUpPro", popUpPro);
+				
+			}else { // 완제품 팝업 처음 실행했을 때
+				
+				logger.debug("완제품 팝업 호출!");
+				popUpPro = iService.getProductList();
+				model.addAttribute("popUpPro", popUpPro);
+				
+			}
 			
 			return "/info/req/popUpProduct";
 			
 		}else if(txt.equals("ma")) { // 자재 목록 팝업
-			List<MaterialVO> popUpMate = iService.getMaterialList();
-			model.addAttribute("popUpMate", popUpMate);
+			
+			List<MaterialVO> popUpMate;
+			
+			if(mvo.getMa_name() != null) { // 자재 팝업창에서 검색했을 때
+				
+				logger.debug("자재 팝업(검색) 호출!");
+				popUpMate = iService.getMaterialList(mvo); // 기존 자재 검색 메서드 사용
+				model.addAttribute("popUpMate", popUpMate);
+				
+			}else { // 자재 팝업 처음 실행했을 때
+				
+				logger.debug("자재 팝업 호출!");
+				popUpMate = iService.getMaterialList();
+				model.addAttribute("popUpMate", popUpMate);
+				
+			}
 			
 			return "/info/req/popUpMaterial";
 		}
@@ -265,6 +281,25 @@ public class InfoController {
 		
 		return "redirect:/info/req/reqList";
 		
+	}
+	
+	// BOM
+	// http://localhost:8088/info/req/BOM
+	@RequestMapping(value = "/req/BOM", method = RequestMethod.GET)
+	public void BOM(@RequestParam(value = "pro_id") Integer pro_id, Model model) throws Exception {
+		logger.debug("BOM() 호출!");
+		
+		List<ReqJoinVO> BOMList = rService.getBOMList(pro_id);
+		model.addAttribute("BOMList", BOMList);
+		
+	}
+	
+	// BOMList
+	// http://localhost:8088/info/req/BOMList
+	@RequestMapping(value = "/req/BOMList", method = RequestMethod.GET)
+	public void BOMList(Model model) throws Exception {
+		List<ReqJoinVO> BOMList = rService.getListAll();
+		model.addAttribute("BOMList", BOMList);
 	}
 	
 }

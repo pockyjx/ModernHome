@@ -32,8 +32,25 @@
 			console.log(oo_id);
 			console.log(oo_num);
 			
-			var urlVal = "?oo_id=" + oo_id + "&oo_num=" + oo_num;
-			opener.location.href += urlVal;
+			var opUrl = opener.location.href;
+			var ooVal = "?oo_id=" + oo_id + "&oo_num=" + oo_num;
+			var lineVal = "";
+			
+			// 부모창의 URL에 oo_id와 oo_num이 있으면 삭제
+			if(opUrl.includes("?oo_id") && opUrl.includes("&oo_num")) {
+				// 부모창 URL에 oo_id, oo_num 뒤에 line 관련 정보가 있으면 저장 후 삭제 
+				if(opUrl.includes("&line_id") && opUrl.includes("&line_num")) {
+					lineVal = "&line_id=" + new URLSearchParams(new URL(opUrl).search).get("line_id") 
+								+ "&line_num=" + new URLSearchParams(new URL(opUrl).search).get("line_num");
+					opUrl = opUrl.replace(/&line_id=[^&]+&line_num=[^&]+/, "");
+				}
+				
+				opUrl = opUrl.replace(/&oo_id=[^&]+&oo_num=[^&]+/, "");
+				opUrl = opUrl.replace(/\?$/, "");			// 끝에 ?가 남은 경우 제거
+			}
+			
+			opUrl += (lineVal == "") ? ooVal : ooVal + lineVal;
+			opener.location.href = opUrl;
 			window.close();
 		});
 	});

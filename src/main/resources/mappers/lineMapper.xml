@@ -16,10 +16,10 @@
 		select * from line
 		<where>
 			<if test="line_num != ''">
-				line_num = #{line_num}
+				AND line_num like CONCAT('%', #{line_num}, '%')
 			</if>
 			<if test="line_name != ''">
-				AND line_name = #{line_name}
+				AND line_name like CONCAT('%', #{line_name}, '%')
 			</if>
 			<if test="use_yn != '전체'">
 				AND use_yn = #{use_yn}
@@ -29,15 +29,27 @@
 	<!-- 라인 목록 검색 -->
 	
 	<!-- 라인 등록 -->
-	<insert id="regLine">	
+	<insert id="regLine">
+		<selectKey keyProperty="line_num" resultType ="String" order="BEFORE">
+		SELECT CONCAT(SUBSTRING(line_num, 1, 2), LPAD(max(line_id) + 1, 4, '0'))
+		FROM line
+		</selectKey>	
 		insert into line(line_num, line_name, use_yn, reg_date, emp_id)
 		values (#{line_num}, #{line_name}, #{use_yn}, #{reg_date}, #{emp_id})
 	</insert>
 	<!-- 라인 등록 -->
 	
+	<!-- 라인 수정 -->
+	<update id="updateLine">
+		UPDATE line 
+		SET line_num = #{line_num}, line_name = #{line_name}, use_yn = #{use_yn}, reg_date = #{reg_date}, emp_id = #{emp_id}
+		WHERE line_num = #{line_num}
+	</update>
+	<!-- 라인 수정 -->
+	
 	<!-- 라인 삭제 -->
 	<delete id="deleteLine">
-		delete from line where emp_id = #{emp_id}
+		delete from line where line_id = #{line_id}
 	</delete>
 	<!-- 라인 삭제 -->
 

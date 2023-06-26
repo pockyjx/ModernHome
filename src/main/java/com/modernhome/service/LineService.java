@@ -15,8 +15,11 @@ public interface LineService {
 	// 라인등록
 	public void regLine(LineVO lvo);
 	
+	// 라인수정
+	public void updateLine(LineVO lvo);
+	
 	// 라인삭제
-	public void deleteLine(int emp_id);
+	public void deleteLine(int line_id);
 	
 
 	

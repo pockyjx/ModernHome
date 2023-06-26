@@ -55,6 +55,6 @@
 		SELECT max(ma_id) from material
 	</select>
 	<!-- 자재 id값 가져오기 -->
-
+	
 	
 </mapper>

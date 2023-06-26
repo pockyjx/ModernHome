@@ -48,25 +48,31 @@
 	
 	<!-- 품질검사(완제품) 목록 조회 -->
 	<select id="getQualityList" resultMap="wijoinRM">
-		SELECT wi.work_num, qc.qc_num, l.line_num, l.line_name, p.pro_num, p.pro_name, e.emp_id, qc.qc_date, qc.qc_cnt, wp.prfrm_cnt, qc.qc_yn
+		SELECT wi.work_num, qc.qc_num, l.line_num, l.line_name, p.pro_num, p.pro_name, e.emp_name, qc.qc_date, qc.qc_cnt, wp.prfrm_cnt, qc.qc_yn
 		FROM quality_checking qc
 		LEFT JOIN work_instr wi ON qc.work_id = wi.work_id 
 		LEFT JOIN line l ON qc.line_id = l.line_id 
 		LEFT JOIN product p ON qc.pro_id = p.pro_id 
-		LEFT JOIN work_prfrm wp ON qc.prfrm_id = wp.prfrm_id 
-		LEFT JOIN employee e ON qc.emp_id = e.emp_id;
+		LEFT JOIN work_prfrm wp ON qc.qc_id = wp.qc_id 
+		LEFT JOIN employee e ON qc.emp_id = e.emp_id
+		WHERE qc.work_id = wi.work_id
 	</select>
 	<!-- 품질검사(완제품) 목록 조회 -->
 	
 	<!-- 품질검사(완제품) 검색 -->
 	<select id="getQualitySearch" resultMap="wijoinRM">
-		SELECT wi.work_num, qc.qc_num, l.line_num, l.line_name, p.pro_num, p.pro_name, e.emp_id, qc.qc_date, qc.qc_cnt, wp.prfrm_cnt, qc.qc_yn
+		SELECT wi.work_num, qc.qc_num, l.line_num, l.line_name, p.pro_num, p.pro_name, e.emp_name, qc.qc_date, qc.qc_cnt, wp.prfrm_cnt, qc.qc_yn,
+		io.io_num,mac.ma_num,mac.ma_name,rec.rec_cnt
 		FROM quality_checking qc
+		LEFT JOIN in_order io ON qc.io_id = io.io_id
+		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
+		LEFT JOIN material mac ON qc.ma_id = mac.ma_id
 		LEFT JOIN work_instr wi ON qc.work_id = wi.work_id 
 		LEFT JOIN line l ON qc.line_id = l.line_id 
 		LEFT JOIN product p ON qc.pro_id = p.pro_id 
-		LEFT JOIN work_prfrm wp ON qc.prfrm_id = wp.prfrm_id 
-		LEFT JOIN employee e ON qc.emp_id = e.emp_id;
+		LEFT JOIN work_prfrm wp ON qc.qc_id = wp.qc_id 
+		LEFT JOIN employee e ON qc.emp_id = e.emp_id
+		
 		
 		<where>
 			<if test="qc_num != ''">
@@ -96,40 +102,49 @@
 	
 	<!-- 품질검사(자재) 목록 조회 -->
 	<select id="getMaterialQualityList" resultMap="wijoinRM">
-		SELECT io.io_num, qc.qc_num, mac.ma_num , mac.ma_name ,e.emp_id, qc.qc_date, qc.qc_cnt, rec.rec_cnt, qc.qc_yn
+		SELECT io.io_num, qc.qc_num, mac.ma_num , mac.ma_name ,e.emp_name, qc.qc_date, qc.qc_cnt, rec.rec_cnt, qc.qc_yn
 		FROM quality_checking qc
 		LEFT JOIN in_order io ON qc.io_id = io.io_id 
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material mac ON qc.ma_id = mac.ma_id
+<!-- 		WHERE qc.io_id  = io.io_id -->
 	</select>
 	<!-- 품질검사(자재) 목록 조회 -->
 	
 	<!-- 품질검사(자재) 검색 -->
-	<select id="getmMaterialQualitySearch" resultMap="wijoinRM">
-		SELECT io.io_num, qc.qc_num, mac.ma_num , mac.ma_name ,e.emp_id, qc.qc_date, qc.qc_cnt, rec.rec_cnt qc.qc_yn
-		FROM quality_checking qc
-		LEFT JOIN in_order io ON qc.io_id = io.io_id 
-		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
-		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
-		LEFT JOIN material mac ON qc.ma_id = mac.ma_id
+<!-- 	<select id="getmMaterialQualitySearch" resultMap="wijoinRM"> -->
+<!-- 		SELECT io.io_num, qc.qc_num, mac.ma_num , mac.ma_name ,e.emp_id, qc.qc_date, qc.qc_cnt, rec.rec_cnt qc.qc_yn -->
+<!-- 		FROM quality_checking qc -->
+<!-- 		LEFT JOIN in_order io ON qc.io_id = io.io_id  -->
+<!-- 		LEFT JOIN employee e ON qc.emp_id = e.emp_id  -->
+<!-- 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id -->
+<!-- 		LEFT JOIN material mac ON qc.ma_id = mac.ma_id -->
 		
-		<where>
-			<if test="qc_num != ''">
-				AND qc_num like CONCAT('%', #{qc_num}, '%')
-			</if>
-			<if test="startDate != ''">
-				AND qc.qc_date &gt;= #{startDate}
-			</if>
-			<if test="endDate != ''">
-				AND #{endDate} &gt;= DATE(qc.qc_date) 
-			</if>
-			<if test="qc_yn != '전체'">
-				AND qc_yn = #{qc_yn}
-			</if>
-		</where>
-	</select>
+<!-- 		<where> -->
+<!-- 			<if test="qc_num != ''"> -->
+<!-- 				AND qc_num like CONCAT('%', #{qc_num}, '%') -->
+<!-- 			</if> -->
+<!-- 			<if test="startDate != ''"> -->
+<!-- 				AND qc.qc_date &gt;= #{startDate} -->
+<!-- 			</if> -->
+<!-- 			<if test="endDate != ''"> -->
+<!-- 				AND #{endDate} &gt;= DATE(qc.qc_date)  -->
+<!-- 			</if> -->
+<!-- 			<if test="qc_yn != '전체'"> -->
+<!-- 				AND qc_yn = #{qc_yn} -->
+<!-- 			</if> -->
+<!-- 		</where> -->
+<!-- 	</select> -->
 	
 	<!-- 품질검사(자재) 검색 -->
+	
+	<!-- 품질검사(자재) 수정 -->
+	<update id="updateMaterialQuality">
+		UPDATE quality_checking
+		SET qc_yn = #{qc_yn}, qc_cnt = #{qc_cnt}
+		WHERE emp_id = #{emp_id}
+	</update>
+	<!-- 품질검사(자재) 수정 -->
 	
 </mapper>
