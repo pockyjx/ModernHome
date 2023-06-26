@@ -1,10 +1,10 @@
-package com.modernhome.persistence;
+package com.modernhome.service;
 
 import java.util.List;
 
 import com.modernhome.domain.WijoinVO;
 
-public interface WorkPrfrmDAO {
+public interface PerformanceService {
 	
 	// 작업지시 목록 중 품질검사가 완료인 목록
 	public List<WijoinVO> getqcEndInstr() throws Exception;
