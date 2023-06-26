@@ -13,7 +13,8 @@ public class OutOrderJoinVO {
 	private String oo_end_date;
 	private String oo_state;
 	private Integer update_emp_id;
-	private String update_oo_date;
+	private String oo_reg_date;
+	private String oo_update_date;
 	
 	private String emp_name;
 	private String clt_num;
@@ -27,6 +28,9 @@ public class OutOrderJoinVO {
 	
 	private String oo_end_date_1;
 	private String oo_end_date_2;
+	
+	
+	
 	public Integer getOo_id() {
 		return oo_id;
 	}
@@ -93,11 +97,17 @@ public class OutOrderJoinVO {
 	public void setUpdate_emp_id(Integer update_emp_id) {
 		this.update_emp_id = update_emp_id;
 	}
-	public String getUpdate_oo_date() {
-		return update_oo_date;
+	public String getOo_reg_date() {
+		return oo_reg_date;
 	}
-	public void setUpdate_oo_date(String update_oo_date) {
-		this.update_oo_date = update_oo_date;
+	public void setOo_reg_date(String oo_reg_date) {
+		this.oo_reg_date = oo_reg_date;
+	}
+	public String getOo_update_date() {
+		return oo_update_date;
+	}
+	public void setOo_update_date(String oo_update_date) {
+		this.oo_update_date = oo_update_date;
 	}
 	public String getEmp_name() {
 		return emp_name;
@@ -158,14 +168,20 @@ public class OutOrderJoinVO {
 		return "OutOrderJoinVO [oo_id=" + oo_id + ", oo_num=" + oo_num + ", emp_id=" + emp_id + ", clt_id=" + clt_id
 				+ ", pro_id=" + pro_id + ", clt_cost=" + clt_cost + ", oo_cnt=" + oo_cnt + ", oo_start_date="
 				+ oo_start_date + ", oo_end_date=" + oo_end_date + ", oo_state=" + oo_state + ", update_emp_id="
-				+ update_emp_id + ", update_oo_date=" + update_oo_date + ", emp_name=" + emp_name + ", clt_num="
-				+ clt_num + ", clt_name=" + clt_name + ", pro_num=" + pro_num + ", pro_name=" + pro_name
-				+ ", oo_start_date_1=" + oo_start_date_1 + ", oo_start_date_2=" + oo_start_date_2 + ", oo_end_date_1="
-				+ oo_end_date_1 + ", oo_end_date_2=" + oo_end_date_2 + "]";
+				+ update_emp_id + ", oo_reg_date=" + oo_reg_date + ", oo_update_date=" + oo_update_date + ", emp_name="
+				+ emp_name + ", clt_num=" + clt_num + ", clt_name=" + clt_name + ", pro_num=" + pro_num + ", pro_name="
+				+ pro_name + ", oo_start_date_1=" + oo_start_date_1 + ", oo_start_date_2=" + oo_start_date_2
+				+ ", oo_end_date_1=" + oo_end_date_1 + ", oo_end_date_2=" + oo_end_date_2 + "]";
 	}
 	
 	
 
+	
+	
+	
+	
+
+	
 	
 	
 	
