@@ -1,6 +1,8 @@
 package com.modernhome.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -58,6 +60,19 @@ public class WorkPrfrmDAOImpl implements WorkPrfrmDAO {
 	public void deletePrfrm(WijoinVO vo) throws Exception {
 		logger.debug("WP DAOImpl_deletePrfrm() 실행");
 		sqlSession.delete(NAMESPACE + ".deletePrfrm", vo);
+	}
+
+	@Override
+	public List<WijoinVO> getPrfrmList(String gb_yn, String work_num, String startDate, String endDate) throws Exception {
+		logger.debug("WP DAOImpl_getPrfrmList(검색) 실행");
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("work_state", gb_yn);
+		parameterMap.put("pro_num", work_num);
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		
+		return sqlSession.selectList(NAMESPACE + ".listSearch", parameterMap);
 	}
 	
 }

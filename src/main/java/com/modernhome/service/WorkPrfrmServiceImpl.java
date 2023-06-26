@@ -44,5 +44,10 @@ public class WorkPrfrmServiceImpl implements WorkPrfrmService {
 	public void deletePrfrm(WijoinVO vo) throws Exception {
 		dao.deletePrfrm(vo);
 	}
+
+	@Override
+	public List<WijoinVO> getPrfrmList(String gb_yn, String work_num, String startdate, String endDate) throws Exception {
+		return dao.getPrfrmList(gb_yn, work_num, startdate, endDate);
+	}
 	
 }

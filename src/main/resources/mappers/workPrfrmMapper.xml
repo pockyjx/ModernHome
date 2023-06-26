@@ -49,7 +49,13 @@
 	<!-- 작업지시 목록 중 품질검사가 완료인 목록만 출력 -->
 	<select id="getqcEndInstr" resultMap="wijoinRM">
 		SELECT qc.qc_id, wi.work_id, work_num, wi.line_id, line_num, wi.pro_id, pro_num, pro_name, oo_num, 
-			oo_end_date, wi.reg_date, wi.update_date, work_cnt, work_state, wi.emp_id, wi.update_emp_id 
+			oo_end_date, wi.reg_date, wi.update_date, work_cnt, work_state, wi.emp_id, wi.update_emp_id, 
+			CASE 
+			WHEN wi.update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = wi.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = wi.update_emp_id)
+        	END AS emp_name 
 		FROM work_instr wi 
 		LEFT JOIN line li ON li.line_id = wi.line_id 
 		LEFT JOIN product pro ON pro.pro_id = wi.pro_id 
@@ -63,7 +69,13 @@
 	<!-- 생산실적 목록 출력 -->
 	<select id="getPrfrmList" resultMap="wijoinRM">
 		SELECT wp.prfrm_id, prfrm_num, wp.work_id, wp.qc_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, wp.reg_date, wp.update_date, gb_yn, prfrm_cnt, work_cnt, 
-			wp.emp_id, wp.update_emp_id, emp_name 
+			wp.emp_id, wp.update_emp_id, 
+			CASE 
+			WHEN wp.update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = wp.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = wp.update_emp_id)
+        	END AS emp_name 
 		FROM work_prfrm wp 
 		LEFT JOIN work_instr wi ON wp.work_id = wi.work_id 
 		LEFT JOIN line li ON wp.line_id = li.line_id 
@@ -71,6 +83,39 @@
 		LEFT JOIN employee emp ON wp.emp_id = emp.emp_id
 	</select>
 	<!-- 생산실적 목록 출력 -->
+	
+	
+	<!-- 생산실적 검색 출력 -->
+<!-- 	<select id="listSearch" resultMap="wijoinRM"> -->
+<!-- 		SELECT wp.prfrm_id, prfrm_num, wp.work_id, wp.qc_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, wp.reg_date, wp.update_date, gb_yn, prfrm_cnt, work_cnt,  -->
+<!-- 			wp.emp_id, wp.update_emp_id,  -->
+<!-- 			CASE  -->
+<!-- 			WHEN wp.update_emp_id IS NULL THEN -->
+<!-- 			(SELECT emp_name FROM employee WHERE emp_id = wp.emp_id) -->
+<!-- 			ELSE -->
+<!-- 			(SELECT emp_name FROM employee WHERE emp_id = wp.update_emp_id) -->
+<!--         	END AS emp_name -->
+<!-- 		FROM work_prfrm wp  -->
+<!-- 		LEFT JOIN work_instr wi ON wp.work_id = wi.work_id  -->
+<!-- 		LEFT JOIN line li ON wp.line_id = li.line_id  -->
+<!-- 		LEFT JOIN product pro ON wp.pro_id = pro.pro_id  -->
+<!-- 		LEFT JOIN employee emp ON wp.emp_id = emp.emp_id -->
+<!-- 		<where> -->
+<!-- 			<if test="gb_yn != ''"> -->
+<!-- 				gb_yn = #{gb_yn} -->
+<!-- 			</if> -->
+<!-- 			<if test="work_num != ''"> -->
+<!-- 				AND wp.work_id = (SELECT wi.work_id FROM work_instr wi WHERE wi.work_num = #{work_num}) -->
+<!-- 			</if> -->
+<!-- 			<if test="startDate != ''"> -->
+<!-- 	        	AND wp.reg_date &gt;= #{startDate} -->
+<!-- 	        </if> -->
+<!-- 	        <if test="endDate != ''"> -->
+<!-- 	        	AND #{endDate} &gt;= DATE(wp.reg_date) -->
+<!-- 	        </if> -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	<!-- 생산실적 검색 출력 -->
 	
 	
 	<!-- 생산실적번호 자동 생성 -->
