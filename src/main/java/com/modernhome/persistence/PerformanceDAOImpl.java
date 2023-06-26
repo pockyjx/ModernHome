@@ -13,10 +13,10 @@ import org.springframework.stereotype.Repository;
 import com.modernhome.domain.WijoinVO;
 
 @Repository
-public class WorkPrfrmDAOImpl implements WorkPrfrmDAO {
+public class PerformanceDAOImpl implements PerformanceDAO {
 	
 	// 로거
-	private static final Logger logger = LoggerFactory.getLogger(WorkPrfrmDAOImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(PerformanceDAOImpl.class);
 
 	// 네임스페이스
 	private static final String NAMESPACE = "com.modernhome.mapper.WorkPrfrmMapper";
