@@ -44,7 +44,7 @@ public class InfoController {
 	// 완제품 목록
 	// http://localhost:8088/info/item/productList
 	@RequestMapping(value = "/item/productList", method = RequestMethod.GET)
-	public void productListGET(Model model, ProductVO vo /* PageVO pvo */) throws Exception {
+	public void productListGET(Model model, ProductVO vo, PageVO pvo) throws Exception {
 		logger.debug("productListGET() 호출!");
 		
 		List<ProductVO> productList;
@@ -61,14 +61,14 @@ public class InfoController {
 			
 			
 		} else { 
-//			productList = iService.getProListPage(pvo);
-			productList = iService.getProductList();
+			productList = iService.getProListPage(pvo);
+//			productList = iService.getProductList();
 			model.addAttribute("productList", productList);
 			
-//			pm.setPageVO(pvo);
-//			pm.setTotalCount(iService.getTotalCntPro());
+			pm.setPageVO(pvo);
+			pm.setTotalCount(iService.getTotalCntPro());
 			
-//			model.addAttribute("pm", pm);
+			model.addAttribute("pm", pm);
 		}
 		
 	}
