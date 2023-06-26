@@ -5,6 +5,5 @@
 <%@ include file="inc/nav.jsp"%>
 
 <h1>Main</h1>
-사번 : ${emp_id }
 <%@ include file="inc/footer.jsp"%>
 

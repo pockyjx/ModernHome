@@ -1,23 +1,23 @@
 package com.modernhome.domain;
 
+/**
+ * @author jinwoo
+ *
+ */
 public class ProductReleaseVO {
-	
-	private Integer pr_id;
+	private int pr_id;
 	private String pr_num;
-	private Integer pro_id;
-	private Integer oo_id;
-	private Integer wh_id;
-	private Integer pr_cnt;
+	private int oo_id;
+	private int wh_id;
+	private int pr_cnt;
 	private String pr_date;
 	private String pr_state;
-	private Integer emp_id;
+	private int emp_id;
 	
-	private ProductVO productVO;
-	private ProductStockVO productStockVO;
-	private WarehouseVO warehouseVO;
-	private EmployeeVO employeeVO;
 	private OutOrderVO outOrderVO;
 	private ClientVO clientVO;
+	private WarehouseVO warehouseVO;
+	private ProductStockVO productStockVO;
 	
 	public int getPr_id() {
 		return pr_id;
@@ -30,12 +30,6 @@ public class ProductReleaseVO {
 	}
 	public void setPr_num(String pr_num) {
 		this.pr_num = pr_num;
-	}
-	public int getPro_id() {
-		return pro_id;
-	}
-	public void setPro_id(int pro_id) {
-		this.pro_id = pro_id;
 	}
 	public int getOo_id() {
 		return oo_id;
@@ -73,30 +67,6 @@ public class ProductReleaseVO {
 	public void setEmp_id(int emp_id) {
 		this.emp_id = emp_id;
 	}
-	public ProductVO getProductVO() {
-		return productVO;
-	}
-	public void setProductVO(ProductVO productVO) {
-		this.productVO = productVO;
-	}
-	public ProductStockVO getProductStockVO() {
-		return productStockVO;
-	}
-	public void setProductStockVO(ProductStockVO productStockVO) {
-		this.productStockVO = productStockVO;
-	}
-	public WarehouseVO getWarehouseVO() {
-		return warehouseVO;
-	}
-	public void setWarehouseVO(WarehouseVO warehouseVO) {
-		this.warehouseVO = warehouseVO;
-	}
-	public EmployeeVO getEmployeeVO() {
-		return employeeVO;
-	}
-	public void setEmployeeVO(EmployeeVO employeeVO) {
-		this.employeeVO = employeeVO;
-	}
 	public OutOrderVO getOutOrderVO() {
 		return outOrderVO;
 	}
@@ -109,14 +79,27 @@ public class ProductReleaseVO {
 	public void setClientVO(ClientVO clientVO) {
 		this.clientVO = clientVO;
 	}
-	@Override
-	public String toString() {
-		return "ProductReleaseVO [pr_id=" + pr_id + ", pr_num=" + pr_num + ", pro_id=" + pro_id + ", oo_id=" + oo_id
-				+ ", wh_id=" + wh_id + ", pr_cnt=" + pr_cnt + ", pr_date=" + pr_date + ", pr_state=" + pr_state
-				+ ", emp_id=" + emp_id + ", productVO=" + productVO + ", productStockVO=" + productStockVO
-				+ ", warehouseVO=" + warehouseVO + ", employeeVO=" + employeeVO + ", outOrderVO=" + outOrderVO
-				+ ", clientVO=" + clientVO + "]";
+	public WarehouseVO getWarehouseVO() {
+		return warehouseVO;
+	}
+	public void setWarehouseVO(WarehouseVO warehouseVO) {
+		this.warehouseVO = warehouseVO;
+	}
+	public ProductStockVO getProductStockVO() {
+		return productStockVO;
+	}
+	public void setProductStockVO(ProductStockVO productStockVO) {
+		this.productStockVO = productStockVO;
 	}
 	
+	@Override
+	public String toString() {
+		return "ProductReleaseVO [pr_id=" + pr_id + ", pr_num=" + pr_num + ", oo_id=" + oo_id + ", wh_id=" + wh_id
+				+ ", pr_cnt=" + pr_cnt + ", pr_date=" + pr_date + ", pr_state=" + pr_state + ", emp_id=" + emp_id
+				+ ", outOrderVO=" + outOrderVO + ", clientVO=" + clientVO + ", warehouseVO=" + warehouseVO
+				+ ", productStockVO=" + productStockVO + "]";
+	}
 
+	
+	
 }
