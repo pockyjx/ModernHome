@@ -48,23 +48,34 @@
 	
 	<!-- 작업지시 목록 중 품질검사가 완료인 목록만 출력 -->
 	<select id="getqcEndInstr" resultMap="wijoinRM">
-		SELECT wp.prfrm_id, prfrm_num, wp.qc_id, wp.work_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, oo_num, 
-			oo_end_date, wi.reg_date, wi.update_date, prfrm_cnt, work_cnt, work_state, wi.emp_id, wi.update_emp_id 
-		FROM work_prfrm wp 
-		LEFT JOIN work_instr wi ON wi.work_id = wp.work_id 
-		LEFT JOIN line li ON li.line_id = wp.line_id 
-		LEFT JOIN product pro ON pro.pro_id = wp.pro_id 
-		LEFT JOIN quality_checking qc ON qc.qc_id = wp.qc_id 
-		LEFT JOIN out_order oo ON oo.oo_id = wi.oo_id  
-		WHERE qc.qc_yn = '완료';
+		SELECT qc.qc_id, wi.work_id, work_num, wi.line_id, line_num, wi.pro_id, pro_num, pro_name, oo_num, 
+			oo_end_date, wi.reg_date, wi.update_date, work_cnt, work_state, wi.emp_id, wi.update_emp_id, 
+			CASE 
+			WHEN wi.update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = wi.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = wi.update_emp_id)
+        	END AS emp_name 
+		FROM work_instr wi 
+		LEFT JOIN line li ON li.line_id = wi.line_id 
+		LEFT JOIN product pro ON pro.pro_id = wi.pro_id 
+		LEFT JOIN quality_checking qc ON qc.work_id = wi.work_id 
+		LEFT JOIN out_order oo ON oo.oo_id = wi.oo_id 
+		WHERE qc_yn = '완료'
 	</select>
 	<!-- 작업지시 목록 중 품질검사가 완료인 목록만 출력 -->
 	
 	
 	<!-- 생산실적 목록 출력 -->
 	<select id="getPrfrmList" resultMap="wijoinRM">
-		SELECT prfrm_num, wp.work_id, wp.qc_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, wp.reg_date, wp.update_date, gb_yn, prfrm_cnt, work_cnt, 
-			wp.emp_id, wp.update_emp_id, emp_name 
+		SELECT wp.prfrm_id, prfrm_num, wp.work_id, wp.qc_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, wp.reg_date, wp.update_date, gb_yn, prfrm_cnt, work_cnt, 
+			wp.emp_id, wp.update_emp_id, 
+			CASE 
+			WHEN wp.update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = wp.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = wp.update_emp_id)
+        	END AS emp_name 
 		FROM work_prfrm wp 
 		LEFT JOIN work_instr wi ON wp.work_id = wi.work_id 
 		LEFT JOIN line li ON wp.line_id = li.line_id 
@@ -74,17 +85,76 @@
 	<!-- 생산실적 목록 출력 -->
 	
 	
+	<!-- 생산실적 검색 출력 -->
+<!-- 	<select id="listSearch" resultMap="wijoinRM"> -->
+<!-- 		SELECT wp.prfrm_id, prfrm_num, wp.work_id, wp.qc_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, wp.reg_date, wp.update_date, gb_yn, prfrm_cnt, work_cnt,  -->
+<!-- 			wp.emp_id, wp.update_emp_id,  -->
+<!-- 			CASE  -->
+<!-- 			WHEN wp.update_emp_id IS NULL THEN -->
+<!-- 			(SELECT emp_name FROM employee WHERE emp_id = wp.emp_id) -->
+<!-- 			ELSE -->
+<!-- 			(SELECT emp_name FROM employee WHERE emp_id = wp.update_emp_id) -->
+<!--         	END AS emp_name -->
+<!-- 		FROM work_prfrm wp  -->
+<!-- 		LEFT JOIN work_instr wi ON wp.work_id = wi.work_id  -->
+<!-- 		LEFT JOIN line li ON wp.line_id = li.line_id  -->
+<!-- 		LEFT JOIN product pro ON wp.pro_id = pro.pro_id  -->
+<!-- 		LEFT JOIN employee emp ON wp.emp_id = emp.emp_id -->
+<!-- 		<where> -->
+<!-- 			<if test="gb_yn != ''"> -->
+<!-- 				gb_yn = #{gb_yn} -->
+<!-- 			</if> -->
+<!-- 			<if test="work_num != ''"> -->
+<!-- 				AND wp.work_id = (SELECT wi.work_id FROM work_instr wi WHERE wi.work_num = #{work_num}) -->
+<!-- 			</if> -->
+<!-- 			<if test="startDate != ''"> -->
+<!-- 	        	AND wp.reg_date &gt;= #{startDate} -->
+<!-- 	        </if> -->
+<!-- 	        <if test="endDate != ''"> -->
+<!-- 	        	AND #{endDate} &gt;= DATE(wp.reg_date) -->
+<!-- 	        </if> -->
+<!-- 		</where> -->
+<!-- 	</select> -->
+	<!-- 생산실적 검색 출력 -->
+	
+	
 	<!-- 생산실적번호 자동 생성 -->
 	<select id="createPrfrmNum" resultType="string">
-		SELECT concat('WP', lpad((SELECT prfrm_id FROM work_prfrm ORDER BY prfrm_id DESC LIMIT 1) + 1, 4, 0)) 
-		AS prfrm_num FROM work_prfrm 
-		ORDER BY prfrm_id DESC LIMIT 1;
+		SELECT concat('WP', lpad(ifnull(max(prfrm_id), 0) + 1, 4, 0)) AS prfrm_num FROM work_prfrm
 	</select>
 	<!-- 생산실적번호 자동 생성 -->
 	
 	
 	<!-- 생산실적 추가 저장 -->
-	
+	<insert id="addPrfrm" parameterType="WijoinVO">
+		<selectKey keyProperty="prfrm_id,work_id,qc_id,line_id,pro_id" resultType="WijoinVO" order="BEFORE">
+			SELECT wi.work_id, wi.work_num, wi.line_id, wi.pro_id, 
+				qc.qc_id, (SELECT ifnull(max(prfrm_id), 0) + 1 AS prfrm_id FROM work_prfrm) AS prfrm_id 
+			FROM work_instr wi 
+			LEFT JOIN work_prfrm wp ON wi.work_id = wp.work_id 
+			LEFT JOIN quality_checking qc ON qc.work_id = wi.work_id 
+			WHERE wi.work_num = #{work_num}
+		</selectKey>
+		
+		INSERT INTO work_prfrm (prfrm_id, prfrm_num, work_id, qc_id, line_id, pro_id, gb_yn, prfrm_cnt, emp_id) 
+		VALUES (#{prfrm_id}, #{prfrm_num}, #{work_id}, #{qc_id}, #{line_id}, #{pro_id}, #{gb_yn}, #{prfrm_cnt}, #{emp_id})
+	</insert>
 	<!-- 생산실적 추가 저장 -->
+	
+	
+	<!-- 생산실적 수정 저장 -->
+	<update id="modifyPrfrm" parameterType="WijoinVO">
+		UPDATE work_prfrm SET gb_yn = #{gb_yn}, prfrm_cnt = #{prfrm_cnt}, 
+			update_date = now(), update_emp_id = #{emp_id} 
+		WHERE prfrm_id = #{prfrm_id}
+	</update>
+	<!-- 생산실적 수정 저장 -->
+	
+	
+	<!-- 생산실적 삭제 -->
+	<delete id="deletePrfrm">
+		DELETE FROM work_prfrm WHERE prfrm_id = #{prfrm_id}
+	</delete>
+	<!-- 생산실적 삭제 -->
 
 </mapper>

@@ -189,10 +189,7 @@
 				<td>${list.work_cnt}</td>
 				<td>${list.oo_num}</td>
 				<td>${list.oo_end_date}</td>
-				<td>
-					<c:if test="${!empty list.update_emp_id}">${list.emp_name}</c:if>
-					<c:if test="${empty list.update_emp_id}">${list.emp_name}</c:if>
-				</td>
+				<td>${list.emp_name}</td>
 			</tr>
 		</c:forEach>
 	</table>
