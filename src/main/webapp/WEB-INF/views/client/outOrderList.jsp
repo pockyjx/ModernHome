@@ -20,6 +20,8 @@
 var pageStatus = "";
 
 $(document).ready(function() {
+	
+	updateSelectedCheckboxCount();
 
 	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
 	$(".table-outOrderList th input[type='checkbox']").click(function() {
@@ -41,33 +43,47 @@ $(document).ready(function() {
 				}
 			}
 		});
-	});
+		
+		updateSelectedCheckboxCount();
+		
+	}); // 배경색지정
 	
 	// <td> 쪽 체크박스 클릭 시 행 선택
 	$(".table-outOrderList td input[type='checkbox']").click(function() {
 		var checkbox = $(this);
 		var isChecked = checkbox.prop('checked');
 		checkbox.closest('tr').toggleClass('selected', isChecked);
+		
+		updateSelectedCheckboxCount();
+		
 	});
 	
 	// ------------------ 체크박스
 	
 	
 	
-		// 추가 버튼 클릭 시 행 추가
+	// 추가 버튼 클릭 시 행 추가
 	// 추가버튼 1번 누르면 추가버튼 비활성화
 	$("#addRowButton").click(function() {
+		
+		// 모든 체크박스의 체크 해제
+		$(".table-outOrderList input[type='checkbox']").prop("checked", false);
+		
+		// selected 클래스를 없앰 (css 없애기)
+		$(".table-outOrderList tr").removeClass("selected");
+		
+		
 		var newRow = '<tr>' +
 		'<td><input type="checkbox"></td>' +
 		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
 
 		'<td><input type="text" name="emp_id" value="' + '${sessionScope.emp_id}' + '" readonly></td>' +
-		'<td><input type="text" name="clt_num" id="clt_num" readonly></td>' +
+		'<td><input type="text" name="clt_num" id="clt_num" required></td>' +
 		'<td><input type="text" name="clt_name" id="clt_name" readonly placeholder="거래처코드를 선택해주세요"></td>' +
-		'<td><input type="text" name="pro_num" id="pro_num" readonly></td>' +
+		'<td><input type="text" name="pro_num" id="pro_num" required></td>' +
 		'<td><input type="text" name="pro_name" id="pro_name" readonly placeholder="완제품코드를 선택해주세요"></td>' +
-		'<td><input type="text" name="oo_cnt" value=0></td>' +
-		'<td><input type="date" name="oo_start_date"></td>' +
+		'<td><input type="number" name="oo_cnt" required></td>' +
+		'<td><input type="date" name="oo_start_date" required></td>' +
 		'<td><input type="date" name="oo_end_date"></td>' +
 		'<td>' +
 		'<select name="oo_state">' +
@@ -91,18 +107,10 @@ $(document).ready(function() {
 		
 		pageStatus = "reg";
 		
+		updateSelectedCheckboxCount();
+		
 	}); // 여기까지 추가 버튼
 	
-	
-	// 거래처 코드 입력란 클릭 시 팝업창 열기
-	$(document).on("click", "input[name='clt_num']", function() {
-		window.open('/client/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-	});
-
-	// 완제품 코드 입력란 클릭 시 팝업창 열기
-	$(document).on("click", "input[name='pro_num']", function() {
-		window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-	});
 	
 	
     
@@ -178,8 +186,9 @@ $(document).ready(function() {
 			});
 		} // if(update)문
 	
+		updateSelectedCheckboxCount();
+		
 	}); // 취소버튼
-	
 	
 	
 	
@@ -214,9 +223,9 @@ $(document).ready(function() {
 				//
 				var cellValue = $(this).text();
 				var cellType = [7, 8].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
-				var cellReadonly = [0, 1, 2, 4, 7].includes(index) ? "readonly='readonly'" : "";
+				var cellReadonly = [0, 1, 2, 4].includes(index) ? "readonly='readonly'" : "";
 				var cellName = cellNames[index];
-				var cellDisabled = [2, 3, 4, 5].includes(index)? "disabled" : "";
+				var cellDisabled = [2, 3, 4, 5, 10].includes(index)? "disabled" : "";
 				var cellContent;
 				
 				if (index === 9){
@@ -261,6 +270,7 @@ $(document).ready(function() {
 	});
 	
 	
+	// 삭제버튼
 	$("#deleteButton").click(function(){
 		
 		var selectedCheckbox = $("input[name='selected']:checked");
@@ -275,7 +285,30 @@ $(document).ready(function() {
 		
 	});
 	
+	// 체크박스 선택 시 체크박스 개수 구하기
+	function updateSelectedCheckboxCount() {
+		var totalCheckboxes = $(".table-outOrderList td input[type='checkbox']").length;
+		var selectedCheckboxes = $(".table-outOrderList td input[type='checkbox']:checked").length;
+		$("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+	}
 	
+	
+	
+	// 저장버튼 유효성
+	
+	
+	
+	
+	// ------------- 팝업창
+	// 거래처 코드 입력란 클릭 시 팝업창 열기
+	$(document).on("click focus", "input[name='clt_num']", function() {
+		window.open('/client/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	});
+
+	// 완제품 코드 입력란 클릭 시 팝업창 열기
+	$(document).on("click focus", "input[name='pro_num']", function() {
+		window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	});
 	
 	
 }); //jQuery
@@ -327,11 +360,13 @@ $(document).ready(function() {
 	
 	<form id="outOrderList">
 	
+	<span id="selectedCheckboxCount">0</span>
+	
 	<input type="hidden" name="pro_id" id="pro_id">
 	<input type="hidden" name="clt_id" id="clt_id">
 	
 	
-<%-- 	<c:if test="${sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2 || sessionScope.emp_auth == 3}"> --%>
+	<c:if test="${sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 'Y'}">
 	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
@@ -339,7 +374,7 @@ $(document).ready(function() {
 	<i class="fa fa-trash"></i> 삭제</button>
 	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regOutOrder" formmethod="post" disabled>
 	<i class="fa fa-download"></i> 저장</button>
-<%-- 	</c:if> --%>
+	</c:if>
 	
 	
 	<table class="table-outOrderList" border="1">
@@ -355,6 +390,7 @@ $(document).ready(function() {
 	    	<th>수주일자</th>
 	    	<th>출하예정일자</th>
 	    	<th>진행상황</th>
+	    	<th>등록일</th>
 		</tr>
 	  	<c:forEach var="outOrderList" items="${outOrderList }">
 		<tr>
@@ -371,6 +407,7 @@ $(document).ready(function() {
 			<td>${fn:substring(outOrderList.oo_start_date, 0, 10)}</td>
 			<td>${fn:substring(outOrderList.oo_end_date, 0, 10)}</td>
 			<td>${outOrderList.oo_state}</td>
+			<td>${fn:substring(outOrderList.oo_reg_date, 0, 10)}</td>
 		</tr>
 		</c:forEach>
 	</table>

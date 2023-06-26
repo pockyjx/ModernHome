@@ -16,7 +16,7 @@ public class EmployeeVO {
 	
 	private String emp_dept;
 	private String emp_rank;
-	private Integer emp_auth;
+	private String emp_auth;
 	private String emp_state;
 	private String emp_tel;
 	private String emp_email;
@@ -84,11 +84,11 @@ public class EmployeeVO {
 		this.emp_rank = emp_rank;
 	}
 
-	public Integer getEmp_auth() {
+	public String getEmp_auth() {
 		return emp_auth;
 	}
 
-	public void setEmp_auth(Integer emp_auth) {
+	public void setEmp_auth(String emp_auth) {
 		this.emp_auth = emp_auth;
 	}
 
@@ -165,7 +165,9 @@ public class EmployeeVO {
 				+ ", emp_start_leave_date=" + emp_start_leave_date + ", emp_end_leave_date=" + emp_end_leave_date
 				+ ", emp_pic=" + emp_pic + "]";
 	}
+
 	
+
 
 	
 	// 로컬데이터타임 데이터 타입을 yyyy-MM-DD 형태로 값을 저장하기 위함, DB에 넣을 때 사용, 혹시나 해서 일단 남겨둠

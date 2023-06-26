@@ -11,17 +11,23 @@
 <script>
 	$(document).ready(function() {
 		
+		opener.document.getElementById("pro_num").blur(); // 커서 포커스 제거
+		
 		$("tr").click(function() {
-	      var pro_id = $(this).find("td:eq(0)").text();
-	      var pro_num = $(this).find("td:eq(1)").text();
-	      var pro_name = $(this).find("td:eq(2)").text();
-			
-	      opener.document.getElementById("pro_id").value = pro_id;
-	      opener.document.getElementById("pro_num").value = pro_num;
-	      opener.document.getElementById("pro_name").value = pro_name;
-	      
-	      window.close();
-	      
+		var pro_id = $(this).find("td:eq(0)").text();
+		var pro_num = $(this).find("td:eq(1)").text();
+		var pro_name = $(this).find("td:eq(2)").text();
+		
+		opener.document.getElementById("pro_id").value = pro_id;
+		
+		opener.document.getElementById("pro_num").value = pro_num;
+		opener.document.getElementById("pro_num").removeAttribute("required");
+		opener.document.getElementById("pro_num").readOnly = true;
+		
+		opener.document.getElementById("pro_name").value = pro_name;
+		
+		window.close();
+
 		});
 	});
 </script>
