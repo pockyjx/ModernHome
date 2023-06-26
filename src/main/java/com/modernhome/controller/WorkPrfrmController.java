@@ -34,7 +34,7 @@ public class WorkPrfrmController {
 	// 생산실적 목록 출력 (+ 검색)
 	@RequestMapping(value = "/list")
 	public void getPrfrmList(Model model, WijoinVO wjvo, 
-			@ModelAttribute("gb_yn") String gb_yn, @ModelAttribute("work_num") String work_num, 
+			@ModelAttribute(value = "gb_yn") String gb_yn, @ModelAttribute(value = "work_num") String work_num, 
 			@ModelAttribute(value = "startDate") String startDate, @ModelAttribute(value = "endDate") String endDate) 
 					throws Exception {
 		logger.debug("getPrfrmList() 호출");
@@ -44,13 +44,13 @@ public class WorkPrfrmController {
 		
 		// 생산실적 목록
 		List<WijoinVO> wpList = null;
-//		if(gb_yn != null || work_num != null || !startDate.isEmpty() || !endDate.isEmpty()) {
-//			logger.debug("검색어 O, 검색된 데이터만 출력");
-//			wpList = wpService.getPrfrmList(gb_yn, work_num, startDate, endDate);
-//		}else {
+		if(gb_yn != null || work_num != null || !startDate.isEmpty() || !endDate.isEmpty()) {
+			logger.debug("검색어 O, 검색된 데이터만 출력");
+			wpList = wpService.getPrfrmList(gb_yn, work_num, startDate, endDate);
+		} else {
 			logger.debug("검색어 X, 전체 데이터 출력");
 			wpList = wpService.getPrfrmList();
-//		}
+		}
 		
 		// 생산실적번호 자동 생성
 		String prfrmNum =  wpService.createPrfrmNum();

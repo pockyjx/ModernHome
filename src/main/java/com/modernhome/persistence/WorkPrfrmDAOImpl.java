@@ -67,8 +67,8 @@ public class WorkPrfrmDAOImpl implements WorkPrfrmDAO {
 		logger.debug("WP DAOImpl_getPrfrmList(검색) 실행");
 		
 		Map<String, Object> parameterMap = new HashMap<>();
-		parameterMap.put("work_state", gb_yn);
-		parameterMap.put("pro_num", work_num);
+		parameterMap.put("gb_yn", gb_yn);
+		parameterMap.put("work_num", work_num);
 		parameterMap.put("startDate", startDate);
 		parameterMap.put("endDate", endDate);
 		
