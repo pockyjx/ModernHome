@@ -94,20 +94,19 @@ $(document).ready(function() {
 	}); // 여기까지 추가 버튼
 	
 	
-    // 거래처 코드 입력란 클릭 시 팝업창 열기
-    $(document).on("click", "input[name='clt_num']", function() {
- 	   window.open('/client/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-    });
-    
-    // 완제품 코드 입력란 클릭 시 팝업창 열기
-    $(document).on("click", "input[name='pro_num']", function() {
- 	   window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-    });
+	// 거래처 코드 입력란 클릭 시 팝업창 열기
+	$(document).on("click", "input[name='clt_num']", function() {
+		window.open('/client/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	});
+
+	// 완제품 코드 입력란 클릭 시 팝업창 열기
+	$(document).on("click", "input[name='pro_num']", function() {
+		window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	});
 	
 	
     
-    
-    // 취소버튼
+	// 취소버튼
 	$("#cancleButton").click(function(){
 	
 		// 등록버튼 취소
@@ -146,7 +145,10 @@ $(document).ready(function() {
 			
 			// 각 셀의 값을 원래 상태로 되돌림
 			row.find("td:not(:first-child)").each(function(index) {
-				var cellValue = $(this).find("input").val();
+				
+				var cellValue = $(this).data('prevValue'); // 수정 전의 기존값을 가져옴
+				
+				
 				if ($(this).find("select").length) {
 					// <select>가 있는 경우 선택된 옵션의 텍스트로 변경
 					var selectedOptionText = $(this).find("select option:selected").text();
@@ -231,6 +233,11 @@ $(document).ready(function() {
 					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="'
 					+ cellValue + '"' + cellReadonly + ' ' + cellDisabled + '></td>';
 				}
+				
+				
+				// 기존 값을 임시 변수에 저장 -> 수정 후 취소버튼 시 담당자 칸에 세션값이 나오는 문제 해결위해
+				$(this).data('prevValue', cellValue);
+				
 				
 				$(this).html(cellContent);
 				
