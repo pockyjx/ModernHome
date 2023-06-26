@@ -80,10 +80,11 @@ public class InfoController {
 	// 자재 목록
 	// http://localhost:8088/info/item/materialList
 	@RequestMapping(value = "/item/materialList", method = RequestMethod.GET)
-	public void materialListGET(Model model, MaterialVO vo) {
+	public void materialListGET(Model model, MaterialVO vo, PageVO pvo) throws Exception {
 		logger.debug("materialList() 호출!");
 		
 		List<MaterialVO> materialList;
+		PageMaker pm = new PageMaker();
 		
 		logger.debug(vo + "");
 		
@@ -93,8 +94,14 @@ public class InfoController {
 			model.addAttribute("materialList", materialList);
 		} else {
 			
-			materialList = iService.getMaterialList();
+			materialList = iService.getMaterialList(pvo);
 			model.addAttribute("materialList", materialList);
+			
+			pm.setPageVO(pvo);
+			pm.setTotalCount(iService.getTotalCntMate());
+			
+			model.addAttribute("pm", pm);
+			
 		}
 		
 	}
@@ -205,23 +212,38 @@ public class InfoController {
 	// 소요량 등록 시 팝업
 	@RequestMapping(value = "/req/addPopup", method = RequestMethod.GET )
 	public String popUpGET(Model model, @ModelAttribute("txt") String txt, 
-							ProductVO pvo, MaterialVO mvo) throws Exception {
+							ProductVO prvo, MaterialVO mvo, PageVO pvo) throws Exception {
+		
+		PageMaker pm = new PageMaker();
 		
 		if(txt.equals("pro")) { // 완제품 목록 팝업
 			
 			List<ProductVO> popUpPro;
 			
-			if(pvo.getPro_name() != null) { // 완제품 팝업창에서 검색했을 때 - 페이징 오류 때문에 잠시 보류,,
+			if(prvo.getPro_name() != null) { // 완제품 팝업창에서 검색했을 때
 				
 				logger.debug("완제품 팝업(검색) 호출!");
-//				popUpPro = iService.getProductList(vo, pvo);
-//				model.addAttribute("popUpPro", popUpPro);
+				popUpPro = iService.getProductList(prvo, pvo); // 기존 페이징 적용된 검색 메서드 사용!
+				model.addAttribute("popUpPro", popUpPro);
+				
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getProSearchCnt(prvo));
+				model.addAttribute("pm", pm);
+				
+				model.addAttribute("productVO", prvo);
+				
+				
 				
 			}else { // 완제품 팝업 처음 실행했을 때
 				
 				logger.debug("완제품 팝업 호출!");
-				popUpPro = iService.getProductList();
+				popUpPro = iService.getProListPage(pvo); // 기존 페이징 적용된 검색 메서드 사용!
 				model.addAttribute("popUpPro", popUpPro);
+				
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getTotalCntPro());
+				
+				model.addAttribute("pm", pm);
 				
 			}
 			
@@ -240,9 +262,13 @@ public class InfoController {
 			}else { // 자재 팝업 처음 실행했을 때
 				
 				logger.debug("자재 팝업 호출!");
-				popUpMate = iService.getMaterialList();
+				popUpMate = iService.getMaterialList(pvo);
 				model.addAttribute("popUpMate", popUpMate);
 				
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getTotalCntMate());
+				
+				model.addAttribute("pm", pm);
 			}
 			
 			return "/info/req/popUpMaterial";

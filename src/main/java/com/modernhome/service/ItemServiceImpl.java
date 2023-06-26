@@ -27,7 +27,6 @@ public class ItemServiceImpl implements ItemService {
 		return pdao.getProductList();
 	}
 
-
 	// 완제품 검색 결과
 	@Override
 	public List<ProductVO> getProductList(ProductVO vo, PageVO pvo) {
@@ -79,22 +78,24 @@ public class ItemServiceImpl implements ItemService {
 	
 	/////////////////////////////////////////////////////////////////////////
 	
-	// 자재 목록
+	// 자재 목록 (페이징)
 	@Override
-	public List<MaterialVO> getMaterialList() {
-		return mdao.getMaterialList();
+	public List<MaterialVO> getMaterialList(PageVO vo) {
+		return mdao.getMaterialList(vo);
 	}
-
-
-
-
-
-
+	
+	// 자재 개수
+	@Override
+	public int getTotalCntMate() throws Exception {
+		return mdao.getTotalCntMate();
+	}
+	
 	// 자재 검색 결과
 	@Override
 	public List<MaterialVO> getMaterialList(MaterialVO vo) {
 		return mdao.getMaterialList(vo);
 	}
+
 
 	// 자재 등록
 	@Override

@@ -50,6 +50,12 @@
 					// 두번째 tr (추가된 행)을 삭제함
 					$(".table-mateList tr:nth-child(2)").remove();
 					
+					// 모든 체크박스의 체크 해제
+					$(".table-mateList input[type='checkbox']").prop("checked", false);
+					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-mateList tr").removeClass("selected");
+					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
@@ -92,6 +98,8 @@
 					});
 				
 				}
+				
+				updateSelectedCheckboxCount();
 			
 			});
          

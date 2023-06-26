@@ -53,6 +53,12 @@
 					// 두번째 tr (추가된 행)을 삭제함
 					$(".table-proList tr:nth-child(2)").remove();
 					
+					// 모든 체크박스의 체크 해제
+					$(".table-proList input[type='checkbox']").prop("checked", false);
+					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-proList tr").removeClass("selected");
+					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
@@ -97,6 +103,8 @@
 				
 				}
 			
+				updateSelectedCheckboxCount();
+				
 			});
             
          	// 수정 버튼 누를 시
@@ -215,8 +223,8 @@
 	<fieldset>
 		<form action="" method="GET">
 
-			<label><b>완제품코드</b> <input type="text" name="pro_num"></label>
-			<label><b>완제품명</b> <input type="text" name="pro_name"></label>
+			<label><b>완제품코드</b> <input type="text" name="pro_num" value="${productVO.pro_num }"></label>
+			<label><b>완제품명</b> <input type="text" name="pro_name" value="${productVO.pro_name }"></label>
 
 			<input type="submit" value="조회">
 		</form>
@@ -269,12 +277,14 @@
 	
 	</form>
 	
+	<!-- 페이지 이동 버튼 -->
+	
 	<nav aria-label="Page navigation example">
   		<ul class="pagination justify-content-center pagination-sm">
   		
   			<c:if test="${pm.prev }">
 			<li class="page-item">
-				<a class="page-link" href="/info/item/productList?page=${pm.startPage-1 }" aria-label="Previous">
+				<a class="page-link" href="/info/item/productList?page=${pm.startPage-1 }&pro_num=${productVO.pro_num}&pro_name=${productVO.pro_name}" aria-label="Previous">
        			<span aria-hidden="true">&laquo;</span>
       			</a>
     		</li>
@@ -284,24 +294,13 @@
     		<li 
     			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
     		>
-    			
-    			<c:choose>
-    			
-    				<c:when test="${productVO.pro_name != '' && productVO.pro_name != '' }">
-    					<a class="page-link" href="/info/item/productList?page=${idx}&pro_num=${productVO.pro_num}&pro_name=${productVO.pro_name}">${idx }</a>
-					</c:when>   
-					
-					<c:otherwise>
-						<a class="page-link" href="/info/item/productList?page=${idx}">${idx }</a>
-					</c:otherwise>
-					 			
-    			</c:choose>
+    				<a class="page-link" href="/info/item/productList?page=${idx}&pro_num=${productVO.pro_num}&pro_name=${productVO.pro_name}">${idx }</a>
     		</li>
     		</c:forEach>
 			
 			<c:if test="${pm.next && pm.endPage > 0}">
 			<li class="page-item">
-      			<a class="page-link" href="/info/item/productList?page=${pm.endPage+1 }" aria-label="Next">
+      			<a class="page-link" href="/info/item/productList?page=${pm.endPage+1 }&pro_num=${productVO.pro_num}&pro_name=${productVO.pro_name}" aria-label="Next">
         		<span aria-hidden="true">&raquo;</span>
       			</a>
     		</li>
@@ -309,6 +308,8 @@
     		
   		</ul>
 	</nav>
+	
+	<!-- 페이지 이동 버튼 -->
 	
 </body>
 </html>

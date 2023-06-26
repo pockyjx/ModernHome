@@ -3,12 +3,16 @@ package com.modernhome.persistence;
 import java.util.List;
 
 import com.modernhome.domain.MaterialVO;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductVO;
 
 public interface MaterialDAO {
 
-	// 자재 목록 조회
-	public List<MaterialVO> getMaterialList();
+	// 자재 목록 조회 (페이징)
+	public List<MaterialVO> getMaterialList(PageVO vo);
+	
+	// 총 글 수 계산
+	public int getTotalCntMate() throws Exception;
 	
 	// 자재 검색 결과 
 	public List<MaterialVO> getMaterialList(MaterialVO vo);

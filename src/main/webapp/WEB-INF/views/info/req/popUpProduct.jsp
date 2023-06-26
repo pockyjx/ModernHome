@@ -48,11 +48,10 @@
 		<input type="hidden" name="txt" value="pro">
 		<input type="hidden" name="pro_num" value="">
 		
-		<input type="text" placeholder="완제품명을 입력하세요." name="pro_name">
+		<input type="text" placeholder="완제품명을 입력하세요." name="pro_name" value="${productVO.pro_name}">
 		<input type="submit" value="검색">
 	</form>	
 
-	
 	<table border="1">
 	
 		<tr>
@@ -70,6 +69,36 @@
 		</c:forEach>
 	
 	</table>
+	
+	<nav aria-label="Page navigation example">
+  		<ul class="pagination justify-content-center pagination-sm">
+  		
+  			<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/info/req/addPopup?page=${pm.startPage-1 }&txt=pro&pro_num=${productVO.pro_num}&pro_name=${productVO.pro_name}" aria-label="Previous">
+       			<span aria-hidden="true">&laquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+    		<li 
+    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+    		>
+    			<a class="page-link" href="/info/req/addPopup?page=${idx}&pro_num=${productVO.pro_num}&pro_name=${productVO.pro_name}&txt=pro">${idx }</a>
+    		</li>
+    		</c:forEach>
+			
+			<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+      			<a class="page-link" href="/info/req/addPopup?page=${pm.endPage+1 }&txt=pro&pro_num=${productVO.pro_num}&pro_name=${productVO.pro_name}" aria-label="Next">
+        		<span aria-hidden="true">&raquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+  		</ul>
+	</nav>
 
 </body>
 </html>
