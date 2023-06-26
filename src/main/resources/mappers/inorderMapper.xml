@@ -69,12 +69,41 @@
 	        <if test="ma_name != ''">
 	            AND ma_name like CONCAT('%', #{ma_name}, '%')
 	        </if>
+	        
+	        
+	        
 	        <if test="istartDate != ''">
-	        	AND i.io_date &gt;= #{istartDate}
-	        </if>
-	        <if test="iendDate != ''">
-	        	AND #{iendDate} &gt;= DATE(i.io_date)
-	        </if>
+			    <choose>
+			        <when test="i.io_date != null and i.io_update_date != null and i.io_date &lt; i.io_update_date">
+			            AND i.io_update_date &gt;= #{istartDate}
+			        </when>
+			        <otherwise>
+			            <if test="i.io_date != null and (i.io_update_date == null or i.io_date &gt;= i.io_update_date)">
+			                AND i.io_date &gt;= #{istartDate}
+			            </if>
+			        </otherwise>
+			    </choose>
+			</if>
+			<if test="iendDate != ''">
+			    <choose>
+			        <when test="i.io_date != null and i.io_update_date != null and i.io_date &lt; i.io_update_date">
+			            AND #{iendDate} &gt;= DATE(i.io_update_date)
+			        </when>
+			        <otherwise>
+			            <if test="i.io_date != null and (i.io_update_date == null or #{iendDate} &gt;= DATE(i.io_date))">
+			                AND #{iendDate} &gt;= DATE(i.io_date)
+			            </if>
+			        </otherwise>
+			    </choose>
+			</if>
+
+
+
+
+	        
+	        
+	        
+	        
 	        <if test="rstartDate != ''">
 	        	AND i.rec_date &gt;= #{rstartDate}
 	        </if>
