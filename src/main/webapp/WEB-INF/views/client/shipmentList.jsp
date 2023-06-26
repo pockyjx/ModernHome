@@ -56,16 +56,21 @@ $(document).ready(function() {
 		// 추가 버튼 클릭 시 행 추가
 	// 추가버튼 1번 누르면 추가버튼 비활성화
 	$("#addRowButton").click(function() {
+		
+		// 거래처 코드 입력란 클릭 시 팝업창 열기
+	    $(document).on("click", "input[name='clt_name']", function() {
+	 	   window.open('/client/addPopup?txt=clt2', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	    });
+		
 		var newRow = '<tr>' +
 		'<td><input type="checkbox"></td>' +
 		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
-
 		'<td><input type="text" name="emp_id"></td>' +
 		'<td><input type="text" name="clt_name" id="clt_name"></td>' +
 		'<td><input type="text" name="pro_num" id="pro_num" readonly></td>' +
 		'<td><input type="text" name="pro_name" id="pro_name" disabled></td>' +
 		'<td><input type="text" name="shp_cnt"></td>' +
-		'<td><input type="text" name="shp_date"></td>' +
+		'<td><input type="text" name="shp_date"></td>' +	
 		'</td>' +
 		'</tr>';
 		
@@ -85,10 +90,7 @@ $(document).ready(function() {
 	}); // 여기까지 추가 버튼
 	
 	
-    // 거래처 코드 입력란 클릭 시 팝업창 열기
-    $(document).on("click", "input[name='clt_name']", function() {
- 	   window.open('/client/addPopup?txt=clt2', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-    });
+    
     
     // 완제품 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='pro_num']", function() {
@@ -97,6 +99,8 @@ $(document).ready(function() {
     
  // 취소버튼
 	$("#cancleButton").click(function(){
+		
+		$(document).off("click", "input[name='clt_name']");
 	
 		// 등록버튼 취소
 		if(pageStatus == "reg"){
