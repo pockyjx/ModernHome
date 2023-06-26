@@ -68,6 +68,7 @@
 	                '<td><input type="date" name="io_date" readonly></td>' +
 	                '<td><input type="text" name="io_state" value="미완료" readonly></td>' +
 	                '<td><input type="date" name="rec_date" placeholder="입고예정일"></td>' +
+	                '<td><input type="date" name="io_reg_date" readonly></td>' +
 	                '<td><input type="text" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id }" readonly></td>' +
 	                '</tr>';
 	                
@@ -181,6 +182,7 @@
 			            "io_update_date",
 			            "io_state",
 			            "rec_date",
+			            "io_update_date",
 			            "update_emp_id"
 					];
 					
@@ -366,6 +368,7 @@
 			    	<th>발주일자</th>
 			    	<th>발주상태</th>
 			    	<th>입고예정일</th>
+			    	<th>등록일</th>
 			    	<th>담당자</th>
 				</tr>
 				
@@ -380,12 +383,13 @@
 				    	<td>${vo.io_cnt}</td>
 				    	<td>${vo.io_unit}</td>
 				    	<td>${vo.ma_price*vo.io_cnt}</td>
-				    	<td>
-							<c:if test="${!empty vo.io_update_date}">${fn:substring(vo.io_update_date, 0, 10)}</c:if>
-							<c:if test="${empty vo.io_update_date}">${fn:substring(vo.io_date, 0, 10)}</c:if>
-						</td>
+				    	<td>${vo.io_date}</td>
 				   		<td>${vo.io_state}</td>
 				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
+				   		<td>
+							<c:if test="${!empty vo.io_update_date}">${fn:substring(vo.io_update_date, 0, 10)}</c:if>
+							<c:if test="${empty vo.io_update_date}">${fn:substring(vo.io_reg_date, 0, 10)}</c:if>
+						</td>
 				   		<td>${vo.emp_name}</td>
 				    </tr>
 			    </c:forEach>
