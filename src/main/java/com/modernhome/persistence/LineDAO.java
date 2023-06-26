@@ -15,7 +15,10 @@ public interface LineDAO {
 	// 라인 등록
 	public void regLine(LineVO lvo);
 	
+	// 라인수정
+	public void updateLine(LineVO lvo);
+	
 	// 라인 삭제
-	public void deleteLine(int emp_id);
+	public void deleteLine(int line_id);
 	
 }

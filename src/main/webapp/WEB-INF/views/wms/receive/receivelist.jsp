@@ -153,6 +153,8 @@
 					});
 				} // if(update)문
 			
+				updateSelectedCheckboxCount();
+				
 			}); // 취소버튼
             
             

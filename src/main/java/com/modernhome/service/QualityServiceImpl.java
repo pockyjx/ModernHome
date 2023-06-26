@@ -42,11 +42,11 @@ public class QualityServiceImpl implements QualityService{
 		return qdao.getMaterialQualityList();
 	}
 
-	// 품질검사(자재) 목록 조회 + 검색
-	@Override
-	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
-		return qdao.getMaterialQualitySearch(qc_num, startDate, endDate, qc_yn);
-	}
+//	// 품질검사(자재) 목록 조회 + 검색
+//	@Override
+//	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
+//		return qdao.getMaterialQualitySearch(qc_num, startDate, endDate, qc_yn);
+//	}
 
 	// 품질검사(자재) 수정
 	@Override

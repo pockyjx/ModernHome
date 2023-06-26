@@ -16,4 +16,10 @@ public interface ShipmentDAO {
 	
 	// 출하 등록
 	public void regShipment(ShipmentVO svo);
+	
+	// 출하 삭제
+	public void deleteShipment(String shp_num);
+	
+	// 출하 수정
+	public void updateShipment(ShipmentVO svo);
 }

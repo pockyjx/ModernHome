@@ -268,7 +268,7 @@
 }
 </style>
 
-<h2>생산관리</h2>
+<h2>불량 관리</h2>
 
 <form method="get">
 	양불 여부
@@ -281,51 +281,6 @@
 </form>
 
 <br>
-
-		<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
-		<table border="1" class="table-instrList">
-			<tr>
-				<th>　</th>
-				<th>작업지시코드</th>
-				<th>라인코드</th>
-				<th>품목코드</th>
-				<th>품목명</th>
-				<th>작업상태</th>
-				<th>지시일자</th>
-				<th>지시수량</th>
-				<th>수주번호</th>
-				<th>납품예정일</th>
-				<th>담당자</th>
-			</tr>
-		
-			<c:forEach var="qi" items="${qiList}">
-				<tr>
-					<td><input type="checkbox" name="selectedWorkId" value="${qi.work_id}"></td>
-					<td>${qi.work_num}</td>
-					<td>${qi.line_num}</td>
-					<td>${qi.pro_num}</td>
-					<td>${qi.pro_name}</td>
-					<td>${qi.work_state}</td>
-					<td>
-						<c:if test="${!empty qi.update_date}">${qi.update_date}</c:if>
-						<c:if test="${empty qi.update_date}">${qi.reg_date}</c:if>
-					</td>
-					<td>${qi.work_cnt}</td>
-					<td>${qi.oo_num}</td>
-					<td>${qi.oo_end_date}</td>
-					<td>
-						<c:if test="${!empty qi.update_emp_id}">${qi.emp_name}</c:if>
-						<c:if test="${empty qi.update_emp_id}">${qi.emp_name}</c:if>
-					</td>
-				</tr>
-			</c:forEach>
-		</table>
-		<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
-		
-		<hr>
-		<!-- ================================================================================== -->
-<%-- ${prfrmNum} --%>
-<%-- ${wpList} --%>
 		
 <form>
 	<div class="bg-light text-center rounded p-4">
@@ -341,7 +296,6 @@
 			<span id="selectedCheckboxCount">0</span>
 		</div>
 		
-		<!-- 생산실적 리스트 -->
 		<table border="1" class="table-prfrmList">
 			<tr>
 				<th><input type="checkbox"></th>
@@ -380,6 +334,5 @@
 		</table>
 	</div>
 </form>
-<!-- 생산실적 리스트 -->
 
 <%@ include file="../../inc/footer.jsp"%>

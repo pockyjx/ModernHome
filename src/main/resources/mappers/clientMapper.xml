@@ -46,7 +46,7 @@
 	
 	<!-- 거래처삭제 -->
 	<delete id="deleteClient">
-		DELETE FROM client WHERE clt_id = #{clt_id}
+		DELETE FROM client WHERE clt_num = #{clt_num}
 	</delete>
 	<!-- 거래처삭제 -->
 	

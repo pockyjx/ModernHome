@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
-import com.modernhome.persistence.WorkInstrDAO;
+import com.modernhome.persistence.InstructDAO;
 
 @Service
-public class WorkInstrServiceImpl implements WorkInstrService {
+public class InstructServiceImpl implements InstructService {
 	
 	// 의존성 주입
 	@Inject
-	private WorkInstrDAO dao;
+	private InstructDAO dao;
 	
 	@Override
 	public List<WijoinVO> getInstr(WijoinVO wjvo) throws Exception {

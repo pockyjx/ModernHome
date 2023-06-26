@@ -53,6 +53,20 @@
 	</insert>
 	<!-- 출하 등록 -->
 	
+	<!-- 출하 삭제 -->
+	<delete id="deleteShipment">
+		DELETE FROM shipment WHERE shp_num = #{shp_num}
+	</delete>
+	<!-- 출하 삭제 -->
+	
+	<!-- 출하 수정 -->
+	<update id="updateShipment">
+		UPDATE shipment SET update_emp_id = #{update_emp_id}, shp_cnt = #{shp_cnt},
+		shp_date = CASE WHEN #{shp_date} = '' THEN NULL ELSE #{shp_date} END
+		WHERE shp_num = #{shp_num}
+	</update>
+	<!-- 출하 수정 -->
+	
 	
 	
 

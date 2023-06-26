@@ -49,10 +49,10 @@ public class ClientDAOImpl implements ClientDAO {
 
 	// 거래처 삭제
 	@Override
-	public void deleteClient(int clt_id) {
+	public void deleteClient(String clt_num) {
 		logger.debug("DAO -> mapper호출 -> SQL 실행(거래처삭제)");
 		
-		sqlSession.delete(NAMESPACE + ".deleteClient", clt_id);
+		sqlSession.delete(NAMESPACE + ".deleteClient", clt_num);
 		
 	}
 

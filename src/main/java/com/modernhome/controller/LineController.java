@@ -58,25 +58,34 @@ public class LineController {
 
 	}
 	
-	// 라인 등록
+	// 라인 등록 + 수정
 	@RequestMapping(value = "/line/regLine", method = RequestMethod.POST)
-	public String regLinePOST(LineVO lvo) {
+	public String regLinePOST(LineVO lvo) throws Exception {
 		
-		logger.debug("regLinePOST() 호출");
-		
-		logger.debug("lvo : "+lvo);
-		
-		lineService.regLine(lvo);
+		if(lvo.getLine_num() == "") {
+			logger.debug("regLinePOST() 호출 - 라인등록");
+			logger.debug("lvo : "+lvo);
+			
+			lineService.regLine(lvo);
+		}else {
+			logger.debug("regLinePOST() 호출 - 라인수정");
+			logger.debug("lvo : "+lvo);
+			
+			lineService.updateLine(lvo);
+		}
 		
 		return "redirect:/production/line/lineList";
 	}
 	
 	// 라인 삭제
 	@RequestMapping(value = "/line/deleteLine")
-	public String deleteLine(@RequestParam("selectedEmpId") Integer[] selectedEmpIds) {
+	public String deleteLine(@RequestParam(value = "selectedLineId", required = false) Integer[] selectedLineIds) {
 		
-		for(Integer emp_id : selectedEmpIds) {
-			lineService.deleteLine(emp_id);
+		if(selectedLineIds != null) {
+			for(Integer line_id : selectedLineIds) {
+				lineService.deleteLine(line_id);
+			
+			}
 		}
 		
 		return "redirect:/production/line/lineList";

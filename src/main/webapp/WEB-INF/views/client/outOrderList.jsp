@@ -214,7 +214,7 @@ $(document).ready(function() {
 				//
 				var cellValue = $(this).text();
 				var cellType = [7, 8].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
-				var cellReadonly = [0, 1, 2, 4].includes(index) ? "readonly='readonly'" : "";
+				var cellReadonly = [0, 1, 2, 4, 7].includes(index) ? "readonly='readonly'" : "";
 				var cellName = cellNames[index];
 				var cellDisabled = [2, 3, 4, 5].includes(index)? "disabled" : "";
 				var cellContent;
@@ -259,6 +259,23 @@ $(document).ready(function() {
 			alert("수정은 하나의 행만 가능합니다!");
 		}
 	});
+	
+	
+	$("#deleteButton").click(function(){
+		
+		var selectedCheckbox = $("input[name='selected']:checked");
+		
+		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+		if (selectedCheckbox.length === 0){
+			alert("삭제할 행을 선택해주세요!");
+			
+			// 선택안하면 submit을 막음
+			event.preventDefault();
+		}
+		
+	});
+	
+	
 	
 	
 }); //jQuery

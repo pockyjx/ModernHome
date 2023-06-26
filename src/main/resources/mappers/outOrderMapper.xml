@@ -60,10 +60,11 @@
 		</selectKey>
 	
 	
-		INSERT INTO out_order (oo_num, emp_id, clt_id, pro_id, oo_cnt, oo_start_date, oo_end_date)
+		INSERT INTO out_order (oo_num, emp_id, clt_id, pro_id, oo_cnt, oo_start_date, oo_end_date, oo_state)
 		VALUES (#{oo_num}, #{emp_id}, #{clt_id}, #{pro_id}, #{oo_cnt},
 		CASE WHEN #{oo_start_date} = '' THEN CURRENT_TIMESTAMP ELSE #{oo_start_date} END,
-		CASE WHEN #{oo_end_date} = '' THEN NULL ELSE #{oo_end_date} END)
+		CASE WHEN #{oo_end_date} = '' THEN NULL ELSE #{oo_end_date} END,
+		#{oo_state})
 	</insert>
 	<!-- 수주 등록 -->
 	
@@ -76,7 +77,6 @@
 	<!-- 수주 수정 -->
 	<update id="updateOutOrder">
 		UPDATE out_order SET update_emp_id = #{update_emp_id}, oo_cnt = #{oo_cnt}, oo_state = #{oo_state},
-		oo_start_date = CASE WHEN #{oo_start_date} = '' THEN NULL ELSE #{oo_start_date} END,
 		oo_end_date = CASE WHEN #{oo_end_date} = '' THEN NULL ELSE #{oo_end_date} END
 		WHERE oo_num = #{oo_num}
 	</update>
