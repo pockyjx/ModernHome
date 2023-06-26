@@ -24,6 +24,7 @@ public class LineDAOImpl implements LineDAO {
 	// 네임스페이스
 	private static final String NAMESPACE = "com.modernhome.mapper.LineMapper";
 
+	// 라인 조회
 	@Override
 	public List<LineVO> lineList() {
 		logger.debug("DAO -> mapper호출 -> SQL 실행(라인조회");
@@ -31,6 +32,7 @@ public class LineDAOImpl implements LineDAO {
 		return sqlSession.selectList(NAMESPACE + ".lineList");
 	}
 
+	// 라인 조회 + 겁색
 	@Override
 	public List<LineVO> lineListSearch(LineVO lvo) {
 		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회 - 검색된 데이터만 출력)");
@@ -38,6 +40,7 @@ public class LineDAOImpl implements LineDAO {
 		return sqlSession.selectList(NAMESPACE +  ".lineListSearch",lvo);
 	}
 
+	// 라인 등록
 	@Override
 	public void regLine(LineVO lvo) {
 		logger.debug("DAO -> mapper 호출 -> SQL 실행(라인등록)");
@@ -46,13 +49,24 @@ public class LineDAOImpl implements LineDAO {
 		
 	}
 
+	// 라인수정
 	@Override
-	public void deleteLine(int emp_id) {
-		logger.debug("DAO -> mapper 호출 -> SQL 실행(라인삭제)");
+	public void updateLine(LineVO lvo) {
+		logger.debug("DAO -> mapper호출 -> SQL실행(라인수정)");
 		
-		sqlSession.delete(NAMESPACE+".deleteLine",emp_id);
+		sqlSession.update(NAMESPACE + ".updateLine",lvo);
 		
 	}
+	
+	// 라인 삭제
+	@Override
+	public void deleteLine(int line_id) {
+		logger.debug("DAO -> mapper 호출 -> SQL 실행(라인삭제)");
+		
+		sqlSession.delete(NAMESPACE + ".deleteLine",line_id);
+		
+	}
+
 
 
 
