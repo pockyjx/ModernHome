@@ -112,7 +112,7 @@ public class WorkInstructController {
 	// 작업지시 리스트 출력(GET) - /production/instruct/list
 	@RequestMapping(value = "/instruct/list", method = RequestMethod.GET)
 	public void getInstrList(Model model, 
-			@ModelAttribute("work_state") String work_state, @ModelAttribute("pro_num") String pro_num, 
+			@ModelAttribute(value = "work_state") String work_state, @ModelAttribute(value = "pro_num") String pro_num, 
 			@ModelAttribute(value = "startDate") String startDate, @ModelAttribute(value = "endDate") String endDate) 
 			throws Exception {
 		logger.debug("getInstrList() 호출");
