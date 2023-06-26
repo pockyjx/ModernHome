@@ -54,7 +54,7 @@
                         </div>
 				        <form role="form" method="post">
 	                        <div class="form-floating mb-3">
-	                            <input name="emp_id" type="text" class="form-control" id="floatingInput" placeholder="사원번호" value="20230015">
+	                            <input name="emp_id" type="text" class="form-control" id="floatingInput" placeholder="사원번호">
 	                            <label for="floatingInput">사원번호</label>
 	                        </div>
 	                        <div class="form-floating mb-4">

@@ -22,10 +22,32 @@
         <id property="wh_id" column="wh_id" />
         <result property="wh_name" column="wh_name" />
     </resultMap>
-	<resultMap type="EmployeeVO" id="EmployeeVO">
-        <result property="emp_name" column="emp_name" />
+
+	<resultMap type="MaterialReleaseVO" id="MaterialReleaseVO">
+        <id property="mr_id" column="mr_id" />
+        <result property="mr_num" column="mr_num" />
+        <result property="ma_id" column="ma_id" />
+        <result property="work_id" column="work_id" />
+        <result property="wh_id" column="wh_id" />
+        <result property="mr_cnt" column="mr_cnt" />
+        <result property="mr_date" column="mr_date" />
+        <result property="mr_state" column="mr_state" />
+        <result property="emp_id" column="emp_id" />
+        <collection property="workInstrVO" resultMap="WorkInstrVO"/>
+        <collection property="materialVO" resultMap="MaterialVO"/>
+        <collection property="materialStockVO" resultMap="MaterialStockVO"/>
+        <collection property="warehouseVO" resultMap="WarehouseVO"/>
 	</resultMap>
-	  	<resultMap type="OutOrderVO" id="OutOrderVO">
+	<select id="getMaterialReleaseList" parameterType="MaterialReleaseVO" resultMap="MaterialReleaseVO">
+  		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt 
+		from material_release mr 
+		join work_instr wi on mr.work_id = wi.work_id 
+		join material m on mr.ma_id = m.ma_id 
+		join warehouse w on mr.wh_id = w.wh_id
+		join material_stock ms on mr.ma_id = ms.ma_id
+  	</select>
+  	
+  	<resultMap type="OutOrderVO" id="OutOrderVO">
   		<id property="oo_id" column="oo_id" />
   		<result property="oo_num" column="oo_num" />
   		<result property="oo_end_date" column="oo_end_date" />
@@ -42,172 +64,23 @@
   		<result property="pro_id" column="pro_id" />
   		<result property="ps_cnt" column="ps_cnt" />
   	</resultMap>	
-	
-	
-	<resultMap type="MaterialReleaseVO" id="MaterialReleaseVO">
-        <id property="mr_id" column="mr_id" />
-        <result property="mr_num" column="mr_num" />
-        <result property="ma_id" column="ma_id" />
-        <result property="work_id" column="work_id" />
-        <result property="wh_id" column="wh_id" />
-        <result property="mr_cnt" column="mr_cnt" />
-        <result property="mr_date" column="mr_date" />
-        <result property="mr_state" column="mr_state" />
-        <result property="emp_id" column="emp_id" />
-        <collection property="materialVO" resultMap="MaterialVO"/>
-        <collection property="materialStockVO" resultMap="MaterialStockVO"/>
-        <collection property="warehouseVO" resultMap="WarehouseVO"/>
-        <collection property="employeeVO" resultMap="EmployeeVO"/>
-        <collection property="workInstrVO" resultMap="WorkInstrVO"/>
-        
-	</resultMap>
-	
-	<select id="getmrlist" resultMap="MaterialReleaseVO">
-  		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt, e.emp_name
-		from material_release mr 
-		join work_instr wi on mr.work_id = wi.work_id 
-		join material m on mr.ma_id = m.ma_id 
-		join warehouse w on mr.wh_id = w.wh_id
-		join material_stock ms on mr.ma_id = ms.ma_id
-		join employee e on mr.emp_id = e.emp_id
-  	</select>
-  	
-	<select id="getmrlistp" resultMap="MaterialReleaseVO" parameterType="java.util.Map">
-  		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt 
-		from material_release mr 
-		join work_instr wi on mr.work_id = wi.work_id 
-		join material m on mr.ma_id = m.ma_id 
-		join warehouse w on mr.wh_id = w.wh_id
-		join material_stock ms on mr.ma_id = ms.ma_id
-		<where>
-	        <if test="mr_num != ''">
-	            AND mr_num like CONCAT('%', #{mr_num}, '%')
-	        </if>
-	        <if test="ma_name != ''">
-	            AND ma_name like CONCAT('%', #{ma_name}, '%')
-	        </if>
-	        <if test="startDate != ''">
-	        	AND mr_date &gt;= #{startDate}
-	        </if>
-	        <if test="endDate != ''">
-	        	AND #{endDate} &gt;= mr_date
-	        </if>
-	    </where>
-  	</select>
-  	
-	<insert id="regmtRelease">
-		insert into material_release (mr_num, ma_id, work_id, wh_id, mr_cnt, mr_date, mr_state, emp_id)
-		SELECT CONCAT(SUBSTRING(mr_num, 1, 2), LPAD(max(mr_id) + 1, 6, '0')), #{ma_id}, #{work_id}, #{wh_id}, #{mr_cnt}, now(), #{mr_state}, #{emp_id}
-		FROM material_release
-		WHERE mr_num LIKE CONCAT('%', 'MN', '%')
-	</insert>
-	<!-- 완제품 등록 -->
-	
-	<!-- 완제품 삭제 -->
-	<delete id="delmtRelease">
-		delete from material_release
-		where mr_id = #{mr_id}
-	</delete>
-	<!-- 완제품 삭제 -->
-	
-	<!-- 완제품 수정 -->
-	<update id="updatemtRelease">
-		update material_release
-		set pro_name = #{pro_name}, pro_unit = #{pro_unit}, pro_price = #{pro_price} 
-		where mr_num = #{mr_num}
-	</update>
   	
   	<resultMap type="ProductReleaseVO" id="ProductReleaseVO">
   		<id property="pr_id" column="pr_id" />
-  		<result property="pr_num" column="pr_num" />  		
-  		<result property="pro_id" column="pro_id" />
-  		<result property="oo_id" column="oo_id" />
-  		<result property="wh_id" column="wh_id" />
+  		<result property="pr_num" column="pr_num" />
   		<result property="pr_cnt" column="pr_cnt" />
-  		<result property="pr_date" column="pr_date" />
-  		<result property="pr_state" column="pr_state" />
-  		<result property="emp_id" column="emp_id" />  		
-  		<collection property="productVO" resultMap="ProductVO"/>
-  		<collection property="productStockVO" resultMap="ProductStockVO"/>
-  		<collection property="warehouseVO" resultMap="WarehouseVO"/>
-  		<collection property="employeeVO" resultMap="EmployeeVO"/>
   		<collection property="outOrderVO" resultMap="OutOrderVO"/>
   		<collection property="clientVO" resultMap="ClientVO"/>
+  		<collection property="productVO" resultMap="ProductVO"/>
+  		<collection property="warehouseVO" resultMap="WarehouseVO"/>
   	</resultMap>
-  	<select id="getprlist" resultMap="ProductReleaseVO">
-		select pr_id, pr_num , oo.oo_num, c.clt_name, p.pro_name, pr.pr_cnt, ps.ps_cnt, w.wh_name, oo.oo_end_date, pr.pr_state, e.emp_name, pr.pr_date, p.pro_id
+  	<select id="getProductReleaseList" parameterType="ProductReleaseVO" resultType="ProductReleaseVO">
+  		select oo.oo_num, pr_num, c.clt_name, p.pro_name, pr_cnt, ps.ps_cnt, w.wh_name, oo.oo_end_date, pr_state, pr.emp_id, pr_date
 		from product_release pr 
-		join out_order oo on pr.oo_id = oo.oo_id 
-		join client c on oo.clt_id = c.clt_id 
-		join product p on pr.pro_id = p.pro_id 
-		join warehouse w on pr.wh_id = w.wh_id
-		join product_stock ps on pr.pro_id = ps.pro_id 
-		join employee e on pr.emp_id = e.emp_id
-		order by pr_id desc
-  	</select>
-  	<select id="getprlistp" resultMap="ProductReleaseVO" parameterType="java.util.Map">
-		select pr_id, pr_num , oo.oo_num, c.clt_name, p.pro_name, pr.pr_cnt, ps.ps_cnt, w.wh_name, oo.oo_end_date, pr.pr_state, e.emp_name, pr.pr_date, p.pro_id
-		from product_release pr 
-		join out_order oo on pr.oo_id = oo.oo_id 
-		join client c on oo.clt_id = c.clt_id 
-		join product p on pr.pro_id = p.pro_id 
-		join warehouse w on pr.wh_id = w.wh_id
-		join product_stock ps on pr.pro_id = ps.pro_id 
-		join employee e on pr.emp_id = e.emp_id
-		<where>
-	        <if test="pr_num != ''">
-	            AND pr_num like CONCAT('%', #{pr_num}, '%')
-	        </if>
-	        <if test="pro_name != ''">
-	            AND p.pro_name like CONCAT('%', #{pro_name}, '%')
-	        </if>
-	        <if test="startDate != ''">
-	        	AND pr_date &gt;= #{startDate}
-	        </if>
-	        <if test="endDate != ''">
-	        	AND #{endDate} &gt;= pr_date
-	        </if>
-	    </where>
-		order by pr_id desc
-  	</select>
-  	
-	<insert id="regprRelease">
-		insert into product_release (pr_num, pro_id, oo_id, wh_id, pr_cnt, pr_date, pr_state, emp_id)
-		SELECT CONCAT("PN", LPAD(ifnull(max(pr_id), 0) + 1, 6, '0')), #{pro_id}, #{oo_id}, #{wh_id}, #{pr_cnt}, null, #{pr_state}, #{emp_id}
-		FROM product_release
-	</insert>
-
-	<update id="updateprRelease">
-		update product_release
-		set pro_name = #{pro_name}, pro_unit = #{pro_unit}, pro_price = #{pro_price} 
-		where pr_num = #{pr_num}
-	</update>
-
-	<delete id="delprRelease">
-		delete from product_release
-		where pr_id = #{pr_id}
-	</delete>
-	
-	<select id="getOutorderinfo" resultMap="ProductReleaseVO">
-  		select oo.oo_num, c.clt_name, p.pro_name, oo.oo_cnt pr_cnt, oo.oo_end_date, p.pro_id, oo.oo_id
-		from out_order oo 
+		join out_order oo on pr.oo_id = oo.oo_id
+		join warehouse w on pr.wh_id = w.wh_id 
 		join client c on oo.clt_id = c.clt_id
-		join product p on oo.pro_id = p.pro_id 
-		join product_stock ps on p.pro_id = ps.pro_id;
-	</select>
-	<select id="getProductStock" resultMap="ProductReleaseVO">
-		select p.pro_name, ps.ps_cnt, w.wh_name, w.wh_id
-		from product p 
-		join product_stock ps on p.pro_id = ps.pro_id 
-		join warehouse w on ps.wh_id = w.wh_id
-		where p.pro_id = #{pro_id}
-	</select>
-  	<update id="acceptPR">
-  		update product_release set pr_state = '완료', pr_date=now() where pr_id = #{pr_id};
-  	</update>
-  	<update id="updatePS" parameterType="java.util.Map">
-  		update product_stock set ps_cnt=ps_cnt-#{pr_cnt} 
-  		where pro_id = #{pro_id};
-  	</update>
-  	
+		join product p on pr.pro_id = p.pro_id 
+		join product_stock ps on pr.pro_id = ps.pro_id
+  	</select>
   </mapper>
