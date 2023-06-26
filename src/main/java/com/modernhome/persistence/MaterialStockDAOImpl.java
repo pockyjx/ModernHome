@@ -1,5 +1,6 @@
 package com.modernhome.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.modernhome.domain.MaterialStockVO;
+import com.modernhome.domain.PageVO;
 
 @Repository
 public class MaterialStockDAOImpl implements MaterialStockDAO {
@@ -21,10 +23,16 @@ public class MaterialStockDAOImpl implements MaterialStockDAO {
 	
 	// 자재 재고 목록
 	@Override
-	public List<MaterialStockVO> getMsList() {
-		return sqlSession.selectList(NAMESPACE + ".getMateStock");
+	public List<MaterialStockVO> getMsList(PageVO vo) {
+		return sqlSession.selectList(NAMESPACE + ".getMateStock", vo);
 	}
-
+	
+	// 전체 글 개수 (페이징)
+	@Override
+	public int getMsTotalCnt() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".msTotalCnt");
+	}
+	
 	// 자재 재고 등록
 	@Override
 	public void regMaStock(int maxMaId) {
@@ -32,12 +40,25 @@ public class MaterialStockDAOImpl implements MaterialStockDAO {
 		sqlSession.insert(NAMESPACE + ".regMaStock", maxMaId); 
 	}
 
-	// 자재 재고 검색
+	// 자재 재고 검색 (페이징)
 	@Override
-	public List<MaterialStockVO> searchMateStock(MaterialStockVO vo) {
+	public List<MaterialStockVO> searchMateStock(MaterialStockVO vo, PageVO pvo) {
 		logger.debug("자재 재고 검색!");
-		return sqlSession.selectList(NAMESPACE + ".searchMateStock", vo);
+		
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("msVO", vo);
+		paramMap.put("pageVO", pvo);
+		
+		return sqlSession.selectList(NAMESPACE + ".searchMateStock", paramMap);
 	}
+
+	// 검색 결과 개수 (페이징)
+	@Override
+	public int getMsSearchCnt(MaterialStockVO vo) {
+		return sqlSession.selectOne(NAMESPACE + ".msSearchCnt", vo);
+	}
+	
+	
 
 	
 	

@@ -34,7 +34,7 @@ public class MaterialDAOImpl implements MaterialDAO {
 		return sqlSession.selectList(NAMESPACRE + ".materialList", vo);
 	}
 	
-	// 총 개수 계산
+	// 총 개수 계산 (페이징)
 	@Override
 	public int getTotalCntMate() throws Exception {
 		return sqlSession.selectOne(NAMESPACRE + ".mateTotalCnt");
@@ -77,7 +77,6 @@ public class MaterialDAOImpl implements MaterialDAO {
 		logger.debug("자재 수정!");
 		sqlSession.update(NAMESPACRE + ".updateMaterial", vo);
 	}
-	
 
 	// 자재 id값 가져오기
 	@Override

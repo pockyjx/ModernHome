@@ -18,7 +18,7 @@
 	<select id="mateTotalCnt" resultType="int">
 		SELECT count(*) from material
 	</select>
-	<!-- 전체 글 수 계산 -->
+	<!-- 전체 글 수 계산 (페이징) -->
 	
 	<!-- 자재 검색 결과 조회(페이징) -->
 	<select id="maSearchList" resultType="MaterialVO" parameterType="java.util.Map">
@@ -48,7 +48,7 @@
 			</if>
 		</where>
 	</select>
-	<!-- 검색 결과 개수 계산 -->
+	<!-- 검색 결과 개수 계산 (페이징) -->
 	
 	<!-- 자재 등록 -->
 	<insert id="regMaterial">

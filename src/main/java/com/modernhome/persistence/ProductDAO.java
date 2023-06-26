@@ -28,10 +28,10 @@ public interface ProductDAO {
 	// 완제품 목록 (페이징)
 	public List<ProductVO> getProListPage(PageVO vo) throws Exception;
 	
-	// 게시판 총 글 수 계산
+	// 게시판 총 글 수 계산 (페이징)
 	public int getTotalCntPro() throws Exception;
 	
-	// 검색 결과 개수
+	// 검색 결과 개수 (페이징)
 	public int getProSearchCnt(ProductVO vo) throws Exception;
 	
 	

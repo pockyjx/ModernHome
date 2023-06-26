@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.MaterialStockVO;
 import com.modernhome.domain.MaterialVO;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductStockVO;
 import com.modernhome.domain.RequirementVO;
 import com.modernhome.persistence.MaterialStockDAO;
@@ -21,10 +22,16 @@ public class StockServiceImpl implements StockService {
 	@Autowired
 	ProductStockDAO psdao;
 	
-	// 자재 재고 목록
+	// 자재 재고 목록 (페이징)
 	@Override
-	public List<MaterialStockVO> getMsList() throws Exception {
-		return msdao.getMsList();
+	public List<MaterialStockVO> getMsList(PageVO vo) throws Exception {
+		return msdao.getMsList(vo);
+	}
+	
+	// 전체 글 개수 (페이징)
+	@Override
+	public int getTotalCntMs() throws Exception {
+		return msdao.getMsTotalCnt();
 	}
 	
 	// 자재 재고 정보 등록
@@ -32,20 +39,34 @@ public class StockServiceImpl implements StockService {
 	public void regMaStock(int maxMaId) throws Exception {
 		msdao.regMaStock(maxMaId);
 	}
-	
-	// 자재 재고 검색
+
+	// 자재 재고 검색 (페이징)
 	@Override
-	public List<MaterialStockVO> searchMS(MaterialStockVO vo) throws Exception {
-		return msdao.searchMateStock(vo);
+	public List<MaterialStockVO> searchMS(MaterialStockVO vo, PageVO pvo) throws Exception {
+		return msdao.searchMateStock(vo, pvo);
 	}
+	
+	// 검색 결과 개수
+	@Override
+	public int getMsSearchCnt(MaterialStockVO vo) throws Exception {
+		return msdao.getMsSearchCnt(vo);
+	}
+	
 	
 	/////////////////////////////////////////////////////////////////
 	
 
-	// 완제품 재고 목록
+	// 완제품 재고 목록 (페이징)
 	@Override
-	public List<ProductStockVO> getPsList() throws Exception {
-		return psdao.getPsList();
+	public List<ProductStockVO> getPsList(PageVO vo) throws Exception {
+		return psdao.getPsList(vo);
+	}
+	
+
+	// 전체 글 개수
+	@Override
+	public int getTotalCntPs() throws Exception {
+		return psdao.getPsTotalCnt();
 	}
 
 	// 완제품 재고 정보 등록
@@ -54,11 +75,18 @@ public class StockServiceImpl implements StockService {
 		psdao.regProStock(maxProId);
 	}
 
-	// 완제품 재고 검색
+	// 완제품 재고 검색 (페이징)
 	@Override
-	public List<ProductStockVO> searchPS(ProductStockVO vo) throws Exception {
-		return psdao.searchProStock(vo);
+	public List<ProductStockVO> searchPS(ProductStockVO vo, PageVO pvo) throws Exception {
+		return psdao.searchProStock(vo, pvo);
 	}
 
+	// 검색 결과 개수 (페이징)
+	@Override
+	public int getPsSearchCnt(ProductStockVO vo) throws Exception {
+		return psdao.getPsSearchCnt(vo);
+	}
+	
+	
 
 }
