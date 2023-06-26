@@ -354,7 +354,7 @@
 	
 	<form id="employeeList">
 	
-	<c:if test="${sessionScope.emp_dept eq '인사' && sessionScope.emp_auth == 2 || sessionScope.emp_auth == 3}">
+<%-- 	<c:if test="${sessionScope.emp_dept eq '인사' && sessionScope.emp_auth == 2 || sessionScope.emp_auth == 3}"> --%>
 		<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 		<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
@@ -362,7 +362,7 @@
 		<i class="fa fa-trash"></i> 삭제</button>
 		<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regEmployee" formmethod="post" disabled>
 		<i class="fa fa-download"></i> 저장</button>
-	</c:if>
+<%-- 	</c:if> --%>
 	
 <!-- 	<input type="button" id="addRowButton" value="추가"> -->
 <!-- 	<input type="button" id="cancleButton" value="취소" disabled="disabled"> -->
