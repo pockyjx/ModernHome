@@ -19,13 +19,13 @@ import com.modernhome.domain.LineVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.service.LineService;
-import com.modernhome.service.WorkInstrService;
+import com.modernhome.service.InstructService;
 
 @Controller
 @RequestMapping(value = "/production")
-public class WorkInstructController {
+public class InstructController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(WorkInstructController.class);
+	private static final Logger logger = LoggerFactory.getLogger(InstructController.class);
 	
 	// ===========================================
 	
@@ -34,7 +34,7 @@ public class WorkInstructController {
 	@Inject
 	private LineService lineService;
 	@Inject
-	private WorkInstrService wiService;
+	private InstructService wiService;
 	
 	
 	// ===========================================

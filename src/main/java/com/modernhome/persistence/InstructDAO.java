@@ -5,7 +5,7 @@ import java.util.List;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 
-public interface WorkInstrDAO {
+public interface InstructDAO {
 	
 	// 작업지시 목록 조회
 	public List<WijoinVO> getInstrList() throws Exception;
