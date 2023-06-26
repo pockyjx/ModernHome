@@ -47,17 +47,23 @@ public class InfoController {
 	public void productListGET(Model model, ProductVO vo, PageVO pvo) throws Exception {
 		logger.debug("productListGET() 호출!");
 		
+		logger.debug(vo + "");
+		
 		List<ProductVO> productList;
 		PageMaker pm = new PageMaker();
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐 경우
 		if(vo.getPro_num() != null || vo.getPro_name() != null) {
-//			productList = iService.getProductList(vo, pvo);
-//			model.addAttribute("productList", productList);
+			productList = iService.getProductList(vo, pvo);
+			model.addAttribute("productList", productList);
 			
-//			pm.setPageVO(pvo);
-//			pm.setTotalCount(iService.getProSearchCnt(vo));
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(iService.getProSearchCnt(vo));
 			model.addAttribute("pm", pm);
+			
+			// 검색 정보 전달
+			model.addAttribute("productVO", vo);
 			
 			
 		} else { 
@@ -76,21 +82,38 @@ public class InfoController {
 	// 자재 목록
 	// http://localhost:8088/info/item/materialList
 	@RequestMapping(value = "/item/materialList", method = RequestMethod.GET)
-	public void materialListGET(Model model, MaterialVO vo) {
+	public void materialListGET(Model model, MaterialVO vo, PageVO pvo) throws Exception {
 		logger.debug("materialList() 호출!");
 		
 		List<MaterialVO> materialList;
+		PageMaker pm = new PageMaker();
 		
 		logger.debug(vo + "");
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐 경우
 		if(vo.getMa_name() != null || vo.getMa_num() != null) {
-			materialList = iService.getMaterialList(vo);
+			materialList = iService.getMaterialList(vo, pvo);
 			model.addAttribute("materialList", materialList);
+			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(iService.getMaSearchCnt(vo));
+			model.addAttribute("pm", pm);
+			
+			// 검색 정보 전달
+			model.addAttribute("mvo", vo);
+			
+			
 		} else {
 			
-			materialList = iService.getMaterialList();
+			materialList = iService.getMaterialList(pvo);
 			model.addAttribute("materialList", materialList);
+			
+			pm.setPageVO(pvo);
+			pm.setTotalCount(iService.getTotalCntMate());
+			
+			model.addAttribute("pm", pm);
+			
 		}
 		
 	}
@@ -201,23 +224,40 @@ public class InfoController {
 	// 소요량 등록 시 팝업
 	@RequestMapping(value = "/req/addPopup", method = RequestMethod.GET )
 	public String popUpGET(Model model, @ModelAttribute("txt") String txt, 
-							ProductVO pvo, MaterialVO mvo) throws Exception {
+							ProductVO prvo, MaterialVO mvo, PageVO pvo) throws Exception {
+		
+		PageMaker pm = new PageMaker();
 		
 		if(txt.equals("pro")) { // 완제품 목록 팝업
 			
 			List<ProductVO> popUpPro;
 			
-			if(pvo.getPro_name() != null) { // 완제품 팝업창에서 검색했을 때 - 페이징 오류 때문에 잠시 보류,,
+			if(prvo.getPro_name() != null) { // 완제품 팝업창에서 검색했을 때
 				
 				logger.debug("완제품 팝업(검색) 호출!");
-//				popUpPro = iService.getProductList(vo, pvo);
-//				model.addAttribute("popUpPro", popUpPro);
+				popUpPro = iService.getProductList(prvo, pvo); // 기존 페이징 적용된 검색 메서드 사용!
+				model.addAttribute("popUpPro", popUpPro);
+				
+				// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getProSearchCnt(prvo));
+				model.addAttribute("pm", pm);
+				
+				model.addAttribute("productVO", prvo);
+				
+				
 				
 			}else { // 완제품 팝업 처음 실행했을 때
 				
 				logger.debug("완제품 팝업 호출!");
-				popUpPro = iService.getProductList();
+				popUpPro = iService.getProListPage(pvo); // 기존 페이징 적용된 검색 메서드 사용!
 				model.addAttribute("popUpPro", popUpPro);
+				
+				// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getTotalCntPro());
+				
+				model.addAttribute("pm", pm);
 				
 			}
 			
@@ -230,15 +270,28 @@ public class InfoController {
 			if(mvo.getMa_name() != null) { // 자재 팝업창에서 검색했을 때
 				
 				logger.debug("자재 팝업(검색) 호출!");
-				popUpMate = iService.getMaterialList(mvo); // 기존 자재 검색 메서드 사용
+				popUpMate = iService.getMaterialList(mvo, pvo); // 기존 자재 검색 메서드 사용
 				model.addAttribute("popUpMate", popUpMate);
+				
+				// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getMaSearchCnt(mvo));
+				model.addAttribute("pm", pm);
+				
+				model.addAttribute("mvo", mvo);
+				
 				
 			}else { // 자재 팝업 처음 실행했을 때
 				
 				logger.debug("자재 팝업 호출!");
-				popUpMate = iService.getMaterialList();
+				popUpMate = iService.getMaterialList(pvo);
 				model.addAttribute("popUpMate", popUpMate);
 				
+				// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getTotalCntMate());
+				
+				model.addAttribute("pm", pm);
 			}
 			
 			return "/info/req/popUpMaterial";

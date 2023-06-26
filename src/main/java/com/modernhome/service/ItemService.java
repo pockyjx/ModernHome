@@ -37,11 +37,17 @@ public interface ItemService {
 	
 	////////////////////////////////////////////////////////////////////////
 	
-	// 자재 목록
-	public List<MaterialVO> getMaterialList();
+	// 자재 목록 (페이징)
+	public List<MaterialVO> getMaterialList(PageVO vo);
 	
-	// 자재 검색 결과
-	public List<MaterialVO> getMaterialList(MaterialVO vo);
+	// 자재 개수 (페이징)
+	public int getTotalCntMate() throws Exception;
+	
+	// 자재 검색 결과 (페이징)
+	public List<MaterialVO> getMaterialList(MaterialVO vo, PageVO pvo);
+	
+	// 검색 결과 개수(페이징)
+	public int getMaSearchCnt(MaterialVO vo) throws Exception;
 	
 	// 자재 등록
 	public void regMaterial(MaterialVO vo);
