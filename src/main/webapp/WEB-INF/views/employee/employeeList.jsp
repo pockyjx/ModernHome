@@ -18,14 +18,64 @@
 	
 	$(document).ready(function() {
 			
+		updateSelectedCheckboxCount();
+		
 			
+		
+		// 체크박스 
+		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정 (전체 선택)
+		$(".table-employeeList th input[type='checkbox']").click(function() {
+			var checkbox = $(this);
+			var isChecked = checkbox.prop('checked');
+			var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+			var table = checkbox.closest('table');
+			var rows = table.find('tr');
+			
+			// <td> 부분의 행들을 선택하고 배경색 지정
+			rows.each(function() {
+				var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+				if (checkboxTd.length > 0) {
+					checkboxTd.prop('checked', isChecked);
+					if (isChecked) {
+						$(this).addClass('selected');
+					} else {
+						$(this).removeClass('selected');
+					}
+				}
+			});
+			
+			updateSelectedCheckboxCount();
+			
+		}); // 배경색지정
+
+		// <td> 쪽 체크박스 클릭 시 행 선택
+		$(".table-employeeList td input[type='checkbox']").click(function() {
+			var checkbox = $(this);
+			var isChecked = checkbox.prop('checked');
+			checkbox.closest('tr').toggleClass('selected', isChecked);
+			
+			updateSelectedCheckboxCount();
+		});
+		
+		// ------------------- 체크박스
+		
+		
+		
 		// 추가 버튼 클릭 시 행 추가
 		// 추가버튼 1번 누르면 추가버튼 비활성화
 		$("#addRowButton").click(function() {
+			
+			
+			// 모든 체크박스의 체크 해제
+			$(".table-employeeList input[type='checkbox']").prop("checked", false);
+			
+			// selected 클래스를 없앰 (css 없애기)
+			$(".table-employeeList tr").removeClass("selected");
+			
 			var newRow = '<tr>' +
 				'<td><input type="checkbox"></td>' +
 				'<td><input type="text" name="emp_id" disabled="disabled" value="자동으로 부여"></td>' +
-				'<td><input type="text" name="emp_name"></td>' +
+				'<td><input type="text" name="emp_name" required></td>' +
 				
 				'<td>' +
 					'<select name="emp_gender">' +
@@ -34,7 +84,7 @@
 					'</select>' +
 				'</td>' +
 				
-				'<td><input type="date" name="emp_birth"></td>' +
+				'<td><input type="date" name="emp_birth" required></td>' +
 				
 				'<td>' +
 				'<select name="emp_dept">' +
@@ -56,13 +106,13 @@
 				
 				'<td>' +
 				'<select name="emp_auth">' +
-				'<option value="1">1</option>' +
-				'<option value="2">2</option>' +
+				'<option value="N">N</option>' +
+				'<option value="Y">Y</option>' +
 				'</select>' +
 				'</td>' +
 				
 				'<td><input type="text" name="emp_state" value="재직" readonly="readonly"></td>' +
-				'<td><input type="text" id="tel" name="emp_tel"></td>' +
+				'<td><input type="text" id="tel" name="emp_tel" required></td>' +
 				'<td><input type="date" name="emp_hire_date"></td>' +
 				'<td><input type="date" name="emp_rsgnt_date" disabled="disabled"></td>' +
 				'<td><input type="date" name="emp_start_leave_date" disabled="disabled"></td>' +
@@ -81,38 +131,11 @@
 			
 			pageStatus = "reg";
 			
+			updateSelectedCheckboxCount();
+			
 		}); // 여기까지 추가 버튼
 		
 		
-   		
-		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정 (전체 선택)
-		$(".table-employeeList th input[type='checkbox']").click(function() {
-			var checkbox = $(this);
-			var isChecked = checkbox.prop('checked');
-			var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-			var table = checkbox.closest('table');
-			var rows = table.find('tr');
-			
-			// <td> 부분의 행들을 선택하고 배경색 지정
-			rows.each(function() {
-				var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-				if (checkboxTd.length > 0) {
-					checkboxTd.prop('checked', isChecked);
-					if (isChecked) {
-						$(this).addClass('selected');
-					} else {
-						$(this).removeClass('selected');
-					}
-				}
-			});
-		});
-
-		// <td> 쪽 체크박스 클릭 시 행 선택
-		$(".table-employeeList td input[type='checkbox']").click(function() {
-			var checkbox = $(this);
-			var isChecked = checkbox.prop('checked');
-			checkbox.closest('tr').toggleClass('selected', isChecked);
-		});
 		
 		
 		// 취소 버튼 누를 시 
@@ -182,6 +205,8 @@
 				
 			} // if(update)문
 		
+			updateSelectedCheckboxCount();
+			
 		}); // 취소버튼
            
            
@@ -242,8 +267,8 @@
 					}else if (index === 6){
 						cellContent = '<td>' +
 						'<select name="' + cellName + '">' +
-						'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
-						'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
+						'<option value="N" ' + (cellValue === 'N' ? 'selected' : '') + '>N</option>' +
+						'<option value="Y" ' + (cellValue === 'Y' ? 'selected' : '') + '>Y</option>' +
 						'</select>' +
 						'</td>';
 					}else if (index === 7){
@@ -282,26 +307,9 @@
 		}); // 수정버튼
 			
             
-			// $(function () {
-			// $("#tel").on("keyup", function () {})
-			// }); -> 이런식으로 쓰면 페이지가 로드될 때의 요소에만 바인딩 되기때문에(추가된 행엔 동작안함) 아래와 같은 형태로 사용해야함
-		// 전화번호 입력시 하이픈 생성
-		$(document).on("keyup", "#tel", function() {
-			var telVal = $(this).val();
-			telVal = telVal.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-			var telLen = telVal.length;
-			
-				if(telLen > 3){
-					telVal = telVal.substring(0,3) + "-" + telVal.substring(3);
-				}
-				if(telLen > 7){
-					telVal = telVal.substring(0,8) + "-" +telVal.substring(8);
-				}
-			$(this).val(telVal);
-		});
 			
 			
-			
+		// 삭제버튼
 		$("#deleteButton").click(function(){
 			
 			var selectedCheckbox = $("input[name='selectedEmpId']:checked");
@@ -316,12 +324,38 @@
 			
 		});
 			
+		
+		// 체크박스 선택 시 체크박스 개수 구하기
+		function updateSelectedCheckboxCount() {
+			var totalCheckboxes = $(".table-employeeList td input[type='checkbox']").length;
+			var selectedCheckboxes = $(".table-employeeList td input[type='checkbox']:checked").length;
+			$("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+		}
+		
+		
+			// $(function () {
+			// $("#tel").on("keyup", function () {})
+			// }); -> 이런식으로 쓰면 페이지가 로드될 때의 요소에만 바인딩 되기때문에(추가된 행엔 동작안함) 아래와 같은 형태로 사용해야함
+		
+		// 전화번호 입력시 하이픈 생성
+		$(document).on("keyup", "#tel", function() {
+			var telVal = $(this).val();
+			telVal = telVal.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
+			var telLen = telVal.length;
 			
+				if(telLen > 3){
+					telVal = telVal.substring(0,3) + "-" + telVal.substring(3);
+				}
+				if(telLen > 7){
+					telVal = telVal.substring(0,8) + "-" +telVal.substring(8);
+				}
+			$(this).val(telVal);
+		});
+		
+		
 	}); // jQuery
 		
-// 	document.getElementById('updateButton').addEventListener('click', function(event) {
-// 		event.preventDefault(); // 폼 제출 기능 막기
-// 	});
+
 
 		
 </script>
@@ -337,7 +371,7 @@
 	<h1>사원조회</h1>
 	<!-- 검색칸 -->
 	<form action="" method="GET">
-	사원번호 <input type="text" name="emp_id">
+	사원번호 <input type="number" name="emp_id">
 	이름 <input type="text" name="emp_name">
 	부서
 		<select name="emp_dept">
@@ -369,7 +403,9 @@
 	
 	<form id="employeeList">
 	
-<%-- 	<c:if test="${sessionScope.emp_dept eq '인사' && sessionScope.emp_auth == 2 || sessionScope.emp_auth == 3}"> --%>
+	<span id="selectedCheckboxCount">0</span>
+	
+	<c:if test="${sessionScope.emp_dept eq '인사' && sessionScope.emp_auth == 'Y'}">
 		<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 		<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
@@ -377,13 +413,8 @@
 		<i class="fa fa-trash"></i> 삭제</button>
 		<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regEmployee" formmethod="post" disabled>
 		<i class="fa fa-download"></i> 저장</button>
-<%-- 	</c:if> --%>
+	</c:if>
 	
-<!-- 	<input type="button" id="addRowButton" value="추가"> -->
-<!-- 	<input type="button" id="cancleButton" value="취소" disabled="disabled"> -->
-<!-- 	<input type="button" id="updateButton" value="수정"> -->
-<!-- 	<input type="submit" id="deleteEmployeeButton" value="삭제" formaction="deleteEmployee" formmethod="post"> -->
-<!-- 	<input type="submit" id="submitButton" value="저장" formaction="regEmployee" formmethod="post" disabled="disabled"> -->
 
 	<table class="table-employeeList" border="1">
 		<tr>
