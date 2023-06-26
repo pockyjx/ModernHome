@@ -17,7 +17,7 @@ public interface ClientService {
 	public void regClient(ClientVO cvo);
 		
 	// 거래처 삭제
-	public void deleteClient(int clt_id);
+	public void deleteClient(String clt_num);
 		
 	// 거래처 업데이트
 	public void updateClient(ClientVO cvo); 

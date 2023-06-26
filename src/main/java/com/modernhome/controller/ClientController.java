@@ -101,12 +101,12 @@ public class ClientController {
 	
 	// 거래처삭제
 		@RequestMapping(value = "/deleteClient")
-		public String deleteClient(@RequestParam(value = "selectedCltId", required = false) Integer[] selectedCltIds) throws Exception {
+		public String deleteClient(@RequestParam(value = "selectedCltId", required = false) String[] selectedCltIds) throws Exception {
 			
 			logger.debug("deleteClient() 호출(사원삭제)");
 			if(selectedCltIds != null) {
-			    for (Integer clt_id : selectedCltIds) {
-			    	cService.deleteClient(clt_id);
+			    for (String clt_num : selectedCltIds) {
+			    	cService.deleteClient(clt_num);
 			    }
 			}
 		    
@@ -215,14 +215,33 @@ public class ClientController {
 		@RequestMapping(value = "/regShipment")
 		public String regShipment(ShipmentVO svo) throws Exception{
 			
+			
+		if(svo.getShp_num() == null) {	
+			logger.debug("svo : " + svo);
+			logger.debug("출하등록");
+			sService.regShipment(svo);
+		}else {
+			logger.debug("regShipment() - 출하 수정");
 			logger.debug("svo : " + svo);
 			
-			sService.regShipment(svo);
-			
+			sService.updateShipment(svo);
+		}
 			return "redirect:/client/shipmentList";
 		}
 		
-		
+		// 출하 삭제
+		@RequestMapping(value = "/deleteShipment")
+		public String deleteShipment(@RequestParam(value = "selected", required = false) String[] selected) throws Exception{
+			
+			logger.debug("deleteShipment() 호출 (출하 삭제)");
+			if(selected != null) {
+				for(String shp_num : selected) {
+					sService.deleteShipment(shp_num);
+				}
+			}
+			
+			return "redirect:/client/shipmentList";
+		}
 		
 		
 	

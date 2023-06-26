@@ -36,8 +36,8 @@ public class ClientServiceImpl implements ClientService {
 
 	// 거래처 삭제
 	@Override
-	public void deleteClient(int clt_id) {
-		cDAO.deleteClient(clt_id);
+	public void deleteClient(String clt_num) {
+		cDAO.deleteClient(clt_num);
 		
 	}
 
