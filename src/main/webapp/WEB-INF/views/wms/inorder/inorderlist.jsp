@@ -179,7 +179,7 @@
 			            "io_cnt",
 			            "io_unit",
 			            "io_amount",
-			            "io_update_date",
+			            "io_date",
 			            "io_state",
 			            "rec_date",
 			            "io_update_date",
@@ -190,7 +190,7 @@
 					// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 					row.find("td:not(:first-child)").each(function(index) {
 						var cellValue = $(this).text();
-						if(index == 11) {
+						if(index == 12) {
 		                    cellValue = ${sessionScope.emp_id}
 		                }
 						var cellType = index === 10 ? "date" : "text"; // 날짜 타입은 date로 설정
@@ -200,7 +200,7 @@
 						
 						if(index == 5 || index == 9 || index == 10) {
 							cellOption = "";
-						}else if(index == 0 || index == 11){
+						}else if(index == 0 || index == 12){
 							cellOption = "readonly";
 						}else {
 							cellOption = "disabled";

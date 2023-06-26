@@ -284,10 +284,7 @@
        $(document).on("click", "input[id='io_num']", function() {
     	   window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
        });
-    	// 거래처 코드 입력란 클릭 시 팝업창 열기
-       $(document).on("click", "input[name='clt_name']", function() {
-    	   window.open('/wms/receive/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-       });
+    	
 		
 		
     </script>
