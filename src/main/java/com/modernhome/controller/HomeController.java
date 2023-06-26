@@ -21,6 +21,7 @@ public class HomeController {
 		if(session.getAttribute("emp_id") == null) {
 			return "redirect:/employee/login";
 		}
+		session.setAttribute("emp_id", "20230002");
 		return "main";
 	}
 	
