@@ -40,18 +40,20 @@ public class MaterialDAOImpl implements MaterialDAO {
 		return sqlSession.selectOne(NAMESPACRE + ".mateTotalCnt");
 	}
 
-
-
-
-
-
-
-	// 자재 검색 결과
+	// 자재 검색 결과 (페이징)
 	@Override
-	public List<MaterialVO> getMaterialList(MaterialVO vo) {
-
-		 return sqlSession.selectList(NAMESPACRE + ".maSearchList", vo);
-
+	public List<MaterialVO> getMaterialList(MaterialVO vo, PageVO pvo) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("materialVO", vo);
+		paramMap.put("pageVO", pvo);
+		
+		return sqlSession.selectList(NAMESPACRE + ".maSearchList", paramMap);
+	}
+	
+	// 검색 결과 개수 (페이징)
+	@Override
+	public int getMaSearchCnt(MaterialVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACRE + ".maSearchCnt", vo);
 	}
 
 	// 자재 등록
@@ -61,6 +63,7 @@ public class MaterialDAOImpl implements MaterialDAO {
 		sqlSession.insert(NAMESPACRE + ".regMaterial", vo);
 	}
 	
+
 	// 자재 삭제
 	@Override
 	public void delMaterial(int ma_id) {

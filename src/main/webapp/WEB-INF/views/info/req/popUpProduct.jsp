@@ -70,6 +70,10 @@
 	
 	</table>
 	
+	<br>
+	
+	<!-- 페이징 버튼 -->
+	
 	<nav aria-label="Page navigation example">
   		<ul class="pagination justify-content-center pagination-sm">
   		
@@ -99,6 +103,8 @@
     		
   		</ul>
 	</nav>
+	
+	<!-- 페이징 버튼 -->
 
 </body>
 </html>

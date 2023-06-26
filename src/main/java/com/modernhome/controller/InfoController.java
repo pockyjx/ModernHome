@@ -57,10 +57,12 @@ public class InfoController {
 			productList = iService.getProductList(vo, pvo);
 			model.addAttribute("productList", productList);
 			
+			// 페이징 정보 전달
 			pm.setPageVO(pvo);
 			pm.setTotalCount(iService.getProSearchCnt(vo));
 			model.addAttribute("pm", pm);
 			
+			// 검색 정보 전달
 			model.addAttribute("productVO", vo);
 			
 			
@@ -90,8 +92,18 @@ public class InfoController {
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐 경우
 		if(vo.getMa_name() != null || vo.getMa_num() != null) {
-			materialList = iService.getMaterialList(vo);
+			materialList = iService.getMaterialList(vo, pvo);
 			model.addAttribute("materialList", materialList);
+			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(iService.getMaSearchCnt(vo));
+			model.addAttribute("pm", pm);
+			
+			// 검색 정보 전달
+			model.addAttribute("mvo", vo);
+			
+			
 		} else {
 			
 			materialList = iService.getMaterialList(pvo);
@@ -226,6 +238,7 @@ public class InfoController {
 				popUpPro = iService.getProductList(prvo, pvo); // 기존 페이징 적용된 검색 메서드 사용!
 				model.addAttribute("popUpPro", popUpPro);
 				
+				// 페이징 정보 추가
 				pm.setPageVO(pvo);
 				pm.setTotalCount(iService.getProSearchCnt(prvo));
 				model.addAttribute("pm", pm);
@@ -240,6 +253,7 @@ public class InfoController {
 				popUpPro = iService.getProListPage(pvo); // 기존 페이징 적용된 검색 메서드 사용!
 				model.addAttribute("popUpPro", popUpPro);
 				
+				// 페이징 정보 추가
 				pm.setPageVO(pvo);
 				pm.setTotalCount(iService.getTotalCntPro());
 				
@@ -256,8 +270,16 @@ public class InfoController {
 			if(mvo.getMa_name() != null) { // 자재 팝업창에서 검색했을 때
 				
 				logger.debug("자재 팝업(검색) 호출!");
-				popUpMate = iService.getMaterialList(mvo); // 기존 자재 검색 메서드 사용
+				popUpMate = iService.getMaterialList(mvo, pvo); // 기존 자재 검색 메서드 사용
 				model.addAttribute("popUpMate", popUpMate);
+				
+				// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getMaSearchCnt(mvo));
+				model.addAttribute("pm", pm);
+				
+				model.addAttribute("mvo", mvo);
+				
 				
 			}else { // 자재 팝업 처음 실행했을 때
 				
@@ -265,6 +287,7 @@ public class InfoController {
 				popUpMate = iService.getMaterialList(pvo);
 				model.addAttribute("popUpMate", popUpMate);
 				
+				// 페이징 정보 추가
 				pm.setPageVO(pvo);
 				pm.setTotalCount(iService.getTotalCntMate());
 				

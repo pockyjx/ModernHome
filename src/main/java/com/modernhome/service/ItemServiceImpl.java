@@ -92,10 +92,15 @@ public class ItemServiceImpl implements ItemService {
 	
 	// 자재 검색 결과
 	@Override
-	public List<MaterialVO> getMaterialList(MaterialVO vo) {
-		return mdao.getMaterialList(vo);
+	public List<MaterialVO> getMaterialList(MaterialVO vo, PageVO pvo) {
+		return mdao.getMaterialList(vo, pvo);
 	}
-
+	
+	// 검색 결과 개수
+	@Override
+	public int getMaSearchCnt(MaterialVO vo) throws Exception {
+		return mdao.getMaSearchCnt(vo);
+	}
 
 	// 자재 등록
 	@Override

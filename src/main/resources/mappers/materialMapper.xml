@@ -6,7 +6,7 @@
   <mapper namespace="com.modernhome.mapper.MaterialMapper">
 	
 	<!-- 자재 목록 조회 (페이징) -->
-	<select id="materialList" resultType="com.modernhome.domain.MaterialVO">
+	<select id="materialList" resultType="MaterialVO">
 		select *
 		from material
 		ORDER BY ma_id DESC
@@ -14,15 +14,31 @@
 	</select>
 	<!-- 자재 목록 조회 (페이징) -->
 	
-	<!-- 전체 글 수 계산 -->
+	<!-- 전체 글 수 계산 (페이징) -->
 	<select id="mateTotalCnt" resultType="int">
 		SELECT count(*) from material
 	</select>
 	<!-- 전체 글 수 계산 -->
 	
-	<!-- 자재 검색 결과 조회 -->
-	<select id="maSearchList" resultType="com.modernhome.domain.MaterialVO">
+	<!-- 자재 검색 결과 조회(페이징) -->
+	<select id="maSearchList" resultType="MaterialVO" parameterType="java.util.Map">
 		select * from material
+		<where>
+			<if test="ma_num != ''">
+				ma_num like CONCAT('%', #{materialVO.ma_num}, '%')
+			</if>
+			<if test="ma_name != ''">
+				AND ma_name like CONCAT('%', #{materialVO.ma_name}, '%')
+			</if>
+		</where>
+		ORDER BY ma_id DESC
+		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+	</select>
+	<!-- 자재 검색 결과 조회 (페이징) -->
+	
+	<!-- 검색 결과 개수 계산(페이징) -->
+	<select id="maSearchCnt" resultType="int">
+		select count(*) from material
 		<where>
 			<if test="ma_num != ''">
 				ma_num like CONCAT('%', #{ma_num}, '%')
@@ -32,7 +48,7 @@
 			</if>
 		</where>
 	</select>
-	<!-- 자재 검색 결과 조회 -->
+	<!-- 검색 결과 개수 계산 -->
 	
 	<!-- 자재 등록 -->
 	<insert id="regMaterial">
