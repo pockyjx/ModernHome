@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
@@ -183,12 +184,12 @@
 				    <c:if test="${list.work_state=='완료'}">완료</c:if>
 				</td>
 				<td>
-					<c:if test="${!empty list.update_date}">${list.update_date}</c:if>
-					<c:if test="${empty list.update_date}">${list.reg_date}</c:if>
+					<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
+					<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
 				</td>
 				<td>${list.work_cnt}</td>
 				<td>${list.oo_num}</td>
-				<td>${list.oo_end_date}</td>
+				<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
 				<td>${list.emp_name}</td>
 			</tr>
 		</c:forEach>

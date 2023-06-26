@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
@@ -49,7 +49,7 @@
 							 '</td>' +
 							 '<td><input type="text" name="prfrm_cnt"></td>' +
 							 '<td><input type="text" name="df_cnt" value="0" disabled></td>' +
-							 '<td><input type="text" name="emp_id"></td>' +
+							 '<td><input type="hidden" name="emp_id" value="${sessionScope.emp_id}"></td>' +
 							 '<td><input type="text" name="work_cnt" value="' + work_cnt + '"></td>' +
 							 '</tr>';
 				
@@ -261,6 +261,18 @@
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         }
 	});
+	
+	// 체크박스 중복 X
+	function handleCheckbox(checkbox, value) {
+	    const checkboxes = document.getElementsByName('gb_yn');
+
+	    // 다른 체크박스 중에서 선택된 체크박스를 제외하고 체크 해제
+	    checkboxes.forEach(function(cb) {
+	      if (cb !== checkbox && cb.checked) {
+	        cb.checked = false;
+	      }
+	    });
+	  }
 </script>
 <style>
 .selected {
@@ -272,8 +284,8 @@
 
 <form method="get">
 	양불 여부
-		<label><input type="radio" name="gb_yn" value="양품">양품</label>
-		<label><input type="radio" name="gb_yn" value="불량품">불량품</label>
+		<label><input type="checkbox" name="gb_yn" value="양품" ${param.gb_yn == '양품' ? 'checked' : ''} onclick="handleCheckbox(this, '양품')">양품</label>
+		<label><input type="checkbox" name="gb_yn" value="불량품"  ${param.gb_yn == '불량품' ? 'checked' : ''} onclick="handleCheckbox(this, '불량품')">불량품</label>
 	작업지시코드 <input type="text" name="work_num"> <br>
 	<label>등록일자</label>
 	<input type="date" name="startDate"> ~ <input type="date" name="endDate">
@@ -307,16 +319,13 @@
 					<td>${qi.pro_name}</td>
 					<td>${qi.work_state}</td>
 					<td>
-						<c:if test="${!empty qi.update_date}">${qi.update_date}</c:if>
-						<c:if test="${empty qi.update_date}">${qi.reg_date}</c:if>
+						<c:if test="${!empty qi.update_date}">${fn:substring(qi.update_date, 0, 10)}</c:if>
+						<c:if test="${empty qi.update_date}">${fn:substring(qi.reg_date, 0, 10)}</c:if>
 					</td>
 					<td>${qi.work_cnt}</td>
 					<td>${qi.oo_num}</td>
-					<td>${qi.oo_end_date}</td>
-					<td>
-						<c:if test="${!empty qi.update_emp_id}">${qi.emp_name}</c:if>
-						<c:if test="${empty qi.update_emp_id}">${qi.emp_name}</c:if>
-					</td>
+					<td>${fn:substring(qi.oo_end_date, 0, 10)}</td>
+					<td>${qi.emp_name}</td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -367,8 +376,8 @@
 					<td>${wp.pro_num}</td>
 					<td>${wp.pro_name}</td>
 					<td>
-						<c:if test="${!empty wp.update_date}">${wp.update_date}</c:if>
-						<c:if test="${empty wp.update_date}">${wp.reg_date}</c:if>
+						<c:if test="${!empty wp.update_date}">${fn:substring(wp.update_date, 0, 10)}</c:if>
+						<c:if test="${empty wp.update_date}">${fn:substring(wp.reg_date, 0, 10)}</c:if>
 					</td>
 					<td>${wp.gb_yn}</td>
 					<td>${wp.prfrm_cnt}</td>

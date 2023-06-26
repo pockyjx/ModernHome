@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
@@ -22,7 +23,7 @@
 		var onumVal = new URLSearchParams(new URL(url).search).get('oo_num');
 		
 		if(onumVal == null) {
-			alert("수주번호부터 선택해주세요.");
+			alert("수주번호 먼저 선택해주세요.");
 			return false;
 		} else {
 			window.open('/production/instruct/addPopup?txt=li', 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
@@ -132,6 +133,7 @@
 		<input type="hidden" name="pro_id" value="${reqList[0].pro_id}">
 		<input type="hidden" name="req_id" value="${reqList[0].req_id}">
 		<input type="hidden" name="clt_id" value="${reqList[0].clt_id}">
+		<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
 		<input type="hidden" name="oo_id" id="oo_id" <c:if test='${!empty param.oo_id}'>value="${param.oo_id}"</c:if> readonly>
 		<input type="hidden" name="line_id" id="line_id" <c:if test='${!empty param.line_id}'>value="${param.line_id}"</c:if> readonly>
 		<div>

@@ -44,12 +44,10 @@
 								+ "&line_num=" + new URLSearchParams(new URL(opUrl).search).get("line_num");
 					opUrl = opUrl.replace(/&line_id=[^&]+&line_num=[^&]+/, "");
 				}
-				
-				opUrl = opUrl.replace(/&oo_id=[^&]+&oo_num=[^&]+/, "");
-				opUrl = opUrl.replace(/\?$/, "");			// 끝에 ?가 남은 경우 제거
+				opUrl = opUrl.replace(/\?oo_id=[^&]+&oo_num=[^&]+/, "");
 			}
 			
-			opUrl += (lineVal == "") ? ooVal : ooVal + lineVal;
+			opUrl += (lineVal === "") ? ooVal : ooVal + lineVal;
 			opener.location.href = opUrl;
 			window.close();
 		});

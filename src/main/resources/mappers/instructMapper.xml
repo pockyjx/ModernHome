@@ -105,7 +105,7 @@
 				work_state = #{work_state}
 			</if>
 			<if test="pro_num != ''">
-				AND wi.pro_id = (SELECT pro.pro_id FROM product pro WHERE pro.pro_num = #{pro_num})
+				AND pro_num like CONCAT('%', #{pro_num}, '%')
 			</if>
 			<if test="startDate != ''">
 	        	AND wi.reg_date &gt;= #{startDate}
