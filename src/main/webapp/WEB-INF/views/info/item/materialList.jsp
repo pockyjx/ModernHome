@@ -50,6 +50,12 @@
 					// 두번째 tr (추가된 행)을 삭제함
 					$(".table-mateList tr:nth-child(2)").remove();
 					
+					// 모든 체크박스의 체크 해제
+					$(".table-mateList input[type='checkbox']").prop("checked", false);
+					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-mateList tr").removeClass("selected");
+					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
 					$("#updateButton").removeAttr("disabled");
@@ -92,6 +98,8 @@
 					});
 				
 				}
+				
+				updateSelectedCheckboxCount();
 			
 			});
          
@@ -206,14 +214,13 @@
 
 <hr>
 
-
 <h2>자재 검색</h2>
 
 	<fieldset>
 		<form action="" method="GET">
 
-			<label><b>자재코드</b> <input type="text" name="ma_num"></label>
-			<label><b>자재명</b> <input type="text" name="ma_name"></label>
+			<label><b>자재코드</b> <input type="text" name="ma_num" value="${mvo.ma_num }"></label>
+			<label><b>자재명</b> <input type="text" name="ma_name" value="${mvo.ma_name }"></label>
 
 			<input type="submit" value="조회">
 		</form>
@@ -221,7 +228,7 @@
 
 
 <hr>
-	
+
 	<h2>자재 목록</h2>
 	
 	<form id="materialList">
@@ -235,7 +242,7 @@
 	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-	<button type="submit" class="btn btn-primary m-2" id="/info/delMaterial" formaction="/info/delProduct" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/info/delMaterial" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 	
 	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/info/regMaterial" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 	
@@ -266,6 +273,40 @@
 	</table>
 	
 	</form>
+	
+	<!-- 페이지 이동 버튼 -->
+	
+	<nav aria-label="Page navigation example">
+  		<ul class="pagination justify-content-center pagination-sm">
+  		
+  			<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/info/item/materialList?page=${pm.startPage-1 }&ma_num=${mvo.ma_num}&ma_name=${mvo.ma_name}" aria-label="Previous">
+       			<span aria-hidden="true">&laquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+    		<li 
+    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+    		>
+    			<a class="page-link" href="/info/item/materialList?page=${idx}&ma_num=${mvo.ma_num}&ma_name=${mvo.ma_name}">${idx }</a>
+    		</li>
+    		</c:forEach>
+			
+			<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+      			<a class="page-link" href="/info/item/materialList?page=${pm.endPage+1 }&ma_num=${mvo.ma_num}&ma_name=${mvo.ma_name}" aria-label="Next">
+        		<span aria-hidden="true">&raquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+  		</ul>
+	</nav>
+	
+	<!-- 페이지 이동 버튼 -->
 
 </body>
 </html>
