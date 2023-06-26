@@ -288,12 +288,13 @@
 		
 	<form id="clientList">
 	
-	<input type="button" id="addRowButton" value="추가">
-	<input type="button" id="cancleButton" value="취소" disabled="disabled">
-	<input type="button" id="updateButton" value="수정">
-	<input type="submit" id="deleteClientButton" value="삭제" formaction="deleteClient" formmethod="post">
-	<input type="submit" id="submitButton" value="저장" formaction="regClient" formmethod="post" disabled="disabled">
-	
+	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteClient" formmethod="post">
+	<i class="fa fa-trash"></i> 삭제</button>
+	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regClient" formmethod="post" disabled>
+	<i class="fa fa-download"></i> 저장</button>
 	
 	<table class="table-clientList" border="1">
 		<tr>
