@@ -167,7 +167,7 @@ $(document).ready(function() {
 			// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 			$("#addRowButton").removeAttr("disabled");
 			$("#updateButton").removeAttr("disabled");
-			$("#deleteEmployeeButton").removeAttr("disabled");
+			$("#deleteButton").removeAttr("disabled");
 			
 			$("#cancleButton").attr("disabled", "disabled");
 			$("#submitButton").attr("disabled", "disabled");
@@ -259,6 +259,23 @@ $(document).ready(function() {
 			alert("수정은 하나의 행만 가능합니다!");
 		}
 	});
+	
+	
+	$("#deleteButton").click(function(){
+		
+		var selectedCheckbox = $("input[name='selectedEmpId']:checked");
+		
+		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+		if (selectedCheckbox.length === 0){
+			alert("삭제할 행을 선택해주세요!");
+			
+			// 선택안하면 submit을 막음
+			event.preventDefault();
+		}
+		
+	});
+	
+	
 	
 	
 }); //jQuery
