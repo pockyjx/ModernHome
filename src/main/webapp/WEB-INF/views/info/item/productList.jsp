@@ -224,8 +224,6 @@
 
 	<hr>
 
-	
-
 <h2>완제품 목록</h2>
 
 	<form id="productList">	
@@ -286,7 +284,18 @@
     		<li 
     			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
     		>
-    			<a class="page-link" href="/info/item/productList?page=${idx }">${idx }</a>
+    			
+    			<c:choose>
+    			
+    				<c:when test="${productVO.pro_name != '' && productVO.pro_name != '' }">
+    					<a class="page-link" href="/info/item/productList?page=${idx}&pro_num=${productVO.pro_num}&pro_name=${productVO.pro_name}">${idx }</a>
+					</c:when>   
+					
+					<c:otherwise>
+						<a class="page-link" href="/info/item/productList?page=${idx}">${idx }</a>
+					</c:otherwise>
+					 			
+    			</c:choose>
     		</li>
     		</c:forEach>
 			

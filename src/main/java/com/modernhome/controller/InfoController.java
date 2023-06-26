@@ -47,17 +47,21 @@ public class InfoController {
 	public void productListGET(Model model, ProductVO vo, PageVO pvo) throws Exception {
 		logger.debug("productListGET() 호출!");
 		
+		logger.debug(vo + "");
+		
 		List<ProductVO> productList;
 		PageMaker pm = new PageMaker();
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐 경우
 		if(vo.getPro_num() != null || vo.getPro_name() != null) {
-//			productList = iService.getProductList(vo, pvo);
-//			model.addAttribute("productList", productList);
+			productList = iService.getProductList(vo, pvo);
+			model.addAttribute("productList", productList);
 			
-//			pm.setPageVO(pvo);
-//			pm.setTotalCount(iService.getProSearchCnt(vo));
+			pm.setPageVO(pvo);
+			pm.setTotalCount(iService.getProSearchCnt(vo));
 			model.addAttribute("pm", pm);
+			
+			model.addAttribute("productVO", vo);
 			
 			
 		} else { 
