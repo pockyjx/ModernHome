@@ -18,4 +18,10 @@ public interface WorkPrfrmService {
 	// 생산실적 등록
 	public void addPrfrm(WijoinVO vo) throws Exception;
 	
+	// 생산실적 수정
+	public void modifyPrfrm(WijoinVO vo) throws Exception;
+	
+	// 생산실적 삭제
+	public void deletePrfrm(WijoinVO vo) throws Exception;
+	
 }

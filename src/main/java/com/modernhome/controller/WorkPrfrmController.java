@@ -63,6 +63,9 @@ public class WorkPrfrmController {
 		if(vo.getPrfrm_id() == null) {
 			logger.debug("생산실적 등록");
 			wpService.addPrfrm(vo);
+		} else {
+			logger.debug("생산실적 수정");
+			wpService.modifyPrfrm(vo);
 		}
 		
 		return "redirect:/production/performance/list";
@@ -73,5 +76,13 @@ public class WorkPrfrmController {
 	
 	
 	// 생산실적 삭제
+	@RequestMapping(value = "/delPrfrm")
+	public String delPrfrmInfo(Model model, WijoinVO vo) throws Exception {
+		logger.debug("delPrfrmInfo() 호출");
+		
+		wpService.deletePrfrm(vo);
+		
+		return "redirect:/production/performance/list";
+	}
 	
 }

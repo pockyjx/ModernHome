@@ -45,7 +45,7 @@ public class WijoinVO {
 	private Integer rec_id;
 	
 	private String prfrm_num;
-	private char gb_yn;
+	private String gb_yn;
 	
 	public Integer getWork_id() {
 		return work_id;
@@ -287,10 +287,10 @@ public class WijoinVO {
 	public void setPrfrm_num(String prfrm_num) {
 		this.prfrm_num = prfrm_num;
 	}
-	public char getGb_yn() {
+	public String getGb_yn() {
 		return gb_yn;
 	}
-	public void setGb_yn(char gb_yn) {
+	public void setGb_yn(String gb_yn) {
 		this.gb_yn = gb_yn;
 	}
 	

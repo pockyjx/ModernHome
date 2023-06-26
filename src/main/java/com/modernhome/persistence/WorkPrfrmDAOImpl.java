@@ -47,5 +47,17 @@ public class WorkPrfrmDAOImpl implements WorkPrfrmDAO {
 		logger.debug("WP DAOImpl_addPrfrm() 실행");
 		sqlSession.insert(NAMESPACE + ".addPrfrm", vo);
 	}
+
+	@Override
+	public void modifyPrfrm(WijoinVO vo) throws Exception {
+		logger.debug("WP DAOImpl_modifyPrfrm() 실행");
+		sqlSession.update(NAMESPACE + ".modifyPrfrm", vo);
+	}
+
+	@Override
+	public void deletePrfrm(WijoinVO vo) throws Exception {
+		logger.debug("WP DAOImpl_deletePrfrm() 실행");
+		sqlSession.delete(NAMESPACE + ".deletePrfrm", vo);
+	}
 	
 }

@@ -173,7 +173,8 @@
 			FROM quality_checking
 		</selectKey>
 		INSERT INTO quality_checking (qc_id, qc_num, work_id, pro_id, line_id, qc_yn, qc_cnt, emp_id) 
-		VALUES (#{qc_id}, #{qc_num}, #{work_id}, #{pro_id}, #{line_id}, '대기', 0, #{emp_id})
+		SELECT #{qc_id}, #{qc_num}, #{work_id}, #{pro_id}, #{line_id}, '대기', 0, #{emp_id} 
+		ON DUPLICATE KEY UPDATE line_id = #{line_id}
 	</insert>
 	<!-- 작업지시의 상태가 '완료'일 경우 품질검사 자동 등록 -->
 	

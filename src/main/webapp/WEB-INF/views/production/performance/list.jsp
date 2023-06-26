@@ -43,8 +43,8 @@
 							 '<td><input type="text" name="reg_date" value="' + today + '"></td>' +
 							 '<td>' +
 							 '<select name="gb_yn">' +
-							 '<option value="Y">양품</option>' +
-							 '<option value="N">불량품</option>' +
+							 '<option value="양품">양품</option>' +
+							 '<option value="불량품">불량품</option>' +
 							 '</select>' +
 							 '</td>' +
 							 '<td><input type="text" name="prfrm_cnt"></td>' +
@@ -58,7 +58,7 @@
 					var dfCntInput = $(this).closest('tr').find('input[name="df_cnt"]');
 					var selectedValue = $(this).val();
 					
-					if(selectedValue === 'Y') {
+					if(selectedValue === "양품") {
 						dfCntInput.prop('disabled', true);
 					} else {
 						dfCntInput.prop('disabled', false);
@@ -104,7 +104,9 @@
 				// 각 셀의 값을 원래 상태로 되돌림
 				row.find("td:not(:first-child)").each(function(index) {
 					var cellValue = $(this).find("input").val();
+					var cellValueSelect = $(this).find("select").val();
 					$(this).html(cellValue);
+					$(this).html(cellValueSelect);
 				});
 				
 				// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
@@ -177,8 +179,8 @@
 					if(index == 6) {
 						$(this).html(
 							'<select name="' + cellNames[index] + '">'
-							+ '<option value="Y" <c:if test="${wp.gb_yn.equals(' + Y + ')}">selected</c:if>>양품</option>'
-							+ '<option value="N" <c:if test="${wp.gb_yn.equals(' + N + ')}">selected</c:if>>불량품</option>'
+							+ '<option value="양품">양품</option>'
+							+ '<option value="불량품">불량품</option>'
 							+ '</select>');
 					}
 					if(index == 7) {
@@ -270,8 +272,8 @@
 
 <form method="get">
 	양불 여부
-		<label><input type="radio" name="gb_yn" value="Y">양품</label>
-		<label><input type="radio" name="gb_yn" value="N">불량품</label>
+		<label><input type="radio" name="gb_yn" value="양품">양품</label>
+		<label><input type="radio" name="gb_yn" value="불량품">불량품</label>
 	작업지시코드 <input type="text" name="work_num"> <br>
 	<label>등록일자</label>
 	<input type="date" name="startDate"> ~ <input type="date" name="endDate">
@@ -323,6 +325,7 @@
 		<hr>
 		<!-- ================================================================================== -->
 <%-- ${prfrmNum} --%>
+<%-- ${wpList} --%>
 		
 <form>
 	<div class="bg-light text-center rounded p-4">
@@ -367,15 +370,10 @@
 						<c:if test="${!empty wp.update_date}">${wp.update_date}</c:if>
 						<c:if test="${empty wp.update_date}">${wp.reg_date}</c:if>
 					</td>
-					<td>
-						${wp.gb_yn.equals("Y") ? "양품" : "불량품"}
-					</td>
+					<td>${wp.gb_yn}</td>
 					<td>${wp.prfrm_cnt}</td>
 					<td>${wp.work_cnt - wp.prfrm_cnt}</td>
-					<td>
-						<c:if test="${!empty wp.update_emp_id}">${wp.emp_name}</c:if>
-						<c:if test="${empty wp.update_emp_id}">${wp.emp_name}</c:if>
-					</td>
+					<td>${wp.emp_name}</td>
 					<td>${wp.work_cnt}</td>
 				</tr>
 			</c:forEach>

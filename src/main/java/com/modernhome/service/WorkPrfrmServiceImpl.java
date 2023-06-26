@@ -34,5 +34,15 @@ public class WorkPrfrmServiceImpl implements WorkPrfrmService {
 	public void addPrfrm(WijoinVO vo) throws Exception {
 		dao.addPrfrm(vo);
 	}
+
+	@Override
+	public void modifyPrfrm(WijoinVO vo) throws Exception {
+		dao.modifyPrfrm(vo);
+	}
+
+	@Override
+	public void deletePrfrm(WijoinVO vo) throws Exception {
+		dao.deletePrfrm(vo);
+	}
 	
 }
