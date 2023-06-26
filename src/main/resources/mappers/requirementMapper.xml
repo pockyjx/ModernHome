@@ -37,6 +37,7 @@
 		FROM requirement r
 		JOIN product p ON r.pro_id = p.pro_id
 		JOIN material m ON r.ma_id = m.ma_id
+		ORDER BY p.pro_id;
         
     </select>
     <!-- 소요량 목록 -->
@@ -68,6 +69,7 @@
 				OR ma_name like CONCAT('%', #{search}, '%')
 			</otherwise>
 		</choose>
+		ORDER BY p.pro_id;
     </select>
     <!-- 소요량 검색 -->
     

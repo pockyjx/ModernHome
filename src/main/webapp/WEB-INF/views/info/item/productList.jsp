@@ -276,7 +276,7 @@
   		
   			<c:if test="${pm.prev }">
 			<li class="page-item">
-				<a class="page-link" href="#" aria-label="Previous">
+				<a class="page-link" href="/info/item/productList?page=${pm.startPage-1 }" aria-label="Previous">
        			<span aria-hidden="true">&laquo;</span>
       			</a>
     		</li>
@@ -292,7 +292,7 @@
 			
 			<c:if test="${pm.next && pm.endPage > 0}">
 			<li class="page-item">
-      			<a class="page-link" href="#" aria-label="Next">
+      			<a class="page-link" href="/info/item/productList?page=${pm.endPage+1 }" aria-label="Next">
         		<span aria-hidden="true">&raquo;</span>
       			</a>
     		</li>
