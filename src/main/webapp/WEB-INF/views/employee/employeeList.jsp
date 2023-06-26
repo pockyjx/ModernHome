@@ -299,7 +299,22 @@
 				}
 			$(this).val(telVal);
 		});
-
+			
+			
+			
+		$("#deleteButton").click(function(){
+			
+			var selectedCheckbox = $("input[name='selectedEmpId']:checked");
+			
+			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+			if (selectedCheckbox.length === 0){
+				alert("삭제할 행을 선택해주세요!");
+				
+				// 선택안하면 submit을 막음
+				event.preventDefault();
+			}
+			
+		});
 			
 			
 	}); // jQuery
