@@ -14,7 +14,16 @@
 				(SELECT emp_name FROM employee WHERE emp_id = out_order.emp_id)
 				ELSE
 				(SELECT emp_name FROM employee WHERE emp_id = out_order.update_emp_id)
-				END AS emp_name
+				END AS emp_name,
+				
+				CASE
+				WHEN oo_update_date IS NULL THEN
+				oo_reg_date
+				ELSE
+				oo_update_date
+				END AS oo_reg_date
+				
+				
 			FROM out_order
 			join client c on out_order.clt_id = c.clt_id
 			join product p on out_order.pro_id = p.pro_id;
@@ -77,7 +86,9 @@
 	<!-- 수주 수정 -->
 	<update id="updateOutOrder">
 		UPDATE out_order SET update_emp_id = #{update_emp_id}, oo_cnt = #{oo_cnt}, oo_state = #{oo_state},
-		oo_end_date = CASE WHEN #{oo_end_date} = '' THEN NULL ELSE #{oo_end_date} END
+		oo_start_date = CASE WHEN #{oo_start_date} = '' THEN NULL ELSE #{oo_start_date} END,
+		oo_end_date = CASE WHEN #{oo_end_date} = '' THEN NULL ELSE #{oo_end_date} END,
+		oo_update_date = CURRENT_TIMESTAMP
 		WHERE oo_num = #{oo_num}
 	</update>
 	<!-- 수주 수정 -->

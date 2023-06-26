@@ -13,8 +13,8 @@ public class OutOrderVO {
 	private String oo_end_date;
 	private String oo_state;
 	private Integer update_emp_id;
-	private String update_oo_date;
-	
+	private String oo_reg_date;
+	private String oo_update_date;
 	public Integer getOo_id() {
 		return oo_id;
 	}
@@ -81,20 +81,27 @@ public class OutOrderVO {
 	public void setUpdate_emp_id(Integer update_emp_id) {
 		this.update_emp_id = update_emp_id;
 	}
-	public String getUpdate_oo_date() {
-		return update_oo_date;
+	public String getOo_reg_date() {
+		return oo_reg_date;
 	}
-	public void setUpdate_oo_date(String update_oo_date) {
-		this.update_oo_date = update_oo_date;
+	public void setOo_reg_date(String oo_reg_date) {
+		this.oo_reg_date = oo_reg_date;
 	}
-	
+	public String getOo_update_date() {
+		return oo_update_date;
+	}
+	public void setOo_update_date(String oo_update_date) {
+		this.oo_update_date = oo_update_date;
+	}
 	@Override
 	public String toString() {
 		return "OutOrderVO [oo_id=" + oo_id + ", oo_num=" + oo_num + ", emp_id=" + emp_id + ", clt_id=" + clt_id
 				+ ", pro_id=" + pro_id + ", clt_cost=" + clt_cost + ", oo_cnt=" + oo_cnt + ", oo_start_date="
 				+ oo_start_date + ", oo_end_date=" + oo_end_date + ", oo_state=" + oo_state + ", update_emp_id="
-				+ update_emp_id + ", update_oo_date=" + update_oo_date + "]";
+				+ update_emp_id + ", oo_reg_date=" + oo_reg_date + ", oo_update_date=" + oo_update_date + "]";
 	}
+	
+	
 	
 	
 	
