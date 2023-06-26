@@ -167,7 +167,7 @@ $(document).ready(function() {
 			// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 			$("#addRowButton").removeAttr("disabled");
 			$("#updateButton").removeAttr("disabled");
-			$("#deleteEmployeeButton").removeAttr("disabled");
+			$("#deleteButton").removeAttr("disabled");
 			
 			$("#cancleButton").attr("disabled", "disabled");
 			$("#submitButton").attr("disabled", "disabled");
