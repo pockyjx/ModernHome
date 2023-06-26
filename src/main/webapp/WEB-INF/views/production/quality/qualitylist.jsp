@@ -175,6 +175,94 @@
    
 		// --------------------------------------------------------------------------------------------
 		// 품질현황(자재) 목록
+		
+			// 수정 버튼 누를 시 (updateButton)
+			$("#updateButton1").click(function(){
+	            var selectedCheckbox = $("input[name='selectedEmpId']:checked");
+
+	            // 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+	            if(selectedCheckbox.length === 1) {
+	                var empId = selectedCheckbox.val();
+	                var row = selectedCheckbox.closest("tr");
+	                
+	                // input type의 name 값 지정
+                	var cellNames = [
+                		"io_num",
+                		"qc_num",
+                		"ma_num",
+                		"ma_name",
+                		"emp_id",
+                		"qc_date",
+                		"qc_cnt",
+                		"rec_cnt",
+                		"qc_yn"
+                	];
+
+	                // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
+	                row.find("td:not(:first-child)").each(function(index){
+	                	var cellValue = $(this).text();
+	                	var cellReadonly = index === 0 || index === 1 || index === 2 || index === 3 || index ===4 || index === 5  || index === 7 ? "readonly='readonly'" : "";
+						var cellName = cellNames[index];
+	                	var cellContent;
+
+	                    if (index === 8 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
+	                        cellContent = '<td>' +
+	                            '<select name="' + cellName + '">' +
+	                            '<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
+	                            '<option value="진행중" ' + (cellValue === '진행중' ? 'selected' : '') + '>진행중</option>' +
+	                            '<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
+	                            '</select>' +
+	                            '</td>';
+	                    }else {
+	                    	cellContent = '<td><input type="'+ '" name="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+	                    }
+
+	                    $(this).html(cellContent);
+
+	                    // 버튼 활성화
+	                    $("#updateButton1").attr("disabled", "disabled");
+	                    
+						$("#cancleButton1").removeAttr("disabled");
+	                    $("#submitButton1").removeAttr("disabled");
+	                    
+	                    pageStatus = "update";
+	                });
+	            }else if (selectedCheckbox.length === 0){
+	                alert("수정할 행을 선택해주세요!");
+	            }else {
+	                alert("수정은 하나의 행만 가능합니다!");
+	            }
+	        });
+	        
+            // 취소 버튼 누를 시 
+			$("#cancleButton1").click(function(){
+	        
+	    	// 수정버튼 취소
+			if(pageStatus == "update"){
+				var row = $("input[name='selectedEmpId']:checked").closest("tr");
+				
+				// 폼 초기화(기존내용으로)
+				// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
+
+				
+				// 각 셀의 값을 원래 상태로 되돌림
+				row.find("td:not(:first-child)").each(function(index) {
+					var cellValue = $(this).find("input").val();
+					$(this).html(cellValue);
+				});
+				
+				// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+				$("#updateButton1").removeAttr("disabled");
+				
+				$("#cancleButton1").attr("disabled", "disabled");
+				$("#submitButton1").attr("disabled", "disabled");
+				
+				
+				pageStatus = "";
+				
+			} // if(update)문
+		
+		}); // 취소버튼
         
 		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
         $(".table-materialQualityList th input[type='checkbox']").click(function() {
@@ -247,9 +335,10 @@
         }  // 체크박스 선택 시 체크박스 개수 구하기
         
         // 품질현황(자재) 목록
+        // --------------------------------------------------------------------------------------------
         
         
-	     });
+	     }); 
     </script>
     
     <style>
@@ -311,7 +400,7 @@
 						<td>${vo.line_name }</td>
 						<td>${vo.pro_num }</td>
 						<td>${vo.pro_name }</td>
-						<td>${vo.emp_id }</td>
+						<td>${vo.emp_name }</td>
 						<td>${fn:substring(vo.qc_date,0,10) }</td>
 						<td>${vo.qc_cnt }</td>
 						<td>${vo.prfrm_cnt }</td>
@@ -326,9 +415,9 @@
 		<form id="materialQualityList">
 			<span id="selectedCheckboxCount1">0</span>
 
-			<input type="button" id="cancleButton" value="취소" disabled="disabled">
-			<input type="button" id="updateButton" value="수정">
-			<input type="submit" id="submitButton" value="저장" formaction="updateMaterialQuality" formmethod="post" disabled="disabled">
+			<input type="button" id="cancleButton1" value="취소" disabled="disabled">
+			<input type="button" id="updateButton1" value="수정">
+			<input type="submit" id="submitButton1" value="저장" formaction="updateMaterialQuality" formmethod="post" disabled="disabled">
 			
 			<table class="table-materialQualityList" border="1">
 				<tr>
@@ -350,7 +439,7 @@
 						<td>${mq.qc_num }</td>
 						<td>${mq.ma_num }</td>
 						<td>${mq.ma_name }</td>
-						<td>${mq.emp_id }</td>
+						<td>${mq.emp_name }</td>
 						<td>${fn:substring(mq.qc_date,0,10) }</td>
 						<td>${mq.qc_cnt }</td>
 						<td>${mq.rec_cnt }</td>

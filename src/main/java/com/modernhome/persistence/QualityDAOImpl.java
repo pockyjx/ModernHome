@@ -66,19 +66,19 @@ public class QualityDAOImpl implements QualityDAO{
 		return sqlSession.selectList(NAMESPACE + ".getMaterialQualityList");
 	}
 
-	// 품질검사(자재) 목록 조회 + 검색
-	@Override
-	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
-		logger.debug("QualityDAOImpl_getQualityList(검색) 실행");
-		
-		Map<String, Object> parameterMap = new HashMap<>();
-		parameterMap.put("qc_num", qc_num);
-		parameterMap.put("startDate", startDate);
-		parameterMap.put("endDate", endDate);
-		parameterMap.put("qc_yn", qc_yn);
-		
-		return sqlSession.selectList(NAMESPACE+".getMaterialQualitySearch", parameterMap);
-	}
+//	// 품질검사(자재) 목록 조회 + 검색
+//	@Override
+//	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
+//		logger.debug("QualityDAOImpl_getQualityList(검색) 실행");
+//		
+//		Map<String, Object> parameterMap = new HashMap<>();
+//		parameterMap.put("qc_num", qc_num);
+//		parameterMap.put("startDate", startDate);
+//		parameterMap.put("endDate", endDate);
+//		parameterMap.put("qc_yn", qc_yn);
+//		
+//		return sqlSession.selectList(NAMESPACE+".getMaterialQualitySearch", parameterMap);
+//	}
 
 	// 품질검사(자재) 수정
 	@Override

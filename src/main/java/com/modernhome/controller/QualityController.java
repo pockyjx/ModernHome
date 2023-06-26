@@ -43,11 +43,11 @@ public class QualityController {
 		if(!qc_num.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty() || !qc_yn.isEmpty()) {
 			
 			List<WijoinVO> qualityList = qService.getQualitySearch(qc_num, startDate, endDate ,qc_yn);
-			List<WijoinVO> materialQualityList = qService.getMaterialQualitySearch(qc_num, startDate, endDate ,qc_yn);
+//			List<WijoinVO> materialQualityList = qService.getMaterialQualitySearch(qc_num, startDate, endDate ,qc_yn);
 			logger.debug("검색어 O, 검색된 데이터만 출력");
 			
 			model.addAttribute("qualityList",qualityList);
-			model.addAttribute("materialQualityList",materialQualityList);
+//			model.addAttribute("materialQualityList",materialQualityList);
 		}else {
 			
 			logger.debug("검색어 X, 전체 데이터 출력");
@@ -61,7 +61,7 @@ public class QualityController {
 	}// QualityList
 	
 	// 품질등록, 품질 업데이트
-	@RequestMapping(value="/quality/updateQuality", method = RequestMethod.POST)
+	@RequestMapping(value="/quality/updatequality", method = RequestMethod.POST)
 	public String updateQualityPOST(WijoinVO wvo) throws Exception {
 		
 		logger.debug("updateQualityPOST() 호출(품질업데이트)");
@@ -69,16 +69,26 @@ public class QualityController {
 		logger.debug("wvo : " + wvo);
 		
 		qService.updateQuality(wvo);
-		qService.updateMaterialQuality(wvo);
 
-			
 		return "redirect:/production/quality/qualitylist";
 		
 	}// updateQuality
 	
+	@RequestMapping(value = "/quality/updatematerialquality", method = RequestMethod.POST)
+	public String updateMaterialQualityPOST(WijoinVO wvo) throws Exception{
+		
+		logger.debug("updateMaterialQualityPOST() 호출(품질업데이트)");
+		
+		logger.debug("wvo : " + wvo);
+		
+		qService.updateMaterialQuality(wvo);
+		
+		return "redirect:/production/quality/qualitylist";
+		
+	}
 	
 	// ===========================================
-//@RequestMapping(value = "/quality/materialQualitylist", method = RequestMethod.GET)
+//	@RequestMapping(value = "/quality/materialQualitylist", method = RequestMethod.GET)
 //	public void materialQualityGET(Model model,
 //			@ModelAttribute(value = "qc_num") String qc_num,
 //			@ModelAttribute(value = "startDate") String startDate,

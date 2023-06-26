@@ -34,13 +34,22 @@ public class LineServiceImpl implements LineService {
 		dao.regLine(lvo);
 		
 	}
+	
+	// 라인수정
+	@Override
+	public void updateLine(LineVO lvo) {
+		dao.updateLine(lvo);
+		
+	}
+	
 
 	// 라인삭제
 	@Override
-	public void deleteLine(int emp_id) {
-		dao.deleteLine(emp_id);
+	public void deleteLine(int line_id) {
+		dao.deleteLine(line_id);
 		
 	}
+
 
 
 } // LineServiceImpl
