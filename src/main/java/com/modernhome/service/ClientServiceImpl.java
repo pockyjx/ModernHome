@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.ClientVO;
+import com.modernhome.domain.PageVO;
 import com.modernhome.persistence.ClientDAO;
 
 @Service
@@ -17,8 +18,8 @@ public class ClientServiceImpl implements ClientService {
 
 	// 거래처 조회
 	@Override
-	public List<ClientVO> clientList() {
-		return cDAO.clientList();
+	public List<ClientVO> getClientList(PageVO pvo) {
+		return cDAO.getClientList(pvo);
 	}
 
 	// 거래처조회 + 검색
@@ -47,6 +48,25 @@ public class ClientServiceImpl implements ClientService {
 		cDAO.updateClient(cvo);
 		
 	}
+
+	// 거래처 개수 (페이징)
+	@Override
+	public int getTotalCntClt() throws Exception {
+		return cDAO.getTotalCntClt();
+	}
+
+	// 거래처 검색 결과 (페이징)
+	@Override
+	public List<ClientVO> getClientList(ClientVO cvo, PageVO pvo) {
+		return cDAO.getClientList(cvo, pvo);
+	}
+
+	// 검색 결과 개수 (페이징)
+	@Override
+	public int getCltSearchCnt(ClientVO cvo) throws Exception {
+		return cDAO.getCltSearchCnt(cvo);
+	}
+	
 	
 	
 
