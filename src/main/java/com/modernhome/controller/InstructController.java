@@ -134,9 +134,7 @@ public class InstructController {
 			
 			return "/production/instruct/addPopupli2";
 		}
-
-		logger.debug("add 뷰페이지로 다시 이동");
-		return "/production/instruct/add";
+		return "";
 	}
 	
 	// 작업지시서 작성 처리(POST) - /production/instruct/add
