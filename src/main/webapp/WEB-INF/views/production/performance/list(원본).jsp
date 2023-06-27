@@ -24,10 +24,10 @@
 			var today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + now.getDate();
 			
 			// 모든 체크박스의 체크 해제
-			$(".table-employeeList input[type='checkbox']").prop("checked", false);
+			$(".table-prfrmList input[type='checkbox']").prop("checked", false);
 			
 			// selected 클래스를 없앰 (css 없애기)
-			$(".table-employeeList tr").removeClass("selected");
+			$(".table-prfrmList tr").removeClass("selected");
 			
 			// 작업 지시를 먼저 선택하여 해당 지시에 대한 실적 등록 실행 
 			if(selectedWorkId.val()) {

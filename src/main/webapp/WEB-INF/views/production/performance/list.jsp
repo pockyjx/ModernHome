@@ -12,33 +12,51 @@
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script>
 	$(document).ready(function() {
+		// 체크박스 선택 시 체크박스의 개수 구하기
+        updateSelectedCheckboxCount();
+		
+		// 작업지시 정보 저장
+		var selectedWorkId = $("input[name='selectedWorkId']:checked");
+		var work_num;
+		var line_num;
+		var pro_num;
+		var pro_name;
+		var work_cnt;
+		
+		selectedWorkId.closest('tr').each(function() {
+			work_num = $(this).find('td:eq(1)').text();
+			line_num = $(this).find('td:eq(2)').text();
+			pro_num = $(this).find('td:eq(3)').text();
+			pro_name = $(this).find('td:eq(4)').text();
+			work_cnt = $(this).find('td:eq(7)').text();
+		});
+		
+		// 체크박스 선택 시 체크박스 개수 구하기
+        function updateSelectedCheckboxCount() {
+            var totalCheckboxes = $(".table-prfrmList td input[type='checkbox']").length;
+            var selectedCheckboxes = $(".table-prfrmList td input[type='checkbox']:checked").length;
+            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+        }
+		
+        $(".table-prfrmList td input[type='checkbox']").each(function() {
+        	var workNum = $(this).closest('tr').find('td:eq(2)').text();
+        	var instrCheckboxes = $('.table-instrList input[name="selectedWorkId"][data-worknum="' + workNum + '"]');
+        	instrCheckboxes.prop('disabled', true);
+        });
+		
 		// 추가 버튼 클릭 시 행 추가
         $("#addRowButton").click(function() {
-			var selectedWorkId = $("input[name='selectedWorkId']:checked");
-			var work_num;
-			var line_num;
-			var pro_num;
-			var pro_name;
-			var work_cnt;
 			var now = new Date();
 			var today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + now.getDate();
 			
 			// 모든 체크박스의 체크 해제
-			$(".table-employeeList input[type='checkbox']").prop("checked", false);
+			$(".table-prfrmList input[type='checkbox']").prop("checked", false);
 			
 			// selected 클래스를 없앰 (css 없애기)
-			$(".table-employeeList tr").removeClass("selected");
+			$(".table-prfrmList tr").removeClass("selected");
 			
 			// 작업 지시를 먼저 선택하여 해당 지시에 대한 실적 등록 실행 
-			if(selectedWorkId.val()) {
-				selectedWorkId.closest('tr').each(function() {
-					work_num = $(this).find('td:eq(1)').text();
-					line_num = $(this).find('td:eq(2)').text();
-					pro_num = $(this).find('td:eq(3)').text();
-					pro_name = $(this).find('td:eq(4)').text();
-					work_cnt = $(this).find('td:eq(7)').text();
-				});
-				
+			if(selectedWorkId.length === 1) {
 				var newRow = '<tr>' +
 							 '<td><input type="checkbox"></td>' +
 							 '<td><input type="text" name="prfrm_num" value="${prfrmNum}"></td>' +
@@ -82,8 +100,11 @@
 				$("#submitButton").removeAttr("disabled");
 				
 				pageStatus = "reg";
-			} else {
+			} else if(selectedWorkId.length === 0) {
 				alert("실적을 등록할 작업지시를 선택하세요.");
+				return false;
+			} else {
+				alert("실적 등록은 하나씩 가능합니다.");
 				return false;
 			}
 		});
@@ -126,9 +147,6 @@
 			}
 		});
         
-		// 체크박스 선택 시 체크박스의 개수 구하기
-        updateSelectedCheckboxCount();
-		
 		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
 		$("table th input[type='checkbox']").click(function() {
 			var checkbox = $(this);
@@ -198,13 +216,6 @@
 			var prfrmCheckbox = $("input[name='prfrm_id']:checked");
 			var prfrm_id = prfrmCheckbox.val();
 		});
-		
-		// 체크박스 선택 시 체크박스 개수 구하기
-        function updateSelectedCheckboxCount() {
-            var totalCheckboxes = $(".table-prfrmList td input[type='checkbox']").length;
-            var selectedCheckboxes = $(".table-prfrmList td input[type='checkbox']:checked").length;
-            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
-        }
 	});
 	
 	// 체크박스 중복 X
@@ -256,22 +267,22 @@
 			</tr>
 		
 			<c:forEach var="qi" items="${qiList}">
-				<tr>
-					<td><input type="checkbox" name="selectedWorkId" value="${qi.work_id}"></td>
-					<td>${qi.work_num}</td>
-					<td>${qi.line_num}</td>
-					<td>${qi.pro_num}</td>
-					<td>${qi.pro_name}</td>
-					<td>${qi.work_state}</td>
-					<td>
-						<c:if test="${!empty qi.update_date}">${fn:substring(qi.update_date, 0, 10)}</c:if>
-						<c:if test="${empty qi.update_date}">${fn:substring(qi.reg_date, 0, 10)}</c:if>
-					</td>
-					<td>${qi.work_cnt}</td>
-					<td>${qi.oo_num}</td>
-					<td>${fn:substring(qi.oo_end_date, 0, 10)}</td>
-					<td>${qi.emp_name}</td>
-				</tr>
+					<tr>
+						<td><input type="checkbox" name="selectedWorkId" value="${qi.work_id}" data-worknum="${qi.work_num}"></td>
+						<td>${qi.work_num}</td>
+						<td>${qi.line_num}</td>
+						<td>${qi.pro_num}</td>
+						<td>${qi.pro_name}</td>
+						<td>${qi.work_state}</td>
+						<td>
+							<c:if test="${!empty qi.update_date}">${fn:substring(qi.update_date, 0, 10)}</c:if>
+							<c:if test="${empty qi.update_date}">${fn:substring(qi.reg_date, 0, 10)}</c:if>
+						</td>
+						<td>${qi.work_cnt}</td>
+						<td>${qi.oo_num}</td>
+						<td>${fn:substring(qi.oo_end_date, 0, 10)}</td>
+						<td>${qi.emp_name}</td>
+					</tr>
 			</c:forEach>
 		</table>
 		<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
