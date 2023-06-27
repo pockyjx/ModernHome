@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.EmployeeVO;
+import com.modernhome.domain.PageMaker;
+import com.modernhome.domain.PageVO;
 import com.modernhome.service.EmployeeService;
 
 @Controller
@@ -30,7 +32,7 @@ public class EmployeeController {
 	private EmployeeService eService;
 	
 	
-	// 로그인 - 정보 입력(get)
+	// 로그인 - 페이지이동
 	@RequestMapping(value = "/login",method = RequestMethod.GET)
 	public void loginGET() {
 		logger.debug(" loginGET() 호출 ");
@@ -109,31 +111,51 @@ public class EmployeeController {
 	// http://localhost:8088/employee/employeeList
 	// http://localhost:8088/employee/login
 	@RequestMapping(value = "/employeeList", method = RequestMethod.GET)
-	public void employeeListGET(Model model, EmployeeVO evo) throws Exception{
+	public void employeeListGET(Model model, EmployeeVO evo, PageVO pvo) throws Exception{
 		logger.debug("employeeListGET() 호출");
 		logger.debug("/emp/employeeList.jsp 페이지 이동");
+		
+		List<EmployeeVO> employeeList;
+		PageMaker pm = new PageMaker();
+		
 		
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
 		if(evo.getEmp_id() != null || evo.getEmp_name() != null || evo.getEmp_dept() != null
-				|| evo.getEmp_rank() != null	|| evo.getEmp_state() != null) {
+				|| evo.getEmp_rank() != null || evo.getEmp_state() != null) {
 			logger.debug("검색어 O, 검색된 데이터만 출력 " + evo);
+			
 			// 서비스 -> 회원목록 가져오기
-			List<EmployeeVO> employeeList = eService.employeeListSearch(evo);
+			employeeList = eService.employeeListSearch(evo, pvo);
+			
+			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(eService.empSearchCnt(evo));
 			
 			
 			// Model 객체에 저장
 			model.addAttribute("employeeList", employeeList);
-		}else {
+			model.addAttribute("pm", pm);
+			
+			// 검색정보 전달
+			model.addAttribute("evo", evo);
+			
 
-			logger.debug("검색어 X, 전체 데이터 출력 " + evo);
-			// 서비스 -> 회원목록 가져오기
-			List<EmployeeVO> employeeList = eService.employeeList();
 			
-			logger.debug(employeeList + "");
+		}else {
+			logger.debug("검색어 X, 전체 데이터 출력 " + evo);
+			
+			// 서비스 -> 회원목록 가져오기
+			employeeList = eService.employeeList(pvo);
+			
+			// 페이징 정보
+			pm.setPageVO(pvo);
+			pm.setTotalCount(eService.empTotalCnt());
 			
 			// Model 객체에 저장
 			model.addAttribute("employeeList", employeeList);
+			model.addAttribute("pm", pm);
 		}
 	}
 	

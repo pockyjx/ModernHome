@@ -5,17 +5,60 @@
   
 <mapper namespace="com.modernhome.mapper.EmployeeMapper">
 	
+	<!-- 로그인 -->
+	<select id="login" resultType="com.modernhome.domain.EmployeeVO">
+		select * from employee
+		where emp_id=#{emp_id} and emp_pw=#{emp_pw}
+	</select>
+	<!-- 로그인 -->
+	
+	
+	
+	<!-- 전체 글 수 계산 (페이징) -->
+	<select id="empTotalCnt" resultType="int">
+		SELECT COUNT(*) FROM employee
+	</select>
+	<!-- 전체 글 수 계산 -->
+	
 	
 	
 	<!-- 사원리스트 불러오기 -->
 	<select id="employeeList" resultType="com.modernhome.domain.EmployeeVO">
 		SELECT * FROM employee
+		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 사원리스트 불러오기 -->
 	
-	<!-- 사원리스트 검색 -->
+	
+	
+	
+	<!-- 사원리스트 검색(페이징) -->
 	<select id="employeeListSearch" resultType="com.modernhome.domain.EmployeeVO">
 		SELECT * FROM employee 
+		<where>
+			<if test="evo.emp_id != null">
+				emp_id LIKE CONCAT('%', #{evo.emp_id}, '%') 
+			</if>
+			<if test="evo.emp_name != ''">
+				AND emp_name LIKE CONCAT('%', #{evo.emp_name}, '%') 
+			</if>
+			<if test="evo.emp_dept != '전체'">
+				AND emp_dept = #{evo.emp_dept}
+			</if>
+			<if test="evo.emp_rank != '전체'">
+				AND emp_rank = #{evo.emp_rank}
+			</if>
+			<if test="evo.emp_state != '전체'">
+				AND emp_state = #{evo.emp_state}
+			</if>
+		</where>
+		LIMIT #{pvo.startPage}, #{pvo.pageSize}
+	</select>
+	<!-- 사원리스트 검색 -->
+	
+	<!-- 검색 결과 개수 계산(페이징) -->
+	<select id="empSearchCnt" resultType="int">
+		SELECT COUNT(*) FROM employee
 		<where>
 			<if test="emp_id != null">
 				emp_id LIKE CONCAT('%', #{emp_id}, '%') 
@@ -34,14 +77,9 @@
 			</if>
 		</where>
 	</select>
-	<!-- 사원리스트 검색 -->
+	<!-- 검색 결과 개수 계산 -->
 	
-	<!-- 로그인 -->
-	<select id="login" resultType="com.modernhome.domain.EmployeeVO">
-		select * from employee
-		where emp_id=#{emp_id} and emp_pw=#{emp_pw}
-	</select>
-	<!-- 로그인 -->
+	
 	
 	
 	<!-- 사원등록 -->
