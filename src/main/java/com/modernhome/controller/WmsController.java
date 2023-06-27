@@ -17,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.MaterialVO;
+import com.modernhome.domain.PageMaker;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WarehouseVO;
+import com.modernhome.domain.WijoinVO;
+import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.service.ClientService;
 import com.modernhome.service.InorderService;
 import com.modernhome.service.ItemService;
@@ -110,46 +114,99 @@ public class WmsController {
     		@ModelAttribute("rstartDate") String rstartDate, 
     		@ModelAttribute("rendDate") String rendDate,
     		@ModelAttribute("ma_name") String ma_name,
-    		@ModelAttribute("io_state") String io_state) throws Exception {
+    		@ModelAttribute("io_state") String io_state,
+    		PageVO pvo) throws Exception {
     	logger.debug(" inorderGET() 호출 ");
+
+    	List<InorderVO> inorderList;
+    	PageMaker pm = new PageMaker();
     	
-    	
+    	// 검색어가 하나라도 있으면 if문 실행, 아닐 경우 else
     	if(!istartDate.isEmpty() || !iendDate.isEmpty() || !rstartDate.isEmpty() || !rendDate.isEmpty() ||
     			!ma_name.isEmpty() || !io_state.isEmpty()) {
-    		
-    		List<InorderVO> inorderList = ioService.getInorderSearch(istartDate, iendDate, rstartDate, rendDate, ma_name, io_state);
+    		inorderList = ioService.getInorderSearch(istartDate, iendDate, rstartDate, rendDate, ma_name, io_state, pvo);
     		logger.debug("검색어O, 검색된 데이터만 출력");	
+    		model.addAttribute("inorderList", inorderList);
     		
-    		model.addAttribute("inorderList", inorderList);
+    		// 페이징 정보 전달
+    		pm.setPageVO(pvo);
+    		pm.setTotalCount(ioService.getIoSearchCnt(istartDate, iendDate, rstartDate, rendDate, ma_name, io_state));
+    		model.addAttribute("pm", pm);
+    	
+    		// 검색 정보 전달
+    		model.addAttribute("istartDate", istartDate);
+    		model.addAttribute("iendDate", iendDate);
+    		model.addAttribute("rstartDate", rstartDate);
+    		model.addAttribute("rendDate", rendDate);
+    		model.addAttribute("ma_name", ma_name);
+    		model.addAttribute("io_state", io_state);
+    		
     	}else {
+    		
     		logger.debug("검색어X, 전체 데이터 출력");
-    		List<InorderVO> inorderList = ioService.getInorderList();
+    		inorderList = ioService.getInorderList(pvo);
     		model.addAttribute("inorderList", inorderList);
+    		
+    		pm.setPageVO(pvo);
+    		pm.setTotalCount(ioService.getTotalCntMate());
+    		
+    		model.addAttribute("pm", pm);
     	}
     }
+    
     
     // 발주 등록 시 팝업
     // http://localhost:8088/wms/inorder/popUpInorder
     @RequestMapping(value = "/inorder/addPopup", method = RequestMethod.GET )
-	public String popUpGET(Model model, @ModelAttribute("txt") String txt) throws Exception {
-		logger.debug("popUpInorderGET() 호출!");
-		
-		if(txt.equals("clt")) { // 거래처 목록 팝업
-			List<ClientVO> popUpClt = cService.clientList();
-			model.addAttribute("popUpClt", popUpClt);
+    public String popUpGET(Model model, @ModelAttribute("txt") String txt,
+    						MaterialVO mvo, PageVO pvo) throws Exception {
+    	
+    	PageMaker pm = new PageMaker();
+    	
+        if(txt.equals("clt")) { // 거래처 목록 팝업
+        	
+            List<ClientVO> popUpClt = cService.clientList();
+            model.addAttribute("popUpClt", popUpClt);
+            
+            return "/wms/inorder/popUpClient";
+            
+        }else if(txt.equals("ma")) { // 자재 목록 팝업
 			
-			return "/wms/inorder/popUpClient";
+			List<MaterialVO> popUpMate;
 			
-		}else if(txt.equals("ma")) { // 자재 목록 팝업
-			List<MaterialVO> popUpMate = iService.getMaterialList();
-			model.addAttribute("popUpMate", popUpMate);
-			
-			return "/wms/inorder/popUpMaterial";
-		}
-		
-		return "/wms/inorder/inorderlist";
-		
-	}
+			if(mvo.getMa_name() != null) { // 자재 팝업창에서 검색했을 때
+				
+				logger.debug("자재 팝업(검색) 호출!");
+				popUpMate = iService.getMaterialList(mvo, pvo); // 기존 자재 검색 메서드 사용
+				model.addAttribute("popUpMate", popUpMate);
+				
+				// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getMaSearchCnt(mvo));
+				model.addAttribute("pm", pm);
+				
+				model.addAttribute("mvo", mvo);
+				
+				
+			}else { // 자재 팝업 처음 실행했을 때
+				
+				logger.debug("자재 팝업 호출!");
+				popUpMate = iService.getMaterialList(pvo);
+				model.addAttribute("popUpMate", popUpMate);
+				
+				// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getTotalCntMate());
+				
+				model.addAttribute("pm", pm);
+			}
+            
+            return "/wms/inorder/popUpMaterial";
+        }
+        
+        return "/wms/inorder/inorderlist";
+        
+    }
     
     
     // 발주 등록 + 수정
