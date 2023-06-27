@@ -45,6 +45,8 @@
 	        JOIN employee e ON i.emp_id = e.emp_id
 	        JOIN material m ON i.ma_id = m.ma_id
 	        JOIN client c ON i.clt_id = c.clt_id
+	        ORDER BY io_id DESC
+			LIMIT #{startPage}, #{pageSize}
         ]]>
     </select>
     <!-- 발주 목록 -->
@@ -82,9 +84,9 @@
             <if test="rendDate != ''">
                 AND #{rendDate} &gt;= DATE(i.rec_date)
             </if>
-            ORDER BY pro_id DESC
-			LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
         </where>
+            ORDER BY io_id DESC
+			LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
     </select>
     <!-- 발주 검색 -->
     	
