@@ -15,10 +15,10 @@ import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 
 @Repository
-public class WorkInstrDAOImpl implements WorkInstrDAO {
+public class InstructDAOImpl implements InstructDAO {
 	
 	// 로거
-	private static final Logger logger = LoggerFactory.getLogger(WorkInstrDAOImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(InstructDAOImpl.class);
 	
 	// 네임스페이스
 	private static final String NAMESPACE = "com.modernhome.mapper.WorkInstrMapper";

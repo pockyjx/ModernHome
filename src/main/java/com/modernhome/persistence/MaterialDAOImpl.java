@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.modernhome.domain.MaterialVO;
+import com.modernhome.domain.PageVO;
 
 @Repository
 public class MaterialDAOImpl implements MaterialDAO {
@@ -26,19 +27,33 @@ public class MaterialDAOImpl implements MaterialDAO {
 	// 네임스페이스
 	private static final String NAMESPACRE = "com.modernhome.mapper.MaterialMapper";
 	
-	// 자재 목록 조회
+	// 자재 목록 조회 (페이징)
 	@Override
-	public List<MaterialVO> getMaterialList() {
+	public List<MaterialVO> getMaterialList(PageVO vo) {
 		logger.debug("자재 목록 조회!");
-		return sqlSession.selectList(NAMESPACRE + ".materialList");
+		return sqlSession.selectList(NAMESPACRE + ".materialList", vo);
+	}
+	
+	// 총 개수 계산
+	@Override
+	public int getTotalCntMate() throws Exception {
+		return sqlSession.selectOne(NAMESPACRE + ".mateTotalCnt");
 	}
 
-	// 자재 검색 결과
+	// 자재 검색 결과 (페이징)
 	@Override
-	public List<MaterialVO> getMaterialList(MaterialVO vo) {
-
-		 return sqlSession.selectList(NAMESPACRE + ".maSearchList", vo);
-
+	public List<MaterialVO> getMaterialList(MaterialVO vo, PageVO pvo) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("materialVO", vo);
+		paramMap.put("pageVO", pvo);
+		
+		return sqlSession.selectList(NAMESPACRE + ".maSearchList", paramMap);
+	}
+	
+	// 검색 결과 개수 (페이징)
+	@Override
+	public int getMaSearchCnt(MaterialVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACRE + ".maSearchCnt", vo);
 	}
 
 	// 자재 등록
@@ -48,6 +63,7 @@ public class MaterialDAOImpl implements MaterialDAO {
 		sqlSession.insert(NAMESPACRE + ".regMaterial", vo);
 	}
 	
+
 	// 자재 삭제
 	@Override
 	public void delMaterial(int ma_id) {

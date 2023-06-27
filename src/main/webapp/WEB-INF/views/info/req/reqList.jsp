@@ -243,9 +243,9 @@
 <body>
 
 	<!-- Button trigger modal -->
-	<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-		data-bs-target="#staticBackdrop">모달 테스트
-	</button>
+<!-- 	<button type="button" class="btn btn-primary" data-bs-toggle="modal" -->
+<!-- 		data-bs-target="#staticBackdrop">모달 테스트 -->
+<!-- 	</button> -->
 
 	<!-- Modal -->
 	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"

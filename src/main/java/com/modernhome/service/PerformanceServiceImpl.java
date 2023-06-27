@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.WijoinVO;
-import com.modernhome.persistence.WorkPrfrmDAO;
+import com.modernhome.persistence.PerformanceDAO;
 
 @Service
-public class WorkPrfrmServiceImpl implements WorkPrfrmService {
+public class PerformanceServiceImpl implements PerformanceService {
 	
 	// 의존성 주입
 	@Autowired
-	private WorkPrfrmDAO dao;
+	private PerformanceDAO dao;
 
 	@Override
 	public List<WijoinVO> getqcEndInstr() throws Exception {

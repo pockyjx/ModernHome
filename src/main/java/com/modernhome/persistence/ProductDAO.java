@@ -10,7 +10,7 @@ public interface ProductDAO {
 	// 완제품 목록
 	public List<ProductVO> getProductList();
 	
-	// 완제품 검색 결과 
+	// 완제품 검색 결과 (페이징)
 	public List<ProductVO> getProductList(ProductVO vo, PageVO pvo);
 	
 	// 완제품 등록

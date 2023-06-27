@@ -13,6 +13,7 @@ public class InorderVO {
 	private String rec_date; 
 	private Integer clt_id;
 	private Integer emp_id;
+	private String io_reg_date;
 	private String io_update_date;
 	private Integer update_emp_id;
 	
@@ -118,6 +119,14 @@ public class InorderVO {
 		this.emp_id = emp_id;
 	}
 
+	public String getIo_reg_date() {
+		return io_reg_date;
+	}
+
+	public void setIo_reg_date(String io_reg_date) {
+		this.io_reg_date = io_reg_date;
+	}
+
 	public String getIo_update_date() {
 		return io_update_date;
 	}
@@ -186,10 +195,10 @@ public class InorderVO {
 	public String toString() {
 		return "InorderVO [io_id=" + io_id + ", io_num=" + io_num + ", ma_id=" + ma_id + ", io_cnt=" + io_cnt
 				+ ", io_amount=" + io_amount + ", io_unit=" + io_unit + ", io_date=" + io_date + ", io_state="
-				+ io_state + ", rec_date=" + rec_date + ", clt_id=" + clt_id + ", emp_id=" + emp_id
-				+ ", io_update_date=" + io_update_date + ", update_emp_id=" + update_emp_id + ", ma_num=" + ma_num
-				+ ", ma_name=" + ma_name + ", ma_price=" + ma_price + ", clt_num=" + clt_num + ", clt_name=" + clt_name
-				+ ", emp_name=" + emp_name + "]";
+				+ io_state + ", rec_date=" + rec_date + ", clt_id=" + clt_id + ", emp_id=" + emp_id + ", io_reg_date="
+				+ io_reg_date + ", io_update_date=" + io_update_date + ", update_emp_id=" + update_emp_id + ", ma_num="
+				+ ma_num + ", ma_name=" + ma_name + ", ma_price=" + ma_price + ", clt_num=" + clt_num + ", clt_name="
+				+ clt_name + ", emp_name=" + emp_name + "]";
 	}
-	
+
 }

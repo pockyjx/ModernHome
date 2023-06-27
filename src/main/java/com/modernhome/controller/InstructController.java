@@ -19,13 +19,13 @@ import com.modernhome.domain.LineVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.service.LineService;
-import com.modernhome.service.WorkInstrService;
+import com.modernhome.service.InstructService;
 
 @Controller
 @RequestMapping(value = "/production")
-public class WorkInstructController {
+public class InstructController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(WorkInstructController.class);
+	private static final Logger logger = LoggerFactory.getLogger(InstructController.class);
 	
 	// ===========================================
 	
@@ -34,7 +34,7 @@ public class WorkInstructController {
 	@Inject
 	private LineService lineService;
 	@Inject
-	private WorkInstrService wiService;
+	private InstructService wiService;
 	
 	
 	// ===========================================
@@ -112,7 +112,7 @@ public class WorkInstructController {
 	// 작업지시 리스트 출력(GET) - /production/instruct/list
 	@RequestMapping(value = "/instruct/list", method = RequestMethod.GET)
 	public void getInstrList(Model model, 
-			@ModelAttribute("work_state") String work_state, @ModelAttribute("pro_num") String pro_num, 
+			@ModelAttribute(value = "work_state") String work_state, @ModelAttribute(value = "pro_num") String pro_num, 
 			@ModelAttribute(value = "startDate") String startDate, @ModelAttribute(value = "endDate") String endDate) 
 			throws Exception {
 		logger.debug("getInstrList() 호출");

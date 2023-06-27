@@ -13,10 +13,10 @@ import org.springframework.stereotype.Repository;
 import com.modernhome.domain.WijoinVO;
 
 @Repository
-public class WorkPrfrmDAOImpl implements WorkPrfrmDAO {
+public class PerformanceDAOImpl implements PerformanceDAO {
 	
 	// 로거
-	private static final Logger logger = LoggerFactory.getLogger(WorkPrfrmDAOImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(PerformanceDAOImpl.class);
 
 	// 네임스페이스
 	private static final String NAMESPACE = "com.modernhome.mapper.WorkPrfrmMapper";
@@ -67,8 +67,8 @@ public class WorkPrfrmDAOImpl implements WorkPrfrmDAO {
 		logger.debug("WP DAOImpl_getPrfrmList(검색) 실행");
 		
 		Map<String, Object> parameterMap = new HashMap<>();
-		parameterMap.put("work_state", gb_yn);
-		parameterMap.put("pro_num", work_num);
+		parameterMap.put("gb_yn", gb_yn);
+		parameterMap.put("work_num", work_num);
 		parameterMap.put("startDate", startDate);
 		parameterMap.put("endDate", endDate);
 		
