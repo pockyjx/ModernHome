@@ -13,6 +13,8 @@ public class LineVO {
 	private Integer emp_id;
 	private String update_date;
 	private Integer update_emp_id;
+	private String emp_name;
+	
 	public Integer getLine_id() {
 		return line_id;
 	}
@@ -61,15 +63,18 @@ public class LineVO {
 	public void setUpdate_emp_id(Integer update_emp_id) {
 		this.update_emp_id = update_emp_id;
 	}
+	public String getEmp_name() {
+		return emp_name;
+	}
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
 	
 	@Override
 	public String toString() {
 		return "LineVO [line_id=" + line_id + ", line_num=" + line_num + ", line_name=" + line_name + ", use_yn="
 				+ use_yn + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
-				+ ", update_emp_id=" + update_emp_id + "]";
+				+ ", update_emp_id=" + update_emp_id + ", emp_name=" + emp_name + "]";
 	}
-	
-
-	
 	
 }

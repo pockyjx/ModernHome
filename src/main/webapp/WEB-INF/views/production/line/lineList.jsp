@@ -32,7 +32,7 @@
                     '<option value="N">N</option>' +
                     '</select>' +
                     '</td>' +
-                    '<td><input type="text" name="reg_date"></td>' +
+                    '<td><input type="text" name="reg_date" readonly></td>' +
                     '<td><input type="text" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id}" readonly></td>' +
                     '</tr>';
                     
@@ -133,8 +133,8 @@
 			            "line_num",
 			            "line_name",
 			            "use_yn",
-			            "reg_date",
-			            "emp_id"
+			            "update_date",
+			            "update_emp_id"
 			        ];
 
 			        // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
@@ -142,9 +142,11 @@
 			            
 			        	var cellValue = $(this).text();
 			            var cellType = index === 3 ? "date" : "text"; // 날짜 타입은 date로 설정
+			            var cellReadonly = [0].includes(index) ? "readonly='readonly'" : "";
 			            var cellName = cellNames[index];
+			            var cellDisabled = [3].includes(index)? "disabled":"";
 			            var cellContent;
-
+			            
 			            if (index === 2) {
 			                cellContent = '<td>' +
 			                    '<select name="' + cellName + '">' +
@@ -152,8 +154,10 @@
 			                    '<option value="N" ' + (cellValue === 'N' ? 'selected' : '') + '>N</option>' +
 			                    '</select>' +
 			                    '</td>';
-			            } else {
-			                cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"></td>';
+			            }else if (index === 4){
+							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>'; 
+			            }else {
+			                cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"'+ cellReadonly + '' + cellDisabled + '></td>';
 			            }
 
 			            $(this).html(cellContent);
@@ -178,7 +182,7 @@
 			        alert("수정은 하나의 행만 가능합니다!");
 			    }
 			    
-    	});
+    	});// 수정버튼
 
             // 선택된 행 삭제 버튼 클릭 시 행 삭제
             $("#deleteRowsButton").click(function() {
@@ -302,14 +306,17 @@
 		        <th>등록일</th>
 		        <th>등록자</th>
 		    </tr>
-		    <c:forEach var="vo" items="${lineList}">
+		    <c:forEach var="vo" items="${lineList}" varStatus="status">
 		        <tr>
 		            <td><input type="checkbox" name="selectedLineId" value="${vo.line_id}"></td>
 		            <td>${vo.line_num}</td>
 		            <td>${vo.line_name}</td>
 		            <td>${vo.use_yn}</td>
-		            <td>${fn:substring(vo.reg_date, 0, 10)}</td>
-		            <td>${vo.emp_id}</td>
+		            <td>
+						<c:if test="${!empty vo.update_date}">${fn:substring(vo.update_date, 0, 10)}</c:if>
+						<c:if test="${empty vo.update_date}">${fn:substring(vo.reg_date, 0, 10)}</c:if>
+					</td>
+		            <td>${vo.emp_name}</td>
 		        </tr>
 		    </c:forEach>
 		</table>
