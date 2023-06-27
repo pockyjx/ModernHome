@@ -131,12 +131,12 @@
 	<select id="getBeforeInstrReq" resultMap="wijoinRM">
 		SELECT oo.pro_id, oo.oo_id, oo.clt_id, req.req_id, pro_num, pro_name, pro_unit, ma_num, ma_name, clt_name, req_cnt, oo_cnt, oo_end_date, li.line_id 
 		FROM work_instr wi
-		RIGHT JOIN out_order oo ON wi.pro_id = oo.pro_id 
+		RIGHT JOIN out_order oo ON wi.oo_id = oo.oo_id 
 		RIGHT JOIN requirement req ON oo.pro_id = req.pro_id 
 		RIGHT JOIN material ma ON req.ma_id = ma.ma_id 
 		RIGHT JOIN product pro ON req.pro_id = pro.pro_id 
-		RIGHT JOIN client clt ON oo.clt_id = clt.clt_id 
-		RIGHT JOIN line li ON li.line_id = wi.line_id 
+		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
+		LEFT JOIN line li ON li.line_id = wi.line_id
 		WHERE oo.oo_id = #{oo_id}
 		<if test="line_num != null">
 			OR li.line_id = #{line_id}
