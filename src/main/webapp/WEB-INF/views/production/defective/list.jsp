@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
@@ -22,6 +22,12 @@
 			var work_cnt;
 			var now = new Date();
 			var today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + now.getDate();
+			
+			// 모든 체크박스의 체크 해제
+			$(".table-employeeList input[type='checkbox']").prop("checked", false);
+			
+			// selected 클래스를 없앰 (css 없애기)
+			$(".table-employeeList tr").removeClass("selected");
 			
 			// 작업 지시를 먼저 선택하여 해당 지시에 대한 실적 등록 실행 
 			if(selectedWorkId.val()) {
@@ -321,8 +327,8 @@
 					<td>${wp.pro_num}</td>
 					<td>${wp.pro_name}</td>
 					<td>
-						<c:if test="${!empty wp.update_date}">${wp.update_date}</c:if>
-						<c:if test="${empty wp.update_date}">${wp.reg_date}</c:if>
+						<c:if test="${!empty wp.update_date}">${fn:substring(wp.update_date, 0, 10)}</c:if>
+						<c:if test="${empty wp.update_date}">${fn:substring(wp.reg_date, 0, 10)}</c:if>
 					</td>
 					<td>${wp.gb_yn}</td>
 					<td>${wp.prfrm_cnt}</td>

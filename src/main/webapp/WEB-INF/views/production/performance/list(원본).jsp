@@ -152,6 +152,67 @@
 			updateSelectedCheckboxCount();
 		});
 		
+		// 수정 버튼 누를 시
+		$("#updateButton").click(function(){
+			var prfrmCheckbox = $("input[name='prfrm_id']:checked");
+			
+			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+			if (prfrmCheckbox.length === 1) {
+				var prfrm_id = prfrmCheckbox.val();
+				var row = prfrmCheckbox.closest("tr");
+				
+				// input type의 name 값 지정
+				var cellNames = [
+					"prfrm_num",
+					"work_num",
+					"line_num",
+					"pro_num",
+					"pro_name",
+					"reg_date",
+					"gb_yn",
+					"prfrm_cnt",
+					"df_cnt",
+					"emp_name",
+					"work_cnt",
+				];
+				
+				// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
+				row.find("td:not(:first-child)").each(function(index) {
+					var cellValue = $(this).text();
+					var cellType = "text";
+					var cellName = (index == 5) ? "update_date" : cellNames[index];
+					
+					if(index == 6) {
+						$(this).html(
+							'<select name="' + cellNames[index] + '">'
+							+ '<option value="양품">양품</option>'
+							+ '<option value="불량품">불량품</option>'
+							+ '</select>');
+					}
+					if(index == 7) {
+						$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
+					}
+// 					if(index == 8) {
+// 						$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="${work_cnt - prfrm_cnt}">');
+// 					}
+					
+					
+					$("#updateButton").attr("disabled", "disabled");
+					$("#addRowButton").attr("disabled", "disabled");
+					$("#cancleButton").removeAttr("disabled");
+					$("#submitButton").removeAttr("disabled");
+					
+					pageStatus = "update";
+				});
+			}else if (prfrmCheckbox.length === 0){
+				alert("수정할 행을 선택해주세요!")
+				return false;
+			}else {
+				alert("수정은 하나의 행만 가능합니다!");
+				return false;
+			}
+		});
+		
 		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
 		$("table th input[type='checkbox']").click(function() {
 			var checkbox = $(this);
@@ -286,6 +347,7 @@
 		<div>
 			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+			<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 			<button type="submit" class="btn btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 			<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 		</div>

@@ -67,13 +67,17 @@ public class PerformanceController {
 	
 	// 생산실적 추가 & 수정
 	@RequestMapping(value = "/regPrfrm")
-	public String regPrfrmInfo(Model model, WijoinVO vo) throws Exception {
+	public String regPrfrmInfo(WijoinVO vo) throws Exception {
 		logger.debug("regPrfrmInfo() 호출");
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@ vo : {}", vo);
 		
 		if(vo.getPrfrm_id() == null) {
 			logger.debug("생산실적 등록");
 			wpService.addPrfrm(vo);
+			
+			// 생산실적 첫 등록 시, 해당 생산실적에서 나온 완제품 수량을 재고에 추가
+			wpService.addPS(vo);
+			logger.debug("생산량을 완제품 재고에 추가함");
 		} else {
 			logger.debug("생산실적 수정");
 			wpService.modifyPrfrm(vo);
@@ -92,6 +96,9 @@ public class PerformanceController {
 		logger.debug("delPrfrmInfo() 호출");
 		
 		wpService.deletePrfrm(vo);
+		
+		// 생산실적 삭제 시 재고에 반영한 실적수량 차감 -> 로직 생각해보기
+		wpService.addPS(vo);
 		
 		return "redirect:/production/performance/list";
 	}

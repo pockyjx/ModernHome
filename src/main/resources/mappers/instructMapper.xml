@@ -87,7 +87,7 @@
 	<!-- 작업지시 검색 -->
 	<select id="wiListSearch" resultMap="wijoinRM">
 		SELECT wi.work_id, wi.pro_id, wi.oo_id, work_num, wi.line_id, line_num, pro_num, pro_name, wi.work_state, oo_cnt, 
-			wi.reg_date, wi.update_date, wi.work_cnt, oo_num, oo_end_date, wi.emp_id, wi.update_emp_id, 
+			wi.reg_date, wi.update_date, wi.work_cnt, oo_num, oo_end_date, wi.emp_id, wi.update_emp_id,  
 			CASE 
 			WHEN wi.update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = wi.emp_id)
@@ -111,7 +111,7 @@
 	        	AND wi.reg_date &gt;= #{startDate}
 	        </if>
 	        <if test="endDate != ''">
-	        	AND #{endDate} &gt;= DATE(wi.reg_date)
+	        	AND #{endDate} &gt;= wi.reg_date
 	        </if>
 		</where>
 	</select>
