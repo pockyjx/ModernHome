@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.RequirementVO;
 
@@ -22,31 +23,50 @@ public class RequirmentDAOImpl implements RequirmentDAO {
 	private static final Logger logger = LoggerFactory.getLogger(RequirmentDAOImpl.class);
 	private static final String NAMESPACE = "com.modernhome.mapper.RequirementMapper";
 
-	// 소요량 목록 조회
+	// 소요량 목록 조회 (페이징)
 	@Override
-	public List<ReqJoinVO> getRequirements() {
-		return sqlSession.selectList(NAMESPACE + ".getRequirements");
+	public List<ReqJoinVO> getRequirements(PageVO vo) {
+		logger.debug("소요량 목록 (페이징) 조회!");
+		logger.debug(vo + "");
+		return sqlSession.selectList(NAMESPACE + ".getRequirements", vo);
 	}
 	
-	// 소요량 검색 결과
+	// 전체 글 개수 (페이징)
 	@Override
-	public List<ReqJoinVO> getReqSearch(String option, String search) {
+	public int getReqTotalCnt() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".reqTotalCnt");
+	}
+	
+	// 소요량 검색 결과 (페이징)
+	@Override
+	public List<ReqJoinVO> getReqSearch(String option, String search, PageVO vo) {
 		
 		Map<String, Object> parameterMap = new HashMap();
 		parameterMap.put("option", option);
 		parameterMap.put("search", search);
+		parameterMap.put("pageVO", vo);
 		
 		return sqlSession.selectList(NAMESPACE + ".reqSearch", parameterMap);
 	}
 	
+	// 검색 결과 개수 (페이징)
+	@Override
+	public int getReqSearchCnt(String option, String search) throws Exception {
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("option", option);
+		paramMap.put("search", search);
+		
+		return sqlSession.selectOne(NAMESPACE + ".reqSearchCnt", paramMap);
+	}
+
 	// 소요량 등록
 	@Override
 	public void regRequirement(ReqJoinVO vo) {
 		logger.debug("소요량 등록!");
 		sqlSession.insert(NAMESPACE + ".regRequirement", vo);
-		
-		
 	}
+
 
 	// 소요량 수정
 	@Override

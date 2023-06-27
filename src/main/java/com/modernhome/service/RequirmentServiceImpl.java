@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.RequirementVO;
 import com.modernhome.persistence.RequirmentDAO;
@@ -16,23 +17,37 @@ public class RequirmentServiceImpl implements RequirmentService {
 	@Autowired
 	private RequirmentDAO rdao;
 	
-	// 소요량 조회
+	// 소요량 조회 (페이징)
 	@Override
-	public List<ReqJoinVO> getListAll() throws Exception {
-		return rdao.getRequirements();
+	public List<ReqJoinVO> getListAll(PageVO vo) throws Exception {
+		return rdao.getRequirements(vo);
 	}
 	
-	// 소요량 검색
+	// 전체 글 개수 (페이징)
 	@Override
-	public List<ReqJoinVO> getReqSearch(String option, String search) throws Exception {
-		return rdao.getReqSearch(option, search);
+	public int getTotalCntReq() throws Exception {
+		return rdao.getReqTotalCnt();
 	}
-
+	
+	// 소요량 검색 (페이징)
+	@Override
+	public List<ReqJoinVO> getReqSearch(String option, String search,
+										PageVO vo) throws Exception {
+		return rdao.getReqSearch(option, search, vo);
+	}
+	
+	// 검색 결과 개수 (페이징)
+	@Override
+	public int getReqSearchCnt(String option, String search) throws Exception {
+		return rdao.getReqSearchCnt(option, search);
+	}
+	
 	// 소요량 등록
 	@Override
 	public void regRequirement(ReqJoinVO vo) throws Exception {
 		rdao.regRequirement(vo);
 	}
+
 
 	// 소요량 수정
 	@Override

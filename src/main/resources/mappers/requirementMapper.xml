@@ -25,6 +25,7 @@
         
     </resultMap>
 
+	<!-- 소요량 목록 (페이징) -->
     <select id="getRequirements" resultMap="reqjoinRM">
         SELECT req_id, req_num, p.pro_id, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
        			r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id,
@@ -37,11 +38,21 @@
 		FROM requirement r
 		JOIN product p ON r.pro_id = p.pro_id
 		JOIN material m ON r.ma_id = m.ma_id
-		ORDER BY p.pro_id;
-        
+		ORDER BY p.pro_id
+        LIMIT #{startPage}, #{pageSize}
     </select>
-    <!-- 소요량 목록 -->
+    <!-- 소요량 목록 (페이징) -->
     
+    <!-- 전체 글 수 계산 (페이징) -->
+	 <select id="reqTotalCnt" resultType="int">
+	 	SELECT count(req_id) 
+		FROM requirement r
+		JOIN product p ON r.pro_id = p.pro_id
+		JOIN material m ON r.ma_id = m.ma_id
+	 </select>
+    <!-- 전체 글 수 계산 (페이징) -->
+    
+    <!-- 소요량 검색 (페이징) -->
     <select id="reqSearch" resultMap="reqjoinRM" parameterType="java.util.Map">
         SELECT req_id, req_num, p.pro_id, p.pro_num, p.pro_name, m.ma_num, m.ma_name,
        			r.req_cnt, r.req_unit, r.req_reg_date, r.emp_id, r.req_update_date, r.update_emp_id,
@@ -61,7 +72,7 @@
 			</when>
 			
 			<when test="option == 'ma_name'">
-				pro_name like CONCAT('%', #{search}, '%')
+				ma_name like CONCAT('%', #{search}, '%')
 			</when>
 			
 			<otherwise>
@@ -69,9 +80,34 @@
 				OR ma_name like CONCAT('%', #{search}, '%')
 			</otherwise>
 		</choose>
-		ORDER BY p.pro_id;
+		ORDER BY p.pro_id
+		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
     </select>
-    <!-- 소요량 검색 -->
+    <!-- 소요량 검색 (페이징) -->
+    
+    <!-- 검색 결과 개수 (페이징) -->
+    <select id="reqSearchCnt" resultType="int" parameterType="java.util.Map">
+    	SELECT count(req_id) 
+		FROM requirement r
+		JOIN product p ON r.pro_id = p.pro_id
+		JOIN material m ON r.ma_id = m.ma_id
+		where
+        <choose>
+			<when test="option == 'pro_name'">
+				pro_name like CONCAT('%', #{search}, '%')
+			</when>
+			
+			<when test="option == 'ma_name'">
+				ma_name like CONCAT('%', #{search}, '%')
+			</when>
+			
+			<otherwise>
+				pro_name like CONCAT('%', #{search}, '%')
+				OR ma_name like CONCAT('%', #{search}, '%')
+			</otherwise>
+		</choose>
+    </select>
+    <!-- 검색 결과 개수 (페이징) -->
     
     <!-- 소요량 등록 -->
 	<insert id="regRequirement">
