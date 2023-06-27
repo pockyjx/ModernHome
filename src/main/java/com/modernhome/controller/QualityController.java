@@ -60,7 +60,7 @@ public class QualityController {
 		
 	}// QualityList
 	
-	// 품질등록, 품질 업데이트
+	// 품질 업데이트
 	@RequestMapping(value="/quality/updatequality", method = RequestMethod.POST)
 	public String updateQualityPOST(WijoinVO wvo) throws Exception {
 		

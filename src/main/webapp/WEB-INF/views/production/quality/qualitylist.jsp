@@ -187,7 +187,7 @@
 	                
 	                // input type의 name 값 지정
                 	var cellNames = [
-                		"io_num",
+                		"rec_num",
                 		"qc_num",
                 		"ma_num",
                 		"ma_name",
@@ -350,6 +350,10 @@
 <body>
 		<h2>품질현황 조회</h2>
 		<form method="get"> 
+<!-- 		<span> -->
+<%-- 			<input type="checkbox" name="" value="완제품" ${param. }> --%>
+<!-- 		</span> -->
+		
 			품질검사코드 <input type="text" name="qc_num">
 			품질검사여부
 				<select name="qc_yn">
@@ -422,7 +426,7 @@
 			<table class="table-materialQualityList" border="1">
 				<tr>
 					<th><input type="checkbox"></th>
-					<th>발주코드</th>
+					<th>입고코드</th>
 					<th>품질검사코드</th>
 					<th>자재코드</th>
 					<th>자재명</th>
@@ -435,7 +439,7 @@
 				<c:forEach var="mq" items="${materialQualityList }">
 					<tr>
 						<td><input type="checkbox" name="selectedEmpId" value="${mq.emp_id }"></td>
-						<td>${mq.io_num }</td>
+						<td>${mq.rec_num }</td>
 						<td>${mq.qc_num }</td>
 						<td>${mq.ma_num }</td>
 						<td>${mq.ma_name }</td>

@@ -7,13 +7,29 @@
 	
 	<!-- 라인 목록 조회 -->
 	<select id="lineList" resultType="com.modernhome.domain.LineVO">
-		select * from line
+		SELECT line_num, line_name, use_yn, reg_date, update_date, l.emp_id, l.update_emp_id,
+		CASE
+			WHEN l.update_emp_id IS NULL THEN
+				(SELECT emp_name FROM employee WHERE emp_id = l.emp_id)
+			ELSE
+				(SELECT emp_name FROM employee WHERE emp_id = l.update_emp_id)
+		END AS emp_name
+		FROM line l
+		LEFT JOIN employee e ON l.emp_id = e.emp_id
 	</select>
 	<!-- 라인 목록 조회 -->
 	
 	<!-- 라인 목록 검색 -->
 	<select id="lineListSearch" resultType="com.modernhome.domain.LineVO">
-		select * from line
+		SELECT line_num, line_name, use_yn, reg_date, update_date, l.emp_id, l.update_emp_id,
+		CASE
+			WHEN l.update_emp_id IS NULL THEN
+				(SELECT emp_name FROM employee WHERE emp_id = l.emp_id)
+			ELSE
+				(SELECT emp_name FROM employee WHERE emp_id = l.update_emp_id)
+		END AS emp_name
+		FROM line l
+		LEFT JOIN employee e ON l.emp_id = e.emp_id
 		<where>
 			<if test="line_num != ''">
 				AND line_num like CONCAT('%', #{line_num}, '%')
@@ -33,23 +49,24 @@
 		<selectKey keyProperty="line_num" resultType ="String" order="BEFORE">
 		SELECT CONCAT(SUBSTRING(line_num, 1, 2), LPAD(max(line_id) + 1, 4, '0'))
 		FROM line
-		</selectKey>	
+		</selectKey>
 		insert into line(line_num, line_name, use_yn, reg_date, emp_id)
-		values (#{line_num}, #{line_name}, #{use_yn}, #{reg_date}, #{emp_id})
+		values (#{line_num}, #{line_name}, #{use_yn}, now(), #{emp_id})
 	</insert>
 	<!-- 라인 등록 -->
 	
 	<!-- 라인 수정 -->
 	<update id="updateLine">
 		UPDATE line 
-		SET line_num = #{line_num}, line_name = #{line_name}, use_yn = #{use_yn}, reg_date = #{reg_date}, emp_id = #{emp_id}
+		SET line_num = #{line_num}, line_name = #{line_name}, use_yn = #{use_yn}, update_date = now(), update_emp_id = #{update_emp_id}
 		WHERE line_num = #{line_num}
 	</update>
 	<!-- 라인 수정 -->
 	
 	<!-- 라인 삭제 -->
 	<delete id="deleteLine">
-		delete from line where line_id = #{line_id}
+		delete from line 
+		where line_id = #{line_id}
 	</delete>
 	<!-- 라인 삭제 -->
 

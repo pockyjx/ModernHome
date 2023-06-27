@@ -102,9 +102,9 @@
 	
 	<!-- 품질검사(자재) 목록 조회 -->
 	<select id="getMaterialQualityList" resultMap="wijoinRM">
-		SELECT io.io_num, qc.qc_num, mac.ma_num , mac.ma_name ,e.emp_name, qc.qc_date, qc.qc_cnt, rec.rec_cnt, qc.qc_yn
+		SELECT rec.rec_num, qc.qc_num, mac.ma_num , mac.ma_name ,e.emp_name, qc.qc_date, qc.qc_cnt, rec.rec_cnt, qc.qc_yn
 		FROM quality_checking qc
-		LEFT JOIN in_order io ON qc.io_id = io.io_id 
+<!-- 		LEFT JOIN in_order io ON qc.io_id = io.io_id  -->
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material mac ON qc.ma_id = mac.ma_id
