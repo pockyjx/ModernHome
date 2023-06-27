@@ -7,7 +7,7 @@
 	
 	<!-- 라인 목록 조회 -->
 	<select id="lineList" resultType="com.modernhome.domain.LineVO">
-		SELECT line_num, line_name, use_yn, reg_date, update_date, l.emp_id, l.update_emp_id,
+		SELECT line_id, line_num, line_name, use_yn, reg_date, update_date, l.emp_id, l.update_emp_id,
 		CASE
 			WHEN l.update_emp_id IS NULL THEN
 				(SELECT emp_name FROM employee WHERE emp_id = l.emp_id)
