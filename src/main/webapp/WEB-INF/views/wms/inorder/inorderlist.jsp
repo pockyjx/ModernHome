@@ -63,7 +63,7 @@
 	                '<td><input type="text" name="clt_num" placeholder="거래처 코드" id="clt_num" readonly></td>' +
 	                '<td><input type="text" name="clt_name" placeholder="거래처명" id="clt_name" readonly></td>' +
 	                '<td><input type="text" name="io_cnt" placeholder="발주량"></td>' +
-	                '<td><input type="text" name="io_unit" placeholder="단위"></td>' +
+	                '<td><input type="text" name="io_unit" value="EA" readonly></td>' +
 	                '<td><input type="text" name="io_amount" placeholder="총금액(자동계산)" readonly></td>' +
 	                '<td><input type="date" name="io_date" readonly></td>' +
 	                '<td><input type="text" name="io_state" value="미완료" readonly></td>' +
@@ -396,7 +396,6 @@
 			</form>
 			
 			<!-- 페이지 이동 버튼 -->
-	
 			<nav aria-label="Page navigation example">
 		  		<ul class="pagination justify-content-center pagination-sm">
 		  		
@@ -426,7 +425,6 @@
 		    		
 		  		</ul>
 			</nav>
-			
 			<!-- 페이지 이동 버튼 -->
 </body>
 </html>
