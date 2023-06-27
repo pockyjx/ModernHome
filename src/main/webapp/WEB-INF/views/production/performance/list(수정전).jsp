@@ -12,10 +12,27 @@
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script>
 	$(document).ready(function() {
-		// 버튼 클릭 시 행 추가
+		// 체크박스 선택 시 체크박스의 개수 구하기
+        updateSelectedCheckboxCount();
+		
+		// 작업지시 정보 저장
+		$(".table-prfrmList td input[type='checkbox']").each(function() {
+        	var workNum = $(this).closest('tr').find('td:eq(2)').text();
+        	var instrCheckboxes = $('.table-instrList input[name="selectedWorkId"][data-worknum="' + workNum + '"]');
+        	instrCheckboxes.prop('disabled', true);
+        });
+		
+		// 체크박스 선택 시 체크박스 개수 구하기
+        function updateSelectedCheckboxCount() {
+            var totalCheckboxes = $(".table-prfrmList td input[type='checkbox']").length;
+            var selectedCheckboxes = $(".table-prfrmList td input[type='checkbox']:checked").length;
+            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+        }
+		
+		// 추가 버튼 클릭 시 행 추가
         $("#addRowButton").click(function() {
-			var selectedWorkId = $("input[name='selectedWorkId']:checked");
-			var work_num;
+        	var selectedWorkId = $("input[name='selectedWorkId']:checked");
+        	var work_num;
 			var line_num;
 			var pro_num;
 			var pro_name;
@@ -23,11 +40,7 @@
 			var now = new Date();
 			var today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + now.getDate();
 			
-			// 모든 체크박스의 체크 해제
-			$(".table-employeeList input[type='checkbox']").prop("checked", false);
-			
-			// selected 클래스를 없앰 (css 없애기)
-			$(".table-employeeList tr").removeClass("selected");
+			console.log(selectedWorkId.val());
 			
 			// 작업 지시를 먼저 선택하여 해당 지시에 대한 실적 등록 실행 
 			if(selectedWorkId.val()) {
@@ -55,7 +68,7 @@
 							 '</td>' +
 							 '<td><input type="text" name="prfrm_cnt"></td>' +
 							 '<td><input type="text" name="df_cnt" value="0" disabled></td>' +
-							 '<td><input type="text" name="emp_id"></td>' +
+							 '<td><input type="hidden" name="emp_id" value="${sessionScope.emp_id}"></td>' +
 							 '<td><input type="text" name="work_cnt" value="' + work_cnt + '"></td>' +
 							 '</tr>';
 				
@@ -126,11 +139,8 @@
 			}
 		});
         
-		// 체크박스 선택 시 체크박스의 개수 구하기
-        updateSelectedCheckboxCount();
-		
 		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-		$("table th input[type='checkbox']").click(function() {
+		$(".table-prfrmList th input[type='checkbox']").click(function() {
 			var checkbox = $(this);
 			var isChecked = checkbox.prop('checked');
 			var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
@@ -152,91 +162,8 @@
 			updateSelectedCheckboxCount();
 		});
 		
-		// 수정 버튼 누를 시
-		$("#updateButton").click(function(){
-			var prfrmCheckbox = $("input[name='prfrm_id']:checked");
-			
-			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
-			if (prfrmCheckbox.length === 1) {
-				var prfrm_id = prfrmCheckbox.val();
-				var row = prfrmCheckbox.closest("tr");
-				
-				// input type의 name 값 지정
-				var cellNames = [
-					"prfrm_num",
-					"work_num",
-					"line_num",
-					"pro_num",
-					"pro_name",
-					"reg_date",
-					"gb_yn",
-					"prfrm_cnt",
-					"df_cnt",
-					"emp_name",
-					"work_cnt",
-				];
-				
-				// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
-				row.find("td:not(:first-child)").each(function(index) {
-					var cellValue = $(this).text();
-					var cellType = "text";
-					var cellName = (index == 5) ? "update_date" : cellNames[index];
-					
-					if(index == 6) {
-						$(this).html(
-							'<select name="' + cellNames[index] + '">'
-							+ '<option value="양품">양품</option>'
-							+ '<option value="불량품">불량품</option>'
-							+ '</select>');
-					}
-					if(index == 7) {
-						$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
-					}
-// 					if(index == 8) {
-// 						$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="${work_cnt - prfrm_cnt}">');
-// 					}
-					
-					
-					$("#updateButton").attr("disabled", "disabled");
-					$("#addRowButton").attr("disabled", "disabled");
-					$("#cancleButton").removeAttr("disabled");
-					$("#submitButton").removeAttr("disabled");
-					
-					pageStatus = "update";
-				});
-			}else if (prfrmCheckbox.length === 0){
-				alert("수정할 행을 선택해주세요!")
-				return false;
-			}else {
-				alert("수정은 하나의 행만 가능합니다!");
-				return false;
-			}
-		});
-		
-		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-		$("table th input[type='checkbox']").click(function() {
-			var checkbox = $(this);
-			var isChecked = checkbox.prop('checked');
-			var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-			var table = checkbox.closest('table');
-			var rows = table.find('tr');
-			
-			// <td> 부분의 행들을 선택하고 배경색 지정
-			rows.each(function() {
-				var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-				if (checkboxTd.length > 0) {
-					checkboxTd.prop('checked', isChecked);
-					if (isChecked) {
-						$(this).addClass('selected');
-					} else {
-						$(this).removeClass('selected');
-					}
-				}
-			});
-		});
-		
 		// <td> 쪽 체크박스 클릭 시 행 선택
-		$("table td input[type='checkbox']").click(function() {
+		$(".table-prfrmList td input[type='checkbox']").click(function() {
 			var checkbox = $(this);
 			var isChecked = checkbox.prop('checked');
 			checkbox.closest('tr').toggleClass('selected', isChecked);
@@ -259,14 +186,19 @@
 			var prfrmCheckbox = $("input[name='prfrm_id']:checked");
 			var prfrm_id = prfrmCheckbox.val();
 		});
-		
-		// 체크박스 선택 시 체크박스 개수 구하기
-        function updateSelectedCheckboxCount() {
-            var totalCheckboxes = $(".table-prfrmList td input[type='checkbox']").length;
-            var selectedCheckboxes = $(".table-prfrmList td input[type='checkbox']:checked").length;
-            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
-        }
 	});
+	
+	// 체크박스 중복 X
+	function handleCheckbox(checkbox, value) {
+	    const checkboxes = document.getElementsByName('gb_yn');
+
+	    // 다른 체크박스 중에서 선택된 체크박스를 제외하고 체크 해제
+	    checkboxes.forEach(function(cb) {
+	      if (cb !== checkbox && cb.checked) {
+	        cb.checked = false;
+	      }
+	    });
+	  }
 </script>
 <style>
 .selected {
@@ -274,12 +206,12 @@
 }
 </style>
 
-<h2>불량 관리</h2>
+<h2>생산관리</h2>
 
 <form method="get">
 	양불 여부
-		<label><input type="radio" name="gb_yn" value="양품">양품</label>
-		<label><input type="radio" name="gb_yn" value="불량품">불량품</label>
+		<label><input type="checkbox" name="gb_yn" value="양품" ${param.gb_yn == '양품' ? 'checked' : ''} onclick="handleCheckbox(this, '양품')">양품</label>
+		<label><input type="checkbox" name="gb_yn" value="불량품"  ${param.gb_yn == '불량품' ? 'checked' : ''} onclick="handleCheckbox(this, '불량품')">불량품</label>
 	작업지시코드 <input type="text" name="work_num"> <br>
 	<label>등록일자</label>
 	<input type="date" name="startDate"> ~ <input type="date" name="endDate">
@@ -287,13 +219,54 @@
 </form>
 
 <br>
+
+		<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
+		<table border="1" class="table-instrList">
+			<tr>
+				<th>　</th>
+				<th>작업지시코드</th>
+				<th>라인코드</th>
+				<th>품목코드</th>
+				<th>품목명</th>
+				<th>작업상태</th>
+				<th>지시일자</th>
+				<th>지시수량</th>
+				<th>수주번호</th>
+				<th>납품예정일</th>
+				<th>담당자</th>
+			</tr>
+		
+			<c:forEach var="qi" items="${qiList}">
+					<tr>
+						<td><input type="checkbox" name="selectedWorkId" value="${qi.work_id}" data-worknum="${qi.work_num}"></td>
+						<td>${qi.work_num}</td>
+						<td>${qi.line_num}</td>
+						<td>${qi.pro_num}</td>
+						<td>${qi.pro_name}</td>
+						<td>${qi.work_state}</td>
+						<td>
+							<c:if test="${!empty qi.update_date}">${fn:substring(qi.update_date, 0, 10)}</c:if>
+							<c:if test="${empty qi.update_date}">${fn:substring(qi.reg_date, 0, 10)}</c:if>
+						</td>
+						<td>${qi.work_cnt}</td>
+						<td>${qi.oo_num}</td>
+						<td>${fn:substring(qi.oo_end_date, 0, 10)}</td>
+						<td>${qi.emp_name}</td>
+					</tr>
+			</c:forEach>
+		</table>
+		<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
+		
+		<hr>
+		<!-- ================================================================================== -->
+<%-- ${prfrmNum} --%>
+<%-- ${wpList} --%>
 		
 <form>
 	<div class="bg-light text-center rounded p-4">
 		<div>
 			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-			<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 			<button type="submit" class="btn btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 			<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 		</div>
@@ -302,6 +275,8 @@
 			<span id="selectedCheckboxCount">0</span>
 		</div>
 		
+		
+		<!-- 생산실적 리스트 -->
 		<table border="1" class="table-prfrmList">
 			<tr>
 				<th><input type="checkbox"></th>
@@ -340,5 +315,6 @@
 		</table>
 	</div>
 </form>
+<!-- 생산실적 리스트 -->
 
 <%@ include file="../../inc/footer.jsp"%>

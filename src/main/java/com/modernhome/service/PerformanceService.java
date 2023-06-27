@@ -27,4 +27,7 @@ public interface PerformanceService {
 	// 생산실적 검색
 	public List<WijoinVO> getPrfrmList(String gb_yn, String work_num, String startdate, String endDate) throws Exception;
 	
+	// 생산실적 등록 시 완제품 재고에 추가
+	public void addPS(WijoinVO vo) throws Exception;
+	
 }

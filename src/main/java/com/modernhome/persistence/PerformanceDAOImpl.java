@@ -74,5 +74,11 @@ public class PerformanceDAOImpl implements PerformanceDAO {
 		
 		return sqlSession.selectList(NAMESPACE + ".listSearch", parameterMap);
 	}
+
+	@Override
+	public void addPS(WijoinVO vo) throws Exception {
+		logger.debug("WP DAOImpl_addPS() 실행");
+		sqlSession.update(NAMESPACE + ".addPS", vo);
+	}
 	
 }

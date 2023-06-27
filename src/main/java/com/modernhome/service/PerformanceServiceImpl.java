@@ -49,5 +49,10 @@ public class PerformanceServiceImpl implements PerformanceService {
 	public List<WijoinVO> getPrfrmList(String gb_yn, String work_num, String startdate, String endDate) throws Exception {
 		return dao.getPrfrmList(gb_yn, work_num, startdate, endDate);
 	}
+
+	@Override
+	public void addPS(WijoinVO vo) throws Exception {
+		dao.addPS(vo);
+	}
 	
 }

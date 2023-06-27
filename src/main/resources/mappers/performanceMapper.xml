@@ -156,5 +156,13 @@
 		DELETE FROM work_prfrm WHERE prfrm_id = #{prfrm_id}
 	</delete>
 	<!-- 생산실적 삭제 -->
+	
+	
+	<!-- 생산실적 등록 시, 양품 개수 완제품 재고에 추가 -->
+	<update id="addPS" parameterType="WijoinVO">
+		UPDATE product_stock SET ps_cnt = ps_cnt + #{prfrm_cnt}, ps_update_date = now(), update_emp_id = #{emp_id} 
+		WHERE pro_id = (SELECT pro_id FROM work_prfrm wp WHERE prfrm_id = #{prfrm_id})
+	</update>
+	<!-- 생산실적 등록 시, 양품 개수 완제품 재고에 추가 -->
 
 </mapper>
