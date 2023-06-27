@@ -88,8 +88,6 @@
             }); // 여기까지 추가 버튼
             
             
-            
-            
          	// 취소 버튼 누를 시 
 			$("#cancelButton").click(function(){
 				
@@ -396,6 +394,40 @@
 			</table>
 			
 			</form>
+			
+			<!-- 페이지 이동 버튼 -->
+	
+			<nav aria-label="Page navigation example">
+		  		<ul class="pagination justify-content-center pagination-sm">
+		  		
+		  			<c:if test="${pm.prev }">
+					<li class="page-item">
+						<a class="page-link" href="/wms/inorder/inorderlist?page=${pm.startPage-1 }&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}" aria-label="Previous">
+		       			<span aria-hidden="true">&laquo;</span>
+		      			</a>
+		    		</li>
+		    		</c:if>
+		    		
+		    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+		    		<li 
+		    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+		    		>
+		    				<a class="page-link" href="/wms/inorder/inorderlist?page=${idx}&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}">${idx }</a>
+		    		</li>
+		    		</c:forEach>
+					
+					<c:if test="${pm.next && pm.endPage > 0}">
+					<li class="page-item">
+		      			<a class="page-link" href="/wms/inorder/inorderlist?page=${pm.endPage+1 }&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}" aria-label="Next">
+		        		<span aria-hidden="true">&raquo;</span>
+		      			</a>
+		    		</li>
+		    		</c:if>
+		    		
+		  		</ul>
+			</nav>
+			
+			<!-- 페이지 이동 버튼 -->
 </body>
 </html>
 <%@ include file="../../inc/footer.jsp"%>

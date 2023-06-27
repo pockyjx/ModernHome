@@ -85,8 +85,6 @@
             }); // 여기까지 추가 버튼
             
             
-            
-            
          	// 취소 버튼 누를 시 
 			$("#cancelButton").click(function(){
 				
@@ -295,25 +293,26 @@
     </style>
 </head>
 <body>
+<div class="col-sm-12 col-xl-6">
+	<div class="bg-light rounded h-100 p-4">
 		<h2>입고 관리</h2>
-		<!-- 검색칸 -->
-			<fieldset>
-               	<form name="search" method="get" action="">
-		       		<span>자재명 :
-		       			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
-		       		</span>
-		       		<span>발주코드 :
-		       			<input type="text" name="io_num" placeholder="발주코드를 입력하세요">
-		       		</span>
-		       		<div>
-                   		<label>입고일자</label>
-	                   	<input type="date" name="startDate">
-                  			~
-	                   	<input type="date" name="endDate">
-                   	</div>
-		      		<input type="submit" value="조회">
-             	</form>
-             </fieldset>  
+		<form name="search" method="get" action="">
+       		<span>자재명 :
+       			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
+       		</span>
+       		<span>발주코드 :
+       			<input type="text" name="io_num" placeholder="발주코드를 입력하세요">
+       		</span>
+       		<div>
+                 	<label>입고일자</label>
+                  	<input type="date" name="startDate">
+                			~
+                  	<input type="date" name="endDate">
+                 	</div>
+      		<input type="submit" value="조회">
+          	</form>
+	</div>
+</div>         	
 		<!-- 검색칸 -->
              
 		<h2>입고</h2>
