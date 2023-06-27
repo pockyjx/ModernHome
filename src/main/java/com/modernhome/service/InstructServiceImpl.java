@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.persistence.InstructDAO;
@@ -23,8 +24,8 @@ public class InstructServiceImpl implements InstructService {
 	}
 
 	@Override
-	public List<WijoinVO> getInstrList() throws Exception {
-		return dao.getInstrList();
+	public List<WijoinVO> getInstrList(PageVO vo) throws Exception {
+		return dao.getInstrList(vo);
 	}
 
 	@Override
@@ -33,8 +34,8 @@ public class InstructServiceImpl implements InstructService {
 	}
 
 	@Override
-	public List<WijoinVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception {
-		return dao.getInstrList(work_state, pro_num, startDate, endDate);
+	public List<WijoinVO> getInstrList(String work_state, String pro_num, String startDate, String endDate, PageVO vo) throws Exception {
+		return dao.getInstrList(work_state, pro_num, startDate, endDate, vo);
 	}
 
 	@Override
@@ -70,6 +71,16 @@ public class InstructServiceImpl implements InstructService {
 	@Override
 	public void addQC(WijoinVO vo) throws Exception {
 		dao.addQC(vo);
+	}
+
+	@Override
+	public int getWiTotalCnt() throws Exception {
+		return dao.getWiTotalCnt();
+	}
+
+	@Override
+	public int getWiSearchCnt(String work_state, String pro_num, String startDate, String endDate, PageVO vo) throws Exception {
+		return dao.getWiSearchCnt(work_state, pro_num, startDate, endDate, vo);
 	}
 
 }

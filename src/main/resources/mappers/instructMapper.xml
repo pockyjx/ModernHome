@@ -40,7 +40,14 @@
 	<!-- Join 결과 매핑 -->
 	
 	
-	<!-- 작업지시 목록 조회 -->
+	<!-- 전체 글 수 계산 (페이징 처리) -->
+	<select id="wiTotalCnt" resultType="int">
+		SELECT count(*) FROM work_instr
+	</select>
+	<!-- 전체 글 수 계산 (페이징 처리) -->
+	
+	
+	<!-- 작업지시 목록 조회 (페이징 처리) -->
 	<select id="getList" resultMap="wijoinRM">
 		SELECT wi.work_id, wi.pro_id, wi.oo_id, work_num, wi.line_id, line_num, pro_num, pro_name, wi.work_state, oo_cnt, 
 			wi.reg_date, wi.update_date, wi.work_cnt, oo_num, oo_end_date, wi.emp_id, wi.update_emp_id, 
@@ -55,8 +62,9 @@
 		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
 		LEFT JOIN line li ON wi.line_id = li.line_id  
 		LEFT JOIN product pro ON wi.pro_id = pro.pro_id
+		ORDER BY wi.work_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
-	<!-- 작업지시 목록 조회 -->
+	<!-- 작업지시 목록 조회 (페이징 처리) -->
 	
 	
 	<!-- 작업지시서 조회 -->
@@ -84,7 +92,34 @@
 	<!-- 작업지시서 자재 출력 -->
 	
 	
-	<!-- 작업지시 검색 -->
+	<!-- 검색한 작업지시 개수 (페이징 처리) -->
+	<select id="wiSearchCnt" resultType="int">
+		SELECT count(wi.work_id) 
+		FROM work_instr wi 
+		LEFT JOIN out_order oo ON wi.oo_id = oo.oo_id 
+		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
+		LEFT JOIN line l ON wi.line_id = l.line_id  
+		LEFT JOIN product pro ON wi.pro_id = pro.pro_id 
+		LEFT JOIN employee emp ON wi.emp_id = emp.emp_id 
+		<where>
+			<if test="work_state != ''">
+				work_state = #{work_state}
+			</if>
+			<if test="pro_num != ''">
+				AND pro_num like CONCAT('%', #{pro_num}, '%')
+			</if>
+			<if test="startDate != ''">
+	        	AND IFNULL(wi.update_date, wi.reg_date) &gt;= #{startDate}
+	        </if>
+	        <if test="endDate != ''">
+	        	AND #{endDate} &gt;= IFNULL(wi.update_date, wi.reg_date)
+	        </if>
+		</where>
+	</select>
+	<!-- 검색한 작업지시 개수 (페이징 처리) -->
+	
+	
+	<!-- 작업지시 검색 (페이징 처리) -->
 	<select id="wiListSearch" resultMap="wijoinRM">
 		SELECT wi.work_id, wi.pro_id, wi.oo_id, work_num, wi.line_id, line_num, pro_num, pro_name, wi.work_state, oo_cnt, 
 			wi.reg_date, wi.update_date, wi.work_cnt, oo_num, oo_end_date, wi.emp_id, wi.update_emp_id,  
@@ -108,14 +143,15 @@
 				AND pro_num like CONCAT('%', #{pro_num}, '%')
 			</if>
 			<if test="startDate != ''">
-	        	AND wi.reg_date &gt;= #{startDate}
+	        	AND IFNULL(wi.update_date, wi.reg_date) &gt;= #{startDate}
 	        </if>
 	        <if test="endDate != ''">
-	        	AND #{endDate} &gt;= wi.reg_date
+	        	AND #{endDate} &gt;= IFNULL(wi.update_date, wi.reg_date)
 	        </if>
 		</where>
+		ORDER BY wi.work_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
-	<!-- 작업지시 검색 -->
+	<!-- 작업지시 검색 (페이징 처리) -->
 	
 	
 	<!-- 작업지시서를 작성하지 않은 수주 번호 출력 -->
@@ -131,12 +167,12 @@
 	<select id="getBeforeInstrReq" resultMap="wijoinRM">
 		SELECT oo.pro_id, oo.oo_id, oo.clt_id, req.req_id, pro_num, pro_name, pro_unit, ma_num, ma_name, clt_name, req_cnt, oo_cnt, oo_end_date, li.line_id 
 		FROM work_instr wi
-		RIGHT JOIN out_order oo ON wi.pro_id = oo.pro_id 
+		RIGHT JOIN out_order oo ON wi.oo_id = oo.oo_id 
 		RIGHT JOIN requirement req ON oo.pro_id = req.pro_id 
 		RIGHT JOIN material ma ON req.ma_id = ma.ma_id 
 		RIGHT JOIN product pro ON req.pro_id = pro.pro_id 
-		RIGHT JOIN client clt ON oo.clt_id = clt.clt_id 
-		RIGHT JOIN line li ON li.line_id = wi.line_id 
+		LEFT JOIN client clt ON oo.clt_id = clt.clt_id 
+		LEFT JOIN line li ON li.line_id = wi.line_id
 		WHERE oo.oo_id = #{oo_id}
 		<if test="line_num != null">
 			OR li.line_id = #{line_id}

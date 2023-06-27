@@ -44,8 +44,7 @@
 	});
 
 	$(document).on("click", "input[type='submit']", function() {
-		var url = window.location.href;
-		var lnumVal = new URLSearchParams(new URL(url).search).get('line_num');
+		var lnumVal = $("input[name='line_num']").val();
 		console.log(lnumVal);
 		
 		if(lnumVal == null) {
@@ -89,10 +88,7 @@
 				<td>${wiList[0].oo_end_date}</td>
 				<th>생산라인</th>
 				<td id="line_num">
-					<input type="text" name="line_num" 
-						<c:if test='${empty param.line_num}'>value="${wiList[0].line_num}"</c:if>
-						<c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if>
-					readonly>
+					<input type="text" name="line_num" value="${(empty param.line_num) ? wiList[0].line_num : param.line_num}" readonly>
 				</td>
 			</tr>
 			<tr>
@@ -122,7 +118,8 @@
 		<input type="hidden" name="req_id" value="${wiList[0].req_id}">
 		<input type="hidden" name="oo_id" value="${wiList[0].oo_id}">
 		<input type="hidden" name="clt_id" value="${wiList[0].clt_id}">
-		<input type="hidden" name="emp_id" value="${wiList[0].emp_id}">
+		<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
+		<input type="hidden" name="line_id" value="${(empty param.line_id) ? wiList[0].line_id : param.line_id}">
 		<div>
 			<input type="button" value="취소" onclick="location.href='/production/instruct/list'">
 			<input type="submit" value="수정"> 

@@ -76,7 +76,7 @@
 	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
 	
 	<h2>작업지시서 작성</h2>
-<%-- ${idnum} <hr> --%>
+<%-- ${idnum} --%>
 <%-- ${reqList} --%>
 	<form method="post">
 		<table border="1">
@@ -103,7 +103,7 @@
 			</tr>
 			<tr>
 				<th>납기일</th>
-				<td><input type="text" name="oo_end_date" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_end_date}"</c:if> readonly></td>
+				<td><input type="text" name="oo_end_date" <c:if test='${!empty param.oo_num}'>value="${fn:substring(reqList[0].oo_end_date, 0, 10)}"</c:if> readonly></td>
 				<th>생산라인</th>
 				<td id="line_num">
 					<input type="text" name="line_num" <c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if> readonly>

@@ -26,13 +26,16 @@
 		
 		// 추가 버튼 클릭 시 행 추가
         $("#addRowButton").click(function() {
+        	var now = new Date();
+			var today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + now.getDate();
+        	
 			var newRow = '<tr>' +
 						 '<td><input type="checkbox"></td>' +
-						 '<td><input type="text" name="prfrm_num" value="${prfrmNum}"></td>' +
-						 '<td><input type="text" name="work_num" value="' + work_num + '"></td>' +
-						 '<td><input type="text" name="line_num" value="' + line_num + '"></td>' +
-						 '<td><input type="text" name="pro_num" value="' + pro_num + '"></td>' +
-						 '<td><input type="text" name="pro_name" value="' + pro_name + '"></td>' +
+						 '<td><input type="text" name="prfrm_num" value="${prfrmNum}" readonly></td>' +
+						 '<td id="work_num"><input id="wnumPop" type="text" name="work_num"></td>' +
+						 '<td><input type="text" name="line_num"></td>' +
+						 '<td><input type="text" name="pro_num"></td>' +
+						 '<td><input type="text" name="pro_name"></td>' +
 						 '<td><input type="text" name="reg_date" value="' + today + '"></td>' +
 						 '<td>' +
 						 '<select name="gb_yn">' +
@@ -42,9 +45,18 @@
 						 '</td>' +
 						 '<td><input type="text" name="prfrm_cnt"></td>' +
 						 '<td><input type="text" name="df_cnt" value="0" disabled></td>' +
-						 '<td><input type="hidden" name="emp_id" value="${sessionScope.emp_id}"></td>' +
-						 '<td><input type="text" name="work_cnt" value="' + work_cnt + '"></td>' +
+						 '<td><input type="text" name="emp_id" value="${sessionScope.emp_id}"></td>' +
+						 '<td><input type="text" name="work_cnt"></td>' +
+						 '<td><input type="hidden" name="work_id">' +
+						 '<input type="hidden" name="line_id">' +
+						 '<input type="hidden" name="pro_id"></td>' +
 						 '</tr>';
+			
+			// 클릭 시 팝업창 열기
+			$(document).on("click", "td[id='work_num']", function() {
+				window.name = "add";
+				window.open('/production/performance/addPopup', 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+			});
 			
 			// gb_yn이 Y라면 df_cnt를 비활성화 시킴
 			$(document).on('change', 'select[name="gb_yn"]', function() {
@@ -136,15 +148,26 @@
 	
 	// 체크박스 중복 X
 	function handleCheckbox(checkbox, value) {
-	    const checkboxes = document.getElementsByName('gb_yn');
+		const checkboxes = document.getElementsByName('gb_yn');
+		
+		// 다른 체크박스 중에서 선택된 체크박스를 제외하고 체크 해제
+		checkboxes.forEach(function(cb) {
+		if (cb !== checkbox && cb.checked) {
+			cb.checked = false;
+			}
+		});
+	}
 
-	    // 다른 체크박스 중에서 선택된 체크박스를 제외하고 체크 해제
-	    checkboxes.forEach(function(cb) {
-	      if (cb !== checkbox && cb.checked) {
-	        cb.checked = false;
-	      }
-	    });
-	  }
+	$(document).on("click", "input[type='submit']", function() {
+		var url = window.location.href;
+		var wiVal = new URLSearchParams(new URL(url).search).get('work_id');
+		console.log(wiVal);
+		
+		if(wiVal == null) {
+			alert("등록할 작업지시번호를 선택해주세요.");
+			return false;
+		}
+	});
 </script>
 <style>
 .selected {
@@ -220,7 +243,7 @@
 						<c:if test="${empty wp.update_date}">${fn:substring(wp.reg_date, 0, 10)}</c:if>
 					</td>
 					<td>${wp.gb_yn}</td>
-					<td>${wp.prfrm_cnt}</td>
+					<td>${wp.prfrm_cnt}<input type="hidden" name="prfrm_cnt" value="${wp.prfrm_cnt}"></td>
 					<td>${wp.work_cnt - wp.prfrm_cnt}</td>
 					<td>${wp.emp_name}</td>
 					<td>${wp.work_cnt}</td>
@@ -230,5 +253,37 @@
 	</div>
 </form>
 <!-- 생산실적 리스트 -->
+
+<!-- 페이지 이동 버튼 -->
+<nav aria-label="Page navigation example">
+ 	<ul class="pagination justify-content-center pagination-sm">
+ 		<c:if test="${pm.prev}">
+			<li class="page-item">
+				<a class="page-link" 
+				href="/production/performance/list?page=${pm.startPage - 1}&gb_yn=${gb_yn}&work_num=${work_num}&startDate=${startDate}&endDate=${endDate}" 
+				aria-label="Previous">
+	      			<span aria-hidden="true">&laquo;</span>
+	     		</a>
+	   		</li>
+   		</c:if>
+   		
+   		<c:forEach begin="${pm.startPage}" end="${pm.endPage}" step="1" var="idx">
+	   		<li <c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />>
+	   			<a class="page-link" href="/production/performance/list?page=${idx}&gb_yn=${gb_yn}&work_num=${work_num}&startDate=${startDate}&endDate=${endDate}">${idx}</a>
+	   		</li>
+   		</c:forEach>
+		
+		<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+	     		<a class="page-link" 
+	     		href="/production/performance/list?page=${pm.endPage + 1}&gb_yn=${gb_yn}&work_num=${work_num}&startDate=${startDate}&endDate=${endDate}" 
+	     		aria-label="Next">
+	       			<span aria-hidden="true">&raquo;</span>
+	     		</a>
+	   		</li>
+   		</c:if>
+ 	</ul>
+</nav>
+<!-- 페이지 이동 버튼 -->
 
 <%@ include file="../../inc/footer.jsp"%>
