@@ -136,15 +136,15 @@
 	
 	// 체크박스 중복 X
 	function handleCheckbox(checkbox, value) {
-	    const checkboxes = document.getElementsByName('gb_yn');
-
-	    // 다른 체크박스 중에서 선택된 체크박스를 제외하고 체크 해제
-	    checkboxes.forEach(function(cb) {
-	      if (cb !== checkbox && cb.checked) {
-	        cb.checked = false;
-	      }
-	    });
-	  }
+		const checkboxes = document.getElementsByName('gb_yn');
+		
+		// 다른 체크박스 중에서 선택된 체크박스를 제외하고 체크 해제
+		checkboxes.forEach(function(cb) {
+		if (cb !== checkbox && cb.checked) {
+			cb.checked = false;
+			}
+		});
+	}
 </script>
 <style>
 .selected {
@@ -230,5 +230,33 @@
 	</div>
 </form>
 <!-- 생산실적 리스트 -->
+
+<!-- 페이지 이동 버튼 -->
+<nav aria-label="Page navigation example">
+ 	<ul class="pagination justify-content-center pagination-sm">
+ 		<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/info/req/reqList?page=${pm.startPage-1 }&search=${search}&option=${option}" aria-label="Previous">
+	      			<span aria-hidden="true">&laquo;</span>
+	     		</a>
+	   		</li>
+   		</c:if>
+   		
+   		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+	   		<li <c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />>
+	   			<a class="page-link" href="/info/req/reqList?page=${idx}&search=${search}&option=${option}">${idx }</a>
+	   		</li>
+   		</c:forEach>
+		
+		<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+	     		<a class="page-link" href="/info/req/reqList?page=${pm.endPage+1 }&search=${search}&option=${option}" aria-label="Next">
+	       			<span aria-hidden="true">&raquo;</span>
+	     		</a>
+	   		</li>
+   		</c:if>
+ 	</ul>
+</nav>
+<!-- 페이지 이동 버튼 -->
 
 <%@ include file="../../inc/footer.jsp"%>
