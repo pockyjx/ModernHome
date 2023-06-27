@@ -76,7 +76,7 @@
 	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
 	
 	<h2>작업지시서 작성</h2>
-<%-- ${idnum} <hr> --%>
+<%-- ${idnum} --%>
 <%-- ${reqList} --%>
 	<form method="post">
 		<table border="1">
