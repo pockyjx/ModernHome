@@ -27,7 +27,7 @@ public class ItemServiceImpl implements ItemService {
 		return pdao.getProductList();
 	}
 
-	// 완제품 검색 결과
+	// 완제품 검색 결과 (페이징)
 	@Override
 	public List<ProductVO> getProductList(ProductVO vo, PageVO pvo) {
 		return pdao.getProductList(vo, pvo);
@@ -63,13 +63,13 @@ public class ItemServiceImpl implements ItemService {
 		return pdao.getProListPage(vo);
 	}
 	
-	// 완제품 글 개수
+	// 완제품 글 개수 (페이징)
 	@Override
 	public int getTotalCntPro() throws Exception {
 		return pdao.getTotalCntPro();
 	}
 	
-	// 검색 결과 개수
+	// 검색 결과 개수 (페이징)
 	@Override
 	public int getProSearchCnt(ProductVO vo) throws Exception {
 		return pdao.getProSearchCnt(vo);
@@ -84,19 +84,19 @@ public class ItemServiceImpl implements ItemService {
 		return mdao.getMaterialList(vo);
 	}
 	
-	// 자재 개수
+	// 자재 개수 (페이징)
 	@Override
 	public int getTotalCntMate() throws Exception {
 		return mdao.getTotalCntMate();
 	}
 	
-	// 자재 검색 결과
+	// 자재 검색 결과 (페이징)
 	@Override
 	public List<MaterialVO> getMaterialList(MaterialVO vo, PageVO pvo) {
 		return mdao.getMaterialList(vo, pvo);
 	}
 	
-	// 검색 결과 개수
+	// 검색 결과 개수 (페이징)
 	@Override
 	public int getMaSearchCnt(MaterialVO vo) throws Exception {
 		return mdao.getMaSearchCnt(vo);

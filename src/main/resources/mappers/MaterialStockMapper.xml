@@ -24,15 +24,25 @@
 	</resultMap>
 	<!-- resultMap -->
 	
-	<!-- 자재 재고 목록 -->
+	<!-- 자재 재고 목록 (페이징) -->
 	<select id="getMateStock" resultMap="mateStockResultMap">
 		SELECT ms_id, ma_num, wh_name, ms.ma_id, ma_name, ms_cnt, m.ma_unit
 		FROM material_stock ms
 		JOIN material m ON m.ma_id = ms.ma_id
 		JOIN warehouse w ON w.wh_id = ms.wh_id
 		ORDER BY ms_id desc
+		LIMIT #{startPage}, #{pageSize}
 	</select>
-	<!-- 자재 재고 목록 -->
+	<!-- 자재 재고 목록 (페이징) -->
+	
+	<!-- 전체 글 개수 (페이징) -->
+	<select id="msTotalCnt" resultType="int">
+		SELECT count(ms_id)
+		FROM material_stock ms
+		JOIN material m ON m.ma_id = ms.ma_id
+		JOIN warehouse w ON w.wh_id = ms.wh_id
+	</select>
+	<!-- 전체 글 개수 (페이징) -->
 	
 	<!-- 자재 재고 등록 -->
 	<insert id="regMaStock">
@@ -43,9 +53,28 @@
 	</insert>
 	<!-- 자재 재고 등록 -->
 	
-	<!-- 자재 검색  -->
-	<select id="searchMateStock" resultType="MaterialStockVO">
+	<!-- 자재 검색 (페이징) -->
+	<select id="searchMateStock" resultType="MaterialStockVO" parameterType="java.util.Map">
 		SELECT ms_id, ma_num, wh_name, ms.ma_id, ma_name, ms_cnt, m.ma_unit 
+		FROM material_stock ms
+		JOIN material m ON m.ma_id = ms.ma_id
+		JOIN warehouse w ON w.wh_id = ms.wh_id
+		<where>
+			<if test="ma_num != ''">
+				ma_num like CONCAT('%', #{msVO.ma_num}, '%')
+			</if>
+			<if test="ma_name != ''">
+				AND ma_name like CONCAT('%', #{msVO.ma_name}, '%')
+			</if>
+		</where>
+		ORDER BY ms_id DESC
+		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+	</select>
+	<!-- 자재 검색 (페이징) -->
+	
+	<!-- 검색 결과 개수 (페이징) -->
+	<select id="msSearchCnt" resultType="int">
+		SELECT count(ms_id)  
 		FROM material_stock ms
 		JOIN material m ON m.ma_id = ms.ma_id
 		JOIN warehouse w ON w.wh_id = ms.wh_id
@@ -58,9 +87,7 @@
 			</if>
 		</where>
 	</select>
-	<!-- 자재 검색  -->
-	
-	
+	<!-- 검색 결과 개수 (페이징) -->
 	
 
 </mapper>

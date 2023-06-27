@@ -24,6 +24,13 @@
 	     	
 	         // 버튼 클릭 시 행 추가
 	         $("#addRowButton").click(function() {
+	        	 
+	        	// 모든 체크박스의 체크 해제
+    			$(".table-reqList input[type='checkbox']").prop("checked", false);
+    			
+    			// selected 클래스를 없앰 (css 없애기)
+    			$(".table-reqList tr").removeClass("selected");
+	        	 
 	             var newRow = '<tr>' +
 	                 '<td><input type="checkbox"></td>' +
 	                 '<td><input type="text" name="req_num" placeholder="소요량 코드" readonly></td>' +
@@ -48,7 +55,7 @@
 				
 				pageStatus = "reg";
 				
-
+				updateSelectedCheckboxCount();
 	             
 	         });  // 버튼 클릭 시 행 추가
 	         
@@ -103,6 +110,8 @@
 			
 			});		
 		}
+		
+		updateSelectedCheckboxCount();  
 	
 	}); // 취소 버튼 누를 시
 	      
@@ -276,12 +285,18 @@
 		<form action="" method="GET">
 				
 			<select name="option">
-				<option value="all">전체</option>
-				<option value="pro_name">완제품명</option>
-				<option value="ma_name">자재명</option>
+				<option value="all" 
+					<c:if test="${option == '' || option == 'all' }">selected</c:if>
+				>전체</option>
+				<option value="pro_name" 
+					<c:if test="${option == 'pro_name' }">selected</c:if>
+				>완제품명</option>
+				<option value="ma_name"
+					<c:if test="${option == 'ma_name' }">selected</c:if>
+				>자재명</option>
 			</select>
 			
-			<label><input type="text" name="search"></label>
+			<label><input type="text" name="search" value="${search }"></label>
 			<input type="submit" value="조회">
 		</form>
 	</fieldset>
@@ -357,9 +372,41 @@
 		
 	</table>
 	
-	
-	
 	</form>
+	
+	<!-- 페이지 이동 버튼 -->
+	
+	<nav aria-label="Page navigation example">
+  		<ul class="pagination justify-content-center pagination-sm">
+  		
+  			<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/info/req/reqList?page=${pm.startPage-1 }&search=${search}&option=${option}" aria-label="Previous">
+       			<span aria-hidden="true">&laquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+    		<li 
+    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+    		>
+    				<a class="page-link" href="/info/req/reqList?page=${idx}&search=${search}&option=${option}">${idx }</a>
+    		</li>
+    		</c:forEach>
+			
+			<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+      			<a class="page-link" href="/info/req/reqList?page=${pm.endPage+1 }&search=${search}&option=${option}" aria-label="Next">
+        		<span aria-hidden="true">&raquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+  		</ul>
+	</nav>
+	
+	<!-- 페이지 이동 버튼 -->
 
 	
 </body>

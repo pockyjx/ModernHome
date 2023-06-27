@@ -34,8 +34,8 @@
 	<fieldset>
 		<form action="" method="GET">
 
-			<label><b>자재코드</b> <input type="text" name="ma_num"></label>
-			<label><b>자재명</b> <input type="text" name="ma_name"></label>
+			<label><b>자재코드</b> <input type="text" name="ma_num" value="${msvo.ma_num }"></label>
+			<label><b>자재명</b> <input type="text" name="ma_name" value="${msvo.ma_name }"></label>
 
 			<input type="submit" value="조회">
 		</form>
@@ -65,7 +65,39 @@
 		</c:forEach>
 	</table>
 	
-
+	<!-- 페이지 이동 버튼 -->
+	
+	<nav aria-label="Page navigation example">
+  		<ul class="pagination justify-content-center pagination-sm">
+  		
+  			<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/stock/materialStockList?page=${pm.startPage-1 }&ma_num=${msvo.ma_num}&ma_name=${msvo.ma_name}" aria-label="Previous">
+       			<span aria-hidden="true">&laquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+    		<li 
+    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+    		>
+    			<a class="page-link" href="/stock/materialStockList?page=${idx}&ma_num=${msvo.ma_num}&ma_name=${msvo.ma_name}">${idx }</a>
+    		</li>
+    		</c:forEach>
+			
+			<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+      			<a class="page-link" href="/stock/materialStockList?page=${pm.endPage+1 }&ma_num=${msvo.ma_num}&ma_name=${msvo.ma_name}" aria-label="Next">
+        		<span aria-hidden="true">&raquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+  		</ul>
+	</nav>
+	
+	<!-- 페이지 이동 버튼 -->
 
 </body>
 </html>

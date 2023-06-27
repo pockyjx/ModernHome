@@ -12,7 +12,7 @@
 	</select>
 	<!-- 완제품 목록 조회 -->
 	
-	<!-- 완제품 검색 결과 조회 -->
+	<!-- 완제품 검색 결과 조회 (페이징) -->
 	<select id="proSearchList" resultType="ProductVO" parameterType="java.util.Map">
 		select * from product
 		<where>
@@ -26,7 +26,7 @@
 		ORDER BY pro_id DESC
 		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>	
-	<!-- 완제품 검색 결과 조회 -->
+	<!-- 완제품 검색 결과 조회 (페이징) -->
 	
 	<!-- 완제품 등록 -->
 	<insert id="regProduct">
@@ -66,13 +66,13 @@
 	</select>
 	<!-- 완제품 목록 (페이징) -->
 	
-	<!-- 전체 글 수 계산 -->
+	<!-- 전체 글 수 계산 (페이징) -->
 	<select id="proTotalCnt" resultType="int">
 		SELECT count(*) from product
 	</select>
-	<!-- 전체 글 수 계산 -->
+	<!-- 전체 글 수 계산 (페이징) -->
 	
-	<!-- 검색 결과 개수 계산 -->
+	<!-- 검색 결과 개수 계산 (페이징) -->
 	<select id="proSearchCnt" resultType="int">
 		SELECT count(*) from product
 		<where>
@@ -84,6 +84,6 @@
 			</if>
 		</where>
 	</select>
-	<!-- 검색 결과 개수 계산 -->
+	<!-- 검색 결과 개수 계산 (페이징) -->
 	
 </mapper>

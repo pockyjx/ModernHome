@@ -34,7 +34,7 @@ public class ProductDAOImpl implements ProductDAO {
 		return sqlSession.selectList(NAMESPACE + ".productList");
 	}
 	
-	// 완제품 검색 결과
+	// 완제품 검색 결과 (페이징)
 	@Override
 	public List<ProductVO> getProductList(ProductVO vo, PageVO pvo) {
 		logger.debug("완제품 검색 결과 조회!");
@@ -81,13 +81,13 @@ public class ProductDAOImpl implements ProductDAO {
 		return sqlSession.selectList(NAMESPACE + ".proListPage", vo);
 	}
 
-	// 총 개수 계산
+	// 총 개수 계산 (페이징)
 	@Override
 	public int getTotalCntPro() throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".proTotalCnt");
 	}
 
-	// 검색 결과 개수
+	// 검색 결과 개수 (페이징)
 	@Override
 	public int getProSearchCnt(ProductVO vo) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".proSearchCnt", vo);
