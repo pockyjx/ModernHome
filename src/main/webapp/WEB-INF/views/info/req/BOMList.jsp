@@ -11,10 +11,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js">
 
-$(document).ready(function() {
-	
-});
-	
 
 
 
@@ -27,17 +23,20 @@ $(document).ready(function() {
 </head>
 <body>
 
+	
+
 	<table border="1" id="BOMList">
 	
 	<c:forEach var="vo" items="${BOMList}" >
 	
 		<tr>	
 			<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}"></td>
-			<c:if test="${previousProId eq vo.pro_id }">
-				<td rowspan="">
+			<td rowspan="">
+				<c:if test="${previousProId eq vo.pro_id }">
 					${vo.pro_id }
-				</td>
-			</c:if>
+					
+				</c:if>
+			</td>
 			<td>${vo.pro_num }</td>
 			<td>${vo.pro_name }</td>
 			<td>${vo.ma_num }</td>

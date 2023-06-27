@@ -11,7 +11,7 @@ public interface MaterialDAO {
 	// 자재 목록 조회 (페이징)
 	public List<MaterialVO> getMaterialList(PageVO vo);
 	
-	// 총 글 수 계산
+	// 총 글 수 계산 (페이징)
 	public int getTotalCntMate() throws Exception;
 	
 	// 자재 검색 결과 (페이징)

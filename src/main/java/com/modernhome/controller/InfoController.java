@@ -1,5 +1,6 @@
 package com.modernhome.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -200,22 +201,39 @@ public class InfoController {
 	@RequestMapping(value = "/req/reqList", method = RequestMethod.GET)
 	public void reqListGET(Model model, 
 						@ModelAttribute("option") String option, 
-						@ModelAttribute("search") String search) throws Exception {
+						@ModelAttribute("search") String search,
+						PageVO pvo) throws Exception {
 		
 		List<ReqJoinVO> reqList;
-		
+		PageMaker pm = new PageMaker();
 		
 		logger.debug(option);
 		logger.debug(search);
 		
 		if(option != null || search != null) {
 			logger.debug("reqListGET(search) 호출!");
-			reqList = rService.getReqSearch(option, search);
+			reqList = rService.getReqSearch(option, search, pvo);
 			model.addAttribute("reqList", reqList);
+			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(rService.getReqSearchCnt(option, search));
+			model.addAttribute("pm", pm);
+			
+			// 검색 정보 전달
+			model.addAttribute("option", option);
+			model.addAttribute("search", search);
+			
 		}else {
 			logger.debug("reqListGET(all) 호출!");
-			reqList = rService.getListAll();
+			reqList = rService.getListAll(pvo);
 			model.addAttribute("reqList", reqList);
+			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(rService.getTotalCntReq());
+			model.addAttribute("pm", pm);
+			
 		}
 		
 		
@@ -350,9 +368,21 @@ public class InfoController {
 	// BOMList
 	// http://localhost:8088/info/req/BOMList
 	@RequestMapping(value = "/req/BOMList", method = RequestMethod.GET)
-	public void BOMList(Model model) throws Exception {
-		List<ReqJoinVO> BOMList = rService.getListAll();
+	public void BOMList(Model model, PageVO pvo) throws Exception {
+		
+		PageMaker pm = new PageMaker();
+		
+		List<ReqJoinVO> BOMList = rService.getListAll(pvo);
 		model.addAttribute("BOMList", BOMList);
+		
+		// 페이징 정보 전달
+		pm.setPageVO(pvo);
+		pm.setTotalCount(rService.getTotalCntReq());
+		
+		model.addAttribute("pm", pm);
+		
+		
+		
 	}
 	
 }

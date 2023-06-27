@@ -1,7 +1,5 @@
 package com.modernhome.domain;
 
-import java.sql.Timestamp;
-
 public class ProductStockVO {
 	
 	private Integer ps_id;

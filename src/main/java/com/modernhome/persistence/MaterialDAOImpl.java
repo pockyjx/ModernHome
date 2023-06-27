@@ -25,19 +25,19 @@ public class MaterialDAOImpl implements MaterialDAO {
 	private SqlSession sqlSession;
 	
 	// 네임스페이스
-	private static final String NAMESPACRE = "com.modernhome.mapper.MaterialMapper";
+	private static final String NAMESPACE = "com.modernhome.mapper.MaterialMapper";
 	
 	// 자재 목록 조회 (페이징)
 	@Override
 	public List<MaterialVO> getMaterialList(PageVO vo) {
 		logger.debug("자재 목록 조회!");
-		return sqlSession.selectList(NAMESPACRE + ".materialList", vo);
+		return sqlSession.selectList(NAMESPACE + ".materialList", vo);
 	}
 	
-	// 총 개수 계산
+	// 총 개수 계산 (페이징)
 	@Override
 	public int getTotalCntMate() throws Exception {
-		return sqlSession.selectOne(NAMESPACRE + ".mateTotalCnt");
+		return sqlSession.selectOne(NAMESPACE + ".mateTotalCnt");
 	}
 
 	// 자재 검색 결과 (페이징)
@@ -47,20 +47,20 @@ public class MaterialDAOImpl implements MaterialDAO {
 		paramMap.put("materialVO", vo);
 		paramMap.put("pageVO", pvo);
 		
-		return sqlSession.selectList(NAMESPACRE + ".maSearchList", paramMap);
+		return sqlSession.selectList(NAMESPACE + ".maSearchList", paramMap);
 	}
 	
 	// 검색 결과 개수 (페이징)
 	@Override
 	public int getMaSearchCnt(MaterialVO vo) throws Exception {
-		return sqlSession.selectOne(NAMESPACRE + ".maSearchCnt", vo);
+		return sqlSession.selectOne(NAMESPACE + ".maSearchCnt", vo);
 	}
 
 	// 자재 등록
 	@Override
 	public void regMaterial(MaterialVO vo) {
 		logger.debug("자재 등록!");
-		sqlSession.insert(NAMESPACRE + ".regMaterial", vo);
+		sqlSession.insert(NAMESPACE + ".regMaterial", vo);
 	}
 	
 
@@ -68,21 +68,20 @@ public class MaterialDAOImpl implements MaterialDAO {
 	@Override
 	public void delMaterial(int ma_id) {
 		logger.debug("자재 삭제!");
-		sqlSession.delete(NAMESPACRE + ".delMaterial", ma_id);
+		sqlSession.delete(NAMESPACE + ".delMaterial", ma_id);
 	}
 
 	// 자재 수정
 	@Override
 	public void modifyMaterial(MaterialVO vo) {
 		logger.debug("자재 수정!");
-		sqlSession.update(NAMESPACRE + ".updateMaterial", vo);
+		sqlSession.update(NAMESPACE + ".updateMaterial", vo);
 	}
-	
 
 	// 자재 id값 가져오기
 	@Override
 	public int getMaxMaId() {
-		return sqlSession.selectOne(NAMESPACRE + ".getMaId");
+		return sqlSession.selectOne(NAMESPACE + ".getMaId");
 	}
 	
 	

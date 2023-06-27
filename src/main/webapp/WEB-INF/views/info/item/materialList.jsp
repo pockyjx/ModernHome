@@ -21,6 +21,13 @@
         	
             // 버튼 클릭 시 행 추가
             $("#addRowButton").click(function() {
+            	
+            	// 모든 체크박스의 체크 해제
+    			$(".table-mateList input[type='checkbox']").prop("checked", false);
+    			
+    			// selected 클래스를 없앰 (css 없애기)
+    			$(".table-mateList tr").removeClass("selected");
+            	
                 var newRow = '<tr>' +
                     '<td><input type="checkbox"></td>' +
                     '<td><input type="text" name="ma_num" placeholder="자재 코드" readonly></td>' +
@@ -39,6 +46,8 @@
 				$("#submitButton").removeAttr("disabled");
 				
 				pageStatus = "reg";
+				
+				updateSelectedCheckboxCount();
 				
             }); // 추가 버튼
             

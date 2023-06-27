@@ -24,15 +24,25 @@
 	</resultMap>
 	<!-- resultMap -->
 	
-	<!-- 완제품 재고 목록 -->
-	<select id="getProStock" resultMap="proStockResultMap">
+	<!-- 완제품 재고 목록 (페이징) -->
+	<select id="getProStock" resultMap="proStockResultMap" >
 		SELECT ps_id, wh_name, p.pro_num, pro_name, ps_cnt, p.pro_unit
 		FROM product_stock ps
 		JOIN product p ON p.pro_id = ps.pro_id
 		JOIN warehouse w ON w.wh_id = ps.wh_id
-		ORDER BY ps_id desc
+		ORDER BY ps_id DESC
+		LIMIT #{startPage}, #{pageSize}
 	</select>
-	<!-- 완제품 재고 목록 -->
+	<!-- 완제품 재고 목록 (페이징) -->
+	
+	<!-- 전체 글 수 계산 (페이징) -->
+	<select id="psTotalCnt" resultType="int">
+		SELECT count(ps_id)
+		FROM product_stock ps
+		JOIN product p ON p.pro_id = ps.pro_id
+		JOIN warehouse w ON w.wh_id = ps.wh_id
+	</select>
+	<!-- 전체 글 수 계산 (페이징) -->
 	
 	<!-- 완제품 재고 등록 -->
 	<insert id="regProStock">
@@ -43,9 +53,28 @@
 	</insert>
 	<!-- 완제품 재고 등록 -->
 	
-	<!-- 완제품 재고 검색 -->
-	<select id="searchProStock" resultType="ProductStockVO">
+	<!-- 완제품 재고 검색 (페이징) -->
+	<select id="searchProStock" resultType="ProductStockVO" parameterType="java.util.Map">
 		SELECT ps_id, wh_name, p.pro_num, pro_name, ps_cnt, p.pro_unit
+		FROM product_stock ps
+		JOIN product p ON p.pro_id = ps.pro_id
+		JOIN warehouse w ON w.wh_id = ps.wh_id
+		<where>
+			<if test="pro_num != ''">
+				pro_num like CONCAT('%', #{psVO.pro_num}, '%')
+			</if>
+			<if test="pro_name != ''">
+				AND pro_name like CONCAT('%', #{psVO.pro_name}, '%')
+			</if>
+		</where>
+		ORDER BY ps_id DESC
+		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+	</select>
+	<!-- 완제품 재고 검색 (페이징) -->
+	
+	<!-- 검색 결과 개수 (페이징) -->
+	<select id="psSearchCnt" resultType="int">
+		SELECT count(ps_id) 
 		FROM product_stock ps
 		JOIN product p ON p.pro_id = ps.pro_id
 		JOIN warehouse w ON w.wh_id = ps.wh_id
@@ -58,7 +87,7 @@
 			</if>
 		</where>
 	</select>
-	<!-- 완제품 재고 검색 -->
+	<!-- 검색 결과 개수 (페이징) -->
 	
 	
 

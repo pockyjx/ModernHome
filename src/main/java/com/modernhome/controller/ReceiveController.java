@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.InorderVO;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ReceiveVO;
 import com.modernhome.service.ClientService;
 import com.modernhome.service.InorderService;
@@ -66,11 +67,11 @@ public class ReceiveController {
 	// 입고 등록 시 팝업
     // http://localhost:8088/wms/receive/popUpReceive
     @RequestMapping(value = "/receive/addPopup", method = RequestMethod.GET )
-	public String popUpGET(Model model, @ModelAttribute("txt") String txt) throws Exception {
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt, PageVO pvo) throws Exception {
 		logger.debug("popUpReceiveGET() 호출!");
 		
 		if(txt.equals("io")) { // 발주 목록 팝업
-			List<InorderVO> popUpIo = ioService.getInorderList();
+			List<InorderVO> popUpIo = ioService.getInorderList(pvo);
 			model.addAttribute("popUpIo", popUpIo);
 			
 			return "/wms/receive/popUpInorder";

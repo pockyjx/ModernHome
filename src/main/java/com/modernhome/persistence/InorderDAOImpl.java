@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.modernhome.domain.InorderVO;
+import com.modernhome.domain.PageVO;
 
 @Repository
 public class InorderDAOImpl implements InorderDAO {
@@ -26,15 +27,42 @@ public class InorderDAOImpl implements InorderDAO {
 	private static final Logger logger
 				= LoggerFactory.getLogger(InorderDAOImpl.class);
 	
-	// 발주 조회
+	// 발주 조회 (페이징)
 	@Override
-	public List<InorderVO> getInorderList() throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getInorderList");
+	public List<InorderVO> getInorderList(PageVO pvo) throws Exception {
+		logger.debug("발주 목록 조회!");
+		return sqlSession.selectList(NAMESPACE + ".getInorderList", pvo);
 	}
 
-	// 발주 검색 결과
+	// 총 개수 계산 (페이징)
 	@Override
-	public List<InorderVO> getInorderSearch(String istartDate, String iendDate,String rstartDate, String rendDate, String ma_name, String io_state) throws Exception {
+	public int getTotalCntMate() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".ioTotalCnt");
+	}
+	
+	// 발주 검색 결과 (페이징)
+	@Override
+	public List<InorderVO> getInorderSearch(String istartDate, String iendDate,
+			String rstartDate, String rendDate, 
+			String ma_name, String io_state, PageVO pvo) throws Exception {
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("istartDate", istartDate);
+		parameterMap.put("iendDate", iendDate);
+		parameterMap.put("rstartDate", rstartDate);
+		parameterMap.put("rendDate", rendDate);
+		parameterMap.put("ma_name", ma_name);
+		parameterMap.put("io_state", io_state);
+		parameterMap.put("pageVO", pvo);
+		
+		return sqlSession.selectList(NAMESPACE + ".inorderSearch", parameterMap);
+	}
+	
+	// 검색 결과 개수 (페이징)
+	@Override
+	public int getIoSearchCnt(String istartDate, String iendDate, 
+			String rstartDate, String rendDate, 
+			String ma_name, String io_state) throws Exception {
 		
 		Map<String, Object> parameterMap = new HashMap<>();
 		parameterMap.put("istartDate", istartDate);
@@ -44,9 +72,10 @@ public class InorderDAOImpl implements InorderDAO {
 		parameterMap.put("ma_name", ma_name);
 		parameterMap.put("io_state", io_state);
 		
-		return sqlSession.selectList(NAMESPACE + ".inorderSearch" ,parameterMap);
+		return sqlSession.selectOne(NAMESPACE + ".ioSearchCnt", parameterMap);
 	}
 	
+
 	// 발주 등록
 	@Override
 	public void regInorder(InorderVO iovo) throws Exception {
@@ -54,6 +83,7 @@ public class InorderDAOImpl implements InorderDAO {
 		
 		sqlSession.insert(NAMESPACE + ".regInorder", iovo); 
 	}
+
 
 	// 발주 수정
 	@Override

@@ -35,8 +35,8 @@
 	<fieldset>
 		<form action="" method="GET">
 
-			<label><b>완제품코드</b> <input type="text" name="pro_num"></label>
-			<label><b>완제품명</b> <input type="text" name="pro_name"></label>
+			<label><b>완제품코드</b> <input type="text" name="pro_num" value="${psvo.pro_num }"></label>
+			<label><b>완제품명</b> <input type="text" name="pro_name" value="${psvo.pro_name }"></label>
 
 			<input type="submit" value="조회">
 		</form>
@@ -66,6 +66,40 @@
 		</tr>
 		</c:forEach>
 	</table>
+	
+	<!-- 페이지 이동 버튼 -->
+	
+	<nav aria-label="Page navigation example">
+  		<ul class="pagination justify-content-center pagination-sm">
+  		
+  			<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/stock/productStockList?page=${pm.startPage-1 }&pro_num=${psvo.pro_num}&pro_name=${psvo.pro_name}" aria-label="Previous">
+       			<span aria-hidden="true">&laquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+    		<li 
+    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+    		>
+    			<a class="page-link" href="/stock/productStockList?page=${idx}&pro_num=${psvo.pro_num}&pro_name=${psvo.pro_name}">${idx }</a>
+    		</li>
+    		</c:forEach>
+			
+			<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+      			<a class="page-link" href="/stock/productStockList?page=${pm.endPage+1 }&pro_num=${psvo.pro_num}&pro_name=${psvo.pro_name}" aria-label="Next">
+        		<span aria-hidden="true">&raquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+  		</ul>
+	</nav>
+	
+	<!-- 페이지 이동 버튼 -->
 
 </body>
 </html>
