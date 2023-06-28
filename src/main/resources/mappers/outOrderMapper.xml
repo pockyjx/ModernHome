@@ -4,37 +4,47 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.modernhome.mapper.OutOrderMapper">
-
+	
+	<!-- 수주 전체수 계산 -->
+	<select id="outOrderCnt" resultType="int">
+		SELECT COUNT(*) FROM out_order
+	</select>
+	<!-- 수주 전체수 계산 -->
+	
 	<!-- 수주 불러오기 -->
-		<select id="outOrderList" resultType="com.modernhome.domain.OutOrderJoinVO">
-			SELECT oo_num, out_order.emp_id, update_emp_id, clt_num, clt_name, pro_num, pro_name,
-			oo_cnt, oo_start_date, oo_end_date, oo_state,
-				CASE
-				WHEN update_emp_id IS NULL THEN
-				(SELECT emp_name FROM employee WHERE emp_id = out_order.emp_id)
-				ELSE
-				(SELECT emp_name FROM employee WHERE emp_id = out_order.update_emp_id)
-				END AS emp_name,
-				
-				CASE
-				WHEN oo_update_date IS NULL THEN
-				oo_reg_date
-				ELSE
-				oo_update_date
-				END AS oo_reg_date
-				
-				
-			FROM out_order
-			join client c on out_order.clt_id = c.clt_id
-			join product p on out_order.pro_id = p.pro_id;
-		</select>
-	<!-- 수주 -->
+	<select id="outOrderList" resultType="com.modernhome.domain.OutOrderJoinVO">
+		SELECT oo_num, out_order.emp_id, update_emp_id, clt_num, clt_name, pro_num, pro_name,
+		oo_cnt, oo_start_date, oo_end_date, oo_state,
+			CASE
+			WHEN update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = out_order.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = out_order.update_emp_id)
+			END AS emp_name,
+			
+			CASE
+			WHEN oo_update_date IS NULL THEN
+			oo_reg_date
+			ELSE
+			oo_update_date
+			END AS oo_reg_date
+			
+			
+		FROM out_order
+		join client c on out_order.clt_id = c.clt_id
+		join product p on out_order.pro_id = p.pro_id
 		
-	<!-- 수주 검색 -->
-	<select id="outOrderListSearch" resultType="com.modernhome.domain.OutOrderJoinVO">
-			SELECT oo_num, emp_name, clt_num, clt_name, pro_num, pro_name,
-			oo_cnt, oo_start_date, oo_end_date, oo_state
-			FROM out_order
+		LIMIT #{startPage}, #{pageSize}
+	</select>
+	<!-- 수주 -->
+	
+	
+	
+	
+	<!-- 수주 검색결과수 계산 -->
+	<select id="ooSearchCnt" resultType="int">
+		SELECT COUNT(*) FROM out_order
+			
 			join employee e on out_order.emp_id = e.emp_id
 			join client c on out_order.clt_id = c.clt_id
 			join product p on out_order.pro_id = p.pro_id
@@ -59,8 +69,48 @@
 		</if>
 		</where>
 	</select>
+	<!-- 수주 검색결과수 계산 -->
+	
+	
 	<!-- 수주 검색 -->
-		
+	<select id="outOrderListSearch" resultType="com.modernhome.domain.OutOrderJoinVO">
+			SELECT oo_num, emp_name, clt_num, clt_name, pro_num, pro_name,
+			oo_cnt, oo_start_date, oo_end_date, oo_state
+			FROM out_order
+			join employee e on out_order.emp_id = e.emp_id
+			join client c on out_order.clt_id = c.clt_id
+			join product p on out_order.pro_id = p.pro_id
+		<where>
+		<if test="ovo.clt_name != null">
+			clt_name LIKE CONCAT('%', #{ovo.clt_name}, '%')
+		</if>
+		<if test="ovo.emp_name != null">
+			AND emp_name LIKE CONCAT('%', #{ovo.emp_name}, '%') 
+		</if>
+		<if test="ovo.oo_start_date_1 != ''">
+			AND oo_start_date &gt;= #{ovo.oo_start_date_1}
+		</if>
+		<if test="ovo.oo_start_date_2 != ''">
+   	 		AND #{ovo.oo_start_date_2} &gt;= DATE(oo_start_date)
+		</if>
+		<if test="ovo.oo_end_date_1 != ''">
+			AND oo_end_date &gt;= #{ovo.oo_end_date_1}
+		</if>
+		<if test="ovo.oo_end_date_2 != ''">
+   	 		AND #{ovo.oo_end_date_2} &gt;= DATE(oo_end_date)
+		</if>
+		</where>
+		LIMIT #{pvo.startPage}, #{pvo.pageSize}
+	</select>
+	<!-- 수주 검색 -->
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- 수주 등록 -->
 	<insert id="regOutOrder">
 		<selectKey keyProperty="oo_num" resultType="String" order="BEFORE">

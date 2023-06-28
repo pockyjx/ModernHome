@@ -398,6 +398,8 @@
 		</select>
 		
 		<input type="submit" value="조회">
+		
+		<input type="reset" value="초기화">
 	</form>
 	<!-- 검색칸 -->
 	
@@ -529,8 +531,7 @@
 				</a>
 				</c:otherwise>
 			</c:choose>
-		
-
+			
 		</li>
 		</c:if>
 		<!-- 다음버튼 -->
