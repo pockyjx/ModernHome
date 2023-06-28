@@ -141,79 +141,93 @@
 	}
 </style>
 
-<h2>작업지시 목록</h2>
+<!-- <h2>작업지시 목록</h2> -->
 
-<form method="get">
-	<div>
-		작업상태
+<form method="get" class="bg-light rounded p-4">
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">작업상태</label>
+		<div class="col-sm-10">
 			<label><input type="checkbox" name="work_state" value="대기"
 				${param.work_state == '대기' ? 'checked' : ''} onclick="handleCheckbox(this, '대기')"> 대기</label>
 			<label><input type="checkbox" name="work_state" value="진행중"
 				${param.work_state == '진행중' ? 'checked' : ''} onclick="handleCheckbox(this, '진행중')"> 진행중</label>
 			<label><input type="checkbox" name="work_state" value="완료"
 				${param.work_state == '완료' ? 'checked' : ''} onclick="handleCheckbox(this, '완료')"> 완료</label>
+		</div>
 	</div>
-	<div>
-		품목코드
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">품목코드</label>
+		<div class="col-sm-10">
 			<input type="text" name="pro_num">
+		</div>
 	</div>
-	<div>
-		<label>지시일자</label>
-			<input type="date" name="startDate">
-				~
-			<input type="date" name="endDate">
-		<button type="submit">조회</button>
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">지시일자</label>
+		<div class="col-sm-10">
+			<input type="date" name="startDate"> ~ <input type="date" name="endDate">
+			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+		</div>
 	</div>
 </form>
 
 <%-- 	${instrList} --%>
 
-<span id="selectedCheckboxCount">0</span>
-
-<div>
-	<button class="btn btn-primary m-2" id="addRowButton" onclick="location.href='/production/instruct/add'">추가</button>
-	<button class="btn btn-primary m-2" id="updateButton">수정</button>
-	<button class="btn btn-primary m-2" id="deleteInstrButton">삭제</button>
+<div class="d-flex align-items-center justify-content-between mb-2">
+	<h6 class="mb-0">작업지시 리스트</h6>
+	<div>
+		<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton" onclick="location.href='/production/instruct/add'">
+			<i class="fa fa-plus"></i> 추가</button>
+		<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
+			<i class="fa fa-edit"></i> 수정</button>
+		<button type="button" class="btn btn-sm btn-primary m-2" id="deleteInstrButton">
+			<i class="fa fa-trash"></i> 삭제</button>
+	</div>
 </div>
 
-<table border="1" class="table-instrList">
-	<tr>
-		<th><input type="checkbox"></th>
-		<th>작업지시코드</th>
-		<th>라인코드</th>
-		<th>품목코드</th>
-		<th>품목명</th>
-		<th>작업상태</th>
-		<th>지시일자</th>
-		<th>지시수량</th>
-		<th>수주번호</th>
-		<th>납품예정일</th>
-		<th>담당자</th>
-	</tr>
-	
-	<c:forEach var="list" items="${instrList}" varStatus="status">
+<div class="bg-light text-center rounded p-4">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<span id="selectedCheckboxCount">0</span>
+	</div>
+
+	<table class="table-instrList table text-start align-middle table-bordered table-hover mb-0">
 		<tr>
-			<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}"></td>
-			<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
-			<td>${list.line_num}</td>
-			<td>${list.pro_num}</td>
-			<td>${list.pro_name}</td>
-			<td>
-			    <c:if test="${list.work_state=='대기'}">대기</c:if>
-			    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
-			    <c:if test="${list.work_state=='완료'}">완료</c:if>
-			</td>
-			<td>
-				<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
-				<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
-			</td>
-			<td>${list.work_cnt}</td>
-			<td>${list.oo_num}</td>
-			<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
-			<td>${list.emp_name}</td>
+			<th><input type="checkbox"></th>
+			<th>작업지시코드</th>
+			<th>라인코드</th>
+			<th>품목코드</th>
+			<th>품목명</th>
+			<th>작업상태</th>
+			<th>지시일자</th>
+			<th>지시수량</th>
+			<th>수주번호</th>
+			<th>납품예정일</th>
+			<th>담당자</th>
 		</tr>
-	</c:forEach>
-</table>
+		
+		<c:forEach var="list" items="${instrList}" varStatus="status">
+			<tr>
+				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}"></td>
+				<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
+				<td>${list.line_num}</td>
+				<td>${list.pro_num}</td>
+				<td>${list.pro_name}</td>
+				<td>
+				    <c:if test="${list.work_state=='대기'}">대기</c:if>
+				    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
+				    <c:if test="${list.work_state=='완료'}">완료</c:if>
+				</td>
+				<td>
+					<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
+					<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
+				</td>
+				<td>${list.work_cnt}</td>
+				<td>${list.oo_num}</td>
+				<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
+				<td>${list.emp_name}</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
 
 <!-- 페이지 이동 버튼 -->
 <nav aria-label="Page navigation example">
