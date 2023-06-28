@@ -63,7 +63,7 @@
 	</resultMap>
 	
 	<select id="getmrlist" resultMap="MaterialReleaseVO">
-  		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt, e.emp_name
+  		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt, e.emp_name, mr_id, m.ma_id
 		from material_release mr 
 		join work_instr wi on mr.work_id = wi.work_id 
 		join material m on mr.ma_id = m.ma_id 
@@ -73,12 +73,13 @@
   	</select>
   	
 	<select id="getmrlistp" resultMap="MaterialReleaseVO" parameterType="java.util.Map">
-  		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt 
+  		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt, e.emp_name, mr_id, m.ma_id
 		from material_release mr 
 		join work_instr wi on mr.work_id = wi.work_id 
 		join material m on mr.ma_id = m.ma_id 
 		join warehouse w on mr.wh_id = w.wh_id
 		join material_stock ms on mr.ma_id = ms.ma_id
+		join employee e on mr.emp_id = e.emp_id
 		<where>
 	        <if test="mr_num != ''">
 	            AND mr_num like CONCAT('%', #{mr_num}, '%')
@@ -97,9 +98,8 @@
   	
 	<insert id="regmtRelease">
 		insert into material_release (mr_num, ma_id, work_id, wh_id, mr_cnt, mr_date, mr_state, emp_id)
-		SELECT CONCAT(SUBSTRING(mr_num, 1, 2), LPAD(max(mr_id) + 1, 6, '0')), #{ma_id}, #{work_id}, #{wh_id}, #{mr_cnt}, now(), #{mr_state}, #{emp_id}
+		SELECT CONCAT("MR", LPAD(ifnull(max(mr_id), 0) + 1, 6, '0')), #{ma_id}, #{work_id}, #{wh_id}, #{mr_cnt}, null, #{mr_state}, #{emp_id}
 		FROM material_release
-		WHERE mr_num LIKE CONCAT('%', 'MN', '%')
 	</insert>
 	<!-- 완제품 등록 -->
 	
@@ -116,6 +116,27 @@
 		set pro_name = #{pro_name}, pro_unit = #{pro_unit}, pro_price = #{pro_price} 
 		where mr_num = #{mr_num}
 	</update>
+	<select id="getWorkInstrInfo" resultMap="MaterialReleaseVO">
+	select wi.work_num , m.ma_name , wi.work_cnt * r.req_cnt mr_cnt, wi.reg_date, m.ma_id, wi.work_id
+	from work_instr wi 
+	join product p on wi.pro_id = p.pro_id 
+	join requirement r on p.pro_id = r.pro_id 
+	join material m on r.ma_id = m.ma_id ;
+	</select>
+  	<select id="getMaterialStock" resultMap="MaterialReleaseVO">
+		select m.ma_name, ms.ms_cnt, w.wh_name, w.wh_id
+		from material m 
+		join material_stock ms on m.ma_id = ms.ma_id 
+		join warehouse w on ms.wh_id = w.wh_id
+		where m.ma_id = #{ma_id}
+  	</select>
+  	<update id="acceptMR">
+  		update material_release set mr_state = '완료', mr_date=now() where mr_id = #{mr_id};
+  	</update>
+  	<update id="updateMS" parameterType="java.util.Map">
+  		update material_stock set ms_cnt=ms_cnt-#{mr_cnt} 
+  		where ma_id = #{ma_id};
+  	</update>
   	
   	<resultMap type="ProductReleaseVO" id="ProductReleaseVO">
   		<id property="pr_id" column="pr_id" />

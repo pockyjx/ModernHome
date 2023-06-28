@@ -30,8 +30,8 @@ public class ReleaseController {
 	public void materialRelease(Model model,
 			@ModelAttribute(value = "startDate") String startDate, 
     		@ModelAttribute(value = "endDate") String endDate,
-    		@ModelAttribute(value = "ma_name") String ma_name,
-    		@ModelAttribute(value = "mr_num") String mr_num
+    		@ModelAttribute(value = "ma_nameSearch") String ma_name,
+    		@ModelAttribute(value = "mr_numSearch") String mr_num
 			) throws Exception {
 		List<MaterialReleaseVO> releaseList;
 		if (!startDate.isEmpty() || !endDate.isEmpty() || !ma_name.isEmpty() || !mr_num.isEmpty()) {
@@ -48,13 +48,9 @@ public class ReleaseController {
 	public String regMTReleasePOST(MaterialReleaseVO vo) throws Exception {
 		logger.debug("regMTReleasePOST() 호출!");
 		
-		if(vo.getMr_num() == "") {
-			logger.debug("출고 정보 등록!");
-			rService.regMaterialRelease(vo);
-		}else {
-			logger.debug("출고 정보 수정!");
-			rService.modifyMaterialRelease(vo);
-		}
+		logger.debug("제품 출고 정보 등록!");
+		logger.debug(vo+"");
+		rService.regMaterialRelease(vo);
 		
 		return "redirect:/release/materialRelease";
 	}
@@ -74,19 +70,19 @@ public class ReleaseController {
 	}
 	
 	@RequestMapping(value = "/addPopup", method = RequestMethod.GET )
-	public String popUpGET(Model model, @ModelAttribute("txt") String txt, @RequestParam(value="pro_id", required = false) Integer pro_id) throws Exception {
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt, @RequestParam(value="mapro_id", required = false) Integer mapro_id) throws Exception {
 		logger.debug("popUpProductGET() 호출!");
 		
 		if(txt.equals("pro")) {
-			List<ProductReleaseVO> popUpPro = rService.getOutorderInfo();
-			
-			model.addAttribute("popUpPro", popUpPro);
-			model.addAttribute("txt", txt);			
+			model.addAttribute("list", rService.getOutorderInfo());
 		}else if(txt.equals("ps")) {
-			model.addAttribute("vo", rService.getProductStock(pro_id));
-			model.addAttribute("txt", txt);			
+			model.addAttribute("vo", rService.getProductStock(mapro_id));
+		}else if(txt.equals("ma")) {
+			model.addAttribute("list", rService.getWorkInstrInfo());
+		}else if(txt.equals("ms")) {
+			model.addAttribute("vo", rService.getMaterialStock(mapro_id));
 		}
-		return "/release/popUpProduct";		
+		return "/release/popUpRelease";		
 	}
 	
 	// http://localhost:8088/release/productRelease
@@ -112,7 +108,7 @@ public class ReleaseController {
 	@RequestMapping(value = "/regPRRelease")
 	public String regPRReleasePOST(ProductReleaseVO vo) throws Exception {
 		logger.debug("regPRReleasePOST() 호출!");
-		logger.debug("출고 정보 등록!");
+		logger.debug("제품 출고 정보 등록!");
 		logger.debug(vo+"");
 		rService.regProductRelease(vo);
 		
@@ -134,18 +130,24 @@ public class ReleaseController {
 		return "redirect:/release/productRelease";
 	}
 	
-	@RequestMapping(value = "/acceptPR")
-	public String acceptPR(
-			@RequestParam(value = "pr_id", required = false)Integer pr_id,
-			@RequestParam(value = "pro_id", required = false)Integer pro_id,
-			@RequestParam(value = "pr_cnt", required = false)Integer pr_cnt
+	@RequestMapping(value = "/acceptRelease")
+	public String acceptRelease(
+			@RequestParam(value = "txt", required = false)String txt,
+			@RequestParam(value = "release_id", required = false)Integer release_id,
+			@RequestParam(value = "mapro_id", required = false)Integer mapro_id,
+			@RequestParam(value = "release_cnt", required = false)Integer release_cnt
 			) throws Exception {
-		logger.debug(pr_id+"");
-		if(pr_id != null) {
-			logger.debug(" C: 출고 처리!");
-			rService.acceptPR(pr_id, pro_id, pr_cnt);
+		logger.debug(release_id+"");
+		if(txt.equals("mr")) {
+			logger.debug(" C: 자재 출고 처리!");
+			rService.acceptMR(release_id, mapro_id, release_cnt);
+			return "redirect:/release/materialRelease";
+		}else if(txt.equals("pr")) {
+			logger.debug(" C: 제품 출고 처리!");
+			rService.acceptPR(release_id, mapro_id, release_cnt);
+			return "redirect:/release/productRelease";
 		}
-		return "redirect:/release/productRelease";
+		return "/";
 	}
 	
 }

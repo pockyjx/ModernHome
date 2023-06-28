@@ -16,6 +16,7 @@ public class MaterialReleaseVO {
 	private MaterialVO materialVO;
 	private MaterialStockVO materialStockVO;
 	private WarehouseVO warehouseVO;
+	private EmployeeVO employeeVO;
 	
 	public int getMr_id() {
 		return mr_id;
@@ -95,14 +96,19 @@ public class MaterialReleaseVO {
 	public void setWarehouseVO(WarehouseVO warehouseVO) {
 		this.warehouseVO = warehouseVO;
 	}
+	public EmployeeVO getEmployeeVO() {
+		return employeeVO;
+	}
+	public void setEmployeeVO(EmployeeVO employeeVO) {
+		this.employeeVO = employeeVO;
+	}
 	@Override
 	public String toString() {
 		return "MaterialReleaseVO [mr_id=" + mr_id + ", mr_num=" + mr_num + ", ma_id=" + ma_id + ", work_id=" + work_id
 				+ ", wh_id=" + wh_id + ", mr_cnt=" + mr_cnt + ", mr_date=" + mr_date + ", mr_state=" + mr_state
-				+ ", emp_id=" + emp_id + ", workInstrVO=" + workInstrVO + ", materialVO=" + materialVO
-				+ ", materialStockVO=" + materialStockVO + ", warehouseVO=" + warehouseVO + "]";
+				+ ", emp_id=" + emp_id + ", materialVO=" + materialVO + ", materialStockVO=" + materialStockVO
+				+ ", warehouseVO=" + warehouseVO + ", employeeVO=" + employeeVO + ", workInstrVO=" + workInstrVO + "]";
 	}
-	
 	
 	
 }
