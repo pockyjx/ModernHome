@@ -302,11 +302,15 @@ $(document).ready(function() {
 	// ------------- 팝업창
 	// 거래처 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click focus", "input[name='clt_num']", function() {
+		// 창이 열릴 시 포커스를 없앰
+		$("input").blur();
 		window.open('/client/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	});
 
 	// 완제품 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click focus", "input[name='pro_num']", function() {
+		// 창이 열릴 시 포커스를 없앰
+		$("input").blur();
 		window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	});
 	
