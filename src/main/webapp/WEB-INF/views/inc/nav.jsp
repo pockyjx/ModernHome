@@ -3,7 +3,7 @@
         <!-- Content Start -->
         <div class="content">
             <!-- Navbar Start -->
-            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0" style="position: relative; margin-bottom:80px; width:1273px;">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
                     <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
                 </a>
@@ -78,7 +78,7 @@
 <!--                         </div> -->
 <!--                     </div> -->
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="right:100px;">
                             <img class="rounded-circle me-lg-2" src="/resources/img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">${sessionScope.emp_name }님</span>
                         </a>
