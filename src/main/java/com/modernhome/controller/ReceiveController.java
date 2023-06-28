@@ -119,6 +119,10 @@ public class ReceiveController {
     		logger.debug("rvo : " + rvo);
     		
     		rService.regReceive(rvo);
+    		
+    		
+    		
+    		
     	}else {
     		logger.debug("regReceivePOST() 호출-입고수정");
 			logger.debug("rvo : " + rvo);
@@ -142,6 +146,18 @@ public class ReceiveController {
 	    return "redirect:/wms/receive/receivelist";
     }
 	
+    // 입고 처리 (재고 반영)
+    @RequestMapping(value = "/acceptReceive")
+    public String acceptReceive(
+    		@RequestParam(value = "rec_id", required = false) Integer rec_id, 
+    		@RequestParam(value = "ma_id", required = false) Integer ma_id, 
+    		@RequestParam(value = "rec_cnt", required = false) Integer rec_cnt) throws Exception {
+    	
+    	logger.debug("입고 처리 : 재고 반영!");
+    	rService.acceptReceive(rec_id, ma_id, rec_cnt);
+    	
+    	return "redirect:/wms/receive/receivelist";
+    }
 	
 	
 	

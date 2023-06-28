@@ -59,5 +59,13 @@ public class ReceiveServiceImpl implements ReceiveService {
 		public void deleteReceive(int rec_id) {
 			rdao.deleteReceive(rec_id);
 		}
+
+		// 입고 처리
+		@Override
+		public void acceptReceive(Integer rec_id, Integer ma_id, Integer rec_cnt) throws Exception {
+			rdao.acceptReceive(rec_id, ma_id, rec_cnt);
+		}
+		
+		
 		
 }

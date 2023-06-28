@@ -94,6 +94,24 @@ public class ReceiveDAOImpl implements ReceiveDAO {
 	
 		sqlSession.delete(NAMESPACE + ".deleteReceive", rec_id);
 	}
+
+	// 입고 처리
+	@Override
+	public void acceptReceive(Integer rec_id, Integer ma_id, Integer rec_cnt) throws Exception {
+		logger.debug("입고 처리!");
+		
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("ma_id", ma_id);
+		paramMap.put("rec_cnt", rec_cnt);
+		
+		// 입고 상태 변경
+		sqlSession.update(NAMESPACE + ".updateRec", rec_id);
+		
+		// 재고 반영
+		sqlSession.update(NAMESPACE + ".updateMS", paramMap);
+		
+	}
+	
 	
 	
 }
