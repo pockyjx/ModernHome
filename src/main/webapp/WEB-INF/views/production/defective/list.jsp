@@ -31,7 +31,7 @@
         	
 			var newRow = '<tr>' +
 						 '<td><input type="checkbox" class="form-check-input"></td>' +
-						 '<td><input type="text" class="form-control" name="df_num" value="${df_num}" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="text" class="form-control" name="df_num" value="${dfNum}" style="border: none; background: transparent;" readonly></td>' +
 						 '<td id="typePop"><input id="typePop" type="text" class="form-control" name="df_type" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="line_num" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="완제품 또는 자재 코드" style="border: none; background: transparent;" readonly></td>' +
