@@ -275,19 +275,43 @@ public class ClientController {
 		PageMaker pm = new PageMaker();
 		// - 수주 등록시 팝업
 		if(txt.equals("pro")) { // 완제품 목록 팝업
-			logger.debug("client컨트롤러 - popUpproduct 호출");
-			List<ProductVO> popUpPro = iService.getProductList();
-			model.addAttribute("popUpPro", popUpPro);
 			
-			// 페이징 정보 추가
-			pm.setPageVO(pvo);
-			pm.setTotalCount(iService.getProSearchCnt(prvo));
-			model.addAttribute("pm", pm);
 			
-			model.addAttribute("productVO", prvo);
+			List<ProductVO> popUpPro;
 			
-			return "/client/popUpProduct";
+			if(prvo.getPro_name() != null) { // 완제품 팝업창에서 검색했을 때
+				
+				logger.debug("완제품 팝업(검색) 호출!");
+				popUpPro = iService.getProductList(prvo, pvo); // 기존 페이징 적용된 검색 메서드 사용!
+				model.addAttribute("popUpPro", popUpPro);
+				
+				// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getProSearchCnt(prvo));
+				model.addAttribute("pm", pm);
+				
+				model.addAttribute("productVO", prvo);
+				
+				
+				
+			}else { // 완제품 팝업 처음 실행했을 때
+				
+				logger.debug("완제품 팝업 호출!");
+				popUpPro = iService.getProListPage(pvo); // 기존 페이징 적용된 검색 메서드 사용!
+				model.addAttribute("popUpPro", popUpPro);
+				
+				// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(iService.getTotalCntPro());
+				
+				model.addAttribute("pm", pm);
+				
+			}
 			
+			return "/info/req/popUpProduct";
+			
+			// 여기까지 완제품 팝업 페이징
+		
 		}else if(txt.equals("clt")) { // 거래처 목록 팝업
 			List<ClientVO> popUpClt = cService.getClientList(pvo);
 			model.addAttribute("popUpClt", popUpClt);
