@@ -107,7 +107,7 @@
 				gb_yn = #{gb_yn}
 			</if>
 			<if test="work_num != ''">
-				AND wp.work_id = (SELECT wi.work_id FROM work_instr wi WHERE wi.work_num = #{work_num})
+				AND wp.work_id = (SELECT wi.work_id FROM work_instr wi WHERE wi.work_num like CONCAT('%', #{work_num}, '%'))
 			</if>
 			<if test="startDate != ''">
 	        	AND IFNULL(wp.update_date, .reg_date) &gt;= #{startDate}
@@ -140,7 +140,7 @@
 				gb_yn = #{gb_yn}
 			</if>
 			<if test="work_num != ''">
-				AND wp.work_id = (SELECT wi.work_id FROM work_instr wi WHERE wi.work_num = #{work_num})
+				AND wi.work_num like CONCAT('%', #{work_num}, '%')
 			</if>
 			<if test="startDate != ''">
 	        	AND IFNULL(wp.update_date, .reg_date) &gt;= #{startDate}

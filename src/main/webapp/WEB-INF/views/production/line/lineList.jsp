@@ -23,17 +23,17 @@
             // 버튼 클릭 시 행 추가
             $("#addRowButton").click(function() {
                 var newRow = '<tr>' +
-                    '<td><input type="checkbox"></td>' +
-                    '<td><input type="text" name="line_num" placeholder="자동으로 부여" readonly></td>' +
-                    '<td><input type="text" name="line_name"></td>' +
+                    '<td><input type="checkbox" class="form-check-input"></td>' +
+                    '<td><input class="form-control" type="text" name="line_num" placeholder="자동으로 부여" style="border: none; background: transparent;" readonly></td>' +
+                    '<td><input class="form-control" type="text" name="line_name"></td>' +
                     '<td>' +
-                    '<select name="use_yn">' +
+                    '<select class="form-control" name="use_yn">' +
                     '<option value="Y">Y</option>' +
                     '<option value="N">N</option>' +
                     '</select>' +
                     '</td>' +
-                    '<td><input type="text" name="reg_date" readonly></td>' +
-                    '<td><input type="text" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id}" readonly></td>' +
+                    '<td><input class="form-control" type="text" name="reg_date" style="border: none; background: transparent;" readonly></td>' +
+                    '<td><input class="form-control" type="text" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id}" style="border: none; background: transparent;" readonly></td>' +
                     '</tr>';
                     
 				// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
@@ -149,15 +149,15 @@
 			            
 			            if (index === 2) {
 			                cellContent = '<td>' +
-			                    '<select name="' + cellName + '">' +
+			                    '<select class="form-control" name="' + cellName + '">' +
 			                    '<option value="Y" ' + (cellValue === 'Y' ? 'selected' : '') + '>Y</option>' +
 			                    '<option value="N" ' + (cellValue === 'N' ? 'selected' : '') + '>N</option>' +
 			                    '</select>' +
 			                    '</td>';
 			            }else if (index === 4){
-							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>'; 
+							cellContent = '<td><input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>'; 
 			            }else {
-			                cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"'+ cellReadonly + '' + cellDisabled + '></td>';
+			                cellContent = '<td><input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"'+ cellReadonly + '' + cellDisabled + '></td>';
 			            }
 
 			            $(this).html(cellContent);
@@ -173,7 +173,7 @@
 
 			        pageStatus = "update";
 			     
-			});
+				});
 			        
 			        
 			    } else if (selectedCheckbox.length === 0) {
@@ -271,55 +271,79 @@
 </head>
 <body>
 	
-	<h1>line list.jsp</h1>
-	
-	<h2>라인 정보 관리</h2>
-	
-	<form action="" method="GET" >
-	라인코드 <input type="text" name="line_num">
-	라인명 <input type="text" name="line_name">
-	사용여부
-		<select name="use_yn">
-			<option>전체</option>
-			<option>Y</option>
-			<option>N</option>
-		</select>
-		<input type="submit" value="조회">
+	<form method="GET" class="bg-light rounded p-3 m-3">
+		<div class="row mb-3">
+			<label class="col-sm-2 col-form-label">라인코드</label>
+			<div class="col-sm-10">
+				<input type="text" name="line_num">
+			</div>
+		</div>
+		<div class="row mb-3">
+			<label class="col-sm-2 col-form-label">라인명</label>
+			<div class="col-sm-10">
+				<input type="text" name="line_name">
+			</div>
+		</div>
+		<div class="row mb-3">
+			<label class="col-sm-2 col-form-label">사용여부</label>
+			<div class="col-sm-10">
+				<select name="use_yn">
+					<option>전체</option>
+					<option>Y</option>
+					<option>N</option>
+				</select>
+				<input class="btn btn-info rounded-pill m-2" type="submit" value="조회">
+			</div>
+		</div>
 	</form>
 	
 	<form>
-		<span id="selectedCheckboxCount">0</span>
+		<div class="d-flex align-items-center justify-content-between mb-2">
+			<h6 class="m-4">라인 리스트</h6>
+			<div>
+				<c:if test="${(sessionScope.emp_dept eq '생산') && sessionScope.emp_auth == 'Y'}">
+					<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
+						<i class="fa fa-plus"></i> 추가</button>
+					<button type="button" class="btn btn-sm btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+					<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
+						<i class="fa fa-edit"></i> 수정</button>
+					<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteLineButton" formaction="deleteLine" formmethod="post">
+						<i class="fa fa-trash"></i> 삭제</button>
+					<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regLine" formmethod="post" disabled="disabled">
+						<i class="fa fa-download"></i> 저장</button>
+				</c:if>
+			</div>
+		</div>
 		
-		<input type="button" id="addRowButton" value="추가">
-		<input type="button" id="cancelButton" value="취소" disabled>
-		<input type="button" id="updateButton" value="수정">
-		<input type="submit" id="deleteLineButton" value="삭제" formaction="deleteLine" formmethod="post">
-		
-		<input type="submit" id="submitButton" value="저장" formaction="regLine" formmethod="post" disabled="disabled">
-		
-		<table class="table-lineList" border="1">
-		    <tr>
-		        <th><input type="checkbox"></th>
-		        <th>라인코드</th>
-		        <th>라인명</th>
-		        <th>사용여부</th>
-		        <th>등록일</th>
-		        <th>등록자</th>
-		    </tr>
-		    <c:forEach var="vo" items="${lineList}" varStatus="status">
-		        <tr>
-		            <td><input type="checkbox" name="selectedLineId" value="${vo.line_id}"></td>
-		            <td>${vo.line_num}</td>
-		            <td>${vo.line_name}</td>
-		            <td>${vo.use_yn}</td>
-		            <td>
-						<c:if test="${!empty vo.update_date}">${fn:substring(vo.update_date, 0, 10)}</c:if>
-						<c:if test="${empty vo.update_date}">${fn:substring(vo.reg_date, 0, 10)}</c:if>
-					</td>
-		            <td>${vo.emp_name}</td>
-		        </tr>
-		    </c:forEach>
-		</table>
+		<div class="bg-light text-center rounded p-4 m-3">
+			<div class="d-flex align-items-center justify-content-between mb-4">
+			<span id="selectedCheckboxCount">0</span>
+			</div>
+			
+			<table class="table-lineList table text-start align-middle table-bordered table-hover mb-0">
+			    <tr>
+			        <th><input type="checkbox" class="form-check-input"></th>
+			        <th>라인코드</th>
+			        <th>라인명</th>
+			        <th>사용여부</th>
+			        <th>등록일</th>
+			        <th>등록자</th>
+			    </tr>
+			    <c:forEach var="vo" items="${lineList}" varStatus="status">
+			        <tr>
+			            <td><input type="checkbox" name="selectedLineId" value="${vo.line_id}" class="form-check-input"></td>
+			            <td>${vo.line_num}</td>
+			            <td>${vo.line_name}</td>
+			            <td>${vo.use_yn}</td>
+			            <td>
+							<c:if test="${!empty vo.update_date}">${fn:substring(vo.update_date, 0, 10)}</c:if>
+							<c:if test="${empty vo.update_date}">${fn:substring(vo.reg_date, 0, 10)}</c:if>
+						</td>
+			            <td>${vo.emp_name}</td>
+			        </tr>
+			    </c:forEach>
+			</table>
+		</div>
 	</form>
 
 	

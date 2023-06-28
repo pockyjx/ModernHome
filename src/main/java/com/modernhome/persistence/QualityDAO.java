@@ -19,9 +19,9 @@ public interface QualityDAO {
 	public List<WijoinVO> getMaterialQualityList() throws Exception;
 	
 //	// 품질검사(자재) 목록 조회 + 검색
-//	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception;
+	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception;
 	
 	// 품질검사(자재) 수정
-	public void updateMaterialQuality(WijoinVO wvo);
+//	public void updateMaterialQuality(WijoinVO wvo);
 	
 } // QualityDAO
