@@ -19,7 +19,6 @@ import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
-import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.WarehouseVO;
 import com.modernhome.service.ClientService;
 import com.modernhome.service.InorderService;
@@ -264,7 +263,7 @@ public class WmsController {
     }
     
     // 발주서
-    @RequestMapping(value = "/wms/inorderList", method = RequestMethod.GET)
+    @RequestMapping(value = "/inorder/inorderInfo", method = RequestMethod.GET)
     public void inorderList(@RequestParam(value="io_id") Integer io_id, Model model) throws Exception {
     	logger.debug("inorderList() 호출!");
     	
