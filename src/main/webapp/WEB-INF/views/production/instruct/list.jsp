@@ -141,8 +141,6 @@
 	}
 </style>
 
-<!-- <h2>작업지시 목록</h2> -->
-
 <form method="get" class="bg-light rounded p-3 m-3">
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">작업상태</label>
@@ -170,7 +168,6 @@
 	</div>
 </form>
 
-<%-- 	${instrList} --%>
 
 <div class="d-flex align-items-center justify-content-between mb-2">
 	<h6 class="m-4">작업지시 리스트</h6>

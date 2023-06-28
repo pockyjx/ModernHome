@@ -181,8 +181,6 @@
 
 </style>
 
-<!-- <h2>생산관리</h2> -->
-
 	<form method="get" class="bg-light rounded p-3 m-3">
 		<div class="row mb-3">
 			<label class="col-sm-2 col-form-label">양불 여부</label>
