@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.InorderVO;
+import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ReceiveVO;
 import com.modernhome.service.ClientService;
@@ -44,22 +45,40 @@ public class ReceiveController {
     		@ModelAttribute(value = "startDate") String startDate, 
     		@ModelAttribute(value = "endDate") String endDate,
     		@ModelAttribute(value = "ma_name") String ma_name,
-    		@ModelAttribute(value = "io_num") String io_num)
-    				throws Exception {
+    		@ModelAttribute(value = "io_num") String io_num, 
+    		PageVO pvo) throws Exception {
+		
     	logger.debug(" receiveGET() 호출 ");
-
+    	PageMaker pm = new PageMaker();
     	
 		if (!startDate.isEmpty() || !endDate.isEmpty() || !ma_name.isEmpty() || !io_num.isEmpty()) {
     		
-			List<ReceiveVO> receiveList = rService.getReceiveSearch(startDate, endDate, ma_name, io_num);
+			List<ReceiveVO> receiveList = rService.getReceiveSearch(startDate, endDate, ma_name, io_num, pvo);
     		logger.debug("검색어O, 검색된 데이터만 출력");
     		
+    		// 페이징 정보 전달
+    		pm.setPageVO(pvo);
+    		pm.setTotalCount(rService.getRecSearchCnt(startDate, endDate, ma_name, io_num));
+    		model.addAttribute("pm", pm);
+    	
+    		// 검색 정보 전달
+    		model.addAttribute("startDate", startDate);
+    		model.addAttribute("endDate", endDate);
+    		model.addAttribute("ma_name", ma_name);
+    		model.addAttribute("io_num", io_num);
+    		
     		model.addAttribute("receiveList", receiveList);
+    		
     	}else {
     		
     		logger.debug("검색어X, 전체 데이터 출력");
-    		List<ReceiveVO> receiveList = rService.getReceiveList();
+    		List<ReceiveVO> receiveList = rService.getReceiveList(pvo);
     		model.addAttribute("receiveList", receiveList);
+    		
+    		// 페이징 정보 전달
+    		pm.setPageVO(pvo);
+    		pm.setTotalCount(rService.getTotalCntRec());
+    		model.addAttribute("pm", pm);
     	}
     }
 	
@@ -69,18 +88,21 @@ public class ReceiveController {
     @RequestMapping(value = "/receive/addPopup", method = RequestMethod.GET )
 	public String popUpGET(Model model, @ModelAttribute("txt") String txt, PageVO pvo) throws Exception {
 		logger.debug("popUpReceiveGET() 호출!");
+		PageMaker pm = new PageMaker();
 		
 		if(txt.equals("io")) { // 발주 목록 팝업
 			List<InorderVO> popUpIo = ioService.getInorderList(pvo);
 			model.addAttribute("popUpIo", popUpIo);
 			
+			// 페이징 정보 추가
+			pm.setPageVO(pvo);
+			pm.setTotalCount(ioService.getTotalCntMate());
+			
+			model.addAttribute("pm", pm);
+			
+			
 			return "/wms/receive/popUpInorder";
 			
-		}else if(txt.equals("clt")) { // 거래처 목록 팝업
-			List<ClientVO> popUpClt = cService.clientList();
-			model.addAttribute("popUpClt", popUpClt);
-			
-			return "/wms/receive/popUpClt";
 		}
 		
 			return "/wms/receive/receivelist";

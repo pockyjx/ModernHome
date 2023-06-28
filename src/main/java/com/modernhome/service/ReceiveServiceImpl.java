@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ReceiveVO;
 import com.modernhome.persistence.ReceiveDAO;
 
@@ -16,19 +17,31 @@ public class ReceiveServiceImpl implements ReceiveService {
 		@Inject
 		private ReceiveDAO rdao;
 		
-		// 입고 조회
+		// 입고 조회 (페이징)
 		@Override
-		public List<ReceiveVO> getReceiveList() throws Exception {
-			return rdao.getReceiveList();
+		public List<ReceiveVO> getReceiveList(PageVO vo) throws Exception {
+			return rdao.getReceiveList(vo);
 		}
 		
-		// 입고 조회 + 검색
+		// 전체 글 개수 (페이징)
 		@Override
-		public List<ReceiveVO> getReceiveSearch(String startDate, String endDate, String ma_name, String io_num)
-				throws Exception {
-			return rdao.getReceiveSearch(startDate, endDate, ma_name, io_num);
+		public int getTotalCntRec() throws Exception {
+			return rdao.getRecTotalCnt();
+		}
+		
+		// 입고 조회 + 검색 (페이징)
+		@Override
+		public List<ReceiveVO> getReceiveSearch(String startDate, String endDate, 
+											String ma_name, String io_num, PageVO vo) throws Exception {
+			return rdao.getReceiveSearch(startDate, endDate, ma_name, io_num, vo);
 		}	
-	
+		
+		// 검색 결과 개수 (페이징)
+		@Override
+		public int getRecSearchCnt(String startDate, String endDate, String ma_name, String io_num) {
+			return rdao.getRecSearchCnt(startDate, endDate, ma_name, io_num);
+		}
+
 		// 입고 등록
 		@Override
 		public void regReceive(ReceiveVO rvo) {

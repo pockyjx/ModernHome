@@ -13,11 +13,6 @@
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
 
-<!DOCTYPE html>
-<html>
-<head>
-
-<meta charset="UTF-8">
 <title>거래처 팝업</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -39,9 +34,6 @@
 	});
 </script>
 
-</head>
-<body>
-
 	<h3>거래처 목록</h3>
 	
 	<form action="" method="GET">
@@ -55,8 +47,8 @@
 	<table border="1">
 	
 		<tr>
-			<th>거래처 id</th>
-			<th>거래처 코드</th>
+			<th>거래처id</th>
+			<th>거래처코드</th>
 			<th>거래처명</th>
 		</tr>
 		
@@ -105,6 +97,3 @@
   		</ul>
 	</nav>
 	<!-- 페이징 버튼 -->
-
-</body>
-</html>
