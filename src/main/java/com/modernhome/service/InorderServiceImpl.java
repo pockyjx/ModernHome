@@ -63,5 +63,15 @@ public class InorderServiceImpl implements InorderService {
 		iodao.deleteInorder(io_id);
 	}
 
+	// 발주서 가져오기
+	@Override
+	public List<InorderVO> getIoList(int io_id) throws Exception {
+		return iodao.getIoList(io_id);
+	}
+
+	
+	
+	
+
 	
 }

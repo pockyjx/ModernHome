@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.ClientVO;
+import com.modernhome.domain.EmployeeVO;
 import com.modernhome.domain.OutOrderJoinVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.PageMaker;
@@ -139,26 +140,46 @@ public class ClientController {
 
 	// 수주관리 - 리스트 + 검색
 	@RequestMapping(value = "/outOrderList", method = RequestMethod.GET)
-	public void outOrderListGET(Model model, OutOrderJoinVO ovo) throws Exception {
+	public void outOrderListGET(Model model, OutOrderJoinVO ovo, PageVO pvo) throws Exception {
 		logger.debug("outOrderListGET() 호출");
+		
+		List<OutOrderJoinVO> outOrderList;
+		PageMaker pm = new PageMaker();
 		
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
 		if(ovo.getOo_start_date_1() != null || ovo.getOo_start_date_2() != null || ovo.getOo_end_date_1() != null
 				|| ovo.getOo_end_date_2() != null || ovo.getClt_name() != null || ovo.getEmp_name() != null) {
-		logger.debug("검색어O, 검색된 데이터만 출력"+ovo);
-		// 서비스 -> 수주목록 가져오기
-		List<OutOrderJoinVO> outOrderList = oService.outOrderListSearch(ovo);
-		// Model 객체에 저장
-		model.addAttribute("outOrderList", outOrderList);
+			
+			logger.debug("검색어O, 검색된 데이터만 출력"+ovo);
+			// 서비스 -> 수주목록 가져오기
+			outOrderList = oService.outOrderListSearch(ovo, pvo);
+			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(oService.ooSearchCnt(ovo));
+			
+			// Model 객체에 저장
+			model.addAttribute("outOrderList", outOrderList);
+			model.addAttribute("pm", pm);
+			
+			// 검색정보 전달
+			model.addAttribute("ovo", ovo);
+			
 		}else {
 			logger.debug("검색어 X, 전체 데이터 출력"+ovo);
 			// 서비스 수주목록 가져오기
-			List<OutOrderJoinVO> outOrderList = oService.outOrderList();
+			outOrderList = oService.outOrderList(pvo);
 			logger.debug("outOrderList : " + outOrderList);
+			
+			// 페이징 정보
+			pm.setPageVO(pvo);
+			pm.setTotalCount(oService.outOrderCnt());
 
 			// Model 객체에 저장
 			model.addAttribute("outOrderList", outOrderList);
+			model.addAttribute("pm", pm);
+			
 		}
 		  
 	} // 수주관리

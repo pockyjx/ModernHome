@@ -100,4 +100,13 @@ public class InorderDAOImpl implements InorderDAO {
 	
 		sqlSession.delete(NAMESPACE + ".deleteInorder", io_id);
 	}
+
+	// 발주서 가져오기
+	@Override
+	public List<InorderVO> getIoList(int io_id) throws Exception {
+		logger.debug(io_id + "번 발주서 조회!");
+		return sqlSession.selectList(NAMESPACE + ".getIoList", io_id);
+	}
+
+	
 }

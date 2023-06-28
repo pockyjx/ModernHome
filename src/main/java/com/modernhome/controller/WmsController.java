@@ -19,6 +19,7 @@ import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
+import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.WarehouseVO;
 import com.modernhome.service.ClientService;
 import com.modernhome.service.InorderService;
@@ -145,9 +146,9 @@ public class WmsController {
     		inorderList = ioService.getInorderList(pvo);
     		model.addAttribute("inorderList", inorderList);
     		
+    		// 페이징 정보 전달
     		pm.setPageVO(pvo);
     		pm.setTotalCount(ioService.getTotalCntMate());
-    		
     		model.addAttribute("pm", pm);
     	}
     }
@@ -157,14 +158,37 @@ public class WmsController {
     // http://localhost:8088/wms/inorder/popUpInorder
     @RequestMapping(value = "/inorder/addPopup", method = RequestMethod.GET )
     public String popUpGET(Model model, @ModelAttribute("txt") String txt,
-    						MaterialVO mvo, PageVO pvo) throws Exception {
+    						MaterialVO mvo, ClientVO cvo, PageVO pvo) throws Exception {
     	
     	PageMaker pm = new PageMaker();
     	
         if(txt.equals("clt")) { // 거래처 목록 팝업
         	
-            List<ClientVO> popUpClt = cService.clientList();
-            model.addAttribute("popUpClt", popUpClt);
+        	List<ClientVO> popUpClt;
+        	
+        	if(cvo.getClt_name() != null) { // 거래처 팝업창에서 검색했을 때
+        		
+        		logger.debug("거래처 팝업(검색) 호출!");
+        		popUpClt = cService.getClientList(cvo, pvo);
+        		model.addAttribute("popUpClt", popUpClt);
+        		
+        		// 페이징 정보 추가
+        		pm.setPageVO(pvo);
+        		pm.setTotalCount(cService.getCltSearchCnt(cvo));
+        		model.addAttribute("pm", pm);
+        		
+        		model.addAttribute("clientVO", cvo);
+        		
+        	}else {
+        		logger.debug("거래처 팝업 호출");
+        		popUpClt = cService.getClientList(pvo);
+        		model.addAttribute("popUpClt", popUpClt);
+        		
+        		// 페이징 정보 추가
+        		pm.setPageVO(pvo);
+        		pm.setTotalCount(cService.getTotalCntClt());
+        		model.addAttribute("pm", pm);
+        	}
             
             return "/wms/inorder/popUpClient";
             
@@ -240,7 +264,12 @@ public class WmsController {
     }
     
     // 발주서
-    
-    
+    @RequestMapping(value = "/wms/inorderList", method = RequestMethod.GET)
+    public void inorderList(@RequestParam(value="io_id") Integer io_id, Model model) throws Exception {
+    	logger.debug("inorderList() 호출!");
+    	
+    	List<InorderVO> inorderList = ioService.getIoList(io_id);
+    	model.addAttribute("inorderList", inorderList);
+    }
     
 }
