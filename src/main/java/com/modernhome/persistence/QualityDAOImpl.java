@@ -51,7 +51,7 @@ public class QualityDAOImpl implements QualityDAO{
 
 	// 품질검사(완제품) 수정
 	@Override
-	public void updateQuality(WijoinVO wvo) {
+	public void updateQuality(WijoinVO wvo) throws Exception {
 		logger.debug("DAO -> mapper 호출 -> SQL 실행(품질등록)");
 		
 		sqlSession.update(NAMESPACE+".updateQuality",wvo);
@@ -81,13 +81,13 @@ public class QualityDAOImpl implements QualityDAO{
 	}
 
 	// 품질검사(자재) 수정
-//	@Override
-//	public void updateMaterialQuality(WijoinVO wvo) {
-//		logger.debug("DAO -> mapper 호출 -> SQL 실행(품질등록)");
-//		
-//		sqlSession.update(NAMESPACE+".updateMaterialQuality",wvo);
-//		
-//	}
+	@Override
+	public void updateMaterialQuality(WijoinVO wvo) throws Exception{
+		logger.debug("DAO -> mapper 호출 -> SQL 실행(품질등록)");
+		
+		sqlSession.update(NAMESPACE+".updateMaterialQuality",wvo);
+		
+	}
 
 
 

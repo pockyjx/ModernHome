@@ -13,7 +13,7 @@ public interface QualityService {
 	public List<WijoinVO> getQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception;
 
 	// 품질검사(완제품) 수정
-	public void updateQuality(WijoinVO wvo);
+	public void updateQuality(WijoinVO wvo) throws Exception;
 	
 	// 품질검사(자재) 목록 조회
 	public List<WijoinVO> getMaterialQualityList() throws Exception;
@@ -22,7 +22,7 @@ public interface QualityService {
 	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception;
 	
 	// 품질검사(자재) 수정
-//	public void updateMaterialQuality(WijoinVO wvo);
+	public void updateMaterialQuality(WijoinVO wvo) throws Exception;
 	
 	
 }// QualityService

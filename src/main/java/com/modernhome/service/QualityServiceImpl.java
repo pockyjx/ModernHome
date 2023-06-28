@@ -31,7 +31,7 @@ public class QualityServiceImpl implements QualityService{
 	
 	// 품질검사(완제품) 수정
 	@Override
-	public void updateQuality(WijoinVO wvo) {
+	public void updateQuality(WijoinVO wvo) throws Exception {
 		qdao.updateQuality(wvo);
 		
 	}
@@ -49,11 +49,11 @@ public class QualityServiceImpl implements QualityService{
 	}
 
 	// 품질검사(자재) 수정
-//	@Override
-//	public void updateMaterialQuality(WijoinVO wvo) {
-//		qdao.updateMaterialQuality(wvo);
-//		
-//	}
+	@Override
+	public void updateMaterialQuality(WijoinVO wvo) throws Exception{
+		qdao.updateMaterialQuality(wvo);
+		
+	}
 		
 
 	

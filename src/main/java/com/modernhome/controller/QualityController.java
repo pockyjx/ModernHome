@@ -30,7 +30,7 @@ public class QualityController {
 		
 	// http://localhost:8088/production/quality/qualitylist
 	// 품질현황(완제품) 리스트 출력(GET) - /quality/qualitylist
-	@RequestMapping(value = "/quality/qualitylist", method = RequestMethod.GET)
+	@RequestMapping(value = "/quality/qualitylist", method = RequestMethod.GET)  
 	public void qualityGET(Model model, 
 			@ModelAttribute(value = "qc_num") String qc_num, 
 			@ModelAttribute(value = "startDate") String startDate, 
@@ -61,7 +61,7 @@ public class QualityController {
 	}// QualityList
 	
 	// 품질 업데이트
-	@RequestMapping(value="/quality/updatequality", method = RequestMethod.POST)
+	@RequestMapping(value="/quality/updateQuality", method = RequestMethod.POST)
 	public String updateQualityPOST(WijoinVO wvo) throws Exception {
 		
 		logger.debug("updateQualityPOST() 호출(품질업데이트)");
@@ -107,18 +107,18 @@ public class QualityController {
 	}
 	
 
-//	@RequestMapping(value = "/quality/updatematerialquality", method = RequestMethod.POST)
-//	public String updateMaterialQualityPOST(WijoinVO wvo) throws Exception{
-//		
-//		logger.debug("updateMaterialQualityPOST() 호출(품질업데이트)");
-//		
-//		logger.debug("wvo : " + wvo);
-//		
-//		qService.updateMaterialQuality(wvo);
-//		
-//		return "redirect:/production/quality/qualitylist";
-//		
-//	}
+	@RequestMapping(value = "/quality/updateMaterialQuality", method = RequestMethod.POST)
+	public String updateMaterialQualityPOST(WijoinVO wvo) throws Exception{
+		
+		logger.debug("updateMaterialQualityPOST() 호출(품질업데이트)");
+		
+		logger.debug("wvo : " + wvo);
+		
+		qService.updateMaterialQuality(wvo);
+		
+		return "redirect:/production/quality/materialQualityList";
+		
+	}
 	
 
 	
