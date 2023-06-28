@@ -32,7 +32,7 @@
                     '<td><input type="checkbox"></td>' +
                     '<td><input type="text" name="ma_num" placeholder="자재 코드" readonly></td>' +
                     '<td><input type="text" name="ma_name" placeholder="자재명""></td>' +
-                    '<td><input type="text" name="ma_unit" placeholder="자재 단위"></td>' +
+                    '<td><input type="text" name="ma_unit" value="EA" readonly></td>' +
                     '<td><input type="text" name="ma_price" placeholder="자재 단가"></td>' +
                     '</tr>';
                 $(".table-mateList tr:nth-child(1)").after(newRow);
@@ -133,7 +133,7 @@
 					row.find("td:not(:first-child)").each(function(index) {
 						//
 						var cellValue = $(this).text();
-						var cellOption = index === 0 ? "readonly" : "";
+						var cellOption = index === 0 || index === 2 ? "readonly" : "";
 						var cellName = cellNames[index];
 						
 						$(this).html('<input type="text" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');

@@ -33,9 +33,9 @@
 			
                 var newRow = '<tr>' +
                     '<td><input type="checkbox"></td>' +
-                    '<td><input type="text" name="pro_num" placeholder="완제품 코드" readonly></td>' +
+                    '<td><input type="text" name="pro_num" placeholder="자동으로 부여" readonly></td>' +
                     '<td><input type="text" name="pro_name" placeholder="완제품명"></td>' +
-                    '<td><input type="text" name="pro_unit" placeholder="완제품 단위"></td>' +
+                    '<td><input type="text" name="pro_unit" value="EA" readonly></td>' +
                     '<td><input type="text" name="pro_price" placeholder="완제품 단가"></td>' +
                     '</tr>';
                     
@@ -139,7 +139,7 @@
 					row.find("td:not(:first-child)").each(function(index) {
 						//
 						var cellValue = $(this).text();
-						var cellOption = index === 0 ? "readonly" : "";
+						var cellOption = index === 0 || index === 2 ? "readonly" : "";
 						var cellName = cellNames[index];
 						
 						$(this).html('<input type="text" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');

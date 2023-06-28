@@ -62,7 +62,7 @@
 	                '<td><input type="text" name="io_cnt" placeholder="발주량" id="io_cnt" readonly></td>' +
 	                '<td><input type="text" name="rec_cnt" placeholder="입고량" id="rec_cnt"></td>' +
 	                '<td><input type="text" id="clt_name" name="clt_name" placeholder="거래처명"></td>' +
-	                '<td><input type="text" name="rec_in_state" value="입고전" readonly></td>' +
+	                '<td><input type="text" name="rec_in_state" value="입고완료" readonly></td>' +
 	                '<td><input type="text" name="wh_name" placeholder="B창고" readonly></td>' +
 	                '<td><input type="date" name="rec_date"></td>' +
 	                '<td><input type="date" name="reg_date" readonly></td>' +
@@ -203,7 +203,6 @@
 						if (index === 6){
 							cellContent = '<td>' +
 							'<select name="' + cellName + '">' +
-							'<option value="입고전" ' + (cellValue === '입고전' ? 'selected' : '') + '>입고전</option>' +
 							'<option value="입고완료" ' + (cellValue === '입고완료' ? 'selected' : '') + '>입고완료</option>' +
 							'<option value="검사완료" ' + (cellValue === '검사완료' ? 'selected' : '') + '>검사완료</option>' +
 							'</select>' +
