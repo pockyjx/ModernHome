@@ -10,9 +10,11 @@ public class QualityCheckingVO {
 	private String qc_yn;
 	private Integer qc_cnt;
 	private String qc_date;
+	private String update_date;
 	private Integer emp_id;
+	private Integer update_emp_id;
+	private Integer rec_id;
 	private Integer repaired;
-	
 	public Integer getQc_id() {
 		return qc_id;
 	}
@@ -61,11 +63,29 @@ public class QualityCheckingVO {
 	public void setQc_date(String qc_date) {
 		this.qc_date = qc_date;
 	}
+	public String getUpdate_date() {
+		return update_date;
+	}
+	public void setUpdate_date(String update_date) {
+		this.update_date = update_date;
+	}
 	public Integer getEmp_id() {
 		return emp_id;
 	}
 	public void setEmp_id(Integer emp_id) {
 		this.emp_id = emp_id;
+	}
+	public Integer getUpdate_emp_id() {
+		return update_emp_id;
+	}
+	public void setUpdate_emp_id(Integer update_emp_id) {
+		this.update_emp_id = update_emp_id;
+	}
+	public Integer getRec_id() {
+		return rec_id;
+	}
+	public void setRec_id(Integer rec_id) {
+		this.rec_id = rec_id;
 	}
 	public Integer getRepaired() {
 		return repaired;
@@ -73,12 +93,15 @@ public class QualityCheckingVO {
 	public void setRepaired(Integer repaired) {
 		this.repaired = repaired;
 	}
-	
 	@Override
 	public String toString() {
 		return "QualityCheckingVO [qc_id=" + qc_id + ", qc_num=" + qc_num + ", pro_id=" + pro_id + ", line_id="
 				+ line_id + ", ma_id=" + ma_id + ", qc_yn=" + qc_yn + ", qc_cnt=" + qc_cnt + ", qc_date=" + qc_date
-				+ ", emp_id=" + emp_id + ", repaired=" + repaired + "]";
+				+ ", update_date=" + update_date + ", emp_id=" + emp_id + ", update_emp_id=" + update_emp_id
+				+ ", rec_id=" + rec_id + ", repaired=" + repaired + "]";
 	}
+	
+	
+	
 	
 }

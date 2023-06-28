@@ -29,7 +29,7 @@ public class QualityController {
 	// =========================================== 
 		
 	// http://localhost:8088/production/quality/qualitylist
-	// 품질현황 리스트 출력(GET) - /quality/qualitylist
+	// 품질현황(완제품) 리스트 출력(GET) - /quality/qualitylist
 	@RequestMapping(value = "/quality/qualitylist", method = RequestMethod.GET)
 	public void qualityGET(Model model, 
 			@ModelAttribute(value = "qc_num") String qc_num, 
@@ -43,19 +43,19 @@ public class QualityController {
 		if(!qc_num.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty() || !qc_yn.isEmpty()) {
 			
 			List<WijoinVO> qualityList = qService.getQualitySearch(qc_num, startDate, endDate ,qc_yn);
-//			List<WijoinVO> materialQualityList = qService.getMaterialQualitySearch(qc_num, startDate, endDate ,qc_yn);
+
 			logger.debug("검색어 O, 검색된 데이터만 출력");
 			
 			model.addAttribute("qualityList",qualityList);
-//			model.addAttribute("materialQualityList",materialQualityList);
+
 		}else {
 			
 			logger.debug("검색어 X, 전체 데이터 출력");
 			List<WijoinVO> qualityList = qService.getQualityList();
-			List<WijoinVO> materialQualityList = qService.getMaterialQualityList();
+	
 			
 			model.addAttribute("qualityList",qualityList);
-			model.addAttribute("materialQualityList",materialQualityList);
+	
 		}
 		
 	}// QualityList
@@ -74,39 +74,51 @@ public class QualityController {
 		
 	}// updateQuality
 	
-	@RequestMapping(value = "/quality/updatematerialquality", method = RequestMethod.POST)
-	public String updateMaterialQualityPOST(WijoinVO wvo) throws Exception{
-		
-		logger.debug("updateMaterialQualityPOST() 호출(품질업데이트)");
-		
-		logger.debug("wvo : " + wvo);
-		
-		qService.updateMaterialQuality(wvo);
-		
-		return "redirect:/production/quality/qualitylist";
-		
-	}
 	
 	// ===========================================
-//	@RequestMapping(value = "/quality/materialQualitylist", method = RequestMethod.GET)
-//	public void materialQualityGET(Model model,
-//			@ModelAttribute(value = "qc_num") String qc_num,
-//			@ModelAttribute(value = "startDate") String startDate,
-//			@ModelAttribute(value = "endDate") String endDate,
-//			@ModelAttribute(value = "qc_yn") String qc_yn)
-//					throws Exception{
-//		logger.debug(" materialQualityGET() 호출 ");
-//		
-//		if(!qc_num.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty() || !qc_yn.isEmpty()) {
-//			
-//			logger.debug("검색어 O, 검색된 데이터만 출력");
-//			
-//		}else {
-//			
-//			logger.debug("검색어 X, 전체 데이터 출력");
-//		}
-//	}
+	
+	// http://localhost:8088/production/quality/materialQualityList
+	// 품질현황(자재) 리스트 출력(GET) - /quality/materialQualityList
+	@RequestMapping(value = "/quality/materialQualityList", method = RequestMethod.GET)
+	public void materialQualityGET(Model model,
+			@ModelAttribute(value = "qc_num") String qc_num,
+			@ModelAttribute(value = "startDate") String startDate,
+			@ModelAttribute(value = "endDate") String endDate,
+			@ModelAttribute(value = "qc_yn") String qc_yn)
+					throws Exception{
+		logger.debug(" materialQualityGET() 호출 ");
+		
+		if(!qc_num.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty() || !qc_yn.isEmpty()) {
+			
+			List<WijoinVO> materialQualityList = qService.getMaterialQualitySearch(qc_num, startDate, endDate, qc_yn);
+			
+			logger.debug("검색어 O, 검색된 데이터만 출력");
+			
+			model.addAttribute("materialQualityList",materialQualityList);
+			
+		}else {
+			
+			logger.debug("검색어 X, 전체 데이터 출력");
+			
+			List<WijoinVO> materialQualityList = qService.getMaterialQualityList();
+			
+			model.addAttribute("materialQualityList",materialQualityList);
+		}
+	}
+	
 
+//	@RequestMapping(value = "/quality/updatematerialquality", method = RequestMethod.POST)
+//	public String updateMaterialQualityPOST(WijoinVO wvo) throws Exception{
+//		
+//		logger.debug("updateMaterialQualityPOST() 호출(품질업데이트)");
+//		
+//		logger.debug("wvo : " + wvo);
+//		
+//		qService.updateMaterialQuality(wvo);
+//		
+//		return "redirect:/production/quality/qualitylist";
+//		
+//	}
 	
 
 	

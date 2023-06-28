@@ -173,7 +173,7 @@
 
 			        pageStatus = "update";
 			     
-			});
+				});
 			        
 			        
 			    } else if (selectedCheckbox.length === 0) {
