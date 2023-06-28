@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
@@ -43,8 +44,7 @@
 	});
 
 	$(document).on("click", "input[type='submit']", function() {
-		var url = window.location.href;
-		var lnumVal = new URLSearchParams(new URL(url).search).get('line_num');
+		var lnumVal = $("input[name='line_num']").val();
 		console.log(lnumVal);
 		
 		if(lnumVal == null) {
@@ -88,10 +88,7 @@
 				<td>${wiList[0].oo_end_date}</td>
 				<th>생산라인</th>
 				<td id="line_num">
-					<input type="text" name="line_num" 
-						<c:if test='${empty param.line_num}'>value="${wiList[0].line_num}"</c:if>
-						<c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if>
-					readonly>
+					<input type="text" name="line_num" value="${(empty param.line_num) ? wiList[0].line_num : param.line_num}" readonly>
 				</td>
 			</tr>
 			<tr>
@@ -99,8 +96,8 @@
 				<td>${wiList[0].clt_name}</td>
 				<th>작성일</th>
 				<td>
-					<c:if test="${!empty wiList[0].update_date}">${wiList[0].update_date}</c:if>
-					<c:if test="${empty wiList[0].update_date}">${wiList[0].reg_date}</c:if>
+					<c:if test="${!empty wiList[0].update_date}">${fn:substring(wiList[0].update_date, 0, 10)}</c:if>
+					<c:if test="${empty wiList[0].update_date}">${fn:substring(wiList[0].reg_date, 0, 10)}</c:if>
 				</td>
 			</tr>
 			<tr>
@@ -121,7 +118,8 @@
 		<input type="hidden" name="req_id" value="${wiList[0].req_id}">
 		<input type="hidden" name="oo_id" value="${wiList[0].oo_id}">
 		<input type="hidden" name="clt_id" value="${wiList[0].clt_id}">
-		<input type="hidden" name="emp_id" value="${wiList[0].emp_id}">
+		<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
+		<input type="hidden" name="line_id" value="${(empty param.line_id) ? wiList[0].line_id : param.line_id}">
 		<div>
 			<input type="button" value="취소" onclick="location.href='/production/instruct/list'">
 			<input type="submit" value="수정"> 

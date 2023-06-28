@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 
 @Repository
@@ -33,7 +34,7 @@ public class PerformanceDAOImpl implements PerformanceDAO {
 	}
 
 	@Override
-	public List<WijoinVO> getPrfrmList() throws Exception {
+	public List<WijoinVO> getPrfrmList(PageVO vo) throws Exception {
 		logger.debug("WP DAOImpl_getPrfrmList() 실행");
 		return sqlSession.selectList(NAMESPACE + ".getPrfrmList");
 	}
@@ -63,7 +64,7 @@ public class PerformanceDAOImpl implements PerformanceDAO {
 	}
 
 	@Override
-	public List<WijoinVO> getPrfrmList(String gb_yn, String work_num, String startDate, String endDate) throws Exception {
+	public List<WijoinVO> getPrfrmList(String gb_yn, String work_num, String startDate, String endDate, PageVO vo) throws Exception {
 		logger.debug("WP DAOImpl_getPrfrmList(검색) 실행");
 		
 		Map<String, Object> parameterMap = new HashMap<>();
@@ -71,8 +72,35 @@ public class PerformanceDAOImpl implements PerformanceDAO {
 		parameterMap.put("work_num", work_num);
 		parameterMap.put("startDate", startDate);
 		parameterMap.put("endDate", endDate);
+		parameterMap.put("pageVO", vo);
 		
 		return sqlSession.selectList(NAMESPACE + ".listSearch", parameterMap);
+	}
+
+	@Override
+	public void addPS(WijoinVO vo) throws Exception {
+		logger.debug("WP DAOImpl_addPS() 실행");
+		sqlSession.update(NAMESPACE + ".addPS", vo);
+	}
+
+	@Override
+	public int getWpTotalCnt() throws Exception {
+		logger.debug("WP DAOImpl_getWpTotalCnt() 실행");
+		return sqlSession.selectOne(NAMESPACE + ".wpTotalCnt");
+	}
+
+	@Override
+	public int getWpSearchCnt(String gb_yn, String work_num, String startDate, String endDate, PageVO vo) throws Exception {
+		logger.debug("WP DAOImpl_getWpSearchCnt() 실행");
+
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("gb_yn", gb_yn);
+		parameterMap.put("work_num", work_num);
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		parameterMap.put("pageVO", vo);
+		
+		return sqlSession.selectOne(NAMESPACE + ".wpSearchCnt", parameterMap);
 	}
 	
 }

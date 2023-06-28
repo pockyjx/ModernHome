@@ -2,13 +2,14 @@ package com.modernhome.service;
 
 import java.util.List;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 
 public interface InstructService {
 	
 	// 작업지시 목록 조회
-	public List<WijoinVO> getInstrList() throws Exception;
+	public List<WijoinVO> getInstrList(PageVO vo) throws Exception;
 	
 	// 작업지시서 조회
 	public List<WijoinVO> getInstr(WijoinVO wjvo) throws Exception;
@@ -17,7 +18,7 @@ public interface InstructService {
 	public List<WijoinVO> getInstrReq(WorkInstrVO wivo) throws Exception;
 	
 	// 작업지시 목록 조회 + 검색
-	public List<WijoinVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception;
+	public List<WijoinVO> getInstrList(String work_state, String pro_num, String startDate, String endDate, PageVO vo) throws Exception;
 	
 	// 작업지시서를 작성하지 않은 수주 번호 출력
 	public List<WijoinVO> getBeforeInstr() throws Exception;
@@ -39,5 +40,11 @@ public interface InstructService {
 	
 	// 작업지시 상태가 완료라면 품질검사 등록
 	public void addQC(WijoinVO vo) throws Exception;
+	
+	// 작업지시 총 개수
+	public int getWiTotalCnt() throws Exception;
+	
+	// 작업지시 검색 개수
+	public int getWiSearchCnt(String work_state, String pro_num, String startDate, String endDate, PageVO vo) throws Exception;
 	
 }

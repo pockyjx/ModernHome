@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
@@ -38,8 +39,8 @@
 			<td>${wiList[0].clt_name}</td>
 			<th>작성일</th>
 			<td>
-				<c:if test="${!empty wiList[0].update_date}">${wiList[0].update_date}</c:if>
-				<c:if test="${empty wiList[0].update_date}">${wiList[0].reg_date}</c:if>
+				<c:if test="${!empty wiList[0].update_date}">${fn:substring(${wiList[0].update_date}, 0, 10)}</c:if>
+				<c:if test="${empty wiList[0].update_date}">${fn:substring(${wiList[0].reg_date}, 0, 10)}</c:if>
 			</td>
 		</tr>
 		<tr>

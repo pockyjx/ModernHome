@@ -34,9 +34,6 @@
 			var line_id = $(this).find("td:eq(0)").text();
 			var line_num = $(this).find("td:eq(1)").text();
 			
-			console.log(line_id);
-			console.log(line_num);
-			
 			var opUrl = opener.location.href;
 			
 			// 부모창의 URL에 line_id와 line_num이 있으면 삭제

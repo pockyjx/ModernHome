@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
@@ -121,6 +122,18 @@
 	        $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	    }
 	});
+	
+	// 체크박스 중복 X
+	function handleCheckbox(checkbox, value) {
+		const checkboxes = document.getElementsByName('work_state');
+		
+		// 다른 체크박스 중에서 선택된 체크박스를 제외하고 체크 해제
+		checkboxes.forEach(function(cb) {
+		if (cb !== checkbox && cb.checked) {
+			cb.checked = false;
+			}
+		});
+	}
 </script>
 <style>
 	.selected {
@@ -128,70 +141,110 @@
 	}
 </style>
 
-	<h2>작업지시 목록</h2>
+<h2>작업지시 목록</h2>
 
-	<form method="get">
+<form method="get">
+	<div>
 		작업상태
-			<label><input type="radio" name="work_state" value="대기"> 대기</label>
-			<label><input type="radio" name="work_state" value="진행중"> 진행중</label>
-			<label><input type="radio" name="work_state" value="완료"> 완료</label>
+			<label><input type="checkbox" name="work_state" value="대기"
+				${param.work_state == '대기' ? 'checked' : ''} onclick="handleCheckbox(this, '대기')"> 대기</label>
+			<label><input type="checkbox" name="work_state" value="진행중"
+				${param.work_state == '진행중' ? 'checked' : ''} onclick="handleCheckbox(this, '진행중')"> 진행중</label>
+			<label><input type="checkbox" name="work_state" value="완료"
+				${param.work_state == '완료' ? 'checked' : ''} onclick="handleCheckbox(this, '완료')"> 완료</label>
+	</div>
+	<div>
 		품목코드
 			<input type="text" name="pro_num">
-		<br>
-		<label>지시일자</label>
-		<input type="date" name="startDate">
-			~
-		<input type="date" name="endDate">
-		<button type="submit">조회</button>
-	</form>
-	
-<%-- 	${instrList} --%>
-	
-	<span id="selectedCheckboxCount">0</span>
-	
-	<div>
-		<button class="btn btn-primary m-2" id="addRowButton" onclick="location.href='/production/instruct/add'">추가</button>
-		<button class="btn btn-primary m-2" id="updateButton">수정</button>
-		<button class="btn btn-primary m-2" id="deleteInstrButton">삭제</button>
 	</div>
+	<div>
+		<label>지시일자</label>
+			<input type="date" name="startDate">
+				~
+			<input type="date" name="endDate">
+		<button type="submit">조회</button>
+	</div>
+</form>
+
+<%-- 	${instrList} --%>
+
+<span id="selectedCheckboxCount">0</span>
+
+<div>
+	<button class="btn btn-primary m-2" id="addRowButton" onclick="location.href='/production/instruct/add'">추가</button>
+	<button class="btn btn-primary m-2" id="updateButton">수정</button>
+	<button class="btn btn-primary m-2" id="deleteInstrButton">삭제</button>
+</div>
+
+<table border="1" class="table-instrList">
+	<tr>
+		<th><input type="checkbox"></th>
+		<th>작업지시코드</th>
+		<th>라인코드</th>
+		<th>품목코드</th>
+		<th>품목명</th>
+		<th>작업상태</th>
+		<th>지시일자</th>
+		<th>지시수량</th>
+		<th>수주번호</th>
+		<th>납품예정일</th>
+		<th>담당자</th>
+	</tr>
 	
-	<table border="1" class="table-instrList">
+	<c:forEach var="list" items="${instrList}" varStatus="status">
 		<tr>
-			<th><input type="checkbox"></th>
-			<th>작업지시코드</th>
-			<th>라인코드</th>
-			<th>품목코드</th>
-			<th>품목명</th>
-			<th>작업상태</th>
-			<th>지시일자</th>
-			<th>지시수량</th>
-			<th>수주번호</th>
-			<th>납품예정일</th>
-			<th>담당자</th>
+			<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}"></td>
+			<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
+			<td>${list.line_num}</td>
+			<td>${list.pro_num}</td>
+			<td>${list.pro_name}</td>
+			<td>
+			    <c:if test="${list.work_state=='대기'}">대기</c:if>
+			    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
+			    <c:if test="${list.work_state=='완료'}">완료</c:if>
+			</td>
+			<td>
+				<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
+				<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
+			</td>
+			<td>${list.work_cnt}</td>
+			<td>${list.oo_num}</td>
+			<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
+			<td>${list.emp_name}</td>
 		</tr>
+	</c:forEach>
+</table>
+
+<!-- 페이지 이동 버튼 -->
+<nav aria-label="Page navigation example">
+ 	<ul class="pagination justify-content-center pagination-sm">
+ 		<c:if test="${pm.prev}">
+			<li class="page-item">
+				<a class="page-link" 
+				href="/info/req/reqList?page=${pm.startPage-1}&work_state=${work_state}&pro_num=${pro_num}&startDate=${startDate}&endDate=${endDate}" 
+				aria-label="Previous">
+	      			<span aria-hidden="true">&laquo;</span>
+	     		</a>
+	   		</li>
+   		</c:if>
+   		
+   		<c:forEach begin="${pm.startPage}" end="${pm.endPage}" step="1" var="idx">
+	   		<li <c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />>
+	   			<a class="page-link" href="/production/instruct/list?page=${idx}&work_state=${work_state}&pro_num=${pro_num}&startDate=${startDate}&endDate=${endDate}">${idx}</a>
+	   		</li>
+   		</c:forEach>
 		
-		<c:forEach var="list" items="${instrList}" varStatus="status">
-			<tr>
-				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}"></td>
-				<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
-				<td>${list.line_num}</td>
-				<td>${list.pro_num}</td>
-				<td>${list.pro_name}</td>
-				<td>
-				    <c:if test="${list.work_state=='대기'}">대기</c:if>
-				    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
-				    <c:if test="${list.work_state=='완료'}">완료</c:if>
-				</td>
-				<td>
-					<c:if test="${!empty list.update_date}">${list.update_date}</c:if>
-					<c:if test="${empty list.update_date}">${list.reg_date}</c:if>
-				</td>
-				<td>${list.work_cnt}</td>
-				<td>${list.oo_num}</td>
-				<td>${list.oo_end_date}</td>
-				<td>${list.emp_name}</td>
-			</tr>
-		</c:forEach>
-	</table>
+		<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+	     		<a class="page-link" 
+	     		href="/production/instruct/list?page=${pm.endPage+1}&work_state=${work_state}&pro_num=${pro_num}&startDate=${startDate}&endDate=${endDate}" 
+	     		aria-label="Next">
+	       			<span aria-hidden="true">&raquo;</span>
+	     		</a>
+	   		</li>
+   		</c:if>
+ 	</ul>
+</nav>
+<!-- 페이지 이동 버튼 -->
 	
 <%@ include file="../../inc/footer.jsp"%>

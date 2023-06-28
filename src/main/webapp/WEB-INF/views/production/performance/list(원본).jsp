@@ -12,7 +12,7 @@
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script>
 	$(document).ready(function() {
-		// 버튼 클릭 시 행 추가
+		// 추가 버튼 클릭 시 행 추가
         $("#addRowButton").click(function() {
 			var selectedWorkId = $("input[name='selectedWorkId']:checked");
 			var work_num;
@@ -24,10 +24,10 @@
 			var today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + now.getDate();
 			
 			// 모든 체크박스의 체크 해제
-			$(".table-employeeList input[type='checkbox']").prop("checked", false);
+			$(".table-prfrmList input[type='checkbox']").prop("checked", false);
 			
 			// selected 클래스를 없앰 (css 없애기)
-			$(".table-employeeList tr").removeClass("selected");
+			$(".table-prfrmList tr").removeClass("selected");
 			
 			// 작업 지시를 먼저 선택하여 해당 지시에 대한 실적 등록 실행 
 			if(selectedWorkId.val()) {
@@ -55,7 +55,7 @@
 							 '</td>' +
 							 '<td><input type="text" name="prfrm_cnt"></td>' +
 							 '<td><input type="text" name="df_cnt" value="0" disabled></td>' +
-							 '<td><input type="text" name="emp_id"></td>' +
+							 '<td><input type="hidden" name="emp_id" value="${sessionScope.emp_id}"></td>' +
 							 '<td><input type="text" name="work_cnt" value="' + work_cnt + '"></td>' +
 							 '</tr>';
 				
@@ -267,6 +267,18 @@
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         }
 	});
+	
+	// 체크박스 중복 X
+	function handleCheckbox(checkbox, value) {
+	    const checkboxes = document.getElementsByName('gb_yn');
+
+	    // 다른 체크박스 중에서 선택된 체크박스를 제외하고 체크 해제
+	    checkboxes.forEach(function(cb) {
+	      if (cb !== checkbox && cb.checked) {
+	        cb.checked = false;
+	      }
+	    });
+	  }
 </script>
 <style>
 .selected {
@@ -274,12 +286,12 @@
 }
 </style>
 
-<h2>불량 관리</h2>
+<h2>생산관리</h2>
 
 <form method="get">
 	양불 여부
-		<label><input type="radio" name="gb_yn" value="양품">양품</label>
-		<label><input type="radio" name="gb_yn" value="불량품">불량품</label>
+		<label><input type="checkbox" name="gb_yn" value="양품" ${param.gb_yn == '양품' ? 'checked' : ''} onclick="handleCheckbox(this, '양품')">양품</label>
+		<label><input type="checkbox" name="gb_yn" value="불량품"  ${param.gb_yn == '불량품' ? 'checked' : ''} onclick="handleCheckbox(this, '불량품')">불량품</label>
 	작업지시코드 <input type="text" name="work_num"> <br>
 	<label>등록일자</label>
 	<input type="date" name="startDate"> ~ <input type="date" name="endDate">
@@ -287,6 +299,48 @@
 </form>
 
 <br>
+
+		<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
+		<table border="1" class="table-instrList">
+			<tr>
+				<th>　</th>
+				<th>작업지시코드</th>
+				<th>라인코드</th>
+				<th>품목코드</th>
+				<th>품목명</th>
+				<th>작업상태</th>
+				<th>지시일자</th>
+				<th>지시수량</th>
+				<th>수주번호</th>
+				<th>납품예정일</th>
+				<th>담당자</th>
+			</tr>
+		
+			<c:forEach var="qi" items="${qiList}">
+				<tr>
+					<td><input type="checkbox" name="selectedWorkId" value="${qi.work_id}"></td>
+					<td>${qi.work_num}</td>
+					<td>${qi.line_num}</td>
+					<td>${qi.pro_num}</td>
+					<td>${qi.pro_name}</td>
+					<td>${qi.work_state}</td>
+					<td>
+						<c:if test="${!empty qi.update_date}">${fn:substring(qi.update_date, 0, 10)}</c:if>
+						<c:if test="${empty qi.update_date}">${fn:substring(qi.reg_date, 0, 10)}</c:if>
+					</td>
+					<td>${qi.work_cnt}</td>
+					<td>${qi.oo_num}</td>
+					<td>${fn:substring(qi.oo_end_date, 0, 10)}</td>
+					<td>${qi.emp_name}</td>
+				</tr>
+			</c:forEach>
+		</table>
+		<!-- 작업지시 중 검수상태(qc_yn)가 완료인 리스트 -->
+		
+		<hr>
+		<!-- ================================================================================== -->
+<%-- ${prfrmNum} --%>
+<%-- ${wpList} --%>
 		
 <form>
 	<div class="bg-light text-center rounded p-4">
@@ -302,6 +356,8 @@
 			<span id="selectedCheckboxCount">0</span>
 		</div>
 		
+		
+		<!-- 생산실적 리스트 -->
 		<table border="1" class="table-prfrmList">
 			<tr>
 				<th><input type="checkbox"></th>
@@ -340,5 +396,6 @@
 		</table>
 	</div>
 </form>
+<!-- 생산실적 리스트 -->
 
 <%@ include file="../../inc/footer.jsp"%>

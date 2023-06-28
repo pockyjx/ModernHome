@@ -61,12 +61,20 @@
 		LEFT JOIN product pro ON pro.pro_id = wi.pro_id 
 		LEFT JOIN quality_checking qc ON qc.work_id = wi.work_id 
 		LEFT JOIN out_order oo ON oo.oo_id = wi.oo_id 
-		WHERE qc_yn = '완료'
+		LEFT JOIN work_prfrm wp ON wp.work_id = wi.work_id 
+		WHERE qc_yn = '완료' AND wp.work_id IS NULL
 	</select>
 	<!-- 작업지시 목록 중 품질검사가 완료인 목록만 출력 -->
 	
 	
-	<!-- 생산실적 목록 출력 -->
+	<!-- 전체 글 수 계산 (페이징 처리) -->
+	<select id="wpTotalCnt" resultType="int">
+		SELECT count(*) FROM work_prfrm
+	</select>
+	<!-- 전체 글 수 계산 (페이징 처리) -->
+	
+	
+	<!-- 생산실적 목록 출력 (페이징 처리) -->
 	<select id="getPrfrmList" resultMap="wijoinRM">
 		SELECT wp.prfrm_id, prfrm_num, wp.work_id, wp.qc_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, wp.reg_date, wp.update_date, gb_yn, prfrm_cnt, work_cnt, 
 			wp.emp_id, wp.update_emp_id, 
@@ -81,11 +89,38 @@
 		LEFT JOIN line li ON wp.line_id = li.line_id 
 		LEFT JOIN product pro ON wp.pro_id = pro.pro_id 
 		LEFT JOIN employee emp ON wp.emp_id = emp.emp_id
+		ORDER BY wi.work_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
-	<!-- 생산실적 목록 출력 -->
+	<!-- 생산실적 목록 출력 (페이징 처리) -->
 	
 	
-	<!-- 생산실적 검색 출력 -->
+	<!-- 검색한 생산실적 개수 (페이징 처리) -->
+	<select id="wpSearchCnt" resultType="int">
+		SELECT count(wp.prfrm_id) 
+		FROM work_prfrm wp 
+		LEFT JOIN work_instr wi ON wp.work_id = wi.work_id 
+		LEFT JOIN line li ON wp.line_id = li.line_id 
+		LEFT JOIN product pro ON wp.pro_id = pro.pro_id 
+		LEFT JOIN employee emp ON wp.emp_id = emp.emp_id
+		<where>
+			<if test="gb_yn != ''">
+				gb_yn = #{gb_yn}
+			</if>
+			<if test="work_num != ''">
+				AND wp.work_id = (SELECT wi.work_id FROM work_instr wi WHERE wi.work_num = #{work_num})
+			</if>
+			<if test="startDate != ''">
+	        	AND IFNULL(wp.update_date, .reg_date) &gt;= #{startDate}
+	        </if>
+	        <if test="endDate != ''">
+	        	AND #{endDate} &gt;= DATE(IFNULL(wp.update_date, .reg_date))
+	        </if>
+		</where>
+	</select>
+	<!-- 검색한 생산실적 개수 (페이징 처리) -->
+	
+	
+	<!-- 생산실적 검색 출력 (페이징 처리) -->
 	<select id="listSearch" resultMap="wijoinRM">
 		SELECT wp.prfrm_id, prfrm_num, wp.work_id, wp.qc_id, work_num, wp.line_id, line_num, wp.pro_id, pro_num, pro_name, wp.reg_date, wp.update_date, gb_yn, prfrm_cnt, work_cnt, 
 			wp.emp_id, wp.update_emp_id, 
@@ -108,14 +143,15 @@
 				AND wp.work_id = (SELECT wi.work_id FROM work_instr wi WHERE wi.work_num = #{work_num})
 			</if>
 			<if test="startDate != ''">
-	        	AND wp.reg_date &gt;= #{startDate}
+	        	AND IFNULL(wp.update_date, .reg_date) &gt;= #{startDate}
 	        </if>
 	        <if test="endDate != ''">
-	        	AND #{endDate} &gt;= DATE(wp.reg_date)
+	        	AND #{endDate} &gt;= DATE(IFNULL(wp.update_date, .reg_date))
 	        </if>
 		</where>
+		ORDER BY wi.work_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
-	<!-- 생산실적 검색 출력 -->
+	<!-- 생산실적 검색 출력 (페이징 처리) -->
 	
 	
 	<!-- 생산실적번호 자동 생성 -->
@@ -156,5 +192,13 @@
 		DELETE FROM work_prfrm WHERE prfrm_id = #{prfrm_id}
 	</delete>
 	<!-- 생산실적 삭제 -->
+	
+	
+	<!-- 생산실적 등록 시, 양품 개수 완제품 재고에 추가 -->
+	<update id="addPS" parameterType="WijoinVO">
+		UPDATE product_stock SET ps_cnt = ps_cnt + #{prfrm_cnt}, ps_update_date = now(), update_emp_id = #{emp_id} 
+		WHERE pro_id = (SELECT pro_id FROM work_prfrm wp WHERE prfrm_id = #{prfrm_id})
+	</update>
+	<!-- 생산실적 등록 시, 양품 개수 완제품 재고에 추가 -->
 
 </mapper>
