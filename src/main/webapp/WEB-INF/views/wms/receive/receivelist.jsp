@@ -132,7 +132,7 @@
 	                    }
 	                }
 	            });
-	            
+	             
 	            updateSelectedCheckboxCount();
 	            
 	        }); // 배경색 지정
