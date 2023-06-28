@@ -18,7 +18,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>발주 자재 팝업</title>
+<title>자재 팝업</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -48,7 +48,7 @@
 		<input type="hidden" name="txt" value="ma">
 		<input type="hidden" name="ma_num" value="">
 		
-		<input type="text" placeholder="자재명을 입력하세요." name="ma_name" value="${mvo.ma_name }">
+		<input type="text" placeholder="자재명을 입력하세요" name="ma_name" value="${mvo.ma_name }">
 		<input type="submit" value="검색">
 	</form>
 	

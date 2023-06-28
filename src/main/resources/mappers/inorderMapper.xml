@@ -172,6 +172,15 @@
 	</select>
 	<!-- 검색 결과 개수 계산 -->
 	
-	
+	<!-- 발주서 조회 -->
+	<select id="getIoList" resultMap="inorderResultMap">
+		SELECT i.io_num, c.clt_num, c.clt_name, m.ma_num, m.ma_name, i.io_cnt, i.io_unit, i.io_amount
+		FROM in_order i
+        JOIN client c ON i.io_id = c.io_id
+        JOIN material m ON i.ma_id = m.ma_id
+        WHERE i.io_id = #{io_id};
+	</select>
+	<!-- 발주서 조회 -->
+
 	
   </mapper>  
