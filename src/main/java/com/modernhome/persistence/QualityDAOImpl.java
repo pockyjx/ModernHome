@@ -89,6 +89,14 @@ public class QualityDAOImpl implements QualityDAO{
 		
 	}
 
+	@Override
+	public void addQC(WijoinVO wvo) throws Exception {
+		logger.debug("QualityDAOImpl_addQC() 실행");
+		
+		sqlSession.insert(NAMESPACE+".addQC",wvo);
+		
+	}
+
 
 
 

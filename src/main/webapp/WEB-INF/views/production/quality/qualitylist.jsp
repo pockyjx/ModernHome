@@ -197,10 +197,6 @@
 <body>
 		<h2>품질현황 조회</h2>
 		<form method="get"> 
-<!-- 		<span> -->
-<%-- 			<input type="checkbox" name="" value="완제품" ${param. }> --%>
-<!-- 		</span> -->
-		
 			품질검사코드 <input type="text" name="qc_num">
 			품질검사여부
 				<select name="qc_yn">
@@ -218,15 +214,13 @@
 			<input type="submit" value="조회">
 		</form>
 		
-		<h2>품질현황(완제품) 목록</h2>
-		
-		<form id="qualityList">
-				<span id="selectedCheckboxCount">0</span>
-
-			<input type="button" id="cancleButton" value="취소" disabled="disabled">
-			<input type="button" id="updateButton" value="수정">
-			<input type="submit" id="submitButton" value="저장" formaction="updateQuality" formmethod="post" disabled="disabled">
+			<span id="selectedCheckboxCount">0</span>
 			
+			<h2>품질현황(완제품) 목록</h2>
+			<form id="qualityList">
+			<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+			<input type="button" id="updateButton" value="수정">
+			<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 			<table class="table-qualityList" border="1">
 				<tr>
 					<th><input type="checkbox"></th>

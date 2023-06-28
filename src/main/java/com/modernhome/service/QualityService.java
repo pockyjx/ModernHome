@@ -24,5 +24,7 @@ public interface QualityService {
 	// 품질검사(자재) 수정
 	public void updateMaterialQuality(WijoinVO wvo) throws Exception;
 	
+	public void addQC(WijoinVO wvo) throws Exception;
+	
 	
 }// QualityService

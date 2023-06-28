@@ -54,6 +54,12 @@ public class QualityServiceImpl implements QualityService{
 		qdao.updateMaterialQuality(wvo);
 		
 	}
+
+	@Override
+	public void addQC(WijoinVO wvo) throws Exception {
+		qdao.addQC(wvo);
+		
+	}
 		
 
 	
