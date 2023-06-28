@@ -8,6 +8,7 @@
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
 
+<!-- <link rel="stylesheet" href="/resources/css/inorder.css" /> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -306,73 +307,78 @@
     .selected {
         background-color: #b3ccff;
     }
+    
+/*     body { */
+/*     	font-family: 'NanumSquareNeo-Variable'; */
+/*     }	 */
 </style>
 
-	<h2>발주 관리</h2>
-		<!-- 검색칸 -->
-		<div class="col-sm-12 col-xl-6">
-			<div class="bg-light rounded h-100 p-4">
-              	<form name="search" method="get" action="">
-                  	<div class="row mb-3">
-                  		<label for="ioSearch" class="col-sm-2 col-form-label">발주일자</label>
-                   		<div class="col-sm-10">
-                   		<input type="date" name="istartDate">
-                 		~
-                   		<input type="date" name="iendDate">
-                   		</div>
-                  	</div>
-	       			<div class="row mb-3">
-                  		<label for="ioSearch" class="col-sm-2 col-form-label">입고예정일</label>
-                   		<div class="col-sm-10">
-                   		<input type="date" name="rstartDate">
-                 		~
-                   		<input type="date" name="rendDate">
-                   		</div>
-                  	</div>
-	       			<div class="row mb-3">
-	       				<label for="ioSearch" class="col-sm-2 col-form-label">자재명</label>
-	       				<div class="col-sm-10">
-	       				<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
-	       				</div>
-       				</div>
-       				<div class="row mb-3">
-       					<label for="ioSearch" class="col-sm-2 col-form-label">발주상태</label>
-	       				<div class="col-sm-10">
-	       				<select name="io_state">
-                  			<option value="전체">전체</option>
-                  			<option value="완료">완료</option>
-                  			<option value="미완료">미완료</option>
-                		</select>
-                		</div>
-               		</div>
-	      			<button type="submit" class="btn btn-primary">조회</button>
-            	</form>
-           	</div>
+<!-- 검색칸 -->
+<form method="get" name="search" action="" class="bg-light rounded p-3 m-3">
+   	<div class="row mb-3">
+   		<label for="ioSearch" class="col-sm-2 col-form-label">발주일자</label>
+    		<div class="col-sm-10">
+     		<input type="date" name="istartDate">
+   			~
+     		<input type="date" name="iendDate">
+    		</div>
+   	</div>
+	<div class="row mb-3">
+   		<label for="ioSearch" class="col-sm-2 col-form-label">입고예정일</label>
+    		<div class="col-sm-10">
+     		<input type="date" name="rstartDate">
+   			~
+     		<input type="date" name="rendDate">
+    		</div>
+   	</div>
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label">자재명</label>
+		<div class="col-sm-10">
+			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
 		</div>
-		<!-- 검색칸 --> 
+	</div>
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label">발주상태</label>
+		<div class="col-sm-10">
+			<select name="io_state">
+         			<option value="전체">전체</option>
+         			<option value="완료">완료</option>
+         			<option value="미완료">미완료</option>
+       		</select>
+      	</div>
+     </div>
+	<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+</form>
+<!-- 검색칸 --> 
              
 		<hr>    
-             
-		<h2>발주</h2>
-			<form id="inorderList" action="" method="GET">
-			
-			<span id="selectedCheckboxCount">0</span>
-			
-			<div>
-			<c:if test="${sessionScope.emp_dept eq '자재'}">
-			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+          
+<div class="d-flex align-items-center justify-content-between mb-2">             
+	<h3 class="m-4">발주 목록</h3>
+	<div>	
+		<c:if test="${sessionScope.emp_dept eq '자재'}">
+			<button type="button" class="btn btn-primary m-2" id="addRowButton">
+				<i class="fa fa-plus"></i> 추가</button>
     		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
-    		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-		    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
-		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
-			</c:if>
-			</div>
+    		<button type="button" class="btn btn-primary m-2" id="updateButton">
+    			<i class="fa fa-edit"></i> 수정</button>
+		    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post">
+		    	<i class="fa fa-trash"></i> 삭제</button>
+		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled>
+		    	<i class="fa fa-download"></i> 저장</button>
+		</c:if>
+	</div>
+</div>	
+
+<div class="bg-light text-center rounded p-4 m-3">
+	<form id="inorderList" action="" method="GET">
+		<div class="d-flex align-items-center justify-content-between mb-4">	
+			<span id="selectedCheckboxCount">0</span>
+		</div>
 				
-			<table class="table-inorderList" border="1">
-				
+		<table class="table-instrList table text-start align-middle table-bordered table-hover mb-0">
 			<input type="hidden" name="clt_id" id="clt_id">
 			<input type="hidden" name="ma_id" id="ma_id">
-				
 				<tr>
 					<th><input type="checkbox"></th>
 			    	<th>발주코드</th>
@@ -411,41 +417,41 @@
 				   		<td>${vo.emp_name}</td>
 				    </tr>
 			    </c:forEach>
-			</table>
+		</table>
+	</form>
+</div>
 			
-			</form>
-			
-			<!-- 페이지 이동 버튼 -->
-			<nav aria-label="Page navigation example">
-		  		<ul class="pagination justify-content-center pagination-sm">
-		  		
-		  			<c:if test="${pm.prev }">
-					<li class="page-item">
-						<a class="page-link" href="/wms/inorder/inorderlist?page=${pm.startPage-1 }&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}" aria-label="Previous">
-		       			<span aria-hidden="true">&laquo;</span>
-		      			</a>
-		    		</li>
-		    		</c:if>
-		    		
-		    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-		    		<li 
-		    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-		    		>
-		    				<a class="page-link" href="/wms/inorder/inorderlist?page=${idx}&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}">${idx }</a>
-		    		</li>
-		    		</c:forEach>
-					
-					<c:if test="${pm.next && pm.endPage > 0}">
-					<li class="page-item">
-		      			<a class="page-link" href="/wms/inorder/inorderlist?page=${pm.endPage+1 }&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}" aria-label="Next">
-		        		<span aria-hidden="true">&raquo;</span>
-		      			</a>
-		    		</li>
-		    		</c:if>
-		    		
-		  		</ul>
-			</nav>
-			<!-- 페이지 이동 버튼 -->
+<!-- 페이지 이동 버튼 -->
+<nav aria-label="Page navigation example">
+ 		<ul class="pagination justify-content-center pagination-sm">
+ 		
+ 			<c:if test="${pm.prev }">
+		<li class="page-item">
+			<a class="page-link" href="/wms/inorder/inorderlist?page=${pm.startPage-1 }&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}" aria-label="Previous">
+      			<span aria-hidden="true">&laquo;</span>
+     			</a>
+   		</li>
+   		</c:if>
+   		
+   		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+   		<li 
+   			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+   		>
+   				<a class="page-link" href="/wms/inorder/inorderlist?page=${idx}&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}">${idx }</a>
+   		</li>
+   		</c:forEach>
+		
+		<c:if test="${pm.next && pm.endPage > 0}">
+		<li class="page-item">
+     			<a class="page-link" href="/wms/inorder/inorderlist?page=${pm.endPage+1 }&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}" aria-label="Next">
+       		<span aria-hidden="true">&raquo;</span>
+     			</a>
+   		</li>
+   		</c:if>
+   		
+ 		</ul>
+</nav>
+<!-- 페이지 이동 버튼 -->
 			
 <%@ include file="../../inc/footer.jsp"%>
 <link rel="stylesheet" href="/resources/css/inorder.css" />
