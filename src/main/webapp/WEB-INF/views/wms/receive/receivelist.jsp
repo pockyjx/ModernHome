@@ -153,18 +153,26 @@
 	            var selectedCheckboxes = $(".table-receiveList td input[type='checkbox']:checked").length;
 	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	        } // 체크박스 선택 시 체크박스 개수 구하기
+	        
+		// 입고 처리 버튼 클릭 시 재고 자동 반영 
+		$(".receive").click(function() {
+			var rec_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
+			var ma_id = $(this).closest("tr").find('td:eq(3)').text();
+			var rec_cnt = $(this).closest("tr").find('td:eq(6)').text();
+			
+			if(result = window.confirm("입고처리 하시겠습니까?")) {
+				location.href="/wms/acceptReceive?rec_id="+rec_id+"&ma_id="+ma_id+"&rec_cnt="+rec_cnt;
+			}
+	
+// 			alert(rec_id + ma_id + rec_cnt);
+	
+		});
 	           
 	       });
 		
 	// 발주 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click", "input[id='io_num']", function() {
 		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-	});
-		
-	// 입고 처리 버튼 클릭 시 재고 자동 반영 
-	$(".receive").click(function() {
-		var rec_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
-		var ma_id = $(this).closest("tr").find('td:eq(3)').text();
 	});
 		
 		
@@ -266,13 +274,13 @@
 				   		<td>
 				   		<c:choose>
 				   		<c:when test="${vo.rec_in_state eq '입고대기'}">
-						<button type="button" class="btn btn-sm btn-danger">입고대기</button>
+						<button type="button" class="btn btn-sm btn-danger m-2">입고<br>대기</button>
 						</c:when>
 						<c:when test="${vo.rec_in_state eq '검사완료'}">
-						<button type="button" class="btn btn-sm btn-success receive">입고처리</button>
+						<button type="button" class="btn btn-sm btn-success receive m-2">입고<br>처리</button>
 						</c:when>
 						<c:when test="${vo.rec_in_state eq '입고완료'}">
-						<button type="button" class="btn btn-sm btn-primary">입고완료</button>
+						<button type="button" class="btn btn-sm btn-primary m-2">입고<br>완료</button>
 						</c:when>
 						</c:choose>
 						</td>
