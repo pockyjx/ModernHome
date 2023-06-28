@@ -7,17 +7,12 @@
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>발주 관리</title>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
-<link rel="stylesheet" href="/resources/css/inorder.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-	<script>
+<script>
 		<!-- 캘린터 위젯 적용 -->
 // 			/* 설정 */	
 // 			const config = {
@@ -98,6 +93,7 @@
 				
             }); // 여기까지 추가 버튼
             
+
             
          	// 취소 버튼 누를 시 
 			$("#cancelButton").click(function(){
@@ -305,14 +301,12 @@
 	
 
 		
-    </script>
-    <style>
-        .selected {
-            background-color: #b3ccff;
-        }
-    </style>
-</head>
-<body>
+</script>
+<style>
+    .selected {
+        background-color: #b3ccff;
+    }
+</style>
 
 	<h2>발주 관리</h2>
 		<!-- 검색칸 -->
@@ -452,6 +446,6 @@
 		  		</ul>
 			</nav>
 			<!-- 페이지 이동 버튼 -->
-</body>
-</html>
+			
 <%@ include file="../../inc/footer.jsp"%>
+<link rel="stylesheet" href="/resources/css/inorder.css" />

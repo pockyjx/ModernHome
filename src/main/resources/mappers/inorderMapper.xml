@@ -174,10 +174,12 @@
 	
 	<!-- 발주서 조회 -->
 	<select id="getIoList" resultMap="inorderResultMap">
-		SELECT i.io_num, c.clt_num, c.clt_name, m.ma_num, m.ma_name, i.io_cnt, i.io_unit, i.io_amount
+		SELECT i.io_num, c.clt_num, c.clt_name, m.ma_num, m.ma_name, i.io_cnt, i.io_unit, m.ma_price, 
+				i.io_date, i.rec_date, e.emp_name
 		FROM in_order i
-        JOIN client c ON i.io_id = c.io_id
+        JOIN client c ON i.clt_id = c.clt_id
         JOIN material m ON i.ma_id = m.ma_id
+        JOIN employee e ON i.emp_id = e.emp_id 
         WHERE i.io_id = #{io_id};
 	</select>
 	<!-- 발주서 조회 -->
