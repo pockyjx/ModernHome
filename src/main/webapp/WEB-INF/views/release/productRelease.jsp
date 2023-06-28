@@ -69,7 +69,7 @@
 				var row = $(this);
 				
 				// 폼 초기화(기존내용으로)
-				$("#reqList")[0].reset();
+				$("#releaseList")[0].reset();
 				
 				// 각 셀의 값을 원래 상태로 되돌림
 				row.find("td:not(:first-child)").each(function(index) {
@@ -186,7 +186,7 @@
         });
         $(document).on("click", "input[id='ps_cnt']", function() {
         	if($('#pro_id').val() != "" ) {
-	      	   window.open('/release/addPopup?txt=ps&pro_id='+ $('#pro_id').val(), 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	      	   window.open('/release/addPopup?txt=ps&mapro_id='+ $('#pro_id').val(), 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
         	}else {
         		alert("수주코드를 입력해주세요");
         	}
@@ -197,9 +197,27 @@
  			var pr_cnt = $(this).closest("tr").find('td:eq(5)').text();
  			
  			if(result = window.confirm("출고하시겠습니까? (출고 후 변경이 불가능합니다.)")) {
-				location.href="/release/acceptPR?pr_id="+pr_id+"&pro_id="+pro_id+"&pr_cnt="+pr_cnt; 				
+				location.href="/release/acceptRelease?txt=pr&release_id="+pr_id+"&mapro_id="+pro_id+"&release_cnt="+pr_cnt; 				
  			}
  			
+ 		});
+ 		$("#submitButton").click(function() {
+ 			var form = $("#productRelease");
+ 			form.attr("method", "post");
+ 			form.attr("action", "/release/regPRRelease");
+ 			var oo_num = $("#oo_num").val();
+ 			var ps_cnt = $("#ps_cnt").val();
+ 			if(oo_num == null || oo_num == "") {
+ 				$("#oo_num").focus();
+ 				alert("수주코드를 입력하세요");
+ 				return;
+ 			}
+ 			if(ps_cnt == null || ps_cnt == "") {
+ 				$("#ps_cnt").focus();
+ 				alert("현 재고를 입력하세요");
+ 				return;
+ 			}
+ 			form.submit();
  		});
 	});
 </script>
@@ -246,9 +264,8 @@
 <c:if test="${sessionScope.emp_dept eq '자재'}">
 <button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 <button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-<!-- <button class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button> -->
 <button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/release/delPRRelease" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
-<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/release/regPRRelease" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/release/regPRRelease" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 </c:if>
 <!-- <button class="btn btn-primary m-2" id="submitButton" disabled><i class="fa fa-download"></i> 저장</button> -->
 <%-- ${prReleaseList} --%>
