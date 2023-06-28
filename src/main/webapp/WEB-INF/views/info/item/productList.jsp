@@ -7,14 +7,9 @@
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 
     <script>
         $(document).ready(function() {
@@ -32,11 +27,11 @@
 			$(".table-proList tr").removeClass("selected");
 			
                 var newRow = '<tr>' +
-                    '<td><input type="checkbox"></td>' +
-                    '<td><input type="text" name="pro_num" placeholder="자동으로 부여" readonly></td>' +
-                    '<td><input type="text" name="pro_name" placeholder="완제품명"></td>' +
-                    '<td><input type="text" name="pro_unit" value="EA" readonly></td>' +
-                    '<td><input type="text" name="pro_price" placeholder="완제품 단가"></td>' +
+                    '<td><input type="checkbox" class="form-check-input"></td>' +
+                    '<td><input type="text" class="form-control" name="pro_num" placeholder="자동으로 부여" readonly></td>' +
+                    '<td><input type="text" class="form-control" name="pro_name" placeholder="완제품명"></td>' +
+                    '<td><input type="text" class="form-control" name="pro_unit" value="EA" readonly></td>' +
+                    '<td><input type="text" class="form-control" name="pro_price" placeholder="완제품 단가"></td>' +
                     '</tr>';
                     
                 $(".table-proList tr:nth-child(1)").after(newRow);
@@ -225,20 +220,25 @@
 		</li>
 	</ul>
 </div>
-
-<hr>
-
-<h2>품목 검색</h2>
-
-	<fieldset>
-		<form action="" method="GET">
-
-			<label><b>완제품코드</b> <input type="text" name="pro_num" value="${productVO.pro_num }"></label>
-			<label><b>완제품명</b> <input type="text" name="pro_name" value="${productVO.pro_name }"></label>
-
-			<input type="submit" value="조회">
-		</form>
-	</fieldset>
+	
+	<form action="" method="GET" class="bg-light rounded p-3 m-3">
+		
+		<div class="row mb-3">
+			<label class="col-sm-2 col-form-label"><b>완제품코드</b></label>
+			<div class="col-sm-10">
+				<input type="text" name="pro_num" value="${productVO.pro_num }">
+			</div>
+		</div>
+		
+		<div class="row mb-3">
+			<label class="col-sm-2 col-form-label"><b>완제품명</b></label>
+			<div class="col-sm-10">
+				<input type="text" name="pro_name" value="${productVO.pro_name }">
+				<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+			</div>
+		</div>
+	
+	</form>
 
 	<hr>
 
@@ -264,7 +264,6 @@
 	</div>
 
 	<table border="1" class="table-proList">
-	
 		<tr>
 			<th><input type="checkbox"></th>
 			<th>품목 코드</th>
@@ -320,8 +319,6 @@
 	</nav>
 	
 	<!-- 페이지 이동 버튼 -->
-	
-</body>
-</html>
+
 
 <%@ include file="../../inc/footer.jsp"%>

@@ -36,6 +36,7 @@
 	      opener.document.getElementById("io_num").value = io_num;
 	      opener.document.getElementById("ma_name").value = ma_name;
 	      opener.document.getElementById("io_cnt").value = io_cnt;
+	      opener.document.getElementById("rec_cnt").value = io_cnt;
 	      opener.document.getElementById("clt_id").value = clt_id;
 	      opener.document.getElementById("clt_name").value = clt_name;
 	      

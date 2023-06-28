@@ -34,13 +34,7 @@
 	<select id="getReceiveList" resultMap="receiveResultMap">
     	<![CDATA[
 	        SELECT rec_id, rec_num, i.io_num, m.ma_name, r.rec_cnt, i.io_cnt, c.clt_name,
-					r.rec_in_state, w.wh_name, r.rec_date, r.emp_id, r.reg_date, r.update_date, r.update_emp_id,
-			CASE
-	        	WHEN r.update_emp_id IS NULL THEN
-	        		(SELECT emp_name FROM employee WHERE emp_id = r.emp_id)
-	        	ELSE
-	        		(SELECT emp_name FROM employee WHERE emp_id = r.update_emp_id)	
-	        END AS emp_name
+					r.rec_in_state, w.wh_name, r.rec_date, r.emp_id, emp_name
 			FROM receive r
 			JOIN employee e ON r.emp_id = e.emp_id
 	        JOIN warehouse w ON r.wh_id = w.wh_id
@@ -68,13 +62,7 @@
     <!-- 입고 검색 (페이징) -->
     <select id="receiveSearch" resultMap="receiveResultMap" parameterType="java.util.Map">
 		SELECT rec_id, rec_num, i.io_num, m.ma_name, r.rec_cnt, i.io_cnt, c.clt_name,
-				r.rec_in_state, w.wh_name, r.rec_date, r.emp_id, r.reg_date, r.update_date, r.update_emp_id,
-		CASE
-        	WHEN r.update_emp_id IS NULL THEN
-        		(SELECT emp_name FROM employee WHERE emp_id = r.emp_id)
-        	ELSE
-        		(SELECT emp_name FROM employee WHERE emp_id = r.update_emp_id)	
-        END AS emp_name
+				r.rec_in_state, w.wh_name, r.rec_date, r.emp_id, emp_name
 		FROM receive r
 		JOIN employee e ON r.emp_id = e.emp_id
         JOIN warehouse w ON r.wh_id = w.wh_id
@@ -133,7 +121,7 @@
     	<selectKey keyProperty="ma_id" resultType="int" order="BEFORE">
     		SELECT ma_id FROM material WHERE ma_name = #{ma_name}
     	</selectKey>
-	    INSERT INTO receive (rec_num, io_id, ma_id, rec_cnt, clt_id, rec_in_state, wh_id, rec_date, reg_date, emp_id)
+	    INSERT INTO receive (rec_num, io_id, ma_id, rec_cnt, clt_id, rec_in_state, wh_id, rec_date, emp_id)
 	    SELECT
 	        CONCAT(SUBSTRING(rec_num, 1, 2), LPAD(max(rec_id) + 1, 6, '0')),
 	        #{io_id},
@@ -142,7 +130,6 @@
 	        #{clt_id},
 	        #{rec_in_state},
 	        2,
-	        #{rec_date},
 	        now(),
 	        #{emp_id}
 	    FROM receive
