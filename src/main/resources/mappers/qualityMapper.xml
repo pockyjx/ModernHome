@@ -107,6 +107,52 @@
 	</update>
 	<!-- 품질검사(완제품) 수정 -->
 	
+	<!-- 품질검사(완제품) 목록 (페이징) -->
+	<select id="qcListPage" resultMap="wijoinRM">
+		SELECT * FROM quality_checking
+		ORDER BY qc.qc_id DESC
+		LIMIT #{startPage}, #{pageSize}
+	</select>
+	<!-- 품질검사(완제품) 목록 (페이징) -->
+	
+	<!-- 전체 글 수 계산 -->
+	<select id="qcTotalCnt" resultType="int">
+		SELECT count(qc.qc_id)
+		FROM quality_checking qc
+		LEFT JOIN work_instr wi ON qc.work_id = wi.work_id 
+	    LEFT JOIN line l ON qc.line_id = l.line_id 
+	    LEFT JOIN product p ON qc.pro_id = p.pro_id 
+	    LEFT JOIN work_prfrm wp ON qc.qc_id = wp.qc_id 
+	    LEFT JOIN employee e ON qc.emp_id = e.emp_id
+	</select>
+	<!-- 전체 글 수 계산 -->
+	
+	<!-- 검색 결과 개수 계산 -->
+	<select id="qcSearchCnt" resultType="int">
+		SELECT count(qc_id)
+		FROM quality_checking qc
+	    LEFT JOIN work_instr wi ON qc.work_id = wi.work_id 
+	    LEFT JOIN line l ON qc.line_id = l.line_id 
+	    LEFT JOIN product p ON qc.pro_id = p.pro_id 
+	    LEFT JOIN work_prfrm wp ON qc.qc_id = wp.qc_id 
+	    LEFT JOIN employee e ON qc.emp_id = e.emp_id
+		<where>
+			<if test="qc_num != ''">
+				AND qc_num like CONCAT('%', #{qc_num}, '%')
+			</if>
+			<if test="startDate != ''">
+				AND qc.qc_date &gt;= #{startDate}
+			</if>
+			<if test="endDate != ''">
+				AND #{endDate} &gt;= DATE(qc.qc_date) 
+			</if>
+			<if test="qc_yn != '전체'">
+				AND qc_yn = #{qc_yn}
+			</if>
+		</where>
+	</select>	
+	<!-- 검색 결과 개수 계산 -->
+	
 	<!-- 품질검사(자재) 목록 조회 -->
 	<select id="getMaterialQualityList" resultMap="wijoinRM">
 		SELECT qc.qc_id, rec.rec_num, qc.qc_num, ma.ma_num , ma.ma_name , qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.qc_cnt, rec.rec_cnt, qc.qc_yn,

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.persistence.QualityDAO;
 
@@ -16,19 +17,30 @@ public class QualityServiceImpl implements QualityService{
 	@Inject
 	private QualityDAO qdao;
 
-	// 품질검사(완제품) 목록 조회
+	// 품질검사(완제품) 목록 조회 (페이징)
 	@Override
-	public List<WijoinVO> getQualityList() throws Exception {
-		return qdao.getQualityList();
+	public List<WijoinVO> getQualityList(PageVO pvo) throws Exception {
+		return qdao.getQualityList(pvo);
+	}
+	
+	// 발주 개수
+	@Override
+	public int getTotalCntMate() throws Exception {
+		return qdao.getTotalCntMate();
 	}
 
 	// 품질검사(완제품) 목록 조회 + 검색
 	@Override
-	public List<WijoinVO> getQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
-		return qdao.getQualitySearch(qc_num, startDate, endDate, qc_yn);
+	public List<WijoinVO> getQualitySearch(String qc_num, String startDate, String endDate, String qc_yn, PageVO pvo) throws Exception {
+		return qdao.getQualitySearch(qc_num, startDate, endDate, qc_yn, pvo);
 	}
-
 	
+	// 검색 결과 개수
+	@Override
+	public int getQualitySearchCnt(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
+		return qdao.getQualitySearchCnt(qc_num, startDate, endDate, qc_yn);
+	}
+		
 	// 품질검사(완제품) 수정
 	@Override
 	public void updateQuality(WijoinVO wvo) throws Exception {
@@ -60,8 +72,7 @@ public class QualityServiceImpl implements QualityService{
 		qdao.addQC(wvo);
 		
 	}
-		
 
-	
+
 	
 } // QualityServiceImpl

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
@@ -14,7 +14,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
     <script>
     var pageStatus = "";
 	    $(document).ready(function() {
@@ -71,7 +73,7 @@
 	                    // 버튼 활성화
 	                    $("#updateButton").attr("disabled", "disabled");
 	                    
-						$("#cancleButton").removeAttr("disabled");
+						$("#cancelButton").removeAttr("disabled"); 
 	                    $("#submitButton").removeAttr("disabled");
 	                    
 	                    pageStatus = "update";
@@ -85,34 +87,43 @@
 	        });
 	        
             // 취소 버튼 누를 시 
-			$("#cancleButton").click(function(){
+			$("#cancelButton").click(function(){
 	        
-	    	// 수정버튼 취소
-			if(pageStatus == "update"){
-				var row = $("input[name='selectedEmpId']:checked").closest("tr");
-				
-				// 폼 초기화(기존내용으로)
-				// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
-
-				
-				// 각 셀의 값을 원래 상태로 되돌림
+				// 수정버튼 취소
+				if(pageStatus == "update"){
+					var row = $("input[name='selectedQcId']:checked").closest("tr");
+					// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+					$(".table-qualityList tr").each(function() {
+					var row = $(this);
+						
+					// 폼 초기화(기존내용으로)
+// 					$("#qualityList")[0].reset();
+					
+					// 각 셀의 값을 원래 상태로 되돌림
 				row.find("td:not(:first-child)").each(function(index) {
 					var cellValue = $(this).find("input").val();
+					var cellValueSelect = $(this).find("select").val();
 					$(this).html(cellValue);
+					$(this).html(cellValueSelect);
 				});
+					
+					// selected 클래스를 없앰 (css 없애기)
+					$(".table-qualityList tr").removeClass("selected");
+					
+					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+					$("#updateButton").removeAttr("disabled");
+					$("#cancelButton").attr("disabled", "disabled"); 
+					$("#submitButton").attr("disabled", "disabled");
+					
+					
+					pageStatus = "";
+					
+					});
+				} // if(update)문
+			
+				updateSelectedCheckboxCount();
 				
-				// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
-				$("#updateButton").removeAttr("disabled");
-				
-				$("#cancleButton").attr("disabled", "disabled");
-				$("#submitButton").attr("disabled", "disabled");
-				
-				
-				pageStatus = "";
-				
-			} // if(update)문
-		
-		}); // 취소버튼
+			}); // 취소버튼
 		
     	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
         $(".table-qualityList th input[type='checkbox']").click(function() {
@@ -195,9 +206,15 @@
 	</style>
 </head>
 <body>
-		<h2>품질현황 조회</h2>
-		<form method="get"> 
-			품질검사코드 <input type="text" name="qc_num">
+	<div class="col-sm-12 col-xl-6">
+		<h2 class="mb-0">품질현황 조회</h2>
+		<form name="search" method="get"> 
+			<div class="row mb-3">
+			<label for="qc_nameSearch" class="col-sm-2 col-form-label">품질검사코드</label> 
+				<div class="col-sm-10">
+					<input type="text" name="qc_num" class="form-control" placeholder="품질검사코드를 입력하세요">
+				</div>
+			</div>
 			품질검사여부
 				<select name="qc_yn">
 					<option>전체</option>
@@ -211,52 +228,102 @@
 					~
 				<input type="date" name="endDate">
 			</div>
-			<input type="submit" value="조회">
+			<button type="submit" class="btn btn-primary">조회</button>
 		</form>
+	</div>
 		
-			<span id="selectedCheckboxCount">0</span>
 			
-			<h2>품질현황(완제품) 목록</h2>
-			<form id="qualityList">
-			<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-			<input type="button" id="updateButton" value="수정">
-			<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
-			<table class="table-qualityList" border="1">
-				<tr>
-					<th><input type="checkbox"></th>
-					<th>작업지시번호</th>
-					<th>품질검사코드</th>
-					<th>라인코드</th>
-					<th>라인명</th>
-					<th>품질코드</th>
-					<th>품목명</th>
-					<th>검수자</th>
-					<th>검수일자</th>
-					<th>검수량</th>
-					<th>생산량</th>
-					<th>검수상태</th>
-				</tr>
-				<c:forEach var="vo" items="${qualityList}" varStatus="status">
-					<tr>
-						<td><input type="checkbox" name="selectedQcId" value="${vo.qc_id}"></td>
-						<td>${vo.work_num}</td>
-						<td>${vo.qc_num}</td>
-						<td>${vo.line_num}</td>
-						<td>${vo.line_name}</td>
-						<td>${vo.pro_num}</td>
-						<td>${vo.pro_name}</td>
-						<td>${vo.emp_name}</td>
-						<td>
-							<c:if test="${!empty vo.update_date}">${fn:substring(vo.update_date, 0, 10)}</c:if>
-							<c:if test="${empty vo.update_date}">${fn:substring(vo.qc_date, 0, 10)}</c:if>
-						</td>
-						<td>${vo.qc_cnt}</td>
-						<td>${vo.prfrm_cnt}</td>
-						<td>${vo.qc_yn}</td>
+	<h2>품질현황(완제품) 목록</h2>
+	
+	<form id="qualityList">
+	
+	<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+	
+	<br>
+		
+		
+		
+		
+	<div class="bg-light text-center rounded p-4">
+	<span id="selectedCheckboxCount">0</span>
+		<div class="d-flex align-items-center justify-content-between mb-4">
+
+		</div>
+		<div class="table-responsive">
+			<table id="table-qualityList" class="table text-start align-middle table-bordered table-hover mb-0">
+					<tr class="text-dark">
+						<th scope="col"><input class="form-check-input"	type="checkbox" id="cbx_chkAll"></th>
+						<th scope="col">작업지시번호</th>
+						<th scope="col">품질검사코드</th>
+						<th scope="col">라인코드</th>
+						<th scope="col">라인명</th>
+						<th scope="col">품질코드</th>
+						<th scope="col">품목명</th>
+						<th scope="col">검수자</th>
+						<th scope="col">검수일자</th>
+						<th scope="col">검수량</th>
+						<th scope="col">생산량</th>
+						<th scope="col">검수상태</th>
 					</tr>
-				</c:forEach>
+					<c:forEach var="vo" items="${qualityList}" varStatus="status">
+						<tr>
+							<td><input class="form-check-input" type="checkbox" name="selectedQcId" value="${vo.qc_id}"></td>
+							<td>${vo.work_num}</td>
+							<td>${vo.qc_num}</td>
+							<td>${vo.line_num}</td>
+							<td>${vo.line_name}</td>
+							<td>${vo.pro_num}</td>
+							<td>${vo.pro_name}</td>
+							<td>${vo.emp_name}</td>
+							<td>
+								<c:if test="${!empty vo.update_date}">${fn:substring(vo.update_date, 0, 10)}</c:if>
+								<c:if test="${empty vo.update_date}">${fn:substring(vo.qc_date, 0, 10)}</c:if>
+							</td>
+							<td>${vo.qc_cnt}</td>
+							<td>${vo.prfrm_cnt}</td>
+							<td>${vo.qc_yn}</td>
+						</tr>
+					</c:forEach>
 			</table>
-		</form>
+		</div>
+	</div>
+	</form>
+	
+				<!-- 페이지 이동 버튼 -->
+	
+			<nav aria-label="Page navigation example">
+		  		<ul class="pagination justify-content-center pagination-sm">
+		  		
+		  			<c:if test="${pm.prev }">
+					<li class="page-item">
+						<a class="page-link" href="/production/quality/qualitylist?page=${pm.startPage-1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Previous">
+		       			<span aria-hidden="true">&laquo;</span>
+		      			</a>
+		    		</li>
+		    		</c:if>
+		    		
+		    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+		    		<li 
+		    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+		    		>
+		    				<a class="page-link" href="/production/quality/qualitylist?page=${idx}&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}">${idx }</a>
+		    		</li>
+		    		</c:forEach>
+					
+					<c:if test="${pm.next && pm.endPage > 0}">
+					<li class="page-item">
+		      			<a class="page-link" href="/production/quality/qualitylist?page=${pm.endPage+1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Next">
+		        		<span aria-hidden="true">&raquo;</span>
+		      			</a>
+		    		</li>
+		    		</c:if>
+		    		
+		  		</ul>
+			</nav>
+			
+			<!-- 페이지 이동 버튼 -->
 		
 
 </body>

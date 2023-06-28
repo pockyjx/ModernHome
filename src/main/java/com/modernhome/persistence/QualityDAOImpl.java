@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 
 @Repository
@@ -27,16 +28,22 @@ public class QualityDAOImpl implements QualityDAO{
 	private static final Logger logger = LoggerFactory.getLogger(QualityDAOImpl.class);
 	
 
-	// 품질검사(완제품) 목록 조회
+	// 품질검사(완제품) 목록 조회(페이징)
 	@Override
-	public List<WijoinVO> getQualityList() throws Exception {
+	public List<WijoinVO> getQualityList(PageVO pvo) throws Exception {
 		logger.debug("QualityDAOImpl_getQualityList 실행");
-		return sqlSession.selectList(NAMESPACE+".getQualityList");
+		return sqlSession.selectList(NAMESPACE+".getQualityList",pvo);
+	}
+	
+	// 총 개수 계산(페이징)
+	@Override
+	public int getTotalCntMate() throws Exception {
+		return sqlSession.selectOne(NAMESPACE+".qcTotalCnt");
 	}
 
 	// 품질검사(완제품) 목록 조회 + 검색
 	@Override
-	public List<WijoinVO> getQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
+	public List<WijoinVO> getQualitySearch(String qc_num, String startDate, String endDate, String qc_yn, PageVO pvo) throws Exception {
 		logger.debug("QualityDAOImpl_getQualityList(검색) 실행");
 		
 		Map<String, Object> parameterMap = new HashMap<>();
@@ -44,8 +51,22 @@ public class QualityDAOImpl implements QualityDAO{
 		parameterMap.put("startDate", startDate);
 		parameterMap.put("endDate", endDate);
 		parameterMap.put("qc_yn", qc_yn);
+		parameterMap.put("pageVO", pvo);
 		
 		return sqlSession.selectList(NAMESPACE+".getQualitySearch",parameterMap);
+	}
+	
+	// 검색 결과 개수(페이징)
+	@Override
+	public int getQualitySearchCnt(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("qc_num", qc_num);
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		parameterMap.put("qc_yn", qc_yn);
+		
+		return sqlSession.selectOne(NAMESPACE+".getQualitySearchCnt",parameterMap);
 	}
 
 
@@ -96,7 +117,6 @@ public class QualityDAOImpl implements QualityDAO{
 		sqlSession.insert(NAMESPACE+".addQC",wvo);
 		
 	}
-
 
 
 

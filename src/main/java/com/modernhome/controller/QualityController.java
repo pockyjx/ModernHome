@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.modernhome.domain.PageMaker;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.service.QualityService;
 
@@ -35,26 +37,44 @@ public class QualityController {
 			@ModelAttribute(value = "qc_num") String qc_num, 
 			@ModelAttribute(value = "startDate") String startDate, 
 			@ModelAttribute(value = "endDate") String endDate, 
-			@ModelAttribute(value = "qc_yn") String qc_yn) 
+			@ModelAttribute(value = "qc_yn") String qc_yn,
+			PageVO pvo) 
 					throws Exception {
 		logger.debug(" qualityGET() 호출 ");
+		
+		PageMaker pm = new PageMaker();
 		
 		
 		if(!qc_num.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty() || !qc_yn.isEmpty()) {
 			
-			List<WijoinVO> qualityList = qService.getQualitySearch(qc_num, startDate, endDate ,qc_yn);
+			List<WijoinVO> qualityList = qService.getQualitySearch(qc_num, startDate, endDate ,qc_yn,pvo);
 
 			logger.debug("검색어 O, 검색된 데이터만 출력");
 			
 			model.addAttribute("qualityList",qualityList);
+			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(qService.getQualitySearchCnt(qc_num, startDate, endDate ,qc_yn));
+			model.addAttribute("pm", pm);
+			
+			// 검색 정보 전달
+			model.addAttribute("qc_num",qc_num);
+			model.addAttribute("startDate",startDate);
+			model.addAttribute("endDate",endDate);
+			model.addAttribute("qc_yn",qc_yn);
 
 		}else {
 			
 			logger.debug("검색어 X, 전체 데이터 출력");
-			List<WijoinVO> qualityList = qService.getQualityList();
+			List<WijoinVO> qualityList = qService.getQualityList(pvo);
+			model.addAttribute("qualityList",qualityList);
+			
+			pm.setPageVO(pvo);
+			pm.setTotalCount(qService.getTotalCntMate());
 	
 			
-			model.addAttribute("qualityList",qualityList);
+			model.addAttribute("pm",pm);
 	
 		}
 		
