@@ -29,4 +29,7 @@ public interface ReceiveService {
 	
 	// 입고 삭제
 	public void deleteReceive(int rec_id);
+	
+	// 입고 처리
+	public void acceptReceive(Integer rec_id, Integer ma_id, Integer rec_cnt) throws Exception;
 }

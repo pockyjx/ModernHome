@@ -33,7 +33,7 @@
   	<!-- 입고 목록 (페이징) -->
 	<select id="getReceiveList" resultMap="receiveResultMap">
     	<![CDATA[
-	        SELECT rec_id, rec_num, i.io_num, m.ma_name, r.rec_cnt, i.io_cnt, c.clt_name,
+	        SELECT rec_id, rec_num, i.io_num, m.ma_id, m.ma_name, r.rec_cnt, i.io_cnt, c.clt_name,
 					r.rec_in_state, w.wh_name, r.rec_date, r.emp_id, emp_name
 			FROM receive r
 			JOIN employee e ON r.emp_id = e.emp_id
@@ -151,6 +151,22 @@
 		WHERE rec_num = #{rec_num}
 	</update>	
     <!-- 입고 수정 -->
+    
+    <!-- 입고 처리 : 상태 변경 -->
+    <update id="updateRec">
+    	UPDATE receive
+    	SET rec_in_state = '입고완료', rec_date = now()
+    	WHERE rec_id = #{rec_id}
+    </update>
+    <!-- 입고 처리 : 상태 변경 -->
+    
+    <!-- 입고 처리 : 재고 반영 -->
+	<update id="updateMS" parameterType="java.util.Map">
+		UPDATE material_stock
+		SET ms_cnt = ms_cnt + #{rec_cnt}
+		WHERE ma_id = #{ma_id}
+	</update>    
+    <!-- 입고 처리 : 재고 반영 -->
     	
   	
   </mapper>
