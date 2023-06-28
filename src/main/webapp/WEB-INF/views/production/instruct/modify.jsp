@@ -1,9 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="../../inc/header.jsp"%>
-<%@ include file="../../inc/sidebar.jsp"%>
-<%@ include file="../../inc/nav.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>작업지시서 수정</title>
+</head>
+
+<!-- Google Web Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Icon Font Stylesheet -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Libraries Stylesheet -->
+<link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<!-- Customized Bootstrap Stylesheet -->
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<!-- Template Stylesheet -->
+<link href="/resources/css/style.css" rel="stylesheet">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
@@ -44,8 +63,7 @@
 	});
 
 	$(document).on("click", "input[type='submit']", function() {
-		var url = window.location.href;
-		var lnumVal = new URLSearchParams(new URL(url).search).get('line_num');
+		var lnumVal = $("input[name='line_num']").val();
 		console.log(lnumVal);
 		
 		if(lnumVal == null) {
@@ -54,6 +72,8 @@
 		}
 	});
 </script>
+
+<body>
 
 	<h2>작업지시서 수정</h2>
 <%-- ${wiList} <br>  --%>
@@ -89,10 +109,7 @@
 				<td>${wiList[0].oo_end_date}</td>
 				<th>생산라인</th>
 				<td id="line_num">
-					<input type="text" name="line_num" 
-						<c:if test='${empty param.line_num}'>value="${wiList[0].line_num}"</c:if>
-						<c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if>
-					readonly>
+					<input type="text" name="line_num" value="${(empty param.line_num) ? wiList[0].line_num : param.line_num}" readonly>
 				</td>
 			</tr>
 			<tr>
@@ -122,11 +139,13 @@
 		<input type="hidden" name="req_id" value="${wiList[0].req_id}">
 		<input type="hidden" name="oo_id" value="${wiList[0].oo_id}">
 		<input type="hidden" name="clt_id" value="${wiList[0].clt_id}">
-		<input type="hidden" name="emp_id" value="${wiList[0].emp_id}">
+		<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
+		<input type="hidden" name="line_id" value="${(empty param.line_id) ? wiList[0].line_id : param.line_id}">
 		<div>
 			<input type="button" value="취소" onclick="location.href='/production/instruct/list'">
 			<input type="submit" value="수정"> 
 		</div>
 	</form>
 	
-<%@ include file="../../inc/footer.jsp"%>
+</body>
+</html>

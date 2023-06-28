@@ -26,29 +26,24 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("tr").click(function() {
-			var oo_id = $(this).find("td:eq(0)").text();
-			var oo_num = $(this).find("td:eq(1)").text();
+			var work_id = $(this).find("td:eq(0)").text();
+			var work_num = $(this).find("td:eq(1)").text();
+			var pro_id = $(this).find("td:eq(2)").text();
+			var pro_num = $(this).find("td:eq(3)").text();
+			var pro_name = $(this).find("td:eq(4)").text();
+			var line_id = $(this).find("td:eq(5)").text();
+			var line_num = $(this).find("td:eq(6)").text();
+			var work_cnt = $(this).find("td:eq(7)").text();
 			
-			console.log(oo_id);
-			console.log(oo_num);
+			opener.document.getElementsByName("work_id")[0].value = work_id;
+			opener.document.getElementById("wnumPop").value = work_num;
+			opener.document.getElementsByName("pro_id")[0].value = pro_id;
+			opener.document.getElementsByName("pro_num")[0].value = pro_num;
+			opener.document.getElementsByName("pro_name")[0].value = pro_name;
+			opener.document.getElementsByName("line_id")[0].value = line_id;
+			opener.document.getElementsByName("line_num")[0].value = line_num;
+			opener.document.getElementsByName("work_cnt")[0].value = work_cnt;
 			
-			var opUrl = opener.location.href;
-			var ooVal = "?oo_id=" + oo_id + "&oo_num=" + oo_num;
-			var lineVal = "";
-			
-			// 부모창의 URL에 oo_id와 oo_num이 있으면 삭제
-			if(opUrl.includes("?oo_id") && opUrl.includes("&oo_num")) {
-				// 부모창 URL에 oo_id, oo_num 뒤에 line 관련 정보가 있으면 저장 후 삭제 
-				if(opUrl.includes("&line_id") && opUrl.includes("&line_num")) {
-					lineVal = "&line_id=" + new URLSearchParams(new URL(opUrl).search).get("line_id") 
-								+ "&line_num=" + new URLSearchParams(new URL(opUrl).search).get("line_num");
-					opUrl = opUrl.replace(/&line_id=[^&]+&line_num=[^&]+/, "");
-				}
-				opUrl = opUrl.replace(/\?oo_id=[^&]+&oo_num=[^&]+/, "");
-			}
-			
-			opUrl += (lineVal === "") ? ooVal : ooVal + lineVal;
-			opener.location.href = opUrl;
 			window.close();
 		});
 	});
@@ -56,16 +51,22 @@
 
 <body>
 	
-<%-- 	${onumList} <hr> --%>
+<%-- 	${qiList} <hr> --%>
 	
 	<table border="1">
 		<tr>
-			<th colspan="2">수주번호</th>
+			<th colspan="8">작업지시</th>
 		</tr>
-		<c:forEach var="onum" items="${onumList}">
+		<c:forEach var="qi" items="${qiList}">
 			<tr>
-				<td>${onum.oo_id}</td>
-				<td>${onum.oo_num}</td>
+				<td>${qi.work_id}</td>
+				<td>${qi.work_num}</td>
+				<td style="display: none">${qi.pro_id}</td>
+				<td style="display: none">${qi.pro_num}</td>
+				<td style="display: none">${qi.pro_name}</td>
+				<td style="display: none">${qi.line_id}</td>
+				<td style="display: none">${qi.line_num}</td>
+				<td style="display: none">${qi.work_cnt}</td>
 			</tr>
 		</c:forEach>
 	</table>

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.modernhome.domain.EmployeeVO;
+import com.modernhome.domain.PageVO;
 
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO{
@@ -23,23 +24,6 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeDAOImpl.class);
-	
-	// 사원조회
-	@Override
-	public List<EmployeeVO> employeeList() {
-		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회)");
-		
-		return sqlSession.selectList(NAMESPACE + ".employeeList");
-	}
-	
-	
-	// 사원조회(검색)
-	@Override
-	public List<EmployeeVO> employeeListSearch(EmployeeVO evo) {
-		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회 - 검색된 데이터만 출력)");
-		
-		return sqlSession.selectList(NAMESPACE + ".employeeListSearch", evo);
-	}
 	
 	
 	// 로그인
@@ -60,20 +44,71 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	
 	
 	// 로그인
-	@Override
-	public EmployeeVO loginMember(int id, String pw) {
+//	@Override
+//	public EmployeeVO loginMember(int id, String pw) {
+//	
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		
+//			
+//		params.put("emp_id", id);	
+//		params.put("emp_pw", pw);
+//		
+//		// SQL 호출,실행
+//		sqlSession.selectOne(NAMESPACE + ".login", params);
+//		
+//		return null;
+//	}
 	
-		Map<String, Object> params = new HashMap<String, Object>();
-		
-			
-		params.put("emp_id", id);	
-		params.put("emp_pw", pw);
-		
-		// SQL 호출,실행
-		sqlSession.selectOne(NAMESPACE + ".login", params);
-		
-		return null;
+	// -------------------------------------------- 로그인
+	
+	
+	
+	// 총 사원수 계산
+	@Override
+	public int empTotalCnt() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".empTotalCnt");
 	}
+
+
+	// 사원조회
+	@Override
+	public List<EmployeeVO> employeeList(PageVO pvo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회)");
+		
+		return sqlSession.selectList(NAMESPACE + ".employeeList", pvo);
+	}
+	
+	
+	
+	
+	
+	
+	// 사원조회(검색)
+	@Override
+	public List<EmployeeVO> employeeListSearch(EmployeeVO evo, PageVO pvo) {
+		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회 - 검색된 데이터만 출력)");
+		
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("evo", evo);
+		paramMap.put("pvo", pvo);
+		logger.debug("paramMap : " + paramMap);
+		return sqlSession.selectList(NAMESPACE + ".employeeListSearch", paramMap);
+	}
+	
+	
+	// 사원 검색결과수 계산
+	@Override
+	public int empSearchCnt(EmployeeVO evo) throws Exception {
+		logger.debug(sqlSession.selectOne(NAMESPACE + ".empSearchCnt", evo) + "@@@@@@@@@");
+		return sqlSession.selectOne(NAMESPACE + ".empSearchCnt", evo);
+	}
+
+
+	
+	
+	
+	
+	
 	
 	
 	// 사원등록
@@ -103,27 +138,6 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	}
 
 	
-	// 팀원관리
-	@Override
-	public List<EmployeeVO> employeeManagement(Integer emp_id) {
-		logger.debug("DAO -> mapper호출 -> SQL 실행(팀원관리)");
-		
-		return sqlSession.selectList(NAMESPACE + ".employeeManagement", emp_id);
-	}
-
-
-	// 팀원관리 - 검색
-	@Override
-	public List<EmployeeVO> employeeMngSearch(EmployeeVO evo, Integer session_emp_id) {
-		logger.debug("DAO -> mapper호출 -> SQL 실행(팀원관리 - 검색)");
-		
-		Map<String, Object> parameterMap = new HashMap<>();
-		parameterMap.put("evo", evo);
-		parameterMap.put("session_emp_id", session_emp_id);
-		
-		System.out.println(parameterMap);
-		return sqlSession.selectList(NAMESPACE + ".employeeMngSearch", parameterMap);
-	}
 	
 	
 	

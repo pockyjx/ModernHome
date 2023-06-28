@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.persistence.PerformanceDAO;
 
@@ -21,8 +22,8 @@ public class PerformanceServiceImpl implements PerformanceService {
 	}
 
 	@Override
-	public List<WijoinVO> getPrfrmList() throws Exception {
-		return dao.getPrfrmList();
+	public List<WijoinVO> getPrfrmList(PageVO vo) throws Exception {
+		return dao.getPrfrmList(vo);
 	}
 
 	@Override
@@ -46,13 +47,23 @@ public class PerformanceServiceImpl implements PerformanceService {
 	}
 
 	@Override
-	public List<WijoinVO> getPrfrmList(String gb_yn, String work_num, String startdate, String endDate) throws Exception {
-		return dao.getPrfrmList(gb_yn, work_num, startdate, endDate);
+	public List<WijoinVO> getPrfrmList(String gb_yn, String work_num, String startdate, String endDate, PageVO vo) throws Exception {
+		return dao.getPrfrmList(gb_yn, work_num, startdate, endDate, vo);
 	}
 
 	@Override
 	public void addPS(WijoinVO vo) throws Exception {
 		dao.addPS(vo);
+	}
+
+	@Override
+	public int getWpTotalCnt() throws Exception {
+		return dao.getWpTotalCnt();
+	}
+
+	@Override
+	public int getWpSearchCnt(String gb_yn, String work_num, String startdate, String endDate, PageVO vo) throws Exception {
+		return dao.getWpSearchCnt(gb_yn, work_num, startdate, endDate, vo);
 	}
 	
 }
