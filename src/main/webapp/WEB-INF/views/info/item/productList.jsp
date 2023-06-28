@@ -16,7 +16,6 @@
         	
         	updateSelectedCheckboxCount();
         	
-        	
             // 버튼 클릭 시 행 추가
             $("#addRowButton").click(function() {
             	
@@ -210,16 +209,7 @@
 </head>
 <body>
 
-<div>
-	<ul class="nav nav-tabs">
-	  <li class="nav-item">
-	    <a class="nav-link" aria-current="page" href="/info/item/materialList">자재</a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link active" href="/info/item/productList">완제품</a>
-		</li>
-	</ul>
-</div>
+
 	
 	<form action="" method="GET" class="bg-light rounded p-3 m-3">
 		
@@ -240,51 +230,68 @@
 	
 	</form>
 
-	<hr>
+<div class="m-4">
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link" aria-current="page" href="/info/item/materialList">자재</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link active" href="/info/item/productList">완제품</a>
+		</li>
+	</ul>
+</div>
 
-<h2>완제품 목록</h2>
+<form id="productList">	
+	
+	<div class="d-flex align-items-center justify-content-between mb-2">
 
-	<form id="productList">	
+	<h6 class="m-4">완제품 목록</h6>
 	
-	<span id="selectedCheckboxCount">0</span>
+	<div class="m-4">
+		<c:if test="${sessionScope.emp_dept eq '자재' && sessionScope.emp_auth == 'Y'}">
 	
-	<div>
+			<button class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+			<button class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+			<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="/info/delProduct" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+			
+			<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/info/regProduct" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 	
-	<c:if test="${sessionScope.emp_dept eq '자재'}">
-	
-	<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-	<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/info/delProduct" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
-	
-	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/info/regProduct" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
-	
-	</c:if>
+		</c:if>
+	</div>
 	
 	</div>
-
-	<table border="1" class="table-proList">
-		<tr>
-			<th><input type="checkbox"></th>
-			<th>품목 코드</th>
-			<th>품목명</th>
-			<th>단위</th>
-			<th>단가(원)</th>
-		</tr>
+	
+	<div class="bg-light text-center rounded p-4 m-3">
 		
-		<c:forEach items="${productList }" var="vo">
-		<tr>
-			<td><input type="checkbox" name="selectedProId" value="${vo.pro_id}"></td>
-			<td>${vo.pro_num }</td>
-			<td>${vo.pro_name }</td>
-			<td>${vo.pro_unit }</td>
-			<td>${vo.pro_price } </td>
-		</tr>
-		</c:forEach>
-	
-	</table>
-	
-	</form>
+		<div class="d-flex align-items-center justify-content-between mb-4">
+			<span id="selectedCheckboxCount">0</span>
+		</div>
+
+		<div class="table-responsive">
+			<table class="table-proList table table-striped align-middle table-hover mb-0">
+				<tr>
+					<th><input type="checkbox" class="form-check-input"></th>
+					<th>품목 코드</th>
+					<th>품목명</th>
+					<th>단위</th>
+					<th>단가(원)</th>
+				</tr>
+				
+				<c:forEach items="${productList }" var="vo">
+				<tr>
+					<td><input type="checkbox" name="selectedProId" value="${vo.pro_id}" class="form-check-input"></td>
+					<td>${vo.pro_num }</td>
+					<td>${vo.pro_name }</td>
+					<td>${vo.pro_unit }</td>
+					<td>${vo.pro_price } </td>
+				</tr>
+				</c:forEach>
+			
+			</table>
+		</div>
+	</div>
+</form>
 	
 	<!-- 페이지 이동 버튼 -->
 	

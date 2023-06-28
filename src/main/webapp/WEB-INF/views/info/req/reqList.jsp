@@ -8,14 +8,11 @@
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />   
+    
     <script>
     
 	     $(document).ready(function() {
@@ -32,16 +29,16 @@
     			$(".table-reqList tr").removeClass("selected");
 	        	 
 	             var newRow = '<tr>' +
-	                 '<td><input type="checkbox"></td>' +
-	                 '<td><input type="text" name="req_num" placeholder="소요량 코드" readonly></td>' +
-	                 '<td><input type="text" name="pro_num" placeholder="완제품 코드" readonly id="pro_num"></td>' +
-	                 '<td><input type="text" name="pro_name" placeholder="완제품명" id="pro_name" readonly ></td>' +
-	                 '<td><input type="text" name="ma_num" placeholder="자재 코드" id="ma_num" readonly></td>' +
-	                 '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly></td>' +
-	                 '<td><input type="number" name="req_cnt" placeholder="소요량" min="0"></td>' +
-	                 '<td><input type="text" name="req_unit" placeholder="단위"></td>' +
-	                 '<td><input type="date" name="req_reg_date" readonly></td>' +
-	                 '<td><input type="text" name="emp_id" value="${sessionScope.emp_id }" readonly></td>' +
+	                 '<td><input type="checkbox"></td> class="form-check-input"' +
+	                 '<td><input type="text" class="form-control" name="req_num" placeholder="자동 부여" readonly></td>' +
+	                 '<td><input type="text" class="form-control" name="pro_num" placeholder="완제품 코드" readonly id="pro_num"></td>' +
+	                 '<td><input type="text" class="form-control" name="pro_name" id="pro_name" readonly ></td>' +
+	                 '<td><input type="text" class="form-control" name="ma_num" placeholder="자재 코드" id="ma_num" readonly></td>' +
+	                 '<td><input type="text" class="form-control" name="ma_name" id="ma_name" readonly></td>' +
+	                 '<td><input type="number" class="form-control" name="req_cnt" placeholder="소요량" min="0"></td>' +
+	                 '<td><input type="text" class="form-control" name="req_unit" value="EA" readonly></td>' +
+	                 '<td><input type="date" class="form-control" name="req_reg_date" readonly></td>' +
+	                 '<td><input type="text" class="form-control" name="emp_id" value="${sessionScope.emp_id }" readonly></td>' +
 	                 '</tr>';
 	             $(".table-reqList tr:nth-child(1)").after(newRow);
 	             
@@ -224,7 +221,7 @@
           var selectedCheckboxes = $(".table-reqList td input[type='checkbox']:checked").length;
           $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
       } // 체크박스 선택 시 체크박스 개수 구하기
-         
+      
      });
          
     // 완제품 코드 입력란 클릭 시 팝업창 열기
@@ -236,11 +233,8 @@
     $(document).on("click", "input[name='ma_num']", function() {
  	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
     });
-     
-	      
+
 	  </script>
-	 
-	  
 	  
     <style>
         .selected {
@@ -248,131 +242,117 @@
         }
     </style>
 
-</head>
-<body>
-
-	<!-- Button trigger modal -->
-<!-- 	<button type="button" class="btn btn-primary" data-bs-toggle="modal" -->
-<!-- 		data-bs-target="#staticBackdrop">모달 테스트 -->
-<!-- 	</button> -->
 
 	<!-- Modal -->
-	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-		data-bs-keyboard="false" tabindex="-1"
-		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal" tabindex="-1" id="modalBOM">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+					<h5 class="modal-title">Modal title</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">...</div>
+				<div class="modal-body">
+					<p>Modal body text goes here.</p>
+				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Understood</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	<!--  -->
 
-	<hr>
+<form action="" method="GET" class="bg-light rounded p-3 m-3">
 	
-	<h1>소요량 관리</h1>
-	
-	<fieldset>
-		<form action="" method="GET">
-				
-			<select name="option">
-				<option value="all" 
-					<c:if test="${option == '' || option == 'all' }">selected</c:if>
-				>전체</option>
-				<option value="pro_name" 
-					<c:if test="${option == 'pro_name' }">selected</c:if>
-				>완제품명</option>
-				<option value="ma_name"
-					<c:if test="${option == 'ma_name' }">selected</c:if>
-				>자재명</option>
-			</select>
+		<select name="option">
 			
-			<label><input type="text" name="search" value="${search }"></label>
-			<input type="submit" value="조회">
-		</form>
-	</fieldset>
+			<option value="all" 
+				<c:if test="${option == '' || option == 'all' }">selected</c:if>
+			>전체</option>
+			<option value="pro_name" 
+				<c:if test="${option == 'pro_name' }">selected</c:if>
+			>완제품명</option>
+			<option value="ma_name"
+				<c:if test="${option == 'ma_name' }">selected</c:if>
+			>자재명</option>
+		</select>
+		
+			<input type="text" name="search" value="${search }">
+			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+</form>
 
-	<hr>
+<form id="reqList">
 	
+	<div class="d-flex align-items-center justify-content-between mb-2">
+		
+	<h6 class="m-4">소요량 관리</h6>
+		
+	<div class="m-4">
 	
-	<form id="reqList">
+		<c:if test="${(sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산') && sessionScope.emp_auth == 'Y'}">
+		
+			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+			<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+			<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="/info/delRequirement" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+			
+			<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 	
+		</c:if>
+	</div>
 	
-	<span id="selectedCheckboxCount">0</span>
+	</div>
 	
-<div>
-	
-	<c:if test="${sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산'}">
-	
-	<!-- input 타입 button 타입으로 바꿔줘야 아이콘 적용됨! -->
-	<!-- <input type="button" id="addRowButton" value="추가" class="btn btn-primary m-2 fa fa-plus""> -->
-	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+	<div class="bg-light text-center rounded p-4 m-3">
 
-	<!-- <input type="button" id="cancleButton" value="취소" disabled="disabled" class="btn btn-primary m-2"> -->
-	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-
-	<!-- <input type="button" id="updateButton" value="수정" class="btn btn-primary m-2"> -->
-	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-
-	<!-- <input type="submit" id="deleteButton" value="삭제" formaction="/info/delRequirement" formmethod="post" class="btn btn-primary m-2"> -->
-	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/info/delRequirement" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+		<div class="d-flex align-items-center justify-content-between mb-4">
+			<span id="selectedCheckboxCount">0</span>
+		</div>
 	
-	<!-- <input type="submit"  id="submitButton" value="저장" formaction="/info/regRequirement" formmethod="post" disabled="disabled" class="btn btn-primary m-2"> -->
-	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
-
-	</c:if>
-</div>
-
-	
-
-	<table class="table-reqList" border="1">
-
 	<input type="hidden" name="pro_id" id="pro_id">
 	<input type="hidden" name="ma_id" id="ma_id"> 
-		
-		<tr>
-			<th><input type="checkbox"></th>
-			<th>소요량 코드</th>
-			<th>완제품 코드</th>
-			<th>완제품명</th>
-			<th>자재 코드</th>
-			<th>자재명</th>
-			<th>소요량</th>
-			<th>단위</th>
-			<th>등록일</th>
-			<th>등록자</th>
-		</tr>
-		
-		<c:forEach var="vo" items="${reqList }">
-		<tr>	
-			<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}"></td>
-			<td>${vo.req_num }</td>
-			<td><a href="/info/req/BOM?pro_id=${vo.pro_id}">${vo.pro_num }</a></td>
-			<td>${vo.pro_name }</td>
-			<td>${vo.ma_num }</td>
-			<td>${vo.ma_name }</td>
-			<td>${vo.req_cnt }</td>
-			<td>${vo.req_unit }</td>
-			<td>
-				<c:if test="${!empty vo.req_update_date}">${fn:substring(vo.req_update_date, 0, 10) }</c:if>
-				<c:if test="${empty vo.req_update_date}">${fn:substring(vo.req_reg_date, 0, 10) }</c:if>
-			</td>
-			<td>${vo.emp_name }</td>
-		</tr>	
-		</c:forEach>
-		
-	</table>
 	
-	</form>
+		<div class="table-responsive">
+			<table class="table-reqList table table-striped align-middle table-hover mb-0">
+		
+				<tr>
+					<th><input type="checkbox" class="form-check-input"></th>
+					<th>소요량 코드</th>
+					<th>완제품 코드</th>
+					<th>완제품명</th>
+					<th>자재 코드</th>
+					<th>자재명</th>
+					<th>소요량</th>
+					<th>단위</th>
+					<th>등록일</th>
+					<th>등록자</th>
+				</tr>
+				
+				<c:forEach var="vo" items="${reqList }">
+				<tr>	
+					<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}" class="form-check-input"></td>
+					<td>${vo.req_num }</td>
+					<td><a href="/info/req/BOM?pro_id=${vo.pro_id}" id="openBOM" >${vo.pro_num }</a></td>
+					<td>${vo.pro_name }</td>
+					<td>${vo.ma_num }</td>
+					<td>${vo.ma_name }</td>
+					<td>${vo.req_cnt }</td>
+					<td>${vo.req_unit }</td>
+					<td>
+						<c:if test="${!empty vo.req_update_date}">${fn:substring(vo.req_update_date, 0, 10) }</c:if>
+						<c:if test="${empty vo.req_update_date}">${fn:substring(vo.req_reg_date, 0, 10) }</c:if>
+					</td>
+					<td>${vo.emp_name }</td>
+				</tr>	
+				</c:forEach>
+				
+			</table>
+		</div>
+	</div>
+</form>
 	
 	<!-- 페이지 이동 버튼 -->
 	

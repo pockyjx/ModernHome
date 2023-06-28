@@ -222,10 +222,12 @@
 		<h6 class="m-4">입고 관리</h6>
 		
 		<div class="m-4">
-			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-	  		<button type="button" class="btn btn-sm btn-primary m-2" id="cancelButton" disabled>X 취소</button>
-		    <button type="submit" class="btn btn-sm btn-primary m-2" id="deleteReceiveButton" formaction="/wms/deleteReceive" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
-		    <button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/wms/regReceive" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			<c:if test="${sessionScope.emp_dept eq '자재' && sessionScope.emp_auth == 'Y'}">
+				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+		  		<button type="button" class="btn btn-sm btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+			    <button type="submit" class="btn btn-sm btn-primary m-2" id="deleteReceiveButton" formaction="/wms/deleteReceive" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+			    <button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/wms/regReceive" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			</c:if>
 		</div>
 	</div>
 			
@@ -239,7 +241,7 @@
 		<input type="hidden" name="clt_id" id="clt_id">
 	
 		<div class="table-responsive">		
-			<table class="table-receiveList table text-start align-middle table-bordered table-hover mb-0">
+			<table class="table-mateList table table-striped align-middle table-hover mb-0">
 			
 				<tr>
 					<th><input type="checkbox" class="form-check-input"></th>
@@ -272,17 +274,19 @@
 				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
 				   		<td>${vo.emp_name}</td>
 				   		<td>
+				   		<c:if test="${sessionScope.emp_dept eq '자재' && sessionScope.emp_auth == 'Y'}">
 				   		<c:choose>
 				   		<c:when test="${vo.rec_in_state eq '입고대기'}">
-						<button type="button" class="btn btn-sm btn-danger m-2">입고<br>대기</button>
+						<button type="button" class="btn btn-sm btn-danger">입고<br>대기</button>
 						</c:when>
 						<c:when test="${vo.rec_in_state eq '검사완료'}">
-						<button type="button" class="btn btn-sm btn-success receive m-2">입고<br>처리</button>
+						<button type="button" class="btn btn-sm btn-success receive">입고<br>처리</button>
 						</c:when>
 						<c:when test="${vo.rec_in_state eq '입고완료'}">
-						<button type="button" class="btn btn-sm btn-primary m-2">입고<br>완료</button>
+						<button type="button" class="btn btn-sm btn-primary">입고<br>완료</button>
 						</c:when>
 						</c:choose>
+						</c:if>
 						</td>
 				    </tr>
 			    </c:forEach>
