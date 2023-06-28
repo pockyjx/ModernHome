@@ -43,9 +43,6 @@
     <script src="/resources/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="/resources/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="/resources/js/main.js"></script>
-    
 </head>
 
 <body>
