@@ -31,28 +31,36 @@
         	
 			var newRow = '<tr>' +
 						 '<td><input type="checkbox" class="form-check-input"></td>' +
-						 '<td><input type="text" class="form-control" name="df_num" value="${dfNum}" style="border: none; background: transparent;" readonly></td>' +
-						 '<td id="typePop"><input id="typePop" type="text" class="form-control" name="df_type" style="border: none; background: transparent;" readonly></td>' +
-						 '<td><input type="text" class="form-control" name="line_num" style="border: none; background: transparent;" readonly></td>' +
-						 '<td><input type="text" class="form-control" name="완제품 또는 자재 코드" style="border: none; background: transparent;" readonly></td>' +
-						 '<td><input type="text" class="form-control" name="완제품 또는 자재명" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="text" class="form-control" name="df_num" value="${dfNum[0].df_num}" style="border: none; background: transparent;" readonly></td>' +
+						 '<td id="typePop"><input id="dfTypePop" type="text" class="form-control" name="df_type" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input id="lnumPop" type="text" class="form-control" name="line_num" style="border: none; background: transparent;" readonly>' +
+						 '<input type="text" class="form-control" name="clt_name" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="text" class="form-control" name="pro_num" style="border: none; background: transparent;" readonly>' +
+						 '<input type="text" class="form-control" name="ma_num" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="text" class="form-control" name="pro_name" style="border: none; background: transparent;" readonly>' +
+						 '<input type="text" class="form-control" name="ma_name" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
 						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="df_cnt"></td>' +
 						 '<td><input type="text" class="form-control" name="df_rsns"></td>' +
-						 '<td><input type="text" class="form-control" name="repair_yn">' +
-						 '<td><input type="text" class="form-control" name="solved_date">' +
+						 '<td><select class="form-control" name="repair_yn">' +
+						 '<option value="가능">가능</option>' +
+						 '<option value="불가">불가</option>' +
+						 '</select></td>' +
+						 '<td><input type="text" class="form-control" name="solved_date" style="border: none; background: transparent;" readonly>' +
+						 '<input type="hidden" class="form-control" name="df_id" value="${dfNum[0].df_id}">' +
+						 '<input type="hidden" class="form-control" name="qc_id">' +
 						 '<input type="hidden" class="form-control" name="work_id">' +
-						 '<input type="hidden" class="form-control" name="oo_id"></td>' +
+						 '<input type="hidden" class="form-control" name="rec_id">' +
 						 '<input type="hidden" class="form-control" name="line_id">' +
 						 '<input type="hidden" class="form-control" name="pro_id"></td>' +
 						 '<input type="hidden" class="form-control" name="ma_id"></td>' +
 						 '</tr>';
 			
 			// 클릭 시 팝업창 열기
-			$(document).on("click", "td[id='work_num']", function() {
+			$(document).on("click", "td[id='typePop']", function() {
 				window.name = "add";
-				window.open('/production/performance/addPopup', 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+				window.open('/production/defective/addPopup', 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
 			});
 			
 			// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
@@ -60,7 +68,7 @@
 			
 			// 추가버튼, 취소버튼 활성화
 			$("#addRowButton").attr("disabled", "disabled");
-			$("#deleteReceiveButton").attr("disabled", "disabled");
+			$("#deleteButton").attr("disabled", "disabled");
 			$("#cancleButton").removeAttr("disabled");
 			$("#submitButton").removeAttr("disabled");
 			
@@ -76,10 +84,71 @@
 				
 				// 추가버튼, 취소버튼 비활성화
 				$("#addRowButton").removeAttr("disabled");
+				$("#deleteButton").removeAttr("disabled");
 				$("#cancleButton").attr("disabled", "disabled");
 				$("#submitButton").attr("disabled", "disabled");
 				
 				pageStatus = "";
+			}
+		});
+
+		// 수정 버튼 누를 시
+		$("#updateButton").click(function(){
+			var dfCheckbox = $("input[name='df_id']:checked");
+			
+			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+			if (dfCheckbox.length === 1) {
+				var df_id = dfCheckbox.val();
+				var row = dfCheckbox.closest("tr");
+				
+				// input type의 name 값 지정
+				var cellNames = [
+					"df_num",
+					"df_type",
+					"line_num",
+					"pro_num",
+					"pro_name",
+					"emp_name",
+					"reg_date",
+					"df_cnt",
+					"df_rsns",
+					"repair_yn",
+					"solved_date"
+				];
+				
+				// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
+				row.find("td:not(:first-child)").each(function(index) {
+					var cellValue = $(this).text();
+					var cellType = "text";
+					var cellName = cellNames[index];
+					
+					if(index === 7 || index === 8) {
+						$(this).html('<input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
+					} else if(index === 9) {
+						$(this).html(
+							'<select class="form-control" name="' + cellNames[index] + '">'
+							+ '<option value="가능">가능</option>'
+							+ '<option value="불가">불가</option>'
+							+ '</select>');
+					} else if(index !== 11) {
+						$(this).html('<input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + 
+								'" style="border: none; background: transparent;" disabled>');
+					}
+					
+					
+					$("#updateButton").attr("disabled", "disabled");
+					$("#addRowButton").attr("disabled", "disabled");
+					$("#cancleButton").removeAttr("disabled");
+					$("#submitButton").removeAttr("disabled");
+					
+					pageStatus = "update";
+				});
+			}else if (dfCheckbox.length === 0){
+				alert("수정할 행을 선택해주세요!")
+				return false;
+			}else {
+				alert("수정은 하나의 행만 가능합니다!");
+				return false;
 			}
 		});
         
@@ -126,9 +195,9 @@
 		});
 		
 		// 삭제 버튼 누를 시
-		$("#deleteInstrButton").click(function(){
-			var prfrmCheckbox = $("input[name='prfrm_id']:checked");
-			var prfrm_id = prfrmCheckbox.val();
+		$("#deleteButton").click(function(){
+			var dfCheckbox = $("input[name='df_id']:checked");
+			var df_id = dfCheckbox.val();
 		});
 	});
 </script>
@@ -170,13 +239,15 @@
 <form>
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h6 class="m-4">불량 리스트</h6>
-		<div class="mr-4">
+		<div class="me-2">
 			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth == 'Y'}">
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">
+				<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
+						<i class="fa fa-edit"></i> 수정</button>
+				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="delDef" formmethod="post">
 					<i class="fa fa-trash"></i> 삭제</button>
-				<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled>
+				<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regDef" formmethod="post" disabled>
 					<i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>
@@ -194,7 +265,7 @@
 					<th><input type="checkbox" class="form-check-input"></th>
 					<th>불량코드</th>
 					<th>불량타입</th>
-					<th>라인코드</th>
+					<th>라인코드/거래처</th>
 					<th>품목코드</th>
 					<th>품목명</th>
 					<th>검수자</th>
@@ -210,9 +281,9 @@
 						<td><input type="checkbox" class="form-check-input" name="df_id" value="${df.df_id}"></td>
 						<td>${df.df_num}</td>
 						<td>${df.df_type}</td>
-						<td>${df.line_num}</td>
-						<td>${(df.df_type == '완제품') ? df.pro_num : df.ma_num}</td>
-						<td>${(df.df_type == '완제품') ? df.pro_name : df.ma_name}</td>
+						<td>${(df.df_type == "완제품") ? df.line_num : df.clt_name}</td>
+						<td>${(df.df_type == "완제품") ? df.pro_num : df.ma_num}</td>
+						<td>${(df.df_type == "완제품") ? df.pro_name : df.ma_name}</td>
 						<td>${df.emp_name}</td>
 						<td>
 							<c:if test="${!empty wp.update_date}">${fn:substring(df.update_date, 0, 10)}</c:if>
@@ -222,6 +293,11 @@
 						<td>${df.df_rsns}</td>
 						<td>${df.repair_yn}</td>
 						<td>${fn:substring(df.solved_date, 0, 10)}</td>
+						<td>
+							<button onclick="">
+								${df.df_type == "자재" ? "반품" : (df.repair_yn == "가능" ? "수리" : "폐기")}
+							</button>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -230,7 +306,7 @@
 	</div>
 </form>
 
-${dfList}
+<%-- ${dfList} --%>
 
 <!-- 페이지 이동 버튼 -->
 <nav aria-label="Page navigation example">

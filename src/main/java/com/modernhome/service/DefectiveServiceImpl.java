@@ -33,9 +33,51 @@ public class DefectiveServiceImpl implements DefectiveService {
 	}
 
 	@Override
-	public String creatDefNum() throws Exception {
+	public List<WijoinVO> creatDefNum() throws Exception {
 		logger.debug("defectiveServiceImpl - creatDefNum() 출력");
 		return dao.creatDefNum();
+	}
+
+	@Override
+	public List<WijoinVO> getDefList(String df_type, String nameSearch, String line_num, PageVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - getDefList() 출력");
+		return dao.getDefList(df_type, nameSearch, line_num, vo);
+	}
+
+	@Override
+	public int getDfSearchCnt(String df_type, String nameSearch, String line_num) throws Exception {
+		logger.debug("defectiveServiceImpl - getDfSearchCnt() 출력");
+		return dao.getDfSearchCnt(df_type, nameSearch, line_num);
+	}
+
+	@Override
+	public List<WijoinVO> getQcFinInstr() throws Exception {
+		logger.debug("defectiveServiceImpl - getQcFinInstr() 출력");
+		return dao.getQcFinInstr();
+	}
+
+	@Override
+	public List<WijoinVO> getQcFinRec() throws Exception {
+		logger.debug("defectiveServiceImpl - getQcFinRec() 출력");
+		return dao.getQcFinRec();
+	}
+
+	@Override
+	public void addDefective(WijoinVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - addDefective() 출력");
+		dao.addDefective(vo);
+	}
+	
+	@Override
+	public void modifyDefective(WijoinVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - modifyDefective() 출력");
+		dao.modifyDefective(vo);
+	}
+
+	@Override
+	public void delDefective(Integer df_id) throws Exception {
+		logger.debug("defectiveServiceImpl - delDefective() 출력");
+		dao.delDefective(df_id);
 	}
 	
 }

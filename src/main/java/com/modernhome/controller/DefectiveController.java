@@ -47,14 +47,11 @@ public class DefectiveController {
 		
 		if(df_type != null || nameSearch != null || line_num != null) {
 			logger.debug("검색어 O");
-			
-			// ===============임시로 전체 출력
-			dfList = dfService.getDefList(pvo);
+			dfList = dfService.getDefList(df_type, nameSearch, line_num, pvo);
 			
 			// 페이징 정보 전달
 			pm.setPageVO(pvo);
 			pm.setTotalCount(dfService.getDfTotalCnt());
-			// ===============임시로 전체 출력
 		} else {
 			logger.debug("검색어 X. 전체 출력");
 			dfList = dfService.getDefList(pvo);
@@ -65,7 +62,7 @@ public class DefectiveController {
 		}
 		
 		// 불량코드 자동 생성
-		String dfNum = dfService.creatDefNum();
+		List<WijoinVO> dfNum = dfService.creatDefNum();
 		
 		// 정보 전달
 		model.addAttribute("dfList", dfList);
@@ -77,12 +74,58 @@ public class DefectiveController {
 	// ===========================================
 	
 	
-	// 불량 등록 & 수정
+	// 팝업창
+	@RequestMapping(value = "/addPopup")
+	public String getAddPopup(Model model) throws Exception {
+		logger.debug("addPopup() 호출");
+		
+		// 품질검사 상태가 '완료'이면서 불량이 아직 등록되지 않은 작업지시 목록
+		List<WijoinVO> wiList = dfService.getQcFinInstr();
+		
+		// 품질검사 상태가 '완료'이면서 불량이 아직 등록되지 않은 입고 목록
+		List<WijoinVO> recList = dfService.getQcFinRec();
+		
+		// 정보 전달
+		model.addAttribute("wiList", wiList);
+		model.addAttribute("recList", recList);
+		
+		return "/production/defective/addPopup";
+	}
 	
 	
 	// ===========================================
 	
 	
-	// 불량 삭제	
+	// 불량 등록 & 수정
+	@RequestMapping(value = "/regDef")
+	public String addDefective(WijoinVO vo) throws Exception {
+		logger.debug("regDefective() 호출");
+		logger.debug("#############################vo : {}", vo);
+		
+		if(vo.getDf_num() != null) {
+			// 불량 등록
+			dfService.addDefective(vo);
+
+			// 불량 개수가 1개 이상인 완제품(생산실적) -> 완제품 재고 차감 & 입고 -> 자재 입고수량 차감
+		} else {
+			dfService.modifyDefective(vo);
+		}
+		
+		return "redirect:/production/defective/list";
+	}
+	
+	
+	// ===========================================
+	
+	
+	// 불량 삭제
+	@RequestMapping(value = "/delDef")
+	public String delDefective(@ModelAttribute("df_id") Integer df_id) throws Exception {
+		logger.debug("delDefective() 호출");
+		
+		dfService.delDefective(df_id);
+		
+		return "redirect:/production/defective/list";
+	}
 	
 }

@@ -170,10 +170,10 @@
 		}
 	});
 	
-	// 생산실적 특정 행 클릭 시
-	$(document).on("click", ".table-prfrmList tr", function() {
+	// 생산실적 특정 행 클릭 시 -> 상세 작업지시 내역 출력
+// 	$(document).on("click", ".table-prfrmList tr", function() {
 		
-	});
+// 	});
 </script>
 <style>
 .selected {

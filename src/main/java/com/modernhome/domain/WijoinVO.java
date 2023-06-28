@@ -44,6 +44,8 @@ public class WijoinVO {
 	private Integer rec_cnt;
 	private String rec_num;
 	private Integer rec_id;
+	private String rec_in_state;
+	private String rec_date;
 	
 	private String prfrm_num;
 	private String gb_yn;
@@ -296,6 +298,18 @@ public class WijoinVO {
 	public void setRec_id(Integer rec_id) {
 		this.rec_id = rec_id;
 	}
+	public String getRec_in_state() {
+		return rec_in_state;
+	}
+	public void setRec_in_state(String rec_in_state) {
+		this.rec_in_state = rec_in_state;
+	}
+	public String getRec_date() {
+		return rec_date;
+	}
+	public void setRec_date(String rec_date) {
+		this.rec_date = rec_date;
+	}
 	public String getPrfrm_num() {
 		return prfrm_num;
 	}
@@ -363,9 +377,10 @@ public class WijoinVO {
 				+ ", qc_id=" + qc_id + ", qc_num=" + qc_num + ", qc_yn=" + qc_yn + ", qc_cnt=" + qc_cnt + ", qc_date="
 				+ qc_date + ", repaired=" + repaired + ", prfrm_id=" + prfrm_id + ", prfrm_cnt=" + prfrm_cnt
 				+ ", ma_id=" + ma_id + ", io_id=" + io_id + ", io_num=" + io_num + ", rec_cnt=" + rec_cnt + ", rec_num="
-				+ rec_num + ", rec_id=" + rec_id + ", prfrm_num=" + prfrm_num + ", gb_yn=" + gb_yn + ", df_id=" + df_id
-				+ ", df_num=" + df_num + ", df_type=" + df_type + ", repair_yn=" + repair_yn + ", df_cnt=" + df_cnt
-				+ ", df_rsns=" + df_rsns + ", solved_date=" + solved_date + "]";
+				+ rec_num + ", rec_id=" + rec_id + ", rec_in_state=" + rec_in_state + ", rec_date=" + rec_date
+				+ ", prfrm_num=" + prfrm_num + ", gb_yn=" + gb_yn + ", df_id=" + df_id + ", df_num=" + df_num
+				+ ", df_type=" + df_type + ", repair_yn=" + repair_yn + ", df_cnt=" + df_cnt + ", df_rsns=" + df_rsns
+				+ ", solved_date=" + solved_date + "]";
 	}
 	
 }
