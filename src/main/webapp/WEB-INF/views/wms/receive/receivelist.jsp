@@ -298,16 +298,16 @@
 		<h2>입고 관리</h2>
 		<form name="search" method="get" action="">
        		<span>자재명 :
-       			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
+       			<input type="text" name="ma_name" placeholder="자재명을 입력하세요" value="${ma_name}">
        		</span>
        		<span>발주코드 :
-       			<input type="text" name="io_num" placeholder="발주코드를 입력하세요">
+       			<input type="text" name="io_num" placeholder="발주코드를 입력하세요" value="${io_num }">
        		</span>
        		<div>
                  	<label>입고일자</label>
-                  	<input type="date" name="startDate">
+                  	<input type="date" name="startDate" value="${startDate }" >
                 			~
-                  	<input type="date" name="endDate">
+                  	<input type="date" name="endDate" value="${endDate }">
                  	</div>
       		<input type="submit" value="조회">
           	</form>
@@ -368,6 +368,41 @@
 			</table>
 			
 			</form>
+			
+			<!-- 페이지 이동 버튼 -->
+	
+			<nav aria-label="Page navigation example">
+		  		<ul class="pagination justify-content-center pagination-sm">
+		  		
+		  			<c:if test="${pm.prev }">
+					<li class="page-item">
+						<a class="page-link" href="/wms/receive/receivelist?page=${pm.startPage-1 }&startDate=${startDate}&endDate=${endDate}&ma_name=${ma_name}&io_num=${io_num}" aria-label="Previous">
+		       			<span aria-hidden="true">&laquo;</span>
+		      			</a>
+		    		</li>
+		    		</c:if>
+		    		
+		    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+		    		<li 
+		    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+		    		>
+		    				<a class="page-link" href="/wms/receive/receivelist?page=${idx}&startDate=${startDate}&endDate=${endDate}&ma_name=${ma_name}&io_num=${io_num}">${idx }</a>
+		    		</li>
+		    		</c:forEach>
+					
+					<c:if test="${pm.next && pm.endPage > 0}">
+					<li class="page-item">
+		      			<a class="page-link" href="/wms/receive/receivelist?page=${pm.endPage+1 }&startDate=${startDate}&endDate=${endDate}&ma_name=${ma_name}&io_num=${io_num}" aria-label="Next">
+		        		<span aria-hidden="true">&raquo;</span>
+		      			</a>
+		    		</li>
+		    		</c:if>
+		    		
+		  		</ul>
+			</nav>
+			
+			<!-- 페이지 이동 버튼 -->
+			
 </body>
 </html>
 <%@ include file="../../inc/footer.jsp"%>
