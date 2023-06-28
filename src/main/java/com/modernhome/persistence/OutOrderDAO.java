@@ -4,11 +4,31 @@ import java.util.List;
 
 import com.modernhome.domain.OutOrderJoinVO;
 import com.modernhome.domain.OutOrderVO;
+import com.modernhome.domain.PageVO;
 
 public interface OutOrderDAO {
-public List<OutOrderJoinVO> outOrderList();
-public List<OutOrderJoinVO> outOrderListSearch(OutOrderJoinVO ovo);
 	
+	// 수주 전체수 계산
+	public int outOrderCnt() throws Exception;
+	
+	// 수주 리스트
+	public List<OutOrderJoinVO> outOrderList(PageVO pvo);
+	
+	
+	
+	
+	
+	
+	// 수주 검색결과수 계산
+	public int ooSearchCnt(OutOrderJoinVO ovo) throws Exception;
+	
+	// 수주 검색 리스트
+	public List<OutOrderJoinVO> outOrderListSearch(OutOrderJoinVO ovo, PageVO pvo);
+	
+
+	
+
+
 	// 수주 등록
 	public void regOutOrder(OutOrderVO ovo);
 	
