@@ -71,7 +71,6 @@
                  
              	// 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
 				$("#addRowButton").attr("disabled", "disabled");
-				$("#updateButton").attr("disabled", "disabled");
 				$("#deleteReceiveButton").attr("disabled", "disabled");
 				
 				$("#cancelButton").removeAttr("disabled");
@@ -100,7 +99,6 @@
 					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#addRowButton").removeAttr("disabled");
-					$("#updateButton").removeAttr("disabled");
 					$("#deleteReceiveButton").removeAttr("disabled");
 					
 					$("#cancelButton").attr("disabled", "disabled");
@@ -108,130 +106,11 @@
 					
 					pageStatus = "";
 				}
-				// 수정버튼 취소
-				if(pageStatus == "update"){
-					
-					// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
-					$(".table-receiveList tr").each(function() {
-					var row = $(this);
-					
-					// 폼 초기화(기존내용으로)
-					$("#receiveList")[0].reset();
-					
-					// 각 셀의 값을 원래 상태로 되돌림
-					row.find("td:not(:first-child)").each(function(index) {
-						var cellValue = $(this).find("input").val();
-						if ($(this).find("select").length) {
-							// <select>가 있는 경우 선택된 옵션의 텍스트로 변경
-							var selectedOptionText = $(this).find("select option:selected").text();
-							$(this).html(selectedOptionText);
-						}else {
-							// <select>가 없는 경우 셀 값을 그대로 표시
-							$(this).html(cellValue);
-						}
-						
-					});
-					
-					// selected 클래스를 없앰 (css 없애기)
-					$(".table-receiveList tr").removeClass("selected");
-					
-					
-					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
-					$("#addRowButton").removeAttr("disabled");
-					$("#updateButton").removeAttr("disabled");
-					$("#deleteReceiveButton").removeAttr("disabled");
-					
-					$("#cancelButton").attr("disabled", "disabled");
-					$("#submitButton").attr("disabled", "disabled");
-					
-					
-					pageStatus = "";
-					
-					});
-				} // if(update)문
 			
 				updateSelectedCheckboxCount();
 				
 			}); // 취소버튼
             
-            
-//             // 수정 버튼 누를 시
-// 			$("#updateButton").click(function(){
-// 				var selectedCheckbox = $("input[name='selectedRecId']:checked");
-				
-// 				// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
-// 				if (selectedCheckbox.length === 1) {
-// 					var empId = selectedCheckbox.val();
-// 					var row = selectedCheckbox.closest("tr");
-					
-// 					// input type의 name 값 지정
-// 					var cellNames = [
-// 						"rec_num",
-// 						"io_num",
-// 						"ma_name",
-// 						"io_cnt",
-// 						"rec_cnt",
-// 			            "clt_name",
-// 			            "rec_in_state",
-// 			            "wh_name",
-// 			            "rec_date",
-			           
-// 			            "update_emp_id"
-// 					];
-					
-					
-// 					// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
-// 					row.find("td:not(:first-child)").each(function(index) {
-// 						var cellValue = $(this).text();
-// 						if(index == 10) {
-// 		                    cellValue = ${sessionScope.emp_id}
-// 		                }
-// 						var cellType = index === 8 ? "date" : "text"; // 날짜 타입은 date로 설정
-// 						var cellName = cellNames[index];
-// 						var cellContent;
-// 						var cellOption = "";
-						
-// 						if(index == 4 || index == 6 || index == 8) {
-// 							cellOption = "";
-// 						}else if(index == 0 || index == 10){
-// 							cellOption = "readonly";
-// 						}else {
-// 							cellOption = "disabled";
-// 						}
-						
-// 						if (index === 6){
-// 							cellContent = '<td>' +
-// 							'<select name="' + cellName + '">' +
-// 							'<option value="입고완료" ' + (cellValue === '입고완료' ? 'selected' : '') + '>입고완료</option>' +
-// 							'<option value="검사완료" ' + (cellValue === '검사완료' ? 'selected' : '') + '>검사완료</option>' +
-// 							'</select>' +
-// 							'</td>';
-// 						}else {
-// 							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '></td>';
-// 						}
-						
-// 						$(this).html(cellContent);
-						
-// 						// 버튼 활성화, 비활성화
-// 						$("#updateButton").attr("disabled", "disabled");
-// 						$("#addRowButton").attr("disabled", "disabled");
-// 						$("#deleteReceiveButton").attr("disabled", "disabled");
-						
-// 						$("#cancelButton").removeAttr("disabled");
-// 						$("#submitButton").removeAttr("disabled");
-						
-// 						pageStatus = "update";
-// 					});
-					
-// 				}else if (selectedCheckbox.length === 0){
-// 					alert("수정할 행을 선택해주세요!")
-					
-// 				}else {
-// 					alert("수정은 하나의 행만 가능합니다!");
-// 				}
-            
-// 		}); // 수정 버튼 누를 시
-		
 			
 			// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
 	        $(".table-receiveList th input[type='checkbox']").click(function() {
@@ -276,11 +155,16 @@
 	           
 	       });
 		
-		// 발주 코드 입력란 클릭 시 팝업창 열기
-       $(document).on("click", "input[id='io_num']", function() {
-    	   window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-       });
-    	
+	// 발주 코드 입력란 클릭 시 팝업창 열기
+	$(document).on("click", "input[id='io_num']", function() {
+		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	});
+		
+	// 입고 처리 버튼 클릭 시 재고 자동 반영 
+	$(".receive").click(function() {
+		var rec_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
+		var ma_id = $(this).closest("tr").find('td:eq(3)').text();
+	});
 		
 		
     </script>
@@ -352,6 +236,7 @@
 					<th><input type="checkbox" class="form-check-input"></th>
 			    	<th>입고코드</th>
 			    	<th>발주코드</th>
+			    	<th style="display: none">자재id</th>
 			    	<th>자재명</th>
 			    	<th>발주량</th>
 			    	<th>입고량</th>
@@ -368,6 +253,7 @@
 						<td><input type="checkbox" name="selectedRecId" value="${vo.rec_id}" class="form-check-input"></td>
 				    	<td>${vo.rec_num}</td>
 				    	<td>${vo.io_num}</td>
+				    	<td style="display: none">${vo.ma_id }</td>
 				    	<td>${vo.ma_name}</td>
 				    	<td>${vo.io_cnt}</td>
 				    	<td>${vo.rec_cnt}</td>
@@ -382,7 +268,10 @@
 						<button type="button" class="btn btn-sm btn-danger">입고대기</button>
 						</c:when>
 						<c:when test="${vo.rec_in_state eq '검사완료'}">
-						<button type="button" class="btn btn-sm btn-success release">입고처리</button>
+						<button type="button" class="btn btn-sm btn-success receive">입고처리</button>
+						</c:when>
+						<c:when test="${vo.rec_in_state eq '입고완료'}">
+						<button type="button" class="btn btn-sm btn-primary">입고완료</button>
 						</c:when>
 						</c:choose>
 						</td>

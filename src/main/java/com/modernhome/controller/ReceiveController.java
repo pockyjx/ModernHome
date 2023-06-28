@@ -119,6 +119,10 @@ public class ReceiveController {
     		logger.debug("rvo : " + rvo);
     		
     		rService.regReceive(rvo);
+    		
+    		
+    		
+    		
     	}else {
     		logger.debug("regReceivePOST() 호출-입고수정");
 			logger.debug("rvo : " + rvo);
