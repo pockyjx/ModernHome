@@ -183,7 +183,7 @@
 
 <!-- <h2>생산관리</h2> -->
 
-	<form method="get" class="bg-light rounded p-4">
+	<form method="get" class="bg-light rounded p-3 m-3">
 		<div class="row mb-3">
 			<label class="col-sm-2 col-form-label">양불 여부</label>
 			<div class="col-sm-10">
@@ -212,18 +212,20 @@
 		
 <form>
 	<div class="d-flex align-items-center justify-content-between mb-2">
-		<h6 class="mb-0">생산실적 리스트</h6>
+		<h6 class="m-4">생산실적 리스트</h6>
 		<div>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-			<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">
-				<i class="fa fa-trash"></i> 삭제</button>
-			<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled>
-				<i class="fa fa-download"></i> 저장</button>
+			<c:if test="${(sessionScope.emp_dept eq '생산' || sessionScope.emp_dept eq '품질') && sessionScope.emp_auth == 'Y'}">
+				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">
+					<i class="fa fa-trash"></i> 삭제</button>
+				<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled>
+					<i class="fa fa-download"></i> 저장</button>
+			</c:if>
 		</div>
 	</div>
 	
-	<div class="bg-light text-center rounded p-4">
+	<div class="bg-light text-center rounded p-4 m-3">
 		<div class="d-flex align-items-center justify-content-between mb-4">
 			<span id="selectedCheckboxCount">0</span>
 		</div>

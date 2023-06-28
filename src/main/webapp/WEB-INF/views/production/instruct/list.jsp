@@ -143,7 +143,7 @@
 
 <!-- <h2>작업지시 목록</h2> -->
 
-<form method="get" class="bg-light rounded p-4">
+<form method="get" class="bg-light rounded p-3 m-3">
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">작업상태</label>
 		<div class="col-sm-10">
@@ -173,18 +173,20 @@
 <%-- 	${instrList} --%>
 
 <div class="d-flex align-items-center justify-content-between mb-2">
-	<h6 class="mb-0">작업지시 리스트</h6>
+	<h6 class="m-4">작업지시 리스트</h6>
 	<div>
-		<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton" onclick="location.href='/production/instruct/add'">
-			<i class="fa fa-plus"></i> 추가</button>
-		<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
-			<i class="fa fa-edit"></i> 수정</button>
-		<button type="button" class="btn btn-sm btn-primary m-2" id="deleteInstrButton">
-			<i class="fa fa-trash"></i> 삭제</button>
+		<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth == 'Y'}">
+			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
+				<i class="fa fa-plus"></i> 추가</button>
+			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
+				<i class="fa fa-edit"></i> 수정</button>
+			<button type="button" class="btn btn-sm btn-primary m-2" id="deleteInstrButton">
+				<i class="fa fa-trash"></i> 삭제</button>
+		</c:if>
 	</div>
 </div>
 
-<div class="bg-light text-center rounded p-4">
+<div class="bg-light text-center rounded p-4 m-3">
 	<div class="d-flex align-items-center justify-content-between mb-4">
 		<span id="selectedCheckboxCount">0</span>
 	</div>
@@ -260,5 +262,83 @@
  	</ul>
 </nav>
 <!-- 페이지 이동 버튼 -->
+
+
+<!-- 모달창 (작업지시 추가) -->
+<div id="my_modal_add" style="display: none;">
+	<iframe src="/production/instruct/add" id="chat_iframe"></iframe>  
+	<a class="modal_close_btn">닫기</a>
+</div>
+<!-- 모달창 (작업지시 추가) -->
+
+<!-- 모달창 (작업지시 수정) -->
+<div id="my_modal_modify" style="display: none;">
+	<iframe src="/production/instruct/modify" id="chat_iframe"></iframe>  
+	<a class="modal_close_btn">닫기</a>
+</div>
+<!-- 모달창 (작업지시 수정) -->
+
+
+<!-- 모달창 관련 JS -->
+<script>
+	function modal(id) {
+		var zIndex = 9999;
+		var modal = document.getElementById(id);
+		
+		// 모달 div 뒤에 불투명 레이어
+		var bg = document.createElement('div');
+		bg.setStyle({
+			position: 'fixed',
+			zIndex: zIndex,
+			left: '0px',
+			top: '0px',
+			width: '100%',
+			height: '100%',
+			overflow: 'auto',
+			// 레이어 색갈은 여기서 변경
+			backgroundColor: 'rgba(0,0,0,0.4)'
+		});
+		document.body.append(bg);
+		
+		// 닫기 버튼 처리, 불투명 레이어와 모달 div 지우기
+		modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+			bg.remove();
+			modal.style.display = 'none';
+		});
+		
+		modal.setStyle({
+			position: 'fixed',
+			display: 'block',
+			boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+			
+			// 불투명 레이어 보다 한칸 위에 보이기
+			zIndex: zIndex + 1,
+			
+			// div center 정렬
+			top: '50%',
+			left: '50%',
+			transform: 'translate(-50%, -50%)',
+			msTransform: 'translate(-50%, -50%)',
+			webkitTransform: 'translate(-50%, -50%)'
+		});
+	}
+	
+	// Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+	Element.prototype.setStyle = function(styles) {
+		for(var k in styles) this.style[k] = styles[k];
+		return this;
+	};
+	
+	document.getElementById('addRowButton').addEventListener('click', function() {
+		// 추가 모달창 띄우기
+		modal('my_modal_add');
+	});
+	
+// 	document.getElementById('updateButton').addEventListener('click', function() {
+// 		// 수정 모달창 띄우기
+// 		modal('my_modal_modify');
+// 	});
+</script>
+<!-- 모달창 관련 JS -->
 	
 <%@ include file="../../inc/footer.jsp"%>
