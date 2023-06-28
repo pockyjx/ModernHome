@@ -13,12 +13,12 @@
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
 
-
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
-<title>입고 발주 팝업</title>
+<title>발주 팝업</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

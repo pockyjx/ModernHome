@@ -7,16 +7,12 @@
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>발주 관리</title>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-	<script>
+<script>
 		<!-- 캘린터 위젯 적용 -->
 // 			/* 설정 */	
 // 			const config = {
@@ -55,14 +51,22 @@
 			// 추가 버튼 클릭 시 행 추가
             // 추가버튼 1번 누르면 추가버튼 비활성화
             $("#addRowButton").click(function() {
+            	
+            	// 모든 체크박스의 체크 해제
+    			$(".table-employeeList input[type='checkbox']").prop("checked", false);
+    			
+    			// selected 클래스를 없앰 (css 없애기)
+    			$(".table-employeeList tr").removeClass("selected");
+            	
+            	
             	var newRow = '<tr>' +
 	                '<td><input type="checkbox"></td>' +
 	                '<td><input type="text" name="io_num" placeholder="자동으로 부여" readonly></td>' +
-	                '<td><input type="text" name="ma_num" placeholder="자재코드" id="ma_num" readonly></td>' +
-	                '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly></td>' +
-	                '<td><input type="text" name="clt_num" placeholder="거래처 코드" id="clt_num" readonly></td>' +
-	                '<td><input type="text" name="clt_name" placeholder="거래처명" id="clt_name" readonly></td>' +
-	                '<td><input type="text" name="io_cnt" placeholder="발주량"></td>' +
+	                '<td><input type="text" name="ma_num" placeholder="여기를 눌러 검색하세요" id="ma_num" readonly></td>' +
+	                '<td><input type="text" name="ma_name" id="ma_name" readonly></td>' +
+	                '<td><input type="text" name="clt_num" placeholder="여기를 눌러 검색하세요" id="clt_num" readonly></td>' +
+	                '<td><input type="text" name="clt_name" id="clt_name" readonly></td>' +
+	                '<td><input type="text" name="io_cnt" placeholder="발주량을 입력하세요"></td>' +
 	                '<td><input type="text" name="io_unit" value="EA" readonly></td>' +
 	                '<td><input type="text" name="io_amount" placeholder="총금액(자동계산)" readonly></td>' +
 	                '<td><input type="date" name="io_date" readonly></td>' +
@@ -85,8 +89,11 @@
 				
 				pageStatus = "reg";
 				
+				updateSelectedCheckboxCount();
+				
             }); // 여기까지 추가 버튼
             
+
             
          	// 취소 버튼 누를 시 
 			$("#cancelButton").click(function(){
@@ -294,44 +301,54 @@
 	
 
 		
-    </script>
-    <style>
-        .selected {
-            background-color: #b3ccff;
-        }
-    </style>
-</head>
-<body>
-		<h2>발주 관리</h2>
+</script>
+<style>
+    .selected {
+        background-color: #b3ccff;
+    }
+</style>
+
+	<h2>발주 관리</h2>
 		<!-- 검색칸 -->
-			<fieldset>
-               	<form name="search" method="get" action="">
-                   	<div>
-                   		<label>발주일자</label>
-	                   	<input type="date" name="istartDate">
-                  			~
-	                   	<input type="date" name="iendDate">
-                   	</div>
-		       		<br>
-		       		<div>
-                   		<label>입고예정일</label>
-	                   	<input type="date" name="rstartDate">
-                  			~
-	                   	<input type="date" name="rendDate">
-                   	</div>
-		       		<span>자재명 :
-		       			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
-		       		</span>
-		       		<span>발주상태
-		       			<select name="io_state">
-                   			<option value="전체">전체</option>
-                   			<option value="완료">완료</option>
-                   			<option value="미완료">미완료</option>
-                 		</select>
-		       		</span>
-		      		<input type="submit" value="조회">
-             	</form>
-             </fieldset> 
+		<div class="col-sm-12 col-xl-6">
+			<div class="bg-light rounded h-100 p-4">
+              	<form name="search" method="get" action="">
+                  	<div class="row mb-3">
+                  		<label for="ioSearch" class="col-sm-2 col-form-label">발주일자</label>
+                   		<div class="col-sm-10">
+                   		<input type="date" name="istartDate">
+                 		~
+                   		<input type="date" name="iendDate">
+                   		</div>
+                  	</div>
+	       			<div class="row mb-3">
+                  		<label for="ioSearch" class="col-sm-2 col-form-label">입고예정일</label>
+                   		<div class="col-sm-10">
+                   		<input type="date" name="rstartDate">
+                 		~
+                   		<input type="date" name="rendDate">
+                   		</div>
+                  	</div>
+	       			<div class="row mb-3">
+	       				<label for="ioSearch" class="col-sm-2 col-form-label">자재명</label>
+	       				<div class="col-sm-10">
+	       				<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
+	       				</div>
+       				</div>
+       				<div class="row mb-3">
+       					<label for="ioSearch" class="col-sm-2 col-form-label">발주상태</label>
+	       				<div class="col-sm-10">
+	       				<select name="io_state">
+                  			<option value="전체">전체</option>
+                  			<option value="완료">완료</option>
+                  			<option value="미완료">미완료</option>
+                		</select>
+                		</div>
+               		</div>
+	      			<button type="submit" class="btn btn-primary">조회</button>
+            	</form>
+           	</div>
+		</div>
 		<!-- 검색칸 --> 
              
 		<hr>    
@@ -341,13 +358,16 @@
 			
 			<span id="selectedCheckboxCount">0</span>
 			
+			<div>
+			<c:if test="${sessionScope.emp_dept eq '자재'}">
 			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
     		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
     		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 		    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
-			
-
+			</c:if>
+			</div>
+				
 			<table class="table-inorderList" border="1">
 				
 			<input type="hidden" name="clt_id" id="clt_id">
@@ -373,7 +393,7 @@
 			  	<c:forEach var="vo" items="${inorderList}" varStatus="status">
 					<tr>
 						<td><input type="checkbox" name="selectedIoId" value="${vo.io_id}"></td>
-				    	<td>${vo.io_num}</td>
+				    	<td><a href="/wms/inorder/inorderInfo?io_id=${vo.io_id}">${vo.io_num }</a></td>
 				    	<td>${vo.ma_num}</td>
 				    	<td>${vo.ma_name}</td>
 				    	<td>${vo.clt_num}</td>
@@ -426,6 +446,6 @@
 		  		</ul>
 			</nav>
 			<!-- 페이지 이동 버튼 -->
-</body>
-</html>
+			
 <%@ include file="../../inc/footer.jsp"%>
+<link rel="stylesheet" href="/resources/css/inorder.css" />

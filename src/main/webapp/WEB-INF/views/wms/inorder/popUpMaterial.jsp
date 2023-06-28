@@ -13,12 +13,7 @@
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
 
-<!DOCTYPE html>
-<html>
-<head>
-
-<meta charset="UTF-8">
-<title>발주 자재 팝업</title>
+<title>자재 팝업</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -39,24 +34,21 @@
 	});
 </script>
 
-</head>
-<body>
-
 	<h3>자재 목록</h3>
 	
 	<form action="" method="GET">
 		<input type="hidden" name="txt" value="ma">
 		<input type="hidden" name="ma_num" value="">
 		
-		<input type="text" placeholder="자재명을 입력하세요." name="ma_name" value="${mvo.ma_name }">
+		<input type="text" placeholder="자재명을 입력하세요" name="ma_name" value="${mvo.ma_name }">
 		<input type="submit" value="검색">
 	</form>
 	
 	<table border="1">
 	
 		<tr>
-			<th>자재 id</th>
-			<th>자재 코드</th>
+			<th>자재id</th>
+			<th>자재코드</th>
 			<th>자재명</th>
 		</tr>
 		
@@ -103,6 +95,3 @@
   		</ul>
 	</nav>
 	<!-- 페이징 버튼 -->
-	
-</body>
-</html>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
@@ -58,7 +59,7 @@
                             <a href="/client/shipmentList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>출하관리</a>
                         </div>
                     </div>
- 					<a href="" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>품질관리</a>
+ 					<a href="/production/quality/qualitylist" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>품질관리</a>
  					<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>사원관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
