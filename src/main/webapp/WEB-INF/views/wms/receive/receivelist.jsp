@@ -246,7 +246,7 @@
 			    	<th>창고명</th>
 			    	<th>입고일자</th>
 			    	<th>담당자</th>
-			    	<th>입고처리</th>
+			    	<th>입고처리</th> 
 				</tr>
 				
 			  	<c:forEach var="vo" items="${receiveList}" varStatus="status">
