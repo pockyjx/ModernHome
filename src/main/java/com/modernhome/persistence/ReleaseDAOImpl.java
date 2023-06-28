@@ -48,12 +48,12 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 		
 	}
 
-	@Override
-	public void modifyMaterialRelease(MaterialReleaseVO vo) throws Exception {
-		logger.debug("자재 출고 수정!");
-		sqlSession.update(NAMESPACE + ".updatemtRelease", vo);
-		
-	}
+//	@Override
+//	public void modifyMaterialRelease(MaterialReleaseVO vo) throws Exception {
+//		logger.debug("자재 출고 수정!");
+//		sqlSession.update(NAMESPACE + ".updatemtRelease", vo);
+//		
+//	}
 
 	@Override
 	public void delMaterialRelease(Integer mr_id) throws Exception {
@@ -88,12 +88,12 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 		
 	}
 
-	@Override
-	public void modifyProductRelease(ProductReleaseVO vo) throws Exception {
-//		logger.debug("제품 출고 수정!");
-//		sqlSession.update(NAMESPACE + ".updateprRelease", vo);
-		
-	}
+//	@Override
+//	public void modifyProductRelease(ProductReleaseVO vo) throws Exception {
+////		logger.debug("제품 출고 수정!");
+////		sqlSession.update(NAMESPACE + ".updateprRelease", vo);
+//		
+//	}
 
 	@Override
 	public void delProductRelease(Integer pr_id) throws Exception {
@@ -115,8 +115,31 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 	}
 
 	@Override
+	public List<MaterialReleaseVO> getWorkInstrInfo() throws Exception {
+		logger.debug("수주 정보 조회!");
+		return sqlSession.selectList(NAMESPACE + ".getWorkInstrInfo");
+	}
+
+	@Override
+	public MaterialReleaseVO getMaterialStock(Integer ma_id) throws Exception {
+		logger.debug("자재 재고 조회!");
+		return sqlSession.selectOne(NAMESPACE + ".getMaterialStock", ma_id);
+	}
+
+	@Override
+	public void acceptMR(Integer mr_id, Integer ma_id, Integer mr_cnt) throws Exception {
+		logger.debug("자재 출고처리!");
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("ma_id", ma_id);
+		parameterMap.put("mr_cnt", mr_cnt);
+		sqlSession.update(NAMESPACE + ".acceptMR", mr_id);
+		sqlSession.update(NAMESPACE + ".updateMS", parameterMap);
+		
+	}
+
+	@Override
 	public void acceptPR(Integer pr_id, Integer pro_id, Integer pr_cnt) throws Exception {
-		logger.debug("출고처리!");
+		logger.debug("제품 출고처리!");
 		Map<String, Object> parameterMap = new HashMap<>();
 		parameterMap.put("pro_id", pro_id);
 		parameterMap.put("pr_cnt", pr_cnt);
