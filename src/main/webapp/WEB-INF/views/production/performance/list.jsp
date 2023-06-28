@@ -32,11 +32,11 @@
 			var newRow = '<tr>' +
 						 '<td><input type="checkbox" class="form-check-input"></td>' +
 						 '<td><input type="text" class="form-control" name="prfrm_num" value="${prfrmNum}" style="border: none; background: transparent;" readonly></td>' +
-						 '<td id="work_num"><input id="wnumPop" type="text" class="form-control" name="work_num" style="border: none; background: transparent;"></td>' +
-						 '<td><input type="text" class="form-control" name="line_num" style="border: none; background: transparent;"></td>' +
-						 '<td><input type="text" class="form-control" name="pro_num" style="border: none; background: transparent;"></td>' +
-						 '<td><input type="text" class="form-control" name="pro_name" style="border: none; background: transparent;"></td>' +
-						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;"></td>' +
+						 '<td id="work_num"><input id="wnumPop" type="text" class="form-control" name="work_num" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="text" class="form-control" name="line_num" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="text" class="form-control" name="pro_num" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="text" class="form-control" name="pro_name" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>' +
 						 '<select name="gb_yn" class="form-select mb-3">' +
 						 '<option value="양품">양품</option>' +
@@ -44,9 +44,9 @@
 						 '</select>' +
 						 '</td>' +
 						 '<td><input type="text" class="form-control" name="prfrm_cnt"></td>' +
-						 '<td><input type="text" class="form-control" name="df_cnt" value="0" style="border: none; background: transparent;" disabled></td>' +
+						 '<td><input type="text" class="form-control" name="df_cnt" value="0" style="border: none; background: transparent;" disabled readonly></td>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
-						 '<td><input type="text" class="form-control" name="work_cnt" style="border: none; background: transparent;">' +
+						 '<td><input type="text" class="form-control" name="work_cnt" style="border: none; background: transparent;" readonly>' +
 						 '<input type="hidden" class="form-control" name="work_id">' +
 						 '<input type="hidden" class="form-control" name="line_id">' +
 						 '<input type="hidden" class="form-control" name="pro_id"></td>' +
@@ -75,6 +75,7 @@
 			
 			// 추가버튼, 취소버튼 활성화
 			$("#addRowButton").attr("disabled", "disabled");
+			$("#deleteReceiveButton").attr("disabled", "disabled");
 			$("#cancleButton").removeAttr("disabled");
 			$("#submitButton").removeAttr("disabled");
 			
@@ -185,9 +186,9 @@
 		<div class="row mb-3">
 			<label class="col-sm-2 col-form-label">양불 여부</label>
 			<div class="col-sm-10">
-				<label><input type="checkbox" name="gb_yn" value="양품" 
+				<label><input type="checkbox" name="gb_yn" value="양품" class="form-check-input" 
 					${param.gb_yn == '양품' ? 'checked' : ''} onclick="handleCheckbox(this, '양품')"> 양품</label>
-				<label><input type="checkbox" name="gb_yn" value="불량품" 
+				<label><input type="checkbox" name="gb_yn" value="불량품" class="form-check-input" 
 					${param.gb_yn == '불량품' ? 'checked' : ''} onclick="handleCheckbox(this, '불량품')"> 불량품</label>
 			</div>
 		</div>
