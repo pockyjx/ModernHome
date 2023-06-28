@@ -30,26 +30,26 @@
 			var today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + now.getDate();
         	
 			var newRow = '<tr>' +
-						 '<td><input type="checkbox"></td>' +
-						 '<td><input type="text" name="prfrm_num" value="${prfrmNum}" readonly></td>' +
-						 '<td id="work_num"><input id="wnumPop" type="text" name="work_num"></td>' +
-						 '<td><input type="text" name="line_num"></td>' +
-						 '<td><input type="text" name="pro_num"></td>' +
-						 '<td><input type="text" name="pro_name"></td>' +
-						 '<td><input type="text" name="reg_date" value="' + today + '"></td>' +
+						 '<td><input type="checkbox" class="form-check-input"></td>' +
+						 '<td><input type="text" class="form-control" name="prfrm_num" value="${prfrmNum}" style="border: none; background: transparent;" readonly></td>' +
+						 '<td id="work_num"><input id="wnumPop" type="text" class="form-control" name="work_num" style="border: none; background: transparent;"></td>' +
+						 '<td><input type="text" class="form-control" name="line_num" style="border: none; background: transparent;"></td>' +
+						 '<td><input type="text" class="form-control" name="pro_num" style="border: none; background: transparent;"></td>' +
+						 '<td><input type="text" class="form-control" name="pro_name" style="border: none; background: transparent;"></td>' +
+						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;"></td>' +
 						 '<td>' +
-						 '<select name="gb_yn">' +
+						 '<select name="gb_yn" class="form-select mb-3">' +
 						 '<option value="양품">양품</option>' +
 						 '<option value="불량품">불량품</option>' +
 						 '</select>' +
 						 '</td>' +
-						 '<td><input type="text" name="prfrm_cnt"></td>' +
-						 '<td><input type="text" name="df_cnt" value="0" disabled></td>' +
-						 '<td><input type="text" name="emp_id" value="${sessionScope.emp_id}"></td>' +
-						 '<td><input type="text" name="work_cnt"></td>' +
-						 '<td><input type="hidden" name="work_id">' +
-						 '<input type="hidden" name="line_id">' +
-						 '<input type="hidden" name="pro_id"></td>' +
+						 '<td><input type="text" class="form-control" name="prfrm_cnt"></td>' +
+						 '<td><input type="text" class="form-control" name="df_cnt" value="0" style="border: none; background: transparent;" disabled></td>' +
+						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
+						 '<td><input type="text" class="form-control" name="work_cnt" style="border: none; background: transparent;">' +
+						 '<input type="hidden" class="form-control" name="work_id">' +
+						 '<input type="hidden" class="form-control" name="line_id">' +
+						 '<input type="hidden" class="form-control" name="pro_id"></td>' +
 						 '</tr>';
 			
 			// 클릭 시 팝업창 열기
@@ -168,88 +168,105 @@
 			return false;
 		}
 	});
+	
+	// 생산실적 특정 행 클릭 시
+	$(document).on("click", ".table-prfrmList tr", function() {
+		
+	});
 </script>
 <style>
 .selected {
 	background-color: #b3ccff;
 }
+
 </style>
 
-<h2>생산관리</h2>
-
-<form method="get">
-	<div>
-		양불 여부
-			<label><input type="checkbox" name="gb_yn" value="양품" 
-				${param.gb_yn == '양품' ? 'checked' : ''} onclick="handleCheckbox(this, '양품')">양품</label>
-			<label><input type="checkbox" name="gb_yn" value="불량품" 
-				${param.gb_yn == '불량품' ? 'checked' : ''} onclick="handleCheckbox(this, '불량품')">불량품</label>
-	</div>
-	<div>
-		작업지시코드 <input type="text" name="work_num">
-	</div>
-	<div>
-		<label>등록일자</label>
-		<input type="date" name="startDate"> ~ <input type="date" name="endDate">
-		<button class="btn btn-primary m-2" type="submit">조회</button>
-	</div>
-</form>
+	<form method="get" class="bg-light rounded p-3 m-3">
+		<div class="row mb-3">
+			<label class="col-sm-2 col-form-label">양불 여부</label>
+			<div class="col-sm-10">
+				<label><input type="checkbox" name="gb_yn" value="양품" 
+					${param.gb_yn == '양품' ? 'checked' : ''} onclick="handleCheckbox(this, '양품')"> 양품</label>
+				<label><input type="checkbox" name="gb_yn" value="불량품" 
+					${param.gb_yn == '불량품' ? 'checked' : ''} onclick="handleCheckbox(this, '불량품')"> 불량품</label>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<label class="col-sm-2 col-form-label">작업지시코드</label>
+			<div class="col-sm-10">
+				<input type="text" name="work_num">
+			</div>
+		</div>
+		<div class="row mb-3">
+			<label class="col-sm-2 col-form-label">등록일자</label>
+			<div class="col-sm-10">
+				<input type="date" name="startDate"> ~ <input type="date" name="endDate">
+				<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+			</div>
+		</div>
+	</form>
 
 <br>
 		
 <form>
-	<div class="bg-light text-center rounded p-4">
+	<div class="d-flex align-items-center justify-content-between mb-2">
+		<h6 class="m-4">생산실적 리스트</h6>
 		<div>
-			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-			<button type="submit" class="btn btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">
-				<i class="fa fa-trash"></i> 삭제</button>
-			<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled>
-				<i class="fa fa-download"></i> 저장</button>
+			<c:if test="${(sessionScope.emp_dept eq '생산' || sessionScope.emp_dept eq '품질') && sessionScope.emp_auth == 'Y'}">
+				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">
+					<i class="fa fa-trash"></i> 삭제</button>
+				<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled>
+					<i class="fa fa-download"></i> 저장</button>
+			</c:if>
 		</div>
-		
+	</div>
+	
+	<div class="bg-light text-center rounded p-4 m-3">
 		<div class="d-flex align-items-center justify-content-between mb-4">
 			<span id="selectedCheckboxCount">0</span>
 		</div>
 		
-		
-		<!-- 생산실적 리스트 -->
-		<table border="1" class="table-prfrmList">
-			<tr>
-				<th><input type="checkbox"></th>
-				<th>생산실적코드</th>
-				<th>작업지시코드</th>
-				<th>라인코드</th>
-				<th>품목코드</th>
-				<th>품목명</th>
-				<th>등록일</th>
-				<th>양불여부</th>
-				<th>실적수량</th>
-				<th>불량수량</th>
-				<th>담당자</th>
-				<th>목표수량</th>
-			</tr>
-		
-			<c:forEach var="wp" items="${wpList}">
+		<div class="table-responsive">
+			<!-- 생산실적 리스트 -->
+			<table class="table-prfrmList table text-start align-middle table-bordered table-hover mb-0">
 				<tr>
-					<td><input type="checkbox" name="prfrm_id" value="${wp.prfrm_id}"></td>
-					<td>${wp.prfrm_num}</td>
-					<td>${wp.work_num}</td>
-					<td>${wp.line_num}</td>
-					<td>${wp.pro_num}</td>
-					<td>${wp.pro_name}</td>
-					<td>
-						<c:if test="${!empty wp.update_date}">${fn:substring(wp.update_date, 0, 10)}</c:if>
-						<c:if test="${empty wp.update_date}">${fn:substring(wp.reg_date, 0, 10)}</c:if>
-					</td>
-					<td>${wp.gb_yn}</td>
-					<td>${wp.prfrm_cnt}<input type="hidden" name="prfrm_cnt" value="${wp.prfrm_cnt}"></td>
-					<td>${wp.work_cnt - wp.prfrm_cnt}</td>
-					<td>${wp.emp_name}</td>
-					<td>${wp.work_cnt}</td>
+					<th><input type="checkbox" class="form-check-input"></th>
+					<th>생산실적코드</th>
+					<th>작업지시코드</th>
+					<th>라인코드</th>
+					<th>품목코드</th>
+					<th>품목명</th>
+					<th>등록일</th>
+					<th>양불여부</th>
+					<th>실적수량</th>
+					<th>불량수량</th>
+					<th>담당자</th>
+					<th>목표수량</th>
 				</tr>
-			</c:forEach>
-		</table>
+			
+				<c:forEach var="wp" items="${wpList}">
+					<tr>
+						<td><input type="checkbox" class="form-check-input" name="prfrm_id" value="${wp.prfrm_id}"></td>
+						<td>${wp.prfrm_num}</td>
+						<td>${wp.work_num}</td>
+						<td>${wp.line_num}</td>
+						<td>${wp.pro_num}</td>
+						<td>${wp.pro_name}</td>
+						<td>
+							<c:if test="${!empty wp.update_date}">${fn:substring(wp.update_date, 0, 10)}</c:if>
+							<c:if test="${empty wp.update_date}">${fn:substring(wp.reg_date, 0, 10)}</c:if>
+						</td>
+						<td>${wp.gb_yn}</td>
+						<td>${wp.prfrm_cnt}<input type="hidden" name="prfrm_cnt" value="${wp.prfrm_cnt}"></td>
+						<td>${wp.work_cnt - wp.prfrm_cnt}</td>
+						<td>${wp.emp_name}</td>
+						<td>${wp.work_cnt}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
 	</div>
 </form>
 <!-- 생산실적 리스트 -->
