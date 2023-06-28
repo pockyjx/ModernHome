@@ -20,9 +20,6 @@
 <script>
 	$(document).ready(function() {
 		
-// 		opener.document.getElementById("pro_num").blur(); // 커서 포커스 제거
-		opener.document.getElementById("pro_name").focus(); // clt_name에 포커스 설정
-		
 		$("tr").click(function() {
 		var pro_id = $(this).find("td:eq(0)").text();
 		var pro_num = $(this).find("td:eq(1)").text();
@@ -40,6 +37,7 @@
 
 		});
 	});
+
 </script>
 
 </head>

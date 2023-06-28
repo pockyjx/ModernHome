@@ -20,9 +20,6 @@
 <script>
 	$(document).ready(function() {
 		
-// 		opener.document.getElementById("clt_num").blur(); // 커서 포커스 제거
-		opener.document.getElementById("clt_name").focus(); // clt_name에 포커스 설정
-		
 		$("tr").click(function() {
 		var clt_id = $(this).find("td:eq(0)").text();
 		var clt_num = $(this).find("td:eq(1)").text();
