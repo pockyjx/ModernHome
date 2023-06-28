@@ -141,79 +141,92 @@
 	}
 </style>
 
-<h2>작업지시 목록</h2>
-
-<form method="get">
-	<div>
-		작업상태
+<form method="get" class="bg-light rounded p-3 m-3">
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">작업상태</label>
+		<div class="col-sm-10">
 			<label><input type="checkbox" name="work_state" value="대기"
 				${param.work_state == '대기' ? 'checked' : ''} onclick="handleCheckbox(this, '대기')"> 대기</label>
 			<label><input type="checkbox" name="work_state" value="진행중"
 				${param.work_state == '진행중' ? 'checked' : ''} onclick="handleCheckbox(this, '진행중')"> 진행중</label>
 			<label><input type="checkbox" name="work_state" value="완료"
 				${param.work_state == '완료' ? 'checked' : ''} onclick="handleCheckbox(this, '완료')"> 완료</label>
+		</div>
 	</div>
-	<div>
-		품목코드
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">품목코드</label>
+		<div class="col-sm-10">
 			<input type="text" name="pro_num">
+		</div>
 	</div>
-	<div>
-		<label>지시일자</label>
-			<input type="date" name="startDate">
-				~
-			<input type="date" name="endDate">
-		<button type="submit">조회</button>
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">지시일자</label>
+		<div class="col-sm-10">
+			<input type="date" name="startDate"> ~ <input type="date" name="endDate">
+			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+		</div>
 	</div>
 </form>
 
-<%-- 	${instrList} --%>
 
-<span id="selectedCheckboxCount">0</span>
-
-<div>
-	<button class="btn btn-primary m-2" id="addRowButton" onclick="location.href='/production/instruct/add'">추가</button>
-	<button class="btn btn-primary m-2" id="updateButton">수정</button>
-	<button class="btn btn-primary m-2" id="deleteInstrButton">삭제</button>
+<div class="d-flex align-items-center justify-content-between mb-2">
+	<h6 class="m-4">작업지시 리스트</h6>
+	<div>
+		<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth == 'Y'}">
+			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
+				<i class="fa fa-plus"></i> 추가</button>
+			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
+				<i class="fa fa-edit"></i> 수정</button>
+			<button type="button" class="btn btn-sm btn-primary m-2" id="deleteInstrButton">
+				<i class="fa fa-trash"></i> 삭제</button>
+		</c:if>
+	</div>
 </div>
 
-<table border="1" class="table-instrList">
-	<tr>
-		<th><input type="checkbox"></th>
-		<th>작업지시코드</th>
-		<th>라인코드</th>
-		<th>품목코드</th>
-		<th>품목명</th>
-		<th>작업상태</th>
-		<th>지시일자</th>
-		<th>지시수량</th>
-		<th>수주번호</th>
-		<th>납품예정일</th>
-		<th>담당자</th>
-	</tr>
-	
-	<c:forEach var="list" items="${instrList}" varStatus="status">
+<div class="bg-light text-center rounded p-4 m-3">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<span id="selectedCheckboxCount">0</span>
+	</div>
+
+	<table class="table-instrList table text-start align-middle table-bordered table-hover mb-0">
 		<tr>
-			<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}"></td>
-			<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
-			<td>${list.line_num}</td>
-			<td>${list.pro_num}</td>
-			<td>${list.pro_name}</td>
-			<td>
-			    <c:if test="${list.work_state=='대기'}">대기</c:if>
-			    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
-			    <c:if test="${list.work_state=='완료'}">완료</c:if>
-			</td>
-			<td>
-				<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
-				<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
-			</td>
-			<td>${list.work_cnt}</td>
-			<td>${list.oo_num}</td>
-			<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
-			<td>${list.emp_name}</td>
+			<th><input type="checkbox"></th>
+			<th>작업지시코드</th>
+			<th>라인코드</th>
+			<th>품목코드</th>
+			<th>품목명</th>
+			<th>작업상태</th>
+			<th>지시일자</th>
+			<th>지시수량</th>
+			<th>수주번호</th>
+			<th>납품예정일</th>
+			<th>담당자</th>
 		</tr>
-	</c:forEach>
-</table>
+		
+		<c:forEach var="list" items="${instrList}" varStatus="status">
+			<tr>
+				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}"></td>
+				<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
+				<td>${list.line_num}</td>
+				<td>${list.pro_num}</td>
+				<td>${list.pro_name}</td>
+				<td>
+				    <c:if test="${list.work_state=='대기'}">대기</c:if>
+				    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
+				    <c:if test="${list.work_state=='완료'}">완료</c:if>
+				</td>
+				<td>
+					<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
+					<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
+				</td>
+				<td>${list.work_cnt}</td>
+				<td>${list.oo_num}</td>
+				<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
+				<td>${list.emp_name}</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
 
 <!-- 페이지 이동 버튼 -->
 <nav aria-label="Page navigation example">
@@ -246,5 +259,83 @@
  	</ul>
 </nav>
 <!-- 페이지 이동 버튼 -->
+
+
+<!-- 모달창 (작업지시 추가) -->
+<div id="my_modal_add" style="display: none;">
+	<iframe src="/production/instruct/add" id="chat_iframe"></iframe>  
+	<a class="modal_close_btn">닫기</a>
+</div>
+<!-- 모달창 (작업지시 추가) -->
+
+<!-- 모달창 (작업지시 수정) -->
+<div id="my_modal_modify" style="display: none;">
+	<iframe src="/production/instruct/modify" id="chat_iframe"></iframe>  
+	<a class="modal_close_btn">닫기</a>
+</div>
+<!-- 모달창 (작업지시 수정) -->
+
+
+<!-- 모달창 관련 JS -->
+<script>
+	function modal(id) {
+		var zIndex = 9999;
+		var modal = document.getElementById(id);
+		
+		// 모달 div 뒤에 불투명 레이어
+		var bg = document.createElement('div');
+		bg.setStyle({
+			position: 'fixed',
+			zIndex: zIndex,
+			left: '0px',
+			top: '0px',
+			width: '100%',
+			height: '100%',
+			overflow: 'auto',
+			// 레이어 색갈은 여기서 변경
+			backgroundColor: 'rgba(0,0,0,0.4)'
+		});
+		document.body.append(bg);
+		
+		// 닫기 버튼 처리, 불투명 레이어와 모달 div 지우기
+		modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+			bg.remove();
+			modal.style.display = 'none';
+		});
+		
+		modal.setStyle({
+			position: 'fixed',
+			display: 'block',
+			boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+			
+			// 불투명 레이어 보다 한칸 위에 보이기
+			zIndex: zIndex + 1,
+			
+			// div center 정렬
+			top: '50%',
+			left: '50%',
+			transform: 'translate(-50%, -50%)',
+			msTransform: 'translate(-50%, -50%)',
+			webkitTransform: 'translate(-50%, -50%)'
+		});
+	}
+	
+	// Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+	Element.prototype.setStyle = function(styles) {
+		for(var k in styles) this.style[k] = styles[k];
+		return this;
+	};
+	
+	document.getElementById('addRowButton').addEventListener('click', function() {
+		// 추가 모달창 띄우기
+		modal('my_modal_add');
+	});
+	
+// 	document.getElementById('updateButton').addEventListener('click', function() {
+// 		// 수정 모달창 띄우기
+// 		modal('my_modal_modify');
+// 	});
+</script>
+<!-- 모달창 관련 JS -->
 	
 <%@ include file="../../inc/footer.jsp"%>
