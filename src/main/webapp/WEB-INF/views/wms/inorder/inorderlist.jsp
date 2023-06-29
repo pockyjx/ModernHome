@@ -62,17 +62,17 @@
             	
             	var newRow = '<tr>' +
 	                '<td><input type="checkbox"></td>' +
-	                '<td><input type="text" name="io_num" placeholder="자동으로 부여" readonly></td>' +
+	                '<td><input type="text" name="io_num" placeholder="(자동 부여)" readonly></td>' +
 	                '<td><input type="text" name="ma_num" placeholder="여기를 눌러 검색하세요" id="ma_num" readonly></td>' +
 	                '<td><input type="text" name="ma_name" id="ma_name" readonly></td>' +
 	                '<td><input type="text" name="clt_num" placeholder="여기를 눌러 검색하세요" id="clt_num" readonly></td>' +
 	                '<td><input type="text" name="clt_name" id="clt_name" readonly></td>' +
-	                '<td><input type="text" name="io_cnt" placeholder="발주량을 입력하세요"></td>' +
+	                '<td><input type="text" name="io_cnt" id="io_cnt" placeholder="발주량을 입력하세요"></td>' +
 	                '<td><input type="text" name="io_unit" value="EA" readonly></td>' +
 	                '<td><input type="text" name="io_amount" placeholder="총금액(자동계산)" readonly></td>' +
 	                '<td><input type="date" name="io_date" readonly></td>' +
 	                '<td><input type="text" name="io_state" value="미완료" readonly></td>' +
-	                '<td><input type="date" name="rec_date" placeholder="입고예정일"></td>' +
+	                '<td><input type="date" name="rec_date" id="rec_date"></td>' +
 	                '<td><input type="date" name="io_reg_date" readonly></td>' +
 	                '<td><input type="text" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id }" readonly></td>' +
 	                '</tr>';
@@ -291,13 +291,15 @@
 	        
 	        // 제출 전 유효성 검사
 	        $("#submitButton").click(function() {
+	        	
 				var form = $("#inorderList");
-				form.attr("method", "GET");
+				form.attr("method", "post");
 				form.attr("action", "/wms/regInorder");
+				
 				var ma_num = $("#ma_num").val();
 				var clt_num = $("#clt_num").val();
 				var io_cnt = $("#io_cnt").val();
-				var io_date = $("#io_date").val();
+				var io_date = $("#rec_date").val();
 				
 				if(ma_num == null || ma_num == "") {
 					$("#ma_num").focus();
@@ -314,8 +316,8 @@
 					alert("발주량을 입력하세요!");
 					return;
 				}
-				if(io_date == null || io_date == "") {
-					$("#io_date").focus();
+				if(rec_date == null || rec_date == "") {
+					$("#rec_date").focus();
 					alert("입고예정일을 입력하세요!");
 					return;
 				}
@@ -385,7 +387,7 @@
 <div class="d-flex align-items-center justify-content-between mb-2">             
 	<h3 class="m-4">발주 목록</h3>
 	<div>	
-		<c:if test="${sessionScope.emp_dept eq '자재'}">
+		<c:if test="${sessionScope.emp_dept eq '자재' && (sessionScope.emp_auth == '2' || sessionScope.emp_auth == '3' )}">
 			<button type="button" class="btn btn-primary m-2" id="addRowButton">
 				<i class="fa fa-plus"></i> 추가</button>
     		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
@@ -393,22 +395,24 @@
     			<i class="fa fa-edit"></i> 수정</button>
 		    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post">
 		    	<i class="fa fa-trash"></i> 삭제</button>
-		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled>
+<!-- 		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled> -->
+<!-- 		    	<i class="fa fa-download"></i> 저장</button> -->
+		    <button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
 		    	<i class="fa fa-download"></i> 저장</button>
 		</c:if>
 	</div>
 </div>	
 
 <div class="bg-light text-center rounded p-4 m-3">
-	<form id="inorderList" action="" method="GET">
+	<form id="inorderList">
 		<div class="d-flex align-items-center justify-content-between mb-4">	
 			<span id="selectedCheckboxCount">0</span>
 		</div>
 		
 		<div class="table-responsive">		
-			<table class="table-inorderList table align-middle table-bordered table-hover mb-0">
 				<input type="hidden" name="clt_id" id="clt_id">
 				<input type="hidden" name="ma_id" id="ma_id">
+			<table class="table-inorderList table align-middle table-bordered table-hover mb-0">
 					<tr>
 						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox"></th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">발주코드</th>
