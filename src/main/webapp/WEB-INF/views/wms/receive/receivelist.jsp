@@ -54,16 +54,16 @@
             $("#addRowButton").click(function() {
             	var newRow = '<tr>' +
 	                '<td><input type="checkbox" class="form-check-input"></td>' +
-	                '<td><input type="text" class="form-control" name="rec_num" placeholder="자동 부여" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="rec_num" placeholder="자동 부여" style="border: none; background: transparent;" readonly></td>' +
 	                '<td><input type="text" class="form-control" name="io_num" placeholder="클릭" id="io_num" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="ma_name" id="ma_name" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="io_cnt" id="io_cnt" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="rec_cnt" id="rec_cnt" placeholder="입고량" id="rec_cnt" readonly></td>' +
-	                '<td><input type="text" class="form-control" id="clt_name" name="clt_name" placeholder="거래처명" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="rec_in_state" value="입고대기" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="wh_name" placeholder="B창고" readonly></td>' +
-	                '<td><input type="date" class="form-control" name="rec_date"></td>' +
-	                '<td><input type="text" class="form-control" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id }" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="ma_name" id="ma_name" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="io_cnt" id="io_cnt" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="rec_cnt" id="rec_cnt" id="rec_cnt" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" id="clt_name" name="clt_name" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="rec_in_state" value="입고대기" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="wh_name" placeholder="B창고" style="border: none; background: transparent;" readonly></td>' +
+	                '<td></td>' +
+	                '<td><input type="text" class="form-control" name="emp_id" style="border: none; background: transparent;" value="${sessionScope.emp_id }" readonly></td>' +
 	                '<td></td>' +
 	                '</tr>';
 	                
@@ -154,6 +154,7 @@
 	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	        } // 체크박스 선택 시 체크박스 개수 구하기
 	        
+	           
 		// 입고 처리 버튼 클릭 시 재고 자동 반영 
 		$(".receive").click(function() {
 			var rec_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
@@ -163,12 +164,28 @@
 			if(result = window.confirm("입고처리 하시겠습니까?")) {
 				location.href="/wms/acceptReceive?rec_id="+rec_id+"&ma_id="+ma_id+"&rec_cnt="+rec_cnt;
 			}
-	
-// 			alert(rec_id + ma_id + rec_cnt);
-	
 		});
-	           
-	       });
+	    
+		// 유효성 검사
+		$("#submitButton").click(function() {
+			
+			var form = $("#receiveList");
+			form.attr("method", "post");
+			form.attr("action", "/wms/regReceive");
+			
+			var io_num = $('#io_num').val();
+			if(io_num == null || io_num == "") {
+				alert('발주코드를 입력하세요!');
+				$("io_num").focus();
+				return;
+			}
+			
+			form.submit();
+			
+		});
+	        
+	        
+	 });
 		
 	// 발주 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click", "input[id='io_num']", function() {
@@ -215,7 +232,7 @@
     	
 <!-- 검색칸 -->
              
-<form id="receiveList" action="" method="GET">
+<form id="receiveList">
 
 	<div class="d-flex align-items-center justify-content-between mb-2">
 	
@@ -226,7 +243,7 @@
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 		  		<button type="button" class="btn btn-sm btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 			    <button type="submit" class="btn btn-sm btn-primary m-2" id="deleteReceiveButton" formaction="/wms/deleteReceive" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
-			    <button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/wms/regReceive" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			    <button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/wms/regReceive" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>
 	</div>
@@ -241,7 +258,7 @@
 		<input type="hidden" name="clt_id" id="clt_id">
 	
 		<div class="table-responsive">		
-			<table class="table-mateList table table-striped align-middle table-hover mb-0">
+			<table class="table-receiveList table table-striped align-middle table-hover mb-0">
 			
 				<tr>
 					<th><input type="checkbox" class="form-check-input"></th>

@@ -30,15 +30,15 @@
 	        	 
 	             var newRow = '<tr>' +
 	                 '<td><input type="checkbox"></td> class="form-check-input"' +
-	                 '<td><input type="text" class="form-control" name="req_num" placeholder="자동 부여" readonly></td>' +
+	                 '<td><input type="text" class="form-control" name="req_num" placeholder="자동 부여" style="border: none; background: transparent;" readonly></td>' +
 	                 '<td><input type="text" class="form-control" name="pro_num" placeholder="완제품 코드" readonly id="pro_num"></td>' +
-	                 '<td><input type="text" class="form-control" name="pro_name" id="pro_name" readonly ></td>' +
+	                 '<td><input type="text" class="form-control" name="pro_name" id="pro_name" style="border: none; background: transparent;" readonly ></td>' +
 	                 '<td><input type="text" class="form-control" name="ma_num" placeholder="자재 코드" id="ma_num" readonly></td>' +
-	                 '<td><input type="text" class="form-control" name="ma_name" id="ma_name" readonly></td>' +
-	                 '<td><input type="number" class="form-control" name="req_cnt" placeholder="소요량" min="0"></td>' +
-	                 '<td><input type="text" class="form-control" name="req_unit" value="EA" readonly></td>' +
-	                 '<td><input type="date" class="form-control" name="req_reg_date" readonly></td>' +
-	                 '<td><input type="text" class="form-control" name="emp_id" value="${sessionScope.emp_id }" readonly></td>' +
+	                 '<td><input type="text" class="form-control" name="ma_name" id="ma_name" style="border: none; background: transparent;" readonly></td>' +
+	                 '<td><input type="number" class="form-control" name="req_cnt" id="req_cnt" placeholder="소요량" min="0"></td>' +
+	                 '<td><input type="text" class="form-control" name="req_unit" value="EA" style="border: none; background: transparent;" readonly></td>' +
+	                 '<td><input type="date" class="form-control" name="req_reg_date" style="border: none; background: transparent;" readonly></td>' +
+	                 '<td><input type="text" class="form-control" name="emp_id" value="${sessionScope.emp_id }" style="border: none; background: transparent;" readonly></td>' +
 	                 '</tr>';
 	             $(".table-reqList tr:nth-child(1)").after(newRow);
 	             
@@ -67,7 +67,7 @@
 			// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 			$("#addRowButton").removeAttr("disabled");
 			$("#updateButton").removeAttr("disabled");
-			$("#deleteButton").attr("disabled", "disabled");
+			$("#deleteButton").removeAttr("disabled");
 			
 			$("#cancleButton").attr("disabled", "disabled");
 			$("#submitButton").attr("disabled", "disabled");
@@ -215,12 +215,44 @@
              updateSelectedCheckboxCount(); 
          }); // <td> 쪽 체크박스 클릭 시 행 선택
          
-
     	function updateSelectedCheckboxCount() {
           var totalCheckboxes = $(".table-reqList td input[type='checkbox']").length;
           var selectedCheckboxes = $(".table-reqList td input[type='checkbox']:checked").length;
           $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
       } // 체크박스 선택 시 체크박스 개수 구하기
+      
+      // 유효성 검사
+      $("#submitButton").click(function() {
+    	  
+    	  var form = $("#reqList");
+    	  form.attr("method", "post");
+    	  form.attr("action", "/info/regRequirement");
+    	  
+    	  var pro_num = $("#pro_num").val();
+    	  var ma_num = $("#ma_num").val();
+    	  var req_cnt = $("#req_cnt").val();
+    	  
+    	  if(pro_num == null || pro_num == "") {
+    		  alert('완제품 코드를 입력하세요!');
+    		  $("pro_num").focus();
+    		  return;
+    	  }
+    	  
+    	  if(ma_num == null || ma_num == "") {
+    		  alert('자재 코드를 입력하세요!');
+    		  $("ma_num").focus();
+    		  return;
+    	  }
+    	  
+    	  if(req_cnt == 0) {
+    		  alert('소요량을 입력하세요!');
+    		  $("req_cnt").focus();
+    		  return;
+    	  }
+    	  
+    	  form.submit();
+    	  
+      });
       
      });
          
@@ -299,7 +331,7 @@
 			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 			<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="/info/delRequirement" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 			
-			<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 	
 		</c:if>
 	</div>

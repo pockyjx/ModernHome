@@ -121,7 +121,7 @@
     	<selectKey keyProperty="ma_id" resultType="int" order="BEFORE">
     		SELECT ma_id FROM material WHERE ma_name = #{ma_name}
     	</selectKey>
-	    INSERT INTO receive (rec_num, io_id, ma_id, rec_cnt, clt_id, rec_in_state, wh_id, rec_date, emp_id)
+	    INSERT INTO receive (rec_num, io_id, ma_id, rec_cnt, clt_id, rec_in_state, wh_id, emp_id)
 	    SELECT
 	        CONCAT(SUBSTRING(rec_num, 1, 2), LPAD(max(rec_id) + 1, 6, '0')),
 	        #{io_id},
@@ -130,7 +130,6 @@
 	        #{clt_id},
 	        #{rec_in_state},
 	        2,
-	        now(),
 	        #{emp_id}
 	    FROM receive
 	    WHERE rec_num LIKE CONCAT('%' ,'RE', '%');
