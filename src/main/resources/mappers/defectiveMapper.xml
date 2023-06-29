@@ -64,7 +64,7 @@
 	<select id="getList" resultMap="wijoinRM">
 		SELECT df.df_id, df_num, df_type, wi.work_id, work_num, rec.rec_id, rec_num, rec_in_state, li.line_id, line_num, clt.clt_id, clt_name, 
 			pro.pro_id, pro_num, pro_name, ma.ma_id, ma_num, ma_name, df.emp_id, df.update_emp_id, 
-			df.reg_date, df.update_emp_id, df_cnt, df_rsns, repair_yn, solved_date, 
+			df.reg_date, df.update_emp_id, df.df_cnt, df_rsns, repair_yn, solved_date, 
 			CASE 
 			WHEN df.update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
@@ -126,7 +126,7 @@
 	<select id="getListSearch" resultMap="wijoinRM">
 		SELECT df.df_id, df_num, df_type, wi.work_id, work_num, rec.rec_id, rec_num, rec_in_state, li.line_id, line_num, clt.clt_id, clt_name, 
 			pro.pro_id, pro_num, pro_name, ma.ma_id, ma_num, ma_name, df.emp_id, df.update_emp_id, 
-			df.reg_date, df.update_emp_id, df_cnt, df_rsns, repair_yn, solved_date, 
+			df.reg_date, df.update_emp_id, df.df_cnt, df_rsns, repair_yn, solved_date, 
 			CASE 
 			WHEN df.update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
@@ -169,7 +169,7 @@
 	<!-- 품질검사 완료 && 작업지시id가 존재 -->
 	<select id="qcFinInstr" resultMap="wijoinRM">
 		SELECT df.df_id, df_num, df_type, qc.qc_id, wi.work_id, work_num, work_cnt, li.line_id, line_num, pro.pro_id, pro_num, pro_name, 
-			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, df_cnt, df_rsns, repair_yn, solved_date, 
+			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, df.df_cnt, df_rsns, repair_yn, solved_date, 
 			CASE 
 			WHEN df.update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
@@ -190,7 +190,7 @@
 	<!-- 품질검사 완료 && 입고id가 존재 -->
 	<select id="qcFinRec" resultMap="wijoinRM">
 		SELECT df.df_id, df_num, df_type, qc.qc_id, rec.rec_id, rec_num, rec_in_state, rec_cnt, clt.clt_id, clt_name, ma.ma_id, ma_num, ma_name, 
-			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, df_cnt, df_rsns, repair_yn, solved_date, rec.rec_date, 
+			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, df.df_cnt, df_rsns, repair_yn, solved_date, rec.rec_date, 
 			CASE 
 			WHEN df.update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
@@ -216,6 +216,19 @@
 	<!-- 불량 등록 -->
 	
 	
+	<!-- 불량이 등록된 입고 번호의 상태와 입고수량 반영 -->
+	<update id="modifyRec" parameterType="WijoinVO">
+		<selectKey keyColumn="rec_id,rec_cnt,df_cnt" resultType="WijoinVO" order="BEFORE">
+			SELECT df_id, rec.rec_id, rec_cnt, df_cnt 
+			FROM defective df JOIN receive rec ON rec.rec_id = df.rec_id 
+			WHERE df_id = #{df_id} AND df_cnt >= #{df_cnt}
+		</selectKey>
+		UPDATE receive SET rec_cnt = rec_cnt - #{df_cnt}, rec_in_state = '검사완료' 
+		WHERE rec_id = #{rec_id} AND #{df_cnt} &gt; 0
+	</update>
+	<!-- 불량이 등록된 입고 번호의 상태와 입고수량 반영 -->
+	
+	
 	<!-- 불량 수정 -->
 	<update id="modifyDef" parameterType="WijoinVO">
 		UPDATE defective SET df_cnt = #{df_cnt}, repair_yn = #{repair_yn}, df_rsns = #{df_rsns}, update_emp_id = #{emp_id} 
@@ -229,5 +242,12 @@
 		DELETE FROM defective WHERE df_id = #{df_id}
 	</delete>
 	<!-- 불량 삭제 -->
+	
+	
+	<!-- 수리 & 폐기 처리 시 재고 반영 -->
+	<update id="modify">
+	
+	</update>
+	<!-- 수리 & 폐기 처리 시 재고 반영 -->
 
 </mapper>

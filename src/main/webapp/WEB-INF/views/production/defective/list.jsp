@@ -200,6 +200,20 @@
 			var df_id = dfCheckbox.val();
 		});
 	});
+	
+	function repairAndDiscard(rd, dfId) {
+		var url = "/production/defective/reAndDis?df_id=" + dfId + "&rd=";
+		
+		if(rd === "가능") {
+			url += "repair";
+		} else if(rd === "불가") {
+			url += "discard";
+		} else {
+			return false;
+		}
+		
+		window.open(url, 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+	}
 </script>
 <style>
 .selected {
@@ -294,7 +308,9 @@
 						<td>${df.repair_yn}</td>
 						<td>${fn:substring(df.solved_date, 0, 10)}</td>
 						<td>
-							<button onclick="">
+							<button onclick="repairAndDiscard('${df.repair_yn}', '${df.df_id}');" 
+								<c:if test="${df.repair_yn.equals('가능')}">class="btn btn-success m-2"</c:if>
+								<c:if test="${df.repair_yn.equals('불가')}">class="btn btn-danger m-2"</c:if>>
 								${df.df_type == "자재" ? "반품" : (df.repair_yn == "가능" ? "수리" : "폐기")}
 							</button>
 						</td>

@@ -105,10 +105,11 @@ public class DefectiveController {
 		if(vo.getDf_num() != null) {
 			// 불량 등록
 			dfService.addDefective(vo);
-
-			// 불량 개수가 1개 이상인 완제품(생산실적) -> 완제품 재고 차감 & 입고 -> 자재 입고수량 차감
+			// 불량 개수가 1개 이상인 자재(입고) -> 자재 입고수량 차감
+			dfService.modifyRec(vo);
 		} else {
 			dfService.modifyDefective(vo);
+			dfService.modifyRec(vo);
 		}
 		
 		return "redirect:/production/defective/list";
@@ -128,4 +129,19 @@ public class DefectiveController {
 		return "redirect:/production/defective/list";
 	}
 	
+	
+	// ===========================================
+	
+	
+	// 수리 & 폐기 처리
+	@RequestMapping(value = "/reAndDis")
+	public String repairAndDiscard(WijoinVO vo) throws Exception {
+		logger.debug("repairAndDiscard() 호출");
+		
+		
+		
+		return "redirect:/production/defective/reAndDis";
+	}
+	
 }
+
