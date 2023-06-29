@@ -16,10 +16,10 @@
 	<select id="proSearchList" resultType="ProductVO" parameterType="java.util.Map">
 		select * from product
 		<where>
-			<if test="pro_num != ''">
+			<if test="productVO.pro_num != ''">
 				pro_num like CONCAT('%', #{productVO.pro_num}, '%')
 			</if>
-			<if test="pro_name != ''">
+			<if test="productVO.pro_name != ''">
 				AND pro_name like CONCAT('%', #{productVO.pro_name}, '%')
 			</if>
 		</where>

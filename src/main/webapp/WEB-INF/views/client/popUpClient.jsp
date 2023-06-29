@@ -26,11 +26,7 @@
 		var clt_name = $(this).find("td:eq(2)").text();
 			
 		opener.document.getElementById("clt_id").value = clt_id;
-		
 		opener.document.getElementById("clt_num").value = clt_num;
-		opener.document.getElementById("clt_num").removeAttribute("required");
-		opener.document.getElementById("clt_num").readOnly = true;
-		
 		opener.document.getElementById("clt_name").value = clt_name;
 		
 		window.close();

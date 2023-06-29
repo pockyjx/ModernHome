@@ -60,10 +60,10 @@
 		JOIN product p ON p.pro_id = ps.pro_id
 		JOIN warehouse w ON w.wh_id = ps.wh_id
 		<where>
-			<if test="pro_num != ''">
+			<if test="psVO.pro_num != ''">
 				pro_num like CONCAT('%', #{psVO.pro_num}, '%')
 			</if>
-			<if test="pro_name != ''">
+			<if test="psVO.pro_name != ''">
 				AND pro_name like CONCAT('%', #{psVO.pro_name}, '%')
 			</if>
 		</where>
