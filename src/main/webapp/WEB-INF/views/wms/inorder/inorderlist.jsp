@@ -54,10 +54,10 @@
             $("#addRowButton").click(function() {
             	
             	// 모든 체크박스의 체크 해제
-    			$(".table-employeeList input[type='checkbox']").prop("checked", false);
+    			$(".table-inorderList input[type='checkbox']").prop("checked", false);
     			
     			// selected 클래스를 없앰 (css 없애기)
-    			$(".table-employeeList tr").removeClass("selected");
+    			$(".table-inorderList tr").removeClass("selected");
             	
             	
             	var newRow = '<tr>' +
@@ -374,7 +374,7 @@
          			<option value="완료">완료</option>
          			<option value="미완료">미완료</option>
        		</select>
-			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+			<button class="btn btn-primary m-2" type="submit" style="margin-left:200%;">조회</button>
       	</div>
      </div>
 </form>
