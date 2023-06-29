@@ -301,22 +301,22 @@
 				
 				if(ma_num == null || ma_num == "") {
 					$("#ma_num").focus();
-					alert("자재코드를 입력하세요");
+					alert("자재코드를 입력하세요!");
 					return;
 				}
 				if(clt_num == null || clt_num == "") {
 					$("#clt_num").focus();
-					alert("거래처 코드를 입력하세요");
+					alert("거래처 코드를 입력하세요!");
 					return;
 				}
 				if(io_cnt == null || io_cnt == "") {
 					$("#io_cnt").focus();
-					alert("발주량을 입력하세요");
+					alert("발주량을 입력하세요!");
 					return;
 				}
 				if(io_date == null || io_date == "") {
 					$("#io_date").focus();
-					alert("입고예정일을 입력하세요");
+					alert("입고예정일을 입력하세요!");
 					return;
 				}
 				form.submit();
@@ -340,10 +340,6 @@
     .selected {
         background-color: #b3ccff;
     }
-    
-/*     body { */
-/*     	font-family: 'NanumSquareNeo-Variable'; */
-/*     }	 */
 </style>
 
 <!-- 검색칸 -->
@@ -378,9 +374,9 @@
          			<option value="완료">완료</option>
          			<option value="미완료">미완료</option>
        		</select>
+			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
       	</div>
      </div>
-	<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
 </form>
 <!-- 검색칸 --> 
              
@@ -410,24 +406,24 @@
 		</div>
 		
 		<div class="table-responsive">		
-			<table class="table-inorderList table text-start align-middle table-bordered table-hover mb-0">
+			<table class="table-inorderList table align-middle table-bordered table-hover mb-0">
 				<input type="hidden" name="clt_id" id="clt_id">
 				<input type="hidden" name="ma_id" id="ma_id">
 					<tr>
-						<th><input type="checkbox"></th>
-				    	<th>발주코드</th>
-				    	<th>자재코드</th>
-				    	<th>자재명</th>
-				    	<th>거래처코드</th>
-				    	<th>거래처명</th>
-				    	<th>발주량</th>
-				    	<th>단위</th>
-				    	<th>총금액</th>
-				    	<th>발주일자</th>
-				    	<th>발주상태</th>
-				    	<th>입고예정일</th>
-				    	<th>등록일</th>
-				    	<th>담당자</th>
+						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox"></th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">발주코드</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">자재코드</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">거래처<br>코드</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">거래처명</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">발주량</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">단위</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">총금액</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">발주일자</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">발주상태</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">입고<br>예정일</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">등록일</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">담당자</th>
 					</tr>
 					
 				  	<c:forEach var="vo" items="${inorderList}" varStatus="status">
@@ -489,4 +485,3 @@
 <!-- 페이지 이동 버튼 -->
 			
 <%@ include file="../../inc/footer.jsp"%>
-<link rel="stylesheet" href="/resources/css/inorder.css" />

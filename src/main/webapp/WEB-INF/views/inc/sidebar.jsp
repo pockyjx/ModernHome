@@ -21,7 +21,7 @@
 <!--                     </div> -->
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="/" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/mainpage" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
  					<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>기준정보관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -39,7 +39,6 @@
                             <a href="/wms/receive/receivelist" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>입고관리</a>
                             <a href="/release/materialRelease" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>자재출고관리</a>
                             <a href="/release/productRelease" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>제품출고관리</a>
-                            <a href="/wms/warehouse/warehouselist" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>창고관리</a>
                         </div>
                     </div>
  					<div class="nav-item dropdown">
