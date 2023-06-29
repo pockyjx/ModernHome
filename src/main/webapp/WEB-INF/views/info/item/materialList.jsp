@@ -26,9 +26,9 @@
          	
              var newRow = '<tr>' +
                  '<td><input type="checkbox" class="form-check-input"></td>' +
-                 '<td><input type="text" name="ma_num" class="form-control" placeholder="자재 코드" readonly></td>' +
+                 '<td><input type="text" name="ma_num" class="form-control" style="border: none; background: transparent;" placeholder="자동으로 부여" readonly></td>' +
                  '<td><input type="text" name="ma_name" class="form-control" placeholder="자재명""></td>' +
-                 '<td><input type="text" name="ma_unit" class="form-control" value="EA" readonly></td>' +
+                 '<td><input type="text" name="ma_unit" class="form-control" value="EA" style="border: none; background: transparent;" readonly></td>' +
                  '<td><input type="text" name="ma_price" class="form-control" placeholder="자재 단가"></td>' +
                  '</tr>';
              $(".table-mateList tr:nth-child(1)").after(newRow);
@@ -223,7 +223,6 @@ $("#updateButton").click(function(){
 	
 	</form>
 	
-<form id="materialList">
 
 <div class="m-4">
 	<ul class="nav nav-tabs">
@@ -236,6 +235,8 @@ $("#updateButton").click(function(){
 	</ul>
 </div>
 
+<form id="materialList">
+
 <div class="d-flex align-items-center justify-content-between mb-2">
 
 	
@@ -243,7 +244,7 @@ $("#updateButton").click(function(){
 	
 	<div class="m-4">
 	
-		<c:if test="${sessionScope.emp_dept eq '자재'}">
+		<c:if test="${sessionScope.emp_dept eq '자재' && sessionScope.emp_auth == 'Y'}">
 			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
@@ -260,7 +261,7 @@ $("#updateButton").click(function(){
 			</div>
 
 			<div class="table-responsive">
-				<table class="table-mateList table text-start align-middle table-bordered table-hover mb-0">
+				<table class="table-mateList table table-striped align-middle table-hover mb-0">
 
 					<tr>
 						<th><input type="checkbox" class="form-check-input"></th>
