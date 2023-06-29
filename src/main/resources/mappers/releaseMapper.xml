@@ -62,6 +62,7 @@
         
 	</resultMap>
 	
+	<!-- 자재 출고 목록 (페이징) -->
 	<select id="getmrlist" resultMap="MaterialReleaseVO">
   		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt, e.emp_name, mr_id, m.ma_id
 		from material_release mr 
@@ -70,8 +71,24 @@
 		join warehouse w on mr.wh_id = w.wh_id
 		join material_stock ms on mr.ma_id = ms.ma_id
 		join employee e on mr.emp_id = e.emp_id
+		LIMIT #{startPage}, #{pageSize}
   	</select>
   	
+  	<!-- 자재 출고 목록 (페이징) -->
+  	
+  	<!-- 전체 글 개수 (페이징) -->
+  	<select id="mrTotalCnt" resultType="int">
+  		select count(mr_num)
+		from material_release mr 
+		join work_instr wi on mr.work_id = wi.work_id 
+		join material m on mr.ma_id = m.ma_id 
+		join warehouse w on mr.wh_id = w.wh_id
+		join material_stock ms on mr.ma_id = ms.ma_id
+		join employee e on mr.emp_id = e.emp_id
+  	</select>
+  	<!-- 전체 글 개수 (페이징) -->
+  	
+  	<!-- 자재 출고 검색 (페이징) -->
 	<select id="getmrlistp" resultMap="MaterialReleaseVO" parameterType="java.util.Map">
   		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt, e.emp_name, mr_id, m.ma_id
 		from material_release mr 
@@ -94,7 +111,36 @@
 	        	AND #{endDate} &gt;= mr_date
 	        </if>
 	    </where>
+	    LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
   	</select>
+  	<!-- 자재 출고 검색 (페이징) -->
+  	
+  	<!-- 검색 결과 개수 (페이징) -->
+  	<select id="mrSearchCnt" resultType="int" parameterType="java.util.Map">
+  		select count(mr_num)
+		from material_release mr 
+		join work_instr wi on mr.work_id = wi.work_id 
+		join material m on mr.ma_id = m.ma_id 
+		join warehouse w on mr.wh_id = w.wh_id
+		join material_stock ms on mr.ma_id = ms.ma_id
+		join employee e on mr.emp_id = e.emp_id
+		<where>
+	        <if test="mr_num != ''">
+	            AND mr_num like CONCAT('%', #{mr_num}, '%')
+	        </if>
+	        <if test="ma_name != ''">
+	            AND ma_name like CONCAT('%', #{ma_name}, '%')
+	        </if>
+	        <if test="startDate != ''">
+	        	AND mr_date &gt;= #{startDate}
+	        </if>
+	        <if test="endDate != ''">
+	        	AND #{endDate} &gt;= mr_date
+	        </if>
+	    </where>
+  	</select>
+  	<!-- 검색 결과 개수 (페이징) -->
+  	
   	
 	<insert id="regmtRelease">
 		insert into material_release (mr_num, ma_id, work_id, wh_id, mr_cnt, mr_date, mr_state, emp_id)
@@ -155,6 +201,8 @@
   		<collection property="outOrderVO" resultMap="OutOrderVO"/>
   		<collection property="clientVO" resultMap="ClientVO"/>
   	</resultMap>
+  	
+  	<!-- 완제품 출고 목록 (페이징) -->
   	<select id="getprlist" resultMap="ProductReleaseVO">
 		select pr_id, pr_num , oo.oo_num, c.clt_name, p.pro_name, pr.pr_cnt, ps.ps_cnt, w.wh_name, oo.oo_end_date, pr.pr_state, e.emp_name, pr.pr_date, p.pro_id
 		from product_release pr 
@@ -165,7 +213,24 @@
 		join product_stock ps on pr.pro_id = ps.pro_id 
 		join employee e on pr.emp_id = e.emp_id
 		order by pr_id desc
+		LIMIT #{startPage}, #{pageSize}
   	</select>
+  	<!-- 완제품 출고 목록 (페이징) -->
+  	
+  	<!-- 전체 글 개수 (페이징) -->
+  	<select id="prTotalCnt" resultType="int">
+  		select count(pr_id)
+  		from product_release pr
+		join out_order oo on pr.oo_id = oo.oo_id 
+		join client c on oo.clt_id = c.clt_id 
+		join product p on pr.pro_id = p.pro_id 
+		join warehouse w on pr.wh_id = w.wh_id
+		join product_stock ps on pr.pro_id = ps.pro_id 
+		join employee e on pr.emp_id = e.emp_id
+  	</select>
+  	<!-- 전체 글 개수 (페이징) -->
+  	
+  	<!-- 완제품 출고 검색 (페이징) -->
   	<select id="getprlistp" resultMap="ProductReleaseVO" parameterType="java.util.Map">
 		select pr_id, pr_num , oo.oo_num, c.clt_name, p.pro_name, pr.pr_cnt, ps.ps_cnt, w.wh_name, oo.oo_end_date, pr.pr_state, e.emp_name, pr.pr_date, p.pro_id
 		from product_release pr 
@@ -190,7 +255,37 @@
 	        </if>
 	    </where>
 		order by pr_id desc
+		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
   	</select>
+  	<!-- 완제품 출고 검색 (페이징) -->
+  	
+  	<!-- 검색 결과 개수 (페이징) -->
+	<select id="prSearchCnt" resultType="int" parameterType="java.util.Map">
+		select count(pr_id)
+		from product_release pr 
+		join out_order oo on pr.oo_id = oo.oo_id 
+		join client c on oo.clt_id = c.clt_id 
+		join product p on pr.pro_id = p.pro_id 
+		join warehouse w on pr.wh_id = w.wh_id
+		join product_stock ps on pr.pro_id = ps.pro_id 
+		join employee e on pr.emp_id = e.emp_id
+		<where>
+	        <if test="pr_num != ''">
+	            AND pr_num like CONCAT('%', #{pr_num}, '%')
+	        </if>
+	        <if test="pro_name != ''">
+	            AND p.pro_name like CONCAT('%', #{pro_name}, '%')
+	        </if>
+	        <if test="startDate != ''">
+	        	AND pr_date &gt;= #{startDate}
+	        </if>
+	        <if test="endDate != ''">
+	        	AND #{endDate} &gt;= pr_date
+	        </if>
+	    </where>
+	</select>
+  	<!-- 검색 결과 개수 (페이징) -->
+  	
   	
 	<insert id="regprRelease">
 		insert into product_release (pr_num, pro_id, oo_id, wh_id, pr_cnt, pr_date, pr_state, emp_id)
