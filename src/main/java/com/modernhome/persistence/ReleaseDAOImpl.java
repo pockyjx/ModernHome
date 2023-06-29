@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.modernhome.domain.MaterialReleaseVO;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductReleaseVO;
 
 @Repository
@@ -23,13 +24,30 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 	private static final Logger logger = LoggerFactory.getLogger(ReleaseDAOImpl.class);
 
 	@Override
-	public List<MaterialReleaseVO> getMaterialReleaseList() throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getmrlist");
-
+	public List<MaterialReleaseVO> getMaterialReleaseList(PageVO vo) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getmrlist", vo);
+	}
+	
+	@Override
+	public int getMrTotalCnt() {
+		return sqlSession.selectOne(NAMESPACE + ".mrTotalCnt");
 	}
 
 	@Override
-	public List<MaterialReleaseVO> getMaterialReleaseList(String startDate, String endDate, String ma_name, String mr_num) throws Exception {
+	public List<MaterialReleaseVO> getMaterialReleaseList(String startDate, String endDate, String ma_name, String mr_num, PageVO vo) throws Exception {
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		parameterMap.put("ma_name", ma_name);
+		parameterMap.put("mr_num", mr_num);
+		parameterMap.put("pageVO", vo);
+		
+		return sqlSession.selectList(NAMESPACE + ".getmrlistp", parameterMap);
+	}
+	
+	@Override
+	public int getMrSearchCnt(String startDate, String endDate, String ma_name, String mr_num) {
 		
 		Map<String, Object> parameterMap = new HashMap<>();
 		parameterMap.put("startDate", startDate);
@@ -37,7 +55,7 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 		parameterMap.put("ma_name", ma_name);
 		parameterMap.put("mr_num", mr_num);
 		
-		return sqlSession.selectList(NAMESPACE + ".getmrlistp", parameterMap);
+		return sqlSession.selectOne(NAMESPACE + ".mrSearchCnt", parameterMap);
 	}
 
 	@Override
@@ -63,13 +81,31 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 	}
 	
 	@Override
-	public List<ProductReleaseVO> getProductReleaseList() throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getprlist");
+	public List<ProductReleaseVO> getProductReleaseList(PageVO vo) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getprlist", vo);
 		
 	}
 	
 	@Override
-	public List<ProductReleaseVO> getProductReleaseList(String startDate, String endDate, String pro_name, String pr_num) throws Exception {
+	public int getPrTotalCnt() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".prTotalCnt");
+	}
+
+	@Override
+	public List<ProductReleaseVO> getProductReleaseList(String startDate, String endDate, String pro_name, String pr_num, PageVO vo) throws Exception {
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		parameterMap.put("pro_name", pro_name);
+		parameterMap.put("pr_num", pr_num);
+		parameterMap.put("pageVO", vo);
+		
+		return sqlSession.selectList(NAMESPACE + ".getprlistp", parameterMap);
+	}
+	
+	@Override
+	public int getPrSearchCnt(String startDate, String endDate, String pro_name, String pr_num) {
 		
 		Map<String, Object> parameterMap = new HashMap<>();
 		parameterMap.put("startDate", startDate);
@@ -77,9 +113,9 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 		parameterMap.put("pro_name", pro_name);
 		parameterMap.put("pr_num", pr_num);
 		
-		return sqlSession.selectList(NAMESPACE + ".getprlistp", parameterMap);
+		return sqlSession.selectOne(NAMESPACE + ".prSearchCnt", parameterMap);
 	}
-	
+
 	@Override
 	public void regProductRelease(ProductReleaseVO vo) throws Exception {
 		logger.debug("제품 출고 등록!");

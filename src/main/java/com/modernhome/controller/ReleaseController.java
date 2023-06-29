@@ -7,12 +7,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.MaterialReleaseVO;
+import com.modernhome.domain.PageMaker;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductReleaseVO;
 import com.modernhome.service.ReleaseService;
 
@@ -31,17 +34,39 @@ public class ReleaseController {
 			@ModelAttribute(value = "startDate") String startDate, 
     		@ModelAttribute(value = "endDate") String endDate,
     		@ModelAttribute(value = "ma_nameSearch") String ma_name,
-    		@ModelAttribute(value = "mr_numSearch") String mr_num
+    		@ModelAttribute(value = "mr_numSearch") String mr_num, 
+    		PageVO vo
 			) throws Exception {
+		
 		List<MaterialReleaseVO> releaseList;
+		PageMaker pm = new PageMaker();
+		
 		if (!startDate.isEmpty() || !endDate.isEmpty() || !ma_name.isEmpty() || !mr_num.isEmpty()) {
 			
-			releaseList = rService.getMaterialReleaseList(startDate, endDate, ma_name, mr_num);
+			releaseList = rService.getMaterialReleaseList(startDate, endDate, ma_name, mr_num, vo);
+			model.addAttribute("mtReleaseList", releaseList);
+			
+			// 페이징 정보 전달
+    		pm.setPageVO(vo);
+    		pm.setTotalCount(rService.getMrSearchCnt(startDate, endDate, ma_name, mr_num));
+    		model.addAttribute("pm", pm);
+    		
+    		// 검색 정보 전달
+    		model.addAttribute("startDate", startDate);
+    		model.addAttribute("endDate", endDate);
+    		model.addAttribute("ma_name", ma_name);
+    		model.addAttribute("mr_num", mr_num);
 			
 		}else {
-			releaseList = rService.getMaterialReleaseList();
+			releaseList = rService.getMaterialReleaseList(vo);
+			model.addAttribute("mtReleaseList", releaseList);
+			
+			// 페이징 정보 전달
+    		pm.setPageVO(vo);
+    		pm.setTotalCount(rService.getMrSearchCnt(startDate, endDate, ma_name, mr_num));
+    		model.addAttribute("pm", pm);
+    		
 		}
-		model.addAttribute("mtReleaseList", releaseList);
 	}
 	
 	@RequestMapping(value = "/regMTRelease", method = RequestMethod.POST)
@@ -91,17 +116,42 @@ public class ReleaseController {
 			@ModelAttribute(value = "startDate") String startDate, 
     		@ModelAttribute(value = "endDate") String endDate,
     		@ModelAttribute(value = "pr_numSearch") String pr_numSearch,
-    		@ModelAttribute(value = "pro_nameSearch") String pro_nameSearch
+    		@ModelAttribute(value = "pro_nameSearch") String pro_nameSearch, 
+    		PageVO vo
 			) throws Exception {
+		
 		List<ProductReleaseVO> releaseList;
+		PageMaker pm = new PageMaker();
+		
 		if (!startDate.isEmpty() || !endDate.isEmpty() || !pr_numSearch.isEmpty() || !pro_nameSearch.isEmpty()) {
 			
-			releaseList = rService.getProductReleaseList(startDate, endDate, pro_nameSearch, pr_numSearch);
+			releaseList = rService.getProductReleaseList(startDate, endDate, pro_nameSearch, pr_numSearch, vo);
+			model.addAttribute("prReleaseList", releaseList);
 			
+			// 페이징 정보 전달
+    		pm.setPageVO(vo);
+    		pm.setTotalCount(rService.getPrSearchCnt(startDate, endDate, pro_nameSearch, pr_numSearch));
+    		model.addAttribute("pm", pm);
+    		
+    		// 검색 정보 전달
+    		model.addAttribute("startDate", startDate);
+    		model.addAttribute("endDate", endDate);
+    		model.addAttribute("pro_nameSearch", pro_nameSearch);
+    		model.addAttribute("pr_numSearch", pr_numSearch);
+
+    		
 		}else {
-			releaseList = rService.getProductReleaseList();
+			releaseList = rService.getProductReleaseList(vo);
+			model.addAttribute("prReleaseList", releaseList);
+			
+			// 페이징 정보 전달
+    		pm.setPageVO(vo);
+    		pm.setTotalCount(rService.getTotalCntPr());
+    		model.addAttribute("pm", pm);
+			
 		}
-		model.addAttribute("prReleaseList", releaseList);
+			
+			
 		
 	}
 	
