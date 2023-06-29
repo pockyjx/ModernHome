@@ -287,7 +287,7 @@
 					<th>불량사유</th>
 					<th>수리가능 여부</th>
 					<th>처리일</th>
-					<th>수리 / 폐기</th>
+					<th>수리/폐기</th>
 				</tr>
 			
 				<c:forEach var="df" items="${dfList}">
