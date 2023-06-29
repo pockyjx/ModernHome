@@ -69,6 +69,12 @@ public class DefectiveServiceImpl implements DefectiveService {
 	}
 	
 	@Override
+	public void modifyRec(WijoinVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - modifyRec() 출력");
+		dao.modifyRec(vo);
+	}
+	
+	@Override
 	public void modifyDefective(WijoinVO vo) throws Exception {
 		logger.debug("defectiveServiceImpl - modifyDefective() 출력");
 		dao.modifyDefective(vo);

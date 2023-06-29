@@ -31,6 +31,9 @@ public interface DefectiveDAO {
 	// 불량 등록
 	public void addDefective(WijoinVO vo) throws Exception;
 	
+	// 불량 등록 시 입고 테이블 변경
+	public void modifyRec(WijoinVO vo) throws Exception;
+	
 	// 불량 수정
 	public void modifyDefective(WijoinVO vo) throws Exception;
 	

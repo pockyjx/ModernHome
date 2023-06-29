@@ -264,14 +264,14 @@
 <!-- 모달창 (작업지시 추가) -->
 <div id="my_modal_add" style="display: none;">
 	<iframe src="/production/instruct/add" id="chat_iframe"></iframe>  
-	<a class="modal_close_btn">닫기</a>
+	<a class="modal_close_btn">X</a>
 </div>
 <!-- 모달창 (작업지시 추가) -->
 
 <!-- 모달창 (작업지시 수정) -->
 <div id="my_modal_modify" style="display: none;">
 	<iframe src="/production/instruct/modify" id="chat_iframe"></iframe>  
-	<a class="modal_close_btn">닫기</a>
+	<a class="modal_close_btn">X</a>
 </div>
 <!-- 모달창 (작업지시 수정) -->
 
