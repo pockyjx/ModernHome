@@ -64,7 +64,39 @@
 		// 추가 버튼 클릭 시 행 추가
 		// 추가버튼 1번 누르면 추가버튼 비활성화
 		$("#addRowButton").click(function() {
+			console.log('${sesionScope.emp_auth}');
+			var cellValue = $(this).text();
+			var authRow = "";
 			
+			
+			if('${sessionScope.emp_auth}' == 3){
+				authRow = 
+				'<td>' +
+				'<select name="emp_auth">' +
+				'<option value="1">1</option>' +
+				'<option value="2">2</option>' +
+				'<option value="3">3</option>' +
+				'</select>' +
+				'</td>';
+
+			}else if('${sessionScope.emp_auth}' == '2'){
+				authRow = 
+				'<td>' +
+				'<select name="emp_auth">' +
+				'<option value="1">1</option>' +
+				'<option value="2">2</option>' +
+				'</select>' +
+				'</td>';
+			}else {
+				authRow = 
+				'<td>' +
+				'<select name="emp_auth" disabled>' +
+				'<option value="1">1</option>' +
+				'<option value="2">2</option>' +
+				'<option value="3">3</option>' +
+				'</select>' +
+				'</td>';
+			}
 			
 			// 모든 체크박스의 체크 해제
 			$(".table-employeeList input[type='checkbox']").prop("checked", false);
@@ -75,7 +107,7 @@
 			var newRow = '<tr>' +
 				'<td><input type="checkbox"></td>' +
 				'<td><input type="text" name="emp_id" disabled="disabled" value="자동으로 부여"></td>' +
-				'<td><input type="text" name="emp_name" required></td>' +
+				'<td><input type="text" name="emp_name" id="emp_name"></td>' +
 				
 				'<td>' +
 					'<select name="emp_gender">' +
@@ -84,7 +116,7 @@
 					'</select>' +
 				'</td>' +
 				
-				'<td><input type="date" name="emp_birth" required></td>' +
+				'<td><input type="date" name="emp_birth" id="emp_birth"></td>' +
 				
 				'<td>' +
 				'<select name="emp_dept">' +
@@ -98,22 +130,21 @@
 				
 				'<td>' +
 				'<select name="emp_rank">' +
-				'<option value="팀장">팀장</option>' +
-				'<option value="대리">대리</option>' +
 				'<option value="사원">사원</option>' +
+				'<option value="대리">대리</option>' +
+				'<option value="과장">과장</option>' +
+				'<option value="부장">부장</option>' +
 				'</select>' +
 				'</td>' +
 				
-				'<td>' +
-				'<select name="emp_auth">' +
-				'<option value="N">N</option>' +
-				'<option value="Y">Y</option>' +
-				'</select>' +
-				'</td>' +
+				
+				authRow +
+
+				
 				
 				'<td><input type="text" name="emp_state" value="재직" readonly="readonly"></td>' +
-				'<td><input type="text" id="tel" name="emp_tel" required></td>' +
-				'<td><input type="date" name="emp_hire_date"></td>' +
+				'<td><input type="text" name="emp_tel" id="emp_tel"></td>' +
+				'<td><input type="date" name="emp_hire_date" id="emp_hire_date"></td>' +
 				'<td><input type="date" name="emp_rsgnt_date" disabled="disabled"></td>' +
 				'<td><input type="date" name="emp_start_leave_date" disabled="disabled"></td>' +
 				'</tr>';
@@ -222,19 +253,20 @@
 				
 				// input type의 name 값 지정
 				var cellNames = [
-					"emp_id",
-					"emp_name",
-					"emp_gender",
-					"emp_birth",
-					"emp_dept",
-					"emp_rank",
-					"emp_auth",
-					"emp_state",
-					"emp_tel",
-					"emp_hire_date",
-					"emp_rsgnt_date",
-					"emp_start_leave_date"
+					'emp_id',
+					'emp_name',
+					'emp_gender',
+					'emp_birth',
+					'emp_dept',
+					'emp_rank',
+					'emp_auth',
+					'emp_state',
+					'emp_tel',
+					'emp_hire_date',
+					'emp_rsgnt_date',
+					'emp_start_leave_date'
 				];
+				
 				
 				
 				// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
@@ -259,18 +291,45 @@
 					}else if (index === 5){
 						cellContent = '<td>' +
 						'<select name="' + cellName + '">' +
-						'<option value="팀장" ' + (cellValue === '팀장' ? 'selected' : '') + '>팀장</option>' +
+						'<option value="부장" ' + (cellValue === '부장' ? 'selected' : '') + '>부장</option>' +
+						'<option value="과장" ' + (cellValue === '과장' ? 'selected' : '') + '>과장</option>' +
 						'<option value="대리" ' + (cellValue === '대리' ? 'selected' : '') + '>대리</option>' +
 						'<option value="사원" ' + (cellValue === '사원' ? 'selected' : '') + '>사원</option>' +
 						'</select>' +
 						'</td>';
 					}else if (index === 6){
-						cellContent = '<td>' +
-						'<select name="' + cellName + '">' +
-						'<option value="N" ' + (cellValue === 'N' ? 'selected' : '') + '>N</option>' +
-						'<option value="Y" ' + (cellValue === 'Y' ? 'selected' : '') + '>Y</option>' +
-						'</select>' +
-						'</td>';
+						cellContent="";
+						
+						
+						if('${sessionScope.emp_auth}' == 3){
+							cellContent = '<td>' +
+							'<select name="' + cellName + '">' +
+							'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
+							'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
+							'<option value="3" ' + (cellValue === '3' ? 'selected' : '') + '>3</option>' +
+							'</select>' +
+							'</td>';
+
+						}
+						else if('${sessionScope.emp_auth}' == 2){
+							cellContent = '<td>' +
+							'<select name="' + cellName + '">' +
+							'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
+							'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
+							'</select>' +
+							'</td>';
+						}
+						else {
+							cellContent = '<td>' +
+							'<select name="' + cellName + '" disabled>' +
+							'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
+							'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
+							'<option value="3" ' + (cellValue === '3' ? 'selected' : '') + '>3</option>' +
+							'</select>' +
+							'</td>';
+						}
+						
+						
 					}else if (index === 7){
 						cellContent = '<td>' +
 						'<select name="' + cellName + '">' +
@@ -279,10 +338,10 @@
 						'<option value="퇴직" ' + (cellValue === '퇴직' ? 'selected' : '') + '>퇴직</option>' +
 						'</select>' +
 						'</td>';
-					}else if (index === 8){
-						cellContent = '<td><input type="' + cellType + '" id="tel" name="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+					}else if (index === 8) {																							
+						cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="emp_tel" value="' + cellValue + '"' + cellReadonly + '></td>';
 					}else {																							
-						cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+						cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
 					}
 					
 					$(this).html(cellContent);
@@ -325,6 +384,52 @@
 		});
 			
 		
+		
+
+		
+		
+		// submit버튼 유효성
+		$("#submitButton").click(function() {
+			var form = $("#employeeList");
+			form.attr("method", "post");
+			form.attr("action", "/employee/regEmployee");
+			
+			
+			var emp_name = $("#emp_name").val();
+			var emp_birth = $("#emp_birth").val();
+			var emp_tel = $("#emp_tel").val();
+			var emp_hire_date = $("#emp_hire_date").val();
+			
+				if(emp_name == null || emp_name == "") {
+					$("#emp_name").focus();
+					alert("이름을 입력하세요!");
+					return;
+				}
+				if(emp_birth == null || emp_birth == "") {
+					$("#emp_birth").focus();
+					alert("생년월일을 입력하세요!");
+					return;
+				}
+				if(emp_tel == null || emp_tel == "") {
+					$("#emp_tel").focus();
+					alert("전화번호를 입력하세요!");
+					return;
+				}
+				if(emp_birth == null || emp_birth == "") {
+					$("#emp_birth").focus();
+					alert("생년월일을 입력하세요!");
+					return;
+				}
+			
+			form.submit();
+		}); //submit버튼 유효성
+		
+		
+		
+		
+		
+		
+		
 		// 체크박스 선택 시 체크박스 개수 구하기
 		function updateSelectedCheckboxCount() {
 			var totalCheckboxes = $(".table-employeeList td input[type='checkbox']").length;
@@ -338,7 +443,7 @@
 			// }); -> 이런식으로 쓰면 페이지가 로드될 때의 요소에만 바인딩 되기때문에(추가된 행엔 동작안함) 아래와 같은 형태로 사용해야함
 		
 		// 전화번호 입력시 하이픈 생성
-		$(document).on("keyup", "#tel", function() {
+		$(document).on("keyup", "#emp_tel", function() {
 			var telVal = $(this).val();
 			telVal = telVal.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
 			var telLen = telVal.length;
@@ -385,9 +490,10 @@
 	직급
 		<select name="emp_rank">
 			<option ${evo.emp_rank eq "전체" ? "selected" : ""}>전체</option>
-			<option ${evo.emp_rank eq "팀장" ? "selected" : ""}>팀장</option>
-			<option ${evo.emp_rank eq "대리" ? "selected" : ""}>대리</option>
 			<option ${evo.emp_rank eq "사원" ? "selected" : ""}>사원</option>
+			<option ${evo.emp_rank eq "대리" ? "selected" : ""}>대리</option>
+			<option ${evo.emp_rank eq "과장" ? "selected" : ""}>과장</option>
+			<option ${evo.emp_rank eq "부장" ? "selected" : ""}>부장</option>
 		</select>
 	상태
 		<select name="emp_state">
@@ -407,13 +513,13 @@
 	
 	<span id="selectedCheckboxCount">0</span>
 	
-	<c:if test="${sessionScope.emp_dept eq '인사' && sessionScope.emp_auth == 'Y'}">
+	<c:if test="${sessionScope.emp_dept eq '인사'}">
 		<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 		<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 		<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteEmployee" formmethod="post">
 		<i class="fa fa-trash"></i> 삭제</button>
-		<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regEmployee" formmethod="post" disabled>
+		<button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
 		<i class="fa fa-download"></i> 저장</button>
 	</c:if>
 	
