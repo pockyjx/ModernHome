@@ -99,7 +99,7 @@
 			CASE WHEN #{emp_birth} = '' THEN NULL ELSE #{emp_birth} END,
 			#{emp_dept}, #{emp_rank}, #{emp_state}, #{emp_tel}, #{emp_email},
 			CASE WHEN #{emp_hire_date} = '' THEN CURRENT_TIMESTAMP ELSE #{emp_hire_date} END,
-			CASE WHEN #{emp_auth} = NULL THEN 1 ELSE #{emp_auth} END)
+			CASE WHEN #{emp_auth} IS NULL THEN 1 ELSE #{emp_auth} END)
 		
 	</insert>
 	<!-- 사원등록 -->
@@ -118,7 +118,7 @@
 		emp_rsgnt_date = CASE WHEN #{emp_rsgnt_date} = '' THEN NULL ELSE #{emp_rsgnt_date} END,
 		emp_start_leave_date = CASE WHEN #{emp_start_leave_date} = '' THEN NULL ELSE #{emp_start_leave_date} END,
 		emp_end_leave_date = CASE WHEN #{emp_end_leave_date} = '' THEN NULL ELSE #{emp_end_leave_date} END,
-		emp_auth = #{emp_auth}
+		emp_auth = CASE WHEN #{emp_auth} IS NULL THEN emp_auth ELSE #{emp_auth} END
 		
 		WHERE emp_id = #{emp_id}
 	</update>
