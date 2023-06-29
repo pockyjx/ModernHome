@@ -61,7 +61,7 @@
             	
             	var newRow = '<tr>' +
 	                '<td><input type="checkbox" class="form-check-input"></td>' +
-	                '<td><input type="text" class="form-control" name="rec_num" placeholder="(자동 부여)" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="rec_num" placeholder="(자동부여)" style="border: none; background: transparent;" readonly></td>' +
 	                '<td><input type="text" class="form-control" name="io_num" placeholder="클릭" id="io_num" readonly></td>' +
 	                '<td><input type="text" class="form-control" name="ma_name" id="ma_name" style="border: none; background: transparent;" readonly></td>' +
 	                '<td><input type="text" class="form-control" name="io_cnt" id="io_cnt" style="border: none; background: transparent;" readonly></td>' +
@@ -196,8 +196,11 @@
 		
 	// 발주 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click", "input[id='io_num']", function() {
-		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-	});
+		var left = (screen.width - 600) / 2;
+		var top = (screen.height - 500) / 2;
+		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=600, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+		});
+
 		
 		
     </script>
@@ -211,21 +214,21 @@
 
 <form name="search" method="get" action="" class="bg-light rounded p-3 m-3">
 	<div class="row mb-3">
-		<label class="col-sm-2 col-form-label">자재명</label>
+		<label class="col-sm-2 col-form-label"><b>자재명</b></label>
 		<div class="col-sm-10">
 			<input type="text" name="ma_name" value="${ma_name}" placeholder="자재명을 입력하세요">
 		</div>
 	</div>
 	
 	<div class="row mb-3">
-		<label class="col-sm-2 col-form-label">발주코드</label>
+		<label class="col-sm-2 col-form-label"><b>발주코드</b></label>
 		<div class="col-sm-10">
       		<input type="text" name="io_num" value="${io_num }" placeholder="발주코드를 입력하세요">
 		</div>
 	</div>
 	
 	<div class="row mb-3">
-		<label class="col-sm-2 col-form-label">입고일자</label>
+		<label class="col-sm-2 col-form-label"><b>입고일자</b></label>
 		<div class="col-sm-10">
 			<input type="date" name="startDate" value="${startDate }" >
                			~
