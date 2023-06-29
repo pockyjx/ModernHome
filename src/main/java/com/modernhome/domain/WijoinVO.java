@@ -45,9 +45,19 @@ public class WijoinVO {
 	private Integer rec_cnt;
 	private String rec_num;
 	private Integer rec_id;
+	private String rec_in_state;
+	private String rec_date;
 	
 	private String prfrm_num;
 	private String gb_yn;
+	
+	private Integer df_id;
+	private String df_num;
+	private String df_type;
+	private String repair_yn;
+	private int df_cnt;
+	private String df_rsns;
+	private String solved_date;
 	
 	public Integer getWork_id() {
 		return work_id;
@@ -295,6 +305,18 @@ public class WijoinVO {
 	public void setRec_id(Integer rec_id) {
 		this.rec_id = rec_id;
 	}
+	public String getRec_in_state() {
+		return rec_in_state;
+	}
+	public void setRec_in_state(String rec_in_state) {
+		this.rec_in_state = rec_in_state;
+	}
+	public String getRec_date() {
+		return rec_date;
+	}
+	public void setRec_date(String rec_date) {
+		this.rec_date = rec_date;
+	}
 	public String getPrfrm_num() {
 		return prfrm_num;
 	}
@@ -306,6 +328,48 @@ public class WijoinVO {
 	}
 	public void setGb_yn(String gb_yn) {
 		this.gb_yn = gb_yn;
+	}
+	public Integer getDf_id() {
+		return df_id;
+	}
+	public void setDf_id(Integer df_id) {
+		this.df_id = df_id;
+	}
+	public String getDf_num() {
+		return df_num;
+	}
+	public void setDf_num(String df_num) {
+		this.df_num = df_num;
+	}
+	public String getDf_type() {
+		return df_type;
+	}
+	public void setDf_type(String df_type) {
+		this.df_type = df_type;
+	}
+	public String getRepair_yn() {
+		return repair_yn;
+	}
+	public void setRepair_yn(String repair_yn) {
+		this.repair_yn = repair_yn;
+	}
+	public int getDf_cnt() {
+		return df_cnt;
+	}
+	public void setDf_cnt(int df_cnt) {
+		this.df_cnt = df_cnt;
+	}
+	public String getDf_rsns() {
+		return df_rsns;
+	}
+	public void setDf_rsns(String df_rsns) {
+		this.df_rsns = df_rsns;
+	}
+	public String getSolved_date() {
+		return solved_date;
+	}
+	public void setSolved_date(String solved_date) {
+		this.solved_date = solved_date;
 	}
 	
 	@Override
@@ -319,9 +383,11 @@ public class WijoinVO {
 				+ ", reg_date=" + reg_date + ", update_date=" + update_date + ", oo_end_date=" + oo_end_date
 				+ ", qc_id=" + qc_id + ", qc_num=" + qc_num + ", qc_yn=" + qc_yn + ", qc_cnt=" + qc_cnt + ", qc_date="
 				+ qc_date + ", repaired=" + repaired + ", prfrm_id=" + prfrm_id + ", prfrm_cnt=" + prfrm_cnt
-				+ ", ma_id=" + ma_id + ", df_cnt=" + df_cnt + ", io_id=" + io_id + ", io_num=" + io_num + ", rec_cnt="
-				+ rec_cnt + ", rec_num=" + rec_num + ", rec_id=" + rec_id + ", prfrm_num=" + prfrm_num + ", gb_yn="
-				+ gb_yn + "]";
+				+ ", ma_id=" + ma_id + ", io_id=" + io_id + ", io_num=" + io_num + ", rec_cnt=" + rec_cnt + ", rec_num="
+				+ rec_num + ", rec_id=" + rec_id + ", rec_in_state=" + rec_in_state + ", rec_date=" + rec_date
+				+ ", prfrm_num=" + prfrm_num + ", gb_yn=" + gb_yn + ", df_id=" + df_id + ", df_num=" + df_num
+				+ ", df_type=" + df_type + ", repair_yn=" + repair_yn + ", df_cnt=" + df_cnt + ", df_rsns=" + df_rsns
+				+ ", solved_date=" + solved_date + "]";
 	}
 	
 	

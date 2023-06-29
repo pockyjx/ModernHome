@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.modernhome.domain.LineVO;
+import com.modernhome.domain.PageMaker;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 import com.modernhome.service.LineService;
@@ -38,6 +40,47 @@ public class InstructController {
 	
 	
 	// ===========================================
+	
+	
+	// http://localhost:8088/production/instruct/list
+	// 작업지시 리스트 출력(GET) - /production/instruct/list
+	@RequestMapping(value = "/instruct/list", method = RequestMethod.GET)
+	public void getInstrList(Model model, PageVO pvo, 
+			@ModelAttribute(value = "work_state") String work_state, @ModelAttribute(value = "pro_num") String pro_num, 
+			@ModelAttribute(value = "startDate") String startDate, @ModelAttribute(value = "endDate") String endDate) 
+					throws Exception {
+		logger.debug("getInstrList() 호출");
+		
+		// 작업지시 목록 출력 메서드 (서비스 -> DAO)
+		List<WijoinVO> instrList = null;
+		PageMaker pm = new PageMaker();
+		
+		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
+		if(work_state != null || pro_num != null || !startDate.isEmpty() || !endDate.isEmpty()) {
+			logger.debug("검색어 O, 검색된 데이터만 출력");
+			instrList = wiService.getInstrList(work_state, pro_num, startDate, endDate, pvo);
+			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(wiService.getWiSearchCnt(work_state, pro_num, startDate, endDate, pvo));
+		}else {
+			logger.debug("검색어 X, 전체 데이터 출력 ");
+			instrList = wiService.getInstrList(pvo);
+			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(wiService.getWiTotalCnt());
+		}
+		logger.debug("instrList : {}", instrList);
+		
+		// 연결된 뷰페이지에 전달
+		model.addAttribute("instrList", instrList);
+		model.addAttribute("pm", pm);
+		
+		// 페이지 이동
+		logger.debug("/production/instruct/list.jsp 뷰페이지로 이동");
+	}
+	
 	
 	// http://localhost:8088/production/instruct/add.jsp
 	// 작업지시서 작성(GET) - /production/instruct/add
@@ -91,9 +134,7 @@ public class InstructController {
 			
 			return "/production/instruct/addPopupli2";
 		}
-
-		logger.debug("add 뷰페이지로 다시 이동");
-		return "/production/instruct/add";
+		return "";
 	}
 	
 	// 작업지시서 작성 처리(POST) - /production/instruct/add
@@ -105,40 +146,6 @@ public class InstructController {
 		wiService.addInstr(vo);
 		
 		return "redirect:/production/instruct/list";
-	}
-	
-	
-	// http://localhost:8088/production/instruct/list
-	// 작업지시 리스트 출력(GET) - /production/instruct/list
-	@RequestMapping(value = "/instruct/list", method = RequestMethod.GET)
-	public void getInstrList(Model model, 
-			@ModelAttribute(value = "work_state") String work_state, @ModelAttribute(value = "pro_num") String pro_num, 
-			@ModelAttribute(value = "startDate") String startDate, @ModelAttribute(value = "endDate") String endDate) 
-			throws Exception {
-		logger.debug("getInstrList() 호출");
-		
-		// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-		List<WijoinVO> instrList = null;
-		
-		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
-		if(work_state != null || pro_num != null || !startDate.isEmpty() || !endDate.isEmpty()) {
-			logger.debug("검색어 O, 검색된 데이터만 출력");
-			
-			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-			instrList = wiService.getInstrList(work_state, pro_num, startDate, endDate);
-		}else {
-			logger.debug("검색어 X, 전체 데이터 출력 ");
-			
-			// 작업지시 목록 출력 메서드 (서비스 -> DAO)
-			instrList = wiService.getInstrList();
-		}
-		logger.debug("instrList : {}", instrList);
-		
-		// 연결된 뷰페이지에 전달
-		model.addAttribute("instrList", instrList);
-		
-		// 페이지 이동
-		logger.debug("/production/instruct/list.jsp 뷰페이지로 이동");
 	}
 	
 	// http://localhost:8088/production/instruct/info?work_id=

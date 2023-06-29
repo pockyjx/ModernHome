@@ -371,33 +371,35 @@
 	<h1>사원조회</h1>
 	<!-- 검색칸 -->
 	<form action="" method="GET">
-	사원번호 <input type="number" name="emp_id">
-	이름 <input type="text" name="emp_name">
+	사원번호 <input type="number" name="emp_id" value="${evo.emp_id }">
+	이름 <input type="text" name="emp_name" value="${evo.emp_name }">
 	부서
 		<select name="emp_dept">
-			<option>전체</option>
-			<option>인사</option>
-			<option>영업</option>
-			<option>생산</option>
-			<option>자재</option>
-			<option>품질</option>
+			<option ${evo.emp_dept eq "전체" ? "selected" : ""}>전체</option>
+			<option ${evo.emp_dept eq "인사" ? "selected" : ""}>인사</option>
+			<option ${evo.emp_dept eq "영업" ? "selected" : ""}>영업</option>
+			<option ${evo.emp_dept eq "생산" ? "selected" : ""}>생산</option>
+			<option ${evo.emp_dept eq "자재" ? "selected" : ""}>자재</option>
+			<option ${evo.emp_dept eq "품질" ? "selected" : ""}>품질</option>
 		</select>
 	직급
 		<select name="emp_rank">
-			<option>전체</option>
-			<option>팀장</option>
-			<option>대리</option>
-			<option>사원</option>
+			<option ${evo.emp_rank eq "전체" ? "selected" : ""}>전체</option>
+			<option ${evo.emp_rank eq "팀장" ? "selected" : ""}>팀장</option>
+			<option ${evo.emp_rank eq "대리" ? "selected" : ""}>대리</option>
+			<option ${evo.emp_rank eq "사원" ? "selected" : ""}>사원</option>
 		</select>
 	상태
 		<select name="emp_state">
-			<option>전체</option>
-			<option>재직</option>
-			<option>휴직</option>
-			<option>퇴직</option>
+			<option ${evo.emp_state eq "전체" ? "selected" : ""}>전체</option>
+			<option ${evo.emp_state eq "재직" ? "selected" : ""}>재직</option>
+			<option ${evo.emp_state eq "휴직" ? "selected" : ""}>휴직</option>
+			<option ${evo.emp_state eq "퇴직" ? "selected" : ""}>퇴직</option>
 		</select>
 		
 		<input type="submit" value="조회">
+		
+		<input type="reset" value="초기화">
 	</form>
 	<!-- 검색칸 -->
 	
@@ -458,6 +460,86 @@
 	</table>
 	
 	</form>
+	
+	
+	<!-- 페이징 버튼 -->
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center pagination-sm">
+		
+		<!-- 이전버튼 -->
+		<c:if test="${pm.prev }">
+			<li class="page-item">
+			
+			<c:choose>
+				<c:when test="${not empty evo.emp_id || not empty evo.emp_name || not empty evo.emp_dept || not empty evo.emp_rank || not empty evo.emp_state}">
+				<a class="page-link"
+				href="/employee/employeeList?page=${pm.startPage-1 }&emp_id=${evo.emp_id}&emp_name=${evo.emp_name}&emp_dept=${evo.emp_dept}&emp_rank=${evo.emp_rank}&emp_state=${evo.emp_state}" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+				</c:when>
+				
+				<c:otherwise>
+				<a class="page-link"
+				href="/employee/employeeList?page=${pm.startPage-1 }" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+				</c:otherwise>
+			</c:choose>
+				
+			</li>
+		</c:if>
+		<!-- 이전버튼 -->
+			
+		<!-- 버튼 -->
+		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+		<li 
+				<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+			>
+			
+			<c:choose>
+				<c:when test="${not empty evo.emp_id || not empty evo.emp_name || not empty evo.emp_dept || not empty evo.emp_rank || not empty evo.emp_state}">
+				<a class="page-link"
+				href="/employee/employeeList?page=${idx}&emp_id=${evo.emp_id}&emp_name=${evo.emp_name}&emp_dept=${evo.emp_dept}&emp_rank=${evo.emp_rank}&emp_state=${evo.emp_state}">${idx }</a>
+				</c:when>
+				
+				<c:otherwise>
+				<a class="page-link"
+				href="/employee/employeeList?page=${idx}">${idx }</a>
+				</c:otherwise>
+			</c:choose>
+				
+		</li>
+		</c:forEach>
+		<!-- 버튼 -->
+			
+		<!-- 다음버튼 -->
+		<c:if test="${pm.next && pm.endPage > 0}">
+		<li class="page-item">
+			
+			<c:choose>
+				<c:when test="${not empty evo.emp_id || not empty evo.emp_name || not empty evo.emp_dept || not empty evo.emp_rank || not empty evo.emp_state}">
+				<a class="page-link"
+				href="/employee/employeeList?page=${pm.endPage+1}&emp_id=${evo.emp_id}&emp_name=${evo.emp_name}&emp_dept=${evo.emp_dept}&emp_rank=${evo.emp_rank}&emp_state=${evo.emp_state}" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+				</a>
+				</c:when>
+				
+				<c:otherwise>
+				<a class="page-link"
+				href="/employee/employeeList?page=${pm.endPage+1}" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+				</a>
+				</c:otherwise>
+			</c:choose>
+			
+		</li>
+		</c:if>
+		<!-- 다음버튼 -->
+			
+		</ul>
+	</nav>
+	<!-- 페이징 버튼 -->
+	
 
 
 </body>

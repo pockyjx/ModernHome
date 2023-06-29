@@ -7,8 +7,227 @@
 	
 	<!-- Join 결과 매핑 -->
 	<resultMap id="wijoinRM" type="WijoinVO">
-		
+		<result property="work_id" column="work_id"/>
+		<result property="pro_id" column="pro_id"/>
+		<result property="req_id" column="req_id"/>
+		<result property="clt_id" column="clt_id"/>
+		<result property="oo_id" column="oo_id"/>
+		<result property="line_id" column="line_id"/>
+		<result property="emp_id" column="emp_id"/>
+		<result property="work_num" column="work_num"/>
+		<result property="pro_num" column="pro_num"/>
+		<result property="ma_num" column="ma_num"/>
+		<result property="oo_num" column="oo_num"/>
+		<result property="line_num" column="line_num"/>
+		<result property="clt_name" column="clt_name"/>
+		<result property="pro_name" column="pro_name"/>
+		<result property="pro_unit" column="pro_unit"/>
+		<result property="emp_name" column="emp_name"/>
+		<result property="line_name" column="line_name"/>
+		<result property="ma_num" column="ma_num"/>
+		<result property="ma_name" column="ma_name"/>
+		<result property="oo_cnt" column="oo_cnt"/>
+		<result property="req_cnt" column="req_cnt"/>
+		<result property="work_cnt" column="work_cnt"/>
+		<result property="work_state" column="work_state"/>
+		<result property="reg_date" column="reg_date"/>
+		<result property="oo_end_date" column="oo_end_date"/>
+		<result property="qc_id" column="qc_id"/>
+		<result property="qc_num" column="qc_num"/>
+		<result property="qc_yn" column="qc_yn"/>
+		<result property="qc_cnt" column="qc_cnt"/>
+		<result property="qc_date" column="qc_date"/>
+		<result property="repaired" column="repaired"/>
+		<result property="prfrm_id" column="prfrm_id"/>
+		<result property="prfrm_cnt" column="prfrm_cnt"/>
+		<result property="ma_id" column="ma_id"/>
+		<result property="prfrm_num" column="prfrm_num"/>
+		<result property="df_id" column="df_id"/>
+		<result property="df_num" column="df_num"/>
+		<result property="df_type" column="df_type"/>
+		<result property="repair_yn" column="repair_yn"/>
+		<result property="df_cnt" column="df_cnt"/>
+		<result property="df_rsns" column="df_rsns"/>
+		<result property="solved_date" column="solved_date"/>
 	</resultMap>
 	<!-- Join 결과 매핑 -->
+	
+	
+	<!-- 전체 글 수 계산 (페이징 처리) -->
+	<select id="dfTotalCnt" resultType="int">
+		SELECT count(*) FROM defective
+	</select>
+	<!-- 전체 글 수 계산 (페이징 처리) -->
+	
+	
+	<!-- 불량 목록 출력 (페이징 처리) -->
+	<select id="getList" resultMap="wijoinRM">
+		SELECT df.df_id, df_num, df_type, wi.work_id, work_num, rec.rec_id, rec_num, rec_in_state, li.line_id, line_num, clt.clt_id, clt_name, 
+			pro.pro_id, pro_num, pro_name, ma.ma_id, ma_num, ma_name, df.emp_id, df.update_emp_id, 
+			df.reg_date, df.update_emp_id, df_cnt, df_rsns, repair_yn, solved_date, 
+			CASE 
+			WHEN df.update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = df.update_emp_id)
+			END AS emp_name 
+		FROM defective df 
+		LEFT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
+		LEFT JOIN product pro ON qc.pro_id = pro.pro_id 
+		LEFT JOIN work_instr wi ON wi.work_id = qc.work_id 
+		LEFT JOIN receive rec ON rec.rec_id = df.rec_id 
+		LEFT JOIN material ma ON ma.ma_id = df.ma_id 
+		LEFT JOIN employee emp ON emp.emp_id = df.emp_id 
+		LEFT JOIN client clt ON clt.clt_id = rec.clt_id 
+		LEFT JOIN line li ON qc.line_id = li.line_id 
+		ORDER BY df.df_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+	</select>
+	<!-- 불량 목록 출력 (페이징 처리) -->
+	
+	
+	<!-- 불량 id, 코드 자동 생성 -->
+	<select id="creatDefNum" resultType="WijoinVO">
+		SELECT ifnull(max(df_id), 0) + 1 AS df_id, 
+			concat('DF', lpad(ifnull(max(df_id), 0) + 1, 4, 0)) AS df_num 
+		FROM defective
+	</select>
+	<!-- 불량 코드 자동 생성 -->
+	
+	
+	<!-- 검색한 불량 목록 개수 (페이징 처리)  -->
+	<select id="dfSearchCnt" resultMap="wijoinRM">
+		SELECT count(df.df_id) 
+		FROM defective df 
+		LEFT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
+		LEFT JOIN product pro ON qc.pro_id = pro.pro_id 
+		LEFT JOIN work_instr wi ON wi.work_id = qc.work_id 
+		LEFT JOIN receive rec ON rec.rec_id = df.rec_id 
+		LEFT JOIN material ma ON ma.ma_id = df.ma_id 
+		LEFT JOIN employee emp ON emp.emp_id = df.emp_id 
+		LEFT JOIN client clt ON clt.clt_id = rec.clt_id 
+		LEFT JOIN line li ON qc.line_id = li.line_id 
+		<where>
+			<if test="df_type != 'all'">
+				df_type = #{df_type}
+			</if>
+			<if test="work_num != ''">
+				AND wi.work_nu like CONCAT('%', #{work_num}, '%')
+			</if>
+			<if test="line_num != ''">
+				AND li.line_num like CONCAT('%', #{line_num}, '%')
+			</if>
+		</where>
+		ORDER BY df.df_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+	</select>
+	<!-- 검색한 불량 목록 개수 (페이징 처리)  -->
+	
+	
+	<!-- 불량 검색 출력 (페이징 처리) -->
+	<select id="getListSearch" resultMap="wijoinRM">
+		SELECT df.df_id, df_num, df_type, wi.work_id, work_num, rec.rec_id, rec_num, rec_in_state, li.line_id, line_num, clt.clt_id, clt_name, 
+			pro.pro_id, pro_num, pro_name, ma.ma_id, ma_num, ma_name, df.emp_id, df.update_emp_id, 
+			df.reg_date, df.update_emp_id, df_cnt, df_rsns, repair_yn, solved_date, 
+			CASE 
+			WHEN df.update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = df.update_emp_id)
+			END AS emp_name 
+		FROM defective df 
+		LEFT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
+		LEFT JOIN product pro ON qc.pro_id = pro.pro_id 
+		LEFT JOIN work_instr wi ON wi.work_id = qc.work_id 
+		LEFT JOIN receive rec ON rec.rec_id = df.rec_id 
+		LEFT JOIN material ma ON ma.ma_id = df.ma_id 
+		LEFT JOIN employee emp ON emp.emp_id = df.emp_id 
+		LEFT JOIN client clt ON clt.clt_id = rec.clt_id 
+		LEFT JOIN line li ON qc.line_id = li.line_id 
+		<where>
+			<if test="df_type != ''">
+				df_type = #{df_type}
+			</if>
+			<if test="nameSearch != ''">
+				<if test="df_type == 'all'">
+					AND (pro_name like CONCAT('%', #{nameSearch}, '%') OR ma_name like CONCAT('%', #{nameSearch}, '%')) 
+				</if>
+				<if test="df_type == '완제품'">
+					AND pro_name like CONCAT('%', #{nameSearch}, '%') 
+				</if>
+				<if test="df_type == '자재'">
+					AND ma_name like CONCAT('%', #{nameSearch}, '%') 
+				</if>
+			</if>
+			<if test="line_num != ''">
+				AND line_num like CONCAT('%', #{line_num}, '%') 
+			</if>
+		</where>
+		ORDER BY df.df_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+	</select>
+	<!-- 불량 검색 출력 (페이징 처리) -->
+	
+	
+	<!-- 품질검사 완료 && 작업지시id가 존재 -->
+	<select id="qcFinInstr" resultMap="wijoinRM">
+		SELECT df.df_id, df_num, df_type, qc.qc_id, wi.work_id, work_num, work_cnt, li.line_id, line_num, pro.pro_id, pro_num, pro_name, 
+			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, df_cnt, df_rsns, repair_yn, solved_date, 
+			CASE 
+			WHEN df.update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = df.update_emp_id)
+			END AS emp_name 
+		FROM defective df 
+		RIGHT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
+		LEFT JOIN product pro ON qc.pro_id = pro.pro_id 
+		LEFT JOIN work_instr wi ON wi.work_id = qc.work_id 
+		LEFT JOIN employee emp ON emp.emp_id = df.emp_id
+		LEFT JOIN line li ON qc.line_id = li.line_id 
+		WHERE qc.qc_yn = '완료' AND qc.work_id IS NOT NULL AND df.qc_id IS NULL
+	</select>
+	<!-- 품질검사 완료 && 작업지시id가 존재 -->
+	
+	
+	<!-- 품질검사 완료 && 입고id가 존재 -->
+	<select id="qcFinRec" resultMap="wijoinRM">
+		SELECT df.df_id, df_num, df_type, qc.qc_id, rec.rec_id, rec_num, rec_in_state, rec_cnt, clt.clt_id, clt_name, ma.ma_id, ma_num, ma_name, 
+			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, df_cnt, df_rsns, repair_yn, solved_date, rec.rec_date, 
+			CASE 
+			WHEN df.update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = df.update_emp_id)
+			END AS emp_name 
+		FROM defective df 
+		RIGHT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
+		LEFT JOIN receive rec ON rec.rec_id = qc.rec_id 
+		LEFT JOIN material ma ON ma.ma_id = qc.ma_id 
+		LEFT JOIN employee emp ON emp.emp_id = df.emp_id 
+		LEFT JOIN client clt ON clt.clt_id = rec.clt_id 
+		WHERE qc.qc_yn = '완료' AND qc.rec_id IS NOT NULL AND df.qc_id IS NULL
+	</select>
+	<!-- 품질검사 완료 && 입고id가 존재 -->
+	
+	
+	<!-- 불량 등록 -->
+	<insert id="addDef">
+		INSERT INTO defective (df_id, df_num, df_type, qc_id, ma_id, line_id, rec_id, repair_yn, df_cnt, df_rsns, emp_id) 
+		VALUES (#{df_id}, #{df_num}, #{df_type}, #{qc_id}, #{ma_id}, #{line_id}, #{rec_id}, #{repair_yn}, #{df_cnt}, #{df_rsns}, #{emp_id})
+	</insert>
+	<!-- 불량 등록 -->
+	
+	
+	<!-- 불량 수정 -->
+	<update id="modifyDef" parameterType="WijoinVO">
+		UPDATE defective SET df_cnt = #{df_cnt}, repair_yn = #{repair_yn}, df_rsns = #{df_rsns}, update_emp_id = #{emp_id} 
+		WHERE df_id = #{df_id}
+	</update>
+	<!-- 불량 수정 -->
+	
+	
+	<!-- 불량 삭제 -->
+	<delete id="delDef">
+		DELETE FROM defective WHERE df_id = #{df_id}
+	</delete>
+	<!-- 불량 삭제 -->
 
 </mapper>

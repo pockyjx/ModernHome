@@ -1,5 +1,6 @@
 package com.modernhome.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.modernhome.domain.OutOrderJoinVO;
 import com.modernhome.domain.OutOrderVO;
+import com.modernhome.domain.PageVO;
 
 @Repository
 public class OutOrderDAOImpl implements OutOrderDAO {
@@ -21,24 +23,58 @@ public class OutOrderDAOImpl implements OutOrderDAO {
 	private static final String NAMESAPCE = "com.modernhome.mapper.OutOrderMapper";
 
 	
-
 	private static final Logger logger = LoggerFactory.getLogger(OutOrderDAOImpl.class);
+	
+	// 수주 전체수 계산
+	@Override
+	public int outOrderCnt() throws Exception {
+		return sqlSession.selectOne(NAMESAPCE + ".outOrderCnt");
+	}
+	
+	
+	
+	
 	// 수주 조회
 	@Override
-	public List<OutOrderJoinVO> outOrderList() {
+	public List<OutOrderJoinVO> outOrderList(PageVO pvo) {
 		logger.debug("DAO -> mapper 호출 -> SQL 실행 (수주조회)");
 		
-		return sqlSession.selectList(NAMESAPCE+".outOrderList");
+		return sqlSession.selectList(NAMESAPCE+".outOrderList", pvo);
 	}
+	
+	
+	
+	
+	
+	
+	// 수주 검색결과수 계산
+	@Override
+	public int ooSearchCnt(OutOrderJoinVO ovo) throws Exception {
+		return sqlSession.selectOne(NAMESAPCE + ".ooSearchCnt", ovo);
+	}
+
+
+
 
 	// 수주조회(검색)
 	@Override
-	public List<OutOrderJoinVO> outOrderListSearch(OutOrderJoinVO ovo) {
+	public List<OutOrderJoinVO> outOrderListSearch(OutOrderJoinVO ovo, PageVO pvo) {
 		logger.debug("DAO - > mapper 호출 -> SQL 실행 (수주조회 - 검색된 데이터만 출력)");
 		
-		return sqlSession.selectList(NAMESAPCE+ ".outOrderListSearch", ovo);
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("ovo", ovo);
+		paramMap.put("pvo", pvo);
+		
+		return sqlSession.selectList(NAMESAPCE+ ".outOrderListSearch", paramMap);
 	}
 
+	
+	
+	
+	
+	
+	
+	
 	
 	// 수주 등록
 	@Override

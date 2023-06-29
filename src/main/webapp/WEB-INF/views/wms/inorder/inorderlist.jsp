@@ -7,16 +7,13 @@
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>발주 관리</title>
+
+<!-- <link rel="stylesheet" href="/resources/css/inorder.css" /> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-	<script>
+<script>
 		<!-- 캘린터 위젯 적용 -->
 // 			/* 설정 */	
 // 			const config = {
@@ -55,15 +52,23 @@
 			// 추가 버튼 클릭 시 행 추가
             // 추가버튼 1번 누르면 추가버튼 비활성화
             $("#addRowButton").click(function() {
+            	
+            	// 모든 체크박스의 체크 해제
+    			$(".table-employeeList input[type='checkbox']").prop("checked", false);
+    			
+    			// selected 클래스를 없앰 (css 없애기)
+    			$(".table-employeeList tr").removeClass("selected");
+            	
+            	
             	var newRow = '<tr>' +
 	                '<td><input type="checkbox"></td>' +
 	                '<td><input type="text" name="io_num" placeholder="자동으로 부여" readonly></td>' +
-	                '<td><input type="text" name="ma_num" placeholder="자재코드" id="ma_num" readonly></td>' +
-	                '<td><input type="text" name="ma_name" placeholder="자재명" id="ma_name" readonly></td>' +
-	                '<td><input type="text" name="clt_num" placeholder="거래처 코드" id="clt_num" readonly></td>' +
-	                '<td><input type="text" name="clt_name" placeholder="거래처명" id="clt_name" readonly></td>' +
-	                '<td><input type="text" name="io_cnt" placeholder="발주량"></td>' +
-	                '<td><input type="text" name="io_unit" placeholder="단위"></td>' +
+	                '<td><input type="text" name="ma_num" placeholder="여기를 눌러 검색하세요" id="ma_num" readonly></td>' +
+	                '<td><input type="text" name="ma_name" id="ma_name" readonly></td>' +
+	                '<td><input type="text" name="clt_num" placeholder="여기를 눌러 검색하세요" id="clt_num" readonly></td>' +
+	                '<td><input type="text" name="clt_name" id="clt_name" readonly></td>' +
+	                '<td><input type="text" name="io_cnt" placeholder="발주량을 입력하세요"></td>' +
+	                '<td><input type="text" name="io_unit" value="EA" readonly></td>' +
 	                '<td><input type="text" name="io_amount" placeholder="총금액(자동계산)" readonly></td>' +
 	                '<td><input type="date" name="io_date" readonly></td>' +
 	                '<td><input type="text" name="io_state" value="미완료" readonly></td>' +
@@ -85,8 +90,11 @@
 				
 				pageStatus = "reg";
 				
+				updateSelectedCheckboxCount();
+				
             }); // 여기까지 추가 버튼
             
+
             
          	// 취소 버튼 누를 시 
 			$("#cancelButton").click(function(){
@@ -279,155 +287,206 @@
 	            var selectedCheckboxes = $(".table-inorderList td input[type='checkbox']:checked").length;
 	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	        } // 체크박스 선택 시 체크박스 개수 구하기
-	           
-	       });
+	         
+	        
+	        // 제출 전 유효성 검사
+	        $("#submitButton").click(function() {
+				var form = $("#inorderList");
+				form.attr("method", "GET");
+				form.attr("action", "/wms/regInorder");
+				var ma_num = $("#ma_num").val();
+				var clt_num = $("#clt_num").val();
+				var io_cnt = $("#io_cnt").val();
+				var io_date = $("#io_date").val();
+				
+				if(ma_num == null || ma_num == "") {
+					$("#ma_num").focus();
+					alert("자재코드를 입력하세요");
+					return;
+				}
+				if(clt_num == null || clt_num == "") {
+					$("#clt_num").focus();
+					alert("거래처 코드를 입력하세요");
+					return;
+				}
+				if(io_cnt == null || io_cnt == "") {
+					$("#io_cnt").focus();
+					alert("발주량을 입력하세요");
+					return;
+				}
+				if(io_date == null || io_date == "") {
+					$("#io_date").focus();
+					alert("입고예정일을 입력하세요");
+					return;
+				}
+				form.submit();
+			});
+	        
+		});
 		
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='clt_num']", function() {
     	   window.open('/wms/inorder/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
        });
        
+		
        // 자재 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='ma_num']", function() {
     	   window.open('/wms/inorder/addPopup?txt=ma', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
        });
 	
+</script>
+<style>
+    .selected {
+        background-color: #b3ccff;
+    }
+    
+/*     body { */
+/*     	font-family: 'NanumSquareNeo-Variable'; */
+/*     }	 */
+</style>
 
-		
-    </script>
-    <style>
-        .selected {
-            background-color: #b3ccff;
-        }
-    </style>
-</head>
-<body>
-		<h2>발주 관리</h2>
-		<!-- 검색칸 -->
-			<fieldset>
-               	<form name="search" method="get" action="">
-                   	<div>
-                   		<label>발주일자</label>
-	                   	<input type="date" name="istartDate">
-                  			~
-	                   	<input type="date" name="iendDate">
-                   	</div>
-		       		<br>
-		       		<div>
-                   		<label>입고예정일</label>
-	                   	<input type="date" name="rstartDate">
-                  			~
-	                   	<input type="date" name="rendDate">
-                   	</div>
-		       		<span>자재명 :
-		       			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
-		       		</span>
-		       		<span>발주상태
-		       			<select name="io_state">
-                   			<option value="전체">전체</option>
-                   			<option value="완료">완료</option>
-                   			<option value="미완료">미완료</option>
-                 		</select>
-		       		</span>
-		      		<input type="submit" value="조회">
-             	</form>
-             </fieldset> 
-		<!-- 검색칸 --> 
+<!-- 검색칸 -->
+<form method="get" name="search" action="" class="bg-light rounded p-3 m-3">
+   	<div class="row mb-3">
+   		<label for="ioSearch" class="col-sm-2 col-form-label">발주일자</label>
+    		<div class="col-sm-10">
+     		<input type="date" name="istartDate">
+   			~
+     		<input type="date" name="iendDate">
+    		</div>
+   	</div>
+	<div class="row mb-3">
+   		<label for="ioSearch" class="col-sm-2 col-form-label">입고예정일</label>
+    		<div class="col-sm-10">
+     		<input type="date" name="rstartDate">
+   			~
+     		<input type="date" name="rendDate">
+    		</div>
+   	</div>
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label">자재명</label>
+		<div class="col-sm-10">
+			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label">발주상태</label>
+		<div class="col-sm-10">
+			<select name="io_state">
+         			<option value="전체">전체</option>
+         			<option value="완료">완료</option>
+         			<option value="미완료">미완료</option>
+       		</select>
+      	</div>
+     </div>
+	<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+</form>
+<!-- 검색칸 --> 
              
 		<hr>    
-             
-		<h2>발주</h2>
-			<form id="inorderList" action="" method="GET">
-			
-			<span id="selectedCheckboxCount">0</span>
-			
-			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+          
+<div class="d-flex align-items-center justify-content-between mb-2">             
+	<h3 class="m-4">발주 목록</h3>
+	<div>	
+		<c:if test="${sessionScope.emp_dept eq '자재'}">
+			<button type="button" class="btn btn-primary m-2" id="addRowButton">
+				<i class="fa fa-plus"></i> 추가</button>
     		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
-    		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-		    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
-		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
-			
+    		<button type="button" class="btn btn-primary m-2" id="updateButton">
+    			<i class="fa fa-edit"></i> 수정</button>
+		    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post">
+		    	<i class="fa fa-trash"></i> 삭제</button>
+		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled>
+		    	<i class="fa fa-download"></i> 저장</button>
+		</c:if>
+	</div>
+</div>	
 
-			<table class="table-inorderList" border="1">
-				
-			<input type="hidden" name="clt_id" id="clt_id">
-			<input type="hidden" name="ma_id" id="ma_id">
-				
-				<tr>
-					<th><input type="checkbox"></th>
-			    	<th>발주코드</th>
-			    	<th>자재코드</th>
-			    	<th>자재명</th>
-			    	<th>거래처코드</th>
-			    	<th>거래처명</th>
-			    	<th>발주량</th>
-			    	<th>단위</th>
-			    	<th>총금액</th>
-			    	<th>발주일자</th>
-			    	<th>발주상태</th>
-			    	<th>입고예정일</th>
-			    	<th>등록일</th>
-			    	<th>담당자</th>
-				</tr>
-				
-			  	<c:forEach var="vo" items="${inorderList}" varStatus="status">
+<div class="bg-light text-center rounded p-4 m-3">
+	<form id="inorderList" action="" method="GET">
+		<div class="d-flex align-items-center justify-content-between mb-4">	
+			<span id="selectedCheckboxCount">0</span>
+		</div>
+		
+		<div class="table-responsive">		
+			<table class="table-inorderList table text-start align-middle table-bordered table-hover mb-0">
+				<input type="hidden" name="clt_id" id="clt_id">
+				<input type="hidden" name="ma_id" id="ma_id">
 					<tr>
-						<td><input type="checkbox" name="selectedIoId" value="${vo.io_id}"></td>
-				    	<td>${vo.io_num}</td>
-				    	<td>${vo.ma_num}</td>
-				    	<td>${vo.ma_name}</td>
-				    	<td>${vo.clt_num}</td>
-				    	<td>${vo.clt_name}</td>
-				    	<td>${vo.io_cnt}</td>
-				    	<td>${vo.io_unit}</td>
-				    	<td>${vo.ma_price*vo.io_cnt}</td>
-				    	<td>${fn:substring(vo.io_date, 0, 10)}</td>
-				   		<td>${vo.io_state}</td>
-				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
-				   		<td>
-							<c:if test="${!empty vo.io_update_date}">${fn:substring(vo.io_update_date, 0, 10)}</c:if>
-							<c:if test="${empty vo.io_update_date}">${fn:substring(vo.io_reg_date, 0, 10)}</c:if>
-						</td>
-				   		<td>${vo.emp_name}</td>
-				    </tr>
-			    </c:forEach>
-			</table>
-			
-			</form>
-			
-			<!-- 페이지 이동 버튼 -->
-	
-			<nav aria-label="Page navigation example">
-		  		<ul class="pagination justify-content-center pagination-sm">
-		  		
-		  			<c:if test="${pm.prev }">
-					<li class="page-item">
-						<a class="page-link" href="/wms/inorder/inorderlist?page=${pm.startPage-1 }&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}" aria-label="Previous">
-		       			<span aria-hidden="true">&laquo;</span>
-		      			</a>
-		    		</li>
-		    		</c:if>
-		    		
-		    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-		    		<li 
-		    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-		    		>
-		    				<a class="page-link" href="/wms/inorder/inorderlist?page=${idx}&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}">${idx }</a>
-		    		</li>
-		    		</c:forEach>
+						<th><input type="checkbox"></th>
+				    	<th>발주코드</th>
+				    	<th>자재코드</th>
+				    	<th>자재명</th>
+				    	<th>거래처코드</th>
+				    	<th>거래처명</th>
+				    	<th>발주량</th>
+				    	<th>단위</th>
+				    	<th>총금액</th>
+				    	<th>발주일자</th>
+				    	<th>발주상태</th>
+				    	<th>입고예정일</th>
+				    	<th>등록일</th>
+				    	<th>담당자</th>
+					</tr>
 					
-					<c:if test="${pm.next && pm.endPage > 0}">
-					<li class="page-item">
-		      			<a class="page-link" href="/wms/inorder/inorderlist?page=${pm.endPage+1 }&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}" aria-label="Next">
-		        		<span aria-hidden="true">&raquo;</span>
-		      			</a>
-		    		</li>
-		    		</c:if>
-		    		
-		  		</ul>
-			</nav>
+				  	<c:forEach var="vo" items="${inorderList}" varStatus="status">
+						<tr>
+							<td><input type="checkbox" name="selectedIoId" value="${vo.io_id}"></td>
+					    	<td><a href="/wms/inorder/inorderInfo?io_id=${vo.io_id}">${vo.io_num }</a></td>
+					    	<td>${vo.ma_num}</td>
+					    	<td>${vo.ma_name}</td>
+					    	<td>${vo.clt_num}</td>
+					    	<td>${vo.clt_name}</td>
+					    	<td>${vo.io_cnt}</td>
+					    	<td>${vo.io_unit}</td>
+					    	<td>${vo.ma_price*vo.io_cnt}</td>
+					    	<td>${fn:substring(vo.io_date, 0, 10)}</td>
+					   		<td>${vo.io_state}</td>
+					   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
+					   		<td>
+								<c:if test="${!empty vo.io_update_date}">${fn:substring(vo.io_update_date, 0, 10)}</c:if>
+								<c:if test="${empty vo.io_update_date}">${fn:substring(vo.io_reg_date, 0, 10)}</c:if>
+							</td>
+					   		<td>${vo.emp_name}</td>
+					    </tr>
+				    </c:forEach>
+			</table>
+		</div>
+	</form>
+</div>
 			
-			<!-- 페이지 이동 버튼 -->
-</body>
-</html>
+<!-- 페이지 이동 버튼 -->
+<nav aria-label="Page navigation example">
+ 		<ul class="pagination justify-content-center pagination-sm">
+ 		
+ 			<c:if test="${pm.prev }">
+		<li class="page-item">
+			<a class="page-link" href="/wms/inorder/inorderlist?page=${pm.startPage-1 }&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}" aria-label="Previous">
+      			<span aria-hidden="true">&laquo;</span>
+     			</a>
+   		</li>
+   		</c:if>
+   		
+   		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+   		<li 
+   			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+   		>
+   				<a class="page-link" href="/wms/inorder/inorderlist?page=${idx}&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}">${idx }</a>
+   		</li>
+   		</c:forEach>
+		
+		<c:if test="${pm.next && pm.endPage > 0}">
+		<li class="page-item">
+     			<a class="page-link" href="/wms/inorder/inorderlist?page=${pm.endPage+1 }&istartDate=${istartDate}&iendDate=${iendDate}&rstartDate=${rstartDate}&rendDate=${rendDate}&ma_name=${ma_name}&io_state=${io_state}" aria-label="Next">
+       		<span aria-hidden="true">&raquo;</span>
+     			</a>
+   		</li>
+   		</c:if>
+   		
+ 		</ul>
+</nav>
+<!-- 페이지 이동 버튼 -->
+			
 <%@ include file="../../inc/footer.jsp"%>
+<link rel="stylesheet" href="/resources/css/inorder.css" />

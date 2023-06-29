@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.PageVO;
+import com.modernhome.domain.ReqJoinVO;
 
 public interface InorderDAO {
 	
@@ -31,4 +32,9 @@ public interface InorderDAO {
 	
 	// 발주 삭제
 	public void deleteInorder(int io_id) throws Exception;
+	
+	// 발주서 가져오기
+	public List<InorderVO> getIoList(int io_id) throws Exception;
+	
+	
 }

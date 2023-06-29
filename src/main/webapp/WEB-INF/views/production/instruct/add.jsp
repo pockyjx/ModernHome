@@ -1,9 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="../../inc/header.jsp"%>
-<%@ include file="../../inc/sidebar.jsp"%>
-<%@ include file="../../inc/nav.jsp"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>작업지시서 작성</title>
+</head>
+
+<!-- Google Web Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Icon Font Stylesheet -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Libraries Stylesheet -->
+<link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<!-- Customized Bootstrap Stylesheet -->
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<!-- Template Stylesheet -->
+<link href="/resources/css/style.css" rel="stylesheet">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
@@ -22,7 +42,7 @@
 		var onumVal = new URLSearchParams(new URL(url).search).get('oo_num');
 		
 		if(onumVal == null) {
-			alert("수주번호부터 선택해주세요.");
+			alert("수주번호 먼저 선택해주세요.");
 			return false;
 		} else {
 			window.open('/production/instruct/addPopup?txt=li', 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
@@ -70,12 +90,14 @@
 		});
 	});
 </script>
+
+<body>
 	
 	<c:set var="now" value="<%=new java.util.Date()%>"/>
 	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
 	
 	<h2>작업지시서 작성</h2>
-<%-- ${idnum} <hr> --%>
+<%-- ${idnum} --%>
 <%-- ${reqList} --%>
 	<form method="post">
 		<table border="1">
@@ -102,7 +124,7 @@
 			</tr>
 			<tr>
 				<th>납기일</th>
-				<td><input type="text" name="oo_end_date" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_end_date}"</c:if> readonly></td>
+				<td><input type="text" name="oo_end_date" <c:if test='${!empty param.oo_num}'>value="${fn:substring(reqList[0].oo_end_date, 0, 10)}"</c:if> readonly></td>
 				<th>생산라인</th>
 				<td id="line_num">
 					<input type="text" name="line_num" <c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if> readonly>
@@ -132,6 +154,7 @@
 		<input type="hidden" name="pro_id" value="${reqList[0].pro_id}">
 		<input type="hidden" name="req_id" value="${reqList[0].req_id}">
 		<input type="hidden" name="clt_id" value="${reqList[0].clt_id}">
+		<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
 		<input type="hidden" name="oo_id" id="oo_id" <c:if test='${!empty param.oo_id}'>value="${param.oo_id}"</c:if> readonly>
 		<input type="hidden" name="line_id" id="line_id" <c:if test='${!empty param.line_id}'>value="${param.line_id}"</c:if> readonly>
 		<div>
@@ -140,4 +163,5 @@
 		</div>
 	</form>
 	
-<%@ include file="../../inc/footer.jsp"%>
+</body>
+</html>

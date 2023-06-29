@@ -302,11 +302,15 @@ $(document).ready(function() {
 	// ------------- 팝업창
 	// 거래처 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click focus", "input[name='clt_num']", function() {
+		// 창이 열릴 시 포커스를 없앰
+		$("input").blur();
 		window.open('/client/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	});
 
 	// 완제품 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click focus", "input[name='pro_num']", function() {
+		// 창이 열릴 시 포커스를 없앰
+		$("input").blur();
 		window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	});
 	
@@ -324,38 +328,48 @@ $(document).ready(function() {
 
 
 <!-- http://localhost:8088/client/outOrderList -->
-
+	
 	<h2>수주 관리</h2>
+		<!-- 검색칸 -->
 		<fieldset>
-              	<form name="search" method="get" action="">
-                  	<div>
-                  		<label>수주일자</label>
-                  		<div>
-	                   	<input type="date" name="oo_start_date_1">
-                  			~
-	                   	<input type="date" name="oo_start_date_2">
-                  		</div>
-                  	</div>
-	       		<br>
-	       		<div>
-                  		<label>출하(예정)일자</label>
-                  		<div>
-	                   	<input type="date" name="oo_end_date_1">
-                  			~
-	                   	<input type="date" name="oo_end_date_2">
-                  		</div>
-                  	</div>
-	       		<span>거래처명 :
-	       			<input type="text" name="clt_name" placeholder="거래처명을 입력하세요">
-	       		</span>
-	       		<span>담당자 :
-	       			<input type="text" name="emp_name" placeholder="담당자를 입력하세요">
-	       		</span>
-	       		
-	      		<input type="submit" value="조회">
-            	</form>
-            </fieldset>  
-             
+			<form name="search" method="get">
+				<div>
+						<label>수주일자</label>
+						
+					<div>
+					<input type="date" name="oo_start_date_1" value="${ovo.oo_start_date_1}">
+						~
+					<input type="date" name="oo_start_date_2" value="${ovo.oo_start_date_2}">
+					</div>
+				</div>
+				<br>
+				<div>
+						<label>출하(예정)일자</label>
+						
+					<div>
+					<input type="date" name="oo_end_date_1" value="${ovo.oo_end_date_1}">
+						~
+					<input type="date" name="oo_end_date_2" value="${ovo.oo_end_date_2}">
+					</div>
+				</div>
+				
+				<span>거래처명 :
+					<input type="text" name="clt_name" placeholder="거래처명을 입력하세요" value="${ovo.clt_name}">
+				</span>
+				<span>담당자 :
+					<input type="text" name="emp_name" placeholder="담당자를 입력하세요" value="${ovo.emp_name}">
+				</span>
+			
+				<input type="submit" value="조회">
+				
+				<input type="reset" value="초기화">
+			</form>
+		</fieldset>
+		<!-- 검색칸 -->
+		
+		
+		
+		
 	<h2>수주</h2>
 	
 	<form id="outOrderList">
@@ -413,7 +427,85 @@ $(document).ready(function() {
 	</table>
 	</form>
 	
+	<!-- 페이징 버튼 -->
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center pagination-sm">
+		
+		<!-- 이전버튼 -->
+		<c:if test="${pm.prev }">
+			<li class="page-item">
+			
+			<c:choose>
+				<c:when test="${not empty ovo.oo_start_date_1 || not empty ovo.oo_start_date_2 || not empty ovo.oo_end_date_1 || not empty ovo.oo_end_date_2 || not empty ovo.clt_name || not empty ovo.emp_name}">
+				<a class="page-link"
+				href="/client/outOrderList?page=${pm.startPage-1}&oo_start_date_1=${ovo.oo_start_date_1}&oo_start_date_2=${ovo.oo_start_date_2}&oo_end_date_1=${ovo.oo_end_date_1}&oo_end_date_2=${ovo.oo_end_date_2}&clt_name=${ovo.clt_name}&emp_name=${ovo.emp_name}" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+				</c:when>
+				
+				<c:otherwise>
+				<a class="page-link"
+				href="/client/outOrderList?page=${pm.startPage-1 }" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+				</c:otherwise>
+			</c:choose>
+				
+			</li>
+		</c:if>
+		<!-- 이전버튼 -->
+			
+		<!-- 버튼 -->
+		<c:forEach begin="${pm.startPage }" end="${pm.endPage}" step="1" var="idx">
+		<li 
+				<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+			>
+			
+			<c:choose>
+				<c:when test="${not empty ovo.oo_start_date_1 || not empty ovo.oo_start_date_2 || not empty ovo.oo_end_date_1 || not empty ovo.oo_end_date_2 || not empty ovo.clt_name || not empty ovo.emp_name}">
+				<a class="page-link"
+				href="/client/outOrderList?page=${idx}&oo_start_date_1=${ovo.oo_start_date_1}&oo_start_date_2=${ovo.oo_start_date_2}&oo_end_date_1=${ovo.oo_end_date_1}&oo_end_date_2=${ovo.oo_end_date_2}&clt_name=${ovo.clt_name}&emp_name=${ovo.emp_name}">${idx }</a>
+				</c:when>
+				
+				<c:otherwise>
+				<a class="page-link"
+				href="/client/outOrderList?page=${idx}">${idx }</a>
+				</c:otherwise>
+			</c:choose>
+				
+		</li>
+		</c:forEach>
+		<!-- 버튼 -->
+			
+		<!-- 다음버튼 -->
+		<c:if test="${pm.next && pm.endPage > 0}">
+		<li class="page-item">
+			
+			<c:choose>
+				<c:when test="${not empty ovo.oo_start_date_1 || not empty ovo.oo_start_date_2 || not empty ovo.oo_end_date_1 || not empty ovo.oo_end_date_2 || not empty ovo.clt_name || not empty ovo.emp_name}">
+				<a class="page-link"
+				href="/client/outOrderList?page=${pm.startPage-1}&oo_start_date_1=${ovo.oo_start_date_1}&oo_start_date_2=${ovo.oo_start_date_2}&oo_end_date_1=${ovo.oo_end_date_1}&oo_end_date_2=${ovo.oo_end_date_2}&clt_name=${ovo.clt_name}&emp_name=${ovo.emp_name}" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+				</a>
+				</c:when>
+				
+				<c:otherwise>
+				<a class="page-link"
+				href="/client/outOrderList?page=${pm.endPage+1}" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+				</a>
+				</c:otherwise>
+			</c:choose>
+			
+		</li>
+		</c:if>
+		<!-- 다음버튼 -->
+			
+		</ul>
+	</nav>
+	<!-- 페이징 버튼 -->
+	
+	
 </body>
 </html>
-
 <%@ include file="../inc/footer.jsp"%>

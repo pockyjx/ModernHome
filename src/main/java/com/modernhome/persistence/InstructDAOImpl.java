@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.domain.WorkInstrVO;
 
@@ -34,7 +35,7 @@ public class InstructDAOImpl implements InstructDAO {
 	}
 
 	@Override
-	public List<WijoinVO> getInstrList() throws Exception {
+	public List<WijoinVO> getInstrList(PageVO vo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstrList 실행");
 		return sqlSession.selectList(NAMESPACE + ".getList");
 	}
@@ -46,7 +47,7 @@ public class InstructDAOImpl implements InstructDAO {
 	}
 
 	@Override
-	public List<WijoinVO> getInstrList(String work_state, String pro_num, String startDate, String endDate) throws Exception {
+	public List<WijoinVO> getInstrList(String work_state, String pro_num, String startDate, String endDate, PageVO vo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_getInstList(검색) 실행");
 		
 		Map<String, Object> parameterMap = new HashMap<>();
@@ -54,6 +55,7 @@ public class InstructDAOImpl implements InstructDAO {
 		parameterMap.put("pro_num", pro_num);
 		parameterMap.put("startDate", startDate);
 		parameterMap.put("endDate", endDate);
+		parameterMap.put("pageVO", vo);
 		
 		return sqlSession.selectList(NAMESPACE + ".wiListSearch", parameterMap);
 	}
@@ -98,6 +100,26 @@ public class InstructDAOImpl implements InstructDAO {
 	public void addQC(WijoinVO vo) throws Exception {
 		logger.debug("WorkInstrDAOImpl_addQC() 실행");
 		sqlSession.insert(NAMESPACE + ".addQC", vo);
+	}
+
+	@Override
+	public int getWiTotalCnt() throws Exception {
+		logger.debug("WorkInstrDAOImpl_getWiTotalCnt() 실행");
+		return sqlSession.selectOne(NAMESPACE + ".wiTotalCnt");
+	}
+
+	@Override
+	public int getWiSearchCnt(String work_state, String pro_num, String startDate, String endDate, PageVO vo) throws Exception {
+		logger.debug("WorkInstrDAOImpl_getWiSearchCnt() 실행");
+
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("work_state", work_state);
+		parameterMap.put("pro_num", pro_num);
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		parameterMap.put("pageVO", vo);
+		
+		return sqlSession.selectOne(NAMESPACE + ".wiSearchCnt", parameterMap);
 	}
 
 }

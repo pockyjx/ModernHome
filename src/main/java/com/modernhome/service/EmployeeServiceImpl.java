@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.EmployeeVO;
+import com.modernhome.domain.PageVO;
 import com.modernhome.persistence.EmployeeDAO;
 
 @Service
@@ -15,32 +16,56 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Inject
 	private EmployeeDAO eDAO;
 	
-	// 사원조회
-	@Override
-	public List<EmployeeVO> employeeList() {
-		return eDAO.employeeList();
-	}
-
-	// 사원조회 + 검색
-	@Override
-	public List<EmployeeVO> employeeListSearch(EmployeeVO evo) {
-		return eDAO.employeeListSearch(evo);
-	}
-
 	// 로그인 동작 설계
 	@Override
 	public void employeeJoin(EmployeeVO vo) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	// 사원 로그인
 	@Override
 	public EmployeeVO employeeLogin(EmployeeVO vo) {
 		EmployeeVO resultVO = eDAO.loginMember(vo);
 		return resultVO;
 	}
+	
+	// ------------------------ 로그인
+	
+	// 총 사원수 계산
+	@Override
+	public int empTotalCnt() throws Exception {
+		return eDAO.empTotalCnt();
+	}
+	
+	// 사원조회
+	@Override
+	public List<EmployeeVO> employeeList(PageVO pvo) {
+		return eDAO.employeeList(pvo);
+	}
 
+	
+	
+	
+	
+	
+	// 사원조회 + 검색
+	@Override
+	public List<EmployeeVO> employeeListSearch(EmployeeVO evo, PageVO pvo) {
+		return eDAO.employeeListSearch(evo, pvo);
+	}
+
+	// 사원 검색결과수 계산
+	@Override
+	public int empSearchCnt(EmployeeVO evo) throws Exception {
+		return eDAO.empSearchCnt(evo);
+	}
+
+	
+	
+	
+	
+	
 	
 	
 	// 사원등록
@@ -49,6 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		eDAO.regEmployee(evo);
 	}
 
+	
 	
 	// 사원삭제
 	@Override
@@ -63,16 +89,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		eDAO.updateEmployee(evo);
 	}
 
-	// 팀원관리
-	@Override
-	public List<EmployeeVO> employeeManagement(Integer emp_id) {
-		return eDAO.employeeManagement(emp_id);
-	}
 
-	@Override
-	public List<EmployeeVO> employeeMngSearch(EmployeeVO evo, Integer session_emp_id) {
-		return eDAO.employeeMngSearch(evo, session_emp_id);
-	}
 	
 	
 	
