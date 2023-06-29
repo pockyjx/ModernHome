@@ -211,9 +211,9 @@
 		
 <form>
 	<div class="d-flex align-items-center justify-content-between mb-2">
-		<h6 class="m-4">생산실적 리스트</h6>
+		<h3 class="m-4">생산실적 리스트</h3>
 		<div>
-			<c:if test="${(sessionScope.emp_dept eq '생산' || sessionScope.emp_dept eq '품질') && sessionScope.emp_auth == 'Y'}">
+			<c:if test="${(sessionScope.emp_dept eq '생산' || sessionScope.emp_dept eq '품질') && sessionScope.emp_auth >= 2}">
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">

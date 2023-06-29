@@ -170,9 +170,9 @@
 
 
 <div class="d-flex align-items-center justify-content-between mb-2">
-	<h6 class="m-4">작업지시 리스트</h6>
+	<h3 class="m-4">작업지시 리스트</h3>
 	<div>
-		<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth == 'Y'}">
+		<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2}">
 			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
 				<i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">

@@ -299,7 +299,7 @@
 	
 	<form>
 		<div class="d-flex align-items-center justify-content-between mb-2">
-			<h6 class="m-4">라인 리스트</h6>
+			<h3 class="m-4">라인 리스트</h3>
 			<div>
 				<c:if test="${(sessionScope.emp_dept eq '생산') && sessionScope.emp_auth == 'Y'}">
 					<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">

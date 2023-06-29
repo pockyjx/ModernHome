@@ -169,7 +169,7 @@
 	<!-- 품질검사 완료 && 작업지시id가 존재 -->
 	<select id="qcFinInstr" resultMap="wijoinRM">
 		SELECT df.df_id, df_num, df_type, qc.qc_id, wi.work_id, work_num, work_cnt, li.line_id, line_num, pro.pro_id, pro_num, pro_name, 
-			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, df.df_cnt, df_rsns, repair_yn, solved_date, 
+			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, qc.df_cnt, df_rsns, repair_yn, solved_date, 
 			CASE 
 			WHEN df.update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
@@ -182,7 +182,7 @@
 		LEFT JOIN work_instr wi ON wi.work_id = qc.work_id 
 		LEFT JOIN employee emp ON emp.emp_id = df.emp_id
 		LEFT JOIN line li ON qc.line_id = li.line_id 
-		WHERE qc.qc_yn = '완료' AND qc.work_id IS NOT NULL AND df.qc_id IS NULL
+		WHERE qc.qc_yn = '완료' AND qc.work_id IS NOT NULL AND df.qc_id IS NULL AND qc.df_cnt &gt; 0
 	</select>
 	<!-- 품질검사 완료 && 작업지시id가 존재 -->
 	
@@ -190,7 +190,7 @@
 	<!-- 품질검사 완료 && 입고id가 존재 -->
 	<select id="qcFinRec" resultMap="wijoinRM">
 		SELECT df.df_id, df_num, df_type, qc.qc_id, rec.rec_id, rec_num, rec_in_state, rec_cnt, clt.clt_id, clt_name, ma.ma_id, ma_num, ma_name, 
-			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, df.df_cnt, df_rsns, repair_yn, solved_date, rec.rec_date, 
+			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, qc.df_cnt, df_rsns, repair_yn, solved_date, rec.rec_date, 
 			CASE 
 			WHEN df.update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
@@ -203,7 +203,7 @@
 		LEFT JOIN material ma ON ma.ma_id = qc.ma_id 
 		LEFT JOIN employee emp ON emp.emp_id = df.emp_id 
 		LEFT JOIN client clt ON clt.clt_id = rec.clt_id 
-		WHERE qc.qc_yn = '완료' AND qc.rec_id IS NOT NULL AND df.qc_id IS NULL
+		WHERE qc.qc_yn = '완료' AND qc.rec_id IS NOT NULL AND df.qc_id IS NULL AND qc.df_cnt &gt; 0
 	</select>
 	<!-- 품질검사 완료 && 입고id가 존재 -->
 	
@@ -244,10 +244,19 @@
 	<!-- 불량 삭제 -->
 	
 	
-	<!-- 수리 & 폐기 처리 시 재고 반영 -->
+	<!-- 완제품 수리 & 폐기 처리 시 재고 반영 -->
 	<update id="modifyReAndDis">
-		
+		UPDATE product_stock SET ps_cnt = ps_cnt + #{df_cnt}, ps_update_date = now(), update_emp_id = #{emp_id} 
+		WHERE pro_id = (SELECT pro_id FROM quality_checking WHERE qc_id = (SELECT qc_id FROM defective WHERE df_id = #{df_id}))
 	</update>
-	<!-- 수리 & 폐기 처리 시 재고 반영 -->
+	<!-- 완제품 수리 & 폐기 처리 시 재고 반영 -->
+	
+	
+	<!-- 수리 & 폐기 처리 후 불량 수정 -->
+	<update id="modifyDef2" parameterType="WijoinVO">
+		UPDATE defective SET update_emp_id = #{emp_id}, update_date = now(), solved_date = now() 
+		WHERE df_id = #{df_id}
+	</update>
+	<!-- 수리 & 폐기 처리 후 불량 수정 -->
 
 </mapper>

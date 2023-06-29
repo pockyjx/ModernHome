@@ -34,18 +34,18 @@
 		} else if(value === "discard") {
 			$("h4").html("폐기 처리 하시겠습니까?")
 		}
-		
 	});
 </script>
 
 <body>
 
 
-
 <div>
-	<h4></h4>
-	<button type="submit" class="btn btn-outline-success m-2">확인</button>
-	<button type="button" class="btn btn-outline-danger m-2" onclick="window.close();">확인</button>
+	<form>
+		<h4></h4>
+		<button type="submit" class="btn btn-outline-success m-2" onclick="opener.parent.location.reload(); window.close();">확인</button>
+		<button type="button" class="btn btn-outline-danger m-2" onclick="window.close();">취소</button>
+	</form>
 </div>
 
 </body>
