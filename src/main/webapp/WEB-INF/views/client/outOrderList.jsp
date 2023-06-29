@@ -438,7 +438,7 @@ $(document).ready(function() {
 	<input type="hidden" name="clt_id" id="clt_id">
 	
 	
-	<c:if test="${sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2}">
+	<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
 	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
