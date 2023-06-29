@@ -49,6 +49,10 @@
     <script src="/resources/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
 </head>
+<!-- 로그인 세션 제어 -->
+<c:if test="${empty sessionScope.emp_id }">
+	<c:redirect url="/employee/login"/>
+</c:if>
 
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
