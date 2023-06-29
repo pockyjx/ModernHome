@@ -312,16 +312,20 @@
 
 						}
 						else if('${sessionScope.emp_auth}' == 2){
+							
+							
 							cellContent = '<td>' +
 							'<select name="' + cellName + '">' +
 							'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
 							'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
 							'</select>' +
 							'</td>';
+							
+							
 						}
 						else {
 							cellContent = '<td>' +
-							'<select name="' + cellName + '" disabled>' +
+							'<select name="' + cellName + '" readonly>' +
 							'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
 							'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
 							'<option value="3" ' + (cellValue === '3' ? 'selected' : '') + '>3</option>' +

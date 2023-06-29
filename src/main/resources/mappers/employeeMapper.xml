@@ -92,13 +92,14 @@
 		
 		INSERT INTO employee (emp_id, emp_pw, emp_name, emp_gender, emp_birth,
 			emp_dept, emp_rank, emp_state, emp_tel,
-			emp_email, emp_hire_date, emp_auth)
+			emp_email, emp_hire_date,
+			emp_auth)
 		
 		VALUES (#{emp_id}, SUBSTR(#{emp_tel}, LENGTH(#{emp_tel}) - 3), #{emp_name}, #{emp_gender},
 			CASE WHEN #{emp_birth} = '' THEN NULL ELSE #{emp_birth} END,
 			#{emp_dept}, #{emp_rank}, #{emp_state}, #{emp_tel}, #{emp_email},
 			CASE WHEN #{emp_hire_date} = '' THEN CURRENT_TIMESTAMP ELSE #{emp_hire_date} END,
-			#{emp_auth})
+			CASE WHEN #{emp_auth} = NULL THEN 1 ELSE #{emp_auth} END)
 		
 	</insert>
 	<!-- 사원등록 -->
