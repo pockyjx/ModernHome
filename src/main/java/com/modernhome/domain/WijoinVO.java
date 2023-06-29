@@ -38,6 +38,7 @@ public class WijoinVO {
 	private Integer prfrm_id;
 	private int prfrm_cnt;
 	private Integer ma_id;
+	private Integer df_cnt;
 	
 	private Integer io_id;
 	private String io_num;
@@ -268,6 +269,12 @@ public class WijoinVO {
 	public void setMa_id(Integer ma_id) {
 		this.ma_id = ma_id;
 	}
+	public Integer getDf_cnt() {
+		return df_cnt;
+	}
+	public void setDf_cnt(Integer df_cnt) {
+		this.df_cnt = df_cnt;
+	}
 	public Integer getIo_id() {
 		return io_id;
 	}
@@ -382,5 +389,7 @@ public class WijoinVO {
 				+ ", df_type=" + df_type + ", repair_yn=" + repair_yn + ", df_cnt=" + df_cnt + ", df_rsns=" + df_rsns
 				+ ", solved_date=" + solved_date + "]";
 	}
+	
+	
 	
 }
