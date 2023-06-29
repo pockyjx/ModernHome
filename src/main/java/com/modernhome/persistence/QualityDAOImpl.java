@@ -56,7 +56,7 @@ public class QualityDAOImpl implements QualityDAO{
 		return sqlSession.selectList(NAMESPACE+".getQualitySearch",parameterMap);
 	}
 	
-	// 검색 결과 개수(페이징)
+	// 품질검사(완제품) 검색 결과 개수(페이징)
 	@Override
 	public int getQualitySearchCnt(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
 		
@@ -66,9 +66,8 @@ public class QualityDAOImpl implements QualityDAO{
 		parameterMap.put("endDate", endDate);
 		parameterMap.put("qc_yn", qc_yn);
 		
-		return sqlSession.selectOne(NAMESPACE+".getQualitySearchCnt",parameterMap);
+		return sqlSession.selectOne(NAMESPACE+".qcSearchCnt",parameterMap);
 	}
-
 
 	// 품질검사(완제품) 수정
 	@Override
@@ -78,18 +77,41 @@ public class QualityDAOImpl implements QualityDAO{
 		sqlSession.update(NAMESPACE+".updateQuality",wvo);
 		
 	}
+	
+	
 
-	// 품질검사(자재) 목록 조회
+	// 품질검사(자재) 목록 조회(페이징)
 	@Override
-	public List<WijoinVO> getMaterialQualityList() throws Exception {
+	public List<WijoinVO> getMaterialQualityList(PageVO pvo) throws Exception {
 		logger.debug("QualityDAOImpl_getMaterialQualityList 실행");
 		
-		return sqlSession.selectList(NAMESPACE + ".getMaterialQualityList");
+		return sqlSession.selectList(NAMESPACE + ".getMaterialQualityList",pvo);
+	}
+	
+	// 총 개수 계산(페이징)
+	@Override
+	public int getTotalCntMT() throws Exception {
+		return sqlSession.selectOne(NAMESPACE+".mqcTotalCnt");
 	}
 
-	// 품질검사(자재) 목록 조회 + 검색
+	// 품질검사(자재) 목록 조회 + 검색 (페이징)
 	@Override
-	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
+	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn, PageVO pvo) throws Exception {
+		logger.debug("QualityDAOImpl_getQualityList(검색) 실행");
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("qc_num", qc_num);
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		parameterMap.put("qc_yn", qc_yn);
+		parameterMap.put("pageVO", pvo);
+		
+		return sqlSession.selectList(NAMESPACE+".getMaterialQualitySearch", parameterMap);
+	}
+	
+	// 품질검사(자재) 검색 결과 개수 (페이징)
+	@Override
+	public int getMaterialQualitySearchCnt(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
 		logger.debug("QualityDAOImpl_getQualityList(검색) 실행");
 		
 		Map<String, Object> parameterMap = new HashMap<>();
@@ -98,7 +120,7 @@ public class QualityDAOImpl implements QualityDAO{
 		parameterMap.put("endDate", endDate);
 		parameterMap.put("qc_yn", qc_yn);
 		
-		return sqlSession.selectList(NAMESPACE+".getMaterialQualitySearch", parameterMap);
+		return sqlSession.selectOne(NAMESPACE+".mqcSearchCnt", parameterMap);
 	}
 
 	// 품질검사(자재) 수정
@@ -117,6 +139,8 @@ public class QualityDAOImpl implements QualityDAO{
 		sqlSession.insert(NAMESPACE+".addQC",wvo);
 		
 	}
+
+
 
 
 

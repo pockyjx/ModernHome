@@ -49,7 +49,7 @@
 	
 	<!-- 품질검사(완제품) 목록 조회 -->
 	<select id="getQualityList" resultMap="wijoinRM">
-		SELECT qc.qc_id, wi.work_num, qc.qc_num, l.line_num, l.line_name, p.pro_num, p.pro_name, qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.qc_cnt, wp.prfrm_cnt, qc.qc_yn,
+		SELECT qc.qc_id, wi.work_num, qc.qc_num, l.line_num, l.line_name, p.pro_num, p.pro_name, qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.df_cnt, qc.qc_cnt, wp.prfrm_cnt, qc.qc_yn,
 	    CASE
 			WHEN qc.update_emp_id IS NULL THEN
 				(SELECT emp_name FROM employee WHERE emp_id = qc.emp_id)
@@ -68,7 +68,7 @@
 	
 	<!-- 품질검사(완제품) 검색 -->
 	<select id="getQualitySearch" resultMap="wijoinRM">
-		SELECT qc.qc_id, wi.work_num, qc.qc_num, l.line_num, l.line_name, p.pro_num, p.pro_name, qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.qc_cnt, wp.prfrm_cnt, qc.qc_yn,
+		SELECT qc.qc_id, wi.work_num, qc.qc_num, l.line_num, l.line_name, p.pro_num, p.pro_name, qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.df_cnt, qc.qc_cnt, wp.prfrm_cnt, qc.qc_yn,
 	    CASE
 			WHEN qc.update_emp_id IS NULL THEN
 				(SELECT emp_name FROM employee WHERE emp_id = qc.emp_id)
@@ -153,9 +153,10 @@
 	</select>	
 	<!-- 검색 결과 개수 계산 -->
 	
+	
 	<!-- 품질검사(자재) 목록 조회 -->
 	<select id="getMaterialQualityList" resultMap="wijoinRM">
-		SELECT qc.qc_id, rec.rec_num, qc.qc_num, ma.ma_num , ma.ma_name , qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.qc_cnt, rec.rec_cnt, qc.qc_yn,
+		SELECT qc.qc_id, rec.rec_num, qc.qc_num, ma.ma_num , ma.ma_name , qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.df_cnt, qc.qc_cnt, rec.rec_cnt, qc.qc_yn,
 		CASE
 			WHEN qc.update_emp_id IS NULL THEN
 				(SELECT emp_name FROM employee WHERE emp_id = qc.emp_id)
@@ -172,7 +173,7 @@
 	
 	<!-- 품질검사(자재) 검색 -->
 	<select id="getMaterialQualitySearch" resultMap="wijoinRM">
-		SELECT qc.qc_id, rec.rec_num, qc.qc_num, ma.ma_num , ma.ma_name , qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.qc_cnt, rec.rec_cnt, qc.qc_yn,
+		SELECT qc.qc_id, rec.rec_num, qc.qc_num, ma.ma_num , ma.ma_name , qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.df_cnt, qc.qc_cnt, rec.rec_cnt, qc.qc_yn,
 		CASE
 			WHEN qc.update_emp_id IS NULL THEN
 				(SELECT emp_name FROM employee WHERE emp_id = qc.emp_id)
@@ -209,6 +210,52 @@
 		WHERE qc_num = #{qc_num}
 	</update>
 	<!-- 품질검사(자재) 수정 -->
+	
+	<!-- 품질검사(자재) 목록 (페이징) -->
+	<select id="mqcListPage" resultMap="wijoinRM">
+		SELECT * FROM quality_checking
+		ORDER BY qc.qc_id DESC
+		LIMIT #{startPage}, #{pageSize}
+	</select>
+	<!-- 품질검사(자재) 목록 (페이징) -->
+	
+	<!-- 전체 글 수 계산(자재) -->
+	<select id="mqcTotalCnt" resultType="int">
+		SELECT count(qc.qc_id)
+		FROM quality_checking qc
+		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
+		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
+		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
+		WHERE rec.rec_id IS NOT NULL
+	</select>
+	<!-- 전체 글 수 계산(자재) -->
+	
+	<!-- 검색 결과 개수 계산(자재) -->
+	<select id="mqcSearchCnt" resultType="int">
+		SELECT count(qc.qc_id)
+		FROM quality_checking qc
+		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
+		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
+		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
+		WHERE rec.rec_id IS NOT NULL
+		<where>
+			<if test="qc_num != ''">
+				AND qc_num like CONCAT('%', #{qc_num}, '%')
+			</if>
+			<if test="startDate != ''">
+				AND qc.qc_date &gt;= #{startDate}
+			</if>
+			<if test="endDate != ''">
+				AND #{endDate} &gt;= DATE(qc.qc_date) 
+			</if>
+			<if test="qc_yn != '전체'">
+				AND qc_yn = #{qc_yn}
+			</if>
+		</where>
+	</select>
+	<!-- 검색 결과 개수 계산(자재) -->
+	
+	
 	
 	<insert id="addQC" parameterType="WijoinVO">
         <selectKey keyProperty="qc_id,qc_num" resultType="WijoinVO" order="BEFORE">

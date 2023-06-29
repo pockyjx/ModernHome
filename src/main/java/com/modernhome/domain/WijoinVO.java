@@ -38,6 +38,7 @@ public class WijoinVO {
 	private Integer prfrm_id;
 	private int prfrm_cnt;
 	private Integer ma_id;
+	private Integer df_cnt;
 	
 	private Integer io_id;
 	private String io_num;
@@ -258,6 +259,12 @@ public class WijoinVO {
 	public void setMa_id(Integer ma_id) {
 		this.ma_id = ma_id;
 	}
+	public Integer getDf_cnt() {
+		return df_cnt;
+	}
+	public void setDf_cnt(Integer df_cnt) {
+		this.df_cnt = df_cnt;
+	}
 	public Integer getIo_id() {
 		return io_id;
 	}
@@ -312,8 +319,11 @@ public class WijoinVO {
 				+ ", reg_date=" + reg_date + ", update_date=" + update_date + ", oo_end_date=" + oo_end_date
 				+ ", qc_id=" + qc_id + ", qc_num=" + qc_num + ", qc_yn=" + qc_yn + ", qc_cnt=" + qc_cnt + ", qc_date="
 				+ qc_date + ", repaired=" + repaired + ", prfrm_id=" + prfrm_id + ", prfrm_cnt=" + prfrm_cnt
-				+ ", ma_id=" + ma_id + ", io_id=" + io_id + ", io_num=" + io_num + ", rec_cnt=" + rec_cnt + ", rec_num="
-				+ rec_num + ", rec_id=" + rec_id + ", prfrm_num=" + prfrm_num + ", gb_yn=" + gb_yn + "]";
+				+ ", ma_id=" + ma_id + ", df_cnt=" + df_cnt + ", io_id=" + io_id + ", io_num=" + io_num + ", rec_cnt="
+				+ rec_cnt + ", rec_num=" + rec_num + ", rec_id=" + rec_id + ", prfrm_num=" + prfrm_num + ", gb_yn="
+				+ gb_yn + "]";
 	}
+	
+	
 	
 }

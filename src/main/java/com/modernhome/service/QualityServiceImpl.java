@@ -23,7 +23,7 @@ public class QualityServiceImpl implements QualityService{
 		return qdao.getQualityList(pvo);
 	}
 	
-	// 발주 개수
+	// 품질검사 개수
 	@Override
 	public int getTotalCntMate() throws Exception {
 		return qdao.getTotalCntMate();
@@ -35,7 +35,7 @@ public class QualityServiceImpl implements QualityService{
 		return qdao.getQualitySearch(qc_num, startDate, endDate, qc_yn, pvo);
 	}
 	
-	// 검색 결과 개수
+	// 검색 결과(완제품) 개수
 	@Override
 	public int getQualitySearchCnt(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
 		return qdao.getQualitySearchCnt(qc_num, startDate, endDate, qc_yn);
@@ -47,17 +47,31 @@ public class QualityServiceImpl implements QualityService{
 		qdao.updateQuality(wvo);
 		
 	}
+	
 
-	// 품질검사(자재) 목록 조회
+	// 품질검사(자재) 목록 조회 (페이징)
 	@Override
-	public List<WijoinVO> getMaterialQualityList() throws Exception {
-		return qdao.getMaterialQualityList();
+	public List<WijoinVO> getMaterialQualityList(PageVO pvo) throws Exception {
+		return qdao.getMaterialQualityList(pvo);
+	}
+	
+	// 품질검사(자재) 개수
+	@Override
+	public int getTotalCntMT() throws Exception {
+		return qdao.getTotalCntMT();
 	}
 
 	// 품질검사(자재) 목록 조회 + 검색
 	@Override
-	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
-		return qdao.getMaterialQualitySearch(qc_num, startDate, endDate, qc_yn);
+	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn, PageVO pvo) throws Exception {
+		return qdao.getMaterialQualitySearch(qc_num, startDate, endDate, qc_yn, pvo);
+	}
+	
+	// 검색 결과(자재) 개수
+	@Override
+	public int getMaterialQualitySearchCnt(String qc_num, String startDate, String endDate, String qc_yn)
+			throws Exception {
+		return qdao.getMaterialQualitySearchCnt(qc_num,startDate,endDate,qc_yn);
 	}
 
 	// 품질검사(자재) 수정
@@ -72,6 +86,10 @@ public class QualityServiceImpl implements QualityService{
 		qdao.addQC(wvo);
 		
 	}
+
+
+
+
 
 
 	

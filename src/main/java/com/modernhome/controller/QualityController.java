@@ -104,25 +104,46 @@ public class QualityController {
 			@ModelAttribute(value = "qc_num") String qc_num,
 			@ModelAttribute(value = "startDate") String startDate,
 			@ModelAttribute(value = "endDate") String endDate,
-			@ModelAttribute(value = "qc_yn") String qc_yn)
-					throws Exception{
+			@ModelAttribute(value = "qc_yn") String qc_yn,
+			PageVO pvo) throws Exception{
 		logger.debug(" materialQualityGET() 호출 ");
 		
+		PageMaker pm = new PageMaker();
+		
+		// 검색어가 하나라도 있으면 if문 실행, 아닐 경우 else
 		if(!qc_num.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty() || !qc_yn.isEmpty()) {
 			
-			List<WijoinVO> materialQualityList = qService.getMaterialQualitySearch(qc_num, startDate, endDate, qc_yn);
+			List<WijoinVO> materialQualityList = qService.getMaterialQualitySearch(qc_num, startDate, endDate, qc_yn, pvo);
 			
 			logger.debug("검색어 O, 검색된 데이터만 출력");
 			
 			model.addAttribute("materialQualityList",materialQualityList);
 			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(qService.getMaterialQualitySearchCnt(qc_num, startDate, endDate, qc_yn));
+			model.addAttribute("pm",pm);
+			
+			// 검색 정보 전달
+			model.addAttribute("qc_num",qc_num);
+			model.addAttribute("startDate",startDate);
+			model.addAttribute("endDate",endDate);
+			model.addAttribute("qc_yn",qc_yn);
+			
+			
 		}else {
 			
 			logger.debug("검색어 X, 전체 데이터 출력");
 			
-			List<WijoinVO> materialQualityList = qService.getMaterialQualityList();
+			List<WijoinVO> materialQualityList = qService.getMaterialQualityList(pvo);
 			
 			model.addAttribute("materialQualityList",materialQualityList);
+			
+			
+			pm.setPageVO(pvo);
+			pm.setTotalCount(qService.getTotalCntMT());
+			
+			model.addAttribute("pm", pm);
 		}
 	}
 	

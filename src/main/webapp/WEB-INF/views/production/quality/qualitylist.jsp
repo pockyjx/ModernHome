@@ -265,6 +265,7 @@
 						<th scope="col">검수일자</th>
 						<th scope="col">검수량</th>
 						<th scope="col">생산량</th>
+						<th scope="col">불량수량</th>
 						<th scope="col">검수상태</th>
 					</tr>
 					<c:forEach var="vo" items="${qualityList}" varStatus="status">
@@ -283,6 +284,7 @@
 							</td>
 							<td>${vo.qc_cnt}</td>
 							<td>${vo.prfrm_cnt}</td>
+							<td>${vo.df_cnt}</td>
 							<td>${vo.qc_yn}</td>
 						</tr>
 					</c:forEach>
@@ -291,7 +293,7 @@
 	</div>
 	</form>
 	
-				<!-- 페이지 이동 버튼 -->
+			<!-- 페이지 이동 버튼 -->
 	
 			<nav aria-label="Page navigation example">
 		  		<ul class="pagination justify-content-center pagination-sm">

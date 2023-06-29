@@ -254,6 +254,40 @@
 			</table>
 		</form>
 		
+			<!-- 페이지 이동 버튼 -->
+	
+			<nav aria-label="Page navigation example">
+		  		<ul class="pagination justify-content-center pagination-sm">
+		  		
+		  			<c:if test="${pm.prev }">
+					<li class="page-item">
+						<a class="page-link" href="/production/quality/materialQualitylist?page=${pm.startPage-1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Previous">
+		       			<span aria-hidden="true">&laquo;</span>
+		      			</a>
+		    		</li>
+		    		</c:if>
+		    		
+		    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+		    		<li 
+		    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+		    		>
+		    				<a class="page-link" href="/production/quality/materialQualitylist?page=${idx}&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}">${idx }</a>
+		    		</li>
+		    		</c:forEach>
+					
+					<c:if test="${pm.next && pm.endPage > 0}">
+					<li class="page-item">
+		      			<a class="page-link" href="/production/quality/materialQualitylist?page=${pm.endPage+1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Next">
+		        		<span aria-hidden="true">&raquo;</span>
+		      			</a>
+		    		</li>
+		    		</c:if>
+		    		
+		  		</ul>
+			</nav>
+			
+			<!-- 페이지 이동 버튼 -->
+		
 </body>
 </html>
 <%@ include file="../../inc/footer.jsp"%>
