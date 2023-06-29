@@ -24,10 +24,10 @@
 	<select id="maSearchList" resultType="MaterialVO" parameterType="java.util.Map">
 		select * from material
 		<where>
-			<if test="ma_num != ''">
+			<if test="materialVO.ma_num != ''">
 				ma_num like CONCAT('%', #{materialVO.ma_num}, '%')
 			</if>
-			<if test="ma_name != ''">
+			<if test="materialVO.ma_name != ''">
 				AND ma_name like CONCAT('%', #{materialVO.ma_name}, '%')
 			</if>
 		</where>
