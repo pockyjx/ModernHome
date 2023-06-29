@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.LineVO;
+import com.modernhome.domain.PageVO;
 import com.modernhome.persistence.LineDAO;
 
 @Service
@@ -16,16 +17,29 @@ public class LineServiceImpl implements LineService {
 	@Inject
 	private LineDAO dao;
 
-	// 라인조회
+	// 라인조회 (페이징)
 	@Override
-	public List<LineVO> lineList() {
-		return dao.lineList();
+	public List<LineVO> lineList(PageVO pvo) throws Exception {
+		return dao.lineList(pvo);
 	}
+	
+	// 라인 개수
+	@Override
+	public int getTotalCntMate() throws Exception {
+		return dao.getTotalCntMate();
+	}
+
 
 	// 라인조회 + 검색
 	@Override
-	public List<LineVO> lineListSearch(LineVO lvo) {
-		return dao.lineListSearch(lvo);
+	public List<LineVO> lineListSearch(LineVO lvo, PageVO pvo) throws Exception {
+		return dao.lineListSearch(lvo,pvo);
+	}
+	
+	// 라인 검색 결과 개수
+	@Override
+	public int getLineSearchCnt(LineVO lvo) throws Exception {
+		return dao.getLineSearchCnt(lvo);
 	}
 
 	// 라인등록
@@ -49,7 +63,6 @@ public class LineServiceImpl implements LineService {
 		dao.deleteLine(line_id);
 		
 	}
-
 
 
 } // LineServiceImpl
