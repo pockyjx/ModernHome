@@ -98,6 +98,68 @@ public class EmployeeController {
 		return "redirect:/employee/login";
 	}
 	
+	
+	@RequestMapping(value = "/authLogin")
+	public String authLogin(HttpSession session, String auth) throws Exception{
+		logger.debug("authLogin() 호출");
+		
+		if(auth.equals("인사")) {
+			
+			session.setAttribute("emp_id", 20234444);
+			session.setAttribute("emp_name", "인사");
+			session.setAttribute("emp_dept", "인사");
+			session.setAttribute("emp_auth", 2);
+			return "redirect:/employee/employeeList";
+			
+		}else if(auth.equals("영업")) {
+			
+			session.setAttribute("emp_id", 20235555);
+			session.setAttribute("emp_name", "영업");
+			session.setAttribute("emp_dept", "영업");
+			session.setAttribute("emp_auth", 2);
+			return "redirect:/client/outOrderList";
+			
+		}else if(auth.equals("생산")) {
+			
+			session.setAttribute("emp_id", 20236666);
+			session.setAttribute("emp_name", "생산");
+			session.setAttribute("emp_dept", "생산");
+			session.setAttribute("emp_auth", 2);
+			return "redirect:/stock/productStockList";
+			
+		}else if(auth.equals("자재")) {
+			
+			session.setAttribute("emp_id", 20237777);
+			session.setAttribute("emp_name", "자재");
+			session.setAttribute("emp_dept", "자재");
+			session.setAttribute("emp_auth", 2);
+			return "redirect:/info/req/reqList";
+			
+		}else if(auth.equals("품질")) {
+			
+			session.setAttribute("emp_id", 20238888);
+			session.setAttribute("emp_name", "품질");
+			session.setAttribute("emp_dept", "품질");
+			session.setAttribute("emp_auth", 2);
+			return "redirect:/production/quality/qualitylist";
+			
+		}else if(auth.equals("관리자")) {
+			
+			session.setAttribute("emp_id", 20239999);
+			session.setAttribute("emp_name", "관리자");
+			session.setAttribute("emp_dept", "관리자");
+			session.setAttribute("emp_auth", 3);
+			return "redirect:/info/req/reqList";
+			
+		}else {
+			return null;
+		}
+			
+		
+	}
+	
+	
+	
 	// ------------------------------------------ 로그인 --------------
 	
 	
