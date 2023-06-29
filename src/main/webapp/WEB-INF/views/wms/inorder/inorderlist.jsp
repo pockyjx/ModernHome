@@ -61,20 +61,20 @@
             	
             	
             	var newRow = '<tr>' +
-	                '<td><input type="checkbox"></td>' +
-	                '<td><input type="text" name="io_num" placeholder="(자동 부여)" readonly></td>' +
-	                '<td><input type="text" name="ma_num" placeholder="여기를 눌러 검색하세요" id="ma_num" readonly></td>' +
-	                '<td><input type="text" name="ma_name" id="ma_name" readonly></td>' +
-	                '<td><input type="text" name="clt_num" placeholder="여기를 눌러 검색하세요" id="clt_num" readonly></td>' +
-	                '<td><input type="text" name="clt_name" id="clt_name" readonly></td>' +
-	                '<td><input type="text" name="io_cnt" id="io_cnt" placeholder="발주량을 입력하세요"></td>' +
-	                '<td><input type="text" name="io_unit" value="EA" readonly></td>' +
-	                '<td><input type="text" name="io_amount" placeholder="총금액(자동계산)" readonly></td>' +
-	                '<td><input type="date" name="io_date" readonly></td>' +
-	                '<td><input type="text" name="io_state" value="미완료" readonly></td>' +
-	                '<td><input type="date" name="rec_date" id="rec_date"></td>' +
-	                '<td><input type="date" name="io_reg_date" readonly></td>' +
-	                '<td><input type="text" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id }" readonly></td>' +
+	                '<td><input type="checkbox" class="form-check-input"></td>' +
+	                '<td><input type="text" class="form-control" name="io_num" placeholder="(자동부여)" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="ma_num" placeholder="클릭" id="ma_num" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="ma_name" id="ma_name" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="clt_num" placeholder="클릭" id="clt_num" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="clt_name" id="clt_name" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="io_cnt" id="io_cnt" placeholder="발주량을 입력하세요"></td>' +
+	                '<td><input type="text" class="form-control" name="io_unit" value="EA" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="io_amount" placeholder="총금액(자동계산)" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="date" class="form-control" name="io_date" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="io_state" value="미완료" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="date" class="form-control" name="rec_date" id="rec_date"></td>' +
+	                '<td><input type="date" class="form-control" name="io_reg_date" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" class="form-control" name="emp_id" style="border: none; background: transparent;" value="${sessionScope.emp_id }" readonly></td>' +
 	                '</tr>';
 	                
             	// 첫번째 자식<tr> 뒤에서 부터 행을 추가함    
@@ -328,14 +328,18 @@
 		
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='clt_num']", function() {
-    	   window.open('/wms/inorder/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-       });
+			var left = (screen.width - 600) / 2;
+			var top = (screen.height - 500) / 2;
+			window.open('/wms/inorder/addPopup?txt=clt', 'popup', 'width=600, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+			});
        
 		
        // 자재 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='ma_num']", function() {
-    	   window.open('/wms/inorder/addPopup?txt=ma', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-       });
+			var left = (screen.width - 600) / 2;
+			var top = (screen.height - 500) / 2;
+			window.open('/wms/inorder/addPopup?txt=ma', 'popup', 'width=600, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+			});
 	
 </script>
 <style>
@@ -347,7 +351,7 @@
 <!-- 검색칸 -->
 <form method="get" name="search" action="" class="bg-light rounded p-3 m-3">
    	<div class="row mb-3">
-   		<label for="ioSearch" class="col-sm-2 col-form-label">발주일자</label>
+   		<label for="ioSearch" class="col-sm-2 col-form-label"><b>발주일자</b></label>
     		<div class="col-sm-10">
      		<input type="date" name="istartDate">
    			~
@@ -355,7 +359,7 @@
     		</div>
    	</div>
 	<div class="row mb-3">
-   		<label for="ioSearch" class="col-sm-2 col-form-label">입고예정일</label>
+   		<label for="ioSearch" class="col-sm-2 col-form-label"><b>입고예정일</b></label>
     		<div class="col-sm-10">
      		<input type="date" name="rstartDate">
    			~
@@ -363,20 +367,20 @@
     		</div>
    	</div>
 	<div class="row mb-3">
-		<label for="ioSearch" class="col-sm-2 col-form-label">자재명</label>
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>자재명</b></label>
 		<div class="col-sm-10">
 			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
 		</div>
 	</div>
 	<div class="row mb-3">
-		<label for="ioSearch" class="col-sm-2 col-form-label">발주상태</label>
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>발주상태</b></label>
 		<div class="col-sm-10">
 			<select name="io_state">
          			<option value="전체">전체</option>
          			<option value="완료">완료</option>
          			<option value="미완료">미완료</option>
        		</select>
-			<button class="btn btn-primary m-2" type="submit" style="margin-left:200%;">조회</button>
+			<button class="btn btn-primary m-2" type="submit">조회</button>
       	</div>
      </div>
 </form>
@@ -414,7 +418,7 @@
 				<input type="hidden" name="ma_id" id="ma_id">
 			<table class="table-inorderList table align-middle table-bordered table-hover mb-0">
 					<tr>
-						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox"></th>
+						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">발주코드</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">자재코드</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
@@ -432,7 +436,7 @@
 					
 				  	<c:forEach var="vo" items="${inorderList}" varStatus="status">
 						<tr>
-							<td><input type="checkbox" name="selectedIoId" value="${vo.io_id}"></td>
+							<td><input type="checkbox" name="selectedIoId" value="${vo.io_id}" class="form-check-input"></td>
 					    	<td><a href="/wms/inorder/inorderInfo?io_id=${vo.io_id}">${vo.io_num }</a></td>
 					    	<td>${vo.ma_num}</td>
 					    	<td>${vo.ma_name}</td>
