@@ -287,21 +287,54 @@
 	            var selectedCheckboxes = $(".table-inorderList td input[type='checkbox']:checked").length;
 	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	        } // 체크박스 선택 시 체크박스 개수 구하기
-	           
-	       });
+	         
+	        
+	        // 제출 전 유효성 검사
+	        $("#submitButton").click(function() {
+				var form = $("#inorderList");
+				form.attr("method", "GET");
+				form.attr("action", "/wms/regInorder");
+				var ma_num = $("#ma_num").val();
+				var clt_num = $("#clt_num").val();
+				var io_cnt = $("#io_cnt").val();
+				var io_date = $("#io_date").val();
+				
+				if(ma_num == null || ma_num == "") {
+					$("#ma_num").focus();
+					alert("자재코드를 입력하세요");
+					return;
+				}
+				if(clt_num == null || clt_num == "") {
+					$("#clt_num").focus();
+					alert("거래처 코드를 입력하세요");
+					return;
+				}
+				if(io_cnt == null || io_cnt == "") {
+					$("#io_cnt").focus();
+					alert("발주량을 입력하세요");
+					return;
+				}
+				if(io_date == null || io_date == "") {
+					$("#io_date").focus();
+					alert("입고예정일을 입력하세요");
+					return;
+				}
+				form.submit();
+			});
+	        
+		});
 		
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='clt_num']", function() {
     	   window.open('/wms/inorder/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
        });
        
+		
        // 자재 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='ma_num']", function() {
     	   window.open('/wms/inorder/addPopup?txt=ma', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
        });
 	
-
-		
 </script>
 <style>
     .selected {
@@ -375,49 +408,51 @@
 		<div class="d-flex align-items-center justify-content-between mb-4">	
 			<span id="selectedCheckboxCount">0</span>
 		</div>
-				
-		<table class="table-instrList table text-start align-middle table-bordered table-hover mb-0">
-			<input type="hidden" name="clt_id" id="clt_id">
-			<input type="hidden" name="ma_id" id="ma_id">
-				<tr>
-					<th><input type="checkbox"></th>
-			    	<th>발주코드</th>
-			    	<th>자재코드</th>
-			    	<th>자재명</th>
-			    	<th>거래처코드</th>
-			    	<th>거래처명</th>
-			    	<th>발주량</th>
-			    	<th>단위</th>
-			    	<th>총금액</th>
-			    	<th>발주일자</th>
-			    	<th>발주상태</th>
-			    	<th>입고예정일</th>
-			    	<th>등록일</th>
-			    	<th>담당자</th>
-				</tr>
-				
-			  	<c:forEach var="vo" items="${inorderList}" varStatus="status">
+		
+		<div class="table-responsive">		
+			<table class="table-inorderList table text-start align-middle table-bordered table-hover mb-0">
+				<input type="hidden" name="clt_id" id="clt_id">
+				<input type="hidden" name="ma_id" id="ma_id">
 					<tr>
-						<td><input type="checkbox" name="selectedIoId" value="${vo.io_id}"></td>
-				    	<td><a href="/wms/inorder/inorderInfo?io_id=${vo.io_id}">${vo.io_num }</a></td>
-				    	<td>${vo.ma_num}</td>
-				    	<td>${vo.ma_name}</td>
-				    	<td>${vo.clt_num}</td>
-				    	<td>${vo.clt_name}</td>
-				    	<td>${vo.io_cnt}</td>
-				    	<td>${vo.io_unit}</td>
-				    	<td>${vo.ma_price*vo.io_cnt}</td>
-				    	<td>${fn:substring(vo.io_date, 0, 10)}</td>
-				   		<td>${vo.io_state}</td>
-				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
-				   		<td>
-							<c:if test="${!empty vo.io_update_date}">${fn:substring(vo.io_update_date, 0, 10)}</c:if>
-							<c:if test="${empty vo.io_update_date}">${fn:substring(vo.io_reg_date, 0, 10)}</c:if>
-						</td>
-				   		<td>${vo.emp_name}</td>
-				    </tr>
-			    </c:forEach>
-		</table>
+						<th><input type="checkbox"></th>
+				    	<th>발주코드</th>
+				    	<th>자재코드</th>
+				    	<th>자재명</th>
+				    	<th>거래처코드</th>
+				    	<th>거래처명</th>
+				    	<th>발주량</th>
+				    	<th>단위</th>
+				    	<th>총금액</th>
+				    	<th>발주일자</th>
+				    	<th>발주상태</th>
+				    	<th>입고예정일</th>
+				    	<th>등록일</th>
+				    	<th>담당자</th>
+					</tr>
+					
+				  	<c:forEach var="vo" items="${inorderList}" varStatus="status">
+						<tr>
+							<td><input type="checkbox" name="selectedIoId" value="${vo.io_id}"></td>
+					    	<td><a href="/wms/inorder/inorderInfo?io_id=${vo.io_id}">${vo.io_num }</a></td>
+					    	<td>${vo.ma_num}</td>
+					    	<td>${vo.ma_name}</td>
+					    	<td>${vo.clt_num}</td>
+					    	<td>${vo.clt_name}</td>
+					    	<td>${vo.io_cnt}</td>
+					    	<td>${vo.io_unit}</td>
+					    	<td>${vo.ma_price*vo.io_cnt}</td>
+					    	<td>${fn:substring(vo.io_date, 0, 10)}</td>
+					   		<td>${vo.io_state}</td>
+					   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
+					   		<td>
+								<c:if test="${!empty vo.io_update_date}">${fn:substring(vo.io_update_date, 0, 10)}</c:if>
+								<c:if test="${empty vo.io_update_date}">${fn:substring(vo.io_reg_date, 0, 10)}</c:if>
+							</td>
+					   		<td>${vo.emp_name}</td>
+					    </tr>
+				    </c:forEach>
+			</table>
+		</div>
 	</form>
 </div>
 			
