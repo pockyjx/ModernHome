@@ -176,7 +176,7 @@
 			var io_num = $('#io_num').val();
 			if(io_num == null || io_num == "") {
 				alert('발주코드를 입력하세요!');
-				$("io_num").focus();
+				$("#io_num").focus();
 				return;
 			}
 			
@@ -239,7 +239,7 @@
 		<h6 class="m-4">입고 관리</h6>
 		
 		<div class="m-4">
-			<c:if test="${sessionScope.emp_dept eq '자재' && sessionScope.emp_auth == 'Y'}">
+			<c:if test="${sessionScope.emp_dept eq '자재' && (sessionScope.emp_auth == '2' || sessionScope.emp_auth == '3' )}">
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 		  		<button type="button" class="btn btn-sm btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 			    <button type="submit" class="btn btn-sm btn-primary m-2" id="deleteReceiveButton" formaction="/wms/deleteReceive" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
@@ -291,7 +291,7 @@
 				   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
 				   		<td>${vo.emp_name}</td>
 				   		<td>
-				   		<c:if test="${sessionScope.emp_dept eq '자재' && sessionScope.emp_auth == 'Y'}">
+				   		<c:if test="${sessionScope.emp_dept eq '자재' && (sessionScope.emp_auth == '2' || sessionScope.emp_auth == '3')}">
 				   		<c:choose>
 				   		<c:when test="${vo.rec_in_state eq '입고대기'}">
 						<button type="button" class="btn btn-sm btn-danger">입고<br>대기</button>
