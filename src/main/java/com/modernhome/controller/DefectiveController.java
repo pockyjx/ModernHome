@@ -135,10 +135,10 @@ public class DefectiveController {
 	
 	// 수리 & 폐기 처리
 	@RequestMapping(value = "/reAndDis")
-	public String repairAndDiscard(WijoinVO vo) throws Exception {
+	public String repairAndDiscard(Model model, WijoinVO vo) throws Exception {
 		logger.debug("repairAndDiscard() 호출");
 		
-		
+		dfService.getDefList(vo);
 		
 		return "redirect:/production/defective/reAndDis";
 	}

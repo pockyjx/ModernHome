@@ -245,8 +245,8 @@
 	
 	
 	<!-- 수리 & 폐기 처리 시 재고 반영 -->
-	<update id="modify">
-	
+	<update id="modifyReAndDis">
+		
 	</update>
 	<!-- 수리 & 폐기 처리 시 재고 반영 -->
 

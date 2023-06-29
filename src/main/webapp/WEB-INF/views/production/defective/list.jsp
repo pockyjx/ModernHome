@@ -311,7 +311,7 @@
 							<button onclick="repairAndDiscard('${df.repair_yn}', '${df.df_id}');" 
 								<c:if test="${df.repair_yn.equals('가능')}">class="btn btn-success m-2"</c:if>
 								<c:if test="${df.repair_yn.equals('불가')}">class="btn btn-danger m-2"</c:if>>
-								${df.df_type == "자재" ? "반품" : (df.repair_yn == "가능" ? "수리" : "폐기")}
+								${df.df_type == "자재" ? "" : (df.repair_yn == "가능" ? "수리" : "폐기")}
 							</button>
 						</td>
 					</tr>
