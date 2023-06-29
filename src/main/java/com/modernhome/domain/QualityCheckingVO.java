@@ -15,6 +15,8 @@ public class QualityCheckingVO {
 	private Integer update_emp_id;
 	private Integer rec_id;
 	private Integer repaired;
+	private Integer df_cnt;
+	
 	public Integer getQc_id() {
 		return qc_id;
 	}
@@ -93,15 +95,20 @@ public class QualityCheckingVO {
 	public void setRepaired(Integer repaired) {
 		this.repaired = repaired;
 	}
+	public Integer getDf_cnt() {
+		return df_cnt;
+	}
+	public void setDf_cnt(Integer df_cnt) {
+		this.df_cnt = df_cnt;
+	}
+	
 	@Override
 	public String toString() {
 		return "QualityCheckingVO [qc_id=" + qc_id + ", qc_num=" + qc_num + ", pro_id=" + pro_id + ", line_id="
 				+ line_id + ", ma_id=" + ma_id + ", qc_yn=" + qc_yn + ", qc_cnt=" + qc_cnt + ", qc_date=" + qc_date
 				+ ", update_date=" + update_date + ", emp_id=" + emp_id + ", update_emp_id=" + update_emp_id
-				+ ", rec_id=" + rec_id + ", repaired=" + repaired + "]";
+				+ ", rec_id=" + rec_id + ", repaired=" + repaired + ", df_cnt=" + df_cnt + "]";
 	}
-	
-	
 	
 	
 }
