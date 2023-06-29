@@ -85,5 +85,17 @@ public class DefectiveServiceImpl implements DefectiveService {
 		logger.debug("defectiveServiceImpl - delDefective() 출력");
 		dao.delDefective(df_id);
 	}
+
+	@Override
+	public void modifyReAndDis(WijoinVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - modifyReAndDis() 출력");
+		dao.modifyReAndDis(vo);
+	}
+
+	@Override
+	public void modifyDefective2(WijoinVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - modifyDefective2() 출력");
+		dao.modifyDefective2(vo);
+	}
 	
 }
