@@ -28,9 +28,9 @@
                 var newRow = '<tr>' +
                     '<td><input type="checkbox" class="form-check-input"></td>' +
                     '<td><input type="text" class="form-control" name="pro_num" placeholder="자동으로 부여" style="border: none; background: transparent;" readonly></td>' +
-                    '<td><input type="text" class="form-control" name="pro_name" placeholder="완제품명"></td>' +
+                    '<td><input type="text" class="form-control" name="pro_name" id="pro_name" placeholder="완제품명"></td>' +
                     '<td><input type="text" class="form-control" name="pro_unit" style="border: none; background: transparent;" value="EA" readonly></td>' +
-                    '<td><input type="text" class="form-control" name="pro_price" placeholder="완제품 단가"></td>' +
+                    '<td><input type="number" class="form-control" name="pro_price" id="pro_price" placeholder="완제품 단가" min="0"></td>' +
                     '</tr>';
                     
                 $(".table-proList tr:nth-child(1)").after(newRow);
@@ -128,6 +128,14 @@
 						"pro_price"
 					];
 					
+					// input type의 id 값 지정
+					var cellIds = [
+						"pro_num", 
+						"pro_name", 
+						"pro_unit", 
+						"pro_price"
+					];
+					
 					
 					// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 					row.find("td:not(:first-child)").each(function(index) {
@@ -135,8 +143,9 @@
 						var cellValue = $(this).text();
 						var cellOption = index === 0 || index === 2 ? "readonly" : "";
 						var cellName = cellNames[index];
+						var cellId = cellIds[index];
 						
-						$(this).html('<input type="text" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');
+						$(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control">');
 						
 						$("#updateButton").attr("disabled", "disabled");
 						$("#addRowButton").attr("disabled", "disabled");
@@ -196,6 +205,32 @@
 	          var selectedCheckboxes = $(".table-proList td input[type='checkbox']:checked").length;
 	          $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	      } // 체크박스 선택 시 체크박스 개수 구하기
+	      
+	    	// 유효성 검사
+			$("#submitButton").click(function() {
+				
+				var form = $("#productList");
+				form.attr("method", "post");
+				form.attr("action", "/info/regProduct");
+				
+				var pro_name = $('#pro_name').val();
+				var pro_price = $('#pro_price').val();
+				
+				if(pro_name == null || pro_name == "") {
+					alert('완제품명을 입력하세요!');
+					$("#pro_name").focus();
+					return;
+				}
+				
+				if(pro_price == 0) {
+					alert('완제품 단가를 입력하세요!');
+					$("#pro_price").focus();
+					return;
+				}
+				
+				form.submit();
+				
+			});
             
         });
     </script>
@@ -214,14 +249,14 @@
 	<form action="" method="GET" class="bg-light rounded p-3 m-3">
 		
 		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label"><b>완제품코드</b></label>
+			<label class="col-sm-2 col-form-label">완제품코드</label>
 			<div class="col-sm-10">
 				<input type="text" name="pro_num" value="${productVO.pro_num }">
 			</div>
 		</div>
 		
 		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label"><b>완제품명</b></label>
+			<label class="col-sm-2 col-form-label">완제품명</label>
 			<div class="col-sm-10">
 				<input type="text" name="pro_name" value="${productVO.pro_name }">
 				<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
@@ -248,14 +283,14 @@
 	<h6 class="m-4">완제품 목록</h6>
 	
 	<div class="m-4">
-		<c:if test="${sessionScope.emp_dept eq '자재' && sessionScope.emp_auth == 'Y'}">
+		<c:if test="${sessionScope.emp_dept eq '자재' && (sessionScope.emp_auth == '2' || sessionScope.emp_auth == '3')}">
 	
 			<button class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 			<button class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 			<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="/info/delProduct" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 			
-			<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/info/regProduct" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/info/regProduct" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 	
 		</c:if>
 	</div>

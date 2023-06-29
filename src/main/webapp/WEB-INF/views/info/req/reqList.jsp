@@ -30,7 +30,7 @@
 	        	 
 	             var newRow = '<tr>' +
 	                 '<td><input type="checkbox"></td> class="form-check-input"' +
-	                 '<td><input type="text" class="form-control" name="req_num" placeholder="자동 부여" style="border: none; background: transparent;" readonly></td>' +
+	                 '<td><input type="text" class="form-control" name="req_num" id="req_num" placeholder="자동 부여" style="border: none; background: transparent;" readonly></td>' +
 	                 '<td><input type="text" class="form-control" name="pro_num" placeholder="완제품 코드" readonly id="pro_num"></td>' +
 	                 '<td><input type="text" class="form-control" name="pro_name" id="pro_name" style="border: none; background: transparent;" readonly ></td>' +
 	                 '<td><input type="text" class="form-control" name="ma_num" placeholder="자재 코드" id="ma_num" readonly></td>' +
@@ -134,6 +134,19 @@
 				"update_emp_id"
 			];
 			
+			// input type의 id값 지정
+			var cellIds = [
+				"req_num",
+				"pro_num",
+				"pro_name",
+				"ma_num",
+				"ma_name",
+				"req_cnt",
+				"req_unit",
+				"req_update_date", 
+				"update_emp_id"
+			];
+			
 			
 			// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 			row.find("td:not(:first-child)").each(function(index) {
@@ -159,8 +172,9 @@
 			
 				
 				var cellName = cellNames[index];
+				var cellId = cellIds[index];
 				
-				$(this).html('<input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '>');
+				$(this).html('<input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control">');
 				
 				$("#updateButton").attr("disabled", "disabled");
 				$("#addRowButton").attr("disabled", "disabled");
@@ -228,22 +242,31 @@
     	  form.attr("method", "post");
     	  form.attr("action", "/info/regRequirement");
     	  
+    	  var req_num = $("#req_num").val();
     	  var pro_num = $("#pro_num").val();
     	  var ma_num = $("#ma_num").val();
     	  var req_cnt = $("#req_cnt").val();
     	  
-    	  if(pro_num == null || pro_num == "") {
-    		  alert('완제품 코드를 입력하세요!');
-    		  $("pro_num").focus();
-    		  return;
-    	  }
+    	  // alert(req_num + pro_num);
     	  
-    	  if(ma_num == null || ma_num == "") {
-    		  alert('자재 코드를 입력하세요!');
-    		  $("ma_num").focus();
-    		  return;
-    	  }
+    	  // 수정 시 disabled 때문에 값 안넘어가는거 해결하기,,
+    	  // req_num값이 null일 때만 등록이므로 등록할 때만 팝업창 제어하기!
+    	  if(req_num == null || req_num == "") {
+    	      	  
+		   	  if(pro_num == null || pro_num == "") {
+		   		  alert('완제품 코드를 입력하세요!');
+		   		  $("pro_num").focus();
+		   		  return;
+		   	  }
     	  
+	    	  if(ma_num == null || ma_num == "") {
+	    		  alert('자재 코드를 입력하세요!');
+	    		  $("ma_num").focus();
+	    		  return;
+	    	  }
+      	}
+    	  
+    	  // 수정 시에도 제어 가능!
     	  if(req_cnt == 0) {
     		  alert('소요량을 입력하세요!');
     		  $("req_cnt").focus();
@@ -320,11 +343,11 @@
 	
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		
-	<h6 class="m-4">소요량 관리</h6>
+	<h3 class="m-5">소요량 관리</h3>
 		
 	<div class="m-4">
 	
-		<c:if test="${(sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산') && sessionScope.emp_auth == 'Y'}">
+		<c:if test="${(sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산') && (sessionScope.emp_auth == '2' || sessionScope.emp_auth == '3')}">
 		
 			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
