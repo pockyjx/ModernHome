@@ -71,6 +71,14 @@
 	                        <input type="submit" class="btn btn-primary py-3 w-100 mb-4" value="Sign In">
 	<!--                         <p class="text-center mb-0">Don't have an Account? <a href="">Sign Up</a></p> -->
 				        </form>
+				        	<form action="authLogin">
+	                        <input type="submit" class="btn btn-primary m-2" name="auth" value="인사">
+	                        <input type="submit" class="btn btn-primary m-2" name="auth" value="영업">
+	                        <input type="submit" class="btn btn-primary m-2" name="auth" value="생산">
+	                        <input type="submit" class="btn btn-primary m-2" name="auth" value="자재">
+	                        <input type="submit" class="btn btn-primary m-2" name="auth" value="품질">
+	                        <input type="submit" class="btn btn-primary m-2" name="auth" value="관리자">
+	                        </form>
                     </div>
                 </div>
             </div>

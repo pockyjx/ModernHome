@@ -298,9 +298,8 @@
 						'</select>' +
 						'</td>';
 					}else if (index === 6){
-						cellContent="";
 						
-						
+						// 권한이 3일때
 						if('${sessionScope.emp_auth}' == 3){
 							cellContent = '<td>' +
 							'<select name="' + cellName + '">' +
@@ -311,23 +310,52 @@
 							'</td>';
 
 						}
+						// 권한이 2일때
 						else if('${sessionScope.emp_auth}' == 2){
-							cellContent = '<td>' +
-							'<select name="' + cellName + '">' +
-							'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
-							'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
-							'</select>' +
-							'</td>';
+							
+							// 권한이 2인사람이 3은 수정못하게
+							if(cellValue == 3){
+								cellContent = '<td>' +
+								'<select name="' + cellName + '" disabled>' +
+								'<option value="3">3</option>' +
+								'</select>' +
+								'</td>';
+							}else {
+								cellContent = '<td>' +
+								'<select name="' + cellName + '">' +
+								'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
+								'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
+								'</select>' +
+								'</td>';
+							}
+							
 						}
+						// 권한이 1일때
 						else {
-							cellContent = '<td>' +
-							'<select name="' + cellName + '" disabled>' +
-							'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
-							'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
-							'<option value="3" ' + (cellValue === '3' ? 'selected' : '') + '>3</option>' +
-							'</select>' +
-							'</td>';
-						}
+							
+							
+							if(cellValue == 3){
+								cellContent = '<td>' +
+								'<select name="' + cellName + '" disabled>' +
+								'<option value="3">3</option>' +
+								'</select>' +
+								'</td>';
+							}else if(cellValue == 2){
+								cellContent = '<td>' +
+								'<select name="' + cellName + '" disabled>' +
+								'<option value="2">2</option>' +
+								'</select>' +
+								'</td>';
+							}else {
+								cellContent = '<td>' +
+								'<select name="' + cellName + '" disabled>' +
+								'<option value="1">1</option>' +
+								'</select>' +
+								'</td>';
+							}
+							
+							
+						} // else문
 						
 						
 					}else if (index === 7){
@@ -513,7 +541,7 @@
 	
 	<span id="selectedCheckboxCount">0</span>
 	
-	<c:if test="${sessionScope.emp_dept eq '인사'}">
+	<c:if test="${sessionScope.emp_dept eq '인사' || sessionScope.emp_auth == 3}">
 		<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 		<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>

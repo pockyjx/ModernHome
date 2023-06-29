@@ -104,5 +104,17 @@ public class DefectiveDAOImpl implements DefectiveDAO {
 		logger.debug("defeciveDAOImpl - delDefective() 실행");
 		sqlSession.delete(NAMESPACE + ".delDef", df_id);
 	}
+
+	@Override
+	public void modifyReAndDis(WijoinVO vo) throws Exception {
+		logger.debug("defeciveDAOImpl - modifyReAndDis() 실행");
+		sqlSession.update(NAMESPACE + ".modifyReAndDis", vo);
+	}
+
+	@Override
+	public void modifyDefective2(WijoinVO vo) throws Exception {
+		logger.debug("defeciveDAOImpl - modifyDefective2() 실행");
+		sqlSession.update(NAMESPACE + ".modifyDef2", vo);
+	}
 	
 }
