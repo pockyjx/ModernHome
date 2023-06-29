@@ -145,11 +145,11 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">작업상태</label>
 		<div class="col-sm-10">
-			<label><input type="checkbox" name="work_state" value="대기"
+			<label><input type="checkbox" name="work_state" value="대기"  class="form-check-input"
 				${param.work_state == '대기' ? 'checked' : ''} onclick="handleCheckbox(this, '대기')"> 대기</label>
-			<label><input type="checkbox" name="work_state" value="진행중"
+			<label><input type="checkbox" name="work_state" value="진행중"  class="form-check-input"
 				${param.work_state == '진행중' ? 'checked' : ''} onclick="handleCheckbox(this, '진행중')"> 진행중</label>
-			<label><input type="checkbox" name="work_state" value="완료"
+			<label><input type="checkbox" name="work_state" value="완료"  class="form-check-input"
 				${param.work_state == '완료' ? 'checked' : ''} onclick="handleCheckbox(this, '완료')"> 완료</label>
 		</div>
 	</div>
@@ -190,7 +190,7 @@
 
 	<table class="table-instrList table text-start align-middle table-bordered table-hover mb-0">
 		<tr>
-			<th><input type="checkbox"></th>
+			<th><input type="checkbox" class="form-check-input"></th>
 			<th>작업지시코드</th>
 			<th>라인코드</th>
 			<th>품목코드</th>
@@ -205,7 +205,7 @@
 		
 		<c:forEach var="list" items="${instrList}" varStatus="status">
 			<tr>
-				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}"></td>
+				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}" class="form-check-input"></td>
 				<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
 				<td>${list.line_num}</td>
 				<td>${list.pro_num}</td>

@@ -11,7 +11,7 @@
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
 <!--                         <img class="rounded-circle" src="/resources/img/user.jpg" alt="" style="width: 40px; height: 40px;"> -->
-                        <img src="https://cdn.pixabay.com/photo/2021/10/10/04/03/home-6695542_1280.png" width="100px"><br><br>
+                        <img src="https://cdn-icons-png.flaticon.com/128/263/263115.png" width="100px" style="margin-left:22%;"><br><br>
                         <h3 class="text-primary">MODERNHOME</h3>
 <!--                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div> -->
                     </div>
@@ -59,7 +59,16 @@
                             <a href="/client/shipmentList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>출하관리</a>
                         </div>
                     </div>
- 					<a href="/production/quality/qualitylist" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>품질관리</a>
+
+                    <div class="nav-item dropdown">
+ 						<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>품질관리</a>
+					 	<div class="dropdown-menu bg-transparent border-0">
+                           <a href="/production/quality/qualitylist" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>전수검사</a>
+                           <a href="/production/quality/materialQualityList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>수입검사</a>
+                           <a href="/production/defective/list" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>불량관리</a>
+                       </div>
+ 					</div>
+
  					<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>사원관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
