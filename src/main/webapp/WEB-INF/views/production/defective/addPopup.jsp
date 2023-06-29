@@ -37,6 +37,7 @@
 			var work_cnt = $(this).find("td:eq(7)").text();
 			var df_type = $(this).find("td:eq(8)").text();
 			var qc_id = $(this).find("td:eq(9)").text();
+			var df_cnt = $(this).find("td:eq(10)").text();
 			
 			opener.document.getElementsByName("work_id")[0].value = work_id;
 // 			opener.document.getElementsByName("work_num")[0].value = work_num;
@@ -48,6 +49,7 @@
 // 			opener.document.getElementsByName("work_cnt")[0].value = work_cnt;
 			opener.document.getElementById("dfTypePop").value = df_type;
 			opener.document.getElementsByName("qc_id")[0].value = qc_id;
+			opener.document.getElementsByName("df_cnt")[0].value = df_cnt;
 			
 			window.close();
 		});
@@ -63,6 +65,7 @@
 			var df_type = $(this).find("td:eq(7)").text();
 			var qc_id = $(this).find("td:eq(8)").text();
 			var clt_name = $(this).find("td:eq(9)").text();
+			var df_cnt = $(this).find("td:eq(10)").text();
 			
 			opener.document.getElementsByName("rec_id")[0].value = rec_id;
 // 			opener.document.getElementsByName("rec_num")[0].value = rec_num;
@@ -74,6 +77,8 @@
 			opener.document.getElementById("dfTypePop").value = df_type;
 			opener.document.getElementsByName("qc_id")[0].value = qc_id;
 			opener.document.getElementsByName("clt_name")[0].value = clt_name;
+			opener.document.getElementsByName("df_cnt")[0].value = df_cnt;
+			opener.document.getElementsByName("df_cnt")[0].value = df_cnt;
 			
 			window.close();
 		});
@@ -119,7 +124,15 @@
 
 <table class="table-pr table text-start align-middle table-bordered table-hover mb-0" style="display: none">
 	<tr>
-		<th colspan="9">작업지시 내역</th>
+		<th colspan="11">작업지시 내역</th>
+	</tr>
+	<tr>
+		<th>작업지시 코드</th>
+		<th>품목 코드</th>
+		<th>품목명</th>
+		<th>라인 코드</th>
+		<th>지시 수량</th>
+		<th colspan="6">불량 수량</th>
 	</tr>
 	<c:forEach var="wi" items="${wiList}">
 		<tr>
@@ -133,13 +146,23 @@
 			<td>${wi.work_cnt}</td>
 			<td style="display: none">완제품</td>
 			<td style="display: none">${wi.qc_id}</td>
+			<td>${wi.df_cnt}</td>
 		</tr>
 	</c:forEach>
 </table>
 
 <table class="table-ma table text-start align-middle table-bordered table-hover mb-0" style="display: none">
 	<tr>
-		<th colspan="9">입고 내역</th>
+		<th colspan="11">입고 내역</th>
+	</tr>
+	<tr>
+		<th>입고 코드</th>
+		<th>자재 코드</th>
+		<th>자재명</th>
+		<th>입고 수량</th>
+		<th>입고 등록일</th>
+		<th>거래처</th>
+		<th colspan="5">불량 수량</th>
 	</tr>
 	<c:forEach var="rec" items="${recList}">
 		<tr>
@@ -153,6 +176,7 @@
 			<td style="display: none">자재</td>
 			<td style="display: none">${rec.qc_id}</td>
 			<td>${rec.clt_name}</td>
+			<td>${rec.df_cnt}</td>
 		</tr>
 	</c:forEach>
 </table>

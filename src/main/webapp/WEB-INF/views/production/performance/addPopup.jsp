@@ -34,6 +34,7 @@
 			var line_id = $(this).find("td:eq(5)").text();
 			var line_num = $(this).find("td:eq(6)").text();
 			var work_cnt = $(this).find("td:eq(7)").text();
+			var df_cnt = $(this).find("td:eq(8)").text();
 			
 			opener.document.getElementsByName("work_id")[0].value = work_id;
 			opener.document.getElementById("wnumPop").value = work_num;
@@ -43,6 +44,8 @@
 			opener.document.getElementsByName("line_id")[0].value = line_id;
 			opener.document.getElementsByName("line_num")[0].value = line_num;
 			opener.document.getElementsByName("work_cnt")[0].value = work_cnt;
+			opener.document.getElementsByName("df_cnt")[0].value = df_cnt;
+			opener.document.querySelectorAll("#selGb>option")[df_cnt > 0 ? 1 : 0].selected = true;
 			
 			window.close();
 		});
@@ -53,20 +56,29 @@
 	
 <%-- 	${qiList} <hr> --%>
 	
-	<table border="1">
+	<table class="table text-start align-middle table-bordered table-hover mb-0">
 		<tr>
-			<th colspan="8">작업지시</th>
+			<th colspan="9">작업지시</th>
+		</tr>
+		<tr>
+			<th>작업지시코드</th>
+			<th>품목코드</th>
+			<th>품목명</th>
+			<th>라인코드</th>
+			<th>지시 수량</th>
+			<th colspan="8">불량 수량</th>
 		</tr>
 		<c:forEach var="qi" items="${qiList}">
 			<tr>
-				<td>${qi.work_id}</td>
+				<td style="display: none">${qi.work_id}</td>
 				<td>${qi.work_num}</td>
 				<td style="display: none">${qi.pro_id}</td>
-				<td style="display: none">${qi.pro_num}</td>
-				<td style="display: none">${qi.pro_name}</td>
+				<td>${qi.pro_num}</td>
+				<td>${qi.pro_name}</td>
 				<td style="display: none">${qi.line_id}</td>
-				<td style="display: none">${qi.line_num}</td>
-				<td style="display: none">${qi.work_cnt}</td>
+				<td>${qi.line_num}</td>
+				<td>${qi.work_cnt}</td>
+				<td>${qi.df_cnt}</td>
 			</tr>
 		</c:forEach>
 	</table>
