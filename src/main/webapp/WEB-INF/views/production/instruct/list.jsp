@@ -88,19 +88,19 @@
 	        var isChecked = checkbox.prop('checked');
 	        checkbox.closest('tr').toggleClass('selected', isChecked);
 	    });
-	    
-	    // 체크박스 클릭 시 선택된 행 삭제
-	    $(".table-instrList").on("click", "td input[type='checkbox']", function() {
-	        var checkbox = $(this);
-	        if (checkbox.prop("checked")) {
-	        	var workId = selectedCheckbox.val();
+		
+		// 체크박스 클릭 시 선택된 행 삭제
+		$(".table-instrList").on("click", "td input[type='checkbox']", function() {
+			var checkbox = $(this);
+			if (checkbox.prop("checked")) {
+				var workId = selectedCheckbox.val();
 				location.href = "/production/instruct/delete?work_id=" + workId;
-	            checkbox.closest("tr").addClass("selected");
-	        } else {
-	            checkbox.closest("tr").removeClass("selected");
-	        }
-	    });
-	    
+				checkbox.closest("tr").addClass("selected");
+			} else {
+				checkbox.closest("tr").removeClass("selected");
+			}
+		});
+
 	    // 삭제 버튼 누를 시
 		$("#deleteButton").click(function(){
 			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
@@ -109,7 +109,7 @@
 			if(selectedCheckbox.length === 1) {
 				location.href = "/production/instruct/delete?work_id=" + workId;
 			} else {
-				alert("삭제할 행을 선택해주세요.");
+				alert("삭제할 행을 선택해주세요!");
 				return false;
 			}
 		});
@@ -144,9 +144,37 @@
 	}
 </script>
 <style>
-	.selected {
-	    background-color: #b3ccff;
-	}
+.selected {
+	background-color: #b3ccff;
+}
+
+.modal {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal.show {
+	display: block;
+}
+
+.modal_body {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	height: 600px;
+	padding: 40px;
+	text-align: center;
+	background-color: rgb(255, 255, 255);
+	border-radius: 10px;
+	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	transform: translateX(-50%) translateY(-50%);
+}
 </style>
 
 <form method="get" class="bg-light rounded p-3 m-3">
@@ -185,7 +213,7 @@
 				<i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
 				<i class="fa fa-edit"></i> 수정</button>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="deleteButton">
+			<button type="button" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="/production/instruct/delete" formmethod="post">
 				<i class="fa fa-trash"></i> 삭제</button>
 		</c:if>
 	</div>
@@ -210,11 +238,11 @@
 			<th>납품예정일</th>
 			<th>담당자</th>
 		</tr>
-		
+<%-- 		/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id} --%>
 		<c:forEach var="list" items="${instrList}" varStatus="status">
 			<tr>
 				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}" class="form-check-input"></td>
-				<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
+				<td><button id="btnModalOpen" class="text-primary" style="border: none; background: transparent;" >${list.work_num}</button></td>
 				<td>${list.line_num}</td>
 				<td>${list.pro_num}</td>
 				<td>${list.pro_name}</td>
@@ -267,5 +295,22 @@
  	</ul>
 </nav>
 <!-- 페이지 이동 버튼 -->
+
+<!-- 작업지시서 모달창 -->
+<div id="instrModal" style="dispaly: none;">
+	<div id="modalBody">냉무</div>
+</div>
+<!-- 작업지시서 모달창 -->
+
+<!-- 모달창 script -->
+<script>
+	const modal = document.getElementById("#instrModal");
+	const btnOpenPopup = document.getElementById('.btnModalOpen');
+	
+	btnOpenPopup.addEventListener("click", function() {
+		modal.style.display = 'block';
+	});
+</script>
+<!-- 모달창 script -->
 	
 <%@ include file="../../inc/footer.jsp"%>

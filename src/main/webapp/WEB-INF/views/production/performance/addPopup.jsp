@@ -53,11 +53,12 @@
 </script>
 
 <body>
-	
+
+<div class="table-pr bg-light text-center rounded p-4 m-3">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<h5>작업지시</h5>
+	</div>
 	<table class="table text-start align-middle table-bordered table-hover mb-0">
-		<tr>
-			<th colspan="9">작업지시</th>
-		</tr>
 		<tr>
 			<th>작업지시코드</th>
 			<th>품목코드</th>
@@ -80,6 +81,7 @@
 			</tr>
 		</c:forEach>
 	</table>
+</div>
 	
 </body>
 </html>
