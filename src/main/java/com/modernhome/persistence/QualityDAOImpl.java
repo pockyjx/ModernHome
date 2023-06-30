@@ -37,8 +37,8 @@ public class QualityDAOImpl implements QualityDAO{
 	
 	// 총 개수 계산(페이징)
 	@Override
-	public int getTotalCntMate() throws Exception {
-		return sqlSession.selectOne(NAMESPACE+".qcTotalCnt");
+	public int getTotalCntQc() throws Exception {
+		return sqlSession.selectOne(NAMESPACE+".getTotalCntQc");
 	}
 
 	// 품질검사(완제품) 목록 조회 + 검색
@@ -66,7 +66,7 @@ public class QualityDAOImpl implements QualityDAO{
 		parameterMap.put("endDate", endDate);
 		parameterMap.put("qc_yn", qc_yn);
 		
-		return sqlSession.selectOne(NAMESPACE+".qcSearchCnt",parameterMap);
+		return sqlSession.selectOne(NAMESPACE+".getQualitySearchCnt",parameterMap);
 	}
 
 	// 품질검사(완제품) 수정

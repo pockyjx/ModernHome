@@ -11,7 +11,7 @@ public interface QualityService {
 	public List<WijoinVO> getQualityList(PageVO pvo) throws Exception;
 	
 	// 품질검사 개수(페이징)
-	public int getTotalCntMate() throws Exception;
+	public int getTotalCntQc() throws Exception;
 	
 	// 품질검사(완제품) 목록 조회 + 검색(페이징)
 	public List<WijoinVO> getQualitySearch(String qc_num, String startDate, String endDate, String qc_yn, PageVO pvo) throws Exception;

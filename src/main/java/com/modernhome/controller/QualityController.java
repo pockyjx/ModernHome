@@ -38,8 +38,7 @@ public class QualityController {
 			@ModelAttribute(value = "startDate") String startDate, 
 			@ModelAttribute(value = "endDate") String endDate, 
 			@ModelAttribute(value = "qc_yn") String qc_yn,
-			PageVO pvo) 
-					throws Exception {
+			PageVO pvo) throws Exception {
 		logger.debug(" qualityGET() 호출 ");
 		
 		PageMaker pm = new PageMaker();
@@ -71,7 +70,7 @@ public class QualityController {
 			model.addAttribute("qualityList",qualityList);
 			
 			pm.setPageVO(pvo);
-			pm.setTotalCount(qService.getTotalCntMate());
+			pm.setTotalCount(qService.getTotalCntQc());
 	
 			
 			model.addAttribute("pm",pm);
