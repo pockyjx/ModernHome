@@ -102,7 +102,7 @@
 	    });
 	    
 	    // 삭제 버튼 누를 시
-		$("#deleteInstrButton").click(function(){
+		$("#deleteButton").click(function(){
 			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
 			var workId = selectedCheckbox.val();
 			
@@ -180,12 +180,12 @@
 <div class="d-flex align-items-center justify-content-between mb-2">
 	<h3 class="m-4">작업지시 리스트</h3>
 	<div>
-		<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2}">
+		<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2 || sessionScope.emp_auth == 3}">
 			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
 				<i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
 				<i class="fa fa-edit"></i> 수정</button>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="deleteInstrButton">
+			<button type="button" class="btn btn-sm btn-primary m-2" id="deleteButton">
 				<i class="fa fa-trash"></i> 삭제</button>
 		</c:if>
 	</div>
