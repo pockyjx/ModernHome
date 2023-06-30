@@ -9,8 +9,10 @@ public class ShipmentJoinVO {
 	private Integer pro_id;
 	private Integer shp_cnt;
 	private String shp_date;
+	private String shp_reg_date;
 	private Integer update_emp_id;
 	private String update_shp_date;
+	private Integer oo_id;
 	
 	private String emp_name;
 	private String clt_num;
@@ -21,6 +23,8 @@ public class ShipmentJoinVO {
 	
 	private String startDate;
 	private String endDate;
+	
+	private String oo_num;
 	
 	
 	public Integer getShp_id() {
@@ -119,14 +123,36 @@ public class ShipmentJoinVO {
 	public void setClt_num(String clt_num) {
 		this.clt_num = clt_num;
 	}
+	public Integer getOo_id() {
+		return oo_id;
+	}
+	public void setOo_id(Integer oo_id) {
+		this.oo_id = oo_id;
+	}
+	public String getOo_num() {
+		return oo_num;
+	}
+	public void setOo_num(String oo_num) {
+		this.oo_num = oo_num;
+	}
+	
+	public String getShp_reg_date() {
+		return shp_reg_date;
+	}
+	public void setShp_reg_date(String shp_reg_date) {
+		this.shp_reg_date = shp_reg_date;
+	}
 	@Override
 	public String toString() {
 		return "ShipmentJoinVO [shp_id=" + shp_id + ", shp_num=" + shp_num + ", emp_id=" + emp_id + ", clt_id=" + clt_id
-				+ ", pro_id=" + pro_id + ", shp_cnt=" + shp_cnt + ", shp_date=" + shp_date + ", update_emp_id="
-				+ update_emp_id + ", update_shp_date=" + update_shp_date + ", emp_name=" + emp_name + ", clt_num="
-				+ clt_num + ", clt_name=" + clt_name + ", pro_name=" + pro_name + ", pro_num=" + pro_num
-				+ ", startDate=" + startDate + ", endDate=" + endDate + "]";
+				+ ", pro_id=" + pro_id + ", shp_cnt=" + shp_cnt + ", shp_date=" + shp_date + ", shp_reg_date="
+				+ shp_reg_date + ", update_emp_id=" + update_emp_id + ", update_shp_date=" + update_shp_date
+				+ ", oo_id=" + oo_id + ", emp_name=" + emp_name + ", clt_num=" + clt_num + ", clt_name=" + clt_name
+				+ ", pro_name=" + pro_name + ", pro_num=" + pro_num + ", startDate=" + startDate + ", endDate="
+				+ endDate + ", oo_num=" + oo_num + "]";
 	}
+	
+	
 	
 	
 	
