@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,19 +57,32 @@
 
 <body>
 	
-<%-- 	${onumList} <hr> --%>
-	
-	<table border="1">
+<div class="bg-light text-center rounded p-4 m-3">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<h5>수주</h5>
+	</div>
+	<table class="table text-start align-middle table-bordered table-hover mb-0">
 		<tr>
-			<th colspan="2">수주번호</th>
+			<th>수주 코드</th>
+			<th>품목 코드</th>
+			<th>품목명</th>
+			<th>거래처</th>
+			<th>수주량</th>
+			<th colspan="2">출하 예정일</th>
 		</tr>
 		<c:forEach var="onum" items="${onumList}">
 			<tr>
-				<td>${onum.oo_id}</td>
+				<td style="display: none">${onum.oo_id}</td>
 				<td>${onum.oo_num}</td>
+				<td>${onum.pro_num}</td>
+				<td>${onum.pro_name}</td>
+				<td>${onum.clt_name}</td>
+				<td>${onum.oo_cnt}</td>
+				<td>${fn:substring(onum.oo_end_date, 0, 10)}</td>
 			</tr>
 		</c:forEach>
 	</table>
+</div>
 	
 </body>
 </html>

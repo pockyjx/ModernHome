@@ -49,22 +49,6 @@
 		}
 	});
 	
-	$(document).on("click", "input[type='submit']", function() {
-		var url = window.location.href;
-		var onumVal = new URLSearchParams(new URL(url).search).get('oo_num');
-		var lnumVal = new URLSearchParams(new URL(url).search).get('line_num');
-		console.log(onumVal);
-		console.log(lnumVal);
-		
-		if(onumVal == null) {
-			alert("수주번호를 선택해주세요.");
-			return false;
-		} else if(lnumVal == null) {
-			alert("라인번호를 선택해주세요.");
-			return false;
-		}
-	});
-	
 	$(document).ready(function() {
 		var cntVal = 1;
 		var reqValArr = [];
@@ -89,52 +73,91 @@
 			});
 		});
 	});
+	
+	$(document).on("click", "#addSubmint", function() {
+		var url = window.location.href;
+		var onumVal = new URLSearchParams(new URL(url).search).get('oo_num');
+		var lnumVal = new URLSearchParams(new URL(url).search).get('line_num');
+		console.log(onumVal);
+		console.log(lnumVal);
+		
+		if(onumVal == null) {
+			alert("수주번호를 선택해주세요.");
+			return false;
+		} else if(lnumVal == null) {
+			alert("라인번호를 선택해주세요.");
+			return false;
+		}
+		
+		// 서버에 저장할 데이터 전송을 위한 ajax
+		var formValue = $("form[name='addForm']").serialize();
+		
+		$.ajax({
+			url : "${contextPath}/production/instruct/add",
+			type : "POST",
+			data : formValue,
+			success : function() {
+				alert("작업지시서 작성이 완료되었습니다.");
+				opener.location.reload();
+				self.close();
+			},
+			error : function() {
+				alert("작업지시서 작성이 실패했습니다!");
+			}
+		});
+	});
 </script>
 
 <body>
 	
 	<c:set var="now" value="<%=new java.util.Date()%>"/>
 	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
-	
-	<h2>작업지시서 작성</h2>
-<%-- ${idnum} --%>
-<%-- ${reqList} --%>
-	<form method="post">
-		<table border="1">
+<div class="d-flex align-items-center justify-content-between mb-2">
+	<h3 class="m-4">작업지시서 작성</h3>
+</div>
+
+<div class="bg-light text-center rounded p-4 m-3">
+	<form name="addForm" action="/production/instruct/add" method="post">
+		<table class="table text-start align-middle table-bordered table-hover mb-0">
 			<tr>
 				<th>지시번호</th>
-				<td><input type="text" name="work_num" value="${idnum[0].work_num}" readonly></td>
+				<td><input type="text" class="form-control" name="work_num" value="${idnum[0].work_num}" 
+						 style="border: none; background: transparent;" readonly></td>
 					
 				<th>수주번호</th>
 				<td id="oo_num">
-					<input type="text" name="oo_num" <c:if test='${!empty param.oo_num}'>value="${param.oo_num}"</c:if> readonly>
+					<input type="text" class="form-control" name="oo_num" <c:if test='${!empty param.oo_num}'>value="${param.oo_num}"</c:if> readonly>
 				</td>
 			</tr>
 			<tr>
 				<th>품번</th>
-				<td><input type="text" name="pro_num" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_num}"</c:if> readonly></td>
+				<td><input type="text" class="form-control" name="pro_num" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_num}"</c:if> 
+						 style="border: none; background: transparent;" readonly></td>
 				<th>수량</th>
-				<td><input type="text" name="work_cnt" id="wcntInput" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_cnt}"</c:if>></td>
+				<td><input type="text" class="form-control" name="work_cnt" id="wcntInput" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_cnt}"</c:if>></td>
 			</tr>
 			<tr>
 				<th>품명</th>
-				<td><input type="text" name="pro_name" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_name}"</c:if> readonly></td>
+				<td><input type="text" class="form-control" name="pro_name" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_name}"</c:if> 
+						 style="border: none; background: transparent;" readonly></td>
 				<th>단위</th>
-				<td><input type="text" name="pro_unit" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_unit}"</c:if> readonly></td>
+				<td><input type="text" class="form-control" name="pro_unit" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_unit}"</c:if> 
+						 style="border: none; background: transparent;" readonly></td>
 			</tr>
 			<tr>
 				<th>납기일</th>
-				<td><input type="text" name="oo_end_date" <c:if test='${!empty param.oo_num}'>value="${fn:substring(reqList[0].oo_end_date, 0, 10)}"</c:if> readonly></td>
+				<td><c:if test='${!empty param.oo_num}'>${fn:substring(reqList[0].oo_end_date, 0, 10)}</c:if></td>
 				<th>생산라인</th>
 				<td id="line_num">
-					<input type="text" name="line_num" <c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if> readonly>
+					<input type="text" class="form-control" name="line_num" <c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if> readonly>
 				</td>
 			</tr>
 			<tr>
 				<th>납품지점</th>
-				<td><input type="text" name="clt_name" <c:if test='${!empty param.oo_num}'>value="${reqList[0].clt_name}"</c:if> readonly></td>
+				<td><input type="text" class="form-control" name="clt_name" <c:if test='${!empty param.oo_num}'>value="${reqList[0].clt_name}"</c:if> 
+						 style="border: none; background: transparent;" readonly></td>
 				<th>작성일</th>
-				<td><input type="text" name="reg_date" value="<c:out value='${today}'/>"></td>
+				<td><c:out value='${today}'/></td>
 			</tr>
 			<tr>
 				<th rowspan="10">원재료</th>
@@ -158,10 +181,11 @@
 		<input type="hidden" name="oo_id" id="oo_id" <c:if test='${!empty param.oo_id}'>value="${param.oo_id}"</c:if> readonly>
 		<input type="hidden" name="line_id" id="line_id" <c:if test='${!empty param.line_id}'>value="${param.line_id}"</c:if> readonly>
 		<div>
-			<input type="button" value="취소" onclick="location.href='/production/instruct/list'">
-			<input type="submit" value="저장">
+			<input type="button" value="취소" class="btn btn-secondary m-2" onclick="window.close();">
+			<input type="button" value="저장" id="addSubmint" class="btn btn-success m-2">
 		</div>
 	</form>
+</div>
 	
 </body>
 </html>

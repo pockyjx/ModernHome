@@ -126,9 +126,7 @@
 				$("#cancelButton").attr("disabled", "disabled");
 				$("#submitButton").attr("disabled", "disabled");
 				
-				
 				pageStatus = "";
-				
 				});
 			}
 		});

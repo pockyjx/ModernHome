@@ -113,7 +113,7 @@
 
 <body>
 
-<div class="col-sm-10">
+<div class="col-sm-10 bg-light text-center rounded">
 	<label><input type="checkbox" name="df_type" value="공정검사" class="form-check-input" 
 		onclick="handleCheckbox(this, '공정검사')"> 공정검사</label>
 	<label><input type="checkbox" name="df_type" value="수입검사" class="form-check-input" 
@@ -122,64 +122,68 @@
 	
 <%-- ${wiList} <hr> ${resList} --%>
 
-<table class="table-pr table text-start align-middle table-bordered table-hover mb-0" style="display: none">
-	<tr>
-		<th colspan="11">작업지시 내역</th>
-	</tr>
-	<tr>
-		<th>작업지시 코드</th>
-		<th>품목 코드</th>
-		<th>품목명</th>
-		<th>라인 코드</th>
-		<th>지시 수량</th>
-		<th colspan="6">불량 수량</th>
-	</tr>
-	<c:forEach var="wi" items="${wiList}">
+<div class="table-pr bg-light text-center rounded p-4 m-3" style="display: none">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<h5>작업지시</h5>
+	</div>
+	<table class="table text-start align-middle table-bordered table-hover mb-0">
 		<tr>
-			<td style="display: none">${wi.work_id}</td>
-			<td>${wi.work_num}</td>
-			<td style="display: none">${wi.pro_id}</td>
-			<td>${wi.pro_num}</td>
-			<td>${wi.pro_name}</td>
-			<td style="display: none">${wi.line_id}</td>
-			<td>${wi.line_num}</td>
-			<td>${wi.work_cnt}</td>
-			<td style="display: none">공정검사</td>
-			<td style="display: none">${wi.qc_id}</td>
-			<td>${wi.df_cnt}</td>
+			<th>작업지시 코드</th>
+			<th>품목 코드</th>
+			<th>품목명</th>
+			<th>라인 코드</th>
+			<th>지시 수량</th>
+			<th colspan="6">불량 수량</th>
 		</tr>
-	</c:forEach>
-</table>
-
-<table class="table-ma table text-start align-middle table-bordered table-hover mb-0" style="display: none">
-	<tr>
-		<th colspan="11">입고 내역</th>
-	</tr>
-	<tr>
-		<th>입고 코드</th>
-		<th>자재 코드</th>
-		<th>자재명</th>
-		<th>입고 수량</th>
-		<th>입고 등록일</th>
-		<th>거래처</th>
-		<th colspan="5">불량 수량</th>
-	</tr>
-	<c:forEach var="rec" items="${recList}">
+		<c:forEach var="wi" items="${wiList}">
+			<tr>
+				<td style="display: none">${wi.work_id}</td>
+				<td>${wi.work_num}</td>
+				<td style="display: none">${wi.pro_id}</td>
+				<td>${wi.pro_num}</td>
+				<td>${wi.pro_name}</td>
+				<td style="display: none">${wi.line_id}</td>
+				<td>${wi.line_num}</td>
+				<td>${wi.work_cnt}</td>
+				<td style="display: none">공정검사</td>
+				<td style="display: none">${wi.qc_id}</td>
+				<td>${wi.df_cnt}</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
+	
+<div class="table-ma bg-light text-center rounded p-4 m-3" style="display: none">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<h5>입고</h5>
+	</div>
+	<table class="table text-start align-middle table-bordered table-hover mb-0">
 		<tr>
-			<td style="display: none">${rec.rec_id}</td>
-			<td>${rec.rec_num}</td>
-			<td style="display: none">${rec.ma_id}</td>
-			<td>${rec.ma_num}</td>
-			<td>${rec.ma_name}</td>
-			<td>${rec.rec_cnt}</td>
-			<td>${fn:substring(rec.rec_date, 0, 10)}</td>
-			<td style="display: none">수입검사</td>
-			<td style="display: none">${rec.qc_id}</td>
-			<td>${rec.clt_name}</td>
-			<td>${rec.df_cnt}</td>
+			<th>입고 코드</th>
+			<th>자재 코드</th>
+			<th>자재명</th>
+			<th>입고 수량</th>
+			<th>입고 등록일</th>
+			<th>거래처</th>
+			<th colspan="5">불량 수량</th>
 		</tr>
-	</c:forEach>
-</table>
+		<c:forEach var="rec" items="${recList}">
+			<tr>
+				<td style="display: none">${rec.rec_id}</td>
+				<td>${rec.rec_num}</td>
+				<td style="display: none">${rec.ma_id}</td>
+				<td>${rec.ma_num}</td>
+				<td>${rec.ma_name}</td>
+				<td>${rec.rec_cnt}</td>
+				<td>${fn:substring(rec.rec_date, 0, 10)}</td>
+				<td style="display: none">수입검사</td>
+				<td style="display: none">${rec.qc_id}</td>
+				<td>${rec.clt_name}</td>
+				<td>${rec.df_cnt}</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
 
 </body>
 </html>

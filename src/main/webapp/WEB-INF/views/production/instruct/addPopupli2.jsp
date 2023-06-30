@@ -49,30 +49,36 @@
 </script>
 
 <body>
-	
-<%-- 	${liList} <hr> --%>
-<c:choose>
-	<c:when test="${empty param.work_id}">
-		<form id="fr" action="/production/instruct/add" method="get" target="add">
-	</c:when>
-	<c:when test="${!empty param.work_id}">
-		<form id="fr" action="/production/instruct/modify" method="get" target="add">
-	</c:when>
-</c:choose>
-		<table border="1">
+
+<div class="bg-light text-center rounded p-4 m-3">
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<h5>라인</h5>
+	</div>
+	<c:choose>
+		<c:when test="${empty param.work_id}">
+			<form id="fr" action="/production/instruct/add" method="get" target="add">
+		</c:when>
+		<c:when test="${!empty param.work_id}">
+			<form id="fr" action="/production/instruct/modify" method="get" target="add">
+		</c:when>
+	</c:choose>
+		<table class="table text-start align-middle table-bordered table-hover mb-0">
 			<tr>
-				<th colspan="2">라인번호</th>
+				<th>라인 코드</th>
+				<th colspan="2">사용 유무</th>
 			</tr>
 			<c:forEach var="lnum" items="${liList}">
 				<c:if test="${lnum.use_yn == 'Y'}">
 					<tr>
-						<td>${lnum.line_id}</td>
+						<td style="display: none">${lnum.line_id}</td>
 						<td>${lnum.line_num}</td>
+						<td>${lnum.use_yn == 'Y' ? "사용가능" : "사용불가"}</td>
 					</tr>
 				</c:if>
 			</c:forEach>
 		</table>
 	</form>
+</div>
 	
 </body>
 </html>

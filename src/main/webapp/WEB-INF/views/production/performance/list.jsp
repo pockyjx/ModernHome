@@ -161,17 +161,11 @@
 			}
 		});
 	}
-	
-	// 생산실적 특정 행 클릭 시 -> 상세 작업지시 내역 출력
-// 	$(document).on("click", ".table-prfrmList tr", function() {
-		
-// 	});
 </script>
 <style>
 .selected {
 	background-color: #b3ccff;
 }
-
 </style>
 
 	<form method="get" class="bg-light rounded p-3 m-3">

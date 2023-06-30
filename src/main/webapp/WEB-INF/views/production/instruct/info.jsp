@@ -5,11 +5,12 @@
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
 	
-	<h2>작업지시서</h2>
+<div class="d-flex align-items-center justify-content-between mb-2">
+	<h3>작업지시서</h3>
+</div>
 	
-<%-- 	${wiList} --%>
-	
-	<table border="1">
+<div class="bg-light text-center rounded p-4 m-3">
+	<table class="table text-start align-middle table-bordered table-hover mb-0">
 		<tr>
 			<th>지시번호</th>
 			<td>${wiList[0].work_num}</td>
@@ -39,8 +40,8 @@
 			<td>${wiList[0].clt_name}</td>
 			<th>작성일</th>
 			<td>
-				<c:if test="${!empty wiList[0].update_date}">${fn:substring(${wiList[0].update_date}, 0, 10)}</c:if>
-				<c:if test="${empty wiList[0].update_date}">${fn:substring(${wiList[0].reg_date}, 0, 10)}</c:if>
+				<c:if test="${!empty wiList[0].update_date}">${fn:substring(wiList[0].update_date, 0, 10)}</c:if>
+				<c:if test="${empty wiList[0].update_date}">${fn:substring(wiList[0].reg_date, 0, 10)}</c:if>
 			</td>
 		</tr>
 		<tr>
@@ -57,5 +58,6 @@
 			</tr>
 		</c:forEach>
 	</table>
+</div>
 	
 <%@ include file="../../inc/footer.jsp"%>
