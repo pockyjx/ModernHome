@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ShipmentJoinVO;
 import com.modernhome.domain.ShipmentVO;
 import com.modernhome.persistence.ShipmentDAO;
@@ -16,16 +17,29 @@ public class ShipmentServiceImpl implements ShipmentService {
 	@Inject
 	private ShipmentDAO sDAO;
 	
+	
+	// 출하 전체수 계산
+	@Override
+	public int shipmentCnt() throws Exception {
+		return sDAO.shipmentCnt();
+	}
+
+	// 출하 검색결과수 계산
+	@Override
+	public int shpSearchCnt(ShipmentJoinVO svo) throws Exception {
+		return sDAO.shpSearchCnt(svo);
+	}
+
 	// 출하 조회
 	@Override
-	public List<ShipmentJoinVO> shipmentList() {
-		return sDAO.shipmentList();
+	public List<ShipmentJoinVO> shipmentList(PageVO pvo) {
+		return sDAO.shipmentList(pvo);
 	}
 
 	// 출하조회 + 검색
 	@Override
-	public List<ShipmentJoinVO> shipmentListSearch(ShipmentJoinVO svo) {
-		return sDAO.shipmentListSearch(svo);
+	public List<ShipmentJoinVO> shipmentListSearch(ShipmentJoinVO svo, PageVO pvo) {
+		return sDAO.shipmentListSearch(svo, pvo);
 	}
 
 	// 출하정보 등록

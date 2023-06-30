@@ -383,4 +383,5 @@ public class WijoinVO {
 				+ ", solved_date=" + solved_date + "]";
 	}
 	
+	
 }
