@@ -44,6 +44,7 @@
 		<result property="ma_id" column="ma_id"/>
 		<result property="io_id" column="io_id"/>
 		<result property="rec_id" column="rec_id"/>
+		<result property="df_cnt" column="df_cnt"/>
 	</resultMap>
 	<!-- Join 결과 매핑 -->
 	
@@ -63,6 +64,7 @@
 	    LEFT JOIN work_prfrm wp ON qc.qc_id = wp.qc_id 
 	    LEFT JOIN employee e ON qc.emp_id = e.emp_id
 	    WHERE wi.work_id IS NOT NULL
+	    LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 품질검사(완제품) 목록 조회 -->
 	
@@ -95,6 +97,7 @@
 				AND qc_yn = #{qc_yn}
 			</if>
 		</where>
+		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	
 	<!-- 품질검사(완제품) 검색 -->
@@ -107,16 +110,9 @@
 	</update>
 	<!-- 품질검사(완제품) 수정 -->
 	
-	<!-- 품질검사(완제품) 목록 (페이징) -->
-	<select id="qcListPage" resultMap="wijoinRM">
-		SELECT * FROM quality_checking
-		ORDER BY qc.qc_id DESC
-		LIMIT #{startPage}, #{pageSize}
-	</select>
-	<!-- 품질검사(완제품) 목록 (페이징) -->
 	
 	<!-- 전체 글 수 계산 -->
-	<select id="qcTotalCnt" resultType="int">
+	<select id="getTotalCntQc" resultType="int">
 		SELECT count(qc.qc_id)
 		FROM quality_checking qc
 		LEFT JOIN work_instr wi ON qc.work_id = wi.work_id 
@@ -124,11 +120,12 @@
 	    LEFT JOIN product p ON qc.pro_id = p.pro_id 
 	    LEFT JOIN work_prfrm wp ON qc.qc_id = wp.qc_id 
 	    LEFT JOIN employee e ON qc.emp_id = e.emp_id
+	   	WHERE wi.work_id IS NOT NULL
 	</select>
 	<!-- 전체 글 수 계산 -->
 	
 	<!-- 검색 결과 개수 계산 -->
-	<select id="qcSearchCnt" resultType="int">
+	<select id="getQualitySearchCnt" resultType="int">
 		SELECT count(qc_id)
 		FROM quality_checking qc
 	    LEFT JOIN work_instr wi ON qc.work_id = wi.work_id 
@@ -168,6 +165,7 @@
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
 		WHERE rec.rec_id IS NOT NULL
+		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 품질검사(자재) 목록 조회 -->
 	
@@ -184,7 +182,7 @@
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
-		
+		LIMIT #{startPage}, #{pageSize}
 		<where>
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
@@ -211,16 +209,8 @@
 	</update>
 	<!-- 품질검사(자재) 수정 -->
 	
-	<!-- 품질검사(자재) 목록 (페이징) -->
-	<select id="mqcListPage" resultMap="wijoinRM">
-		SELECT * FROM quality_checking
-		ORDER BY qc.qc_id DESC
-		LIMIT #{startPage}, #{pageSize}
-	</select>
-	<!-- 품질검사(자재) 목록 (페이징) -->
-	
 	<!-- 전체 글 수 계산(자재) -->
-	<select id="mqcTotalCnt" resultType="int">
+	<select id="getTotalCntMqc" resultType="int">
 		SELECT count(qc.qc_id)
 		FROM quality_checking qc
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
@@ -231,13 +221,12 @@
 	<!-- 전체 글 수 계산(자재) -->
 	
 	<!-- 검색 결과 개수 계산(자재) -->
-	<select id="mqcSearchCnt" resultType="int">
+	<select id="getMateriqlQualitySearchCnt" resultType="int">
 		SELECT count(qc.qc_id)
 		FROM quality_checking qc
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
-		WHERE rec.rec_id IS NOT NULL
 		<where>
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')

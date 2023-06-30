@@ -18,6 +18,8 @@
     var pageStatus = "";
 	    $(document).ready(function() {
 	    	
+	    	updateSelectedCheckboxCount();
+	    	
 	        // 수정 버튼 누를 시 (updateButton)
 	        $("#updateButton").click(function(){
 	            var selectedCheckbox = $("input[name='selectedQcId']:checked");
@@ -37,6 +39,7 @@
                 		"update_date",
                 		"qc_cnt",
                 		"rec_cnt",
+                		"df_cnt",
                 		"qc_yn"
                 	];
 
@@ -49,7 +52,7 @@
 	                	var cellName = cellNames[index];
 	                	var cellContent;
 
-	                    if (index === 8 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
+	                    if (index === 9 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
 	                        cellContent = '<td>' +
 	                            '<select name="' + cellName + '">' +
 	                            '<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
@@ -86,17 +89,26 @@
 	        
 	    	// 수정버튼 취소
 			if(pageStatus == "update"){
-				var row = $("input[name='selectedEmpId']:checked").closest("tr");
+				
+				$(".table-materialQualityList tr").each(function() {
+					var row = $(this);
 				
 				// 폼 초기화(기존내용으로)
 				// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
 
 				
-				// 각 셀의 값을 원래 상태로 되돌림
+					// 각 셀의 값을 원래 상태로 되돌림
 				row.find("td:not(:first-child)").each(function(index) {
 					var cellValue = $(this).find("input").val();
+					var cellValueSelect = $(this).find("select").val();
 					$(this).html(cellValue);
+					$(this).html(cellValueSelect);
 				});
+				
+				
+				// selected 클래스를 없앰 (css 없애기)
+				$(".table-materialQualityList tr").removeClass("selected");
+				
 				
 				// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 				$("#updateButton").removeAttr("disabled");
@@ -107,7 +119,11 @@
 				
 				pageStatus = "";
 				
-			} // if(update)문
+				});
+				
+				} // if(update)문
+				
+			updateSelectedCheckboxCount();
 		
 		}); // 취소버튼
 		
@@ -232,6 +248,7 @@
 					<th>검수일자</th>
 					<th>검수량</th>
 					<th>입고량</th>
+					<th>불량수량</th>
 					<th>검수상태</th>
 				</tr>
 				<c:forEach var="mq" items="${materialQualityList}" varStatus="status">
@@ -248,6 +265,7 @@
 						</td>
 						<td>${mq.qc_cnt}</td>
 						<td>${mq.rec_cnt}</td>
+						<td>${mq.df_cnt}</td>
 						<td>${mq.qc_yn}</td>
 					</tr>
 				</c:forEach>
@@ -261,7 +279,7 @@
 		  		
 		  			<c:if test="${pm.prev }">
 					<li class="page-item">
-						<a class="page-link" href="/production/quality/materialQualitylist?page=${pm.startPage-1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Previous">
+						<a class="page-link" href="/production/quality/materialQualityList?page=${pm.startPage-1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Previous">
 		       			<span aria-hidden="true">&laquo;</span>
 		      			</a>
 		    		</li>
@@ -271,13 +289,13 @@
 		    		<li 
 		    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
 		    		>
-		    				<a class="page-link" href="/production/quality/materialQualitylist?page=${idx}&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}">${idx }</a>
+		    				<a class="page-link" href="/production/quality/materialQualityList?page=${idx}&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}">${idx }</a>
 		    		</li>
 		    		</c:forEach>
 					
 					<c:if test="${pm.next && pm.endPage > 0}">
 					<li class="page-item">
-		      			<a class="page-link" href="/production/quality/materialQualitylist?page=${pm.endPage+1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Next">
+		      			<a class="page-link" href="/production/quality/materialQualityList?page=${pm.endPage+1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Next">
 		        		<span aria-hidden="true">&raquo;</span>
 		      			</a>
 		    		</li>

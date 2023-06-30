@@ -21,6 +21,8 @@
     var pageStatus = "";
 	    $(document).ready(function() {
 	    	
+	    	updateSelectedCheckboxCount();
+	    	
 	        // 수정 버튼 누를 시 (updateButton)
 	        $("#updateButton").click(function(){
 	            var selectedCheckbox = $("input[name='selectedQcId']:checked");
@@ -42,6 +44,7 @@
                 		"update_date",
                 		"qc_cnt",
                 		"prfrm_cnt",
+                		"df_cnt",
                 		"qc_yn"
                 	];
 
@@ -54,7 +57,7 @@
 	                	var cellName = cellNames[index];
 	                	var cellContent;
 
-	                    if (index === 10 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
+	                    if (index === 11 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
 	                        cellContent = '<td>' +
 	                            '<select name="' + cellName + '">' +
 	                            '<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
@@ -91,9 +94,8 @@
 	        
 				// 수정버튼 취소
 				if(pageStatus == "update"){
-					var row = $("input[name='selectedQcId']:checked").closest("tr");
 					// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
-					$(".table-qualityList tr").each(function() {
+					$("#table-qualityList tr").each(function() {
 					var row = $(this);
 						
 					// 폼 초기화(기존내용으로)
@@ -108,7 +110,7 @@
 				});
 					
 					// selected 클래스를 없앰 (css 없애기)
-					$(".table-qualityList tr").removeClass("selected");
+					$("#table-qualityList tr").removeClass("selected");
 					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#updateButton").removeAttr("disabled");
@@ -125,43 +127,10 @@
 				
 			}); // 취소버튼
 		
-    	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-        $(".table-qualityList th input[type='checkbox']").click(function() {
-            var checkbox = $(this);
-            var isChecked = checkbox.prop('checked');
-            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
-            var table = checkbox.closest('table');
-            var rows = table.find('tr');
 
-            // <td> 부분의 행들을 선택하고 배경색 지정
-            rows.each(function() {
-                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
-                if (checkboxTd.length > 0) {
-                    checkboxTd.prop('checked', isChecked);
-                    if (isChecked) {
-                        $(this).addClass('selected');
-                    } else {
-                        $(this).removeClass('selected');
-                    }
-                }
-            });
-        });
-
-        // <td> 쪽 체크박스 클릭 시 행 선택
-        $(".table-qualityList td input[type='checkbox']").click(function() {
-            var checkbox = $(this);
-            var isChecked = checkbox.prop('checked');
-            checkbox.closest('tr').toggleClass('selected', isChecked);
-        });
-        
-
-
-
-		// 체크박스 선택 시 체크박스의 개수 구하기
-        updateSelectedCheckboxCount();
 
         // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-        $(".table-qualityList th input[type='checkbox']").click(function() {
+        $("#table-qualityList th input[type='checkbox']").click(function() {
             var checkbox = $(this);
             var isChecked = checkbox.prop('checked');
             var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
@@ -181,7 +150,7 @@
         });
 
         // <td> 쪽 체크박스 클릭 시 행 선택
-        $(".table-qualityList td input[type='checkbox']").click(function() {
+        $("#table-qualityList td input[type='checkbox']").click(function() {
             var checkbox = $(this);
             var isChecked = checkbox.prop('checked');
             checkbox.closest('tr').toggleClass('selected', isChecked);
@@ -190,8 +159,8 @@
         });
 
         function updateSelectedCheckboxCount() {
-            var totalCheckboxes = $(".table-qualityList td input[type='checkbox']").length;
-            var selectedCheckboxes = $(".table-qualityList td input[type='checkbox']:checked").length;
+            var totalCheckboxes = $("#table-qualityList td input[type='checkbox']").length;
+            var selectedCheckboxes = $("#table-qualityList td input[type='checkbox']:checked").length;
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         }  // 체크박스 선택 시 체크박스 개수 구하기
         
@@ -244,10 +213,10 @@
 	<br>
 		
 		
+	<span id="selectedCheckboxCount">0</span>
 		
 		
 	<div class="bg-light text-center rounded p-4">
-	<span id="selectedCheckboxCount">0</span>
 		<div class="d-flex align-items-center justify-content-between mb-4">
 
 		</div>
