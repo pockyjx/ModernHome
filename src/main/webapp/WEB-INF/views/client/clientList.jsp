@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../inc/header.jsp"%>
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
@@ -35,11 +37,11 @@
 			'<option value="발주">발주</option>' +
 			'</select>' +
 		'</td>' +
-		'<td><input type="text" name="clt_name"></td>' +
-		'<td><input type="text" name="clt_rep"></td>' +
-		'<td><input type="text" name="clt_tel"></td>' +
-		'<td><input type="text" name="clt_adr"></td>' +
-		'<td><input type="text" name="clt_post"></td>' +
+		'<td><input type="text" id="clt_name" name="clt_name"></td>' +
+		'<td><input type="text" id="clt_rep" name="clt_rep"></td>' +
+		'<td><input type="text" id="tel" name="clt_tel"></td>' +
+		'<td><input type="text" id="clt_adr" name="clt_adr"></td>' +
+		'<td><input type="text" id="clt_post" name="clt_post"></td>' +
 		'<td><input type="email" name="clt_email"></td>' +
 		'</tr>';
 		
@@ -58,20 +60,7 @@
 		
 	}); // 여기까지 추가 버튼
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
 	$(".table-clientList th input[type='checkbox']").click(function() {
 		var checkbox = $(this);
@@ -200,15 +189,27 @@
 				//
 				var cellValue = $(this).text();
 				var cellType = [].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
-				var cellReadonly = [].includes(index) ? "readonly='readonly'" : "";
+				var cellReadonly = [0].includes(index) ? "readonly='readonly'" : "";
 				var cellName = cellNames[index];
 				var cellDisabled = [].includes(index)? "disabled" : "";
 				var cellContent;
 				
 				
-					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="'
-					+ cellValue + '"' + cellReadonly + ' ' + cellDisabled + '></td>';
 				
+				
+					if (index === 1){
+						cellContent = '<td>' +
+						'<select name="' + cellName + '">' +
+						'<option value="수주" ' + (cellValue === '수주' ? 'selected' : '') + '>수주</option>' +
+						'<option value="발주" ' + (cellValue === '발주' ? 'selected' : '') + '>발주</option>' +
+						'</select>' +
+						'</td>';
+						}else if (index === 4){
+							cellContent = '<td><input type="' + cellType + '" id="tel" name="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+						}else {cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellName + '"' +  '" value="'
+							+ cellValue + '"' + cellReadonly + ' ' + cellDisabled + '></td>';
+						}
+					
 				$(this).data('prevValue', cellValue);
 					
 				$(this).html(cellContent);
@@ -232,6 +233,111 @@
 		}
 	});
 	
+	  // 삭제 버튼 누를 시
+	  $("#deleteButton").click(function(){
+		var selectedCheckbox = $("input[name='selectedCltId']:checked");
+		
+		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+		if (selectedCheckbox.length === 0) {
+			alert("삭제할 행을 선택해주세요!")
+		}
+	});
+	  
+	// submit버튼 유효성
+		$("#submitButton").click(function() {
+			
+			var form = $("#clientList");
+			form.attr("method", "post");
+			form.attr("action", "/client/regClient");
+			var clt_name = $("#clt_name").val();
+			var clt_rep = $("#clt_rep").val();
+			var clt_tel = $("#tel").val();
+			var clt_adr = $("#clt_adr").val();
+			var clt_post = $("#clt_post").val();
+			
+				// 등록할 때
+				if(pageStatus == "reg"){
+				
+					if(clt_name == null || clt_name == "") {
+						$("#clt_name").focus();
+						alert("거래처 이름을 입력하세요!");
+						return;
+					}
+					if(clt_rep == null || clt_rep == "") {
+						$("#clt_rep").focus();
+						alert("대표자 이름을 입력하세요!");
+						return;
+					}
+					if(clt_tel == null || clt_tel == "") {
+						$("#tel").focus();
+						alert("전화번호를 입력하세요!");
+						return;
+					}
+					if(clt_adr == null || clt_adr == "") {
+						$("#clt_adr").focus();
+						alert("주소를 입력하세요!");
+						return;
+						}
+					if(clt_post == null || clt_post == "") {
+						$("#clt_post").focus();
+						alert("우편번호를 입력하세요!");
+						return;
+						}
+				} //if문
+			
+				
+				// 업데이트할 때
+				if(pageStatus == "update"){
+					if(clt_name == null || clt_name == "") {
+						$("#clt_name").focus();
+						alert("거래처 이름을 입력하세요!");
+						return;
+					}
+					if(clt_rep == null || clt_rep == "") {
+						$("#clt_rep").focus();
+						alert("대표자 이름을 입력하세요!");
+						return;
+					}
+					if(clt_tel == null || clt_tel == "") {
+						$("#tel").focus();
+						alert("전화번호를 입력하세요!");
+						return;
+					}
+					if(clt_adr == null || clt_adr == "") {
+						$("#clt_adr").focus();
+						alert("주소를 입력하세요!");
+						return;
+						}
+					if(clt_post == null || clt_post == "") {
+						$("#clt_post").focus();
+						alert("우편번호를 입력하세요!");
+						return;
+						}
+				} //if문
+			
+			
+			form.submit();
+		}); //submit버튼 유효성
+	  
+	  
+	  
+	  
+
+	
+	$(document).on("keyup", "#tel", function() {
+		var telVal = $(this).val();
+		telVal = telVal.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
+		var telLen = telVal.length;
+		
+			if(telLen > 3){
+				telVal = telVal.substring(0,3) + "-" + telVal.substring(3);
+			}
+			if(telLen > 7){
+				telVal = telVal.substring(0,8) + "-" +telVal.substring(8);
+			}
+		$(this).val(telVal);
+	});
+	
 	
 	
 	
@@ -251,6 +357,7 @@
 	<form action="" method="GET">
 	상호명 <input type="text" name="clt_name">
 	대표자 <input type="text" name="clt_rep">
+	     
 	
 <span>업종유형
   <!-- 체크박스 요소 - 수주 -->
@@ -278,7 +385,10 @@
       }
     });
   }
+   
+   
 </script>
+
 
 			
 	<input type="submit" value="조회">
@@ -288,13 +398,15 @@
 		
 	<form id="clientList">
 	
+	<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
 	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteClient" formmethod="post">
 	<i class="fa fa-trash"></i> 삭제</button>
-	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regClient" formmethod="post" disabled>
+	<button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
 	<i class="fa fa-download"></i> 저장</button>
+	</c:if>
 	
 	<table class="table-clientList" border="1">
 		<tr>
@@ -325,6 +437,14 @@
 	
 	</form>
 	
+
+	
+	
+	
+	
+	
+	
+	
 	<!-- 페이지 이동 버튼 -->
 	
 	<nav aria-label="Page navigation example">
@@ -332,7 +452,7 @@
   		
   			<c:if test="${pm.prev }">
 			<li class="page-item">
-				<a class="page-link" href="/client/clientList?page=${pm.startPage-1 }&clt_num=${clientList.clt_num}&clt_name=${clientVO.clt_name}" aria-label="Previous">
+				<a class="page-link" href="/client/clientList?page=${pm.startPage-1 }&clt_name=${cvo.clt_name}&clt_rep=${cvo.clt_rep}&clt_sort=${cvo.clt_sort}" aria-label="Previous">
        			<span aria-hidden="true">&laquo;</span>
       			</a>
     		</li>
@@ -342,13 +462,13 @@
     		<li 
     			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
     		>
-    				<a class="page-link" href="/client/clientList?page=${idx}&clt_num=${clientVO.clt_num}&clt_name=${clientVO.clt_name}">${idx }</a>
+    				<a class="page-link" href="/client/clientList?page=${idx}&clt_name=${cvo.clt_name}&clt_rep=${cvo.clt_rep}&clt_sort=${cvo.clt_sort}">${idx }</a>
     		</li>
     		</c:forEach>
 			
 			<c:if test="${pm.next && pm.endPage > 0}">
 			<li class="page-item">
-      			<a class="page-link" href="/client/clientList?page=${pm.endPage+1 }&clt_num=${clientVO.clt_num}&clt_name=${clientVO.clt_name}" aria-label="Next">
+      			<a class="page-link" href="/client/clientList?page=${pm.endPage+1 }&clt_name=${cvo.clt_name}&clt_rep=${cvo.clt_rep}&clt_sort=${cvo.clt_sort}" aria-label="Next">
         		<span aria-hidden="true">&raquo;</span>
       			</a>
     		</li>
@@ -358,6 +478,10 @@
 	</nav>
 	
 	<!-- 페이지 이동 버튼 -->
+	
+	
+	
+
 
 </body>
 </html>

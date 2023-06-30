@@ -4,29 +4,52 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.modernhome.mapper.ShipmentMapper">
+
+	<!-- 출하 전체수 계산 -->
+	<select id="shipmentCnt" resultType="int">
+		SELECT COUNT(*) FROM shipment
+	</select>
+	<!-- 출하 전체수 계산 -->
 	
 	<!-- 출하 불러오기 -->
 	<select id="shipmentList" resultType="com.modernhome.domain.ShipmentJoinVO">
-		SELECT shp_num, emp_name, clt_name, pro_num, pro_name,  shp_cnt, shp_date
+		SELECT shp_num, emp_name, oo_num, shipment.update_emp_id, clt_name, pro_num, pro_name,  shp_cnt, shp_date,
+		CASE
+			WHEN shipment.update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = shipment.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = shipment.update_emp_id)
+			END AS emp_name,
+			
+			CASE
+			WHEN update_shp_date IS NULL THEN
+			shp_reg_date
+			ELSE
+			update_shp_date
+			END AS shp_reg_date
 		from shipment
 		join employee e on shipment.emp_id = e.emp_id
+		join out_order o on shipment.oo_id = o.oo_id
 		join client c on shipment.clt_id = c.clt_id
 		join product p on shipment.pro_id = p.pro_id
+		
+		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 출하 불러오기 -->
 	
-	<!-- 출하 검색 -->
-	<select id="shipmentListSearch" resultType="com.modernhome.domain.ShipmentJoinVO">
-	SELECT shp_num, emp_name, clt_name, pro_num, pro_name,  shp_cnt, shp_date
-	FROM shipment
+	<!-- 출하 검색결과수 계산 -->
+	<select id="shpSearchCnt" resultType="int">
+	SELECT COUNT(*) FROM shipment
+	
 	JOIN employee e ON shipment.emp_id = e.emp_id
+	JOIN out_order o on shipment.oo_id = o.oo_id
 	JOIN client c ON shipment.clt_id = c.clt_id
 	JOIN product p ON shipment.pro_id = p.pro_id
 	<where>
-		<if test="clt_name != null">
+		<if test="clt_name != ''">
 			AND clt_name LIKE CONCAT('%', #{clt_name}, '%')
 		</if>
-		<if test="emp_name != null">
+		<if test="emp_name != ''">
 			AND emp_name LIKE CONCAT('%', #{emp_name}, '%') 
 		</if>
 		<if test="startDate != ''">
@@ -39,6 +62,32 @@
 </select>
 	<!-- 출하 검색 -->
 	
+	<!-- 출하 검색 -->
+	<select id="shipmentListSearch" resultType="com.modernhome.domain.ShipmentJoinVO">
+	SELECT shp_num, emp_name, oo_num, clt_name, pro_num, pro_name,  shp_cnt, shp_date
+	FROM shipment
+	JOIN employee e ON shipment.emp_id = e.emp_id
+	JOIN out_order o on shipment.oo_id = o.oo_id
+	JOIN client c ON shipment.clt_id = c.clt_id
+	JOIN product p ON shipment.pro_id = p.pro_id
+	<where>
+		<if test="svo.clt_name != ''">
+			clt_name LIKE CONCAT('%', #{svo.clt_name}, '%')
+		</if>
+		<if test="svo.emp_name != ''">
+			AND emp_name LIKE CONCAT('%', #{svo.emp_name}, '%') 
+		</if>
+		<if test="svo.startDate != ''">
+			AND shp_date &gt;= #{svo.startDate}
+		</if>
+		<if test="svo.endDate != ''">
+			AND #{svo.endDate} &gt;= DATE(shp_date)
+		</if>
+	</where>
+	LIMIT #{pvo.startPage}, #{pvo.pageSize}
+</select>
+	<!-- 출하 검색 -->
+	
 	<!-- 출하 등록 -->
 	<insert id="regShipment">
 		<selectKey keyProperty="shp_num" resultType="String" order="BEFORE">
@@ -47,8 +96,8 @@
 		</selectKey>
 	
 	
-		INSERT INTO shipment (shp_num, emp_id, clt_id, pro_id, shp_cnt, shp_date)
-		VALUES (#{shp_num}, #{emp_id}, #{clt_id}, #{pro_id}, #{shp_cnt},
+		INSERT INTO shipment (shp_num, emp_id, oo_id, clt_id, pro_id, shp_cnt, shp_date)
+		VALUES (#{shp_num}, #{emp_id}, #{oo_id}, #{clt_id}, #{pro_id}, #{shp_cnt},
 		CASE WHEN #{shp_date} = '' THEN NULL ELSE #{shp_date} END)
 	</insert>
 	<!-- 출하 등록 -->
