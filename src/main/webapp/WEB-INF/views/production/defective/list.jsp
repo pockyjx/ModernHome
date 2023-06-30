@@ -90,6 +90,47 @@
 				
 				pageStatus = "";
 			}
+			// 수정버튼 취소
+			if(pageStatus == "update"){
+				
+				// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+				$(".table-defective tr").each(function() {
+				var row = $(this);
+					
+				// 폼 초기화(기존내용으로)
+				$("#defList")[0].reset();
+				
+				// 각 셀의 값을 원래 상태로 되돌림
+				row.find("td:not(:first-child)").each(function(index) {
+					
+					var cellValue = $(this).find("input").val();
+					
+					if ($(this).find("select").length) {
+						// <select>가 있는 경우 선택된 옵션의 텍스트로 변경
+						var selectedOptionText = $(this).find("select option:selected").text();
+						$(this).html(selectedOptionText);
+					}else {
+						// <select>가 없는 경우 셀 값을 그대로 표시
+						$(this).html(cellValue);
+					}
+				});
+				
+				// selected 클래스를 없앰 (css 없애기)
+				$(".table-inorderList tr").removeClass("selected");
+				
+				// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+				$("#addRowButton").removeAttr("disabled");
+				$("#updateButton").removeAttr("disabled");
+				$("#deleteInorderButton").removeAttr("disabled");
+				
+				$("#cancelButton").attr("disabled", "disabled");
+				$("#submitButton").attr("disabled", "disabled");
+				
+				
+				pageStatus = "";
+				
+				});
+			}
 		});
 
 		// 수정 버튼 누를 시
@@ -256,8 +297,9 @@
 			<div class="col-sm-10">
 				<select name="df_type">
 					<option value="all">전체</option>
-					<option value="pro">완제품</option>
-					<option value="ma">자재</option>
+					<option value="pro">공정검사</option>
+					<option value="ma">수입검사</option>
+					<option value="">출고검사</option>
 				</select>
 			</div>
 		</div>
@@ -324,9 +366,9 @@
 						<td><input type="checkbox" class="form-check-input" name="df_id" value="${df.df_id}"></td>
 						<td>${df.df_num}</td>
 						<td>${df.df_type}</td>
-						<td>${(df.df_type == "완제품") ? df.line_num : df.clt_name}</td>
-						<td>${(df.df_type == "완제품") ? df.pro_num : df.ma_num}</td>
-						<td>${(df.df_type == "완제품") ? df.pro_name : df.ma_name}</td>
+						<td>${(df.df_type == "공정검사") ? df.line_num : df.clt_name}</td>
+						<td>${(df.df_type == "공정검사") ? df.pro_num : df.ma_num}</td>
+						<td>${(df.df_type == "공정검사") ? df.pro_name : df.ma_name}</td>
 						<td>${df.emp_name}</td>
 						<td>
 							<c:if test="${!empty wp.update_date}">${fn:substring(df.update_date, 0, 10)}</c:if>
@@ -337,10 +379,10 @@
 						<td>${df.repair_yn}</td>
 						<td>${fn:substring(df.solved_date, 0, 10)}</td>
 						<td>
-							<c:if test="${df.solved_date == null && df.df_type.equals('완제품') && df.repair_yn.equals('가능')}">
+							<c:if test="${df.solved_date == null && df.df_type.equals('공정검사') && df.repair_yn.equals('가능')}">
 								<button type="button" onclick="repairAndDiscard('repair', '${df.df_id}', ${df.df_cnt});" class="btn btn-success m-2">수리</button>
 							</c:if>
-							<c:if test="${df.solved_date == null && df.df_type.equals('완제품') && df.repair_yn.equals('불가')}">
+							<c:if test="${df.solved_date == null && df.df_type.equals('공정검사') && df.repair_yn.equals('불가')}">
 								<button type="button" onclick="repairAndDiscard('discard', '${df.df_id}', ${df.df_cnt});" class="btn btn-danger m-2">폐기</button>
 							</c:if>
 							<c:if test="${df.solved_date != null}">
@@ -354,8 +396,6 @@
 		</div>
 	</div>
 </form>
-
-<%-- ${dfList} --%>
 
 <!-- 페이지 이동 버튼 -->
 <nav aria-label="Page navigation example">

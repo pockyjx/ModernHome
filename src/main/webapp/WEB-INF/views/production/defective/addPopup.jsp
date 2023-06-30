@@ -97,10 +97,10 @@
 		
 		// 테이블 숨기기
 		if(checkbox.checked) {
-			if(value === '완제품') {
+			if(value === '공정검사') {
 				$(".table-pr").show();
 				$(".table-ma").hide();
-			} else if(value === '자재') {
+			} else if(value === '수입검사') {
 				$(".table-ma").show();
 				$(".table-pr").hide();
 			}
@@ -114,10 +114,10 @@
 <body>
 
 <div class="col-sm-10">
-	<label><input type="checkbox" name="df_type" value="완제품" class="form-check-input" 
-		onclick="handleCheckbox(this, '완제품')"> 완제품</label>
-	<label><input type="checkbox" name="df_type" value="자재" class="form-check-input" 
-		onclick="handleCheckbox(this, '자재')"> 자재</label>
+	<label><input type="checkbox" name="df_type" value="공정검사" class="form-check-input" 
+		onclick="handleCheckbox(this, '공정검사')"> 공정검사</label>
+	<label><input type="checkbox" name="df_type" value="수입검사" class="form-check-input" 
+		onclick="handleCheckbox(this, '수입검사')"> 수입검사</label>
 </div>
 	
 <%-- ${wiList} <hr> ${resList} --%>
@@ -144,7 +144,7 @@
 			<td style="display: none">${wi.line_id}</td>
 			<td>${wi.line_num}</td>
 			<td>${wi.work_cnt}</td>
-			<td style="display: none">완제품</td>
+			<td style="display: none">공정검사</td>
 			<td style="display: none">${wi.qc_id}</td>
 			<td>${wi.df_cnt}</td>
 		</tr>
@@ -173,7 +173,7 @@
 			<td>${rec.ma_name}</td>
 			<td>${rec.rec_cnt}</td>
 			<td>${fn:substring(rec.rec_date, 0, 10)}</td>
-			<td style="display: none">자재</td>
+			<td style="display: none">수입검사</td>
 			<td style="display: none">${rec.qc_id}</td>
 			<td>${rec.clt_name}</td>
 			<td>${rec.df_cnt}</td>

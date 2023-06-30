@@ -54,8 +54,6 @@
 
 <body>
 	
-<%-- 	${qiList} <hr> --%>
-	
 	<table class="table text-start align-middle table-bordered table-hover mb-0">
 		<tr>
 			<th colspan="9">작업지시</th>
