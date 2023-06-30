@@ -57,8 +57,8 @@ public class QualityServiceImpl implements QualityService{
 	
 	// 품질검사(자재) 개수
 	@Override
-	public int getTotalCntMT() throws Exception {
-		return qdao.getTotalCntMT();
+	public int getTotalCntMqc() throws Exception {
+		return qdao.getTotalCntMqc();
 	}
 
 	// 품질검사(자재) 목록 조회 + 검색

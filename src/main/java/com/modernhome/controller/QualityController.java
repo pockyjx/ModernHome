@@ -133,15 +133,12 @@ public class QualityController {
 		}else {
 			
 			logger.debug("검색어 X, 전체 데이터 출력");
-			
 			List<WijoinVO> materialQualityList = qService.getMaterialQualityList(pvo);
-			
 			model.addAttribute("materialQualityList",materialQualityList);
 			
 			
 			pm.setPageVO(pvo);
-			pm.setTotalCount(qService.getTotalCntMT());
-			
+			pm.setTotalCount(qService.getTotalCntMqc());
 			model.addAttribute("pm", pm);
 		}
 	}

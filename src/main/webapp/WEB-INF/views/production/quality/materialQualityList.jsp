@@ -279,7 +279,7 @@
 		  		
 		  			<c:if test="${pm.prev }">
 					<li class="page-item">
-						<a class="page-link" href="/production/quality/materialQualitylist?page=${pm.startPage-1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Previous">
+						<a class="page-link" href="/production/quality/materialQualityList?page=${pm.startPage-1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Previous">
 		       			<span aria-hidden="true">&laquo;</span>
 		      			</a>
 		    		</li>
@@ -289,13 +289,13 @@
 		    		<li 
 		    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
 		    		>
-		    				<a class="page-link" href="/production/quality/materialQualitylist?page=${idx}&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}">${idx }</a>
+		    				<a class="page-link" href="/production/quality/materialQualityList?page=${idx}&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}">${idx }</a>
 		    		</li>
 		    		</c:forEach>
 					
 					<c:if test="${pm.next && pm.endPage > 0}">
 					<li class="page-item">
-		      			<a class="page-link" href="/production/quality/materialQualitylist?page=${pm.endPage+1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Next">
+		      			<a class="page-link" href="/production/quality/materialQualityList?page=${pm.endPage+1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Next">
 		        		<span aria-hidden="true">&raquo;</span>
 		      			</a>
 		    		</li>
