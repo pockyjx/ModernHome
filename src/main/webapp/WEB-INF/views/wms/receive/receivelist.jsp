@@ -120,6 +120,21 @@
 			}); // 취소버튼
             
 			
+			// 삭제버튼
+	    	$("#deleteReceiveButton").click(function(){
+	    		
+	    		var selectedCheckbox = $("input[name='selectedRecId']:checked");
+	    		
+	    		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+	    		if (selectedCheckbox.length === 0){
+	    			alert("삭제할 행을 선택하세요!");
+	    			
+	    			// 선택안하면 submit을 막음
+	    			event.preventDefault();
+	    		}
+	    	});
+			
+			
 			// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
 	        $(".table-receiveList th input[type='checkbox']").click(function() {
 	            var checkbox = $(this);
@@ -245,13 +260,15 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">입고 관리</h3>
 		<div>
-			<c:if test="${sessionScope.emp_dept eq '자재' && (sessionScope.emp_auth == '2' || sessionScope.emp_auth == '3' )}">
+			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3' }">
 				<button type="button" class="btn btn-primary m-2" id="addRowButton">
 					<i class="fa fa-plus"></i> 추가</button>
 		  		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 			    <button type="submit" class="btn btn-primary m-2" id="deleteReceiveButton" formaction="/wms/deleteReceive" formmethod="post">
 			    	<i class="fa fa-trash"></i> 삭제</button>
-			    <button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regReceive" formmethod="post" disabled>
+<!-- 			    <button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regReceive" formmethod="post" disabled> -->
+<!-- 			    	<i class="fa fa-download"></i> 저장</button> -->
+			    <button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
 			    	<i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>
