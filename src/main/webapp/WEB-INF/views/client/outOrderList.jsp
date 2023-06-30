@@ -420,7 +420,7 @@ $(document).ready(function() {
 			
 				<input type="submit" value="조회">
 				
-				<input type="reset" value="초기화">
+<!-- 				<input type="reset" value="초기화"> -->
 			</form>
 		</fieldset>
 		<!-- 검색칸 -->
