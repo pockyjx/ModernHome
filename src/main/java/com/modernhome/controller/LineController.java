@@ -46,7 +46,7 @@ public class LineController {
 		if(lvo.getLine_num()!= null || lvo.getLine_name() != null || lvo.getUse_yn() != null) {
 			logger.debug("검색어 O, 검색된 데이터만 출력" + lvo);
 			// 서비스 -> 라인목록 가져오기
-			List<LineVO> lineList = lineService.lineListSearch(lvo, pvo);
+			List<LineVO> lineList = lineService.getLineListSearch(lvo, pvo);
 			
 			// Model 객체에 저장
 			model.addAttribute("lineList",lineList);
@@ -57,21 +57,21 @@ public class LineController {
 			model.addAttribute("pm",pm);
 			
 			// 검색 정보 전달
-			model.addAttribute("mvo",lvo);
+			model.addAttribute("livo",lvo);
 			
 			
 		}else {
 			
 			logger.debug("검색어 X, 전체 데이터 출력 " + lvo);
 			// 서비스 -> 라인목록 가져오기
-			List<LineVO> lineList = lineService.lineList(pvo);
+			List<LineVO> lineList = lineService.getLineList(pvo);
 			
 			// Model 객체에 저장
 			model.addAttribute("lineList",lineList);
 			
 			// 패이징 정보 전달
 			pm.setPageVO(pvo);
-			pm.setTotalCount(lineService.getTotalCntMate());
+			pm.setTotalCount(lineService.getTotalCntLine());
 			model.addAttribute("pm",pm);
 		}
 

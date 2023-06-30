@@ -297,11 +297,13 @@
 		</div>
 	</form>
 	
+	${pm }
+	
 	<form>
 		<div class="d-flex align-items-center justify-content-between mb-2">
 			<h3 class="m-4">라인 리스트</h3>
 			<div>
-				<c:if test="${(sessionScope.emp_dept eq '생산') && sessionScope.emp_auth == 'Y'}">
+				<c:if test="${(sessionScope.emp_dept eq '생산') && sessionScope.emp_auth >= 2}">
 					<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
 						<i class="fa fa-plus"></i> 추가</button>
 					<button type="button" class="btn btn-sm btn-primary m-2" id="cancelButton" disabled>X 취소</button>
@@ -352,7 +354,7 @@
  		
  			<c:if test="${pm.prev }">
 		<li class="page-item">
-			<a class="page-link" href="/production/line/lineList?page=${pm.startPage-1 }&line_num=${line_num}&line_name=${line_name}&use_yn=${use_yn}" aria-label="Previous">
+			<a class="page-link" href="/production/line/lineList?page=${pm.startPage-1 }&line_num=${livo.line_num}&line_name=${livo.line_name}&use_yn=${livo.use_yn}" aria-label="Previous">
       			<span aria-hidden="true">&laquo;</span>
      			</a>
    		</li>
@@ -362,13 +364,13 @@
    		<li 
    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
    		>
-   				<a class="page-link" href="/production/line/lineList?page=${idx}&line_num=${line_num}&line_name=${line_name}&use_yn=${use_yn}">${idx }</a>
+   				<a class="page-link" href="/production/line/lineList?page=${idx}&line_num=${livo.line_num}&line_name=${livo.line_name}&use_yn=${livo.use_yn}">${idx }</a>
    		</li>
    		</c:forEach>
 		
 		<c:if test="${pm.next && pm.endPage > 0}">
 		<li class="page-item">
-     			<a class="page-link" href="/production/line/lineList?page=${pm.endPage+1 }&line_num=${line_num}&line_name=${line_name}&use_yn=${use_yn}" aria-label="Next">
+     			<a class="page-link" href="/production/line/lineList?page=${pm.endPage+1 }&line_num=${livo.line_num}&line_name=${livo.line_name}&use_yn=${livo.use_yn}" aria-label="Next">
        		<span aria-hidden="true">&raquo;</span>
      			</a>
    		</li>

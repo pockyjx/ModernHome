@@ -28,38 +28,34 @@ public class LineDAOImpl implements LineDAO {
 
 	// 라인 조회 (페이징)
 	@Override
-	public List<LineVO> lineList(PageVO pvo) throws Exception {
+	public List<LineVO> getLineList(PageVO pvo) throws Exception {
 		logger.debug("DAO -> mapper호출 -> SQL 실행(라인조회");
 		
-		return sqlSession.selectList(NAMESPACE + ".lineList",pvo);
+		return sqlSession.selectList(NAMESPACE + ".getLineList",pvo);
 	}
 	
 	// 총 글 개수 계산 (페이징)
 	@Override
-	public int getTotalCntMate() throws Exception {
-		return sqlSession.selectOne(NAMESPACE +".lineTotalCnt");
+	public int getTotalCntLine() throws Exception {
+		return sqlSession.selectOne(NAMESPACE +".getTotalCntLine");
 	}
 
 	// 라인 조회 + 검색(페이징)
 	@Override
-	public List<LineVO> lineListSearch(LineVO lvo, PageVO pvo) throws Exception{
+	public List<LineVO> getLineListSearch(LineVO lvo, PageVO pvo) throws Exception{
 		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회 - 검색된 데이터만 출력)");
 
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mvo", lvo);
+		paramMap.put("livo", lvo);
 		paramMap.put("pageVO", pvo);
 		
-		return sqlSession.selectList(NAMESPACE +  ".lineListSearch",paramMap);
+		return sqlSession.selectList(NAMESPACE +  ".getLineListSearch",paramMap);
 	}
 	
 	// 검색 결과 개수 (페이징)
 	@Override
 	public int getLineSearchCnt(LineVO lvo) {
-		
-		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("mvo", lvo);
-		
-		return sqlSession.selectOne(NAMESPACE+".lineSearchCnt",paramMap);
+		return sqlSession.selectOne(NAMESPACE+".getLineSearchCnt",lvo);
 	}
 
 	// 라인 등록

@@ -110,7 +110,7 @@ public class InstructController {
 		
 		// 작업지시서를 작성하지 않은 수주번호 출력
 		List<WijoinVO> onumList = wiService.getBeforeInstr();
-		List<LineVO> liList = lineService.lineList(pvo);
+		List<LineVO> liList = lineService.getLineList(pvo);
 		
 		if(txt.equals("oo")) {
 			logger.debug("txt : " + txt);

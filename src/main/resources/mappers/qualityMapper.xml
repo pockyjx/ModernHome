@@ -44,6 +44,7 @@
 		<result property="ma_id" column="ma_id"/>
 		<result property="io_id" column="io_id"/>
 		<result property="rec_id" column="rec_id"/>
+		<result property="df_cnt" column="df_cnt"/>
 	</resultMap>
 	<!-- Join 결과 매핑 -->
 	

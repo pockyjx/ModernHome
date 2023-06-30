@@ -19,21 +19,21 @@ public class LineServiceImpl implements LineService {
 
 	// 라인조회 (페이징)
 	@Override
-	public List<LineVO> lineList(PageVO pvo) throws Exception {
-		return dao.lineList(pvo);
+	public List<LineVO> getLineList(PageVO pvo) throws Exception {
+		return dao.getLineList(pvo);
 	}
 	
 	// 라인 개수
 	@Override
-	public int getTotalCntMate() throws Exception {
-		return dao.getTotalCntMate();
+	public int getTotalCntLine() throws Exception {
+		return dao.getTotalCntLine();
 	}
 
 
 	// 라인조회 + 검색
 	@Override
-	public List<LineVO> lineListSearch(LineVO lvo, PageVO pvo) throws Exception {
-		return dao.lineListSearch(lvo,pvo);
+	public List<LineVO> getLineListSearch(LineVO lvo, PageVO pvo) throws Exception {
+		return dao.getLineListSearch(lvo,pvo);
 	}
 	
 	// 라인 검색 결과 개수
