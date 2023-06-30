@@ -195,6 +195,21 @@
 		
 	}); // 수정 버튼 누를 시
 	
+	// 삭제버튼
+	$("#deleteButton").click(function(){
+		
+		var selectedCheckbox = $("input[name='selectedReqId']:checked");
+		
+		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+		if (selectedCheckbox.length === 0){
+			alert("삭제할 행을 선택해주세요!");
+			
+			// 선택안하면 submit을 막음
+			event.preventDefault();
+		}
+		
+	});
+	
 		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
         $(".table-reqList th input[type='checkbox']").click(function() {
             var checkbox = $(this);
@@ -322,7 +337,8 @@
 
 <form action="" method="GET" class="bg-light rounded p-3 m-3">
 	
-		<select name="option">
+	<div class="col-sm-2">
+		<select name="option" class="form-select">
 			
 			<option value="all" 
 				<c:if test="${option == '' || option == 'all' }">selected</c:if>
@@ -335,26 +351,32 @@
 			>자재명</option>
 		</select>
 		
-			<input type="text" name="search" value="${search }">
-			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+		<input type="text" name="search" value="${search }" class="form-control">
+	
+	</div>
+	
+	
+	<div class="col-auto">
+		<button class="btn btn-primary m-2" type="submit" style="margin-left:200%;">조회</button>
+	</div>
 </form>
 
 <form id="reqList">
 	
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		
-	<h3 class="m-5">소요량 관리</h3>
+	<h3 class="m-4">소요량 관리</h3>
 		
-	<div class="m-4">
+	<div>
 	
 		<c:if test="${((sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산') && sessionScope.emp_auth == '2') || sessionScope.emp_auth == '3'}">
 		
-			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-			<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="/info/delRequirement" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+			<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+			<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/info/delRequirement" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 			
-			<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 	
 		</c:if>
 	</div>
@@ -371,19 +393,19 @@
 	<input type="hidden" name="ma_id" id="ma_id"> 
 	
 		<div class="table-responsive">
-			<table class="table-reqList table table-striped align-middle table-hover mb-0">
+			<table class="table-reqList table align-middle table-bordered table-hover mb-0">
 		
 				<tr>
-					<th><input type="checkbox" class="form-check-input"></th>
-					<th>소요량 코드</th>
-					<th>완제품 코드</th>
-					<th>완제품명</th>
-					<th>자재 코드</th>
-					<th>자재명</th>
-					<th>소요량</th>
-					<th>단위</th>
-					<th>등록일</th>
-					<th>등록자</th>
+					<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+					<th style="background-color: rgba(0,0,0,0.075);">소요량 코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">완제품 코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">완제품명</th>
+					<th style="background-color: rgba(0,0,0,0.075);">자재 코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
+					<th style="background-color: rgba(0,0,0,0.075);">소요량</th>
+					<th style="background-color: rgba(0,0,0,0.075);">단위</th>
+					<th style="background-color: rgba(0,0,0,0.075);">등록일</th>
+					<th style="background-color: rgba(0,0,0,0.075);">등록자</th>
 				</tr>
 				
 				<c:forEach var="vo" items="${reqList }">
