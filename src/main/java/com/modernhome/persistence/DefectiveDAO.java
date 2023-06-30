@@ -31,10 +31,19 @@ public interface DefectiveDAO {
 	// 불량 등록
 	public void addDefective(WijoinVO vo) throws Exception;
 	
+	// 불량 등록 시 입고 테이블 변경
+	public void modifyRec(WijoinVO vo) throws Exception;
+	
 	// 불량 수정
 	public void modifyDefective(WijoinVO vo) throws Exception;
 	
 	// 불량 삭제
 	public void delDefective(Integer df_id) throws Exception;
+	
+	// 수리 처리한 불량품을 완제품 재고에 증가
+	public void modifyReAndDis(WijoinVO vo) throws Exception;
+	
+	// 수리 처리 후 불량 추가수정
+	public void modifyDefective2(WijoinVO vo) throws Exception;
 	
 }

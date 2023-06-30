@@ -13,7 +13,7 @@ public class PageVO {
 	public PageVO() {
 		// 페이징 처리 기본값 설정
 		this.page = 1;
-		this.pageSize = 5;   
+		this.pageSize = 10;   
 	}
 	
 	// 페이지 정보에 따른 인덱스 정보

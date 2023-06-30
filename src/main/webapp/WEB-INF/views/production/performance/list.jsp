@@ -38,13 +38,13 @@
 						 '<td><input type="text" class="form-control" name="pro_name" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>' +
-						 '<select name="gb_yn" class="form-select mb-3">' +
+						 '<select name="gb_yn" id="selGb" class="form-select mb-3">' +
 						 '<option value="양품">양품</option>' +
 						 '<option value="불량품">불량품</option>' +
 						 '</select>' +
 						 '</td>' +
 						 '<td><input type="text" class="form-control" name="prfrm_cnt"></td>' +
-						 '<td><input type="text" class="form-control" name="df_cnt" value="0" style="border: none; background: transparent;" disabled readonly></td>' +
+						 '<td><input type="text" class="form-control" name="df_cnt" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
 						 '<td><input type="text" class="form-control" name="work_cnt" style="border: none; background: transparent;" readonly>' +
 						 '<input type="hidden" class="form-control" name="work_id">' +
@@ -56,18 +56,6 @@
 			$(document).on("click", "td[id='work_num']", function() {
 				window.name = "add";
 				window.open('/production/performance/addPopup', 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
-			});
-			
-			// gb_yn이 Y라면 df_cnt를 비활성화 시킴
-			$(document).on('change', 'select[name="gb_yn"]', function() {
-				var dfCntInput = $(this).closest('tr').find('input[name="df_cnt"]');
-				var selectedValue = $(this).val();
-				
-				if(selectedValue === "양품") {
-					dfCntInput.prop('disabled', true);
-				} else {
-					dfCntInput.prop('disabled', false);
-				}
 			});
 			
 			// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
@@ -211,9 +199,9 @@
 		
 <form>
 	<div class="d-flex align-items-center justify-content-between mb-2">
-		<h6 class="m-4">생산실적 리스트</h6>
+		<h3 class="m-4">생산실적 리스트</h3>
 		<div>
-			<c:if test="${(sessionScope.emp_dept eq '생산' || sessionScope.emp_dept eq '품질') && sessionScope.emp_auth == 'Y'}">
+			<c:if test="${(sessionScope.emp_dept eq '생산' || sessionScope.emp_dept eq '품질') && sessionScope.emp_auth >= 2}">
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">
@@ -261,7 +249,7 @@
 						</td>
 						<td>${wp.gb_yn}</td>
 						<td>${wp.prfrm_cnt}<input type="hidden" name="prfrm_cnt" value="${wp.prfrm_cnt}"></td>
-						<td>${wp.work_cnt - wp.prfrm_cnt}</td>
+						<td>${wp.df_cnt}</td>
 						<td>${wp.emp_name}</td>
 						<td>${wp.work_cnt}</td>
 					</tr>

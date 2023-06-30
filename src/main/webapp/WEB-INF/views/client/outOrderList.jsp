@@ -78,12 +78,12 @@ $(document).ready(function() {
 		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
 
 		'<td><input type="text" name="emp_id" value="' + '${sessionScope.emp_id}' + '" readonly></td>' +
-		'<td><input type="text" name="clt_num" id="clt_num" required></td>' +
+		'<td><input type="text" name="clt_num" id="clt_num" readonly></td>' +
 		'<td><input type="text" name="clt_name" id="clt_name" readonly placeholder="거래처코드를 선택해주세요"></td>' +
-		'<td><input type="text" name="pro_num" id="pro_num" required></td>' +
+		'<td><input type="text" name="pro_num" id="pro_num" readonly></td>' +
 		'<td><input type="text" name="pro_name" id="pro_name" readonly placeholder="완제품코드를 선택해주세요"></td>' +
-		'<td><input type="number" name="oo_cnt" required></td>' +
-		'<td><input type="date" name="oo_start_date" required></td>' +
+		'<td><input type="number" name="oo_cnt" id="oo_cnt"></td>' +
+		'<td><input type="date" name="oo_start_date" id="oo_start_date"></td>' +
 		'<td><input type="date" name="oo_end_date"></td>' +
 		'<td>' +
 		'<select name="oo_state">' +
@@ -212,9 +212,10 @@ $(document).ready(function() {
 	            "pro_id",
 	            "pro_name",
 	            "oo_cnt",
-	            "oo_update_date",
+	            "oo_start_date",
 	            "oo_end_date",
 	            "oo_state",
+	            "oo_update_date"
 			];
 			
 			
@@ -239,8 +240,8 @@ $(document).ready(function() {
 				}else if (index === 1){
 					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
 				}else {
-					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="'
-					+ cellValue + '"' + cellReadonly + ' ' + cellDisabled + '></td>';
+					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellName + '"' + '" value="' + cellValue + '"'
+					+ cellReadonly + ' ' + cellDisabled + '></td>';
 				}
 				
 				
@@ -285,6 +286,69 @@ $(document).ready(function() {
 		
 	});
 	
+	
+	// submit버튼 유효성
+	$("#submitButton").click(function() {
+		
+		var form = $("#outOrderList");
+		form.attr("method", "post");
+		form.attr("action", "/client/regOutOrder");
+		var clt_num = $("#clt_num").val();
+		var pro_num = $("#pro_num").val();
+		var oo_cnt = $("#oo_cnt").val();
+		var oo_start_date = $("#oo_start_date").val();
+		
+			// 등록할 때
+			if(pageStatus == "reg"){
+			
+				if(clt_num == null || clt_num == "") {
+					$("#clt_num").focus();
+					alert("거래처코드를 선택하세요!");
+					return;
+				}
+				if(pro_num == null || pro_num == "") {
+					$("#pro_num").focus();
+					alert("완제품코드를 선택하세요!");
+					return;
+				}
+				if(oo_cnt == null || oo_cnt == "") {
+					$("#oo_cnt").focus();
+					alert("주문량를 입력하세요!");
+					return;
+				}
+				if(oo_start_date == null || oo_start_date == "") {
+					$("#oo_start_date").focus();
+					alert("수주일자를 입력하세요!");
+					return;
+				}
+			} //if문
+		
+			
+			// 업데이트할 때
+			if(pageStatus == "update"){
+				if(oo_cnt == null || oo_cnt == "") {
+					$("#oo_cnt").focus();
+					alert("주문량를 입력하세요!");
+					return;
+				}
+				if(oo_start_date == null || oo_start_date == "") {
+					$("#oo_start_date").focus();
+					alert("수주일자를 입력하세요!");
+					return;
+				}
+			} //if문
+		
+		
+		form.submit();
+	}); //submit버튼 유효성
+	
+	
+	
+	
+	
+	
+	
+	
 	// 체크박스 선택 시 체크박스 개수 구하기
 	function updateSelectedCheckboxCount() {
 		var totalCheckboxes = $(".table-outOrderList td input[type='checkbox']").length;
@@ -293,24 +357,18 @@ $(document).ready(function() {
 	}
 	
 	
-	
-	// 저장버튼 유효성
-	
-	
-	
-	
 	// ------------- 팝업창
 	// 거래처 코드 입력란 클릭 시 팝업창 열기
-	$(document).on("click focus", "input[name='clt_num']", function() {
-		// 창이 열릴 시 포커스를 없앰
-		$("input").blur();
+	$(document).on("click", "input[name='clt_num']", function() {
+// 		// 창이 열릴 시 포커스를 없앰
+// 		$("input").blur();
 		window.open('/client/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	});
 
 	// 완제품 코드 입력란 클릭 시 팝업창 열기
-	$(document).on("click focus", "input[name='pro_num']", function() {
-		// 창이 열릴 시 포커스를 없앰
-		$("input").blur();
+	$(document).on("click", "input[name='pro_num']", function() {
+// 		// 창이 열릴 시 포커스를 없앰
+// 		$("input").blur();
 		window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	});
 	
@@ -380,13 +438,13 @@ $(document).ready(function() {
 	<input type="hidden" name="clt_id" id="clt_id">
 	
 	
-	<c:if test="${sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 'Y'}">
+	<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
 	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteOutOrder" formmethod="post">
 	<i class="fa fa-trash"></i> 삭제</button>
-	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regOutOrder" formmethod="post" disabled>
+	<button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
 	<i class="fa fa-download"></i> 저장</button>
 	</c:if>
 	

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.MaterialReleaseVO;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductReleaseVO;
 import com.modernhome.persistence.ReleaseDAO;
 
@@ -16,21 +17,36 @@ public class ReleaseServiceImpl implements ReleaseService {
 	ReleaseDAO rDAO;
 	// 자재 출고리스트 전체 조회
 	@Override
-	public List<MaterialReleaseVO> getMaterialReleaseList() throws Exception {
-		return rDAO.getMaterialReleaseList();		
+	public List<MaterialReleaseVO> getMaterialReleaseList(PageVO vo) throws Exception {
+		return rDAO.getMaterialReleaseList(vo);		
 	}
+	
+	// 전체 글 개수
+	@Override
+	public int getTotalCntMr() throws Exception {
+		return rDAO.getMrTotalCnt();
+	}
+	
 	// 자재 출고리스트 검색 조회
 	@Override
-	public List<MaterialReleaseVO> getMaterialReleaseList(String startDate, String endDate, String ma_name, String mr_num) throws Exception {
-		return rDAO.getMaterialReleaseList(startDate, endDate, ma_name, mr_num);
+	public List<MaterialReleaseVO> getMaterialReleaseList(String startDate, String endDate, String ma_name, String mr_num, PageVO vo) throws Exception {
+		return rDAO.getMaterialReleaseList(startDate, endDate, ma_name, mr_num, vo);
 	}
+	
+	// 검색 결과 개수
+	@Override
+	public int getMrSearchCnt(String startDate, String endDate, String ma_name, String mr_num) throws Exception {
+		return rDAO.getMrSearchCnt(startDate, endDate, ma_name, mr_num);
+	}
+
 	// 자재 출고 정보 등록
 	@Override
 	public void regMaterialRelease(MaterialReleaseVO vo) throws Exception {
 		rDAO.regMaterialRelease(vo);
 		
 	}
-//	// 자재 출고 정보 수정
+
+	//	// 자재 출고 정보 수정
 //	@Override
 //	public void modifyMaterialRelease(MaterialReleaseVO vo) throws Exception {
 //		rDAO.modifyMaterialRelease(vo);
@@ -55,20 +71,36 @@ public class ReleaseServiceImpl implements ReleaseService {
 
 	// 제품 출고리스트 전체 조회
 	@Override
-	public List<ProductReleaseVO> getProductReleaseList() throws Exception {
-		return rDAO.getProductReleaseList();		
+	public List<ProductReleaseVO> getProductReleaseList(PageVO vo) throws Exception {
+		return rDAO.getProductReleaseList(vo);		
 	}
+	
+	// 전체 글 개수
+	@Override
+	public int getTotalCntPr() throws Exception {
+		return rDAO.getPrTotalCnt();
+	}
+
 	// 제품 출고리스트 검색 조회
 	@Override
-	public List<ProductReleaseVO> getProductReleaseList(String startDate, String endDate, String pro_name, String pr_num) throws Exception {
-		return rDAO.getProductReleaseList(startDate, endDate, pro_name, pr_num);
+	public List<ProductReleaseVO> getProductReleaseList(String startDate, String endDate, String pro_name, String pr_num, PageVO vo) throws Exception {
+		return rDAO.getProductReleaseList(startDate, endDate, pro_name, pr_num, vo);
 	}
+	
+	// 검색 결과 개수
+	@Override
+	public int getPrSearchCnt(String startDate, String endDate, String pro_name, String pr_num) throws Exception {
+		return rDAO.getPrSearchCnt(startDate, endDate, pro_name, pr_num);
+	}
+	
+	
 	// 제품 출고 정보 등록
 	@Override
 	public void regProductRelease(ProductReleaseVO vo) throws Exception {
 		rDAO.regProductRelease(vo);
 		
 	}
+
 	// 제품 출고 정보 수정
 //	@Override
 //	public void modifyProductRelease(ProductReleaseVO vo) throws Exception {

@@ -200,6 +200,19 @@
 			var df_id = dfCheckbox.val();
 		});
 	});
+	
+	function repairAndDiscard(rd, dfId, dfCnt) {
+		var sessionEmpAuth = ${sessionScope.emp_auth};
+		console.log(sessionEmpAuth)
+		
+		if(sessionEmpAuth < 3) {
+			alert("권한이 없습니다.");
+			return false;
+		}
+		
+		var url = "/production/defective/reAndDis?rd=" + rd + "&df_id=" + dfId + "&df_cnt=" + dfCnt;
+		window.open(url, 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+	}
 </script>
 <style>
 .selected {
@@ -238,9 +251,9 @@
 		
 <form>
 	<div class="d-flex align-items-center justify-content-between mb-2">
-		<h6 class="m-4">불량 리스트</h6>
+		<h3 class="m-4">불량 리스트</h3>
 		<div class="me-2">
-			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth == 'Y'}">
+			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2}">
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
@@ -274,6 +287,7 @@
 					<th>불량사유</th>
 					<th>수리가능 여부</th>
 					<th>처리일</th>
+					<th>수리/폐기</th>
 				</tr>
 			
 				<c:forEach var="df" items="${dfList}">
@@ -294,9 +308,15 @@
 						<td>${df.repair_yn}</td>
 						<td>${fn:substring(df.solved_date, 0, 10)}</td>
 						<td>
-							<button onclick="">
-								${df.df_type == "자재" ? "반품" : (df.repair_yn == "가능" ? "수리" : "폐기")}
-							</button>
+							<c:if test="${df.solved_date == null && df.df_type.equals('완제품') && df.repair_yn.equals('가능')}">
+								<button type="button" onclick="repairAndDiscard('repair', '${df.df_id}', ${df.df_cnt});" class="btn btn-success m-2">수리</button>
+							</c:if>
+							<c:if test="${df.solved_date == null && df.df_type.equals('완제품') && df.repair_yn.equals('불가')}">
+								<button type="button" onclick="repairAndDiscard('discard', '${df.df_id}', ${df.df_cnt});" class="btn btn-danger m-2">폐기</button>
+							</c:if>
+							<c:if test="${df.solved_date != null}">
+								<button class="btn btn-outline-secondary m-2" disabled>완료</button>
+							</c:if>
 						</td>
 					</tr>
 				</c:forEach>

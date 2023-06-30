@@ -3,20 +3,27 @@ package com.modernhome.service;
 import java.util.List;
 
 import com.modernhome.domain.MaterialReleaseVO;
+import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductReleaseVO;
 
 public interface ReleaseService {
 
-	public List<MaterialReleaseVO> getMaterialReleaseList() throws Exception;
-	public List<MaterialReleaseVO> getMaterialReleaseList(String startDate, String endDate, String ma_name, String mr_num) throws Exception;
+	public List<MaterialReleaseVO> getMaterialReleaseList(PageVO vo) throws Exception;
+	public int getTotalCntMr() throws Exception;
+	public List<MaterialReleaseVO> getMaterialReleaseList(String startDate, String endDate, String ma_name, String mr_num, PageVO vo) throws Exception;
+	public int getMrSearchCnt(String startDate, String endDate, String ma_name, String mr_num) throws Exception;
+	
 	public void regMaterialRelease(MaterialReleaseVO vo) throws Exception;
 //	public void modifyMaterialRelease(MaterialReleaseVO vo) throws Exception;
 	public void delMaterialRelease(Integer mr_id) throws Exception;
 	public List<MaterialReleaseVO> getWorkInstrInfo() throws Exception;
 	public MaterialReleaseVO getMaterialStock(Integer ma_id) throws Exception;
 	
-	public List<ProductReleaseVO> getProductReleaseList() throws Exception;
-	public List<ProductReleaseVO> getProductReleaseList(String startDate, String endDate, String pro_name, String pr_num) throws Exception;
+	public List<ProductReleaseVO> getProductReleaseList(PageVO vo) throws Exception;
+	public int getTotalCntPr() throws Exception;
+	public List<ProductReleaseVO> getProductReleaseList(String startDate, String endDate, String pro_name, String pr_num, PageVO vo) throws Exception;
+	public int getPrSearchCnt(String startDate, String endDate, String pro_name, String pr_num) throws Exception;
+	
 	public void regProductRelease(ProductReleaseVO vo) throws Exception;
 //	public void modifyProductRelease(ProductReleaseVO vo) throws Exception;
 	public void delProductRelease(Integer pr_id) throws Exception;

@@ -2,6 +2,8 @@ package com.modernhome.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,10 +107,11 @@ public class DefectiveController {
 		if(vo.getDf_num() != null) {
 			// 불량 등록
 			dfService.addDefective(vo);
-
-			// 불량 개수가 1개 이상인 완제품(생산실적) -> 완제품 재고 차감 & 입고 -> 자재 입고수량 차감
+			// 불량 개수가 1개 이상인 자재(입고) -> 자재 입고수량 차감
+			dfService.modifyRec(vo);
 		} else {
 			dfService.modifyDefective(vo);
+			dfService.modifyRec(vo);
 		}
 		
 		return "redirect:/production/defective/list";
@@ -128,4 +131,32 @@ public class DefectiveController {
 		return "redirect:/production/defective/list";
 	}
 	
+	
+	// ===========================================
+	
+	
+	// 수리 & 폐기 처리
+	@RequestMapping(value = "/reAndDis")
+	public void repairAndDiscard(WijoinVO vo, HttpSession session, @ModelAttribute("rd") String rd) throws Exception {
+		logger.debug("repairAndDiscard() 호출");
+		
+		if(rd.equals("repair")) {
+			// 수리한 완제품을 재고에 반영
+			vo.setEmp_id((int) session.getAttribute("emp_id"));
+			logger.debug("############수리############df_id : " + vo.getDf_id() + ", #################df_cnt : " + vo.getDf_cnt() + ", ###########emp_id : " + vo.getEmp_id());
+			
+			dfService.modifyReAndDis(vo);
+			dfService.modifyDefective2(vo);
+		} else {
+			// 폐기한 완제품을 재고에서 삭제
+			int discardCnt = vo.getDf_cnt() * -1;
+			vo.setDf_cnt(discardCnt);
+			logger.debug("############수리############df_id : " + vo.getDf_id() + ", #################df_cnt : " + vo.getDf_cnt() + ", ###########emp_id : " + vo.getEmp_id());
+			
+			dfService.modifyReAndDis(vo);
+			dfService.modifyDefective2(vo);
+		}
+	}
+	
 }
+

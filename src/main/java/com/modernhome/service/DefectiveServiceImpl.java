@@ -69,6 +69,12 @@ public class DefectiveServiceImpl implements DefectiveService {
 	}
 	
 	@Override
+	public void modifyRec(WijoinVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - modifyRec() 출력");
+		dao.modifyRec(vo);
+	}
+	
+	@Override
 	public void modifyDefective(WijoinVO vo) throws Exception {
 		logger.debug("defectiveServiceImpl - modifyDefective() 출력");
 		dao.modifyDefective(vo);
@@ -78,6 +84,18 @@ public class DefectiveServiceImpl implements DefectiveService {
 	public void delDefective(Integer df_id) throws Exception {
 		logger.debug("defectiveServiceImpl - delDefective() 출력");
 		dao.delDefective(df_id);
+	}
+
+	@Override
+	public void modifyReAndDis(WijoinVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - modifyReAndDis() 출력");
+		dao.modifyReAndDis(vo);
+	}
+
+	@Override
+	public void modifyDefective2(WijoinVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - modifyDefective2() 출력");
+		dao.modifyDefective2(vo);
 	}
 	
 }

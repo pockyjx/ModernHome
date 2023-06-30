@@ -235,20 +235,20 @@
 			<div class="row mb-3">
 				<label for="pro_nameSearch" class="col-sm-2 col-form-label">출고코드</label>
 				<div class="col-sm-10">
-					<input type="text" name="pr_numSearch" class="form-control" placeholder="출고코드를 입력하세요">
+					<input type="text" name="pr_numSearch" class="form-control" placeholder="출고코드를 입력하세요" value="${pr_numSearch }">
 				</div>
 			</div>
 			<div class="row mb-3">
 				<label for="pro_nameSearch" class="col-sm-2 col-form-label">품목명</label>
 				<div class="col-sm-10">
-					<input type="text" name="pro_nameSearch" class="form-control" placeholder="제품명을 입력하세요"> <br>
+					<input type="text" name="pro_nameSearch" class="form-control" placeholder="제품명을 입력하세요" value="${pro_nameSearch }"> <br>
 				</div>
 			</div>
 			<div class="row mb-3">
 				<label for="" class="col-sm-2 col-form-label">출고일자 : </label>
 				<div class="col-sm-10">
-					<input type="datetime-local" name="startDate" class="form-control"> ~ 
-					<input type="datetime-local" name="endDate" class="form-control">
+					<input type="datetime-local" name="startDate" class="form-control" value="${startDate }"> ~ 
+					<input type="datetime-local" name="endDate" class="form-control" value="${endDate }">
 				</div>
 			</div>
 			<button type="submit" class="btn btn-primary">조회</button>
@@ -328,5 +328,39 @@
 	</div>
 </div>
 </form>
+
+<!-- 페이지 이동 버튼 -->
+
+<nav aria-label="Page navigation example">
+ 		<ul class="pagination justify-content-center pagination-sm">
+ 		
+ 			<c:if test="${pm.prev }">
+		<li class="page-item">
+			<a class="page-link" href="/release/productRelease?page=${pm.startPage-1 }&startDate=${startDate}&endDate=${endDate}&pro_nameSearch=${pro_nameSearch}&pr_numSearch=${pr_numSearch}" aria-label="Previous">
+      			<span aria-hidden="true">&laquo;</span>
+     			</a>
+   		</li>
+   		</c:if>
+   		
+   		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+   		<li 
+   			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+   		>
+   				<a class="page-link" href="/release/productRelease?page=${idx}&startDate=${startDate}&endDate=${endDate}&pro_nameSearch=${pro_nameSearch}&pr_numSearch=${pr_numSearch}">${idx }</a>
+   		</li>
+   		</c:forEach>
+		
+		<c:if test="${pm.next && pm.endPage > 0}">
+		<li class="page-item">
+     			<a class="page-link" href="/release/productRelease?page=${pm.endPage+1 }&startDate=${startDate}&endDate=${endDate}&pro_nameSearch=${pro_nameSearch}&pr_numSearch=${pr_numSearch}" aria-label="Next">
+       		<span aria-hidden="true">&raquo;</span>
+     			</a>
+   		</li>
+   		</c:if>
+   		
+ 		</ul>
+</nav>
+
+<!-- 페이지 이동 버튼 -->
 
 <%@ include file="../inc/footer.jsp"%>
