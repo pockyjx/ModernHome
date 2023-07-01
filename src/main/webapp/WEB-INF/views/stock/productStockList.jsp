@@ -6,16 +6,25 @@
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 
-<h1>재고 현황</h1>
+<form action="" method="GET" class="bg-light rounded p-3 m-3">
 
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">완제품코드</label>
+		<div class="col-sm-10">
+			<input type="text" name="pro_num" value="${psvo.pro_num }" class="form-control">
+		</div>
+	</div>
+	
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">완제품명</label>
+		<div class="col-sm-10">
+			<input type="text" name="pro_name" value="${psvo.pro_name }" class="form-control">
+			<button class="btn btn-primary m-2" type="submit" style="margin-left:200%;">조회</button>
+		</div>
+	</div>
+</form>
 
 <div>
 	<ul class="nav nav-tabs">
@@ -28,45 +37,34 @@
 	</ul>
 </div>
 
-<hr>
+<div class="d-flex align-items-center justify-content-between mb-2">  
+	<h4 class="m-4">완제품 재고</h4> 
+</div>
 
-	<h4>재고 검색</h4>
+<div class="bg-light text-center rounded p-4 m-3">
+	<div class="table-responsive">
+		<table class="table align-middle table-bordered table-hover mb-0">
+			<tr>
+				<th style="background-color: rgba(0,0,0,0.075);">창고명</th>
+				<th style="background-color: rgba(0,0,0,0.075);">완제품 코드</th>
+				<th style="background-color: rgba(0,0,0,0.075);">완제품명</th>
+				<th style="background-color: rgba(0,0,0,0.075);">현 재고</th>
+				<th style="background-color: rgba(0,0,0,0.075);">단위</th>
+			</tr>
+			
+			<c:forEach items="${psList }" var="vo">
+			<tr>
+				<td>${vo.wh_name}</td>
+				<td>${vo.pro_num }</td>
+				<td>${vo.pro_name }</td>
+				<td>${vo.ps_cnt }</td>
+				<td>${vo.pro_unit }</td>
+			</tr>
+			</c:forEach>
+		</table>
+	</div>
+</div>
 
-	<fieldset>
-		<form action="" method="GET">
-
-			<label><b>완제품코드</b> <input type="text" name="pro_num" value="${psvo.pro_num }"></label>
-			<label><b>완제품명</b> <input type="text" name="pro_name" value="${psvo.pro_name }"></label>
-
-			<input type="submit" value="조회">
-		</form>
-	</fieldset>
-
-
-<hr>
-
-<h4>완제품 재고</h4> 
-
-	<table border="1">
-		<tr>
-			<th>창고명</th>
-			<th>완제품 코드</th>
-			<th>완제품명</th>
-			<th>현 재고</th>
-			<th>단위</th>
-		</tr>
-		
-		<c:forEach items="${psList }" var="vo">
-		<tr>
-			<td>${vo.wh_name}</td>
-			<td>${vo.pro_num }</td>
-			<td>${vo.pro_name }</td>
-			<td>${vo.ps_cnt }</td>
-			<td>${vo.pro_unit }</td>
-		</tr>
-		</c:forEach>
-	</table>
-	
 	<!-- 페이지 이동 버튼 -->
 	
 	<nav aria-label="Page navigation example">
@@ -100,8 +98,5 @@
 	</nav>
 	
 	<!-- 페이지 이동 버튼 -->
-
-</body>
-</html>
 
 <%@ include file="../inc/footer.jsp"%>
