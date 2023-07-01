@@ -136,6 +136,14 @@
 			            "update_date",
 			            "update_emp_id"
 			        ];
+			        
+			        var cellIds = [
+			            "line_num",
+			            "line_name",
+			            "use_yn",
+			            "update_date",
+			            "update_emp_id"
+			        ];
 
 			        // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 			        row.find("td:not(:first-child)").each(function(index) {
@@ -157,7 +165,7 @@
 			            }else if (index === 4){
 							cellContent = '<td><input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>'; 
 			            }else {
-			                cellContent = '<td><input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"'+ cellReadonly + '' + cellDisabled + '></td>';
+			                cellContent = '<td><input class="form-control" type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"'+ cellReadonly + '' + cellDisabled + '></td>';
 			            }
 
 			            $(this).html(cellContent);
@@ -258,6 +266,8 @@
 	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	        } // 체크박스 선택 시 체크박스 개수 구하기
 	     
+	        
+
 	      
 	        });
     </script>
@@ -347,38 +357,6 @@
 			</table>
 		</div>
 	</form>
-
-<!-- 페이지 이동 버튼 -->
-<nav aria-label="Page navigation example">
- 		<ul class="pagination justify-content-center pagination-sm">
- 		
- 			<c:if test="${pm.prev }">
-		<li class="page-item">
-			<a class="page-link" href="/production/line/lineList?page=${pm.startPage-1 }&line_num=${livo.line_num}&line_name=${livo.line_name}&use_yn=${livo.use_yn}" aria-label="Previous">
-      			<span aria-hidden="true">&laquo;</span>
-     			</a>
-   		</li>
-   		</c:if>
-   		
-   		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-   		<li 
-   			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-   		>
-   				<a class="page-link" href="/production/line/lineList?page=${idx}&line_num=${livo.line_num}&line_name=${livo.line_name}&use_yn=${livo.use_yn}">${idx }</a>
-   		</li>
-   		</c:forEach>
-		
-		<c:if test="${pm.next && pm.endPage > 0}">
-		<li class="page-item">
-     			<a class="page-link" href="/production/line/lineList?page=${pm.endPage+1 }&line_num=${livo.line_num}&line_name=${livo.line_name}&use_yn=${livo.use_yn}" aria-label="Next">
-       		<span aria-hidden="true">&raquo;</span>
-     			</a>
-   		</li>
-   		</c:if>
-   		
- 		</ul>
-</nav>
-<!-- 페이지 이동 버튼 -->
 	
 </body>
 </html>

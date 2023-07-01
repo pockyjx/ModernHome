@@ -36,43 +36,34 @@ public class LineController {
 	// 라인 목록 조회(GET) - /production/line/lineList
 	// http://localhost:8088/production/line/lineList
 	@RequestMapping(value = "/line/lineList", method = RequestMethod.GET)
-	public void lineListGET(Model model, LineVO lvo, PageVO pvo) throws Exception{ 
+	public void lineListGET(Model model, LineVO lvo) throws Exception{ 
 		logger.debug("lineListGET() 호출");
 		logger.debug("/line/lineList.jsp 페이지 이동");
 		
-		PageMaker pm = new PageMaker();
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
 		if(lvo.getLine_num()!= null || lvo.getLine_name() != null || lvo.getUse_yn() != null) {
 			logger.debug("검색어 O, 검색된 데이터만 출력" + lvo);
+			
 			// 서비스 -> 라인목록 가져오기
-			List<LineVO> lineList = lineService.getLineListSearch(lvo, pvo);
+			List<LineVO> lineList = lineService.getLineListSearch(lvo);
 			
 			// Model 객체에 저장
 			model.addAttribute("lineList",lineList);
-			
-			// 페이징 정보 전달
-			pm.setPageVO(pvo);
-			pm.setTotalCount(lineService.getLineSearchCnt(lvo));
-			model.addAttribute("pm",pm);
 			
 			// 검색 정보 전달
 			model.addAttribute("livo",lvo);
 			
-			
 		}else {
 			
 			logger.debug("검색어 X, 전체 데이터 출력 " + lvo);
+			
 			// 서비스 -> 라인목록 가져오기
-			List<LineVO> lineList = lineService.getLineList(pvo);
+			List<LineVO> lineList = lineService.getLineList();
 			
 			// Model 객체에 저장
 			model.addAttribute("lineList",lineList);
 			
-			// 패이징 정보 전달
-			pm.setPageVO(pvo);
-			pm.setTotalCount(lineService.getTotalCntLine());
-			model.addAttribute("pm",pm);
 		}
 
 	}
@@ -111,12 +102,6 @@ public class LineController {
 	}
 
 	
-	
 
-
-	
-	
-	
-	
 	
 } // Controller
