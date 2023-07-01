@@ -37,4 +37,10 @@ public interface OutOrderDAO {
 	
 	// 수주 수정
 	public void updateOutOrder(OutOrderVO ovo);
+	
+	
+	
+	// 수주서
+	public OutOrderJoinVO outOrderContract(String oo_num);
+	
 }

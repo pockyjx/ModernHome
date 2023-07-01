@@ -157,7 +157,7 @@
 			$("#updateButton").attr("disabled", "disabled");
 			$("#deleteButton").attr("disabled", "disabled");
 			
-			$("#cancleButton").removeAttr("disabled");
+			$("#cancelButton").removeAttr("disabled");
 			$("#submitButton").removeAttr("disabled");
 			
 			pageStatus = "reg";
@@ -170,7 +170,7 @@
 		
 		
 		// 취소 버튼 누를 시 
-		$("#cancleButton").click(function(){
+		$("#cancelButton").click(function(){
 			
 			// 등록버튼 취소
 			if(pageStatus == "reg"){
@@ -188,7 +188,7 @@
 				$("#updateButton").removeAttr("disabled");
 				$("#deleteButton").removeAttr("disabled");
 				
-				$("#cancleButton").attr("disabled", "disabled");
+				$("#cancelButton").attr("disabled", "disabled");
 				$("#submitButton").attr("disabled", "disabled");
 				
 				pageStatus = "";
@@ -226,7 +226,7 @@
 				$("#updateButton").removeAttr("disabled");
 				$("#deleteButton").removeAttr("disabled");
 				
-				$("#cancleButton").attr("disabled", "disabled");
+				$("#cancelButton").attr("disabled", "disabled");
 				$("#submitButton").attr("disabled", "disabled");
 				
 				
@@ -379,7 +379,7 @@
 					$("#addRowButton").attr("disabled", "disabled");
 					$("#deleteButton").attr("disabled", "disabled");
 					
-					$("#cancleButton").removeAttr("disabled");
+					$("#cancelButton").removeAttr("disabled");
 					$("#submitButton").removeAttr("disabled");
 					
 					pageStatus = "update";
@@ -544,7 +544,7 @@
 	
 	<c:if test="${sessionScope.emp_dept eq '인사' || sessionScope.emp_auth == 3}">
 		<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-		<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 		<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteEmployee" formmethod="post">
 		<i class="fa fa-trash"></i> 삭제</button>

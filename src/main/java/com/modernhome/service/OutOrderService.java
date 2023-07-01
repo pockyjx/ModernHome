@@ -35,6 +35,10 @@ public interface OutOrderService {
 	
 	// 수주정보 수정
 	public void updateOutOrder(OutOrderVO ovo);
+	
+	
+	// 수주서
+	public OutOrderJoinVO outOrderContract(String oo_num);
 }
 
 	

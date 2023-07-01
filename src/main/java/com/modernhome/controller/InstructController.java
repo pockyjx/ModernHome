@@ -105,7 +105,7 @@ public class InstructController {
 	
 	// 작업지시서 관련 팝업(GET) - /production/instruct/addPopup
 	@RequestMapping(value = "/instruct/addPopup")
-	public String addInstrPop(Model model, @ModelAttribute("txt") String txt , PageVO pvo) throws Exception {
+	public String addInstrPop(Model model, @ModelAttribute("txt") String txt, PageVO pvo) throws Exception {
 		logger.debug("addInstrPop() 호출");
 		
 		// 작업지시서를 작성하지 않은 수주번호 출력
