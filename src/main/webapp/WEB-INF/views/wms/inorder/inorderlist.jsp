@@ -61,19 +61,19 @@
             	
             	var newRow = '<tr>' +
 	                '<td><input type="checkbox" class="form-check-input"></td>' +
-	                '<td><input type="text" class="form-control" name="io_num" placeholder="(자동부여)" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="ma_num" placeholder="클릭" id="ma_num" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="ma_name" id="ma_name" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="clt_num" placeholder="클릭" id="clt_num" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="clt_name" id="clt_name" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="io_cnt" id="io_cnt" placeholder="발주량을 입력하세요"></td>' +
-	                '<td><input type="text" class="form-control" name="io_unit" value="EA" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="io_amount" placeholder="총금액(자동계산)" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="date" class="form-control" name="io_date" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="io_state" value="미완료" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="date" class="form-control" name="rec_date" id="rec_date"></td>' +
-	                '<td><input type="date" class="form-control" name="io_reg_date" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="emp_id" style="border: none; background: transparent;" value="${sessionScope.emp_id }" readonly></td>' +
+	                '<td><input type="text" name="io_num" placeholder="(자동으로 부여)" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="ma_num" placeholder="여기를 눌러 검색하세요" id="ma_num" readonly></td>' +
+	                '<td><input type="text" name="ma_name" id="ma_name" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="clt_num" placeholder="여기를 눌러 검색하세요" id="clt_num" readonly></td>' +
+	                '<td><input type="text" name="clt_name" id="clt_name" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="io_cnt" id="io_cnt" placeholder="발주량을 입력하세요"></td>' +
+	                '<td><input type="text" name="io_unit" value="EA" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="io_amount" placeholder="총금액(자동계산)" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="date" name="io_date" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="io_state" value="미완료" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="date" name="rec_date" id="rec_date"></td>' +
+	                '<td><input type="date" name="io_reg_date" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="emp_id" style="border: none; background: transparent;" value="${sessionScope.emp_id }" readonly></td>' +
 	                '</tr>';
 	                
             	// 첫번째 자식<tr> 뒤에서 부터 행을 추가함    
@@ -244,7 +244,7 @@
 							'</select>' +
 							'</td>';
 						}else {
-							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control"' + '></td>';
+							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
 						}
 						
 						// 기존 값을 임시 변수에 저장 -> 수정 후 취소버튼 시 담당자 칸에 세션값이 나오는 문제 해결위해
@@ -382,8 +382,19 @@
 				form.submit();
 			}); //submit 버튼 유효성
 			
-			
 		});
+		
+		
+		// 목록에서 발주 코드 클릭 시 해당 발주코드 발주서 출력
+	      $(".openinorderInfo").click(function() {
+			var io_id = $(this).closest("tr").find('td:eq(14)').text();
+	    	  
+    		var left = (screen.width - 600) / 2;
+	 		var top = (screen.height - 300) / 2;
+	    	window.open('/wms/inorder/inorderInfo?io_id='+io_id+'', 'popup', 'width=600, height=300, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+	    	 
+	      
+	     });
 		
      	
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
@@ -410,39 +421,72 @@
 
 <!-- 검색칸 -->
 <form method="get" name="search" action="" class="bg-light rounded p-3 m-3">
+
    	<div class="row mb-3">
    		<label for="ioSearch" class="col-sm-2 col-form-label"><b>발주일자</b></label>
-    		<div class="col-sm-10">
-     		<input type="date" name="istartDate">
-   			~
-     		<input type="date" name="iendDate">
+   		
+    		<div class="col-sm-2">
+    			<div class="col-auto">
+     			<input type="date" name="istartDate" class="form-control">
+     			</div>
+   			</div>
+   			
+   				<div class="col-auto">
+   				~
+   				</div>
+   				
+     		<div class="col-sm-2">
+    			<div class="col-auto">
+    				<input type="date" name="iendDate" class="form-control">
+   				</div>
     		</div>
+    		
    	</div>
+   	
 	<div class="row mb-3">
    		<label for="ioSearch" class="col-sm-2 col-form-label"><b>입고예정일</b></label>
-    		<div class="col-sm-10">
-     		<input type="date" name="rstartDate">
-   			~
-     		<input type="date" name="rendDate">
+   		
+    		<div class="col-sm-2">
+    			<div class="col-auto">
+     				<input type="date" name="rstartDate" class="form-control">
+  				</div>
+			</div>
+   				
+				<div class="col-auto">
+   				~
+   				</div>
+   				
+   			<div class="col-sm-2">
+    			<div class="col-auto">
+     				<input type="date" name="rendDate" class="form-control">
+   				</div>
     		</div>
+    		
    	</div>
+   	
 	<div class="row mb-3">
 		<label for="ioSearch" class="col-sm-2 col-form-label"><b>자재명</b></label>
-		<div class="col-sm-10">
-			<input type="text" name="ma_name" placeholder="자재명을 입력하세요">
+		<div class="col-sm-4">
+			<input type="text" name="ma_name" placeholder="자재명을 입력하세요" class="form-control">
 		</div>
 	</div>
+	
 	<div class="row mb-3">
 		<label for="ioSearch" class="col-sm-2 col-form-label"><b>발주상태</b></label>
-		<div class="col-sm-10">
-			<select name="io_state">
+		
+		<div class="col-sm-2">
+			<select name="io_state" class="form-select" style="background-color: #fff;">
          			<option value="전체">전체</option>
          			<option value="완료">완료</option>
          			<option value="미완료">미완료</option>
        		</select>
-			<button class="btn btn-primary m-2" type="submit">조회</button>
       	</div>
-     </div>
+      	
+      	<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+	
+   	</div>
 </form>
 <!-- 검색칸 --> 
              
@@ -493,12 +537,13 @@
 				    	<th style="background-color: rgba(0,0,0,0.075);">입고<br>예정일</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">등록일</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">담당자</th>
+				    	<th style="display: none;">발주코드 id</th>
 					</tr>
 					
 				  	<c:forEach var="vo" items="${inorderList}" varStatus="status">
 						<tr>
 							<td><input type="checkbox" name="selectedIoId" value="${vo.io_id}" class="form-check-input"></td>
-					    	<td><a href="/wms/inorder/inorderInfo?io_id=${vo.io_id}">${vo.io_num }</a></td>
+							<td><a href="javascript:void(0);" class="openinorderInfo">${vo.io_num }</a></td>
 					    	<td>${vo.ma_num}</td>
 					    	<td>${vo.ma_name}</td>
 					    	<td>${vo.clt_num}</td>
@@ -514,6 +559,7 @@
 								<c:if test="${empty vo.io_update_date}">${fn:substring(vo.io_reg_date, 0, 10)}</c:if>
 							</td>
 					   		<td>${vo.emp_name}</td>
+   							<td style="display: none;">${vo.io_id }</td>
 					    </tr>
 				    </c:forEach>
 			</table>

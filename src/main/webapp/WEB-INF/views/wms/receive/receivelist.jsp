@@ -225,29 +225,45 @@
 
 <!-- 검색칸 -->
 <form name="search" method="get" action="" class="bg-light rounded p-3 m-3">
+	
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>자재명</b></label>
-		<div class="col-sm-10">
-			<input type="text" name="ma_name" value="${ma_name}" placeholder="자재명을 입력하세요">
+		<div class="col-sm-4">
+			<input type="text" name="ma_name" value="${ma_name}" placeholder="자재명을 입력하세요" class="form-control">
 		</div>
 	</div>
 	
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>발주코드</b></label>
-		<div class="col-sm-10">
-      		<input type="text" name="io_num" value="${io_num }" placeholder="발주코드를 입력하세요">
+		<div class="col-sm-4">
+      		<input type="text" name="io_num" value="${io_num }" placeholder="발주코드를 입력하세요" class="form-control">
 		</div>
 	</div>
 	
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>입고일자</b></label>
-		<div class="col-sm-10">
-			<input type="date" name="startDate" value="${startDate }" >
-               			~
-			<input type="date" name="endDate" value="${endDate }">
-     		<button class="btn btn-primary m-2" type="submit">조회</button>
-     	</div>
-     </div>
+		
+		<div class="col-sm-2">
+			<div class="col-auto">
+				<input type="date" name="startDate" value="${startDate }" class="form-control">
+            </div>
+		</div> 
+
+			<div class="col-auto">
+   				~
+			</div>
+			
+		<div class="col-sm-2">
+			<div class="col-auto">	
+				<input type="date" name="endDate" value="${endDate }" class="form-control">
+     		</div>
+   		</div>
+   		
+   		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+		
+   	</div>
 </form>
 <!-- 검색칸 -->
 
