@@ -62,7 +62,7 @@
 		});
 	});
 
-	$(document).on("click", "input[type='submit']", function() {
+	$(document).on("click", "#addSubmint", function() {
 		var lnumVal = $("input[name='line_num']").val();
 		console.log(lnumVal);
 		
@@ -70,16 +70,35 @@
 			alert("라인번호를 선택해주세요.");
 			return false;
 		}
+		
+		// 서버에 저장할 데이터 전송을 위한 ajax
+		var formValue = $("form[name='modifyForm']").serialize();
+		
+		$.ajax({
+			url : "${contextPath}/production/instruct/modify",
+			type : "POST",
+			data : formValue,
+			success : function() {
+				alert("작업지시서 수정이 완료되었습니다.");
+				opener.location.reload();
+				self.close();
+			},
+			error : function() {
+				alert("작업지시서 수정이 실패했습니다!");
+			}
+		});
 	});
 </script>
 
 <body>
 
-	<h2>작업지시서 수정</h2>
-<%-- ${wiList} <br>  --%>
-<%-- ${reqList} <br>  --%>
-	<form method="post">
-		<table border="1">
+<div class="d-flex align-items-center justify-content-between mb-2">
+	<h3 class="m-4">작업지시서 수정</h3>
+</div>
+
+<div class="bg-light text-center rounded p-4 m-3">
+	<form name="modifyForm" action="/production/instruct/modify" method="post">
+		<table class="table text-start align-middle table-bordered table-hover mb-0">
 			<tr>
 				<th>지시번호</th>
 				<td>${wiList[0].work_num}</td>
@@ -90,14 +109,14 @@
 				<th>품번</th>
 				<td>${wiList[0].pro_num}</td>
 				<th>수량</th>
-				<td><input type="text" name="work_cnt" id="wcntInput" value="${wiList[0].work_cnt}"></td>
+				<td><input type="text" class="form-control" name="work_cnt" id="wcntInput" value="${wiList[0].work_cnt}"></td>
 			</tr>
 			<tr>
 				<th>품명</th>
 				<td>${wiList[0].pro_name}</td>
 				<th>작업상태</th>
 				<td>
-					<select name="work_state">
+					<select name="work_state" class="form-control">
 						<option value="대기" <c:if test="${wiList[0].work_state == '대기'}">selected</c:if>>대기</option>
 						<option value="진행중" <c:if test="${wiList[0].work_state == '진행중'}">selected</c:if>>진행중</option>
 						<option value="완료" <c:if test="${wiList[0].work_state == '완료'}">selected</c:if>>완료</option>
@@ -109,7 +128,7 @@
 				<td>${wiList[0].oo_end_date}</td>
 				<th>생산라인</th>
 				<td id="line_num">
-					<input type="text" name="line_num" value="${(empty param.line_num) ? wiList[0].line_num : param.line_num}" readonly>
+					<input type="text" class="form-control" name="line_num" value="${(empty param.line_num) ? wiList[0].line_num : param.line_num}" readonly>
 				</td>
 			</tr>
 			<tr>
@@ -142,10 +161,11 @@
 		<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
 		<input type="hidden" name="line_id" value="${(empty param.line_id) ? wiList[0].line_id : param.line_id}">
 		<div>
-			<input type="button" value="취소" onclick="location.href='/production/instruct/list'">
-			<input type="submit" value="수정"> 
+			<input type="button" value="취소" class="btn btn-secondary m-2" onclick="window.close();">
+			<input type="button" value="수정" id="addSubmint" class="btn btn-success m-2"> 
 		</div>
 	</form>
+</div>
 	
 </body>
 </html>
