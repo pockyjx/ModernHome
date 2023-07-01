@@ -78,6 +78,15 @@ public class OutOrderServiceImpl implements OutOrderService {
 	public void updateOutOrder(OutOrderVO ovo) {
 		oDAO.updateOutOrder(ovo);
 	}
+
+
+	
+	
+	// 수주서
+	@Override
+	public OutOrderJoinVO outOrderContract(String oo_num) {
+		return oDAO.outOrderContract(oo_num);
+	}
 	
 	
 	

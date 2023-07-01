@@ -108,7 +108,7 @@ $(document).ready(function() {
 		$("#updateButton").attr("disabled", "disabled");
 		$("#deleteButton").attr("disabled", "disabled");
 		
-		$("#cancleButton").removeAttr("disabled");
+		$("#cancelButton").removeAttr("disabled");
 		$("#submitButton").removeAttr("disabled");
 		
 		pageStatus = "reg";
@@ -121,7 +121,7 @@ $(document).ready(function() {
 	
     
 	// 취소버튼
-	$("#cancleButton").click(function(){
+	$("#cancelButton").click(function(){
 	
 		// 등록버튼 취소
 		if(pageStatus == "reg"){
@@ -141,7 +141,7 @@ $(document).ready(function() {
 			$("#updateButton").removeAttr("disabled");
 			$("#deleteButton").removeAttr("disabled");
 			
-			$("#cancleButton").attr("disabled", "disabled");
+			$("#cancelButton").attr("disabled", "disabled");
 			$("#submitButton").attr("disabled", "disabled");
 			
 			pageStatus = "";
@@ -184,7 +184,7 @@ $(document).ready(function() {
 			$("#updateButton").removeAttr("disabled");
 			$("#deleteButton").removeAttr("disabled");
 			
-			$("#cancleButton").attr("disabled", "disabled");
+			$("#cancelButton").attr("disabled", "disabled");
 			$("#submitButton").attr("disabled", "disabled");
 			
 			
@@ -230,7 +230,8 @@ $(document).ready(function() {
 			
 			// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 			row.find("td:not(:first-child)").each(function(index) {
-				//
+				
+				
 				var cellValue = $(this).text();
 				var cellType = [9, 10].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
 				var cellReadonly = [0, 1, 6, 8, 12].includes(index) ? "readonly='readonly'" : "";
@@ -238,7 +239,10 @@ $(document).ready(function() {
 				var cellDisabled = [2, 4, 11].includes(index)? "disabled" : "";
 				var cellContent;
 				
-				if (index === 11){
+				// 첫행 링크(a태그) 유지하기위해 적어둔 것
+				if (index === 0){
+					return;
+				}else if (index === 11){
 					cellContent = '<td>' +
 					'<select name="' + cellName + '">' +
 					'<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
@@ -268,7 +272,7 @@ $(document).ready(function() {
 				$("#addRowButton").attr("disabled", "disabled");
 				$("#deleteButton").attr("disabled", "disabled");
 				
-				$("#cancleButton").removeAttr("disabled");
+				$("#cancelButton").removeAttr("disabled");
 				$("#submitButton").removeAttr("disabled");
 				
 				pageStatus = "update";
@@ -396,7 +400,20 @@ $(document).ready(function() {
 		window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	});
 	
-	// 팝업창
+	
+	$(".ooContract").click(function() {
+		
+		var oo_num = $(this).closest("tr").find('td:eq(1)').text();
+			
+		//alert(pro_id);
+		
+		var left = (screen.width - 600) / 2;
+			var top = (screen.height - 300) / 2;
+		window.open('/client/outOrderContract?oo_num='+oo_num+'', 'popup', 'width=600, height=300, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+	
+	});
+	
+	// --------------------------------팝업창
 	
 	
 	
@@ -490,7 +507,7 @@ function updateCltCost() {
 	
 	<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
 	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+	<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteOutOrder" formmethod="post">
 	<i class="fa fa-trash"></i> 삭제</button>
@@ -519,7 +536,8 @@ function updateCltCost() {
 	  	<c:forEach var="outOrderList" items="${outOrderList }">
 		<tr>
 			<td><input type="checkbox" name="selected" value="${outOrderList.oo_num}"></td>
-			<td>${outOrderList.oo_num}</td>
+			
+			<td><span class="ooContract"><a href="javascript:void(0);" class="ooContract">${outOrderList.oo_num}</a></span></td>
 			
 			<td>${outOrderList.emp_name}</td>
 	
