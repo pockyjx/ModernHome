@@ -215,10 +215,8 @@
 		var top = (screen.height - 500) / 2;
 		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=600, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 		});
-
 		
-		
-    </script>
+</script>
 <style>
     .selected {
         background-color: #b3ccff;
@@ -226,7 +224,6 @@
 </style>
 
 <!-- 검색칸 -->
-
 <form name="search" method="get" action="" class="bg-light rounded p-3 m-3">
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>자재명</b></label>
@@ -257,6 +254,7 @@
 		<hr>
              
 
+<form id="receiveList" method="post">
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">입고 관리</h3>
 		<div>
@@ -275,7 +273,6 @@
 	</div>
 			
 	<div class="bg-light text-center rounded p-4 m-3">
-		<form id="receiveList">
 			<div class="d-flex align-items-center justify-content-between mb-4">
 				<span id="selectedCheckboxCount">0</span>
 			</div>			
@@ -285,7 +282,6 @@
 	
 			<div class="table-responsive">		
 				<table class="table-receiveList table align-middle table-bordered table-hover mb-0">
-				
 					<tr>
 						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">입고코드</th>
@@ -333,14 +329,12 @@
 							</td>
 					    </tr>
 				    </c:forEach>
-				    
-				</table>
-			</div>	
-		</form>
+			</table>
+		</div>	
 	</div>
+</form>
 			
 <!-- 페이지 이동 버튼 -->
-
 <nav aria-label="Page navigation example">
  		<ul class="pagination justify-content-center pagination-sm">
  		
