@@ -365,24 +365,5 @@ public class InfoController {
 		
 	}
 	
-	// BOMList
-	// http://localhost:8088/info/req/BOMList
-	@RequestMapping(value = "/req/BOMList", method = RequestMethod.GET)
-	public void BOMList(Model model, PageVO pvo) throws Exception {
-		
-		PageMaker pm = new PageMaker();
-		
-		List<ReqJoinVO> BOMList = rService.getListAll(pvo);
-		model.addAttribute("BOMList", BOMList);
-		
-		// 페이징 정보 전달
-		pm.setPageVO(pvo);
-		pm.setTotalCount(rService.getTotalCntReq());
-		
-		model.addAttribute("pm", pm);
-		
-		
-		
-	}
 	
 }

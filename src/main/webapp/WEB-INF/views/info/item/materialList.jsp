@@ -161,6 +161,21 @@ $("#updateButton").click(function(){
 	}
 });
 
+//삭제버튼
+$("#deleteButton").click(function(){
+	
+	var selectedCheckbox = $("input[name='selectedMaId']:checked");
+	
+	// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+	if (selectedCheckbox.length === 0){
+		alert("삭제할 행을 선택해주세요!");
+		
+		// 선택안하면 submit을 막음
+		event.preventDefault();
+	}
+	
+});
+
 
 // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
       $(".table-mateList th input[type='checkbox']").click(function() {
@@ -244,23 +259,25 @@ $("#updateButton").click(function(){
 	
 		<div class="row mb-3">
 			<label class="col-sm-2 col-form-label">자재코드</label>
-			<div class="col-sm-10">
-				<input type="text" name="ma_num" value="${mvo.ma_num }">
+			<div class="col-sm-5">
+				<input type="text" name="ma_num" value="${mvo.ma_num }" class="form-control">
 			</div>
 		</div>
 		
 		<div class="row mb-3">
 			<label class="col-sm-2 col-form-label">자재명</label>
-			<div class="col-sm-10">
-				<input type="text" name="ma_name" value="${mvo.ma_name }">
-				<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+			<div class="col-sm-5">
+				<input type="text" name="ma_name" value="${mvo.ma_name }" class="form-control">
+			</div>
+			<div class="col-auto">
+				<button class="btn btn-primary m-2" type="submit" style="margin-left:200%;">조회</button>
 			</div>
 		</div>		
 	
 	</form>
 	
 
-<div class="m-4">
+<div>
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
 	    <a class="nav-link active" aria-current="page" href="/info/item/materialList">자재</a>
@@ -276,15 +293,15 @@ $("#updateButton").click(function(){
 <div class="d-flex align-items-center justify-content-between mb-2">
 
 	
-	<h6 class="m-4">자재 목록</h6>
+	<h3 class="m-4">자재 목록</h3>
 	
-	<div class="m-4">
+	<div>
 	
-		<c:if test="${sessionScope.emp_dept eq '자재' && (sessionScope.emp_auth == '2' || sessionScope.emp_auth == '3')}">
-			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-			<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="/info/delMaterial" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+		<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3'}">
+			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+			<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+			<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/info/delMaterial" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 			
 			<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/info/regMaterial" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 		</c:if>
@@ -297,14 +314,14 @@ $("#updateButton").click(function(){
 			</div>
 
 			<div class="table-responsive">
-				<table class="table-mateList table table-striped align-middle table-hover mb-0">
+				<table class="table-mateList table align-middle table-bordered table-hover mb-0">
 
 					<tr>
-						<th><input type="checkbox" class="form-check-input"></th>
-						<th>자재 코드</th>
-						<th>자재명</th>
-						<th>단위</th>
-						<th>단가(원)</th>
+						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+						<th style="background-color: rgba(0,0,0,0.075);">자재 코드</th>
+						<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
+						<th style="background-color: rgba(0,0,0,0.075);">단위</th>
+						<th style="background-color: rgba(0,0,0,0.075);">단가(원)</th>
 					</tr>
 
 					<c:forEach items="${materialList }" var="vo">
