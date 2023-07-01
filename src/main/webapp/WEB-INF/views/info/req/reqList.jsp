@@ -125,6 +125,7 @@
 			var cellNames = [
 				"req_num",
 				"pro_num",
+				"",
 				"pro_name",
 				"ma_num",
 				"ma_name",
@@ -138,6 +139,7 @@
 			var cellIds = [
 				"req_num",
 				"pro_num",
+				"",
 				"pro_name",
 				"ma_num",
 				"ma_name",
@@ -154,20 +156,20 @@
 				var cellValue = $(this).text();
 				var cellOption = "";
 				
-				if(index == 8) {
+				if(index == 9) {
 					cellValue = ${sessionScope.emp_id}
 				}
 				
-				if(index == 0 || index == 8) {
+				if(index == 0 || index == 9) {
 					cellOption = "readonly";
-				}else if(index == 5){
+				}else if(index == 6){
 					cellOption = "";
 				}else {
 					cellOption = "disabled";
 				}
 				
 				
-				var cellType = index === 5 ? "number" : "text";
+				var cellType = index === 6 ? "number" : "text";
 				
 			
 				
