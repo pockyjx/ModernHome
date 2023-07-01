@@ -61,19 +61,19 @@
             	
             	var newRow = '<tr>' +
 	                '<td><input type="checkbox" class="form-check-input"></td>' +
-	                '<td><input type="text" class="form-control" name="io_num" placeholder="(자동부여)" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="ma_num" placeholder="클릭" id="ma_num" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="ma_name" id="ma_name" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="clt_num" placeholder="클릭" id="clt_num" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="clt_name" id="clt_name" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="io_cnt" id="io_cnt" placeholder="발주량을 입력하세요"></td>' +
-	                '<td><input type="text" class="form-control" name="io_unit" value="EA" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="io_amount" placeholder="총금액(자동계산)" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="date" class="form-control" name="io_date" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="io_state" value="미완료" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="date" class="form-control" name="rec_date" id="rec_date"></td>' +
-	                '<td><input type="date" class="form-control" name="io_reg_date" style="border: none; background: transparent;" readonly></td>' +
-	                '<td><input type="text" class="form-control" name="emp_id" style="border: none; background: transparent;" value="${sessionScope.emp_id }" readonly></td>' +
+	                '<td><input type="text" name="io_num" placeholder="(자동으로 부여)" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="ma_num" placeholder="여기를 눌러 검색하세요" id="ma_num" readonly></td>' +
+	                '<td><input type="text" name="ma_name" id="ma_name" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="clt_num" placeholder="여기를 눌러 검색하세요" id="clt_num" readonly></td>' +
+	                '<td><input type="text" name="clt_name" id="clt_name" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="io_cnt" id="io_cnt" placeholder="발주량을 입력하세요"></td>' +
+	                '<td><input type="text" name="io_unit" value="EA" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="io_amount" placeholder="총금액(자동계산)" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="date" name="io_date" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="io_state" value="미완료" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="date" name="rec_date" id="rec_date"></td>' +
+	                '<td><input type="date" name="io_reg_date" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="emp_id" style="border: none; background: transparent;" value="${sessionScope.emp_id }" readonly></td>' +
 	                '</tr>';
 	                
             	// 첫번째 자식<tr> 뒤에서 부터 행을 추가함    
@@ -244,7 +244,7 @@
 							'</select>' +
 							'</td>';
 						}else {
-							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control"' + '></td>';
+							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
 						}
 						
 						// 기존 값을 임시 변수에 저장 -> 수정 후 취소버튼 시 담당자 칸에 세션값이 나오는 문제 해결위해

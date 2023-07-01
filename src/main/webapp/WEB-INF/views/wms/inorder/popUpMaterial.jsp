@@ -10,12 +10,31 @@
             font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
     </style>
+    <style>
+    	.form-form {
+		    display: flex;
+		    justify-content: center;
+		    width: 100%;
+		    padding: 0.375rem 0.75rem;
+		    font-size: 1rem;
+		    font-weight: 400;
+		    line-height: 1.5;
+		    color: #757575;
+		    background-color: #fff;
+		    background-clip: padding-box;
+		    border: 1px solid #ced4da;
+		    appearance: none;
+		    border-radius: 5px;
+		    transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+    	}
+    </style>
 <link href="/resources/img/favicon.ico" rel="icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 <link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
+
 
 <title>자재 팝업</title>
 
@@ -37,40 +56,42 @@
 		});
 	});
 </script>
-
-	<h3>자재 목록</h3>
+<form action="" method="GET">
+	<h3 class="m-4" style="text-align: center;">자재 목록</h3>
+	<div class="d-flex align-items-center justify-content-between mb-2">
+		<div>
+			<input type="hidden" name="txt" value="ma">
+			<input type="hidden" name="ma_num" value="">
+			
+			<input type="text" placeholder="자재명을 입력하세요" name="ma_name" value="${mvo.ma_name }" class="form-form">
+			<input type="submit" value="검색">
+		</div>
+	</div>	
+</form>
 	
-	<form action="" method="GET">
-		<input type="hidden" name="txt" value="ma">
-		<input type="hidden" name="ma_num" value="">
-		
-		<input type="text" placeholder="자재명을 입력하세요" name="ma_name" value="${mvo.ma_name }">
-		<input type="submit" value="검색">
-	</form>
-	
-	<table border="1">
-	
-		<tr>
-			<th>자재id</th>
-			<th>자재코드</th>
-			<th>자재명</th>
-		</tr>
-		
-		<c:forEach items="${popUpMate }" var="vo">
-		<tr>
-			<td>${vo.ma_id }</td>
-			<td>${vo.ma_num }</td>
-			<td>${vo.ma_name }</td>
-		</tr>
-		</c:forEach>
-	
-	</table>
+	<div class="bg-light text-center rounded p-4 m-5">
+		<table border="1" class="table-inorderList table align-middle table-bordered table-hover mb-0">
+			<tr>
+				<th>자재id</th>
+				<th>자재코드</th>
+				<th>자재명</th>
+			</tr>
+			
+			<c:forEach items="${popUpMate }" var="vo">
+			<tr>
+				<td>${vo.ma_id }</td>
+				<td>${vo.ma_num }</td>
+				<td>${vo.ma_name }</td>
+			</tr>
+			</c:forEach>
+		</table>
+	</div>
 		
 	<br>
 	
 	<!-- 페이징 버튼 -->
 	<nav aria-label="Page navigation example">
-  		<ul class="pagination justify-content-center pagination-sm">
+  		<ul class="pagination justify-content-center pagination-sm" style="margin-top:0rem;">
   		
   			<c:if test="${pm.prev }">
 			<li class="page-item">
