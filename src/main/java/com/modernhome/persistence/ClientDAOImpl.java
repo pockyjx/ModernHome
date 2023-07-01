@@ -23,16 +23,6 @@ public class ClientDAOImpl implements ClientDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(ClientDAOImpl.class);
 	
-	
-	// 거래처조회 - 검색
-	@Override
-	public List<ClientVO> clientListSearch(ClientVO cvo) {
-		logger.debug("DAO -> mapper호출 -> SQL 실행(거래처조회 - 검색된 데이터 출력)");
-		
-		return sqlSession.selectList(NAMESPACE + ".clientListSearch", cvo);
-	}
-
-	
 
 	// 거래처 등록
 	@Override
@@ -80,10 +70,11 @@ public class ClientDAOImpl implements ClientDAO {
 	// 거래처 검색 결과 (페이징)
 	@Override
 	public List<ClientVO> getClientList(ClientVO cvo, PageVO pvo) {
+		logger.debug(".cltSearchList 거래처 검색 결과!"+cvo);
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("clientVO", cvo);
 		paramMap.put("pageVO", pvo);
-		
+		logger.debug("paramMap : " + paramMap);
 		return sqlSession.selectList(NAMESPACE + ".cltSearchList", paramMap);
 	}
 
