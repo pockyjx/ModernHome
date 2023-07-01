@@ -58,19 +58,21 @@ $(document).ready(function() {
 	$("#addRowButton").click(function() {
 		
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
-	    $(document).on("click", "input[name='clt_name']", function() {
+	    $(document).on("click", "input[name='oo_num']", function() {
 	 	   window.open('/client/addPopup?txt=clt2', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	    });
 		
 		var newRow = '<tr>' +
 		'<td><input type="checkbox"></td>' +
 		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
-		'<td><input type="text" name="emp_id"></td>' +
-		'<td><input type="text" name="clt_name" id="clt_name"></td>' +
+		'<td><input type="text" name="emp_id" value="' + '${sessionScope.emp_id}' + '" readonly></td>' +
+		'<td><input type="text" name="oo_num" id="oo_num"></td>' +
+		'<td><input type="text" name="clt_name" id="clt_name" readonly></td>' +
 		'<td><input type="text" name="pro_num" id="pro_num" readonly></td>' +
-		'<td><input type="text" name="pro_name" id="pro_name" disabled></td>' +
-		'<td><input type="text" name="shp_cnt"></td>' +
-		'<td><input type="text" name="shp_date"></td>' +	
+		'<td><input type="text" name="pro_name" id="pro_name" disabled readonly></td>' +
+		'<td><input type="text" name="shp_cnt" readonly></td>' +
+		'<td><input type="text" name="shp_date"></td>' +
+		'<td><input type="text" name="shp_reg_date"></td>' +	
 		'</td>' +
 		'</tr>';
 		
@@ -93,9 +95,9 @@ $(document).ready(function() {
     
     
     // 완제품 코드 입력란 클릭 시 팝업창 열기
-    $(document).on("click", "input[name='pro_num']", function() {
- 	   window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-    });
+//     $(document).on("click", "input[name='pro_num']", function() {
+//  	   window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+//     });
     
  // 취소버튼
 	$("#cancleButton").click(function(){
@@ -292,6 +294,7 @@ $(document).ready(function() {
 		<input type="hidden" name="clt_id" id="clt_id">
 	
 	
+		<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
 		<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 		<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
@@ -299,7 +302,7 @@ $(document).ready(function() {
 		<i class="fa fa-trash"></i> 삭제</button>
 		<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regShipment" formmethod="post" disabled>
 		<i class="fa fa-download"></i> 저장</button>
-	
+		</c:if>
 		
 		
 			<table class="table-shipmentList" border="1">
@@ -307,26 +310,64 @@ $(document).ready(function() {
 					<th><input type="checkbox"></th>
 			    	<th>출하코드</th>
 			    	<th>담당자</th>
+			    	<th>수주코드</th>
 			    	<th>거래처</th>
 			    	<th>완제품코드</th>
 			    	<th>완제품명</th>
 			    	<th>출하량</th>
 			    	<th>출하일자</th>
+			    	<th>등록일</th>
 				</tr>
 			  	<c:forEach var="shipmentList" items="${shipmentList }">
 					<tr>
 						<td><input type="checkbox" name="selected" value="${shipmentList.shp_num}"></td>
 				    	<td>${shipmentList.shp_num}</td>
 				    	<td>${shipmentList.emp_name}</td>
+				    	<td>${shipmentList.oo_num}</td>
 				    	<td>${shipmentList.clt_name}</td>
 				    	<td>${shipmentList.pro_num}</td>
 				    	<td>${shipmentList.pro_name}</td>
 				    	<td>${shipmentList.shp_cnt}</td>
 				    	<td>${fn:substring(shipmentList.shp_date, 0, 10)}</td>
+				    	<td>${fn:substring(shipmentList.shp_reg_date, 0, 10)}</td>
 				    </tr>
 			    </c:forEach>
 			</table>
 		</form>
+		
+		<!-- 페이지 이동 버튼 -->
+	
+	<nav aria-label="Page navigation example">
+  		<ul class="pagination justify-content-center pagination-sm">
+  		
+  			<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/client/shipmentList?page=${pm.startPage-1 }&startDate=${svo.startDate}&endDate=${svo.endDate}&clt_name=${cvo.clt_name}&emp_name=${cvo.emp_name}" aria-label="Previous">
+       			<span aria-hidden="true">&laquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+    		<li 
+    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+    		>
+    				<a class="page-link" href="/client/shipmentList?page=${idx}&startDate=${svo.startDate}&endDate=${svo.endDate}&clt_name=${cvo.clt_name}&emp_name=${cvo.emp_name}">${idx }</a>
+    		</li>
+    		</c:forEach>
+			
+			<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+      			<a class="page-link" href="/client/shipmentList?page=${pm.endPage+1 }&startDate=${svo.startDate}&endDate=${svo.endDate}&clt_name=${cvo.clt_name}&emp_name=${cvo.emp_name}" aria-label="Next">
+        		<span aria-hidden="true">&raquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+  		</ul>
+	</nav>
+	
+	<!-- 페이지 이동 버튼 -->
 </body>
 </html>
 

@@ -19,8 +19,8 @@ public interface ClientDAO {
 	// 거래처 검색 결과 개수 (페이징)
 	public int getCltSearchCnt(ClientVO cvo) throws Exception;
 	
-	// 거래처조회 + 검색
-	public List<ClientVO> clientListSearch(ClientVO cvo);
+//	// 거래처조회 + 검색
+//	public List<ClientVO> clientListSearch(ClientVO cvo);
 	
 	// 거래처등록
 	public void regClient(ClientVO cvo);

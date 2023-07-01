@@ -11,6 +11,8 @@ public class ShipmentVO {
 	private String shp_date;
 	private Integer update_emp_id;
 	private String update_shp_date;
+	private String shp_reg_date;
+	private Integer oo_id;
 	
 	public Integer getShp_id() {
 		return shp_id;
@@ -66,16 +68,26 @@ public class ShipmentVO {
 	public void setUpdate_shp_date(String update_shp_date) {
 		this.update_shp_date = update_shp_date;
 	}
-	
-	@Override
-	public String toString() {
-		return "shipmentVO [shp_id=" + shp_id + ", shp_num=" + shp_num + ", emp_id=" + emp_id + ", clt_id=" + clt_id
-				+ ", pro_id=" + pro_id + ", shp_cnt=" + shp_cnt + ", shp_date=" + shp_date + ", update_emp_id="
-				+ update_emp_id + ", update_shp_date=" + update_shp_date + "]";
+	public Integer getOo_id() {
+		return oo_id;
+	}
+	public void setOo_id(Integer oo_id) {
+		this.oo_id = oo_id;
 	}
 	
-	
-	
+	public String getShp_reg_date() {
+		return shp_reg_date;
+	}
+	public void setShp_reg_date(String shp_reg_date) {
+		this.shp_reg_date = shp_reg_date;
+	}
+	@Override
+	public String toString() {
+		return "ShipmentVO [shp_id=" + shp_id + ", shp_num=" + shp_num + ", emp_id=" + emp_id + ", clt_id=" + clt_id
+				+ ", pro_id=" + pro_id + ", shp_cnt=" + shp_cnt + ", shp_date=" + shp_date + ", update_emp_id="
+				+ update_emp_id + ", update_shp_date=" + update_shp_date + ", shp_reg_date=" + shp_reg_date + ", oo_id="
+				+ oo_id + "]";
+	}
 	
 
 }

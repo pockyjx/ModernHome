@@ -23,10 +23,10 @@ public class ClientServiceImpl implements ClientService {
 	}
 
 	// 거래처조회 + 검색
-	@Override
-	public List<ClientVO> clientListSearch(ClientVO cvo) {
-		return cDAO.clientListSearch(cvo);
-	}
+//	@Override
+//	public List<ClientVO> clientListSearch(ClientVO cvo) {
+//		return cDAO.clientListSearch(cvo);
+//	}
 
 	// 거래처 등록
 	@Override

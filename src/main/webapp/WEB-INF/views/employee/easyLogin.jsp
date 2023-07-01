@@ -52,27 +52,37 @@
                                 <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>ModernHome</h3>
                             </a>
                         </div>
-				        <form role="form" method="post">
-	                        <div class="form-floating mb-3">
-	                            <input name="emp_id" type="text" class="form-control" id="floatingInput" placeholder="사원번호">
-	                            <label for="floatingInput">사원번호</label>
-	                        </div>
-	                        <div class="form-floating mb-4">
-	                            <input name="emp_pw" type="password" class="form-control" id="floatingPassword" placeholder="비밀번호">
-	                            <label for="floatingPassword">비밀번호</label>
-	                        </div>
-	                        <div class="d-flex align-items-center justify-content-between mb-4">
-	                            <div class="form-check">
-	                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-	                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-	                            </div>
-	                            <a href="">Forgot Password</a>
-	                        </div>
-	                        <input type="submit" class="btn btn-primary py-3 w-100 mb-4" value="Sign In">
-	<!--                         <p class="text-center mb-0">Don't have an Account? <a href="">Sign Up</a></p> -->
-				        </form>
-				        	<form action="easyLogin">
-	                        <input type="submit" class="btn btn-primary py-3 w-100 mb-4" value="간편로그인">
+<!-- 				        <form role="form" method="post"> -->
+<!-- 	                        <div class="form-floating mb-3"> -->
+<!-- 	                            <input name="emp_id" type="text" class="form-control" id="floatingInput" placeholder="사원번호"> -->
+<!-- 	                            <label for="floatingInput">사원번호</label> -->
+<!-- 	                        </div> -->
+<!-- 	                        <div class="form-floating mb-4"> -->
+<!-- 	                            <input name="emp_pw" type="password" class="form-control" id="floatingPassword" placeholder="비밀번호"> -->
+<!-- 	                            <label for="floatingPassword">비밀번호</label> -->
+<!-- 	                        </div> -->
+<!-- 	                        <div class="d-flex align-items-center justify-content-between mb-4"> -->
+<!-- 	                            <div class="form-check"> -->
+<!-- 	                                <input type="checkbox" class="form-check-input" id="exampleCheck1"> -->
+<!-- 	                                <label class="form-check-label" for="exampleCheck1">Check me out</label> -->
+<!-- 	                            </div> -->
+<!-- 	                            <a href="">Forgot Password</a> -->
+<!-- 	                        </div> -->
+<!-- 	                        <input type="submit" class="btn btn-primary py-3 w-100 mb-4" value="Sign In"> -->
+ 	<!--                         <p class="text-center mb-0">Don't have an Account? <a href="">Sign Up</a></p> -->
+<!-- 				        </form> -->
+				        	<form action="authLogin">
+	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="인사팀장">
+	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="인사일반">
+	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="영업팀장">
+	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="영업일반">
+	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="생산팀장">
+	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="생산일반">
+	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="자재팀장">
+	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="자재일반">
+	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="품질팀장">
+	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="품질일반">
+				        	<input type="submit" class="btn btn-primary m-4" name="auth" value="관리자">
 	                        </form>
                     </div>
                 </div>

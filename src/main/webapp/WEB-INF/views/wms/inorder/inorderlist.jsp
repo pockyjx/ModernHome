@@ -54,11 +54,10 @@
             $("#addRowButton").click(function() {
             	
             	// 모든 체크박스의 체크 해제
-    			$(".table-inorderList input[type='checkbox']").prop("checked", false);
+   				$(".table-inorderList input[type='checkbox']").prop("checked", false);
     			
     			// selected 클래스를 없앰 (css 없애기)
     			$(".table-inorderList tr").removeClass("selected");
-            	
             	
             	var newRow = '<tr>' +
 	                '<td><input type="checkbox" class="form-check-input"></td>' +
@@ -91,7 +90,7 @@
 				pageStatus = "reg";
 				
 				updateSelectedCheckboxCount();
-				
+
             }); // 여기까지 추가 버튼
             
 
@@ -132,7 +131,9 @@
 					
 					// 각 셀의 값을 원래 상태로 되돌림
 					row.find("td:not(:first-child)").each(function(index) {
-						var cellValue = $(this).find("input").val();
+						
+						var cellValue = $(this).data('prevValue'); // 수정 전의 기존값을 가져옴
+						
 						if ($(this).find("select").length) {
 							// <select>가 있는 경우 선택된 옵션의 텍스트로 변경
 							var selectedOptionText = $(this).find("select option:selected").text();
@@ -165,9 +166,13 @@
 				
 			}); // 취소버튼
             
+			
+			
+			
             
             // 수정 버튼 누를 시
 			$("#updateButton").click(function(){
+				
 				var selectedCheckbox = $("input[name='selectedIoId']:checked");
 				
 				// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
@@ -192,15 +197,34 @@
 			            "update_emp_id"
 					];
 					
+					// input type의 id 값 지정
+					var cellIds = [
+						"io_num",
+						"ma_num",
+						"ma_name",
+						"clt_num",
+						"clt_name",
+			            "io_cnt",
+			            "io_unit",
+			            "io_amount",
+			            "io_date",
+			            "io_state",
+			            "rec_date",
+			            "io_update_date",
+			            "update_emp_id"
+					];
+					
 					
 					// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 					row.find("td:not(:first-child)").each(function(index) {
+						
 						var cellValue = $(this).text();
 						if(index == 12) {
 		                    cellValue = ${sessionScope.emp_id}
 		                }
 						var cellType = index === 10 ? "date" : "text"; // 날짜 타입은 date로 설정
 						var cellName = cellNames[index];
+						var cellId = cellIds[index];
 						var cellContent;
 						var cellOption = "";
 						
@@ -220,8 +244,11 @@
 							'</select>' +
 							'</td>';
 						}else {
-							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellOption + '></td>';
+							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control"' + '></td>';
 						}
+						
+						// 기존 값을 임시 변수에 저장 -> 수정 후 취소버튼 시 담당자 칸에 세션값이 나오는 문제 해결위해
+						$(this).data('prevValue', cellValue);
 						
 						$(this).html(cellContent);
 						
@@ -237,15 +264,31 @@
 					});
 					
 				}else if (selectedCheckbox.length === 0){
-					alert("수정할 행을 선택해주세요!")
+					alert("수정할 행을 선택하세요!")
 					
 				}else {
 					alert("수정은 하나의 행만 가능합니다!");
 				}
+					
+			}); // 수정 버튼 누를 시
+		
+		
+			// 삭제버튼
+	    	$("#deleteInorderButton").click(function(){
+	    		
+	    		
+	    		var selectedCheckbox = $("input[name='selectedIoId']:checked");
+	    		
+	    		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+	    		if (selectedCheckbox.length === 0){
+	    			alert("삭제할 행을 선택하세요!");
+	    			
+	    			// 선택안하면 submit을 막음
+	    			event.preventDefault();
+	    			
+	    		}
+	    	});
 			
-		}); // 수정 버튼 누를 시
-		
-		
 			
 			// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
 	        $(".table-inorderList th input[type='checkbox']").click(function() {
@@ -287,45 +330,62 @@
 	            var selectedCheckboxes = $(".table-inorderList td input[type='checkbox']:checked").length;
 	            $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	        } // 체크박스 선택 시 체크박스 개수 구하기
-	         
 	        
-	        // 제출 전 유효성 검사
-	        $("#submitButton").click(function() {
-	        	
-				var form = $("#inorderList");
-				form.attr("method", "post");
-				form.attr("action", "/wms/regInorder");
+	        
+        // submit버튼 유효성
+        $("#submitButton").click(function() {
+        	
+			var form = $("#inorderList");
+			form.attr("method", "post");
+			form.attr("action", "/wms/regInorder");
+			
+			var ma_num = $("#ma_num").val();
+			var clt_num = $("#clt_num").val();
+			var io_cnt = $("#io_cnt").val();
+			var rec_date = $("#rec_date").val();
+			
+				// 등록할 때
+				if(pageStatus == "reg"){
+					
+					if(ma_num == null || ma_num == "") {
+						$("ma_num").focus();
+						alert("자재코드를 입력하세요!");
+						return;
+					}
+					if(clt_num == null || clt_num == "") {
+						$("clt_num").focus();
+						alert("거래처 코드를 입력하세요!");
+						return;
+					}
+					if(io_cnt == null || io_cnt == "") {
+						$("#io_cnt").focus();
+						alert("발주량을 입력하세요!");
+						return;
+					}
+					if(rec_date == null || rec_date == "") {
+						$("#rec_date").focus();
+						alert("입고예정일을 입력하세요!");
+						return;
+					}
+				} //if문
 				
-				var ma_num = $("#ma_num").val();
-				var clt_num = $("#clt_num").val();
-				var io_cnt = $("#io_cnt").val();
-				var io_date = $("#rec_date").val();
 				
-				if(ma_num == null || ma_num == "") {
-					$("#ma_num").focus();
-					alert("자재코드를 입력하세요!");
-					return;
-				}
-				if(clt_num == null || clt_num == "") {
-					$("#clt_num").focus();
-					alert("거래처 코드를 입력하세요!");
-					return;
-				}
-				if(io_cnt == null || io_cnt == "") {
-					$("#io_cnt").focus();
-					alert("발주량을 입력하세요!");
-					return;
-				}
-				if(rec_date == null || rec_date == "") {
-					$("#rec_date").focus();
-					alert("입고예정일을 입력하세요!");
-					return;
-				}
+				// 수정할 때
+				if(pageStatus == "update"){
+					if(io_cnt == null || io_cnt == "") {
+						$("io_cnt").focus();
+						alert("발주량을 입력하세요!");
+						return;
+					}
+				} // if문
+				
 				form.submit();
-			});
-	        
+			}); //submit 버튼 유효성
+			
+			
 		});
 		
+     	
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='clt_num']", function() {
 			var left = (screen.width - 600) / 2;
@@ -388,34 +448,35 @@
              
 		<hr>    
           
-<div class="d-flex align-items-center justify-content-between mb-2">             
-	<h3 class="m-4">발주 목록</h3>
-	<div>	
-		<c:if test="${sessionScope.emp_dept eq '자재' && (sessionScope.emp_auth == '2' || sessionScope.emp_auth == '3' )}">
-			<button type="button" class="btn btn-primary m-2" id="addRowButton">
-				<i class="fa fa-plus"></i> 추가</button>
-    		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
-    		<button type="button" class="btn btn-primary m-2" id="updateButton">
-    			<i class="fa fa-edit"></i> 수정</button>
-		    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post">
-		    	<i class="fa fa-trash"></i> 삭제</button>
-<!-- 		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled> -->
-<!-- 		    	<i class="fa fa-download"></i> 저장</button> -->
-		    <button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
-		    	<i class="fa fa-download"></i> 저장</button>
-		</c:if>
-	</div>
-</div>	
+<form id="inorderList" method="post">
+	<div class="d-flex align-items-center justify-content-between mb-2">             
+		<h3 class="m-4">발주 목록</h3>
+		<div>	
+			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3' }">
+				<button type="button" class="btn btn-primary m-2" id="addRowButton">
+					<i class="fa fa-plus"></i> 추가</button>
+	    		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+	    		<button type="button" class="btn btn-primary m-2" id="updateButton">
+	    			<i class="fa fa-edit"></i> 수정</button>
+			    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post">
+			    	<i class="fa fa-trash"></i> 삭제</button>
+	<!-- 		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled> -->
+	<!-- 		    	<i class="fa fa-download"></i> 저장</button> -->
+			    <button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
+			    	<i class="fa fa-download"></i> 저장</button>
+			</c:if>
+		</div>
+	</div>	
 
-<div class="bg-light text-center rounded p-4 m-3">
-	<form id="inorderList">
+	<div class="bg-light text-center rounded p-4 m-3">
 		<div class="d-flex align-items-center justify-content-between mb-4">	
 			<span id="selectedCheckboxCount">0</span>
 		</div>
 		
+		<input type="hidden" name="clt_id" id="clt_id">
+		<input type="hidden" name="ma_id" id="ma_id">
+				
 		<div class="table-responsive">		
-				<input type="hidden" name="clt_id" id="clt_id">
-				<input type="hidden" name="ma_id" id="ma_id">
 			<table class="table-inorderList table align-middle table-bordered table-hover mb-0">
 					<tr>
 						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
@@ -457,8 +518,8 @@
 				    </c:forEach>
 			</table>
 		</div>
-	</form>
-</div>
+	</div>
+</form>
 			
 <!-- 페이지 이동 버튼 -->
 <nav aria-label="Page navigation example">
