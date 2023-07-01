@@ -292,17 +292,35 @@
     	  
       });
       
+      // 목록에서 완제품 코드 클릭 시 해당 완제품의 BOM 출력
+      $(".openBOM").click(function() {
+    	 var pro_id = $(this).closest("tr").find('td:eq(2)').text();
+    	  
+//     	alert(pro_id);
+    	 
+    	var left = (screen.width - 600) / 2;
+ 		var top = (screen.height - 300) / 2;
+    	window.open('/info/req/BOM?pro_id='+pro_id+'', 'popup', 'width=600, height=300, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+    	 
+      });
+      
      });
          
     // 완제품 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='pro_num']", function() {
- 	   window.open('/info/req/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+    	var left = (screen.width - 500) / 2;
+		var top = (screen.height - 500) / 2;
+    	window.open('/info/req/addPopup?txt=pro', 'popup', 'width=500, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+   		
     });
     
     // 자재 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='ma_num']", function() {
- 	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+    	var left = (screen.width - 500) / 2;
+		var top = (screen.height - 500) / 2;
+ 	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=500, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
     });
+    
 
 	  </script>
 	  
@@ -398,6 +416,7 @@
 				<tr>
 					<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
 					<th style="background-color: rgba(0,0,0,0.075);">소요량 코드</th>
+					<th style="display: none;">완제품id</th>
 					<th style="background-color: rgba(0,0,0,0.075);">완제품 코드</th>
 					<th style="background-color: rgba(0,0,0,0.075);">완제품명</th>
 					<th style="background-color: rgba(0,0,0,0.075);">자재 코드</th>
@@ -412,7 +431,8 @@
 				<tr>	
 					<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}" class="form-check-input"></td>
 					<td>${vo.req_num }</td>
-					<td><a href="/info/req/BOM?pro_id=${vo.pro_id}" id="openBOM" >${vo.pro_num }</a></td>
+					<td style="display: none;">${vo.pro_id }</td>
+					<td><a href="javascript:void(0);" class="openBOM">${vo.pro_num }</a></td>
 					<td>${vo.pro_name }</td>
 					<td>${vo.ma_num }</td>
 					<td>${vo.ma_name }</td>
