@@ -25,6 +25,7 @@
 	<!-- 사원리스트 불러오기 -->
 	<select id="employeeList" resultType="com.modernhome.domain.EmployeeVO">
 		SELECT * FROM employee
+		ORDER BY emp_id DESC
 		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 사원리스트 불러오기 -->
@@ -52,6 +53,7 @@
 				AND emp_state = #{evo.emp_state}
 			</if>
 		</where>
+		ORDER BY emp_id DESC
 		LIMIT #{pvo.startPage}, #{pvo.pageSize}
 	</select>
 	<!-- 사원리스트 검색 -->

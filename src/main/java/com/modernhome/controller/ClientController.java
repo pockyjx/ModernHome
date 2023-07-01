@@ -229,21 +229,35 @@ public class ClientController {
 		// http://localhost:8088/client/shipmentList
 		// 출하관리
 		@RequestMapping(value = "/shipmentList", method = RequestMethod.GET)
-		public void shipmentListGET(Model model, ShipmentJoinVO svo) throws Exception {
+		public void shipmentListGET(Model model, ShipmentJoinVO svo, PageVO pvo) throws Exception {
 			logger.debug("shipmentListGET() 호출");
+			
+			List<ShipmentJoinVO> shipmentList;
+			PageMaker pm = new PageMaker();
 			// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
 			if(svo.getStartDate() != null || svo.getEndDate() != null || svo.getClt_id() != null || svo.getEmp_id() != null) {
 				logger.debug("검색어O, 검색된 데이터만 출력"+svo);
 				// 서비스 -> 출하목록 가져오기
-				List<ShipmentJoinVO> shipmentList = sService.shipmentListSearch(svo);
+				shipmentList = sService.shipmentListSearch(svo, pvo);
+				// 페이징 정보 전달
+				pm.setPageVO(pvo);
+				pm.setTotalCount(sService.shpSearchCnt(svo));
 				// Model 객체에 저장
 				model.addAttribute("shipmentList", shipmentList);
+				model.addAttribute("pm", pm);
+				// 검색정보 전달
+				model.addAttribute("svo", svo);
 			}else {
 				logger.debug("검색어 X, 전체 데이터 출력"+svo);
 				// 서비스 출하목록 가져오기
-				List<ShipmentJoinVO> shipmeList = sService.shipmentList();
-				// Model 객체에 저장
-				model.addAttribute("shipmentList", shipmeList);
+				shipmentList = sService.shipmentList(pvo);
+				logger.debug("shipmentList : " + shipmentList);
+				// 페이징 정보
+				pm.setPageVO(pvo);
+				pm.setTotalCount(sService.shipmentCnt());
+				// Model 객체에 저장	
+				model.addAttribute("shipmentList", shipmentList);
+				model.addAttribute("pm", pm);
 			}
 		}
 		

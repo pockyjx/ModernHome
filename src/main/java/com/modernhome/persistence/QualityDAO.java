@@ -11,7 +11,7 @@ public interface QualityDAO {
 	public List<WijoinVO> getQualityList(PageVO pvo) throws Exception;
 	
 	// 품질검사 개수(페이징)
-	public int getTotalCntMate() throws Exception;
+	public int getTotalCntQc() throws Exception;
 	
 	// 품질검사(완제품) 목록 조회 + 검색(페이징)
 	public List<WijoinVO> getQualitySearch(String qc_num, String startDate, String endDate, String qc_yn, PageVO pvo) throws Exception;
@@ -22,12 +22,13 @@ public interface QualityDAO {
 	// 품질검사(완제품) 수정
 	public void updateQuality(WijoinVO wvo) throws Exception;
 	
+	//////////////////////////////////////////////////////////////////////////////
 	
 	// 품질검사(자재) 목록 조회(페이징)
 	public List<WijoinVO> getMaterialQualityList(PageVO pvo) throws Exception;
 	
 	// 품질검사(자재) 개수(페이징)
-	public int getTotalCntMT() throws Exception;
+	public int getTotalCntMqc() throws Exception;
 	
 	// 품질검사(자재) 목록 조회 + 검색(페이징)
 	public List<WijoinVO> getMaterialQualitySearch(String qc_num, String startDate, String endDate, String qc_yn, PageVO pvo) throws Exception;

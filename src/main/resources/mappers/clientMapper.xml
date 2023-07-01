@@ -19,24 +19,24 @@
 	</select>
 	<!-- 전체 글 수 계산 (페이징) -->
 	
-	<!-- 자재 검색 결과 조회(페이징) -->
-	<select id="cltSearchList" resultType="ClientVO" parameterType="java.util.Map">
-		select * from client
-			<where>
-			<if test="clt_name != ''">
-				clt_name LIKE CONCAT('%', #{clientVO.clt_name}, '%')
-			</if>
-			<if test="clt_rep != ''">
-				AND clt_rep LIKE CONCAT('%', #{clientVO.clt_rep}, '%') 
-			</if>
-			<if test="clt_sort != null">
-				AND clt_sort = #{clientVO.clt_sort}
-			</if>
-		</where>
-		ORDER BY clt_id DESC
-		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
-	</select>
-	<!-- 자재 검색 결과 조회 (페이징) -->
+	<!-- 거래처 검색 결과 조회(페이징) -->
+	<select id="cltSearchList" resultType="com.modernhome.domain.ClientVO">
+  select * from client
+  <where>
+    <if test="clientVO.clt_name != ''">
+      clt_name LIKE CONCAT('%', #{clientVO.clt_name}, '%')
+    </if>
+    <if test="clientVO.clt_rep != ''">
+      AND clt_rep LIKE CONCAT('%', #{clientVO.clt_rep}, '%') 
+    </if>
+    <if test="clientVO.clt_sort != null">
+      AND clt_sort LIKE CONCAT('%', #{clientVO.clt_sort}, '%') 
+    </if>
+  </where>
+  ORDER BY clt_id DESC
+  LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+</select>
+	<!-- 거래처 검색 결과 조회 (페이징) -->
 	
 	<!-- 검색 결과 개수 계산(페이징) -->
 	<select id="cltSearchCnt" resultType="int">
@@ -49,28 +49,11 @@
 				AND clt_rep LIKE CONCAT('%', #{clt_rep}, '%') 
 			</if>
 			<if test="clt_sort != null">
-				AND clt_sort = #{clt_sort}
+				AND clt_sort LIKE CONCAT('%', #{clt_sort}, '%') 
 			</if>
 		</where>
 	</select>
-	<!-- 검색 결과 개수 계산 (페이징) -->
-	
-	<!-- 거래처 검색 -->
-<!-- 	<select id="clientListSearch" resultType="com.modernhome.domain.ClientVO"> -->
-<!-- 		SELECT * FROM client  -->
-<!-- 		<where> -->
-<!-- 			<if test="clt_name != ''"> -->
-<!-- 				clt_name LIKE CONCAT('%', #{clt_name}, '%') -->
-<!-- 			</if> -->
-<!-- 			<if test="clt_rep != ''"> -->
-<!-- 				AND clt_rep LIKE CONCAT('%', #{clt_rep}, '%')  -->
-<!-- 			</if> -->
-<!-- 			<if test="clt_sort != null"> -->
-<!-- 				AND clt_sort = #{clt_sort} -->
-<!-- 			</if> -->
-<!-- 		</where> -->
-<!-- 	</select> -->
-	<!-- 거래처 검색 -->
+
 	
 	<!-- 거래처등록 -->
 	<insert id="regClient">

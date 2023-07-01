@@ -73,9 +73,9 @@
 				authRow = 
 				'<td>' +
 				'<select name="emp_auth">' +
-				'<option value="1">1</option>' +
-				'<option value="2">2</option>' +
-				'<option value="3">3</option>' +
+				'<option value="1">일반</option>' +
+				'<option value="2">팀장</option>' +
+				'<option value="3">관리자</option>' +
 				'</select>' +
 				'</td>';
 
@@ -83,17 +83,17 @@
 				authRow = 
 				'<td>' +
 				'<select name="emp_auth">' +
-				'<option value="1">1</option>' +
-				'<option value="2">2</option>' +
+				'<option value="1">일반</option>' +
+				'<option value="2">팀장</option>' +
 				'</select>' +
 				'</td>';
 			}else {
 				authRow = 
 				'<td>' +
 				'<select name="emp_auth" disabled>' +
-				'<option value="1">1</option>' +
-				'<option value="2">2</option>' +
-				'<option value="3">3</option>' +
+				'<option value="1">일반</option>' +
+				'<option value="2">팀장</option>' +
+				'<option value="3">관리자</option>' +
 				'</select>' +
 				'</td>';
 			}
@@ -303,9 +303,9 @@
 						if('${sessionScope.emp_auth}' == 3){
 							cellContent = '<td>' +
 							'<select name="' + cellName + '">' +
-							'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
-							'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
-							'<option value="3" ' + (cellValue === '3' ? 'selected' : '') + '>3</option>' +
+							'<option value="1" ' + (cellValue === '일반' ? 'selected' : '') + '>일반</option>' +
+							'<option value="2" ' + (cellValue === '팀장' ? 'selected' : '') + '>팀장</option>' +
+							'<option value="3" ' + (cellValue === '관리자' ? 'selected' : '') + '>관리자</option>' +
 							'</select>' +
 							'</td>';
 
@@ -314,17 +314,17 @@
 						else if('${sessionScope.emp_auth}' == 2){
 							
 							// 권한이 2인사람이 3은 수정못하게
-							if(cellValue == 3){
+							if(cellValue == '관리자'){
 								cellContent = '<td>' +
 								'<select name="' + cellName + '" disabled>' +
-								'<option value="3">3</option>' +
+								'<option value="3">관리자</option>' +
 								'</select>' +
 								'</td>';
 							}else {
 								cellContent = '<td>' +
 								'<select name="' + cellName + '">' +
-								'<option value="1" ' + (cellValue === '1' ? 'selected' : '') + '>1</option>' +
-								'<option value="2" ' + (cellValue === '2' ? 'selected' : '') + '>2</option>' +
+								'<option value="1" ' + (cellValue === '일반' ? 'selected' : '') + '>일반</option>' +
+								'<option value="2" ' + (cellValue === '팀장' ? 'selected' : '') + '>팀장</option>' +
 								'</select>' +
 								'</td>';
 							}
@@ -334,22 +334,22 @@
 						else {
 							
 							
-							if(cellValue == 3){
+							if(cellValue == '관리자'){
 								cellContent = '<td>' +
 								'<select name="' + cellName + '" disabled>' +
-								'<option value="3">3</option>' +
+								'<option value="3">관리자</option>' +
 								'</select>' +
 								'</td>';
-							}else if(cellValue == 2){
+							}else if(cellValue == '팀장'){
 								cellContent = '<td>' +
 								'<select name="' + cellName + '" disabled>' +
-								'<option value="2">2</option>' +
+								'<option value="2">팀장</option>' +
 								'</select>' +
 								'</td>';
 							}else {
 								cellContent = '<td>' +
 								'<select name="' + cellName + '" disabled>' +
-								'<option value="1">1</option>' +
+								'<option value="1">일반</option>' +
 								'</select>' +
 								'</td>';
 							}
@@ -533,9 +533,10 @@
 		
 		<input type="submit" value="조회">
 		
-		<input type="reset" value="초기화">
+<!-- 		<input type="reset" value="초기화"> -->
 	</form>
 	<!-- 검색칸 -->
+	
 	
 	<form id="employeeList">
 	
@@ -573,7 +574,13 @@
 		
 		<c:forEach var="employeeList" items="${employeeList }">
 		<tr>
-			<td><input type="checkbox" name="selectedEmpId" value="${employeeList.emp_id}"></td>
+		
+		<c:choose>
+			<c:when test="${fn:substring(Integer.parseInt(employeeList.emp_id), 0, 4) == 1000}"><td><input type="checkbox" name="selectedEmpId"
+			value="${employeeList.emp_id}" disabled></td></c:when>
+			<c:otherwise><td><input type="checkbox" name="selectedEmpId" value="${employeeList.emp_id}"></td></c:otherwise>
+		</c:choose>
+		
 			<td>${employeeList.emp_id }</td>
 			<td>${employeeList.emp_name }</td>
 			<td>${employeeList.emp_gender }</td>
@@ -582,7 +589,15 @@
 			
 			<td>${employeeList.emp_dept }</td>
 			<td>${employeeList.emp_rank }</td>
-			<td>${employeeList.emp_auth }</td>
+			
+			
+			<c:choose>
+				<c:when test="${employeeList.emp_auth == 3}"><td>관리자</td></c:when>
+				<c:when test="${employeeList.emp_auth == 2}"><td>팀장</td></c:when>
+				<c:when test="${employeeList.emp_auth == 1}"><td>일반</td></c:when>
+			</c:choose>
+
+			
 			<td>${employeeList.emp_state }</td>
 			<td>${employeeList.emp_tel }</td>
 			
