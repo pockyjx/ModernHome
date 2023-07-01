@@ -17,6 +17,15 @@
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" as="style" crossorigin 
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    
+    <style type="text/css">
+        * {
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+    </style>
 <script>
 	$(document).ready(function() {
 		
@@ -24,10 +33,14 @@
 		var pro_id = $(this).find("td:eq(0)").text();
 		var pro_num = $(this).find("td:eq(1)").text();
 		var pro_name = $(this).find("td:eq(2)").text();
+		var pro_price = $(this).find("td:eq(3)").text();
 		
 		opener.document.getElementById("pro_id").value = pro_id;
 		opener.document.getElementById("pro_num").value = pro_num;
 		opener.document.getElementById("pro_name").value = pro_name;
+		opener.document.getElementById("pro_price").value = pro_price;
+		
+		opener.updateCltCost(); // clt_cost 값 업데이트
 		
 		window.close();
 
@@ -55,6 +68,7 @@
 			<th>완제품 id</th>
 			<th>완제품 코드</th>
 			<th>완제품명</th>
+			<th>완제품가격</th>
 		</tr>
 		
 		<c:forEach items="${popUpPro }" var="vo">
@@ -62,6 +76,7 @@
 			<td>${vo.pro_id }</td>
 			<td>${vo.pro_num }</td>
 			<td>${vo.pro_name }</td>
+			<td>${vo.pro_price }</td>
 		</tr>
 		</c:forEach>
 	
