@@ -17,6 +17,15 @@
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" as="style" crossorigin 
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    
+    <style type="text/css">
+        * {
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+    </style>
 <script>
 	$(document).ready(function() {
 		
@@ -39,6 +48,14 @@
 <body>
 
 	<h1>거래처 목록</h1>
+	
+	<form action="" method="GET">
+		<input type="hidden" name="txt" value="clt">
+		<input type="hidden" name="clt_num" value="">
+		
+		<input type="text" placeholder="거래처명을 입력하세요" name="clt_name" value="${cvo.clt_name }">
+		<input type="submit" value="검색">
+	</form>
 	
 	<table border="1">
 	

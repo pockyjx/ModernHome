@@ -76,15 +76,21 @@ $(document).ready(function() {
 		var newRow = '<tr>' +
 		'<td><input type="checkbox"></td>' +
 		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
+		
+		
+		// 완제품가격
 
+		
 		'<td><input type="text" name="emp_id" value="' + '${sessionScope.emp_id}' + '" readonly></td>' +
 		'<td><input type="text" name="clt_num" id="clt_num" readonly></td>' +
 		'<td><input type="text" name="clt_name" id="clt_name" readonly placeholder="거래처코드를 선택해주세요"></td>' +
 		'<td><input type="text" name="pro_num" id="pro_num" readonly></td>' +
 		'<td><input type="text" name="pro_name" id="pro_name" readonly placeholder="완제품코드를 선택해주세요"></td>' +
+		'<td><input type="text" name="pro_price" id="pro_price" readonly></td>' +
 		'<td><input type="number" name="oo_cnt" id="oo_cnt"></td>' +
+		'<td><input type="number" name="clt_cost" id="clt_cost" readonly></td>' +
 		'<td><input type="date" name="oo_start_date" id="oo_start_date"></td>' +
-		'<td><input type="date" name="oo_end_date"></td>' +
+		'<td><input type="date" name="oo_end_date" id="oo_end_date"></td>' +
 		'<td>' +
 		'<select name="oo_state">' +
 		'<option value="대기">대기</option>' +
@@ -119,6 +125,7 @@ $(document).ready(function() {
 	
 		// 등록버튼 취소
 		if(pageStatus == "reg"){
+			
 			// 두번째 tr (추가된 행)을 삭제함
 			$(".table-outOrderList tr:nth-child(2)").remove();
 
@@ -207,11 +214,13 @@ $(document).ready(function() {
 			var cellNames = [
 	            "oo_num",
 	            "update_emp_id",
-	            "clt_id",
+	            "clt_num",
 	            "clt_name",
-	            "pro_id",
+	            "pro_num",
 	            "pro_name",
+	            "pro_price",
 	            "oo_cnt",
+	            "clt_cost",
 	            "oo_start_date",
 	            "oo_end_date",
 	            "oo_state",
@@ -223,13 +232,13 @@ $(document).ready(function() {
 			row.find("td:not(:first-child)").each(function(index) {
 				//
 				var cellValue = $(this).text();
-				var cellType = [7, 8].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
-				var cellReadonly = [0, 1, 2, 4].includes(index) ? "readonly='readonly'" : "";
+				var cellType = [9, 10].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
+				var cellReadonly = [0, 1, 6, 8, 12].includes(index) ? "readonly='readonly'" : "";
 				var cellName = cellNames[index];
-				var cellDisabled = [2, 3, 4, 5, 10].includes(index)? "disabled" : "";
+				var cellDisabled = [2, 4, 11].includes(index)? "disabled" : "";
 				var cellContent;
 				
-				if (index === 9){
+				if (index === 11){
 					cellContent = '<td>' +
 					'<select name="' + cellName + '">' +
 					'<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
@@ -239,8 +248,11 @@ $(document).ready(function() {
 					'</td>';
 				}else if (index === 1){
 					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
+				}else if (index === 7){
+					cellContent = '<td><input type="number" name="' + cellName + '" id="' + cellName + '"' + '" value="' + cellValue + '"' + cellReadonly + '></td>';
 				}else {
 					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellName + '"' + '" value="' + cellValue + '"'
+// 					+ cellReadonly + '></td>';
 					+ cellReadonly + ' ' + cellDisabled + '></td>';
 				}
 				
@@ -297,6 +309,7 @@ $(document).ready(function() {
 		var pro_num = $("#pro_num").val();
 		var oo_cnt = $("#oo_cnt").val();
 		var oo_start_date = $("#oo_start_date").val();
+		var oo_end_date = $("#oo_end_date").val();
 		
 			// 등록할 때
 			if(pageStatus == "reg"){
@@ -321,6 +334,12 @@ $(document).ready(function() {
 					alert("수주일자를 입력하세요!");
 					return;
 				}
+				
+				if(oo_end_date == null || oo_end_date == "") {
+					$("#oo_end_date").focus();
+					alert("출하일자를 입력하세요!");
+					return;
+				}
 			} //if문
 		
 			
@@ -334,6 +353,11 @@ $(document).ready(function() {
 				if(oo_start_date == null || oo_start_date == "") {
 					$("#oo_start_date").focus();
 					alert("수주일자를 입력하세요!");
+					return;
+				}
+				if(oo_end_date == null || oo_end_date == "") {
+					$("#oo_end_date").focus();
+					alert("출하일자를 입력하세요!");
 					return;
 				}
 			} //if문
@@ -372,8 +396,34 @@ $(document).ready(function() {
 		window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	});
 	
+	// 팝업창
+	
+	
+	
+	
+	// 수주금액 계산
+	$(document).on("input", "#oo_cnt", function() {
+		
+		var oo_cnt = parseInt($(this).val()); // oo_cnt의 값 가져오기
+		var pro_price = parseInt($("#pro_price").val()); // pro_price의 값 가져오기
+		
+		var clt_cost = oo_cnt * pro_price * 1.2; // clt_cost 계산
+		
+		$("#clt_cost").val(clt_cost); // clt_cost의 값을 설정하여 표시
+		
+		
+	});
+	
 	
 }); //jQuery
+
+// clt_cost 값 업데이트 함수
+function updateCltCost() {
+	var oo_cnt = parseInt($("#oo_cnt").val());
+	var pro_price = parseInt($("#pro_price").val());
+	var clt_cost = oo_cnt * pro_price * 1.2;
+	$("#clt_cost").val(clt_cost);
+}
 </script>
 
 <style>
@@ -458,9 +508,11 @@ $(document).ready(function() {
 	    	<th>거래처이름</th>
 	    	<th>완제품코드</th>
 	    	<th>완제품명</th>
+	    	<th>완제품가격</th>
 	    	<th>주문량</th>
+	    	<th>수주금액</th>
 	    	<th>수주일자</th>
-	    	<th>출하예정일자</th>
+	    	<th>출하일자</th>
 	    	<th>진행상황</th>
 	    	<th>등록일</th>
 		</tr>
@@ -475,12 +527,16 @@ $(document).ready(function() {
 			<td>${outOrderList.clt_name}</td>
 			<td>${outOrderList.pro_num}</td>
 			<td>${outOrderList.pro_name}</td>
+			<td>${outOrderList.pro_price}</td>
 			<td>${outOrderList.oo_cnt}</td>
+			<td>${outOrderList.clt_cost}</td>
 			<td>${fn:substring(outOrderList.oo_start_date, 0, 10)}</td>
 			<td>${fn:substring(outOrderList.oo_end_date, 0, 10)}</td>
 			<td>${outOrderList.oo_state}</td>
 			<td>${fn:substring(outOrderList.oo_reg_date, 0, 10)}</td>
 		</tr>
+		
+			
 		</c:forEach>
 	</table>
 	</form>
