@@ -22,6 +22,7 @@ import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductVO;
+import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.ShipmentJoinVO;
 import com.modernhome.domain.ShipmentVO;
 import com.modernhome.service.ClientService;
@@ -404,6 +405,19 @@ public class ClientController {
 		}
 		
 		return "/client/clientList";
+		
+	}
+	
+	
+	
+	// BOM (수주계약서)
+	// http://localhost:8088/info/req/BOM
+	@RequestMapping(value = "/client/outOrderContract", method = RequestMethod.GET)
+	public void outOrderContract(@RequestParam(value = "oo_num") String oo_num, Model model) throws Exception {
+		logger.debug("outOrderContract 호출!");
+		
+		OutOrderJoinVO contractList = oService.outOrderContract(oo_num);
+		model.addAttribute("contractList", contractList);
 		
 	}
 	

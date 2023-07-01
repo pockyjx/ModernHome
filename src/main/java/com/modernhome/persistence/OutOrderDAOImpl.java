@@ -103,6 +103,16 @@ public class OutOrderDAOImpl implements OutOrderDAO {
 		
 		sqlSession.update(NAMESAPCE + ".updateOutOrder", ovo);
 	}
+
+
+
+	// 수주서
+	@Override
+	public OutOrderJoinVO outOrderContract(String oo_num) {
+		logger.debug("DAO -> 수주서");
+		
+		return sqlSession.selectOne(NAMESAPCE + ".outOrderContract", oo_num);
+	}
 	
 	
 
