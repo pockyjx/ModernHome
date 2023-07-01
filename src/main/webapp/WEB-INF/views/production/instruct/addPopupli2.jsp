@@ -24,11 +24,6 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script type="text/javascript">
-// 	function popSub(form) {
-// 		form.taget = opener.name;
-// 		form.submit();
-// 		self.close();
-// 	}
 	$(document).ready(function() {
 		$("tr").click(function() {
 			var line_id = $(this).find("td:eq(0)").text();

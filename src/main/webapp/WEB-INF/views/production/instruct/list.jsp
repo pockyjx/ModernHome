@@ -142,38 +142,16 @@
 			}
 		});
 	}
+	
+	// 작업지시 코드 선택 시 팝업창 열기
+	function infoPopup(workId, proId) {
+		window.open('/production/instruct/info?work_id=' + workId + '&pro_id=' + proId, 'popup', 
+			'width=500, height=600, top=300, left=650, location=no, status=no');
+	}
 </script>
 <style>
 .selected {
 	background-color: #b3ccff;
-}
-
-.modal {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	display: none;
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal.show {
-	display: block;
-}
-
-.modal_body {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 400px;
-	height: 600px;
-	padding: 40px;
-	text-align: center;
-	background-color: rgb(255, 255, 255);
-	border-radius: 10px;
-	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-	transform: translateX(-50%) translateY(-50%);
 }
 </style>
 
@@ -181,7 +159,7 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">작업상태</label>
 		<div class="col-sm-10">
-			<label><input type="checkbox" name="work_state" value="대기"  class="form-check-input"
+			<label><input type="checkbox" name="work_state" value="대기" class="form-check-input"
 				${param.work_state == '대기' ? 'checked' : ''} onclick="handleCheckbox(this, '대기')"> 대기</label>
 			<label><input type="checkbox" name="work_state" value="진행중"  class="form-check-input"
 				${param.work_state == '진행중' ? 'checked' : ''} onclick="handleCheckbox(this, '진행중')"> 진행중</label>
@@ -238,11 +216,11 @@
 			<th>납품예정일</th>
 			<th>담당자</th>
 		</tr>
-<%-- 		/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id} --%>
-		<c:forEach var="list" items="${instrList}" varStatus="status">
+		
+		<c:forEach var="list" items="${instrList}" varStatus="no">
 			<tr>
 				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}" class="form-check-input"></td>
-				<td><button id="btnModalOpen" class="text-primary" style="border: none; background: transparent;" >${list.work_num}</button></td>
+				<td><span onclick="infoPopup('${list.work_id}', '${list.pro_id}');" class="text-primary">${list.work_num}</span></td>
 				<td>${list.line_num}</td>
 				<td>${list.pro_num}</td>
 				<td>${list.pro_name}</td>
@@ -295,22 +273,5 @@
  	</ul>
 </nav>
 <!-- 페이지 이동 버튼 -->
-
-<!-- 작업지시서 모달창 -->
-<div id="instrModal" style="dispaly: none;">
-	<div id="modalBody">냉무</div>
-</div>
-<!-- 작업지시서 모달창 -->
-
-<!-- 모달창 script -->
-<script>
-	const modal = document.getElementById("#instrModal");
-	const btnOpenPopup = document.getElementById('.btnModalOpen');
-	
-	btnOpenPopup.addEventListener("click", function() {
-		modal.style.display = 'block';
-	});
-</script>
-<!-- 모달창 script -->
 	
 <%@ include file="../../inc/footer.jsp"%>
