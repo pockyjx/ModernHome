@@ -248,49 +248,49 @@
     }
 </style>
 
-		<form name="search" method="get" class="bg-light rounded p-3 m-3">
+<form name="search" method="get" class="bg-light rounded p-3 m-3">
+
+	<div class="row mb-3">
+		<label for="mr_numSearch" class="col-sm-2 col-form-label"><b>출고코드</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="mr_numSearch" class="form-control" placeholder="출고코드를 입력하세요" value="${mr_num }">
+		</div>
+	</div>
+	
+	<div class="row mb-3">
+		<label for="ma_nameSearch" class="col-sm-2 col-form-label"><b>품목명</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="ma_nameSearch" class="form-control" placeholder="제품명을 입력하세요" value="${ma_name}"> <br>
+		</div>
+	</div>
+	
+	<div class="row mb-3">
+		<label for="" class="col-sm-2 col-form-label"><b>출고일자</b></label>
 		
-			<div class="row mb-3">
-				<label for="mr_numSearch" class="col-sm-2 col-form-label"><b>출고코드</b></label>
-				<div class="col-sm-4">
-					<input type="text" name="mr_numSearch" class="form-control" placeholder="출고코드를 입력하세요" value="${mr_num }">
-				</div>
+		<div class="col-sm-2">
+			<div class="col-auto">
+				<input type="datetime-local" name="startDate" class="form-control">
 			</div>
-			
-			<div class="row mb-3">
-				<label for="ma_nameSearch" class="col-sm-2 col-form-label"><b>품목명</b></label>
-				<div class="col-sm-4">
-					<input type="text" name="ma_nameSearch" class="form-control" placeholder="제품명을 입력하세요" value="${ma_name}"> <br>
-				</div>
-			</div>
-			
-			<div class="row mb-3">
-				<label for="" class="col-sm-2 col-form-label"><b>출고일자</b></label>
-				
-				<div class="col-sm-2">
-					<div class="col-auto">
-						<input type="datetime-local" name="startDate" class="form-control">
-					</div>
-				</div>
-				
-					<div class="col-auto">
-					~
-					</div>
-				
-				<div class="col-sm-2">
-					
-					<div class="col-auto">
-						<input type="datetime-local" name="endDate" class="form-control">
-					</div>
-				</div>
-				
-				<div class="col-auto">
-					<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
-				</div>
-				
-			</div>
-		</form>
+		</div>
 		
+			<div class="col-auto">
+			~
+			</div>
+		
+		<div class="col-sm-2">
+			
+			<div class="col-auto">
+				<input type="datetime-local" name="endDate" class="form-control">
+			</div>
+		</div>
+		
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+		
+	</div>
+</form>
+
 <hr>
 
 
@@ -317,7 +317,7 @@
 
 
 	<div class="table-responsive">
-		<table id="releaseList" class="table table align-middle table-bordered table-hover mb-0">
+		<table id="releaseList" class="table align-middle table-bordered table-hover mb-0">
 				<tr class="text-dark">
 					<th scope="col" style="background-color: rgba(0,0,0,0.075);"><input class="form-check-input" type="checkbox" id="cbx_chkAll"></th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고코드</th>

@@ -152,13 +152,14 @@
 			
 			// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 			row.find("td:not(:first-child)").each(function(index) {
-				//
-				var cellValue = $(this).text();
-				var cellOption = "";
 				
+				var cellValue = $(this).text();
+
 				if(index == 9) {
 					cellValue = ${sessionScope.emp_id}
 				}
+				
+				var cellOption = "";
 				
 				if(index == 0 || index == 9) {
 					cellOption = "readonly";
@@ -171,12 +172,22 @@
 				
 				var cellType = index === 6 ? "number" : "text";
 				
-			
-				
 				var cellName = cellNames[index];
 				var cellId = cellIds[index];
+				var cellContent;
 				
-				$(this).html('<input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control">');
+				var originalValue = row.find(".original-value").val();
+				
+				// 첫 행 링크 유지
+				if(index === 1) {
+					return;
+				}else {
+					cellContent = 
+						'<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control"></td>';
+				}
+				
+// 				$(this).html('<input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control">');
+				$(this).html(cellContent);
 				
 				$("#updateButton").attr("disabled", "disabled");
 				$("#addRowButton").attr("disabled", "disabled");
@@ -301,8 +312,8 @@
 //     	alert(pro_id);
     	 
     	var left = (screen.width - 600) / 2;
- 		var top = (screen.height - 300) / 2;
-    	window.open('/info/req/BOM?pro_id='+pro_id+'', 'popup', 'width=600, height=300, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+ 		var top = (screen.height - 400) / 2;
+    	window.open('/info/req/BOM?pro_id='+pro_id+'', 'popup', 'width=600, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
     	 
       });
       
@@ -310,17 +321,17 @@
          
     // 완제품 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='pro_num']", function() {
-    	var left = (screen.width - 500) / 2;
-		var top = (screen.height - 500) / 2;
-    	window.open('/info/req/addPopup?txt=pro', 'popup', 'width=500, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+    	var left = (screen.width - 580) / 2;
+		var top = (screen.height - 680) / 2;
+    	window.open('/info/req/addPopup?txt=pro', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
    		
     });
     
     // 자재 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='ma_num']", function() {
-    	var left = (screen.width - 500) / 2;
-		var top = (screen.height - 500) / 2;
- 	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=500, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+    	var left = (screen.width - 580) / 2;
+		var top = (screen.height - 680) / 2;
+ 	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
     });
     
 
