@@ -46,6 +46,7 @@ public class LineController {
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
 		if(lvo.getLine_num()!= null || lvo.getLine_name() != null || lvo.getUse_yn() != null) {
 			logger.debug("검색어 O, 검색된 데이터만 출력" + lvo);
+			
 			// 서비스 -> 라인목록 가져오기
 			List<LineVO> lineList = lineService.getLineListSearch(lvo);
 			
@@ -55,10 +56,10 @@ public class LineController {
 			// 검색 정보 전달
 			model.addAttribute("livo",lvo);
 			
-			
 		}else {
 			
 			logger.debug("검색어 X, 전체 데이터 출력 " + lvo);
+			
 			// 서비스 -> 라인목록 가져오기
 			List<LineVO> lineList = lineService.getLineList();
 			

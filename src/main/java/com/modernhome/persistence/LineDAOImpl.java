@@ -34,15 +34,19 @@ public class LineDAOImpl implements LineDAO {
 		
 		return sqlSession.selectList(NAMESPACE + ".getLineList");
 	}
-	
-	// 라인 조회 + 검색
+
+	// 라인 조회 + 검색(페이징)
 	@Override
 	public List<LineVO> getLineListSearch(LineVO lvo) throws Exception{
 		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회 - 검색된 데이터만 출력)");
 
+//		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+//		paramMap.put("livo", lvo);
+//		paramMap.put("pageVO", pvo);
+//		
 		return sqlSession.selectList(NAMESPACE +  ".getLineListSearch");
 	}
-	
+
 	// 라인 등록
 	@Override
 	public void regLine(LineVO lvo) throws Exception {
@@ -78,4 +82,5 @@ public class LineDAOImpl implements LineDAO {
 	}
 
 
-}
+
+} // LineDAOImpl

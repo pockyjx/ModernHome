@@ -29,7 +29,7 @@ public class LineServiceImpl implements LineService {
 	public List<LineVO> getLineListSearch(LineVO lvo) throws Exception {
 		return dao.getLineListSearch(lvo);
 	}
-	
+
 	// 라인등록
 	@Override
 	public void regLine(LineVO lvo) throws Exception {

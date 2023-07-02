@@ -2,6 +2,8 @@ package com.modernhome.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,8 +160,40 @@ public class QualityController {
 	}
 	
 
-	
-	
+	// http://localhost:8088/production/quality/factoryInspection
+	// 출고 검사 목록 출력
+	@RequestMapping(value = "/quality/fiList", method = RequestMethod.GET)
+	public void fiGET(Model model,
+			@ModelAttribute(value = "fi_type") String fi_type,
+			@ModelAttribute(value = "namesearch") String namesearch,
+			@ModelAttribute(value = "startDate") String startDate,
+			@ModelAttribute(value = "endDate") String endDate) throws Exception {
+		
+		logger.debug("getFIList() 호출 ");
+		
+		if(!fi_type.isEmpty() || !namesearch.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty()) {
+			
+			logger.debug("검색어 O, 검색된 데이터만 출력");
+			
+			List<WijoinVO> fiList = qService.getFISearch(fi_type, namesearch, startDate, endDate);
+			
+			model.addAttribute("fiList",fiList);
+			
+			// 검색 정보 전달
+			model.addAttribute("fi_type",fi_type);
+			model.addAttribute("namesearch",namesearch);
+			model.addAttribute("startDate",startDate);
+			model.addAttribute("endDate",endDate);
+			
+		}else {
+			
+			logger.debug("검색어 X, 전체 데이터 출력");
+			
+			List<WijoinVO> fiList = qService.getFIList();
+			model.addAttribute("fiList",fiList);
+		}
+		
+	}
 	
 	
 } // Controller

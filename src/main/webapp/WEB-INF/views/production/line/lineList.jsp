@@ -92,6 +92,7 @@
 				row.find("td:not(:first-child)").each(function(index) {
 					var cellValue = $(this).find("input").val();
 					var cellValueSelect = $(this).find("select").val();
+					
 					$(this).html(cellValue);
 					$(this).html(cellValueSelect);
 				});
@@ -253,8 +254,42 @@
 			$("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 		} // 체크박스 선택 시 체크박스 개수 구하기
 		
+		// submit버튼 유효성
+		$("#submitButton").click(function() {
+			
+			var form = $("#lineList");
+			form.attr("method", "post");
+			form.attr("action", "/production/line/regLine");
+			
+			var line_name = $("#line_name").val();
+			var use_yn = $("use_yn").val();
+			
+			if(pageStatus == "reg"){
+				if(line_name == null || line_name == ""){
+					$("#line_name").focus();
+					alert("라인명을 입력하세요!");
+					return;
+				}
+				if(use_yn == null || use_yn == ""){
+					$("#use_yn").focus();
+					alert("사용여부를 입력하세요!");
+					return;
+				}
+			}
+			
+// 			if(pageStatus == "update"){
+// 				if(use_yn == null || use_yn == ""){
+// 					$("use_yn").focus();
+// 					alert("사용여부를 입력하세요!");
+// 					return;
+// 				}
+// 			}
+			
+			form.submit();
+		}); // submit버튼 유효성
+		
 	});
-	
+
 	function updateButton(lineId, useYn) {
 		var url = "/production/line/popup?line_id=" + lineId + "&use_yn=" + useYn;
 		window.open(url, 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
@@ -266,7 +301,7 @@
 		background-color: #b3ccff; 
 	} 
 </style>
-	
+
 </head>
 <body>
 	
@@ -295,6 +330,7 @@
 			</div>
 		</div>
 	</form>
+
 	
 	<form>
 		<div class="d-flex align-items-center justify-content-between mb-2">
@@ -308,7 +344,9 @@
 <!-- 						<i class="fa fa-edit"></i> 수정</button> -->
 					<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteLineButton" formaction="deleteLine" formmethod="post">
 						<i class="fa fa-trash"></i> 삭제</button>
-					<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regLine" formmethod="post" disabled="disabled">
+<!-- 					<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regLine" formmethod="post" disabled="disabled"> -->
+<!-- 						<i class="fa fa-download"></i> 저장</button> -->
+					<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" disabled>
 						<i class="fa fa-download"></i> 저장</button>
 				</c:if>
 			</div>

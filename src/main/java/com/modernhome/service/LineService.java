@@ -7,11 +7,11 @@ import com.modernhome.domain.LineVO;
 import com.modernhome.domain.PageVO;
 
 public interface LineService {
-	
-	// 라인 목록 출력
+
+	// 라인 목록 출력 (페이징)
 	public List<LineVO> getLineList() throws Exception;
 	
-	// 라인조회 + 검색
+	// 라인조회 + 검색 (페이징)
 	public List<LineVO> getLineListSearch(LineVO lvo) throws Exception;
 	
 	// 라인등록
@@ -26,4 +26,4 @@ public interface LineService {
 	// 라인 수정 정보 저장
 	public void regLineShutdown(LineShutdownVO lsvo) throws Exception;
 	
-}
+} // LineService

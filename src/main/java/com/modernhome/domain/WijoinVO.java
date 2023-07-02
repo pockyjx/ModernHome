@@ -58,6 +58,13 @@ public class WijoinVO {
 	private String df_rsns;
 	private String solved_date;
 	
+	private Integer shp_id;
+	private String shp_num;
+	private Integer shp_cnt;
+	private Integer mr_id;
+	private Integer mr_cnt;
+	private String fi_type;
+	
 	public Integer getWork_id() {
 		return work_id;
 	}
@@ -364,6 +371,42 @@ public class WijoinVO {
 	public void setSolved_date(String solved_date) {
 		this.solved_date = solved_date;
 	}
+	public Integer getShp_id() {
+		return shp_id;
+	}
+	public void setShp_id(Integer shp_id) {
+		this.shp_id = shp_id;
+	}
+	public String getShp_num() {
+		return shp_num;
+	}
+	public void setShp_num(String shp_num) {
+		this.shp_num = shp_num;
+	}
+	public Integer getShp_cnt() {
+		return shp_cnt;
+	}
+	public void setShp_cnt(Integer shp_cnt) {
+		this.shp_cnt = shp_cnt;
+	}
+	public Integer getMr_id() {
+		return mr_id;
+	}
+	public void setMr_id(Integer mr_id) {
+		this.mr_id = mr_id;
+	}
+	public Integer getMr_cnt() {
+		return mr_cnt;
+	}
+	public void setMr_cnt(Integer mr_cnt) {
+		this.mr_cnt = mr_cnt;
+	}
+	public String getFi_type() {
+		return fi_type;
+	}
+	public void setFi_type(String fi_type) {
+		this.fi_type = fi_type;
+	}
 	
 	@Override
 	public String toString() {
@@ -380,8 +423,8 @@ public class WijoinVO {
 				+ rec_num + ", rec_id=" + rec_id + ", rec_in_state=" + rec_in_state + ", rec_date=" + rec_date
 				+ ", prfrm_num=" + prfrm_num + ", gb_yn=" + gb_yn + ", df_id=" + df_id + ", df_num=" + df_num
 				+ ", df_type=" + df_type + ", repair_yn=" + repair_yn + ", df_cnt=" + df_cnt + ", df_rsns=" + df_rsns
-				+ ", solved_date=" + solved_date + "]";
+				+ ", solved_date=" + solved_date + ", shp_id=" + shp_id + ", shp_num=" + shp_num + ", shp_cnt="
+				+ shp_cnt + ", mr_id=" + mr_id + ", mr_cnt=" + mr_cnt + ", fi_type=" + fi_type + "]";
 	}
-	
 	
 }
