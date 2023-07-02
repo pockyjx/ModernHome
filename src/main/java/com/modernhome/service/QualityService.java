@@ -42,5 +42,17 @@ public interface QualityService {
 	// 
 	public void addQC(WijoinVO wvo) throws Exception;
 	
+	// 품질검사(자재)에서 불량개수가 0이면 입고완료로 변경
+	public void modifyRec(WijoinVO wvo) throws Exception;
+	
+	/////////////////////////////////////////////////////////////////////////////////////////
+	
+	// 출고검사 목록 조회
+	public List<WijoinVO> getFIList() throws Exception;
+	
+	// 출고검사 검색 결과
+	public List<WijoinVO> getFISearch(String fi_type, String namesearch, String startDate, String endDate) throws Exception;
+	
+	
 	
 }// QualityService

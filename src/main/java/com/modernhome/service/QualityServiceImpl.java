@@ -86,9 +86,26 @@ public class QualityServiceImpl implements QualityService{
 		qdao.addQC(wvo);
 		
 	}
+	
+	// 품질검사(자재)에서 불량개수가 0이면 입고완료로 변경
+	@Override
+	public void modifyRec(WijoinVO wvo) throws Exception {
+		qdao.modifyRec(wvo);
+		
+	}
 
+	// 출고검사 목록 조회
+	@Override
+	public List<WijoinVO> getFIList() throws Exception {
+		return qdao.getFIList();
+	}
 
-
+	// 출고검사 검색 결과
+	@Override
+	public List<WijoinVO> getFISearch(String fi_type, String namesearch, String startDate, String endDate)
+			throws Exception {
+		return qdao.getFISearch(fi_type,namesearch,startDate,endDate);
+	}
 
 
 

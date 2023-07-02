@@ -139,6 +139,37 @@ public class QualityDAOImpl implements QualityDAO{
 		sqlSession.insert(NAMESPACE+".addQC",wvo);
 		
 	}
+	
+	// 품질검사(자재)에서 불량개수가 0이면 입고완료로 변경
+	@Override
+	public void modifyRec(WijoinVO wvo) throws Exception {
+		logger.debug("QualityDAOImpl_modifyRec() 실행"); 
+		
+		sqlSession.insert(NAMESPACE+".modifyRec",wvo);
+	}
+
+	// 출고검사 목록 조회
+	@Override
+	public List<WijoinVO> getFIList() throws Exception {
+		logger.debug("QualityDAOImpl_getFIList 실행");
+		return sqlSession.selectList(NAMESPACE+".getFIList");
+	}
+
+	// 출고검사 목록 조회 + 검색 결과
+	@Override
+	public List<WijoinVO> getFISearch(String fi_type, String namesearch, String startDate, String endDate)
+			throws Exception {
+		
+		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("fi_type", fi_type);
+		parameterMap.put("namesearch", namesearch);
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		
+		return sqlSession.selectList(NAMESPACE+".getFISearch",parameterMap);
+	}
+
+
 
 
 
