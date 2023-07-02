@@ -10,12 +10,6 @@
             font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
     </style>
-    <style>
-    	.rowrow {
-    		margin-left:3rem;
-    		margin-top: 3.5rem;
-    	}	
-    </style>	
 <link href="/resources/img/favicon.ico" rel="icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
@@ -66,16 +60,16 @@
 	<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
 		<table border="1" class="table-inorderList table align-middle table-bordered table-hover mb-0">
 			<tr>
-				<th style="background-color: rgba(0,0,0,0.075);">자재id</th>
-				<th style="background-color: rgba(0,0,0,0.075);">자재코드</th>
-				<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재id</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재코드</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재명</th>
 			</tr>
 			
 			<c:forEach items="${popUpMate }" var="vo">
 			<tr>
-				<td>${vo.ma_id }</td>
-				<td>${vo.ma_num }</td>
-				<td>${vo.ma_name }</td>
+				<td style="text-align: center;">${vo.ma_id }</td>
+				<td style="text-align: center;">${vo.ma_num }</td>
+				<td style="text-align: center;">${vo.ma_name }</td>
 			</tr>
 			</c:forEach>
 		</table>

@@ -211,9 +211,9 @@
 		
 	// 발주 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click", "input[id='io_num']", function() {
-		var left = (screen.width - 600) / 2;
-		var top = (screen.height - 500) / 2;
-		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=600, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+		var left = (screen.width - 580) / 2;
+		var top = (screen.height - 670) / 2;
+		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=580, height=670, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 		});
 		
 </script>
