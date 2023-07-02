@@ -11,23 +11,11 @@
         }
     </style>
     <style>
-    	.form-form {
-		    display: flex;
-		    justify-content: center;
-		    width: 100%;
-		    padding: 0.375rem 0.75rem;
-		    font-size: 1rem;
-		    font-weight: 400;
-		    line-height: 1.5;
-		    color: #757575;
-		    background-color: #fff;
-		    background-clip: padding-box;
-		    border: 1px solid #ced4da;
-		    appearance: none;
-		    border-radius: 5px;
-		    transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
-    	}
-    </style>
+    	.rowrow {
+    		margin-left:3rem;
+    		margin-top: 3.5rem;
+    	}	
+    </style>	
 <link href="/resources/img/favicon.ico" rel="icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
@@ -56,25 +44,31 @@
 		});
 	});
 </script>
-<form action="" method="GET">
-	<h3 class="m-4" style="text-align: center;">자재 목록</h3>
-	<div class="d-flex align-items-center justify-content-between mb-2">
-		<div>
-			<input type="hidden" name="txt" value="ma">
-			<input type="hidden" name="ma_num" value="">
-			
-			<input type="text" placeholder="자재명을 입력하세요" name="ma_name" value="${mvo.ma_name }" class="form-form">
-			<input type="submit" value="검색">
-		</div>
-	</div>	
-</form>
 	
-	<div class="bg-light text-center rounded p-4 m-5">
+	<h3 class="m-4" style="text-align: center;">자재 목록</h3>
+	
+	<form action="" method="GET">
+		<div class="row row" style="margin-left:3rem; margin-top: 3rem;">
+				<input type="hidden" name="txt" value="ma">
+				<input type="hidden" name="ma_num" value="">
+				
+			<div class="col-sm-4">
+				<input type="text" placeholder="자재명을 입력하세요" name="ma_name" value="${mvo.ma_name }" class="form-control">
+			</div>
+								
+			<div class="col-auto">
+				<button class="btn btn-primary m-3" type="submit" style="width:60px;">검색</button>
+			</div>
+					
+		</div>
+	</form>
+	
+	<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
 		<table border="1" class="table-inorderList table align-middle table-bordered table-hover mb-0">
 			<tr>
-				<th>자재id</th>
-				<th>자재코드</th>
-				<th>자재명</th>
+				<th style="background-color: rgba(0,0,0,0.075);">자재id</th>
+				<th style="background-color: rgba(0,0,0,0.075);">자재코드</th>
+				<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
 			</tr>
 			
 			<c:forEach items="${popUpMate }" var="vo">
