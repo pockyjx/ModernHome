@@ -77,10 +77,6 @@ $(document).ready(function() {
 		'<td><input type="checkbox"></td>' +
 		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
 		
-		
-		// 완제품가격
-
-		
 		'<td><input type="text" name="emp_id" value="' + '${sessionScope.emp_id}' + '" readonly></td>' +
 		'<td><input type="text" name="clt_num" id="clt_num" readonly></td>' +
 		'<td><input type="text" name="clt_name" id="clt_name" readonly placeholder="거래처코드를 선택해주세요"></td>' +
@@ -207,9 +203,15 @@ $(document).ready(function() {
 		
 		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 		if (selectedCheckbox.length === 1) {
-			var empId = selectedCheckbox.val();
+			var oo_num = selectedCheckbox.val();
 			var row = selectedCheckbox.closest("tr");
 			
+			
+			// oo_num 값을 넘기기 위해 히든에 추가함
+			var ooNumInput = '<input type="hidden" name="oo_num" value="' + oo_num + '">';
+			$(this).closest("form").append(ooNumInput);
+	        
+	        
 			// input type의 name 값 지정
 			var cellNames = [
 	            "oo_num",
@@ -238,6 +240,8 @@ $(document).ready(function() {
 				var cellName = cellNames[index];
 				var cellDisabled = [2, 4, 11].includes(index)? "disabled" : "";
 				var cellContent;
+				
+				var originalValue = row.find(".original-value").val();
 				
 				// 첫행 링크(a태그) 유지하기위해 적어둔 것
 				if (index === 0){
@@ -547,13 +551,26 @@ function updateCltCost() {
 			<td>${outOrderList.pro_name}</td>
 			<td>${outOrderList.pro_price}</td>
 			<td>${outOrderList.oo_cnt}</td>
+
+
+
+<%-- 			<c:choose> --%>
+<%-- 				<c:when test="${outOrderList.clt_cost >= 10000}"> --%>
+<%-- 					<td><fmt:formatNumber value="${outOrderList.clt_cost div 10000}" pattern="#,##0.#" />만</td> --%>
+<%-- 				</c:when> --%>
+<%-- 				<c:otherwise> --%>
 			<td>${outOrderList.clt_cost}</td>
+			
+<%-- 				</c:otherwise> --%>
+<%-- 			</c:choose> --%>
+
+
 			<td>${fn:substring(outOrderList.oo_start_date, 0, 10)}</td>
 			<td>${fn:substring(outOrderList.oo_end_date, 0, 10)}</td>
 			<td>${outOrderList.oo_state}</td>
 			<td>${fn:substring(outOrderList.oo_reg_date, 0, 10)}</td>
 		</tr>
-		
+		<input type="hidden" class="original-value" value="${outOrderList.clt_cost}" />
 			
 		</c:forEach>
 	</table>
