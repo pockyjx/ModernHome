@@ -14,15 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.modernhome.domain.ClientVO;
-import com.modernhome.domain.EmployeeVO;
-import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.OutOrderJoinVO;
+import com.modernhome.domain.OutOrderResultVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductVO;
-import com.modernhome.domain.ReqJoinVO;
 import com.modernhome.domain.ShipmentJoinVO;
 import com.modernhome.domain.ShipmentVO;
 import com.modernhome.service.ClientService;
@@ -223,6 +222,36 @@ public class ClientController {
 		
 		return "redirect:/client/outOrderList";
 	}
+	
+	
+	
+	
+	// 수주 실적(월별 수주 건수, 월별 수주 금액)
+	// http://localhost:8088/client/outOrderResult
+	@RequestMapping(value = "/outOrderResult")
+	public void outOrderResult(Model model) throws Exception {
+		
+		logger.debug("outOrderResult()호출 (수주 실적)");
+		
+		
+		List<OutOrderResultVO> monthlyOrderResult = oService.monthlyOrderResult();
+		
+		logger.debug("월별 수주 실적 : " + monthlyOrderResult);
+		
+		// ObjectMapper를 사용하여 List<OutOrderResultVO>를 JSON 문자열로 변환
+		ObjectMapper objectMapper = new ObjectMapper();
+		String monthlyOrderResultJson = objectMapper.writeValueAsString(monthlyOrderResult);
+		
+		// 모델 객체에 추가
+		model.addAttribute("monthlyOrderResult", monthlyOrderResultJson);
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

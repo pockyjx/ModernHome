@@ -3,6 +3,7 @@ package com.modernhome.service;
 import java.util.List;
 
 import com.modernhome.domain.OutOrderJoinVO;
+import com.modernhome.domain.OutOrderResultVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.PageVO;
 
@@ -37,8 +38,20 @@ public interface OutOrderService {
 	public void updateOutOrder(OutOrderVO ovo);
 	
 	
+	
+	
+	
+	
+	
+	
+	
 	// 수주서
 	public OutOrderJoinVO outOrderContract(String oo_num);
+	
+	
+	// 월별 수주 실적
+	public List<OutOrderResultVO> monthlyOrderResult();
+	
 }
 
 	
