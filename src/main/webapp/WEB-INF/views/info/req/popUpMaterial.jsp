@@ -10,12 +10,15 @@
             font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
     </style>
+
 <link href="/resources/img/favicon.ico" rel="icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 <link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
+
+<title>자재 팝업</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -37,25 +40,32 @@
 	});
 </script>
 
-</head>
-<body>
 
-	<h3>자재</h3>
+	<h3 class="m-4" style="text-align: center;">자재 목록</h3>
 	
 	<form action="" method="GET">
-		<input type="hidden" name="txt" value="ma">
-		<input type="hidden" name="ma_num" value="">
+		<div class="row row" style="margin-left:3rem; margin-top: 3rem;">
+			<input type="hidden" name="txt" value="ma">
+			<input type="hidden" name="ma_num" value="">
+			
+			<div class="col-sm-4">
+				<input type="text" placeholder="자재명을 입력하세요." name="ma_name" value="${mvo.ma_name }" class="form-control">
+			</div>
+				
+			<div class="col-auto">
+				<button class="btn btn-primary m-3" type="submit" style="width:60px;">검색</button>
+			</div>
 		
-		<input type="text" placeholder="자재명을 입력하세요." name="ma_name" value="${mvo.ma_name }">
-		<input type="submit" value="검색">
+		</div>
 	</form>	
 	
-	<table border="1">
+	<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
+		<table border="1" class="table align-middle table-bordered table-hover mb-0">
 	
 		<tr>
-			<th>자재 id</th>
-			<th>자재 코드</th>
-			<th>자재명</th>
+			<th style="background-color: rgba(0,0,0,0.075);">자재 id</th>
+			<th style="background-color: rgba(0,0,0,0.075);">자재 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
 		</tr>
 		
 		<c:forEach items="${popUpMate }" var="vo">
@@ -66,7 +76,8 @@
 		</tr>
 		</c:forEach>
 		
-	</table>
+		</table>
+	</div>
 	
 	<br>
 	
@@ -103,6 +114,3 @@
 	</nav>
 	
 	<!-- 페이징 버튼 -->
-
-</body>
-</html>

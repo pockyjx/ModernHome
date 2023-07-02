@@ -226,70 +226,87 @@
         background-color: #b3ccff;
     }
 </style>
-<h1>ProductRelease</h1>
 
-<div class="col-sm-12 col-xl-6">
-	<div class="bg-light rounded h-100 p-4">
-		<h6 class="mb-4">제품출고관리</h6>
-		<form name="search" method="post">
-			<div class="row mb-3">
-				<label for="pro_nameSearch" class="col-sm-2 col-form-label">출고코드</label>
-				<div class="col-sm-10">
-					<input type="text" name="pr_numSearch" class="form-control" placeholder="출고코드를 입력하세요" value="${pr_numSearch }">
-				</div>
-			</div>
-			<div class="row mb-3">
-				<label for="pro_nameSearch" class="col-sm-2 col-form-label">품목명</label>
-				<div class="col-sm-10">
-					<input type="text" name="pro_nameSearch" class="form-control" placeholder="제품명을 입력하세요" value="${pro_nameSearch }"> <br>
-				</div>
-			</div>
-			<div class="row mb-3">
-				<label for="" class="col-sm-2 col-form-label">출고일자 : </label>
-				<div class="col-sm-10">
-					<input type="datetime-local" name="startDate" class="form-control" value="${startDate }"> ~ 
-					<input type="datetime-local" name="endDate" class="form-control" value="${endDate }">
-				</div>
-			</div>
-			<button type="submit" class="btn btn-primary">조회</button>
-		</form>
+<form name="search" method="get" class="bg-light rounded p-3 m-3">
+	
+	<div class="row mb-3">
+		<label for="pro_nameSearch" class="col-sm-2 col-form-label"><b>출고코드</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="pr_numSearch" class="form-control" placeholder="출고코드를 입력하세요" value="${pr_numSearch }">
+		</div>
 	</div>
-</div>
+	
+	<div class="row mb-3">
+		<label for="pro_nameSearch" class="col-sm-2 col-form-label"><b>품목명</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="pro_nameSearch" class="form-control" placeholder="제품명을 입력하세요" value="${pro_nameSearch }"> <br>
+		</div>
+	</div>
+	
+	<div class="row mb-3">
+		<label for="" class="col-sm-2 col-form-label"><b>출고일자</b></label>
+		
+		<div class="col-sm-2">
+			<div class="col-auto">
+				<input type="datetime-local" name="startDate" class="form-control" value="${startDate }">
+			</div>
+		</div>
+			
+			<div class="col-auto">
+   				~
+			</div>
+			
+		<div class="col-sm-2">
+			<div class="col-auto">
+				<input type="datetime-local" name="endDate" class="form-control" value="${endDate }">
+			</div>
+		</div>
+		
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>	
+	
+	</div>
+</form>
 
+<hr>
 
-<span id="selectedCheckboxCount">0</span><br>
-
-<h6 class="mb-0">제품출고</h6>
 <form id="productRelease" name="release">
-<c:if test="${sessionScope.emp_dept eq '자재'}">
-<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/release/delPRRelease" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
-<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/release/regPRRelease" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
-</c:if>
-<!-- <button class="btn btn-primary m-2" id="submitButton" disabled><i class="fa fa-download"></i> 저장</button> -->
-<%-- ${prReleaseList} --%>
 
-<div class="bg-light text-center rounded p-4">
-	<div class="d-flex align-items-center justify-content-between mb-4">
-
+	<div class="d-flex align-items-center justify-content-between mb-2">
+		<h3 class="mb-4">제품출고</h3>
+		<div>
+			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3' }">
+				<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+				<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+				<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/release/delPRRelease" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+				<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/release/regPRRelease" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			</c:if>
+		</div>
 	</div>
+
+	<div class="bg-light text-center rounded p-4 m-3">
+
+		<div class="d-flex align-items-center justify-content-between mb-4">
+			<span id="selectedCheckboxCount">0</span>
+		</div>
+
 	<div class="table-responsive">
-		<table id="releaseList" class="table text-start align-middle table-bordered table-hover mb-0">
+		<table id="releaseList" class="table align-middle table-bordered table-hover mb-0">
 				<tr class="text-dark">
-					<th scope="col"><input class="form-check-input"	type="checkbox" id="cbx_chkAll"></th>
-			    	<th scope="col">출고코드</th>
-			    	<th scope="col">수주코드</th>
-			    	<th scope="col">납품처명</th>
-			    	<th scope="col">완제품명</th>
-			    	<th scope="col">주문수량</th>
-			    	<th scope="col">현 재고</th>
-			    	<th scope="col">창고명</th>
-			    	<th scope="col">납기일자</th>
-			    	<th scope="col">진행현황</th>
-			    	<th scope="col">담당자</th>
-			    	<th scope="col">출고일자</th>
-			    	<th scope="col">출고처리</th>
+					<th scope="col" style="background-color: rgba(0,0,0,0.075);"><input class="form-check-input"	type="checkbox" id="cbx_chkAll"></th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고코드</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">수주코드</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">납품처명</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">완제품명</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">주문수량</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">현 재고</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">창고명</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">납기일자</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">진행현황</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">담당자</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고일자</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고처리</th>
 			    	<th scope="col" style="display: none">pro_id</th>
 <!-- 			    	<th scope="col" style="display: none">pro_id</th> -->
 				</tr>

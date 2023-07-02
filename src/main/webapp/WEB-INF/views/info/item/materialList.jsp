@@ -258,19 +258,19 @@ $("#deleteButton").click(function(){
 	<form action="" method="GET" class="bg-light rounded p-3 m-3">
 	
 		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">자재코드</label>
-			<div class="col-sm-5">
+			<label class="col-sm-2 col-form-label"><b>자재코드</b></label>
+			<div class="col-sm-4">
 				<input type="text" name="ma_num" value="${mvo.ma_num }" class="form-control">
 			</div>
 		</div>
 		
 		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">자재명</label>
-			<div class="col-sm-5">
+			<label class="col-sm-2 col-form-label"><b>자재명</b></label>
+			<div class="col-sm-4">
 				<input type="text" name="ma_name" value="${mvo.ma_name }" class="form-control">
 			</div>
 			<div class="col-auto">
-				<button class="btn btn-primary m-2" type="submit" style="margin-left:200%;">조회</button>
+				<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
 			</div>
 		</div>		
 	
