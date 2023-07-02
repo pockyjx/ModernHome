@@ -407,9 +407,9 @@
 		
        // 자재 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='ma_num']", function() {
-			var left = (screen.width - 600) / 2;
-			var top = (screen.height - 500) / 2;
-			window.open('/wms/inorder/addPopup?txt=ma', 'popup', 'width=600, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+			var left = (screen.width - 580) / 2;
+			var top = (screen.height - 680) / 2;
+			window.open('/wms/inorder/addPopup?txt=ma', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 			});
 	
 </script>
