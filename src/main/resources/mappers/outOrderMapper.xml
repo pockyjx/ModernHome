@@ -173,4 +173,17 @@
 	<!-- 수주서 -->
 	
 	
+	
+	
+	<!-- 월별 수주건수, 금액 계산 -->
+	<select id="monthlyOrderResult" resultType="com.modernhome.domain.OutOrderResultVO">
+		SELECT DATE_FORMAT(oo_start_date, '%Y-%m') AS month,
+		COUNT(*) monthlyOrderCount, SUM(clt_cost) AS monthlyOrderAmount
+		FROM out_order
+		GROUP BY DATE_FORMAT(oo_start_date, '%Y-%m')
+		ORDER BY month;
+	</select>
+	<!-- 월별 수주건수, 금액 계산 -->
+	
+	
 </mapper>

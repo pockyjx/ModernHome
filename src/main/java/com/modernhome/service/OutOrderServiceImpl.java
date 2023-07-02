@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.OutOrderJoinVO;
+import com.modernhome.domain.OutOrderResultVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.PageVO;
 import com.modernhome.persistence.OutOrderDAO;
@@ -82,14 +83,23 @@ public class OutOrderServiceImpl implements OutOrderService {
 
 	
 	
+	
+	
+	
+	
 	// 수주서
 	@Override
 	public OutOrderJoinVO outOrderContract(String oo_num) {
 		return oDAO.outOrderContract(oo_num);
 	}
-	
-	
-	
 
+
+	// 월별 수주 실적
+	@Override
+	public List<OutOrderResultVO> monthlyOrderResult() {
+		return oDAO.monthlyOrderResult();
+	}
+
+	
 	
 }

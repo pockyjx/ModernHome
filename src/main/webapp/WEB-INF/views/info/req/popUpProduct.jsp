@@ -2,23 +2,23 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link rel="stylesheet" as="style" crossorigin 
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    
+    <style type="text/css">
+        * {
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+    </style>
+
 <link href="/resources/img/favicon.ico" rel="icon">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 <link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
 
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<title>완제품 팝업</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -39,25 +39,31 @@
 	});
 </script>
 
-</head>
-<body>
-
-	<h3>완제품</h3>
+	<h3 class="m-4" style="text-align: center;">완제품 목록</h3>
 	
 	<form action="" method="GET">
-		<input type="hidden" name="txt" value="pro">
-		<input type="hidden" name="pro_num" value="">
-		
-		<input type="text" placeholder="완제품명을 입력하세요." name="pro_name" value="${productVO.pro_name}">
-		<input type="submit" value="검색">
+		<div class="row row" style="margin-left:3rem; margin-top: 3rem;">
+			<input type="hidden" name="txt" value="pro">
+			<input type="hidden" name="pro_num" value="">
+			
+			<div class="col-sm-5">
+				<input type="text" placeholder="완제품명을 입력하세요." name="pro_name" value="${productVO.pro_name}" class="form-control">
+			</div>
+			
+			<div class="col-auto">
+				<button class="btn btn-primary m-3" type="submit" style="width:60px;">검색</button>
+			</div>
+				
+		</div>
 	</form>	
-
-	<table border="1">
+	
+<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
+	<table border="1" class="table align-middle table-bordered table-hover mb-0">
 	
 		<tr>
-			<th>완제품 id</th>
-			<th>완제품 코드</th>
-			<th>완제품명</th>
+			<th style="background-color: rgba(0,0,0,0.075);">완제품 id</th>
+			<th style="background-color: rgba(0,0,0,0.075);">완제품 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">완제품명</th>
 		</tr>
 		
 		<c:forEach items="${popUpPro }" var="vo">
@@ -69,6 +75,7 @@
 		</c:forEach>
 	
 	</table>
+</div>
 	
 	<br>
 	
@@ -105,7 +112,4 @@
 	</nav>
 	
 	<!-- 페이징 버튼 -->
-
-</body>
-</html>
 

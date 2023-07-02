@@ -264,19 +264,19 @@
 	<form action="" method="GET" class="bg-light rounded p-3 m-3">
 		
 		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">완제품코드</label>
-			<div class="col-sm-5">
+			<label class="col-sm-2 col-form-label"><b>완제품코드</b></label>
+			<div class="col-sm-4">
 				<input type="text" name="pro_num" value="${productVO.pro_num }" class="form-control">
 			</div>
 		</div>
 		
 		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">완제품명</label>
-			<div class="col-sm-5">
+			<label class="col-sm-2 col-form-label"><b>완제품명</b></label>
+			<div class="col-sm-4">
 				<input type="text" name="pro_name" value="${productVO.pro_name }" class="form-control">
 			</div>
 			<div class="col-auto">
-				<button class="btn btn-primary m-2" type="submit" style="margin-left:200%;">조회</button>
+				<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
 			</div>
 		</div>
 	

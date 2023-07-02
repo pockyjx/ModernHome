@@ -4,6 +4,12 @@
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+
 <script>
 	$(document).ready(function() {
 		updateSelectedCheckboxCount();		
@@ -236,70 +242,95 @@
 	});
 </script>
 
-<h1>materialRelease</h1>
+<style>
+    .selected {
+        background-color: #b3ccff;
+    }
+</style>
+
+<form name="search" method="get" class="bg-light rounded p-3 m-3">
+
+	<div class="row mb-3">
+		<label for="mr_numSearch" class="col-sm-2 col-form-label"><b>출고코드</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="mr_numSearch" class="form-control" placeholder="출고코드를 입력하세요" value="${mr_num }">
+		</div>
+	</div>
+	
+	<div class="row mb-3">
+		<label for="ma_nameSearch" class="col-sm-2 col-form-label"><b>품목명</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="ma_nameSearch" class="form-control" placeholder="제품명을 입력하세요" value="${ma_name}"> <br>
+		</div>
+	</div>
+	
+	<div class="row mb-3">
+		<label for="" class="col-sm-2 col-form-label"><b>출고일자</b></label>
+		
+		<div class="col-sm-2">
+			<div class="col-auto">
+				<input type="datetime-local" name="startDate" class="form-control">
+			</div>
+		</div>
+		
+			<div class="col-auto">
+			~
+			</div>
+		
+		<div class="col-sm-2">
+			
+			<div class="col-auto">
+				<input type="datetime-local" name="endDate" class="form-control">
+			</div>
+		</div>
+		
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+		
+	</div>
+</form>
+
+<hr>
 
 
-<div class="col-sm-12 col-xl-6">
-	<div class="bg-light rounded h-100 p-4">
-		<h6 class="mb-4">제품출고관리</h6>
-		<form name="search" method="post">
-			<div class="row mb-3">
-				<label for="mr_numSearch" class="col-sm-2 col-form-label">출고코드</label>
-				<div class="col-sm-10">
-					<input type="text" name="mr_numSearch" class="form-control" placeholder="출고코드를 입력하세요" value="${mr_num }">
-				</div>
-			</div>
-			<div class="row mb-3">
-				<label for="ma_nameSearch" class="col-sm-2 col-form-label">품목명</label>
-				<div class="col-sm-10">
-					<input type="text" name="ma_nameSearch" class="form-control" placeholder="제품명을 입력하세요" value="${ma_name}"> <br>
-				</div>
-			</div>
-			<div class="row mb-3">
-				<label for="" class="col-sm-2 col-form-label">출고일자 : </label>
-				<div class="col-sm-10">
-					<input type="datetime-local" name="startDate" class="form-control" value="${startDate }"> ~ 
-					<input type="datetime-local" name="endDate" class="form-control" value="${endDate }">
-				</div>
-			</div>
-			<button type="submit" class="btn btn-primary">조회</button>
-		</form>
+<form id="materialRelease" name="release">
+
+<div class="d-flex align-items-center justify-content-between mb-2">
+
+<h3 class="mb-4">자재 출고</h3>
+	<div>
+		<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3' }">
+			<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+			<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+			<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/release/delMTRelease" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+			<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/release/regMTRelease" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+		</c:if>
 	</div>
 </div>
 
+<div class="bg-light text-center rounded p-4 m-3">
 
-<span id="selectedCheckboxCount">0</span><br>
-
-<h6 class="mb-0">자재출고</h6>
-<form id="materialRelease" name="release">
-<c:if test="${sessionScope.emp_dept eq '자재'}">
-<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-<button class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/release/delMTRelease" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
-<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/release/regMTRelease" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
-</c:if>
-<%-- ${mtReleaseList} --%>
-
-<div class="bg-light text-center rounded p-4">
 	<div class="d-flex align-items-center justify-content-between mb-4">
-
+		<span id="selectedCheckboxCount">0</span>
 	</div>
+
+
 	<div class="table-responsive">
-		<table id="releaseList" class="table text-start align-middle table-bordered table-hover mb-0">
+		<table id="releaseList" class="table align-middle table-bordered table-hover mb-0">
 				<tr class="text-dark">
-					<th scope="col"><input class="form-check-input" type="checkbox" id="cbx_chkAll"></th>
-			    	<th scope="col">출고코드</th>
-			    	<th scope="col">작업지시코드</th>
-			    	<th scope="col">자재명</th>
-			    	<th scope="col">주문수량</th>
-			    	<th scope="col">현 재고</th>
-			    	<th scope="col">창고명</th>
-			    	<th scope="col">작업지시일자</th>
-			    	<th scope="col">진행현황</th>
-			    	<th scope="col">담당자</th>
-			    	<th scope="col">출고일자</th>
-			    	<th scope="col">출고처리</th>
+					<th scope="col" style="background-color: rgba(0,0,0,0.075);"><input class="form-check-input" type="checkbox" id="cbx_chkAll"></th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고코드</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">작업지시코드</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">자재명</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">주문수량</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">현 재고</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">창고명</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">작업지시일자</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">진행현황</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">담당자</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고일자</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고처리</th>
 				</tr>
 			  	<c:forEach var="vo" items="${mtReleaseList}">
 				<tr>

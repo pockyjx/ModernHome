@@ -152,13 +152,14 @@
 			
 			// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 			row.find("td:not(:first-child)").each(function(index) {
-				//
-				var cellValue = $(this).text();
-				var cellOption = "";
 				
+				var cellValue = $(this).text();
+
 				if(index == 9) {
 					cellValue = ${sessionScope.emp_id}
 				}
+				
+				var cellOption = "";
 				
 				if(index == 0 || index == 9) {
 					cellOption = "readonly";
@@ -171,12 +172,22 @@
 				
 				var cellType = index === 6 ? "number" : "text";
 				
-			
-				
 				var cellName = cellNames[index];
 				var cellId = cellIds[index];
+				var cellContent;
 				
-				$(this).html('<input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control">');
+				var originalValue = row.find(".original-value").val();
+				
+				// 첫 행 링크 유지
+				if(index === 1) {
+					return;
+				}else {
+					cellContent = 
+						'<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control"></td>';
+				}
+				
+// 				$(this).html('<input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control">');
+				$(this).html(cellContent);
 				
 				$("#updateButton").attr("disabled", "disabled");
 				$("#addRowButton").attr("disabled", "disabled");
@@ -301,8 +312,8 @@
 //     	alert(pro_id);
     	 
     	var left = (screen.width - 600) / 2;
- 		var top = (screen.height - 300) / 2;
-    	window.open('/info/req/BOM?pro_id='+pro_id+'', 'popup', 'width=600, height=300, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+ 		var top = (screen.height - 400) / 2;
+    	window.open('/info/req/BOM?pro_id='+pro_id+'', 'popup', 'width=600, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
     	 
       });
       
@@ -310,17 +321,17 @@
          
     // 완제품 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='pro_num']", function() {
-    	var left = (screen.width - 500) / 2;
-		var top = (screen.height - 500) / 2;
-    	window.open('/info/req/addPopup?txt=pro', 'popup', 'width=500, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+    	var left = (screen.width - 580) / 2;
+		var top = (screen.height - 680) / 2;
+    	window.open('/info/req/addPopup?txt=pro', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
    		
     });
     
     // 자재 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='ma_num']", function() {
-    	var left = (screen.width - 500) / 2;
-		var top = (screen.height - 500) / 2;
- 	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=500, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+    	var left = (screen.width - 580) / 2;
+		var top = (screen.height - 680) / 2;
+ 	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
     });
     
 
@@ -332,53 +343,36 @@
         }
     </style>
 
-
-	<!-- Modal -->
-	<div class="modal" tabindex="-1" id="modalBOM">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<p>Modal body text goes here.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--  -->
-
 <form action="" method="GET" class="bg-light rounded p-3 m-3">
 	
-	<div class="col-sm-2">
-		<select name="option" class="form-select">
-			
-			<option value="all" 
-				<c:if test="${option == '' || option == 'all' }">selected</c:if>
-			>전체</option>
-			<option value="pro_name" 
-				<c:if test="${option == 'pro_name' }">selected</c:if>
-			>완제품명</option>
-			<option value="ma_name"
-				<c:if test="${option == 'ma_name' }">selected</c:if>
-			>자재명</option>
-		</select>
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label"><b>타입</b></label>
+		<div class="col-sm-2">
+			<select name="option" class="form-select" style="background-color: #fff;">
+				<option value="all" 
+					<c:if test="${option == '' || option == 'all' }">selected</c:if>
+				>전체</option>
+				<option value="pro_name" 
+					<c:if test="${option == 'pro_name' }">selected</c:if>
+				>완제품명</option>
+				<option value="ma_name"
+					<c:if test="${option == 'ma_name' }">selected</c:if>
+				>자재명</option>
+			</select>
+		</div>		
+	</div>
+	
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label"><b>검색어</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="search" value="${search }" class="form-control">
+		</div>
 		
-		<input type="text" name="search" value="${search }" class="form-control">
-	
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
 	</div>
 	
-	
-	<div class="col-auto">
-		<button class="btn btn-primary m-2" type="submit" style="margin-left:200%;">조회</button>
-	</div>
 </form>
 
 <form id="reqList">
