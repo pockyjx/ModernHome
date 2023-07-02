@@ -27,12 +27,14 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		var url = window.location.href;
-		var value = new URLSearchParams(new URL(url).search).get("rd");
+		var useYn = new URLSearchParams(new URL(url).search).get("use_yn");
 		
-		if(value === "repair") {
-			$("h4").html("수리 처리 하시겠습니까?");
-		} else if(value === "discard") {
-			$("h4").html("폐기 처리 하시겠습니까?")
+		if(useYn === "Y") {
+			$("h4").html("가동 중지 하시겠습니까?");
+			$("p").html("현재 라인은 가동 중입니다.<br>중지 사유를 입력하세요.");
+		} else if(useYn === "N") {
+			$("h4").html("다시 가동 하시겠습니까?");
+			$("p").html("현재 라인은 점검 중입니다.<br>가동 사유를 입력하세요.");
 		}
 		
 		$(".submitButton").click(function() {
@@ -40,16 +42,16 @@
 			var formValue = $("form[name='modifyForm']").serialize();
 			
 			$.ajax({
-				url : "${contextPath}/production/defective/reAndDis",
+				url : "${contextPath}/production/line/popup",
 				type : "POST",
 				data : formValue,
 				success : function() {
-					alert("처리 완료되었습니다.");
+					alert("변경 완료되었습니다.");
 					opener.location.reload();
 					self.close();
 				},
 				error : function() {
-					alert("처리 실패했습니다!");
+					alert("변경 실패했습니다!");
 				}
 			});
 		});
@@ -62,9 +64,10 @@
 <div class="bg-light text-center rounded p-4 m-3">
 	<form name="modifyForm">
 		<h4></h4>
-		<p>처리 후 변경이 불가능합니다.</p>
-		<input type="hidden" name="df_id" value="${param.df_id}">
-		<input type="hidden" name="df_cnt" value="${param.df_cnt}">
+		<p></p>
+		<input type="text" name="ls_rsns" class="form-control">
+		<input type="hidden" name="line_id" value="${param.line_id}">
+		<input type="hidden" name="use_yn" value="${param.use_yn}">
 		<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
 		<button type="button" class="submitButton btn btn-outline-success m-2">확인</button>
 		<button type="button" class="btn btn-outline-danger m-2" onclick="window.close();">취소</button>

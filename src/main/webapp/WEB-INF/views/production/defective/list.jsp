@@ -273,7 +273,7 @@
 		var sessionEmpAuth = ${sessionScope.emp_auth};
 		console.log(sessionEmpAuth)
 		
-		if(sessionEmpAuth != 3) {
+		if(sessionEmpAuth < 2) {
 			alert("권한이 없습니다.");
 			return false;
 		}
@@ -282,11 +282,11 @@
 		window.open(url, 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
 	}
 </script>
+
 <style>
 .selected {
 	background-color: #b3ccff;
 }
-
 </style>
 
 	<form method="get" class="bg-light rounded p-3 m-3">
@@ -297,7 +297,7 @@
 					<option value="all">전체</option>
 					<option value="pro">공정검사</option>
 					<option value="ma">수입검사</option>
-					<option value="">출고검사</option>
+					<option value="re">출고검사</option>
 				</select>
 			</div>
 		</div>

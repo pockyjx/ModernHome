@@ -54,7 +54,7 @@
 
 <body>
 
-<div class="table-pr bg-light text-center rounded p-4 m-3">
+<div class="bg-light text-center rounded p-4 m-3">
 	<div class="d-flex align-items-center justify-content-between mb-4">
 		<h5>작업지시</h5>
 	</div>
