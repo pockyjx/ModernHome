@@ -332,53 +332,36 @@
         }
     </style>
 
-
-	<!-- Modal -->
-	<div class="modal" tabindex="-1" id="modalBOM">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<p>Modal body text goes here.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--  -->
-
 <form action="" method="GET" class="bg-light rounded p-3 m-3">
 	
-	<div class="col-sm-2">
-		<select name="option" class="form-select">
-			
-			<option value="all" 
-				<c:if test="${option == '' || option == 'all' }">selected</c:if>
-			>전체</option>
-			<option value="pro_name" 
-				<c:if test="${option == 'pro_name' }">selected</c:if>
-			>완제품명</option>
-			<option value="ma_name"
-				<c:if test="${option == 'ma_name' }">selected</c:if>
-			>자재명</option>
-		</select>
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label"><b>타입</b></label>
+		<div class="col-sm-2">
+			<select name="option" class="form-select" style="background-color: #fff;">
+				<option value="all" 
+					<c:if test="${option == '' || option == 'all' }">selected</c:if>
+				>전체</option>
+				<option value="pro_name" 
+					<c:if test="${option == 'pro_name' }">selected</c:if>
+				>완제품명</option>
+				<option value="ma_name"
+					<c:if test="${option == 'ma_name' }">selected</c:if>
+				>자재명</option>
+			</select>
+		</div>		
+	</div>
+	
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label"><b>검색어</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="search" value="${search }" class="form-control">
+		</div>
 		
-		<input type="text" name="search" value="${search }" class="form-control">
-	
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
 	</div>
 	
-	
-	<div class="col-auto">
-		<button class="btn btn-primary m-2" type="submit" style="margin-left:200%;">조회</button>
-	</div>
 </form>
 
 <form id="reqList">
