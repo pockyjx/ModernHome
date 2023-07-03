@@ -83,4 +83,9 @@ public class InstructServiceImpl implements InstructService {
 		return dao.getWiSearchCnt(work_state, pro_num, startDate, endDate, vo);
 	}
 
+	@Override
+	public void modifyInstrMrState(WijoinVO wjvo) throws Exception {
+		dao.modifyInstrMrState(wjvo);
+	}
+
 }
