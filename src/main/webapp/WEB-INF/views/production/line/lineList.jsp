@@ -26,11 +26,11 @@
 			var newRow = '<tr>' +
 						'<td><input type="checkbox" class="form-check-input"></td>' +
 						'<td><input class="form-control" type="text" name="line_num" placeholder="자동으로 부여" style="border: none; background: transparent;" readonly></td>' +
-						'<td><input class="form-control" type="text" name="line_name"></td>' +
+						'<td><input class="form-control" type="text" name="line_name" id="line_name"></td>' +
 						'<td><input class="form-control" type="text" name="reg_date" style="border: none; background: transparent;" readonly></td>' +
 						'<td><input class="form-control" type="text" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id}" style="border: none; background: transparent;" readonly></td>' +
 						'<td>' +
-						'<select class="form-control" name="use_yn">' +
+						'<select class="form-control" name="use_yn" id="use_yn">' +
 						'<option value="Y">Y</option>' +
 						'<option value="N">N</option>' +
 						'</select>' +
@@ -50,16 +50,6 @@
 			pageStatus = "reg";
 		
 		}); // addRowButton
-		
-//             // 체크박스 클릭 시 선택된 행 삭제
-//             $(".table-lineList").on("click", "td input[type='checkbox']", function() {
-//                 var checkbox = $(this);
-//                 if (checkbox.prop("checked")) {
-//                     checkbox.closest("tr").addClass("selected");
-//                 } else {
-//                     checkbox.closest("tr").removeClass("selected");
-//                 }
-//             });
 		
 		// 취소 버튼 누를 시 
 		$("#cancelButton").click(function(){
@@ -114,71 +104,6 @@
 			} // if(update)문
 			
 		}); // 취소버튼
-           
-		// 수정 버튼 누를 시
-// 		$("#updateButton").click(function() {
-// 		    var selectedCheckbox = $("input[name='selectedLineId']:checked");
-
-// 		    // 체크된 체크박스가 하나인 경우에만 수정 기능 작동
-// 		    if (selectedCheckbox.length === 1) {
-// 		        var empId = selectedCheckbox.val();
-// 		        var row = selectedCheckbox.closest("tr");
-
-// 		        // input type의 name 값 지정
-// 		        var cellNames = [
-// 		            "line_num",
-// 		            "line_name",
-// 		            "use_yn",
-// 		            "update_date",
-// 		            "update_emp_id"
-// 		        ];
-
-// 		        // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
-// 		        row.find("td:not(:first-child)").each(function(index) {
-		            
-// 		        	var cellValue = $(this).text();
-// 		            var cellType = index === 3 ? "date" : "text"; // 날짜 타입은 date로 설정
-// 		            var cellReadonly = [0].includes(index) ? "readonly='readonly'" : "";
-// 		            var cellName = cellNames[index];
-// 		            var cellDisabled = [3].includes(index)? "disabled":"";
-// 		            var cellContent;
-		            
-// 		            if (index === 2) {
-// 		                cellContent = '<td>' +
-// 		                    '<select class="form-control" name="' + cellName + '">' +
-// 		                    '<option value="Y" ' + (cellValue === 'Y' ? 'selected' : '') + '>Y</option>' +
-// 		                    '<option value="N" ' + (cellValue === 'N' ? 'selected' : '') + '>N</option>' +
-// 		                    '</select>' +
-// 		                    '</td>';
-// 		            }else if (index === 4){
-// 						cellContent = '<td><input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>'; 
-// 		            }else {
-// 		                cellContent = '<td><input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '"'+ cellReadonly + '' + cellDisabled + '></td>';
-// 		            }
-
-// 		            $(this).html(cellContent);
-		    
-
-// 		        // 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
-// 		        $("#addRowButton").attr("disabled", "disabled");
-// 		        $("#updateButton").attr("disabled", "disabled");
-// 		        $("#deleteReceiveButton").attr("disabled", "disabled");
-
-// 		        $("#cancelButton").removeAttr("disabled");
-// 		        $("#submitButton").removeAttr("disabled");
-
-// 		        pageStatus = "update";
-		     
-// 			});
-		        
-		        
-// 		    } else if (selectedCheckbox.length === 0) {
-// 		        alert("수정할 행을 선택해주세요!")
-// 		    } else {
-// 		        alert("수정은 하나의 행만 가능합니다!");
-// 		    }
-		    
-//     	});// 수정버튼
 		
 		// 선택된 행 삭제 버튼 클릭 시 행 삭제
 		$("#deleteRowsButton").click(function() {
@@ -262,29 +187,18 @@
 			form.attr("action", "/production/line/regLine");
 			
 			var line_name = $("#line_name").val();
-			var use_yn = $("use_yn").val();
+			var use_yn = $("#use_yn").val();
 			
-			if(pageStatus == "reg"){
-				if(line_name == null || line_name == ""){
-					$("#line_name").focus();
-					alert("라인명을 입력하세요!");
-					return;
-				}
-				if(use_yn == null || use_yn == ""){
-					$("#use_yn").focus();
-					alert("사용여부를 입력하세요!");
-					return;
-				}
+			if(line_name == null || line_name == ""){
+				$("#line_name").focus();
+				alert("라인명을 입력하세요!");
+				return false;
 			}
-			
-// 			if(pageStatus == "update"){
-// 				if(use_yn == null || use_yn == ""){
-// 					$("use_yn").focus();
-// 					alert("사용여부를 입력하세요!");
-// 					return;
-// 				}
-// 			}
-			
+			if(use_yn == null || use_yn == ""){
+				$("#use_yn").focus();
+				alert("사용여부를 입력하세요!");
+				return false;
+			}
 			form.submit();
 		}); // submit버튼 유효성
 		
@@ -332,7 +246,7 @@
 	</form>
 
 	
-	<form>
+	<form id="lineList">
 		<div class="d-flex align-items-center justify-content-between mb-2">
 			<h3 class="m-4">라인 리스트</h3>
 			<div>

@@ -260,7 +260,7 @@
 	</insert>
 	
 	<!-- 불량개수가 0이면 입고상태 변경 -->
-	<update id="modifyRec" parameterMap="WijoinVO">
+	<update id="modifyRec" parameterType="WijoinVO">
 		UPDATE receive SET rec_in_state = '검사완료'
 	  	WHERE rec_id = #{rec_id} AND df_cnt = 0
 	</update>
