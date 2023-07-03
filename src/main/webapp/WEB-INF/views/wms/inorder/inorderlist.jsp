@@ -494,7 +494,7 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">             
 		<h3 class="m-4">발주 목록</h3>
 		<div>	
-			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3' }">
+			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth == '2') || sessionScope.emp_auth == '3' }">
 				<button type="button" class="btn btn-primary m-2" id="addRowButton">
 					<i class="fa fa-plus"></i> 추가</button>
 	    		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
@@ -502,8 +502,6 @@
 	    			<i class="fa fa-edit"></i> 수정</button>
 			    <button type="submit" class="btn btn-primary m-2" id="deleteInorderButton" formaction="/wms/deleteInorder" formmethod="post">
 			    	<i class="fa fa-trash"></i> 삭제</button>
-	<!-- 		    <button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="/wms/regInorder" formmethod="post" disabled> -->
-	<!-- 		    	<i class="fa fa-download"></i> 저장</button> -->
 			    <button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
 			    	<i class="fa fa-download"></i> 저장</button>
 			</c:if>
