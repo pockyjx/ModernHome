@@ -174,7 +174,7 @@ public class WmsController {
 			pm.setTotalCount(cService.ioCltCnt(cvo));
 			model.addAttribute("pm", pm);
 			
-			model.addAttribute("clientVO", cvo);
+			model.addAttribute("cvo", cvo);
             
             return "/wms/inorder/popUpClient";
             

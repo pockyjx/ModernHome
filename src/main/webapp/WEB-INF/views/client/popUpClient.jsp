@@ -52,7 +52,7 @@
 	<form action="" method="GET">
 		<input type="hidden" name="txt" value="clt">
 		
-		<input type="text" placeholder="거래처명을 입력하세요" name="clt_name" value="${cvo.clt_name }">
+		<input type="text" placeholder="거래처명을 입력하세요" name="clt_name" value="${clientVO.clt_name }">
 		<input type="submit" value="검색">
 	</form>
 	
