@@ -5,11 +5,6 @@
 <%@ include file="../inc/header.jsp"%>
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -106,8 +101,8 @@
 			
 			var newRow = '<tr>' +
 				'<td><input type="checkbox"></td>' +
-				'<td><input type="text" name="emp_id" disabled="disabled" value="자동으로 부여"></td>' +
-				'<td><input type="text" name="emp_name" id="emp_name"></td>' +
+				'<td><input type="text" name="emp_id" disabled="disabled" value="(자동으로 부여)" style="border: none; background: transparent;"></td>' +
+				'<td><input type="text" name="emp_name" id="emp_name" placeholder="이름을 입력하세요"></td>' +
 				
 				'<td>' +
 					'<select name="emp_gender">' +
@@ -142,11 +137,11 @@
 
 				
 				
-				'<td><input type="text" name="emp_state" value="재직" readonly="readonly"></td>' +
-				'<td><input type="text" name="emp_tel" id="emp_tel"></td>' +
+				'<td><input type="text" name="emp_state" value="재직" style="border: none; background: transparent;" readonly="readonly"></td>' +
+				'<td><input type="text" name="emp_tel" id="emp_tel" placeholder="전화번호를 입력하세요"></td>' +
 				'<td><input type="date" name="emp_hire_date" id="emp_hire_date"></td>' +
-				'<td><input type="date" name="emp_rsgnt_date" disabled="disabled"></td>' +
-				'<td><input type="date" name="emp_start_leave_date" disabled="disabled"></td>' +
+				'<td><input type="date" name="emp_rsgnt_date" disabled="disabled" style="border: none; background: transparent;"></td>' +
+				'<td><input type="date" name="emp_start_leave_date" disabled="disabled" style="border: none; background: transparent;"></td>' +
 				'</tr>';
 			
 			// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
@@ -386,7 +381,7 @@
 				});
 				
 			}else if (selectedCheckbox.length === 0){
-				alert("수정할 행을 선택해주세요!")
+				alert("수정할 행을 선택하세요!")
 				
 			}else {
 				alert("수정은 하나의 행만 가능합니다!");
@@ -403,7 +398,7 @@
 			
 			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 			if (selectedCheckbox.length === 0){
-				alert("삭제할 행을 선택해주세요!");
+				alert("삭제할 행을 선택하세요!");
 				
 				// 선택안하면 submit을 막음
 				event.preventDefault();
@@ -411,9 +406,6 @@
 			
 		});
 			
-		
-		
-
 		
 		
 		// submit버튼 유효성
@@ -451,10 +443,6 @@
 			
 			form.submit();
 		}); //submit버튼 유효성
-		
-		
-		
-		
 		
 		
 		
@@ -498,117 +486,153 @@
 }
 </style>
 
-</head>
-<body>
-
-	<h1>사원조회</h1>
-	<!-- 검색칸 -->
-	<form action="" method="GET">
-	사원번호 <input type="number" name="emp_id" value="${evo.emp_id }">
-	이름 <input type="text" name="emp_name" value="${evo.emp_name }">
-	부서
-		<select name="emp_dept">
-			<option ${evo.emp_dept eq "전체" ? "selected" : ""}>전체</option>
-			<option ${evo.emp_dept eq "인사" ? "selected" : ""}>인사</option>
-			<option ${evo.emp_dept eq "영업" ? "selected" : ""}>영업</option>
-			<option ${evo.emp_dept eq "생산" ? "selected" : ""}>생산</option>
-			<option ${evo.emp_dept eq "자재" ? "selected" : ""}>자재</option>
-			<option ${evo.emp_dept eq "품질" ? "selected" : ""}>품질</option>
-		</select>
-	직급
-		<select name="emp_rank">
-			<option ${evo.emp_rank eq "전체" ? "selected" : ""}>전체</option>
-			<option ${evo.emp_rank eq "사원" ? "selected" : ""}>사원</option>
-			<option ${evo.emp_rank eq "대리" ? "selected" : ""}>대리</option>
-			<option ${evo.emp_rank eq "과장" ? "selected" : ""}>과장</option>
-			<option ${evo.emp_rank eq "부장" ? "selected" : ""}>부장</option>
-		</select>
-	상태
-		<select name="emp_state">
-			<option ${evo.emp_state eq "전체" ? "selected" : ""}>전체</option>
-			<option ${evo.emp_state eq "재직" ? "selected" : ""}>재직</option>
-			<option ${evo.emp_state eq "휴직" ? "selected" : ""}>휴직</option>
-			<option ${evo.emp_state eq "퇴직" ? "selected" : ""}>퇴직</option>
-		</select>
-		
-		<input type="submit" value="조회">
-		
-<!-- 		<input type="reset" value="초기화"> -->
-	</form>
-	<!-- 검색칸 -->
+<!-- 검색칸 -->
+<form method="get" name="search" action="" class="bg-light rounded p-3 m-3">
 	
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>사원번호</b></label>
+		<div class="col-sm-4">
+			<input type="number" name="emp_id" value="${evo.emp_id }" placeholder="사원번호를 입력하세요" class="form-control">
+		</div>
+	</div>
 	
-	<form id="employeeList">
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>이름</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="emp_name" value="${evo.emp_name }" placeholder="이름을 입력하세요" class="form-control">
+		</div>
+	</div>
 	
-	<span id="selectedCheckboxCount">0</span>
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>부서</b></label>
+		
+		<div class="col-sm-2">
+			<select name="emp_dept" class="form-select" style="background-color: #fff;">
+       			<option ${evo.emp_dept eq "전체" ? "selected" : ""}>전체</option>
+				<option ${evo.emp_dept eq "인사" ? "selected" : ""}>인사</option>
+				<option ${evo.emp_dept eq "영업" ? "selected" : ""}>영업</option>
+				<option ${evo.emp_dept eq "생산" ? "selected" : ""}>생산</option>
+				<option ${evo.emp_dept eq "자재" ? "selected" : ""}>자재</option>
+				<option ${evo.emp_dept eq "품질" ? "selected" : ""}>품질</option>
+			</select>
+      	</div>
+   	</div>
 	
-	<c:if test="${sessionScope.emp_dept eq '인사' || sessionScope.emp_auth == 3}">
-		<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
-		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-		<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteEmployee" formmethod="post">
-		<i class="fa fa-trash"></i> 삭제</button>
-		<button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
-		<i class="fa fa-download"></i> 저장</button>
-	</c:if>
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>직급</b></label>
+		
+		<div class="col-sm-2">
+			<select name="emp_rank" class="form-select" style="background-color: #fff;">
+       			<option ${evo.emp_rank eq "전체" ? "selected" : ""}>전체</option>
+				<option ${evo.emp_rank eq "사원" ? "selected" : ""}>사원</option>
+				<option ${evo.emp_rank eq "대리" ? "selected" : ""}>대리</option>
+				<option ${evo.emp_rank eq "과장" ? "selected" : ""}>과장</option>
+				<option ${evo.emp_rank eq "부장" ? "selected" : ""}>부장</option>
+			</select>
+      	</div>
+   	</div>
+   	
+   	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>상태</b></label>
+		
+		<div class="col-sm-2">
+			<select name="emp_state" class="form-select" style="background-color: #fff;">
+       			<option ${evo.emp_state eq "전체" ? "selected" : ""}>전체</option>
+				<option ${evo.emp_state eq "재직" ? "selected" : ""}>재직</option>
+				<option ${evo.emp_state eq "휴직" ? "selected" : ""}>휴직</option>
+				<option ${evo.emp_state eq "퇴직" ? "selected" : ""}>퇴직</option>
+			</select>
+      	</div>
+      	
+      	<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+      	
+   	</div>
+</form>
+<!-- 검색칸 -->
+		
+		<hr>
+		
+<form id="employeeList">
+	<div class="d-flex align-items-center justify-content-between mb-2">
+		<h3 class="m-4">사원 목록</h3>
+		<div>
+			<c:if test="${sessionScope.emp_dept eq '인사' || sessionScope.emp_auth == 3}">
+				<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+				<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+				<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+				<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteEmployee" formmethod="post">
+				<i class="fa fa-trash"></i> 삭제</button>
+				<button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
+				<i class="fa fa-download"></i> 저장</button>
+			</c:if>
+		</div>
+	</div>
 	
-
-	<table class="table-employeeList" border="1">
-		<tr>
-			<th><input type="checkbox"></th>
-			<th>사원번호</th>
-			<th>이름</th>
-			<th>성별</th>
-			<th>생년월일</th>
-			<th>부서</th>
-			<th>직급</th>
-			<th>권한</th>
-			<th>상태</th>
-			<th>전화번호</th>
-			<th>입사날짜</th>
-			<th>퇴사날짜</th>
-			<th>휴직날짜</th>
-		</tr>
+	<div class="bg-light text-center rounded p-4 m-3">
+		<div class="d-flex align-items-center justify-content-between mb-4">	
+			<span id="selectedCheckboxCount">0</span>
+		</div>
 		
-		
-		
-		<c:forEach var="employeeList" items="${employeeList }">
-		<tr>
-		
-		<c:choose>
-			<c:when test="${fn:substring(Integer.parseInt(employeeList.emp_id), 0, 4) == 1000}"><td><input type="checkbox" name="selectedEmpId"
-			value="${employeeList.emp_id}" disabled></td></c:when>
-			<c:otherwise><td><input type="checkbox" name="selectedEmpId" value="${employeeList.emp_id}"></td></c:otherwise>
-		</c:choose>
-		
-			<td>${employeeList.emp_id }</td>
-			<td>${employeeList.emp_name }</td>
-			<td>${employeeList.emp_gender }</td>
+		<div class="table-responsive">		
+			<table class="table-employeeList table align-middle table-bordered table-hover mb-0">
+					<tr>
+						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+						<th style="background-color: rgba(0,0,0,0.075);">사원번호</th>
+						<th style="background-color: rgba(0,0,0,0.075);">이름</th>
+						<th style="background-color: rgba(0,0,0,0.075);">성별</th>
+						<th style="background-color: rgba(0,0,0,0.075);">생년월일</th>
+						<th style="background-color: rgba(0,0,0,0.075);">부서</th>
+						<th style="background-color: rgba(0,0,0,0.075);">직급</th>
+						<th style="background-color: rgba(0,0,0,0.075);">권한</th>
+						<th style="background-color: rgba(0,0,0,0.075);">상태</th>
+						<th style="background-color: rgba(0,0,0,0.075);">전화번호</th>
+						<th style="background-color: rgba(0,0,0,0.075);">입사날짜</th>
+						<th style="background-color: rgba(0,0,0,0.075);">퇴사날짜</th>
+						<th style="background-color: rgba(0,0,0,0.075);">휴직날짜</th>
+					</tr>
+					
+					
+					
+					<c:forEach var="employeeList" items="${employeeList }">
+					<tr>
+					
+					<c:choose>
+						<c:when test="${fn:substring(Integer.parseInt(employeeList.emp_id), 0, 4) == 1000}"><td><input type="checkbox" name="selectedEmpId"
+						value="${employeeList.emp_id}" class="form-check-input" disabled ></td></c:when>
+						<c:otherwise><td><input type="checkbox" name="selectedEmpId" value="${employeeList.emp_id}" class="form-check-input"></td></c:otherwise>
+					</c:choose>
+					
+						<td>${employeeList.emp_id }</td>
+						<td>${employeeList.emp_name }</td>
+						<td>${employeeList.emp_gender }</td>
+						
+						<td>${fn:substring(employeeList.emp_birth, 0, 10)}</td>
+						
+						<td>${employeeList.emp_dept }</td>
+						<td>${employeeList.emp_rank }</td>
+						
+						
+						<c:choose>
+							<c:when test="${employeeList.emp_auth == 3}"><td>관리자</td></c:when>
+							<c:when test="${employeeList.emp_auth == 2}"><td>팀장</td></c:when>
+							<c:when test="${employeeList.emp_auth == 1}"><td>일반</td></c:when>
+						</c:choose>
 			
-			<td>${fn:substring(employeeList.emp_birth, 0, 10)}</td>
-			
-			<td>${employeeList.emp_dept }</td>
-			<td>${employeeList.emp_rank }</td>
-			
-			
-			<c:choose>
-				<c:when test="${employeeList.emp_auth == 3}"><td>관리자</td></c:when>
-				<c:when test="${employeeList.emp_auth == 2}"><td>팀장</td></c:when>
-				<c:when test="${employeeList.emp_auth == 1}"><td>일반</td></c:when>
-			</c:choose>
-
-			
-			<td>${employeeList.emp_state }</td>
-			<td>${employeeList.emp_tel }</td>
-			
-			<td>${fn:substring(employeeList.emp_hire_date, 0, 10) }</td>
-			<td>${fn:substring(employeeList.emp_rsgnt_date, 0, 10) }</td>
-			<td>${fn:substring(employeeList.emp_start_leave_date, 0, 10) }</td>
-		</tr>
-		</c:forEach>
-	</table>
-	
-	</form>
+						
+						<td>${employeeList.emp_state }</td>
+						<td>${employeeList.emp_tel }</td>
+						
+						<td>${fn:substring(employeeList.emp_hire_date, 0, 10) }</td>
+						<td>${fn:substring(employeeList.emp_rsgnt_date, 0, 10) }</td>
+						<td>${fn:substring(employeeList.emp_start_leave_date, 0, 10) }</td>
+					</tr>
+					</c:forEach>
+			</table>
+		</div>
+	</div>
+</form>
 	
 	
 	<!-- 페이징 버튼 -->

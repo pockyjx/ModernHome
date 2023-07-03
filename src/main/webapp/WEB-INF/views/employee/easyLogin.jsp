@@ -9,13 +9,18 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="/resources/img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<!-- Favicon -->
+    <link rel="icon" href="/resources/img/favicon.svg" type="image/x-icon">
+    
+    <!-- Font -->
+    <link rel="stylesheet" as="style" crossorigin 
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    
+    <style type="text/css">
+        * {
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+    </style>
     
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -31,25 +36,10 @@
     <!-- Template Stylesheet -->
     <link href="/resources/css/style.css" rel="stylesheet">
     
-<link rel="stylesheet" as="style" crossorigin 
-    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     
-    <style type="text/css">
-        * {
-            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-        }
-    </style>
 </head>
 <body>
-    <div class="container-xxl position-relative bg-white d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
-
+	<div class="container-xxl position-relative bg-white d-flex p-0">
 
         <!-- Sign In Start -->
         <div class="container-fluid">
@@ -81,24 +71,24 @@
  	<!--                         <p class="text-center mb-0">Don't have an Account? <a href="">Sign Up</a></p> -->
 <!-- 				        </form> -->
 				        	<form action="authLogin">
-	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="인사팀장">
-	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="인사일반">
-	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="영업팀장">
-	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="영업일반">
-	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="생산팀장">
-	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="생산일반">
-	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="자재팀장">
-	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="자재일반">
-	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="품질팀장">
-	                        <input type="submit" class="btn btn-primary m-4" name="auth" value="품질일반">
-				        	<input type="submit" class="btn btn-primary m-4" name="auth" value="관리자">
+		                        <input type="submit" class="btn btn-primary m-4" name="auth" value="인사팀장">
+		                        <input type="submit" class="btn btn-primary m-4" name="auth" value="인사일반">
+		                        <input type="submit" class="btn btn-primary m-4" name="auth" value="영업팀장">
+		                        <input type="submit" class="btn btn-primary m-4" name="auth" value="영업일반">
+		                        <input type="submit" class="btn btn-primary m-4" name="auth" value="생산팀장">
+		                        <input type="submit" class="btn btn-primary m-4" name="auth" value="생산일반">
+		                        <input type="submit" class="btn btn-primary m-4" name="auth" value="자재팀장">
+		                        <input type="submit" class="btn btn-primary m-4" name="auth" value="자재일반">
+		                        <input type="submit" class="btn btn-primary m-4" name="auth" value="품질팀장">
+		                        <input type="submit" class="btn btn-primary m-4" name="auth" value="품질일반">
+					        	<input type="submit" class="btn btn-primary m-4" name="auth" value="관리자">
 	                        </form>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Sign In End -->
-    </div>
+	</div>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

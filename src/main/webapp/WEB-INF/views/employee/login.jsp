@@ -10,12 +10,17 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="/resources/img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/resources/img/favicon.svg" type="image/x-icon">
+    
+    <!-- Font -->
+    <link rel="stylesheet" as="style" crossorigin 
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    
+    <style type="text/css">
+        * {
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+    </style>
     
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -31,27 +36,11 @@
     <!-- Template Stylesheet -->
     <link href="/resources/css/style.css" rel="stylesheet">
 
-<link rel="stylesheet" as="style" crossorigin 
-    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
-    
-    <style type="text/css">
-        * {
-            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-        }
-    </style>
 
 </head>
 <body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
-
-
+       
         <!-- Sign In Start -->
         <div class="container-fluid">
             <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
@@ -76,13 +65,13 @@
 	                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
 	                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
 	                            </div>
-	                            <a href="">Forgot Password</a>
+<!-- 	                            <a href="">Forgot Password</a> -->
 	                        </div>
 	                        <input type="submit" class="btn btn-primary py-3 w-100 mb-4" value="Sign In">
 	<!--                         <p class="text-center mb-0">Don't have an Account? <a href="">Sign Up</a></p> -->
 				        </form>
 				        	<form action="easyLogin">
-	                        <input type="submit" class="btn btn-primary py-3 w-100 mb-4" value="간편로그인">
+	                        <input type="submit" class="btn btn-primary py-3 w-100 mb-4" value="간편 로그인">
 	                        </form>
                     </div>
                 </div>
