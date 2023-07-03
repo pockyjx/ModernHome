@@ -6,13 +6,6 @@
 <%@ include file="../inc/header.jsp"%>
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>수주 관리</title>
-</head>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -75,16 +68,16 @@ $(document).ready(function() {
 		
 		var newRow = '<tr>' +
 		'<td><input type="checkbox"></td>' +
-		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
+		'<td><input type="text" disabled="disabled" value="(자동으로 부여)" style="border: none; background: transparent;"></td>' +
 		
-		'<td><input type="text" name="emp_id" value="' + '${sessionScope.emp_id}' + '" readonly></td>' +
-		'<td><input type="text" name="clt_num" id="clt_num" readonly></td>' +
-		'<td><input type="text" name="clt_name" id="clt_name" readonly placeholder="거래처코드를 선택해주세요"></td>' +
-		'<td><input type="text" name="pro_num" id="pro_num" readonly></td>' +
-		'<td><input type="text" name="pro_name" id="pro_name" readonly placeholder="완제품코드를 선택해주세요"></td>' +
-		'<td><input type="text" name="pro_price" id="pro_price" readonly></td>' +
-		'<td><input type="number" name="oo_cnt" id="oo_cnt"></td>' +
-		'<td><input type="number" name="clt_cost" id="clt_cost" readonly></td>' +
+		'<td><input type="text" name="emp_id" value="' + '${sessionScope.emp_id}' + '" readonly style="border: none; background: transparent;"></td>' +
+		'<td><input type="text" name="clt_num" id="clt_num" readonly placeholder="여기를 눌러 검색하세요"></td>' +
+		'<td><input type="text" name="clt_name" id="clt_name" style="border: none; background: transparent;" readonly></td>' +
+		'<td><input type="text" name="pro_num" id="pro_num" readonly placeholder="여기를 눌러 검색하세요"></td>' +
+		'<td><input type="text" name="pro_name" id="pro_name" style="border: none; background: transparent;" readonly></td>' +
+		'<td><input type="text" name="pro_price" id="pro_price" style="border: none; background: transparent;" readonly></td>' +
+		'<td><input type="number" name="oo_cnt" id="oo_cnt" placeholder="주문량을 입력하세요"></td>' +
+		'<td><input type="number" name="clt_cost" id="clt_cost" placeholder="수주금액(자동계산)" style="border: none; background: transparent;" readonly></td>' +
 		'<td><input type="date" name="oo_start_date" id="oo_start_date"></td>' +
 		'<td><input type="date" name="oo_end_date" id="oo_end_date"></td>' +
 		'<td>' +
@@ -283,7 +276,7 @@ $(document).ready(function() {
 			});
 			
 		}else if (selectedCheckbox.length === 0){
-			alert("수정할 행을 선택해주세요!")
+			alert("수정할 행을 선택하세요!")
 			
 		}else {
 			alert("수정은 하나의 행만 가능합니다!");
@@ -298,7 +291,7 @@ $(document).ready(function() {
 		
 		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 		if (selectedCheckbox.length === 0){
-			alert("삭제할 행을 선택해주세요!");
+			alert("삭제할 행을 선택하세요!");
 			
 			// 선택안하면 submit을 막음
 			event.preventDefault();
@@ -324,12 +317,12 @@ $(document).ready(function() {
 			
 				if(clt_num == null || clt_num == "") {
 					$("#clt_num").focus();
-					alert("거래처코드를 선택하세요!");
+					alert("거래처 코드를 입력하세요!");
 					return;
 				}
 				if(pro_num == null || pro_num == "") {
 					$("#pro_num").focus();
-					alert("완제품코드를 선택하세요!");
+					alert("완제품 코드를 입력하세요!");
 					return;
 				}
 				if(oo_cnt == null || oo_cnt == "") {
@@ -457,100 +450,130 @@ function updateCltCost() {
 
 
 <!-- http://localhost:8088/client/outOrderList -->
+<!-- 검색칸 -->
+<form method="get" name="search" action="" class="bg-light rounded p-3 m-3">
 	
-	<h2>수주 관리</h2>
-		<!-- 검색칸 -->
-		<fieldset>
-			<form name="search" method="get">
-				<div>
-						<label>수주일자</label>
-						
-					<div>
-					<input type="date" name="oo_start_date_1" value="${ovo.oo_start_date_1}">
-						~
-					<input type="date" name="oo_start_date_2" value="${ovo.oo_start_date_2}">
-					</div>
-				</div>
-				<br>
-				<div>
-						<label>출하(예정)일자</label>
-						
-					<div>
-					<input type="date" name="oo_end_date_1" value="${ovo.oo_end_date_1}">
-						~
-					<input type="date" name="oo_end_date_2" value="${ovo.oo_end_date_2}">
-					</div>
-				</div>
-				
-				<span>거래처명 :
-					<input type="text" name="clt_name" placeholder="거래처명을 입력하세요" value="${ovo.clt_name}">
-				</span>
-				<span>담당자 :
-					<input type="text" name="emp_name" placeholder="담당자를 입력하세요" value="${ovo.emp_name}">
-				</span>
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>수주일자</b></label>
 			
-				<input type="submit" value="조회">
-				
-<!-- 				<input type="reset" value="초기화"> -->
-			</form>
-		</fieldset>
-		<!-- 검색칸 -->
-		
-		
-		
-		
-	<h2>수주</h2>
+			<div class="col-sm-2">
+    			<div class="col-auto">
+     			<input type="date" name="oo_start_date_1" class="form-control">
+     			</div>
+   			</div>
+   			
+   				<div class="col-auto">
+   				~
+   				</div>
+   				
+     		<div class="col-sm-2">
+    			<div class="col-auto">
+    				<input type="date" name="oo_start_date_2" class="form-control">
+   				</div>
+    		</div>
+    		
+   	</div>
+   	
+   	<div class="row mb-3">
+   		<label for="ioSearch" class="col-sm-2 col-form-label"><b>출하(예정)일자</b></label>
+   		
+    		<div class="col-sm-2">
+    			<div class="col-auto">
+     				<input type="date" name="oo_end_date_1" class="form-control">
+  				</div>
+			</div>
+   				
+				<div class="col-auto">
+   				~
+   				</div>
+   				
+   			<div class="col-sm-2">
+    			<div class="col-auto">
+     				<input type="date" name="oo_end_date_2" class="form-control">
+   				</div>
+    		</div>
+    		
+   	</div>
 	
-	<form id="outOrderList">
-	
-	<span id="selectedCheckboxCount">0</span>
-	
-	<input type="hidden" name="pro_id" id="pro_id">
-	<input type="hidden" name="clt_id" id="clt_id">
-	
-	
-	<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
-	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-	<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
-	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteOutOrder" formmethod="post">
-	<i class="fa fa-trash"></i> 삭제</button>
-	<button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
-	<i class="fa fa-download"></i> 저장</button>
-	</c:if>
-	
-	
-	<table class="table-outOrderList" border="1">
-		<tr>
-			<th><input type="checkbox"></th>
-	    	<th>수주코드</th>
-	    	<th>담당자</th>
-	    	<th>거래처코드</th>
-	    	<th>거래처이름</th>
-	    	<th>완제품코드</th>
-	    	<th>완제품명</th>
-	    	<th>완제품가격</th>
-	    	<th>주문량</th>
-	    	<th>수주금액</th>
-	    	<th>수주일자</th>
-	    	<th>출하일자</th>
-	    	<th>진행상황</th>
-	    	<th>등록일</th>
-		</tr>
-	  	<c:forEach var="outOrderList" items="${outOrderList }">
-		<tr>
-			<td><input type="checkbox" name="selected" value="${outOrderList.oo_num}"></td>
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>거래처명</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="clt_name" value="${ovo.clt_name}" placeholder="거래처명을 입력하세요" class="form-control">
+		</div>
+	</div>
 			
-			<td><span class="ooContract"><a href="javascript:void(0);" class="ooContract">${outOrderList.oo_num}</a></span></td>
-			
-			<td>${outOrderList.emp_name}</td>
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>담당자</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="emp_name" value="${ovo.emp_name}" placeholder="담당자를 입력하세요" class="form-control">
+		</div>
+		
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+	</div>		
+</form>
+<!-- 검색칸 -->
+		
+		<hr>
+		
+<form id="outOrderList" method="post">		
+	<div class="d-flex align-items-center justify-content-between mb-2">             
+		<h3 class="m-4">수주 목록</h3>
+		<div>
+			<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
+				<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+				<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+				<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+				<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteOutOrder" formmethod="post">
+				<i class="fa fa-trash"></i> 삭제</button>
+				<button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
+				<i class="fa fa-download"></i> 저장</button>
+			</c:if>
+		</div>
+	</div>
 	
-			<td>${outOrderList.clt_num}</td>
-			<td>${outOrderList.clt_name}</td>
-			<td>${outOrderList.pro_num}</td>
-			<td>${outOrderList.pro_name}</td>
-			<td>${outOrderList.pro_price}</td>
-			<td>${outOrderList.oo_cnt}</td>
+	<div class="bg-light text-center rounded p-4 m-3">
+		<div class="d-flex align-items-center justify-content-between mb-4">	
+			<span id="selectedCheckboxCount">0</span>
+		</div>
+	
+		<input type="hidden" name="pro_id" id="pro_id">
+		<input type="hidden" name="clt_id" id="clt_id">
+		
+		<div class="table-responsive">	
+			<table class="table-outOrderList table align-middle table-bordered table-hover mb-0">
+					<tr>
+						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">수주코드</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">담당자</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">거래처<br>코드</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">거래처이름</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">완제품<br>코드</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">완제품명</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">완제품가격</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">주문량</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">수주금액</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">수주일자</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">출하일자</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">진행상황</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">등록일</th>
+					</tr>
+					
+				  	<c:forEach var="outOrderList" items="${outOrderList }">
+						<tr>
+							<td><input type="checkbox" name="selected" value="${outOrderList.oo_num}" class="form-check-input"></td>
+							
+							<td><span class="ooContract"><a href="javascript:void(0);" class="ooContract">${outOrderList.oo_num}</a></span></td>
+							
+							<td>${outOrderList.emp_name}</td>
+					
+							<td>${outOrderList.clt_num}</td>
+							<td>${outOrderList.clt_name}</td>
+							<td>${outOrderList.pro_num}</td>
+							<td>${outOrderList.pro_name}</td>
+							<td>${outOrderList.pro_price}</td>
+							<td>${outOrderList.oo_cnt}</td>
 
 
 
@@ -559,22 +582,23 @@ function updateCltCost() {
 <%-- 					<td><fmt:formatNumber value="${outOrderList.clt_cost div 10000}" pattern="#,##0.#" />만</td> --%>
 <%-- 				</c:when> --%>
 <%-- 				<c:otherwise> --%>
-			<td>${outOrderList.clt_cost}</td>
+							<td>${outOrderList.clt_cost}</td>
 			
 <%-- 				</c:otherwise> --%>
 <%-- 			</c:choose> --%>
 
 
-			<td>${fn:substring(outOrderList.oo_start_date, 0, 10)}</td>
-			<td>${fn:substring(outOrderList.oo_end_date, 0, 10)}</td>
-			<td>${outOrderList.oo_state}</td>
-			<td>${fn:substring(outOrderList.oo_reg_date, 0, 10)}</td>
-		</tr>
-		<input type="hidden" class="original-value" value="${outOrderList.clt_cost}" />
-			
-		</c:forEach>
-	</table>
-	</form>
+							<td>${fn:substring(outOrderList.oo_start_date, 0, 10)}</td>
+							<td>${fn:substring(outOrderList.oo_end_date, 0, 10)}</td>
+							<td>${outOrderList.oo_state}</td>
+							<td>${fn:substring(outOrderList.oo_reg_date, 0, 10)}</td>
+						</tr>
+						<input type="hidden" class="original-value" value="${outOrderList.clt_cost}" />
+					</c:forEach>
+			</table>
+		</div>
+	</div>
+</form>
 	
 	<!-- 페이징 버튼 -->
 	<nav aria-label="Page navigation example">

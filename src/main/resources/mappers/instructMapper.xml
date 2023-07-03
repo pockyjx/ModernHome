@@ -209,7 +209,7 @@
 	
 	<!-- 자재 출고 테이블에서 해당 작업지시 코드와 일치하고, 소요량에 맞는 자재 id 전부가 '출고완료'라면 자동으로 작업지시 상태가 '진행중' 변경 -->
 	<update id="modifyInstrMrState" parameterType="WijoinVO">
-		<selectKey keyColumn="work_state" resultType="WijoinVO" order="BEFORE">
+		<selectKey keyProperty="work_state" resultType="WijoinVO" order="BEFORE">
 			SELECT IF((SELECT count(work_id) FROM material_release WHERE work_id = #{work_id}) = 
 				(SELECT count(mr_state) FROM material_release WHERE work_id = #{work_id} AND mr_state = '출고완료'), '진행중', '대기') AS work_state
 		</selectKey>

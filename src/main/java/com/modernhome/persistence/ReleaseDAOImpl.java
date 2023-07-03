@@ -188,6 +188,19 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 	public int getPrSearchCnt(ProductReleaseVO vo) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".prSearchCnt", vo);
 	}
+
+	// 자재 출고 대기 처리
+	@Override
+	public void waitingMR(Integer mr_id) throws Exception {
+		sqlSession.update(NAMESPACE + ".waitingMR", mr_id);
+	}
+
+	// 완제품 출고 대기 처리
+	@Override
+	public void waitingPR(Integer pr_id) throws Exception {
+		
+	}
+	
 	
 	
 }
