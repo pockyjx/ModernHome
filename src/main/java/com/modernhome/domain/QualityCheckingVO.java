@@ -16,7 +16,9 @@ public class QualityCheckingVO {
 	private Integer rec_id;
 	private Integer repaired;
 	private Integer df_cnt;
-	
+	private String fi_type;
+	private String shp_id;
+	private String mr_id;
 	public Integer getQc_id() {
 		return qc_id;
 	}
@@ -101,14 +103,32 @@ public class QualityCheckingVO {
 	public void setDf_cnt(Integer df_cnt) {
 		this.df_cnt = df_cnt;
 	}
-	
+	public String getFi_type() {
+		return fi_type;
+	}
+	public void setFi_type(String fi_type) {
+		this.fi_type = fi_type;
+	}
+	public String getShp_id() {
+		return shp_id;
+	}
+	public void setShp_id(String shp_id) {
+		this.shp_id = shp_id;
+	}
+	public String getMr_id() {
+		return mr_id;
+	}
+	public void setMr_id(String mr_id) {
+		this.mr_id = mr_id;
+	}
 	@Override
 	public String toString() {
 		return "QualityCheckingVO [qc_id=" + qc_id + ", qc_num=" + qc_num + ", pro_id=" + pro_id + ", line_id="
 				+ line_id + ", ma_id=" + ma_id + ", qc_yn=" + qc_yn + ", qc_cnt=" + qc_cnt + ", qc_date=" + qc_date
 				+ ", update_date=" + update_date + ", emp_id=" + emp_id + ", update_emp_id=" + update_emp_id
-				+ ", rec_id=" + rec_id + ", repaired=" + repaired + ", df_cnt=" + df_cnt + "]";
+				+ ", rec_id=" + rec_id + ", repaired=" + repaired + ", df_cnt=" + df_cnt + ", fi_type=" + fi_type
+				+ ", shp_id=" + shp_id + ", mr_id=" + mr_id + "]";
 	}
 	
-	
+
 }

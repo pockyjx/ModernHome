@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
@@ -136,13 +137,18 @@ public class DefectiveController {
 	
 	
 	// 수리 & 폐기 처리
-	@RequestMapping(value = "/reAndDis")
-	public void repairAndDiscard(WijoinVO vo, HttpSession session, @ModelAttribute("rd") String rd) throws Exception {
-		logger.debug("repairAndDiscard() 호출");
+	@RequestMapping(value = "/reAndDis", method = RequestMethod.GET)
+	public void repairAndDiscardGET(WijoinVO vo, @ModelAttribute("rd") String rd) throws Exception {
+		logger.debug("repairAndDiscardGET() 호출");
+	}
+	
+	// 수리 & 폐기 처리
+	@RequestMapping(value = "/reAndDis", method = RequestMethod.POST)
+	public void repairAndDiscardPOST(WijoinVO vo, @ModelAttribute("rd") String rd) throws Exception {
+		logger.debug("repairAndDiscardPOST() 호출");
 		
 		if(rd.equals("repair")) {
 			// 수리한 완제품을 재고에 반영
-			vo.setEmp_id((int) session.getAttribute("emp_id"));
 			logger.debug("############수리############df_id : " + vo.getDf_id() + ", #################df_cnt : " + vo.getDf_cnt() + ", ###########emp_id : " + vo.getEmp_id());
 			
 			dfService.modifyReAndDis(vo);
