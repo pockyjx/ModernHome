@@ -66,6 +66,24 @@ public class ClientServiceImpl implements ClientService {
 	public int getCltSearchCnt(ClientVO cvo) throws Exception {
 		return cDAO.getCltSearchCnt(cvo);
 	}
+
+	
+	
+	
+	
+	
+	
+	// 수주 거래처 팝업 페이징
+	@Override
+	public List<ClientVO> ooCltList(ClientVO cvo, PageVO pvo) {
+		return cDAO.ooCltList(cvo, pvo);
+	}
+
+	// 수주 거래처 수(검색포함)
+	@Override
+	public Integer ooCltCnt(ClientVO cvo) {
+		return cDAO.ooCltCnt(cvo);
+	}
 	
 	
 	

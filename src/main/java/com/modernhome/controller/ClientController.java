@@ -384,31 +384,31 @@ public class ClientController {
 		}else if(txt.equals("clt")) { // 거래처 목록 팝업
 			
 			
-			List<ClientVO> popUpClt = cService.getClientList(pvo);
+			List<ClientVO> popUpClt;
 			
-			if(cvo.getClt_name() != null) { // 거래처 팝업창에서 검색했을 때
+//			if(cvo.getClt_name() != null) { // 거래처 팝업창에서 검색했을 때
 
 				logger.debug("거래처 팝업(검색) 호출!");
-				popUpClt = cService.getClientList(cvo, pvo);
+				popUpClt = cService.ooCltList(cvo, pvo);
 				model.addAttribute("popUpClt", popUpClt);
 				
         		// 페이징 정보 추가
 				pm.setPageVO(pvo);
-				pm.setTotalCount(cService.getCltSearchCnt(cvo));
+				pm.setTotalCount(cService.ooCltCnt(cvo));
 				model.addAttribute("pm", pm);
 				
 				model.addAttribute("clientVO", cvo);
         		
-			}else {
-				logger.debug("거래처 팝업 호출");
-				popUpClt = cService.getClientList(pvo);
-				model.addAttribute("popUpClt", popUpClt);
-				
-				// 페이징 정보 추가
-				pm.setPageVO(pvo);
-				pm.setTotalCount(cService.getTotalCntClt());
-				model.addAttribute("pm", pm);
-			}
+//			}else {
+//				logger.debug("거래처 팝업 호출");
+//				popUpClt = cService.ooCltList(cvo, pvo);
+//				model.addAttribute("popUpClt", popUpClt);
+//				
+//				// 페이징 정보 추가
+//				pm.setPageVO(pvo);
+//				pm.setTotalCount(cService.getTotalCntClt());
+//				model.addAttribute("pm", pm);
+//			}
 			
 			return "/client/popUpClient";
 		}
