@@ -191,6 +191,8 @@
         		alert("수주코드를 입력해주세요");
         	}
          });
+        
+        // 출고 처리 버튼
  		$(".release").click(function () {
  			var pr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
  			var pro_id = $(this).closest("tr").find('td:eq(12)').text();
@@ -201,6 +203,16 @@
  			}
  			
  		});
+        
+        // 출고 대기 버튼
+ 		$(".waiting").click(function() {
+ 			var pr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
+//  			alert(pr_id);
+ 			
+ 			location.href="/release/waitingRelease?txt=pr&rel_id="+pr_id;
+ 			
+ 		});
+        
  		$("#submitButton").click(function() {
  			var form = $("#productRelease");
  			form.attr("method", "post");
@@ -327,14 +339,17 @@
 					<td style="display: none">${vo.productVO.pro_id }</td>
 					<td>
 					<c:choose>
-					<c:when test="${vo.pr_state eq '준비' && vo.productStockVO.ps_cnt ge vo.pr_cnt}">
-					<button type="button" class="btn btn-sm btn-success release">출고가능</button>
+					<c:when test="${vo.pr_state eq '검사완료' && vo.productStockVO.ps_cnt ge vo.pr_cnt}">
+					<button type="button" class="btn btn-sm btn-success release">출고<br>처리</button>
 					</c:when>
-					<c:when test="${vo.pr_state eq '준비' && vo.productStockVO.ps_cnt lt vo.pr_cnt}">
-					<button type="button" class="btn btn-sm btn-danger">출고불가</button>
+					<c:when test="${vo.pr_state eq '출고준비' && vo.productStockVO.ps_cnt ge vo.pr_cnt}">
+					<button type="button" class="btn btn-sm btn-warning waiting">출고<br>대기</button>
 					</c:when>
-					<c:when test="${!vo.pr_state.equals('준비')}">
-					<button type="button" class="btn btn-sm btn-primary">출고${vo.pr_state}</button> 
+					<c:when test="${vo.pr_state eq '출고준비' && vo.productStockVO.ps_cnt lt vo.pr_cnt}">
+					<button type="button" class="btn btn-sm btn-danger">출고<br>불가</button>
+					</c:when>
+					<c:when test="${vo.pr_state eq '출고완료'}">
+					<button type="button" class="btn btn-sm btn-primary">출고<br>완료</button> 
 					</c:when>
 					</c:choose>
 					
