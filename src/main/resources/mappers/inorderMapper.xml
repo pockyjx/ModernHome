@@ -125,11 +125,11 @@
     <!-- 발주 수정 -->	
 	
 	<!-- 발주 목록 (페이징) -->
-	<select id="ioListPage" resultType="InorderVO">
-		SELECT * from in_order
-		ORDER BY io_id DESC
-		LIMIT #{startPage}, #{pageSize}
-	</select>
+<!-- 	<select id="ioListPage" resultType="InorderVO"> -->
+<!-- 		SELECT * from in_order -->
+<!-- 		ORDER BY io_id DESC -->
+<!-- 		LIMIT #{startPage}, #{pageSize} -->
+<!-- 	</select> -->
 	<!-- 발주 목록 (페이징) -->
 	
 	<!-- 전체 글 수 계산 -->

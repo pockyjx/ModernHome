@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.modernhome.domain.OutOrderJoinVO;
+import com.modernhome.domain.OutOrderResultVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.PageVO;
 
@@ -65,7 +66,7 @@ public class OutOrderDAOImpl implements OutOrderDAO {
 		paramMap.put("ovo", ovo);
 		paramMap.put("pvo", pvo);
 		
-		return sqlSession.selectList(NAMESAPCE+ ".outOrderListSearch", paramMap);
+		return sqlSession.selectList(NAMESAPCE + ".outOrderListSearch", paramMap);
 	}
 
 	
@@ -99,9 +100,31 @@ public class OutOrderDAOImpl implements OutOrderDAO {
 	// 수주 수정
 	@Override
 	public void updateOutOrder(OutOrderVO ovo) {
-		logger.debug("DAo -> 수주 수정");
+		logger.debug("DAO -> 수주 수정");
 		
 		sqlSession.update(NAMESAPCE + ".updateOutOrder", ovo);
+	}
+
+
+
+	// 수주서
+	@Override
+	public OutOrderJoinVO outOrderContract(String oo_num) {
+		logger.debug("DAO -> 수주서");
+		
+		return sqlSession.selectOne(NAMESAPCE + ".outOrderContract", oo_num);
+	}
+
+
+
+
+	
+	// 월별 수주 건수, 금액
+	@Override
+	public List<OutOrderResultVO> monthlyOrderResult() {
+		logger.debug("DAO -> 월별 수주 실적");
+		
+		return sqlSession.selectList(NAMESAPCE + ".monthlyOrderResult");
 	}
 	
 	

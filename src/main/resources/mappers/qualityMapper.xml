@@ -186,6 +186,7 @@
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
+		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 		<where>
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
@@ -200,7 +201,6 @@
 				AND qc_yn = #{qc_yn}
 			</if>
 		</where>
-		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	
 	<!-- 품질검사(자재) 검색 -->
@@ -261,8 +261,8 @@
 	
 	<!-- 불량개수가 0이면 입고상태 변경 -->
 	<update id="modifyRec" parameterType="WijoinVO">
-		UPDATE receive SET rec_cnt = rec_cnt - #{df_cnt}, rec_in_state = '검사완료'
-	  	WHERE rec_id = #{rec_id} AND #{df_cnt} = 0
+		UPDATE receive SET rec_in_state = '검사완료'
+	  	WHERE rec_id = #{rec_id} AND df_cnt = 0
 	</update>
 	<!-- 불량개수가 0이면 입고상태 변경 -->
 	

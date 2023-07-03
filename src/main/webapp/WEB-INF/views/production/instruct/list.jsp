@@ -88,28 +88,28 @@
 	        var isChecked = checkbox.prop('checked');
 	        checkbox.closest('tr').toggleClass('selected', isChecked);
 	    });
-	    
-	    // 체크박스 클릭 시 선택된 행 삭제
-	    $(".table-instrList").on("click", "td input[type='checkbox']", function() {
-	        var checkbox = $(this);
-	        if (checkbox.prop("checked")) {
-	        	var workId = selectedCheckbox.val();
+		
+		// 체크박스 클릭 시 선택된 행 삭제
+		$(".table-instrList").on("click", "td input[type='checkbox']", function() {
+			var checkbox = $(this);
+			if (checkbox.prop("checked")) {
+				var workId = selectedCheckbox.val();
 				location.href = "/production/instruct/delete?work_id=" + workId;
-	            checkbox.closest("tr").addClass("selected");
-	        } else {
-	            checkbox.closest("tr").removeClass("selected");
-	        }
-	    });
-	    
+				checkbox.closest("tr").addClass("selected");
+			} else {
+				checkbox.closest("tr").removeClass("selected");
+			}
+		});
+
 	    // 삭제 버튼 누를 시
-		$("#deleteInstrButton").click(function(){
+		$("#deleteButton").click(function(){
 			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
 			var workId = selectedCheckbox.val();
 			
 			if(selectedCheckbox.length === 1) {
 				location.href = "/production/instruct/delete?work_id=" + workId;
 			} else {
-				alert("삭제할 행을 선택해주세요.");
+				alert("삭제할 행을 선택해주세요!");
 				return false;
 			}
 		});
@@ -142,18 +142,24 @@
 			}
 		});
 	}
+	
+	// 작업지시 코드 선택 시 팝업창 열기
+	function infoPopup(workId, proId) {
+		window.open('/production/instruct/info?work_id=' + workId + '&pro_id=' + proId, 'popup', 
+			'width=500, height=600, top=300, left=650, location=no, status=no');
+	}
 </script>
 <style>
-	.selected {
-	    background-color: #b3ccff;
-	}
+.selected {
+	background-color: #b3ccff;
+}
 </style>
 
 <form method="get" class="bg-light rounded p-3 m-3">
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">작업상태</label>
 		<div class="col-sm-10">
-			<label><input type="checkbox" name="work_state" value="대기"  class="form-check-input"
+			<label><input type="checkbox" name="work_state" value="대기" class="form-check-input"
 				${param.work_state == '대기' ? 'checked' : ''} onclick="handleCheckbox(this, '대기')"> 대기</label>
 			<label><input type="checkbox" name="work_state" value="진행중"  class="form-check-input"
 				${param.work_state == '진행중' ? 'checked' : ''} onclick="handleCheckbox(this, '진행중')"> 진행중</label>
@@ -180,12 +186,12 @@
 <div class="d-flex align-items-center justify-content-between mb-2">
 	<h3 class="m-4">작업지시 리스트</h3>
 	<div>
-		<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2}">
+		<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2 || sessionScope.emp_auth == 3}">
 			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
 				<i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
 				<i class="fa fa-edit"></i> 수정</button>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="deleteInstrButton">
+			<button type="button" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="/production/instruct/delete" formmethod="post">
 				<i class="fa fa-trash"></i> 삭제</button>
 		</c:if>
 	</div>
@@ -211,10 +217,10 @@
 			<th>담당자</th>
 		</tr>
 		
-		<c:forEach var="list" items="${instrList}" varStatus="status">
+		<c:forEach var="list" items="${instrList}" varStatus="no">
 			<tr>
 				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}" class="form-check-input"></td>
-				<td><a href="/production/instruct/info?work_id=${list.work_id}&pro_id=${list.pro_id}">${list.work_num}</a></td>
+				<td><span onclick="infoPopup('${list.work_id}', '${list.pro_id}');" class="text-primary">${list.work_num}</span></td>
 				<td>${list.line_num}</td>
 				<td>${list.pro_num}</td>
 				<td>${list.pro_name}</td>

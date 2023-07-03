@@ -211,14 +211,12 @@
 		
 	// 발주 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click", "input[id='io_num']", function() {
-		var left = (screen.width - 600) / 2;
-		var top = (screen.height - 500) / 2;
-		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=600, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+		var left = (screen.width - 650) / 2;
+		var top = (screen.height - 600) / 2;
+		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=650, height=600, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 		});
-
 		
-		
-    </script>
+</script>
 <style>
     .selected {
         background-color: #b3ccff;
@@ -226,37 +224,53 @@
 </style>
 
 <!-- 검색칸 -->
-
 <form name="search" method="get" action="" class="bg-light rounded p-3 m-3">
+	
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>자재명</b></label>
-		<div class="col-sm-10">
-			<input type="text" name="ma_name" value="${ma_name}" placeholder="자재명을 입력하세요">
+		<div class="col-sm-4">
+			<input type="text" name="ma_name" value="${ma_name}" placeholder="자재명을 입력하세요" class="form-control">
 		</div>
 	</div>
 	
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>발주코드</b></label>
-		<div class="col-sm-10">
-      		<input type="text" name="io_num" value="${io_num }" placeholder="발주코드를 입력하세요">
+		<div class="col-sm-4">
+      		<input type="text" name="io_num" value="${io_num }" placeholder="발주코드를 입력하세요" class="form-control">
 		</div>
 	</div>
 	
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>입고일자</b></label>
-		<div class="col-sm-10">
-			<input type="date" name="startDate" value="${startDate }" >
-               			~
-			<input type="date" name="endDate" value="${endDate }">
-     		<button class="btn btn-primary m-2" type="submit">조회</button>
-     	</div>
-     </div>
+		
+		<div class="col-sm-2">
+			<div class="col-auto">
+				<input type="date" name="startDate" class="form-control">
+            </div>
+		</div> 
+
+			<div class="col-auto">
+   				~
+			</div>
+			
+		<div class="col-sm-2">
+			<div class="col-auto">	
+				<input type="date" name="endDate" class="form-control">
+     		</div>
+   		</div>
+   		
+   		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+		
+   	</div>
 </form>
 <!-- 검색칸 -->
 
 		<hr>
              
 
+<form id="receiveList" method="post">
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">입고 관리</h3>
 		<div>
@@ -275,7 +289,6 @@
 	</div>
 			
 	<div class="bg-light text-center rounded p-4 m-3">
-		<form id="receiveList">
 			<div class="d-flex align-items-center justify-content-between mb-4">
 				<span id="selectedCheckboxCount">0</span>
 			</div>			
@@ -285,7 +298,6 @@
 	
 			<div class="table-responsive">		
 				<table class="table-receiveList table align-middle table-bordered table-hover mb-0">
-				
 					<tr>
 						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">입고코드</th>
@@ -333,14 +345,12 @@
 							</td>
 					    </tr>
 				    </c:forEach>
-				    
-				</table>
-			</div>	
-		</form>
+			</table>
+		</div>	
 	</div>
+</form>
 			
 <!-- 페이지 이동 버튼 -->
-
 <nav aria-label="Page navigation example">
  		<ul class="pagination justify-content-center pagination-sm">
  		

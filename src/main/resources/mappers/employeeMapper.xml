@@ -83,12 +83,17 @@
 	
 	
 	
+<!-- 		<selectKey keyProperty="emp_id" resultType="int" order="BEFORE"> -->
+<!-- 		SELECT CONCAT(YEAR(CURRENT_DATE()), LPAD(COALESCE(MAX(SUBSTRING(emp_id, 5)) + 1, '1'), 4, '0')) -->
+<!-- 		FROM employee -->
+<!-- 		</selectKey> -->
 	
 	<!-- 사원등록 -->
 	<insert id="regEmployee">
 		<selectKey keyProperty="emp_id" resultType="int" order="BEFORE">
-		SELECT CONCAT(YEAR(CURRENT_DATE()), LPAD(COALESCE(MAX(SUBSTRING(emp_id, 5)) + 1, '1'), 4, '0'))
+		SELECT CONCAT(YEAR(CURRENT_DATE()), LPAD(COALESCE(MAX(SUBSTRING(emp_id, 5)), '0') + 1, 4, '0'))
 		FROM employee
+		WHERE emp_id LIKE CONCAT(YEAR(CURRENT_DATE()), '%')
 		</selectKey>
 		
 		

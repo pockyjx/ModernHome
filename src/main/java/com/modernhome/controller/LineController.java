@@ -10,12 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.modernhome.domain.LineShutdownVO;
 import com.modernhome.domain.LineVO;
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
@@ -77,19 +79,18 @@ public class LineController {
 			logger.debug("lvo : "+lvo);
 			
 			lineService.regLine(lvo);
-		}else {
-			logger.debug("regLinePOST() 호출 - 라인수정");
-			logger.debug("lvo : "+lvo);
-			
-			lineService.updateLine(lvo);
-		}
+		} /*
+			 * else { logger.debug("regLinePOST() 호출 - 라인수정"); logger.debug("lvo : "+lvo);
+			 * 
+			 * lineService.updateLine(lvo); }
+			 */
 		
 		return "redirect:/production/line/lineList";
 	}
 	
 	// 라인 삭제
 	@RequestMapping(value = "/line/deleteLine")
-	public String deleteLine(@RequestParam(value = "selectedLineId", required = false) Integer[] selectedLineIds) {
+	public String deleteLine(@RequestParam(value = "selectedLineId", required = false) Integer[] selectedLineIds) throws Exception {
 		
 		if(selectedLineIds != null) {
 			for(Integer line_id : selectedLineIds) {
@@ -100,14 +101,34 @@ public class LineController {
 		
 		return "redirect:/production/line/lineList";
 	}
-
 	
+	// 라인 수정 팝업
+	@RequestMapping(value = "/line/popup", method = RequestMethod.GET)
+	public void modifyPopupGET() throws Exception {
+		
+		logger.debug("modifyPopupGET() 호출 - 라인 수정 GET");
+	}
 	
-
-
-	
-	
-	
-	
+	// 라인 수정 팝업
+	@RequestMapping(value = "/line/popup", method = RequestMethod.POST)
+	public void modifyPopupPOST(LineVO lvo, @ModelAttribute("ls_rsns") String ls_rsns) throws Exception {
+		
+		logger.debug("modifyPopupPOST() 호출 - 라인 수정 처리");
+		logger.debug("line_id : " + lvo.getLine_id() + ", use_yn : " + lvo.getUse_yn() + ", emp_id : " + lvo.getEmp_id());
+		if(lvo.getUse_yn().equals("Y")) {
+			lvo.setUse_yn("N");
+		} else {
+			lvo.setUse_yn("Y");
+		}
+		lineService.updateLine(lvo);
+		
+		LineShutdownVO lsvo = new LineShutdownVO();
+		lsvo.setLine_id(lvo.getLine_id());
+		lsvo.setLs_rsns(ls_rsns);
+		lsvo.setEmp_id(lvo.getEmp_id());
+		lineService.regLineShutdown(lsvo);
+		
+		logger.debug("라인 수정 정보 저장");
+	}
 	
 } // Controller

@@ -11,8 +11,9 @@
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
 <!--                         <img class="rounded-circle" src="/resources/img/user.jpg" alt="" style="width: 40px; height: 40px;"> -->
-                        <img src="https://cdn-icons-png.flaticon.com/128/263/263115.png" width="100px" style="margin-left:22%;"><br><br>
-                        <h3 class="text-primary">MODERNHOME</h3>
+						<img src="/resources/img/logo.svg" width="220px"><br><br>
+<!--                         <img src="https://cdn-icons-png.flaticon.com/128/263/263115.png" width="100px" style="margin-left:22%;"><br><br> -->
+<!--                         <h3 class="text-primary">MODERNHOME</h3> -->
 <!--                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div> -->
                     </div>
 <!--                     <div class="ms-3"> -->
@@ -21,7 +22,7 @@
 <!--                     </div> -->
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="/mainpage" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
  					<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>기준정보관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
@@ -62,8 +63,8 @@
                     <div class="nav-item dropdown">
  						<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>품질관리</a>
 					 	<div class="dropdown-menu bg-transparent border-0">
-                           <a href="/production/quality/qualitylist" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>전수검사</a>
-                           <a href="/production/quality/materialQualityList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>수입검사</a>
+                           <a href="/production/quality/qualitylist" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>완제품 검사</a>
+                           <a href="/production/quality/materialQualityList" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>자재 검사</a>
                            <a href="/production/defective/list" class="dropdown-item">ㄴ<i class="far fa-file-alt me-2"></i>불량관리</a>
                        </div>
  					</div>

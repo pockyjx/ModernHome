@@ -79,6 +79,8 @@
 				
 				// 추가버튼, 취소버튼 비활성화
 				$("#addRowButton").removeAttr("disabled");
+				$("#deleteButton").removeAttr("disabled");
+				$("#addRowButton").removeAttr("disabled");
 				$("#cancleButton").attr("disabled", "disabled");
 				$("#submitButton").attr("disabled", "disabled");
 				
@@ -129,9 +131,22 @@
 		});
 		
 		// 삭제 버튼 누를 시
-		$("#deleteInstrButton").click(function(){
+		$("#deleteButton").click(function(){
 			var prfrmCheckbox = $("input[name='prfrm_id']:checked");
 			var prfrm_id = prfrmCheckbox.val();
+		});
+		
+		// 유효성 검사
+		$("#submitButton").click(function() {
+			var form = $("#prfrmList");
+			var prfrm_cnt = $("#ma_num").val();
+			
+			if(prfrm_cnt == null || prfrm_cnt == "") {
+				$("#prfrm_cnt").focus();
+				alert("실적 수량을 입력하세요!");
+				return false;
+			}
+			form.submit();
 		});
 	});
 	
@@ -146,28 +161,11 @@
 			}
 		});
 	}
-
-	$(document).on("click", "input[type='submit']", function() {
-		var url = window.location.href;
-		var wiVal = new URLSearchParams(new URL(url).search).get('work_id');
-		console.log(wiVal);
-		
-		if(wiVal == null) {
-			alert("등록할 작업지시번호를 선택해주세요.");
-			return false;
-		}
-	});
-	
-	// 생산실적 특정 행 클릭 시 -> 상세 작업지시 내역 출력
-// 	$(document).on("click", ".table-prfrmList tr", function() {
-		
-// 	});
 </script>
 <style>
 .selected {
 	background-color: #b3ccff;
 }
-
 </style>
 
 	<form method="get" class="bg-light rounded p-3 m-3">
@@ -197,14 +195,14 @@
 
 <br>
 		
-<form>
+<form id="prfrmList">
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">생산실적 리스트</h3>
 		<div>
-			<c:if test="${(sessionScope.emp_dept eq '생산' || sessionScope.emp_dept eq '품질') && sessionScope.emp_auth >= 2}">
+			<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2 || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteInstrButton" formaction="delPrfrm" formmethod="post">
+				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="delPrfrm" formmethod="post">
 					<i class="fa fa-trash"></i> 삭제</button>
 				<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled>
 					<i class="fa fa-download"></i> 저장</button>
@@ -248,7 +246,7 @@
 							<c:if test="${empty wp.update_date}">${fn:substring(wp.reg_date, 0, 10)}</c:if>
 						</td>
 						<td>${wp.gb_yn}</td>
-						<td>${wp.prfrm_cnt}<input type="hidden" name="prfrm_cnt" value="${wp.prfrm_cnt}"></td>
+						<td>${wp.prfrm_cnt}</td>
 						<td>${wp.df_cnt}</td>
 						<td>${wp.emp_name}</td>
 						<td>${wp.work_cnt}</td>

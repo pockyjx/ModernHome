@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.modernhome.domain.ClientVO;
-import com.modernhome.domain.EmployeeVO;
 import com.modernhome.domain.OutOrderJoinVO;
+import com.modernhome.domain.OutOrderResultVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
@@ -225,6 +226,36 @@ public class ClientController {
 	
 	
 	
+	// 수주 실적(월별 수주 건수, 월별 수주 금액)
+	// http://localhost:8088/client/outOrderResult
+	@RequestMapping(value = "/outOrderResult")
+	public void outOrderResult(Model model) throws Exception {
+		
+		logger.debug("outOrderResult()호출 (수주 실적)");
+		
+		
+		List<OutOrderResultVO> monthlyOrderResult = oService.monthlyOrderResult();
+		
+		logger.debug("월별 수주 실적 : " + monthlyOrderResult);
+		
+		// ObjectMapper를 사용하여 List<OutOrderResultVO>를 JSON 문자열로 변환
+		ObjectMapper objectMapper = new ObjectMapper();
+		String monthlyOrderResultJson = objectMapper.writeValueAsString(monthlyOrderResult);
+		
+		// 모델 객체에 추가
+		model.addAttribute("monthlyOrderResult", monthlyOrderResultJson);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// ----------------------------- 출하 ------------------------------------
 		// http://localhost:8088/client/shipmentList
 		// 출하관리
@@ -304,7 +335,8 @@ public class ClientController {
 	// 수주, 출하 등록시 팝업 -------------------------------------------------------------------
 	// http://localhost:8088/client/popUpProduct
 	@RequestMapping(value = "/addPopup", method = RequestMethod.GET )
-	public String popUpGET(Model model, @ModelAttribute("txt") String txt, PageVO pvo, ProductVO prvo) throws Exception {
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt, PageVO pvo,
+			ClientVO cvo, ProductVO prvo) throws Exception {
 		logger.debug("popUpGET() 호출!");
 		
 		PageMaker pm = new PageMaker();
@@ -343,23 +375,49 @@ public class ClientController {
 				
 			}
 			
-			return "/info/req/popUpProduct";
+			return "/client/popUpProduct";
 			
-			// 여기까지 완제품 팝업 페이징
+			/////////////////////////// 여기까지 완제품 팝업 페이징
+		
+			
 		
 		}else if(txt.equals("clt")) { // 거래처 목록 팝업
+			
+			
 			List<ClientVO> popUpClt = cService.getClientList(pvo);
-			model.addAttribute("popUpClt", popUpClt);
 			
-			pm.setPageVO(pvo);
-			pm.setTotalCount(cService.getCltSearchCnt(cvo));
-			model.addAttribute("pm", pm);
-			
-			model.addAttribute("clientVO", cvo);
+			if(cvo.getClt_name() != null) { // 거래처 팝업창에서 검색했을 때
+
+				logger.debug("거래처 팝업(검색) 호출!");
+				popUpClt = cService.getClientList(cvo, pvo);
+				model.addAttribute("popUpClt", popUpClt);
+				
+        		// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(cService.getCltSearchCnt(cvo));
+				model.addAttribute("pm", pm);
+				
+				model.addAttribute("clientVO", cvo);
+        		
+			}else {
+				logger.debug("거래처 팝업 호출");
+				popUpClt = cService.getClientList(pvo);
+				model.addAttribute("popUpClt", popUpClt);
+				
+				// 페이징 정보 추가
+				pm.setPageVO(pvo);
+				pm.setTotalCount(cService.getTotalCntClt());
+				model.addAttribute("pm", pm);
+			}
 			
 			return "/client/popUpClient";
 		}
 		// - 수주 등록시 팝업
+		
+		
+		
+		
+		
 		
 		// 출하등록할때 팝업
 		else if(txt.equals("clt2")) { // 거래처 목록 팝업2
@@ -376,6 +434,19 @@ public class ClientController {
 		}
 		
 		return "/client/clientList";
+		
+	}
+	
+	
+	
+	// BOM (수주계약서)
+	// http://localhost:8088/info/req/BOM
+	@RequestMapping(value = "/client/outOrderContract", method = RequestMethod.GET)
+	public void outOrderContract(@RequestParam(value = "oo_num") String oo_num, Model model) throws Exception {
+		logger.debug("outOrderContract 호출!");
+		
+		OutOrderJoinVO contractList = oService.outOrderContract(oo_num);
+		model.addAttribute("contractList", contractList);
 		
 	}
 	

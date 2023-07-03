@@ -14,7 +14,7 @@
 	<!-- 수주 불러오기 -->
 	<select id="outOrderList" resultType="com.modernhome.domain.OutOrderJoinVO">
 		SELECT oo_num, out_order.emp_id, update_emp_id, clt_num, clt_name, pro_num, pro_name,
-		oo_cnt, oo_start_date, oo_end_date, oo_state,
+		oo_cnt, oo_start_date, oo_end_date, oo_state, pro_price, clt_cost, oo_id,
 			CASE
 			WHEN update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = out_order.emp_id)
@@ -33,6 +33,8 @@
 		FROM out_order
 		join client c on out_order.clt_id = c.clt_id
 		join product p on out_order.pro_id = p.pro_id
+		
+		ORDER BY oo_num DESC
 		
 		LIMIT #{startPage}, #{pageSize}
 	</select>
@@ -119,11 +121,11 @@
 		</selectKey>
 	
 	
-		INSERT INTO out_order (oo_num, emp_id, clt_id, pro_id, oo_cnt, oo_start_date, oo_end_date, oo_state)
+		INSERT INTO out_order (oo_num, emp_id, clt_id, pro_id, oo_cnt, oo_start_date, oo_end_date, oo_state, clt_cost)
 		VALUES (#{oo_num}, #{emp_id}, #{clt_id}, #{pro_id}, #{oo_cnt},
 		CASE WHEN #{oo_start_date} = '' THEN CURRENT_TIMESTAMP ELSE #{oo_start_date} END,
 		CASE WHEN #{oo_end_date} = '' THEN NULL ELSE #{oo_end_date} END,
-		#{oo_state})
+		#{oo_state}, #{clt_cost})
 	</insert>
 	<!-- 수주 등록 -->
 	
@@ -138,9 +140,50 @@
 		UPDATE out_order SET update_emp_id = #{update_emp_id}, oo_cnt = #{oo_cnt}, oo_state = #{oo_state},
 		oo_start_date = CASE WHEN #{oo_start_date} = '' THEN NULL ELSE #{oo_start_date} END,
 		oo_end_date = CASE WHEN #{oo_end_date} = '' THEN NULL ELSE #{oo_end_date} END,
-		oo_update_date = CURRENT_TIMESTAMP
+		oo_update_date = CURRENT_TIMESTAMP,
+		clt_cost = #{clt_cost}
 		WHERE oo_num = #{oo_num}
 	</update>
 	<!-- 수주 수정 -->
-
+	
+	<!-- 수주서 -->
+	<select id="outOrderContract" resultType="com.modernhome.domain.OutOrderJoinVO">
+		SELECT oo_num, out_order.emp_id, update_emp_id, clt_num, clt_name, pro_num, pro_name,
+		oo_cnt, oo_start_date, oo_end_date, oo_state, pro_price, clt_cost, oo_id,
+			CASE
+			WHEN update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = out_order.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = out_order.update_emp_id)
+			END AS emp_name,
+			
+			CASE
+			WHEN oo_update_date IS NULL THEN
+			oo_reg_date
+			ELSE
+			oo_update_date
+			END AS oo_reg_date
+			
+			
+		FROM out_order
+		join client c on out_order.clt_id = c.clt_id
+		join product p on out_order.pro_id = p.pro_id
+		WHERE oo_num = #{oo_num}
+	</select>
+	<!-- 수주서 -->
+	
+	
+	
+	
+	<!-- 월별 수주건수, 금액 계산 -->
+	<select id="monthlyOrderResult" resultType="com.modernhome.domain.OutOrderResultVO">
+		SELECT DATE_FORMAT(oo_start_date, '%Y-%m') AS month,
+		COUNT(*) monthlyOrderCount, SUM(clt_cost) AS monthlyOrderAmount
+		FROM out_order
+		GROUP BY DATE_FORMAT(oo_start_date, '%Y-%m')
+		ORDER BY month;
+	</select>
+	<!-- 월별 수주건수, 금액 계산 -->
+	
+	
 </mapper>

@@ -41,9 +41,9 @@
 						 '<input type="text" class="form-control" name="ma_name" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
 						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;" readonly></td>' +
-						 '<td><input type="text" class="form-control" name="df_cnt"></td>' +
-						 '<td><input type="text" class="form-control" name="df_rsns"></td>' +
-						 '<td><select class="form-control" name="repair_yn">' +
+						 '<td><input id="df_cnt" type="text" class="form-control" name="df_cnt"></td>' +
+						 '<td><input id="df_rsns" type="text" class="form-control" name="df_rsns"></td>' +
+						 '<td><select id="repair_yn" class="form-control" name="repair_yn">' +
 						 '<option value="가능">가능</option>' +
 						 '<option value="불가">불가</option>' +
 						 '</select></td>' +
@@ -90,6 +90,45 @@
 				
 				pageStatus = "";
 			}
+			// 수정버튼 취소
+			if(pageStatus == "update"){
+				
+				// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+				$(".table-defective tr").each(function() {
+				var row = $(this);
+					
+				// 폼 초기화(기존내용으로)
+				$("#defList")[0].reset();
+				
+				// 각 셀의 값을 원래 상태로 되돌림
+				row.find("td:not(:first-child)").each(function(index) {
+					
+					var cellValue = $(this).find("input").val();
+					
+					if ($(this).find("select").length) {
+						// <select>가 있는 경우 선택된 옵션의 텍스트로 변경
+						var selectedOptionText = $(this).find("select option:selected").text();
+						$(this).html(selectedOptionText);
+					}else {
+						// <select>가 없는 경우 셀 값을 그대로 표시
+						$(this).html(cellValue);
+					}
+				});
+				
+				// selected 클래스를 없앰 (css 없애기)
+				$(".table-inorderList tr").removeClass("selected");
+				
+				// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+				$("#addRowButton").removeAttr("disabled");
+				$("#updateButton").removeAttr("disabled");
+				$("#deleteInorderButton").removeAttr("disabled");
+				
+				$("#cancelButton").attr("disabled", "disabled");
+				$("#submitButton").attr("disabled", "disabled");
+				
+				pageStatus = "";
+				});
+			}
 		});
 
 		// 수정 버튼 누를 시
@@ -122,11 +161,13 @@
 					var cellType = "text";
 					var cellName = cellNames[index];
 					
-					if(index === 7 || index === 8) {
-						$(this).html('<input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
+					if(index === 1) {
+						$(this).html('<input id="dfTypePop" class="form-control" type="hidden" name="' + cellName + '" value="' + cellValue + '">');
+					}else if(index === 8) {
+						$(this).html('<input id="df_rsns" class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
 					} else if(index === 9) {
 						$(this).html(
-							'<select class="form-control" name="' + cellNames[index] + '">'
+							'<select id="repair_yn" class="form-control" name="' + cellNames[index] + '">'
 							+ '<option value="가능">가능</option>'
 							+ '<option value="불가">불가</option>'
 							+ '</select>');
@@ -134,7 +175,6 @@
 						$(this).html('<input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + 
 								'" style="border: none; background: transparent;" disabled>');
 					}
-					
 					
 					$("#updateButton").attr("disabled", "disabled");
 					$("#addRowButton").attr("disabled", "disabled");
@@ -199,13 +239,41 @@
 			var dfCheckbox = $("input[name='df_id']:checked");
 			var df_id = dfCheckbox.val();
 		});
+		
+	 	// 유효성 검사
+	 	$("#submitButton").click(function() {
+	 		var form = $("#defList");
+	 		form.attr("method", "post");
+	 		form.attr("action", "/production/defective/regDef");
+			
+	 		var df_type = $("#dfTypePop").val();
+	 		var df_rsns = $("#df_rsns").val();
+	 		var repair_yn = $("#repair_yn").val();
+			
+	 		if(df_type == null || df_type == "") {
+	 			alert("불량 타입을 입력하세요!");
+	 			$("#dfTypePop").focus();
+	 			return false;
+	 		}
+	 		if(df_rsns == null || df_rsns == "") {
+	 			alert("불량 사유를 입력하세요!");
+	 			$("#df_rsns").focus();
+	 			return false;
+	 		}
+	 		if(repair_yn == null || repair_yn == "") {
+	 			alert("수리 가능 여부를 선택하세요!");
+	 			$("#repair_yn").focus();
+	 			return false;
+	 		}
+	 		form.submit();
+	 	});
 	});
 	
 	function repairAndDiscard(rd, dfId, dfCnt) {
 		var sessionEmpAuth = ${sessionScope.emp_auth};
 		console.log(sessionEmpAuth)
 		
-		if(sessionEmpAuth < 3) {
+		if(sessionEmpAuth < 2) {
 			alert("권한이 없습니다.");
 			return false;
 		}
@@ -214,11 +282,11 @@
 		window.open(url, 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
 	}
 </script>
+
 <style>
 .selected {
 	background-color: #b3ccff;
 }
-
 </style>
 
 	<form method="get" class="bg-light rounded p-3 m-3">
@@ -227,8 +295,9 @@
 			<div class="col-sm-10">
 				<select name="df_type">
 					<option value="all">전체</option>
-					<option value="pro">완제품</option>
-					<option value="ma">자재</option>
+					<option value="pro">공정검사</option>
+					<option value="ma">수입검사</option>
+					<option value="re">출고검사</option>
 				</select>
 			</div>
 		</div>
@@ -249,18 +318,18 @@
 
 <br>
 		
-<form>
+<form id="defList">
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">불량 리스트</h3>
 		<div class="me-2">
-			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2}">
+			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2 || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
 						<i class="fa fa-edit"></i> 수정</button>
 				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="delDef" formmethod="post">
 					<i class="fa fa-trash"></i> 삭제</button>
-				<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regDef" formmethod="post" disabled>
+				<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regDef" formmethod="post" disabled>
 					<i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>
@@ -295,9 +364,9 @@
 						<td><input type="checkbox" class="form-check-input" name="df_id" value="${df.df_id}"></td>
 						<td>${df.df_num}</td>
 						<td>${df.df_type}</td>
-						<td>${(df.df_type == "완제품") ? df.line_num : df.clt_name}</td>
-						<td>${(df.df_type == "완제품") ? df.pro_num : df.ma_num}</td>
-						<td>${(df.df_type == "완제품") ? df.pro_name : df.ma_name}</td>
+						<td>${(df.df_type == "공정검사") ? df.line_num : df.clt_name}</td>
+						<td>${(df.df_type == "공정검사") ? df.pro_num : df.ma_num}</td>
+						<td>${(df.df_type == "공정검사") ? df.pro_name : df.ma_name}</td>
 						<td>${df.emp_name}</td>
 						<td>
 							<c:if test="${!empty wp.update_date}">${fn:substring(df.update_date, 0, 10)}</c:if>
@@ -308,10 +377,10 @@
 						<td>${df.repair_yn}</td>
 						<td>${fn:substring(df.solved_date, 0, 10)}</td>
 						<td>
-							<c:if test="${df.solved_date == null && df.df_type.equals('완제품') && df.repair_yn.equals('가능')}">
+							<c:if test="${df.solved_date == null && df.df_type.equals('공정검사') && df.repair_yn.equals('가능')}">
 								<button type="button" onclick="repairAndDiscard('repair', '${df.df_id}', ${df.df_cnt});" class="btn btn-success m-2">수리</button>
 							</c:if>
-							<c:if test="${df.solved_date == null && df.df_type.equals('완제품') && df.repair_yn.equals('불가')}">
+							<c:if test="${df.solved_date == null && df.df_type.equals('공정검사') && df.repair_yn.equals('불가')}">
 								<button type="button" onclick="repairAndDiscard('discard', '${df.df_id}', ${df.df_cnt});" class="btn btn-danger m-2">폐기</button>
 							</c:if>
 							<c:if test="${df.solved_date != null}">
@@ -325,8 +394,6 @@
 		</div>
 	</div>
 </form>
-
-<%-- ${dfList} --%>
 
 <!-- 페이지 이동 버튼 -->
 <nav aria-label="Page navigation example">

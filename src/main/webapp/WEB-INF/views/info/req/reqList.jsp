@@ -125,6 +125,7 @@
 			var cellNames = [
 				"req_num",
 				"pro_num",
+				"",
 				"pro_name",
 				"ma_num",
 				"ma_name",
@@ -138,6 +139,7 @@
 			var cellIds = [
 				"req_num",
 				"pro_num",
+				"",
 				"pro_name",
 				"ma_num",
 				"ma_name",
@@ -150,31 +152,42 @@
 			
 			// 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 			row.find("td:not(:first-child)").each(function(index) {
-				//
-				var cellValue = $(this).text();
-				var cellOption = "";
 				
-				if(index == 8) {
+				var cellValue = $(this).text();
+
+				if(index == 9) {
 					cellValue = ${sessionScope.emp_id}
 				}
 				
-				if(index == 0 || index == 8) {
+				var cellOption = "";
+				
+				if(index == 0 || index == 9) {
 					cellOption = "readonly";
-				}else if(index == 5){
+				}else if(index == 6){
 					cellOption = "";
 				}else {
 					cellOption = "disabled";
 				}
 				
 				
-				var cellType = index === 5 ? "number" : "text";
-				
-			
+				var cellType = index === 6 ? "number" : "text";
 				
 				var cellName = cellNames[index];
 				var cellId = cellIds[index];
+				var cellContent;
 				
-				$(this).html('<input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control">');
+				var originalValue = row.find(".original-value").val();
+				
+				// 첫 행 링크 유지
+				if(index === 1) {
+					return;
+				}else {
+					cellContent = 
+						'<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control"></td>';
+				}
+				
+// 				$(this).html('<input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control">');
+				$(this).html(cellContent);
 				
 				$("#updateButton").attr("disabled", "disabled");
 				$("#addRowButton").attr("disabled", "disabled");
@@ -194,6 +207,21 @@
 		}
 		
 	}); // 수정 버튼 누를 시
+	
+	// 삭제버튼
+	$("#deleteButton").click(function(){
+		
+		var selectedCheckbox = $("input[name='selectedReqId']:checked");
+		
+		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+		if (selectedCheckbox.length === 0){
+			alert("삭제할 행을 선택해주세요!");
+			
+			// 선택안하면 submit을 막음
+			event.preventDefault();
+		}
+		
+	});
 	
 		// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
         $(".table-reqList th input[type='checkbox']").click(function() {
@@ -277,17 +305,35 @@
     	  
       });
       
+      // 목록에서 완제품 코드 클릭 시 해당 완제품의 BOM 출력
+      $(".openBOM").click(function() {
+    	 var pro_id = $(this).closest("tr").find('td:eq(2)').text();
+    	  
+//     	alert(pro_id);
+    	 
+    	var left = (screen.width - 600) / 2;
+ 		var top = (screen.height - 400) / 2;
+    	window.open('/info/req/BOM?pro_id='+pro_id+'', 'popup', 'width=600, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+    	 
+      });
+      
      });
          
     // 완제품 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='pro_num']", function() {
- 	   window.open('/info/req/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+    	var left = (screen.width - 580) / 2;
+		var top = (screen.height - 680) / 2;
+    	window.open('/info/req/addPopup?txt=pro', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+   		
     });
     
     // 자재 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='ma_num']", function() {
- 	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+    	var left = (screen.width - 580) / 2;
+		var top = (screen.height - 680) / 2;
+ 	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
     });
+    
 
 	  </script>
 	  
@@ -297,64 +343,54 @@
         }
     </style>
 
-
-	<!-- Modal -->
-	<div class="modal" tabindex="-1" id="modalBOM">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<p>Modal body text goes here.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--  -->
-
 <form action="" method="GET" class="bg-light rounded p-3 m-3">
 	
-		<select name="option">
-			
-			<option value="all" 
-				<c:if test="${option == '' || option == 'all' }">selected</c:if>
-			>전체</option>
-			<option value="pro_name" 
-				<c:if test="${option == 'pro_name' }">selected</c:if>
-			>완제품명</option>
-			<option value="ma_name"
-				<c:if test="${option == 'ma_name' }">selected</c:if>
-			>자재명</option>
-		</select>
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label"><b>타입</b></label>
+		<div class="col-sm-2">
+			<select name="option" class="form-select" style="background-color: #fff;">
+				<option value="all" 
+					<c:if test="${option == '' || option == 'all' }">selected</c:if>
+				>전체</option>
+				<option value="pro_name" 
+					<c:if test="${option == 'pro_name' }">selected</c:if>
+				>완제품명</option>
+				<option value="ma_name"
+					<c:if test="${option == 'ma_name' }">selected</c:if>
+				>자재명</option>
+			</select>
+		</div>		
+	</div>
+	
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label"><b>검색어</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="search" value="${search }" class="form-control">
+		</div>
 		
-			<input type="text" name="search" value="${search }">
-			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+	</div>
+	
 </form>
 
 <form id="reqList">
 	
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		
-	<h3 class="m-5">소요량 관리</h3>
+	<h3 class="m-4">소요량 관리</h3>
 		
-	<div class="m-4">
+	<div>
 	
-		<c:if test="${(sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산') && (sessionScope.emp_auth == '2' || sessionScope.emp_auth == '3')}">
+		<c:if test="${((sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산') && sessionScope.emp_auth == '2') || sessionScope.emp_auth == '3'}">
 		
-			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-			<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="/info/delRequirement" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
+			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+			<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+			<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/info/delRequirement" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 			
-			<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/info/regRequirement" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 	
 		</c:if>
 	</div>
@@ -371,26 +407,28 @@
 	<input type="hidden" name="ma_id" id="ma_id"> 
 	
 		<div class="table-responsive">
-			<table class="table-reqList table table-striped align-middle table-hover mb-0">
+			<table class="table-reqList table align-middle table-bordered table-hover mb-0">
 		
 				<tr>
-					<th><input type="checkbox" class="form-check-input"></th>
-					<th>소요량 코드</th>
-					<th>완제품 코드</th>
-					<th>완제품명</th>
-					<th>자재 코드</th>
-					<th>자재명</th>
-					<th>소요량</th>
-					<th>단위</th>
-					<th>등록일</th>
-					<th>등록자</th>
+					<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+					<th style="background-color: rgba(0,0,0,0.075);">소요량 코드</th>
+					<th style="display: none;">완제품id</th>
+					<th style="background-color: rgba(0,0,0,0.075);">완제품 코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">완제품명</th>
+					<th style="background-color: rgba(0,0,0,0.075);">자재 코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
+					<th style="background-color: rgba(0,0,0,0.075);">소요량</th>
+					<th style="background-color: rgba(0,0,0,0.075);">단위</th>
+					<th style="background-color: rgba(0,0,0,0.075);">등록일</th>
+					<th style="background-color: rgba(0,0,0,0.075);">등록자</th>
 				</tr>
 				
 				<c:forEach var="vo" items="${reqList }">
 				<tr>	
 					<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}" class="form-check-input"></td>
 					<td>${vo.req_num }</td>
-					<td><a href="/info/req/BOM?pro_id=${vo.pro_id}" id="openBOM" >${vo.pro_num }</a></td>
+					<td style="display: none;">${vo.pro_id }</td>
+					<td><a href="javascript:void(0);" class="openBOM">${vo.pro_num }</a></td>
 					<td>${vo.pro_name }</td>
 					<td>${vo.ma_num }</td>
 					<td>${vo.ma_name }</td>

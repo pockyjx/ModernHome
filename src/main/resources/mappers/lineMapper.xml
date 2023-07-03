@@ -58,8 +58,8 @@
 	<!-- 라인 수정 -->
 	<update id="updateLine">
 		UPDATE line 
-		SET line_num = #{line_num}, line_name = #{line_name}, use_yn = #{use_yn}, update_date = now(), update_emp_id = #{update_emp_id}
-		WHERE line_num = #{line_num}
+		SET use_yn = #{use_yn}, update_date = now(), update_emp_id = #{emp_id}
+		WHERE line_id = #{line_id}
 	</update>
 	<!-- 라인 수정 -->
 	
@@ -69,6 +69,12 @@
 		where line_id = #{line_id}
 	</delete>
 	<!-- 라인 삭제 -->
-
+	
+	<!-- 라인 수정 때마다 라인 가동중지 테이블에 이력 저장 -->
+	<insert id="regLineShutdown">
+		INSERT INTO line_shutdown (line_id, ls_rsns, emp_id)
+		VALUES (#{line_id}, #{ls_rsns}, #{emp_id})
+	</insert>
+	<!-- 라인 수정 때마다 라인 가동중지 테이블에 이력 저장 -->
 
 </mapper>

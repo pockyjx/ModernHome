@@ -22,15 +22,13 @@ public class OutOrderJoinVO {
 	
 	private String pro_num;
 	private String pro_name;
+	private Integer pro_price;
 	
 	private String oo_start_date_1;	
 	private String oo_start_date_2;
 	
 	private String oo_end_date_1;
 	private String oo_end_date_2;
-	
-	
-	
 	public Integer getOo_id() {
 		return oo_id;
 	}
@@ -139,6 +137,12 @@ public class OutOrderJoinVO {
 	public void setPro_name(String pro_name) {
 		this.pro_name = pro_name;
 	}
+	public Integer getPro_price() {
+		return pro_price;
+	}
+	public void setPro_price(Integer pro_price) {
+		this.pro_price = pro_price;
+	}
 	public String getOo_start_date_1() {
 		return oo_start_date_1;
 	}
@@ -170,23 +174,9 @@ public class OutOrderJoinVO {
 				+ oo_start_date + ", oo_end_date=" + oo_end_date + ", oo_state=" + oo_state + ", update_emp_id="
 				+ update_emp_id + ", oo_reg_date=" + oo_reg_date + ", oo_update_date=" + oo_update_date + ", emp_name="
 				+ emp_name + ", clt_num=" + clt_num + ", clt_name=" + clt_name + ", pro_num=" + pro_num + ", pro_name="
-				+ pro_name + ", oo_start_date_1=" + oo_start_date_1 + ", oo_start_date_2=" + oo_start_date_2
-				+ ", oo_end_date_1=" + oo_end_date_1 + ", oo_end_date_2=" + oo_end_date_2 + "]";
+				+ pro_name + ", pro_price=" + pro_price + ", oo_start_date_1=" + oo_start_date_1 + ", oo_start_date_2="
+				+ oo_start_date_2 + ", oo_end_date_1=" + oo_end_date_1 + ", oo_end_date_2=" + oo_end_date_2 + "]";
 	}
-	
-	
-
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
 	
 	
 	

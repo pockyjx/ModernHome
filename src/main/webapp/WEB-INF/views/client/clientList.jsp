@@ -6,12 +6,8 @@
 <%@ include file="../inc/header.jsp"%>
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
-<!DOCTYPE html>
-<html>
-<head>
+
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 <style>
 	.selected {
 	background-color: #b3ccff;
@@ -350,24 +346,25 @@
 </script>
 
 
-
-
-	<h1>거래처조회</h1>
 <!-- 	http://localhost:8088/client/clientList -->
-	<form action="" method="GET">
-	상호명 <input type="text" name="clt_name">
-	대표자 <input type="text" name="clt_rep">
-	     
+<form action="" name="search"  method="GET" class="bg-light rounded p-3 m-3">
+	<div class="row mb-3">	     
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>상호명</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="clt_name" value="${clt_name}" placeholder="상호명을 입력하세요" class="form-control">
+		</div>
+	</div>
 	
-<span>업종유형
-  <!-- 체크박스 요소 - 수주 -->
-  <input type="checkbox" name="clt_sort" value="수주" ${param.clt_sort == '수주' ? 'checked' : ''}
-    onclick="handleCheckbox(this, '수주')">수주
-
-  <!-- 체크박스 요소 - 발주 -->
-  <input type="checkbox" name="clt_sort" value="발주" ${param.clt_sort == '발주' ? 'checked' : ''}
-    onclick="handleCheckbox(this, '발주')">발주
-</span>
+	<div class="row mb-3">	     
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>대표자</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="clt_rep" value="${clt_rep}" placeholder="대표자를 입력하세요" class="form-control">
+		</div>
+	</div>
+	
+	<div class="row mb-3">
+		
+	
 
 <script>
   /**
@@ -391,8 +388,11 @@
 
 
 			
-	<input type="submit" value="조회">
-	</form>
+		<div class="col-auto">
+				<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+	</div>
+</form>
 		
 		
 		

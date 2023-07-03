@@ -6,17 +6,30 @@
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 
-<h1>재고 현황</h1>
-
-<div>
+<!-- 검색 -->
+<form action="" method="GET" class="bg-light rounded p-3 m-3">
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label"><b>자재코드</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="ma_num" value="${msvo.ma_num }" class="form-control"></label>
+		</div>
+	</div>
+	
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label"><b>자재명</b></label>
+			<div class="col-sm-4">
+				<input type="text" name="ma_name" value="${msvo.ma_name }" class="form-control"></label>
+			</div>
+			<div class="col-auto">
+				<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+			</div>
+	</div>
+</form>
+<!-- 검색 -->
+	
+<div >
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
 	    <a class="nav-link active" aria-current="page" href="/stock/materialStockList">자재</a>
@@ -27,43 +40,33 @@
 	</ul>
 </div>
 
-<hr>
+<div class="d-flex align-items-center justify-content-between mb-2">   
+	<h4 class="m-4">자재 재고</h4>
+</div>
 
-	<h4>재고 검색</h4>
-
-	<fieldset>
-		<form action="" method="GET">
-
-			<label><b>자재코드</b> <input type="text" name="ma_num" value="${msvo.ma_num }"></label>
-			<label><b>자재명</b> <input type="text" name="ma_name" value="${msvo.ma_name }"></label>
-
-			<input type="submit" value="조회">
-		</form>
-	</fieldset>
-	
-<hr>
-
-<h4>자재 재고</h4>
-
-	<table border="1">
-		<tr>
-			<th>창고명</th>
-			<th>자재 코드</th>
-			<th>자재명</th>
-			<th>현 재고</th>
-			<th>단위</th>
-		</tr>
-		
-		<c:forEach items="${msList }" var="vo">
-		<tr>
-			<td>${vo.wh_name}</td>
-			<td>${vo.ma_num }</td>
-			<td>${vo.ma_name }</td>
-			<td>${vo.ms_cnt }</td>
-			<td>${vo.ma_unit }</td>
-		</tr>
-		</c:forEach>
-	</table>
+<div class="bg-light text-center rounded p-4 m-3">
+	<div class="table-responsive">
+		<table class="table align-middle table-bordered table-hover mb-0">
+			<tr>
+				<th style="background-color: rgba(0,0,0,0.075);">창고명</th>
+				<th style="background-color: rgba(0,0,0,0.075);">자재 코드</th>
+				<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
+				<th style="background-color: rgba(0,0,0,0.075);">현 재고</th>
+				<th style="background-color: rgba(0,0,0,0.075);">단위</th>
+			</tr>
+			
+			<c:forEach items="${msList }" var="vo">
+			<tr>
+				<td>${vo.wh_name}</td>
+				<td>${vo.ma_num }</td>
+				<td>${vo.ma_name }</td>
+				<td>${vo.ms_cnt }</td>
+				<td>${vo.ma_unit }</td>
+			</tr>
+			</c:forEach>
+		</table>
+	</div>
+</div>
 	
 	<!-- 페이지 이동 버튼 -->
 	
@@ -98,8 +101,5 @@
 	</nav>
 	
 	<!-- 페이지 이동 버튼 -->
-
-</body>
-</html>
 
 <%@ include file="../inc/footer.jsp"%>
