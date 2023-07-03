@@ -50,6 +50,7 @@
 			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 			if (selectedCheckbox.length === 1) {
 				var workId = selectedCheckbox.val();
+				
 				window.name = "add";
 				window.open('/production/instruct/modify?work_id=' + workId, 'popup', 
 						'width=500, height=600, top=300, left=650, location=no, status=no');
