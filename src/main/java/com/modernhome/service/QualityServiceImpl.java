@@ -93,21 +93,12 @@ public class QualityServiceImpl implements QualityService{
 		qdao.modifyRec(wvo);
 		
 	}
-
-	// 출고검사 목록 조회
+	
+	
+	// 출고검사 목록 출력
 	@Override
-	public List<WijoinVO> getFIList() throws Exception {
-		return qdao.getFIList();
+	public List<WijoinVO> getMrList() throws Exception {
+		return qdao.getMrList();
 	}
-
-	// 출고검사 검색 결과
-	@Override
-	public List<WijoinVO> getFISearch(String fi_type, String namesearch, String startDate, String endDate)
-			throws Exception {
-		return qdao.getFISearch(fi_type,namesearch,startDate,endDate);
-	}
-
-
-
 	
 } // QualityServiceImpl
