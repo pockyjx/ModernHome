@@ -214,7 +214,7 @@
 		<div class="row mb-3">
 			<label for="mqSearch" class="col-sm-2 col-form-label"><b>품질검사코드</b></label>
 		 	<div class="col-sm-4">
-		 		<input type="text" name="qc_num" value="${qc_num}" placeholder="품질검사코드를 입력하세요">
+		 		<input type="text" name="qc_num" value="${qc_num}" placeholder="품질검사코드를 입력하세요" class="form-control">
 		 	</div>
 		</div>
 		
@@ -260,7 +260,7 @@
 			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
 				<button type="button"  class="btn btn-primary m-2" id="cancleButton" disabled="disabled">X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton" ><i class="fa fa-edit"></i> 수정</button>
-				<button type="button" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled">
+				<button type="submit" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled">
 					<i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>

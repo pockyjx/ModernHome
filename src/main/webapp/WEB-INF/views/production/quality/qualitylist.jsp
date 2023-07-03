@@ -95,7 +95,7 @@
 				// 수정버튼 취소
 				if(pageStatus == "update"){
 					// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
-					$("#table-qualityList tr").each(function() {
+					$(".table-qualityList tr").each(function() {
 					var row = $(this);
 						
 					// 폼 초기화(기존내용으로)
@@ -110,7 +110,7 @@
 				});
 					
 					// selected 클래스를 없앰 (css 없애기)
-					$("#table-qualityList tr").removeClass("selected");
+					$(".table-qualityList tr").removeClass("selected");
 					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#updateButton").removeAttr("disabled");
@@ -126,11 +126,41 @@
 				updateSelectedCheckboxCount();
 				
 			}); // 취소버튼
-		
+			
+		   	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+	        $(".table-qualityList th input[type='checkbox']").click(function() {
+	            var checkbox = $(this);
+	            var isChecked = checkbox.prop('checked');
+	            var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
+	            var table = checkbox.closest('table');
+	            var rows = table.find('tr');
 
+	            // <td> 부분의 행들을 선택하고 배경색 지정
+	            rows.each(function() {
+	                var checkboxTd = $(this).find('td:nth-child(' + columnIndex + ') input[type="checkbox"]');
+	                if (checkboxTd.length > 0) {
+	                    checkboxTd.prop('checked', isChecked);
+	                    if (isChecked) {
+	                        $(this).addClass('selected');
+	                    } else {
+	                        $(this).removeClass('selected');
+	                    }
+	                }
+	            });
+	        });
+
+	        // <td> 쪽 체크박스 클릭 시 행 선택
+	        $(".table-qalityList td input[type='checkbox']").click(function() {
+	            var checkbox = $(this);
+	            var isChecked = checkbox.prop('checked');
+	            checkbox.closest('tr').toggleClass('selected', isChecked);
+	        });
+		
+			// 체크박스 선택 시 체크박스의 개수 구하기
+	        updateSelectedCheckboxCount();
 
         // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
-        $("#table-qualityList th input[type='checkbox']").click(function() {
+        $(".table-qualityList th input[type='checkbox']").click(function() {
             var checkbox = $(this);
             var isChecked = checkbox.prop('checked');
             var columnIndex = checkbox.parent().index() + 1; // 체크박스의 열 인덱스
@@ -150,7 +180,7 @@
         });
 
         // <td> 쪽 체크박스 클릭 시 행 선택
-        $("#table-qualityList td input[type='checkbox']").click(function() {
+        $(".table-qualityList td input[type='checkbox']").click(function() {
             var checkbox = $(this);
             var isChecked = checkbox.prop('checked');
             checkbox.closest('tr').toggleClass('selected', isChecked);
@@ -159,8 +189,8 @@
         });
 
         function updateSelectedCheckboxCount() {
-            var totalCheckboxes = $("#table-qualityList td input[type='checkbox']").length;
-            var selectedCheckboxes = $("#table-qualityList td input[type='checkbox']:checked").length;
+            var totalCheckboxes = $(".table-qualityList td input[type='checkbox']").length;
+            var selectedCheckboxes = $(".table-qualityList td input[type='checkbox']:checked").length;
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         }  // 체크박스 선택 시 체크박스 개수 구하기
         
@@ -193,7 +223,7 @@
 				<option value="전체">전체</option>
 				<option value="대기">대기</option>
 				<option value="진행중">진행중</option>
-				<option value="미완료">완료</option>
+				<option value="완료">완료</option>
 			</select>
 		</div>
 	</div>	
@@ -231,7 +261,7 @@
 			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-				<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+				<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>
 	</div>
