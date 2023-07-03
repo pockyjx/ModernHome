@@ -231,7 +231,7 @@
 			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-				<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+				<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>
 	</div>
@@ -242,7 +242,7 @@
 		</div>
 		
 		<div class="table-responsive">
-			<table id="table-qualityList" class="table text-start align-middle table-bordered table-hover mb-0">
+			<table class="table-qualityList table align-middle table-bordered table-hover mb-0" >
 					<tr>
 						<th style="background-color: rgba(0,0,0,0.075);"><input class="form-check-input"	type="checkbox" id="cbx_chkAll"></th>
 						<th style="background-color: rgba(0,0,0,0.075);">작업지시번호</th>
