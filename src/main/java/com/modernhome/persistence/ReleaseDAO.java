@@ -34,4 +34,12 @@ public interface ReleaseDAO {
 	
 	public void acceptMR(Integer mr_id, Integer ma_id, Integer mr_cnt) throws Exception;
 	public void acceptPR(Integer pr_id, Integer pro_id, Integer pr_cnt) throws Exception;
+
+	// 자재 출고 대기 처리
+	public void waitingMR(Integer mr_id) throws Exception;
+	
+	// 완제품 출고 대기 처리
+	public void waitingPR(Integer pr_id) throws Exception;
+
+
 }

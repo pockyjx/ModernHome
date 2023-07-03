@@ -142,6 +142,12 @@ public class ReleaseServiceImpl implements ReleaseService {
 	public int getPrSearchCnt(ProductReleaseVO vo) throws Exception {
 		return rDAO.getPrSearchCnt(vo);
 	}
+
+	// 자재 출고 대기 처리
+	@Override
+	public void waitingMR(Integer mr_id) throws Exception {
+		rDAO.waitingMR(mr_id);
+	}
 	
 	
 }

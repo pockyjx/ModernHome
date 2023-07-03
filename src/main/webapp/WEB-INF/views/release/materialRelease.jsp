@@ -196,16 +196,31 @@
         		alert("작업지시코드를 입력해주세요");
         	}
          });
- 		$(".release").click(function () {
+ 		
+        // 출고 처리 버튼
+        $(".release").click(function () {
  			var mr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
  			var ma_id = $(this).closest("tr").find('td:eq(11)').text();
  			var mr_cnt = $(this).closest("tr").find('td:eq(4)').text();
- 			alert(mr_id +"/"+ ma_id +"/"+ mr_cnt);
+ 			var work_id = $(this).closest("tr").find('td:eq(13)').text();
+ 			alert(mr_id +"/"+ ma_id +"/"+ mr_cnt+"/"+work_id);
  			if(result = window.confirm("출고하시겠습니까? (출고 후 변경이 불가능합니다.)")) {
-				location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt; 				
+				location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt+"&work_id="+work_id; 				
  			}
  			
  		});
+ 		
+ 		// 출고 대기 버튼
+ 		$(".waiting").click(function() {
+ 			var mr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
+ 			alert(mr_id);
+ 			
+ 			location.href="/release/waitingRelease?txt=mr&rel_id="+mr_id;
+ 			
+ 		});
+        
+        
+ 		
 //  		$("#submitButton").click(function() {
 //  			var ma_id = $('#ma_id').val();
 //  			var work_id = $('#work_id').val();
@@ -331,6 +346,7 @@
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">담당자</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고일자</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고처리</th>
+					<td style="display: none">작업지시 id</td>
 				</tr>
 			  	<c:forEach var="vo" items="${mtReleaseList}">
 				<tr>
@@ -352,7 +368,7 @@
 						<button type="button" class="btn btn-sm btn-success release">출고<br>처리</button>
 						</c:when>
 						<c:when test="${vo.mr_state eq '출고준비' && vo.materialStockVO.ms_cnt ge vo.mr_cnt}">
-						<button type="button" class="btn btn-sm btn-warning">출고<br>대기</button>
+						<button type="button" class="btn btn-sm btn-warning waiting">출고<br>대기</button>
 						</c:when>
 						<c:when test="${vo.mr_state eq '출고준비' && vo.materialStockVO.ms_cnt lt vo.mr_cnt}">
 						<button type="button" class="btn btn-sm btn-danger">출고<br>불가</button>
@@ -362,6 +378,7 @@
 						</c:when>
 						</c:choose>
 					</td>
+					<td style="display: none">${vo.work_id }</td>
 			    </tr>
 			    </c:forEach>
 		</table>
