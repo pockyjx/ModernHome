@@ -334,4 +334,12 @@
   	</update>
   	<!-- 자재 출고 대기 처리 -->
   	
+  	<!-- 완제품 출고 대기 처리 -->
+  	<update id="waitingPR">
+  		UPDATE product_release
+		SET pr_state = '출고대기'
+		WHERE pr_id = #{pr_id}
+  	</update>
+  	<!-- 완제품 출고 대기 처리 -->
+  	
   </mapper>

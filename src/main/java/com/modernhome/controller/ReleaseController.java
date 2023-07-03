@@ -225,6 +225,10 @@ public class ReleaseController {
 			logger.debug("자재 출고 대기 처리!");
 			rService.waitingMR(rel_id);
 			return "redirect:/release/materialRelease";
+		}else if(txt.equals("pr")) {
+			logger.debug("완제품 출고 대기 처리!");
+			rService.waitingPR(rel_id);
+			return "redirect:/release/productRelease";
 		}
 		
 		return "/";
