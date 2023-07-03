@@ -1,5 +1,6 @@
 package com.modernhome.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.modernhome.domain.ClientVO;
@@ -34,4 +35,15 @@ public interface ClientService {
 	public int getCltSearchCnt(ClientVO cvo) throws Exception;
 	
 
+	
+	
+	
+	
+	
+	// 수주 거래처 팝업 페이징
+	public List<ClientVO> ooCltList(ClientVO cvo, PageVO pvo);
+		
+	// 수주 거래처 수(검색포함)
+	public Integer ooCltCnt(ClientVO cvo);
+	
 }

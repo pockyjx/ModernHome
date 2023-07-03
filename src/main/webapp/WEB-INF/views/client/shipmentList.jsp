@@ -58,7 +58,7 @@ $(document).ready(function() {
 	$("#addRowButton").click(function() {
 		
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
-	    $(document).on("click", "input[name='oo_num']", function() {
+	    $(document).on("click", "input[name='pr_num']", function() {
 	 	   window.open('/client/addPopup?txt=clt2', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	    });
 		
@@ -66,12 +66,14 @@ $(document).ready(function() {
 		'<td><input type="checkbox"></td>' +
 		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
 		'<td><input type="text" name="emp_id" value="' + '${sessionScope.emp_id}' + '" readonly></td>' +
-		'<td><input type="text" name="oo_num" id="oo_num"></td>' +
+		'<td><input type="text" name="pr_num" id="pr_num"></td>' +
+		'<td><input type="text" name="oo_num" id="oo_num" readonly></td>' +
 		'<td><input type="text" name="clt_name" id="clt_name" readonly></td>' +
-		'<td><input type="text" name="pro_num" id="pro_num" readonly></td>' +
 		'<td><input type="text" name="pro_name" id="pro_name" disabled readonly></td>' +
-		'<td><input type="text" name="shp_cnt" readonly></td>' +
+		'<td><input type="text" name="oo_cnt" id="oo_cnt" readonly></td>' +
+		'<td><input type="text" name="oo_end_date" id="oo_end_date" readonly></td>' +
 		'<td><input type="text" name="shp_date"></td>' +
+		'<td><input type="text" name="shp_state" id="shp_state" readonly></td>' +
 		'<td><input type="text" name="shp_reg_date"></td>' +	
 		'</td>' +
 		'</tr>';
@@ -310,12 +312,14 @@ $(document).ready(function() {
 					<th><input type="checkbox"></th>
 			    	<th>출하코드</th>
 			    	<th>담당자</th>
+			    	<th>출고코드</th>
 			    	<th>수주코드</th>
 			    	<th>거래처</th>
-			    	<th>완제품코드</th>
 			    	<th>완제품명</th>
 			    	<th>출하량</th>
+			    	<th>납기예정일</th>
 			    	<th>출하일자</th>
+			    	<th>진행상황</th>
 			    	<th>등록일</th>
 				</tr>
 			  	<c:forEach var="shipmentList" items="${shipmentList }">
@@ -323,12 +327,14 @@ $(document).ready(function() {
 						<td><input type="checkbox" name="selected" value="${shipmentList.shp_num}"></td>
 				    	<td>${shipmentList.shp_num}</td>
 				    	<td>${shipmentList.emp_name}</td>
+				    	<td>${shipmentList.pr_num}</td>
 				    	<td>${shipmentList.oo_num}</td>
 				    	<td>${shipmentList.clt_name}</td>
-				    	<td>${shipmentList.pro_num}</td>
 				    	<td>${shipmentList.pro_name}</td>
-				    	<td>${shipmentList.shp_cnt}</td>
+				    	<td>${shipmentList.oo_cnt}</td>
+				    	<td>${shipmentList.oo_end_date}</td>
 				    	<td>${fn:substring(shipmentList.shp_date, 0, 10)}</td>
+				    	<td>${shipmentList.shp_state}</td>
 				    	<td>${fn:substring(shipmentList.shp_reg_date, 0, 10)}</td>
 				    </tr>
 			    </c:forEach>

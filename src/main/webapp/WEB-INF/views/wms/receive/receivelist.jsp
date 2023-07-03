@@ -295,6 +295,7 @@
 	
 			<input type="hidden" name="io_id" id="io_id">
 			<input type="hidden" name="clt_id" id="clt_id">
+			<input type="hidden" name="ma_id" id="ma_id">
 	
 			<div class="table-responsive">		
 				<table class="table-receiveList table align-middle table-bordered table-hover mb-0">

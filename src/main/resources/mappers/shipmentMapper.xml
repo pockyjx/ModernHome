@@ -13,7 +13,7 @@
 	
 	<!-- 출하 불러오기 -->
 	<select id="shipmentList" resultType="com.modernhome.domain.ShipmentJoinVO">
-		SELECT shp_num, emp_name, oo_num, shipment.update_emp_id, clt_name, pro_num, pro_name,  shp_cnt, shp_date,
+		SELECT shp_num, shipment.emp_id, shipment.update_emp_id, pr_num, oo_num, clt_name, pro_name, oo_cnt, oo_end_date, shp_date, shp_state,
 		CASE
 			WHEN shipment.update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = shipment.emp_id)
@@ -32,6 +32,7 @@
 		join out_order o on shipment.oo_id = o.oo_id
 		join client c on shipment.clt_id = c.clt_id
 		join product p on shipment.pro_id = p.pro_id
+		join product_release pr on shipment.pr_id = pr.pr_id
 		
 		LIMIT #{startPage}, #{pageSize}
 	</select>

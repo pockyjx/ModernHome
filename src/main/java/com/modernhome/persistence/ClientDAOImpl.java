@@ -85,11 +85,34 @@ public class ClientDAOImpl implements ClientDAO {
 		return sqlSession.selectOne(NAMESPACE + ".cltSearchCnt", cvo);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	// 수주 거래처 팝업 페이징
+	@Override
+	public List<ClientVO> ooCltList(ClientVO cvo, PageVO pvo) {
+		
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("cvo", cvo);
+		paramMap.put("pvo", pvo);
+		logger.debug("paramMap : " + paramMap);
+		
+		return sqlSession.selectList(NAMESPACE + ".ooCltList", paramMap);
+	}
+
+	// 수주 거래처 수(검색포함)
+	@Override
+	public Integer ooCltCnt(ClientVO clientVO) {
+		logger.debug(sqlSession.selectOne(NAMESPACE + ".ooCltCnt", clientVO) + "@@@@@@@@@");
+		return sqlSession.selectOne(NAMESPACE + ".ooCltCnt", clientVO);
+	}
 
 
-	
-	
-	
-	
 
+	
 }
