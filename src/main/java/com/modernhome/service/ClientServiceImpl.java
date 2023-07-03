@@ -87,5 +87,19 @@ public class ClientServiceImpl implements ClientService {
 	
 	
 	
+	// 발주 거래처 팝업 페이징
+	@Override
+	public List<ClientVO> ioCltList(ClientVO cvo, PageVO pvo) {
+		return cDAO.ioCltList(cvo, pvo);
+	}
+	
+	// 발주 거래처 수(검색포함)
+	@Override
+	public Integer ioCltCnt(ClientVO cvo) {
+		return cDAO.ioCltCnt(cvo);
+	}
+	
+	
+	
 
 }

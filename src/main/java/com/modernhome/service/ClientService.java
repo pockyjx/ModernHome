@@ -1,10 +1,8 @@
 package com.modernhome.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.modernhome.domain.ClientVO;
-import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.PageVO;
 
 public interface ClientService {
@@ -45,5 +43,15 @@ public interface ClientService {
 		
 	// 수주 거래처 수(검색포함)
 	public Integer ooCltCnt(ClientVO cvo);
+	
+	
+	
+	
+	
+	// 발주 거래처 팝업 페이징
+	public List<ClientVO> ioCltList(ClientVO cvo, PageVO pvo);
+	
+	// 발주 거래처 수(검색포함)
+	public Integer ioCltCnt(ClientVO cvo);
 	
 }

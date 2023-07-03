@@ -41,5 +41,12 @@ public interface ClientDAO {
 	// 수주 거래처 수(검색포함)
 	public Integer ooCltCnt(ClientVO cvo);
 	
+	
+	// 발주 거래처 팝업 페이징
+	public List<ClientVO> ioCltList(ClientVO cvo, PageVO pvo);
+	
+	// 발주 거래처 수(검색포함)
+	public Integer ioCltCnt(ClientVO cvo);
+	
 
 }
