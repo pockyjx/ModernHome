@@ -186,7 +186,6 @@
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
-		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 		<where>
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
@@ -201,6 +200,7 @@
 				AND qc_yn = #{qc_yn}
 			</if>
 		</where>
+		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	
 	<!-- 품질검사(자재) 검색 -->
@@ -266,66 +266,7 @@
 	</update>
 	<!-- 불량개수가 0이면 입고상태 변경 -->
 	
-	<!-- 출고 검사 목록 출력 -->
-<!-- 	<select id="getFIList" resultMap="wijoinRM"> -->
-<!-- 		SELECT qc.qc_id, shi.shp_num, pro.pro_num, pro.pro_name, shi.shp_cnt, qc.qc_cnt, qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, -->
-<!-- 		ma.mr_num, ma.ma_num, ma.ma_name, ma.mr_cnt, qc.fi_type, -->
-<!-- 	    CASE -->
-<!-- 			WHEN qc.update_emp_id IS NULL THEN -->
-<!-- 				(SELECT emp_name FROM employee WHERE emp_id = qc.emp_id) -->
-<!-- 			ELSE -->
-<!-- 				(SELECT emp_name FROM employee WHERE emp_id = qc.update_emp_id) -->
-<!-- 		END AS emp_name -->
-<!-- 	    FROM quality_checking qc -->
-<!-- 		LEFT JOIN shipment shi ON qc.qc_id = shi.qc_id -->
-<!-- 		LEFT JOIN product pro ON pro.pro_id = shi.pro_id -->
-<!-- 		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id -->
-<!-- 		LEFT JOIN material m ON m.ma_id = mr.ma_id -->
-<!-- 		LEFT JOIN employee emp ON emp.emp_id = qc.emp_id -->
-		
-<!-- 	</select> -->
-	<!-- 출고 검사 목록 출력 -->
-	
-		<!-- 출고 검사 목록 출력 -->
-<!-- 	<select id="getFISearch" resultMap="wijoinRM"> -->
-<!-- 		SELECT qc.qc_id, shi.shp_num, pro.pro_num, pro.pro_name, shi.shp_cnt, qc.qc_cnt, qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, -->
-<!-- 		ma.mr_num, ma.ma_num, ma.ma_name, ma.mr_cnt, qc.fi_type, -->
-<!-- 	    CASE -->
-<!-- 			WHEN qc.update_emp_id IS NULL THEN -->
-<!-- 				(SELECT emp_name FROM employee WHERE emp_id = qc.emp_id) -->
-<!-- 			ELSE -->
-<!-- 				(SELECT emp_name FROM employee WHERE emp_id = qc.update_emp_id) -->
-<!-- 		END AS emp_name -->
-<!-- 	    FROM quality_checking qc -->
-<!-- 		LEFT JOIN shipment shi ON qc.qc_id = shi.qc_id -->
-<!-- 		LEFT JOIN product pro ON pro.pro_id = shi.pro_id -->
-<!-- 		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id -->
-<!-- 		LEFT JOIN material m ON material.ma_id = mr.ma_id -->
-<!-- 		LEFT JOIN employee emp ON emp.emp_id = qc.emp_id -->
-<!-- 		<where> -->
-<!-- 			<if test="fi_type != ''"> -->
-<!-- 				AND fi_type = #{fi_type} -->
-<!-- 			</if> -->
-<!-- 			<if test="nameSearch != ''"> -->
-<!-- 				<if test="fi_type == 'all'"> -->
-<!-- 					AND (pro_name like CONCAT('%', #{nameSearch}, '%') OR ma_name like CONCAT('%', #{nameSearch}, '%'))  -->
-<!-- 				</if> -->
-<!-- 				<if test="fi_type == '완제품'"> -->
-<!-- 					AND pro_name like CONCAT('%', #{nameSearch}, '%')  -->
-<!-- 				</if> -->
-<!-- 				<if test="fi_type == '자재'"> -->
-<!-- 					AND ma_name like CONCAT('%', #{nameSearch}, '%')  -->
-<!-- 				</if> -->
-<!-- 			</if> -->
-<!-- 			<if test="startDate != ''"> -->
-<!-- 				AND qc.qc_date &gt;= #{startDate} -->
-<!-- 			</if> -->
-<!-- 			<if test="endDate != ''"> -->
-<!-- 				AND #{endDate} &gt;= DATE(qc.qc_date)  -->
-<!-- 			</if> -->
-<!-- 		</where> -->
-<!-- 	</select> -->
-	<!-- 출고 검사 목록 출력 -->
+
 	
 	
 </mapper>

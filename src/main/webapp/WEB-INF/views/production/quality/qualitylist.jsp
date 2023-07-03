@@ -175,68 +175,90 @@
 	</style>
 </head>
 <body>
-	<div class="col-sm-12 col-xl-6">
-		<h2 class="mb-0">품질현황 조회</h2>
-		<form name="search" method="get"> 
-			<div class="row mb-3">
-			<label for="qc_nameSearch" class="col-sm-2 col-form-label">품질검사코드</label> 
-				<div class="col-sm-10">
-					<input type="text" name="qc_num" class="form-control" placeholder="품질검사코드를 입력하세요">
+
+<!-- 검색칸 -->
+<form method="get" name="search" action="" class="bg-light rounded p-3 m-3">
+
+	<div class="row mb-3">
+		<label for="qc_nameSearch" class="col-sm-2 col-form-label"><b>품질검사코드</b></label> 
+		<div class="col-sm-4">
+			<input type="text" name="qc_num" class="form-control" placeholder="품질검사코드를 입력하세요">
+		</div>
+	</div>
+	
+	<div class="row mb-3">	
+		<label for="qc_nameSearch" class="col-sm-2 col-form-label"><b>품질검사여부</b></label>	
+		<div class="col-sm-2">
+			<select name="qc_yn" class="form-select" style="background-color: #fff;">
+				<option value="전체">전체</option>
+				<option value="대기">대기</option>
+				<option value="진행중">진행중</option>
+				<option value="미완료">완료</option>
+			</select>
+		</div>
+	</div>	
+			
+	<div class="row mb-3">
+		<label for="qc_nameSearch" class="col-sm-2 col-form-label"><b>검수일자</b></label>
+			<div class="col-sm-2">
+				<div class="col-auto">
+					<input type="date" name="startDate" class="form-control">
 				</div>
 			</div>
-			품질검사여부
-				<select name="qc_yn">
-					<option>전체</option>
-					<option>대기</option>
-					<option>진행중</option>
-					<option>완료</option>
-				</select>
-			<div>
-				<label>검수일자</label>
-				<input type="date" name="startDate">
-					~
-				<input type="date" name="endDate">
+			
+				<div class="col-auto">
+				~
+				</div>
+				
+			<div class="col-sm-2">
+				<div class="col-auto">
+					<input type="date" name="endDate" class="form-control">
+				</div>
 			</div>
-			<button type="submit" class="btn btn-primary">조회</button>
-		</form>
+			
+			<div class="col-auto">
+				<button type="submit" class="btn btn-primary m-3" style="width:70px;">조회</button>
+			</div>
+	
+	</div>
+</form>
+<!-- 검색칸 -->
+		
+<form action="qualityList">
+	<div class="d-flex align-items-center justify-content-between mb-2">  			
+		<h3 class="m-4"> 품질현황(완제품) 목록 </h3> 
+		<div>
+			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
+				<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+				<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+				<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			</c:if>
+		</div>
 	</div>
 		
-			
-	<h2>품질현황(완제품) 목록</h2>
-	
-	<form id="qualityList">
-	
-	<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
-	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-	<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
-	
-	<br>
-		
-		
-	<span id="selectedCheckboxCount">0</span>
-		
-		
-	<div class="bg-light text-center rounded p-4">
+	<div class="bg-light text-center rounded p-4 m-3">
 		<div class="d-flex align-items-center justify-content-between mb-4">
-
+			<span id="selectedCheckboxCount">0</span>
 		</div>
+		
 		<div class="table-responsive">
 			<table id="table-qualityList" class="table text-start align-middle table-bordered table-hover mb-0">
-					<tr class="text-dark">
-						<th scope="col"><input class="form-check-input"	type="checkbox" id="cbx_chkAll"></th>
-						<th scope="col">작업지시번호</th>
-						<th scope="col">품질검사코드</th>
-						<th scope="col">라인코드</th>
-						<th scope="col">라인명</th>
-						<th scope="col">품질코드</th>
-						<th scope="col">품목명</th>
-						<th scope="col">검수자</th>
-						<th scope="col">검수일자</th>
-						<th scope="col">검수량</th>
-						<th scope="col">생산량</th>
-						<th scope="col">불량수량</th>
-						<th scope="col">검수상태</th>
+					<tr>
+						<th style="background-color: rgba(0,0,0,0.075);"><input class="form-check-input"	type="checkbox" id="cbx_chkAll"></th>
+						<th style="background-color: rgba(0,0,0,0.075);">작업지시번호</th>
+						<th style="background-color: rgba(0,0,0,0.075);">품질검사코드</th>
+						<th style="background-color: rgba(0,0,0,0.075);">라인코드</th>
+						<th style="background-color: rgba(0,0,0,0.075);">라인명</th>
+						<th style="background-color: rgba(0,0,0,0.075);">품질코드</th>
+						<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+						<th style="background-color: rgba(0,0,0,0.075);">검수자</th>
+						<th style="background-color: rgba(0,0,0,0.075);">검수일자</th>
+						<th style="background-color: rgba(0,0,0,0.075);">검수량</th>
+						<th style="background-color: rgba(0,0,0,0.075);">생산량</th>
+						<th style="background-color: rgba(0,0,0,0.075);">불량수량</th>
+						<th style="background-color: rgba(0,0,0,0.075);">검수상태</th>
 					</tr>
+					
 					<c:forEach var="vo" items="${qualityList}" varStatus="status">
 						<tr>
 							<td><input class="form-check-input" type="checkbox" name="selectedQcId" value="${vo.qc_id}"></td>
@@ -260,41 +282,39 @@
 			</table>
 		</div>
 	</div>
-	</form>
+</form>
 	
-			<!-- 페이지 이동 버튼 -->
-	
-			<nav aria-label="Page navigation example">
-		  		<ul class="pagination justify-content-center pagination-sm">
-		  		
-		  			<c:if test="${pm.prev }">
-					<li class="page-item">
-						<a class="page-link" href="/production/quality/qualitylist?page=${pm.startPage-1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Previous">
-		       			<span aria-hidden="true">&laquo;</span>
-		      			</a>
-		    		</li>
-		    		</c:if>
-		    		
-		    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-		    		<li 
-		    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-		    		>
-		    				<a class="page-link" href="/production/quality/qualitylist?page=${idx}&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}">${idx }</a>
-		    		</li>
-		    		</c:forEach>
-					
-					<c:if test="${pm.next && pm.endPage > 0}">
-					<li class="page-item">
-		      			<a class="page-link" href="/production/quality/qualitylist?page=${pm.endPage+1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Next">
-		        		<span aria-hidden="true">&raquo;</span>
-		      			</a>
-		    		</li>
-		    		</c:if>
-		    		
-		  		</ul>
-			</nav>
-			
-			<!-- 페이지 이동 버튼 -->
+<!-- 페이지 이동 버튼 -->	
+<nav aria-label="Page navigation example">
+ 		<ul class="pagination justify-content-center pagination-sm">
+ 		
+ 			<c:if test="${pm.prev }">
+		<li class="page-item">
+			<a class="page-link" href="/production/quality/qualitylist?page=${pm.startPage-1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Previous">
+      			<span aria-hidden="true">&laquo;</span>
+     			</a>
+   		</li>
+   		</c:if>
+   		
+   		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+   		<li 
+   			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+   		>
+   				<a class="page-link" href="/production/quality/qualitylist?page=${idx}&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}">${idx }</a>
+   		</li>
+   		</c:forEach>
+		
+		<c:if test="${pm.next && pm.endPage > 0}">
+		<li class="page-item">
+     			<a class="page-link" href="/production/quality/qualitylist?page=${pm.endPage+1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Next">
+       		<span aria-hidden="true">&raquo;</span>
+     			</a>
+   		</li>
+   		</c:if>
+   		
+ 		</ul>
+</nav>
+<!-- 페이지 이동 버튼 -->
 		
 
 </body>
