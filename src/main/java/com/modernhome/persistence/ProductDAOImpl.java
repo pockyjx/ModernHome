@@ -90,7 +90,7 @@ public class ProductDAOImpl implements ProductDAO {
 	// 검색 결과 개수 (페이징)
 	@Override
 	public int getProSearchCnt(ProductVO vo) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".proSearchCnt", vo);
+		return sqlSession.selectOne(NAMESPACE + ".prSearchCnt", vo);
 	}
 	
 	
