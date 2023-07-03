@@ -382,9 +382,7 @@
 				form.submit();
 			}); //submit 버튼 유효성
 			
-		});
-		
-		
+			
 		// 목록에서 발주 코드 클릭 시 해당 발주코드 발주서 출력
 	      $(".openinorderInfo").click(function() {
 			var io_id = $(this).closest("tr").find('td:eq(14)').text();
@@ -395,8 +393,9 @@
 	    	 
 	      
 	     });
+			
+		});
 		
-     	
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='clt_num']", function() {
 			var left = (screen.width - 600) / 2;
