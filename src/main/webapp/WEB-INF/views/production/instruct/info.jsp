@@ -71,7 +71,7 @@
 		</tr>
 		<tr>
 			<th>납기일</th>
-			<td>${wiList[0].oo_end_date}</td>
+			<td>${fn:substring(wiList[0].oo_end_date, 0, 10)}</td>
 			<th>생산라인</th>
 			<td>${wiList[0].line_num}</td>
 		</tr>

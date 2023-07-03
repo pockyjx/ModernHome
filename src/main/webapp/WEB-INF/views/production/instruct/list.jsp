@@ -50,14 +50,22 @@
 			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 			if (selectedCheckbox.length === 1) {
 				var workId = selectedCheckbox.val();
+				var workState = selectedCheckbox.closest("tr").find("td:eq(5)").text();
+				
+				if(workState === '완료') {
+					alert("작업지시가 완료인 상태는 수정 불가능합니다!");
+					return false;
+				}
 				
 				window.name = "add";
 				window.open('/production/instruct/modify?work_id=' + workId, 'popup', 
 						'width=500, height=600, top=300, left=650, location=no, status=no');
 			}else if (selectedCheckbox.length === 0){
 				alert("수정할 행을 선택해주세요!")
+				return false;
 			}else {
 				alert("수정은 하나의 행만 가능합니다!");
+				return false;
 			}
 		});
 		
@@ -225,11 +233,7 @@
 				<td>${list.line_num}</td>
 				<td>${list.pro_num}</td>
 				<td>${list.pro_name}</td>
-				<td>
-				    <c:if test="${list.work_state=='대기'}">대기</c:if>
-				    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
-				    <c:if test="${list.work_state=='완료'}">완료</c:if>
-				</td>
+				<td>${list.work_state == '대기' ? "대기" : (list.work_state == '진행중' ? "진행중" : "완료")}</td>
 				<td>
 					<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
 					<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
