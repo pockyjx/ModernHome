@@ -21,12 +21,14 @@ import com.modernhome.domain.OutOrderResultVO;
 import com.modernhome.domain.OutOrderVO;
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
+import com.modernhome.domain.ProductReleaseVO;
 import com.modernhome.domain.ProductVO;
 import com.modernhome.domain.ShipmentJoinVO;
 import com.modernhome.domain.ShipmentVO;
 import com.modernhome.service.ClientService;
 import com.modernhome.service.ItemService;
 import com.modernhome.service.OutOrderService;
+import com.modernhome.service.ReleaseService;
 import com.modernhome.service.ShipmentService;
 
 @Controller
@@ -41,6 +43,9 @@ public class ClientController {
 	
 	@Inject
 	private ClientService cService;
+	
+	@Autowired
+	private ReleaseService rService;
 	
 	@Autowired
 	private OutOrderService oService;
@@ -335,7 +340,7 @@ public class ClientController {
 	// 수주, 출하 등록시 팝업 -------------------------------------------------------------------
 	// http://localhost:8088/client/popUpProduct
 	@RequestMapping(value = "/addPopup", method = RequestMethod.GET )
-	public String popUpGET(Model model, @ModelAttribute("txt") String txt, PageVO pvo,
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt, PageVO pvo, ProductReleaseVO ppvo,
 			ClientVO cvo, ProductVO prvo) throws Exception {
 		logger.debug("popUpGET() 호출!");
 		
@@ -384,31 +389,31 @@ public class ClientController {
 		}else if(txt.equals("clt")) { // 거래처 목록 팝업
 			
 			
-			List<ClientVO> popUpClt = cService.getClientList(pvo);
+			List<ClientVO> popUpClt;
 			
-			if(cvo.getClt_name() != null) { // 거래처 팝업창에서 검색했을 때
+//			if(cvo.getClt_name() != null) { // 거래처 팝업창에서 검색했을 때
 
 				logger.debug("거래처 팝업(검색) 호출!");
-				popUpClt = cService.getClientList(cvo, pvo);
+				popUpClt = cService.ooCltList(cvo, pvo);
 				model.addAttribute("popUpClt", popUpClt);
 				
         		// 페이징 정보 추가
 				pm.setPageVO(pvo);
-				pm.setTotalCount(cService.getCltSearchCnt(cvo));
+				pm.setTotalCount(cService.ooCltCnt(cvo));
 				model.addAttribute("pm", pm);
 				
 				model.addAttribute("clientVO", cvo);
         		
-			}else {
-				logger.debug("거래처 팝업 호출");
-				popUpClt = cService.getClientList(pvo);
-				model.addAttribute("popUpClt", popUpClt);
-				
-				// 페이징 정보 추가
-				pm.setPageVO(pvo);
-				pm.setTotalCount(cService.getTotalCntClt());
-				model.addAttribute("pm", pm);
-			}
+//			}else {
+//				logger.debug("거래처 팝업 호출");
+//				popUpClt = cService.ooCltList(cvo, pvo);
+//				model.addAttribute("popUpClt", popUpClt);
+//				
+//				// 페이징 정보 추가
+//				pm.setPageVO(pvo);
+//				pm.setTotalCount(cService.getTotalCntClt());
+//				model.addAttribute("pm", pm);
+//			}
 			
 			return "/client/popUpClient";
 		}
@@ -420,22 +425,22 @@ public class ClientController {
 		
 		
 		// 출하등록할때 팝업
-		else if(txt.equals("clt2")) { // 거래처 목록 팝업2
-			List<ClientVO> popUpClt2 = cService.getClientList(pvo);
-			model.addAttribute("popUpClt2", popUpClt2);
-			
-			pm.setPageVO(pvo);
-			pm.setTotalCount(cService.getCltSearchCnt(cvo));
-			model.addAttribute("pm", pm);
-			
-			model.addAttribute("clientVO", cvo);
-			
-			return "/client/popUpClient2";
-		}
-		
-		return "/client/clientList";
-		
-	}
+				else if(txt.equals("clt2")) { // 거래처 목록 팝업2
+					List<ProductReleaseVO> popUpClt2 = rService.getProductReleaseList(pvo);
+					model.addAttribute("popUpClt2", popUpClt2);
+					
+					pm.setPageVO(pvo);
+					pm.setTotalCount(rService.getPrSearchCnt(ppvo));
+					model.addAttribute("pm", pm);
+					
+					model.addAttribute("ProductReleaseVO", ppvo);
+					
+					return "/client/popUpClient2";
+				}
+				
+				return "/client/clientList";
+				
+			}
 	
 	
 	

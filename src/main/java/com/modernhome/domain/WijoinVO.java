@@ -58,12 +58,14 @@ public class WijoinVO {
 	private String df_rsns;
 	private String solved_date;
 	
-	private Integer shp_id;
-	private String shp_num;
-	private Integer shp_cnt;
+	private Integer pr_id;
+	private String pr_num;
+	private Integer pr_cnt;
 	private Integer mr_id;
+	private String mr_num;
 	private Integer mr_cnt;
 	private String fi_type;
+	private String wh_name;
 	
 	public Integer getWork_id() {
 		return work_id;
@@ -371,29 +373,35 @@ public class WijoinVO {
 	public void setSolved_date(String solved_date) {
 		this.solved_date = solved_date;
 	}
-	public Integer getShp_id() {
-		return shp_id;
+	public Integer getPr_id() {
+		return pr_id;
 	}
-	public void setShp_id(Integer shp_id) {
-		this.shp_id = shp_id;
+	public void setPr_id(Integer pr_id) {
+		this.pr_id = pr_id;
 	}
-	public String getShp_num() {
-		return shp_num;
+	public String getPr_num() {
+		return pr_num;
 	}
-	public void setShp_num(String shp_num) {
-		this.shp_num = shp_num;
+	public void setPr_num(String pr_num) {
+		this.pr_num = pr_num;
 	}
-	public Integer getShp_cnt() {
-		return shp_cnt;
+	public Integer getPr_cnt() {
+		return pr_cnt;
 	}
-	public void setShp_cnt(Integer shp_cnt) {
-		this.shp_cnt = shp_cnt;
+	public void setPr_cnt(Integer pr_cnt) {
+		this.pr_cnt = pr_cnt;
 	}
 	public Integer getMr_id() {
 		return mr_id;
 	}
 	public void setMr_id(Integer mr_id) {
 		this.mr_id = mr_id;
+	}
+	public String getMr_num() {
+		return mr_num;
+	}
+	public void setMr_num(String mr_num) {
+		this.mr_num = mr_num;
 	}
 	public Integer getMr_cnt() {
 		return mr_cnt;
@@ -406,6 +414,12 @@ public class WijoinVO {
 	}
 	public void setFi_type(String fi_type) {
 		this.fi_type = fi_type;
+	}
+	public String getWh_name() {
+		return wh_name;
+	}
+	public void setWh_name(String wh_name) {
+		this.wh_name = wh_name;
 	}
 	
 	@Override
@@ -423,8 +437,9 @@ public class WijoinVO {
 				+ rec_num + ", rec_id=" + rec_id + ", rec_in_state=" + rec_in_state + ", rec_date=" + rec_date
 				+ ", prfrm_num=" + prfrm_num + ", gb_yn=" + gb_yn + ", df_id=" + df_id + ", df_num=" + df_num
 				+ ", df_type=" + df_type + ", repair_yn=" + repair_yn + ", df_cnt=" + df_cnt + ", df_rsns=" + df_rsns
-				+ ", solved_date=" + solved_date + ", shp_id=" + shp_id + ", shp_num=" + shp_num + ", shp_cnt="
-				+ shp_cnt + ", mr_id=" + mr_id + ", mr_cnt=" + mr_cnt + ", fi_type=" + fi_type + "]";
+				+ ", solved_date=" + solved_date + ", pr_id=" + pr_id + ", pr_num=" + pr_num + ", pr_cnt=" + pr_cnt
+				+ ", mr_id=" + mr_id + ", mr_num=" + mr_num + ", mr_cnt=" + mr_cnt + ", fi_type=" + fi_type
+				+ ", wh_name=" + wh_name + "]";
 	}
 	
 }

@@ -24,7 +24,7 @@
                 '<td><input type="text" name="ms_cnt" id="ms_cnt" readonly></td>' +
                 '<td><input type="text" name="wh_name" id="wh_name" readonly></td>' +
                 '<td><input type="datetime-local" name="reg_date" id="reg_date" readonly></td>' +
-                '<td><input type="text" name="mr_state" id="mr_state" value="준비" readonly></td>' +
+                '<td><input type="text" name="mr_state" id="mr_state" value="출고준비" readonly></td>' +
                 '<td><input type="text" name="emp_id" id="emp_id" value="${sessionScope.emp_id}" readonly></td>' +
                 '<td></td>' +
                 '<td>' +
@@ -348,14 +348,17 @@
 					<td style="display: none">${vo.materialVO.ma_id }</td>
 					<td>
 						<c:choose>
-						<c:when test="${vo.mr_state eq '준비' && vo.materialStockVO.ms_cnt ge vo.mr_cnt}">
-						<button type="button" class="btn btn-sm btn-success release">출고가능</button>
+						<c:when test="${vo.mr_state eq '검사완료' && vo.materialStockVO.ms_cnt ge vo.mr_cnt}">
+						<button type="button" class="btn btn-sm btn-success release">출고<br>처리</button>
 						</c:when>
-						<c:when test="${vo.mr_state eq '준비' && vo.materialStockVO.ms_cnt lt vo.mr_cnt}">
-						<button type="button" class="btn btn-sm btn-danger">출고불가</button>
+						<c:when test="${vo.mr_state eq '출고준비' && vo.materialStockVO.ms_cnt ge vo.mr_cnt}">
+						<button type="button" class="btn btn-sm btn-warning">출고<br>대기</button>
 						</c:when>
-						<c:when test="${!vo.mr_state.equals('준비')}">
-						<button type="button" class="btn btn-sm btn-primary">출고${vo.mr_state}</button> 
+						<c:when test="${vo.mr_state eq '출고준비' && vo.materialStockVO.ms_cnt lt vo.mr_cnt}">
+						<button type="button" class="btn btn-sm btn-danger">출고<br>불가</button>
+						</c:when>
+						<c:when test="${vo.mr_state eq '출고완료'}">
+						<button type="button" class="btn btn-sm btn-primary">출고<br>완료</button> 
 						</c:when>
 						</c:choose>
 					</td>

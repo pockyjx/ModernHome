@@ -148,31 +148,13 @@ public class QualityDAOImpl implements QualityDAO{
 		sqlSession.insert(NAMESPACE+".modifyRec",wvo);
 	}
 
-	// 출고검사 목록 조회
+	
+	
+	// 출고검사 목록 출력 
 	@Override
-	public List<WijoinVO> getFIList() throws Exception {
-		logger.debug("QualityDAOImpl_getFIList 실행");
-		return sqlSession.selectList(NAMESPACE+".getFIList");
+	public List<WijoinVO> getMrList() throws Exception {
+		logger.debug("QualityDAOImpl_getMrlist() 실행");
+		return sqlSession.selectList(NAMESPACE + ".getMrList");
 	}
-
-	// 출고검사 목록 조회 + 검색 결과
-	@Override
-	public List<WijoinVO> getFISearch(String fi_type, String namesearch, String startDate, String endDate)
-			throws Exception {
-		
-		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		parameterMap.put("fi_type", fi_type);
-		parameterMap.put("namesearch", namesearch);
-		parameterMap.put("startDate", startDate);
-		parameterMap.put("endDate", endDate);
-		
-		return sqlSession.selectList(NAMESPACE+".getFISearch",parameterMap);
-	}
-
-
-
-
-
-
 
 }

@@ -137,4 +137,11 @@ public class ReleaseServiceImpl implements ReleaseService {
 		rDAO.acceptPR(pr_id, pro_id, pr_cnt);
 		
 	}
+
+	@Override
+	public int getPrSearchCnt(ProductReleaseVO vo) throws Exception {
+		return rDAO.getPrSearchCnt(vo);
+	}
+	
+	
 }

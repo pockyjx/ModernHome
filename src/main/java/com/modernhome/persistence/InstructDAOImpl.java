@@ -122,4 +122,10 @@ public class InstructDAOImpl implements InstructDAO {
 		return sqlSession.selectOne(NAMESPACE + ".wiSearchCnt", parameterMap);
 	}
 
+	@Override
+	public void modifyInstrMrState(WijoinVO wjvo) throws Exception {
+		logger.debug("WorkInstrDAOImpl_modifyInstrMrState() 실행");
+		sqlSession.update(NAMESPACE + ".modifyInstrMrState", wjvo);
+	}
+
 }

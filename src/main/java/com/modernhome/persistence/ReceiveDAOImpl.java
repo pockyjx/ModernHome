@@ -111,6 +111,12 @@ public class ReceiveDAOImpl implements ReceiveDAO {
 		sqlSession.update(NAMESPACE + ".updateMS", paramMap);
 		
 	}
+
+	// 입고 id값 가져오기
+	@Override
+	public int getMaxRecId() {
+		return sqlSession.selectOne(NAMESPACE + ".getRecId");
+	}
 	
 	
 	

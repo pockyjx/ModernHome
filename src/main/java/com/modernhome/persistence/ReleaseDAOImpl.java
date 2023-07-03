@@ -183,4 +183,11 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 		sqlSession.update(NAMESPACE + ".updatePS", parameterMap);
 		
 	}
+
+	@Override
+	public int getPrSearchCnt(ProductReleaseVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".prSearchCnt", vo);
+	}
+	
+	
 }

@@ -86,5 +86,55 @@
 	<!-- 거래처업데이트 -->
 	
 	
+	
+	
+	
+	
+	
+	<!-- 수주 거래처수 계산 -->
+	<select id="ooCltCnt" resultType="int">
+		SELECT COUNT(*) FROM client
+		WHERE clt_sort = '수주'
+		<if test="clt_name != null and clt_name != ''">
+			AND clt_name LIKE CONCAT('%', #{clt_name}, '%') 
+		</if>
+	</select>
+	<!-- 수주 거래처수 계산 -->
+	
+	<!-- 수주 거래처수 리스트(페이징) -->
+	<select id="ooCltList" resultType="com.modernhome.domain.ClientVO">
+		SELECT * FROM client
+		WHERE clt_sort = '수주'
+		<if test="cvo.clt_name != null and cvo.clt_name != ''">
+			AND clt_name LIKE CONCAT('%', #{cvo.clt_name}, '%') 
+		</if>
+		ORDER BY clt_id DESC
+  		LIMIT #{pvo.startPage}, #{pvo.pageSize}
+	</select>
+	<!-- 수주 거래처수 리스트(페이징) -->
+	
+	
+	<!-- 발주 거래처수 계산 -->
+	<select id="ioCltCnt" resultType="int">
+		SELECT COUNT(*) FROM client
+		WHERE clt_sort = '발주'
+		<if test="clt_name != null and clt_name != ''">
+			AND clt_name LIKE CONCAT('%', #{clt_name}, '%') 
+		</if>
+	</select>
+	<!-- 발주 거래처수 계산 -->
+	
+	<!-- 발주 거래처수 리스트(페이징) -->
+	<select id="ioCltList" resultType="com.modernhome.domain.ClientVO">
+		SELECT * FROM client
+		WHERE clt_sort = '발주'
+		<if test="cvo.clt_name != null and cvo.clt_name != ''">
+			AND clt_name LIKE CONCAT('%', #{cvo.clt_name}, '%') 
+		</if>
+		ORDER BY clt_id DESC
+  		LIMIT #{pvo.startPage}, #{pvo.pageSize}
+	</select>
+	<!-- 발주 거래처수 리스트(페이징) -->
+	
 
 </mapper>

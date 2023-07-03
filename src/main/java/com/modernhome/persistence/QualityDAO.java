@@ -46,10 +46,7 @@ public interface QualityDAO {
 	public void modifyRec(WijoinVO wvo) throws Exception;
 	
 	// 출고검사 목록 조회
-	public List<WijoinVO> getFIList() throws Exception;
-	
-	// 출고검사 목록 조회 + 검색 결과
-	public List<WijoinVO> getFISearch(String fi_type, String namesearch, String startDate, String endDate) throws Exception;
+	public List<WijoinVO> getMrList() throws Exception;
 	
 	
 } // QualityDAO
