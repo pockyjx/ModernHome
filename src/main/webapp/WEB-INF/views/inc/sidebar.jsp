@@ -11,7 +11,8 @@
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
 <!--                         <img class="rounded-circle" src="/resources/img/user.jpg" alt="" style="width: 40px; height: 40px;"> -->
-                        <img src="https://cdn-icons-png.flaticon.com/128/263/263115.png" width="100px" style="margin-left:22%;"><br><br>
+						<img src="/resources/img/logo.png" width="400px"><br><br>
+<!--                         <img src="https://cdn-icons-png.flaticon.com/128/263/263115.png" width="100px" style="margin-left:22%;"><br><br> -->
                         <h3 class="text-primary">MODERNHOME</h3>
 <!--                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div> -->
                     </div>

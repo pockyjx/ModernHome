@@ -50,23 +50,23 @@
 	<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem; margin-top:2.5rem;">
 		<table border="1" class="table-inorderList table align-middle table-bordered table-hover mb-0">
 			<tr>
-				<th style="background-color: rgba(0,0,0,0.075);">발주 id</th>
-				<th style="background-color: rgba(0,0,0,0.075);">발주 코드</th>
-				<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
-				<th style="background-color: rgba(0,0,0,0.075);">발주량</th>
-				<th style="background-color: rgba(0,0,0,0.075);">거래처 id</th>
-				<th style="background-color: rgba(0,0,0,0.075);">거래처명</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">발주 id</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">발주 코드</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재명</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">발주량</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">거래처 id</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">거래처명</th>
 			</tr>
 			
 			<c:forEach items="${popUpIo }" var="vo">
 				<c:if test="${vo.io_state.equals('완료') }">
 					<tr>
-						<td>${vo.io_id }</td>
-						<td>${vo.io_num }</td>
-						<td>${vo.ma_name }</td>
-						<td>${vo.io_cnt }</td>
-						<td>${vo.clt_id }</td>
-						<td>${vo.clt_name }</td>
+						<td style="text-align: center;">${vo.io_id }</td>
+						<td style="text-align: center;">${vo.io_num }</td>
+						<td style="text-align: center;">${vo.ma_name }</td>
+						<td style="text-align: center;">${vo.io_cnt }</td>
+						<td style="text-align: center;">${vo.clt_id }</td>
+						<td style="text-align: center;">${vo.clt_name }</td>
 					</tr>
 				</c:if>
 			</c:forEach>

@@ -38,41 +38,49 @@
 	});
 </script>
 
-	<h3>거래처 목록</h3>
+	<h3 class="m-4" style="text-align: center;">거래처 목록</h3>
 	
 	<form action="" method="GET">
-		<input type="hidden" name="txt" value="clt">
-		<input type="hidden" name="clt_num" value="">
-		
-		<input type="text" placeholder="거래처명을 입력하세요" name="clt_name" value="${cvo.clt_name }">
-		<input type="submit" value="검색">
+		<div class="row row" style="margin-left:3rem; margin-top: 3rem;">
+				<input type="hidden" name="txt" value="clt">
+				<input type="hidden" name="clt_num" value="">
+			
+			<div class="col-sm-4">
+				<input type="text" placeholder="거래처명을 입력하세요" name="clt_name" value="${cvo.clt_name }" class="form-control">
+			</div>
+			
+			<div class="col-auto">
+				<button class="btn btn-primary m-3" type="submit" style="width:60px;">검색</button>
+			</div>
+			
+		</div>
 	</form>
 	
-	<table border="1">
+	<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
+		<table border="1" class="table-inorderList table align-middle table-bordered table-hover mb-0">
 	
-		<tr>
-			<th>거래처id</th>
-			<th>거래처코드</th>
-			<th>거래처명</th>
-		</tr>
-		
-		<c:forEach items="${popUpClt }" var="vo">
-			<c:if test="${vo.clt_sort.equals('발주') }">
-				<tr>
-					<td>${vo.clt_id }</td>
-					<td>${vo.clt_num }</td>
-					<td>${vo.clt_name }</td>
-				</tr>
-			</c:if>
-		</c:forEach>
-	
-	</table>
-	
+			<tr>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">거래처id</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">거래처코드</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">거래처명</th>
+			</tr>
+			
+			<c:forEach items="${popUpClt }" var="vo">
+				<c:if test="${vo.clt_sort.equals('발주') }">
+					<tr>
+						<td style="text-align: center;">${vo.clt_id }</td>
+						<td style="text-align: center;">${vo.clt_num }</td>
+						<td style="text-align: center;">${vo.clt_name }</td>
+					</tr>
+				</c:if>
+			</c:forEach>
+		</table>
+	</div>
 	<br>
 	
 	<!-- 페이징 버튼 -->
 	<nav aria-label="Page navigation example">
-  		<ul class="pagination justify-content-center pagination-sm">
+  		<ul class="pagination justify-content-center pagination-sm" style="margin-top:0rem;">
   		
   			<c:if test="${pm.prev }">
 			<li class="page-item">
