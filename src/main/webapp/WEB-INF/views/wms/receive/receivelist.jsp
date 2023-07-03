@@ -211,9 +211,9 @@
 		
 	// 발주 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click", "input[id='io_num']", function() {
-		var left = (screen.width - 600) / 2;
-		var top = (screen.height - 500) / 2;
-		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=600, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+		var left = (screen.width - 650) / 2;
+		var top = (screen.height - 600) / 2;
+		window.open('/wms/receive/addPopup?txt=io', 'popup', 'width=650, height=600, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 		});
 		
 </script>
@@ -245,7 +245,7 @@
 		
 		<div class="col-sm-2">
 			<div class="col-auto">
-				<input type="date" name="startDate" value="${startDate }" class="form-control">
+				<input type="date" name="startDate" class="form-control">
             </div>
 		</div> 
 
@@ -255,7 +255,7 @@
 			
 		<div class="col-sm-2">
 			<div class="col-auto">	
-				<input type="date" name="endDate" value="${endDate }" class="form-control">
+				<input type="date" name="endDate" class="form-control">
      		</div>
    		</div>
    		
