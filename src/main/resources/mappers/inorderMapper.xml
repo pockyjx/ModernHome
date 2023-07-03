@@ -33,7 +33,7 @@
     
     <select id="getInorderList" resultMap="inorderResultMap">
         <![CDATA[
-	        SELECT io_id, io_num, m.ma_num, m.ma_name, c.clt_id, c.clt_num, c.clt_name,
+	        SELECT io_id, io_num, m.ma_id, m.ma_num, m.ma_name, c.clt_id, c.clt_num, c.clt_name,
 					i.io_cnt, i.io_unit, m.ma_price, i.io_date, i.io_state, i.rec_date, i.emp_id, i.io_reg_date, i.io_update_date, i.update_emp_id,
 	        CASE
 	        	WHEN i.update_emp_id IS NULL THEN
@@ -125,11 +125,11 @@
     <!-- 발주 수정 -->	
 	
 	<!-- 발주 목록 (페이징) -->
-	<select id="ioListPage" resultType="InorderVO">
-		SELECT * from in_order
-		ORDER BY io_id DESC
-		LIMIT #{startPage}, #{pageSize}
-	</select>
+<!-- 	<select id="ioListPage" resultType="InorderVO"> -->
+<!-- 		SELECT * from in_order -->
+<!-- 		ORDER BY io_id DESC -->
+<!-- 		LIMIT #{startPage}, #{pageSize} -->
+<!-- 	</select> -->
 	<!-- 발주 목록 (페이징) -->
 	
 	<!-- 전체 글 수 계산 -->
@@ -183,6 +183,6 @@
         WHERE i.io_id = #{io_id};
 	</select>
 	<!-- 발주서 조회 -->
-
+	
 	
   </mapper>  

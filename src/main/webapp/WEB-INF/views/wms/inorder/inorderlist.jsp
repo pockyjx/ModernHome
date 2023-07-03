@@ -8,7 +8,6 @@
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
 
-<!-- <link rel="stylesheet" href="/resources/css/inorder.css" /> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -382,9 +381,7 @@
 				form.submit();
 			}); //submit 버튼 유효성
 			
-		});
-		
-		
+			
 		// 목록에서 발주 코드 클릭 시 해당 발주코드 발주서 출력
 	      $(".openinorderInfo").click(function() {
 			var io_id = $(this).closest("tr").find('td:eq(14)').text();
@@ -395,13 +392,14 @@
 	    	 
 	      
 	     });
+			
+		});
 		
-     	
 		// 거래처 코드 입력란 클릭 시 팝업창 열기
        $(document).on("click", "input[name='clt_num']", function() {
 			var left = (screen.width - 600) / 2;
-			var top = (screen.height - 500) / 2;
-			window.open('/wms/inorder/addPopup?txt=clt', 'popup', 'width=600, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+			var top = (screen.height - 680) / 2;
+			window.open('/wms/inorder/addPopup?txt=clt', 'popup', 'width=600, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 			});
        
 		
@@ -467,7 +465,7 @@
 	<div class="row mb-3">
 		<label for="ioSearch" class="col-sm-2 col-form-label"><b>자재명</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="ma_name" placeholder="자재명을 입력하세요" class="form-control">
+			<input type="text" name="ma_name" value="${ma_name}" placeholder="자재명을 입력하세요" class="form-control">
 		</div>
 	</div>
 	

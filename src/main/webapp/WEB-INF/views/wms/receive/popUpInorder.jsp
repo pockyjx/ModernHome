@@ -30,6 +30,7 @@
 	      var io_cnt = $(this).find("td:eq(3)").text();
 	      var clt_id = $(this).find("td:eq(4)").text();
 	      var clt_name = $(this).find("td:eq(5)").text();
+	      var ma_id = $(this).find("td:eq(6)").text();
 			
 	      opener.document.getElementById("io_id").value = io_id;
 	      opener.document.getElementById("io_num").value = io_num;
@@ -38,49 +39,49 @@
 	      opener.document.getElementById("rec_cnt").value = io_cnt;
 	      opener.document.getElementById("clt_id").value = clt_id;
 	      opener.document.getElementById("clt_name").value = clt_name;
+	      opener.document.getElementById("ma_id").value = ma_id;
 	      
 	      window.close();
 	      
 		});
 	});
 </script>
-
-</head>
-<body>
 	
-	<h3>발주 목록</h3>
+	<h3 class="m-4" style="text-align: center;">발주 목록</h3>
 	
-	<table border="1">
-	
-		<tr>
-			<th>발주 id</th>
-			<th>발주 코드</th>
-			<th>자재명</th>
-			<th>발주량</th>
-			<th>거래처 id</th>
-			<th>거래처명</th>
-		</tr>
-		
-		<c:forEach items="${popUpIo }" var="vo">
-			<c:if test="${vo.io_state.equals('완료') }">
-				<tr>
-					<td>${vo.io_id }</td>
-					<td>${vo.io_num }</td>
-					<td>${vo.ma_name }</td>
-					<td>${vo.io_cnt }</td>
-					<td>${vo.clt_id }</td>
-					<td>${vo.clt_name }</td>
-				</tr>
-			</c:if>
-		</c:forEach>
-	
-	</table>
+	<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem; margin-top:2.5rem;">
+		<table border="1" class="table-inorderList table align-middle table-bordered table-hover mb-0">
+			<tr>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center; display: none;">발주 id</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">발주 코드</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재명</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">발주량</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">거래처 id</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">거래처명</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center; display: none;">자재 id</th>
+			</tr>
+			
+			<c:forEach items="${popUpIo }" var="vo">
+				<c:if test="${vo.io_state.equals('완료') }">
+					<tr>
+						<td style="text-align: center; display: none;">${vo.io_id }</td>
+						<td style="text-align: center;">${vo.io_num }</td>
+						<td style="text-align: center;">${vo.ma_name }</td>
+						<td style="text-align: center;">${vo.io_cnt }</td>
+						<td style="text-align: center;">${vo.clt_id }</td>
+						<td style="text-align: center;">${vo.clt_name }</td>
+						<td style="text-align: center; display: none;">${vo.ma_id }</td>
+					</tr>
+				</c:if>
+			</c:forEach>
+		</table>
+	</div>
 	
 	<br>
 	
 	<!-- 페이지 이동 버튼 -->
 			<nav aria-label="Page navigation example">
-		  		<ul class="pagination justify-content-center pagination-sm">
+		  		<ul class="pagination justify-content-center pagination-sm" style="margin-top:0rem;">
 		  		
 		  			<c:if test="${pm.prev }">
 					<li class="page-item">

@@ -32,4 +32,7 @@ public interface ReceiveService {
 	
 	// 입고 처리
 	public void acceptReceive(Integer rec_id, Integer ma_id, Integer rec_cnt) throws Exception;
+
+	// 입고 id값 가져오기
+	public int getRecId() throws Exception;
 }
