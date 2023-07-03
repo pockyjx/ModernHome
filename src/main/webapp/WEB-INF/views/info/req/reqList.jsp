@@ -311,9 +311,9 @@
     	  
 //     	alert(pro_id);
     	 
-    	var left = (screen.width - 600) / 2;
+    	var left = (screen.width - 750) / 2;
  		var top = (screen.height - 400) / 2;
-    	window.open('/info/req/BOM?pro_id='+pro_id+'', 'popup', 'width=600, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+    	window.open('/info/req/BOM?pro_id='+pro_id+'', 'popup', 'width=750, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
     	 
       });
       
