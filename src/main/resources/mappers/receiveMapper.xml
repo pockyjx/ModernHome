@@ -118,9 +118,6 @@
     
     <!-- 입고 등록 -->	
     <insert id="regReceive">
-    	<selectKey keyProperty="ma_id" resultType="int" order="BEFORE">
-    		SELECT ma_id FROM material WHERE ma_name = #{ma_name}
-    	</selectKey>
 	    INSERT INTO receive (rec_num, io_id, ma_id, rec_cnt, clt_id, rec_in_state, wh_id, emp_id)
 	    SELECT
 	        CONCAT(SUBSTRING(rec_num, 1, 2), LPAD(max(rec_id) + 1, 6, '0')),
@@ -166,6 +163,12 @@
 		WHERE ma_id = #{ma_id}
 	</update>    
     <!-- 입고 처리 : 재고 반영 -->
-    	
+    
+    <!-- 입고 id값 가져오기 -->
+    <select id="getRecId" resultType="int">
+		SELECT max(rec_id) from receive    
+    </select>
+    <!-- 입고 id값 가져오기 -->
+    
   	
   </mapper>

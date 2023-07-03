@@ -17,8 +17,10 @@ import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ReceiveVO;
+import com.modernhome.domain.WijoinVO;
 import com.modernhome.service.ClientService;
 import com.modernhome.service.InorderService;
+import com.modernhome.service.QualityService;
 import com.modernhome.service.ReceiveService;
 
 @Controller
@@ -37,6 +39,9 @@ public class ReceiveController {
 	
 	@Autowired
 	private ClientService cService;
+	
+	@Autowired
+	private QualityService qService;
 	
 	// 입고 조회
 	// http://localhost:8088/wms/receive/receivelist
@@ -120,7 +125,14 @@ public class ReceiveController {
     		
     		rService.regReceive(rvo);
     		
+    		// 품질 테이블에 입고 정보 자동 저장
+    		int maxRecId = rService.getRecId();
     		
+    		WijoinVO wvo = new WijoinVO();
+    		wvo.setRec_id(maxRecId);
+    		wvo.setMa_id(rvo.getMa_id());
+    		
+    		qService.addQC(wvo);
     		
     		
     	}else {

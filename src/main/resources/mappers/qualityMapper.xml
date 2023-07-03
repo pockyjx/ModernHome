@@ -255,8 +255,8 @@
             SELECT ifnull(MAX(qc_id), 0) + 1 AS qc_id, concat('QC', lpad(ifnull(max(qc_id), 0) + 1, 4, 0)) AS qc_num 
             FROM quality_checking
         </selectKey>
-			INSERT INTO quality_checking (qc_id, qc_num, rec_id, ma_id, qc_yn, qc_cnt, emp_id) 
-	        SELECT #{qc_id}, #{qc_num}, #{rec_id}, #{ma_id}, '대기', 0, #{emp_id}
+			INSERT INTO quality_checking (qc_id, qc_num, rec_id, ma_id, qc_yn, qc_cnt, emp_id, fi_type) 
+	        SELECT #{qc_id}, #{qc_num}, #{rec_id}, #{ma_id}, '대기', 0, #{emp_id}, '자재'
 	</insert>
 	
 	<!-- 불량개수가 0이면 입고상태 변경 -->

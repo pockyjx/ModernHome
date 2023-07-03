@@ -65,6 +65,12 @@ public class ReceiveServiceImpl implements ReceiveService {
 		public void acceptReceive(Integer rec_id, Integer ma_id, Integer rec_cnt) throws Exception {
 			rdao.acceptReceive(rec_id, ma_id, rec_cnt);
 		}
+
+		// 입고 id값 가져오기
+		@Override
+		public int getRecId() throws Exception {
+			return rdao.getMaxRecId();
+		}
 		
 		
 		
