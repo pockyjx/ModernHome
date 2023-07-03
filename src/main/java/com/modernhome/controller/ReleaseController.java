@@ -2,6 +2,8 @@ package com.modernhome.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import com.modernhome.domain.MaterialReleaseVO;
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductReleaseVO;
+import com.modernhome.domain.WijoinVO;
+import com.modernhome.service.InstructService;
 import com.modernhome.service.ReleaseService;
 
 @Controller
@@ -27,6 +31,9 @@ public class ReleaseController {
 	
 	@Autowired
 	ReleaseService rService;
+	
+	@Autowired
+	InstructService iService;
 	
 	// http://localhost:8088/release/materialRelease
 	@RequestMapping(value = "/materialRelease")
@@ -180,24 +187,48 @@ public class ReleaseController {
 		return "redirect:/release/productRelease";
 	}
 	
+	// 출고 처리
 	@RequestMapping(value = "/acceptRelease")
 	public String acceptRelease(
 			@RequestParam(value = "txt", required = false)String txt,
 			@RequestParam(value = "release_id", required = false)Integer release_id,
 			@RequestParam(value = "mapro_id", required = false)Integer mapro_id,
-			@RequestParam(value = "release_cnt", required = false)Integer release_cnt
+			@RequestParam(value = "release_cnt", required = false)Integer release_cnt, 
+			@RequestParam(value = "work_id", required = false) Integer work_id
 			) throws Exception {
 		logger.debug(release_id+"");
 		if(txt.equals("mr")) {
 			logger.debug(" C: 자재 출고 처리!");
 			rService.acceptMR(release_id, mapro_id, release_cnt);
+			
+			WijoinVO wvo = new WijoinVO();
+			wvo.setWork_id(work_id);
+			iService.modifyInstrMrState(wvo);
+			
 			return "redirect:/release/materialRelease";
+			
 		}else if(txt.equals("pr")) {
 			logger.debug(" C: 제품 출고 처리!");
 			rService.acceptPR(release_id, mapro_id, release_cnt);
 			return "redirect:/release/productRelease";
 		}
 		return "/";
+	}
+	
+	// 출고 대기
+	@RequestMapping(value = "/waitingRelease", method = RequestMethod.GET)
+	public String waitingRelease(
+			@RequestParam(value = "txt", required = false) String txt, 
+			@RequestParam(value = "rel_id", required = false) Integer rel_id) throws Exception {
+		
+		if(txt.equals("mr")) {
+			logger.debug("자재 출고 대기 처리!");
+			rService.waitingMR(rel_id);
+			return "redirect:/release/materialRelease";
+		}
+		
+		return "/";
+		
 	}
 	
 }
