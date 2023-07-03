@@ -177,7 +177,7 @@
 		where m.ma_id = #{ma_id}
   	</select>
   	<update id="acceptMR">
-  		update material_release set mr_state = '완료', mr_date=now() where mr_id = #{mr_id};
+  		update material_release set mr_state = '출고완료', mr_date=now() where mr_id = #{mr_id};
   	</update>
   	<update id="updateMS" parameterType="java.util.Map">
   		update material_stock set ms_cnt=ms_cnt-#{mr_cnt} 
@@ -319,7 +319,7 @@
 		where p.pro_id = #{pro_id}
 	</select>
   	<update id="acceptPR">
-  		update product_release set pr_state = '완료', pr_date=now() where pr_id = #{pr_id};
+  		update product_release set pr_state = '출고완료', pr_date=now() where pr_id = #{pr_id};
   	</update>
   	<update id="updatePS" parameterType="java.util.Map">
   		update product_stock set ps_cnt=ps_cnt-#{pr_cnt} 
