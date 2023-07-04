@@ -10,7 +10,7 @@
             font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
     </style>
-<link href="/resources/img/favicon.ico" rel="icon">
+<link rel="icon" href="/resources/img/favicon.svg" type="image/x-icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 <link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
@@ -43,7 +43,7 @@
 	<form action="" method="GET">
 		<div class="row row" style="margin-left:3rem; margin-top: 3rem;">
 				<input type="hidden" name="txt" value="clt">
-				<input type="hidden" name="clt_num" value="">
+<!-- 				<input type="hidden" name="clt_num" value=""> --> <!-- clt_num은 넘길필요 없기 때문에 주석처리 -->
 			
 			<div class="col-sm-4">
 				<input type="text" placeholder="거래처명을 입력하세요" name="clt_name" value="${cvo.clt_name }" class="form-control">
@@ -84,7 +84,7 @@
   		
   			<c:if test="${pm.prev }">
 			<li class="page-item">
-				<a class="page-link" href="/wms/inorder/addPopup?page=${pm.startPage-1 }&txt=clt&clt_num=${cvo.clt_num}&clt_name=${cvo.clt_name}" aria-label="Previous">
+				<a class="page-link" href="/wms/inorder/addPopup?page=${pm.startPage-1 }&txt=clt&clt_name=${cvo.clt_name}" aria-label="Previous">
        			<span aria-hidden="true">&laquo;</span>
       			</a>
     		</li>
@@ -94,13 +94,13 @@
     		<li 
     			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
     		>
-    			<a class="page-link" href="/wms/inorder/addPopup?page=${idx}&txt=clt&clt_num=${cvo.clt_num}&clt_name=${cvo.clt_name}">${idx }</a>
+    			<a class="page-link" href="/wms/inorder/addPopup?page=${idx}&txt=clt&clt_name=${cvo.clt_name}">${idx }</a>
     		</li>
     		</c:forEach>
 			
 			<c:if test="${pm.next && pm.endPage > 0}">
 			<li class="page-item">
-      			<a class="page-link" href="/wms/inorder/addPopup?page=${pm.endPage+1 }&txt=clt&clt_num=${cvo.clt_num}&clt_name=${cvo.clt_name}" aria-label="Next">
+      			<a class="page-link" href="/wms/inorder/addPopup?page=${pm.endPage+1 }&txt=clt&clt_name=${cvo.clt_name}" aria-label="Next">
         		<span aria-hidden="true">&raquo;</span>
       			</a>
     		</li>

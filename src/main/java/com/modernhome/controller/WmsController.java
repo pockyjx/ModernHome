@@ -165,29 +165,16 @@ public class WmsController {
         	
         	List<ClientVO> popUpClt;
         	
-        	if(cvo.getClt_name() != null) { // 거래처 팝업창에서 검색했을 때
-        		
-        		logger.debug("거래처 팝업(검색) 호출!");
-        		popUpClt = cService.getClientList(cvo, pvo);
-        		model.addAttribute("popUpClt", popUpClt);
-        		
-        		// 페이징 정보 추가
-        		pm.setPageVO(pvo);
-        		pm.setTotalCount(cService.getCltSearchCnt(cvo));
-        		model.addAttribute("pm", pm);
-        		
-        		model.addAttribute("clientVO", cvo);
-        		
-        	}else {
-        		logger.debug("거래처 팝업 호출");
-        		popUpClt = cService.getClientList(pvo);
-        		model.addAttribute("popUpClt", popUpClt);
-        		
-        		// 페이징 정보 추가
-        		pm.setPageVO(pvo);
-        		pm.setTotalCount(cService.getTotalCntClt());
-        		model.addAttribute("pm", pm);
-        	}
+			logger.debug("거래처 팝업(검색) 호출!");
+			popUpClt = cService.ioCltList(cvo, pvo);
+			model.addAttribute("popUpClt", popUpClt);
+			
+    		// 페이징 정보 추가
+			pm.setPageVO(pvo);
+			pm.setTotalCount(cService.ioCltCnt(cvo));
+			model.addAttribute("pm", pm);
+			
+			model.addAttribute("cvo", cvo);
             
             return "/wms/inorder/popUpClient";
             

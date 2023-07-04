@@ -7,7 +7,6 @@
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
 
-<meta charset="UTF-8">
 <style>
 	.selected {
 	background-color: #b3ccff;
@@ -26,19 +25,19 @@
 	$("#addRowButton").click(function() {
 		var newRow = '<tr>' +
 		'<td><input type="checkbox"></td>' +
-		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
+		'<td><input type="text" disabled="disabled" value="(자동으로 부여)" style="border: none; background: transparent;"></td>' +
 		'<td>' +
 			'<select name="clt_sort">' +
 			'<option value="수주">수주</option>' +
 			'<option value="발주">발주</option>' +
 			'</select>' +
 		'</td>' +
-		'<td><input type="text" id="clt_name" name="clt_name"></td>' +
-		'<td><input type="text" id="clt_rep" name="clt_rep"></td>' +
-		'<td><input type="text" id="tel" name="clt_tel"></td>' +
-		'<td><input type="text" id="clt_adr" name="clt_adr"></td>' +
-		'<td><input type="text" id="clt_post" name="clt_post"></td>' +
-		'<td><input type="email" name="clt_email"></td>' +
+		'<td><input type="text" id="clt_name" name="clt_name" placeholder="상호명을 입력하세요"></td>' +
+		'<td><input type="text" id="clt_rep" name="clt_rep" placeholder="대표자를 입력하세요"></td>' +
+		'<td><input type="text" id="tel" name="clt_tel" placeholder="연락처를 입력하세요"></td>' +
+		'<td><input type="text" id="clt_adr" name="clt_adr" placeholder="주소지를 입력하세요"></td>' +
+		'<td><input type="text" id="clt_post" name="clt_post" placeholder="우편번호를 입력하세요"></td>' +
+		'<td><input type="email" name="clt_email" placeholder="이메일을 입력하세요"></td>' +
 		'</tr>';
 		
 		// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
@@ -222,7 +221,7 @@
 			});
 			
 		}else if (selectedCheckbox.length === 0){
-			alert("수정할 행을 선택해주세요!")
+			alert("수정할 행을 선택하세요!")
 			
 		}else {
 			alert("수정은 하나의 행만 가능합니다!");
@@ -235,7 +234,7 @@
 		
 		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 		if (selectedCheckbox.length === 0) {
-			alert("삭제할 행을 선택해주세요!")
+			alert("삭제할 행을 선택하세요!")
 		}
 	});
 	  
@@ -256,7 +255,7 @@
 				
 					if(clt_name == null || clt_name == "") {
 						$("#clt_name").focus();
-						alert("거래처 이름을 입력하세요!");
+						alert("거래처명을 입력하세요!");
 						return;
 					}
 					if(clt_rep == null || clt_rep == "") {
@@ -286,7 +285,7 @@
 				if(pageStatus == "update"){
 					if(clt_name == null || clt_name == "") {
 						$("#clt_name").focus();
-						alert("거래처 이름을 입력하세요!");
+						alert("거래처명을 입력하세요!");
 						return;
 					}
 					if(clt_rep == null || clt_rep == "") {
@@ -348,22 +347,34 @@
 
 <!-- 	http://localhost:8088/client/clientList -->
 <form action="" name="search"  method="GET" class="bg-light rounded p-3 m-3">
-	<div class="row mb-3">	     
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>업종유형</b></label>
+		
+		<!-- 체크박스 요소 - 수주 -->
+		<div class="col-sm-2">
+			<input type="checkbox" name="clt_sort" value="수주" ${param.clt_sort == '수주' ? 'checked' : ''}
+	    	onclick="handleCheckbox(this, '수주')" class="form-check-input"> 수주
+    	</div>
+	
+	  	<!-- 체크박스 요소 - 발주 -->
+	  	<div class="col-sm-2">
+	  	<input type="checkbox" name="clt_sort" value="발주" ${param.clt_sort == '발주' ? 'checked' : ''}
+	    onclick="handleCheckbox(this, '발주')" class="form-check-input"> 발주
+	    </div>	     
+	</div>
+	
+	<div class="row mb-3">
 		<label for="ioSearch" class="col-sm-2 col-form-label"><b>상호명</b></label>
 		<div class="col-sm-4">
 			<input type="text" name="clt_name" value="${clt_name}" placeholder="상호명을 입력하세요" class="form-control">
-		</div>
+		</div>	     
 	</div>
 	
-	<div class="row mb-3">	     
+	<div class="row mb-3">
 		<label for="ioSearch" class="col-sm-2 col-form-label"><b>대표자</b></label>
 		<div class="col-sm-4">
 			<input type="text" name="clt_rep" value="${clt_rep}" placeholder="대표자를 입력하세요" class="form-control">
 		</div>
-	</div>
-	
-	<div class="row mb-3">
-		
 	
 
 <script>
@@ -394,59 +405,65 @@
 	</div>
 </form>
 		
-		
-		
-	<form id="clientList">
-	
-	<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
-	<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-	<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-	<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-	<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteClient" formmethod="post">
-	<i class="fa fa-trash"></i> 삭제</button>
-	<button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
-	<i class="fa fa-download"></i> 저장</button>
-	</c:if>
-	
-	<table class="table-clientList" border="1">
-		<tr>
-			<th><input type="checkbox"></th>
-			<th>거래처코드</th>
-			<th>구분</th>
-			<th>상호명</th>
-			<th>대표자</th>
-			<th>연락처</th>
-			<th>주소지</th>
-			<th>우편번호</th>
-			<th>이메일</th>
-		</tr>
-		<c:forEach var="clientList" items="${clientList }">
-		<tr>
-			<td><input type="checkbox" name="selectedCltId" value="${clientList.clt_num}"></td>
-			<td>${clientList.clt_num }</td>
-			<td>${clientList.clt_sort }</td>	
-			<td>${clientList.clt_name }</td>
-			<td>${clientList.clt_rep }</td>
-			<td>${clientList.clt_tel }</td>
-			<td>${clientList.clt_adr }</td>
-			<td>${clientList.clt_post }</td>
-			<td>${clientList.clt_email }</td>
-		</tr>
-		</c:forEach>
-	</table>
-	
-	</form>
-	
+	<hr>	
 
+<form id="clientList" method="post">		
+	<div class="d-flex align-items-center justify-content-between mb-2">
+		<h3 class="m-4">거래처 목록</h3>
+		<div>
+			<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
+				<button type="button" class="btn btn-primary m-2" id="addRowButton">
+					<i class="fa fa-plus"></i> 추가</button>	
+				<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+				<button type="button" class="btn btn-primary m-2" id="updateButton">
+	    			<i class="fa fa-edit"></i> 수정</button>	
+				<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteClient" formmethod="post">
+					<i class="fa fa-trash"></i> 삭제</button>
+				<button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
+			    	<i class="fa fa-download"></i> 저장</button>
+			</c:if>
+		</div>
+	</div>
 	
-	
-	
-	
-	
+	<div class="bg-light text-center rounded p-4 m-3">
+		<div class="d-flex align-items-center justify-content-between mb-4">	
+			<span id="selectedCheckboxCount">0</span>
+		</div>
+		
+		<div class="table-responsive">
+			<table class="table-clientList table align-middle table-bordered table-hover mb-0">
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+					<th style="background-color: rgba(0,0,0,0.075);">거래처코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">구분</th>
+					<th style="background-color: rgba(0,0,0,0.075);">상호명</th>
+					<th style="background-color: rgba(0,0,0,0.075);">대표자</th>
+					<th style="background-color: rgba(0,0,0,0.075);">연락처</th>
+					<th style="background-color: rgba(0,0,0,0.075);">주소지</th>
+					<th style="background-color: rgba(0,0,0,0.075);">우편번호</th>
+					<th style="background-color: rgba(0,0,0,0.075);">이메일</th>
+				</tr>
+				
+				<c:forEach var="clientList" items="${clientList }">
+				<tr>
+					<td><input type="checkbox" name="selectedCltId" value="${clientList.clt_num}" class="form-check-input"></td>
+					<td>${clientList.clt_num }</td>
+					<td>${clientList.clt_sort }</td>	
+					<td>${clientList.clt_name }</td>
+					<td>${clientList.clt_rep }</td>
+					<td>${clientList.clt_tel }</td>
+					<td>${clientList.clt_adr }</td>
+					<td>${clientList.clt_post }</td>
+					<td>${clientList.clt_email }</td>
+				</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>	
+</form>
 	
 	
 	<!-- 페이지 이동 버튼 -->
-	
 	<nav aria-label="Page navigation example">
   		<ul class="pagination justify-content-center pagination-sm">
   		
@@ -476,10 +493,7 @@
     		
   		</ul>
 	</nav>
-	
 	<!-- 페이지 이동 버튼 -->
-	
-	
 	
 
 

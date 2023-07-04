@@ -64,7 +64,7 @@
 	
 	<!-- 자재 출고 목록 (페이징) -->
 	<select id="getmrlist" resultMap="MaterialReleaseVO">
-  		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt, e.emp_name, mr_id, m.ma_id
+  		select mr_num, mr.work_id, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt, e.emp_name, mr_id, m.ma_id
 		from material_release mr 
 		join work_instr wi on mr.work_id = wi.work_id 
 		join material m on mr.ma_id = m.ma_id 
@@ -90,7 +90,7 @@
   	
   	<!-- 자재 출고 검색 (페이징) -->
 	<select id="getmrlistp" resultMap="MaterialReleaseVO" parameterType="java.util.Map">
-  		select mr_num, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt, e.emp_name, mr_id, m.ma_id
+  		select mr_num, mr.work_id, wi.work_num, m.ma_name, mr_cnt, w.wh_name, wi.reg_date, mr_state, mr.emp_id, mr_date, ms.ms_cnt, e.emp_name, mr_id, m.ma_id
 		from material_release mr 
 		join work_instr wi on mr.work_id = wi.work_id 
 		join material m on mr.ma_id = m.ma_id 
@@ -325,5 +325,21 @@
   		update product_stock set ps_cnt=ps_cnt-#{pr_cnt} 
   		where pro_id = #{pro_id};
   	</update>
+  	
+  	<!-- 자재 출고 대기 처리 -->
+  	<update id="waitingMR">
+		UPDATE material_release
+		SET mr_state = '출고대기'
+		WHERE mr_id = #{mr_id}  	
+  	</update>
+  	<!-- 자재 출고 대기 처리 -->
+  	
+  	<!-- 완제품 출고 대기 처리 -->
+  	<update id="waitingPR">
+  		UPDATE product_release
+		SET pr_state = '출고대기'
+		WHERE pr_id = #{pr_id}
+  	</update>
+  	<!-- 완제품 출고 대기 처리 -->
   	
   </mapper>

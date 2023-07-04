@@ -11,9 +11,9 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="/resources/img/favicon.ico" rel="icon">
+    <link rel="icon" href="/resources/img/favicon.svg" type="image/x-icon">
 
-    <!-- Google Web Fonts -->
+    <!-- Font -->
     <link rel="stylesheet" as="style" crossorigin 
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     
