@@ -47,4 +47,7 @@ public interface InstructDAO {
 	// 작업지시 검색 개수
 	public int getWiSearchCnt(String work_state, String pro_num, String startDate, String endDate, PageVO vo) throws Exception;
 	
+	// 자재 출고 테이블에서 해당 작업지시에 대한 자재 모두가 출고 완료일 경우 작업지시 테이블의 상태 '진행중'으로 변경
+	public void modifyInstrMrState(WijoinVO wjvo) throws Exception;
+	
 }

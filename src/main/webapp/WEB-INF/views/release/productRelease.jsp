@@ -11,17 +11,17 @@
         // 버튼 클릭 시 행 추가
         $("#addRowButton").click(function() {
             var newRow = '<tr>' +
-                '<td><input type="checkbox"></td>' +
-                '<td></td>' +
+                '<td><input type="checkbox" class="form-check-input"></td>' +
+                '<td><input type="text" placeholder="(자동으로 부여)" style="border: none; background: transparent;" readonly></td>' +
                 '<td><input type="text" name="oo_num" id="oo_num" placeholder="여기를 눌러 검색하세요" readonly></td>' +
-                '<td><input type="text" name="clt_name" id="clt_name" readonly></td>' +
-                '<td><input type="text" name="pro_name" id="pro_name" readonly disabled></td>' +
-                '<td><input type="text" name="pr_cnt" id="oo_cnt" readonly value="0"></td>' +
-                '<td><input type="text" name="ps_cnt" id="ps_cnt" readonly></td>' +
-                '<td><input type="text" name="wh_name" id="wh_name" readonly disabled></td>' +
-                '<td><input type="datetime-local" name="oo_end_date" id="oo_end_date" readonly disabled></td>' +
-                '<td><input type="text" name="pr_state" id="pr_state" value="준비" readonly></td>' +
-                '<td><input type="text" name="emp_id" id="emp_id" value="${sessionScope.emp_id}" readonly></td>' +
+                '<td><input type="text" name="clt_name" id="clt_name" style="border: none; background: transparent;" readonly></td>' +
+                '<td><input type="text" name="pro_name" id="pro_name" style="border: none; background: transparent;" readonly disabled></td>' +
+                '<td><input type="text" name="pr_cnt" id="oo_cnt" style="border: none; background: transparent;" readonly value="0"></td>' +
+                '<td><input type="text" name="ps_cnt" id="ps_cnt" placeholder="여기를 눌러 검색하세요" readonly></td>' +
+                '<td><input type="text" name="wh_name" id="wh_name" style="border: none; background: transparent;" readonly disabled></td>' +
+                '<td><input type="datetime-local" name="oo_end_date" id="oo_end_date" style="border: none; background: transparent;" readonly disabled></td>' +
+                '<td><input type="text" name="pr_state" id="pr_state" value="출고준비" style="border: none; background: transparent;" readonly></td>' +
+                '<td><input type="text" name="emp_id" id="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;" readonly></td>' +
                 '<td></td>' +
                 '<td>' +
                 '<input type="hidden" name="pro_id" id="pro_id" value="0">' +
@@ -191,6 +191,8 @@
         		alert("수주코드를 입력해주세요");
         	}
          });
+        
+        // 출고 처리 버튼
  		$(".release").click(function () {
  			var pr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
  			var pro_id = $(this).closest("tr").find('td:eq(12)').text();
@@ -201,6 +203,16 @@
  			}
  			
  		});
+        
+        // 출고 대기 버튼
+ 		$(".waiting").click(function() {
+ 			var pr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
+//  			alert(pr_id);
+ 			
+ 			location.href="/release/waitingRelease?txt=pr&rel_id="+pr_id;
+ 			
+ 		});
+        
  		$("#submitButton").click(function() {
  			var form = $("#productRelease");
  			form.attr("method", "post");
@@ -239,7 +251,7 @@
 	<div class="row mb-3">
 		<label for="pro_nameSearch" class="col-sm-2 col-form-label"><b>품목명</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="pro_nameSearch" class="form-control" placeholder="제품명을 입력하세요" value="${pro_nameSearch }"> <br>
+			<input type="text" name="pro_nameSearch" class="form-control" placeholder="제품명을 입력하세요" value="${pro_nameSearch }">
 		</div>
 	</div>
 	
@@ -248,7 +260,7 @@
 		
 		<div class="col-sm-2">
 			<div class="col-auto">
-				<input type="datetime-local" name="startDate" class="form-control" value="${startDate }">
+				<input type="datetime-local" name="startDate" class="form-control">
 			</div>
 		</div>
 			
@@ -258,7 +270,7 @@
 			
 		<div class="col-sm-2">
 			<div class="col-auto">
-				<input type="datetime-local" name="endDate" class="form-control" value="${endDate }">
+				<input type="datetime-local" name="endDate" class="form-control">
 			</div>
 		</div>
 		
@@ -274,7 +286,7 @@
 <form id="productRelease" name="release">
 
 	<div class="d-flex align-items-center justify-content-between mb-2">
-		<h3 class="mb-4">제품출고</h3>
+		<h3 class="m-4">제품출고</h3>
 		<div>
 			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3' }">
 				<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
@@ -300,7 +312,7 @@
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">납품처명</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">완제품명</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">주문수량</th>
-			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">현 재고</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">현<br>재고</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">창고명</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">납기일자</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">진행현황</th>
@@ -327,14 +339,17 @@
 					<td style="display: none">${vo.productVO.pro_id }</td>
 					<td>
 					<c:choose>
-					<c:when test="${vo.pr_state eq '준비' && vo.productStockVO.ps_cnt ge vo.pr_cnt}">
-					<button type="button" class="btn btn-sm btn-success release">출고가능</button>
+					<c:when test="${vo.pr_state eq '검사완료' && vo.productStockVO.ps_cnt ge vo.pr_cnt}">
+					<button type="button" class="btn btn-sm btn-success release">출고<br>처리</button>
 					</c:when>
-					<c:when test="${vo.pr_state eq '준비' && vo.productStockVO.ps_cnt lt vo.pr_cnt}">
-					<button type="button" class="btn btn-sm btn-danger">출고불가</button>
+					<c:when test="${vo.pr_state eq '출고준비' && vo.productStockVO.ps_cnt ge vo.pr_cnt}">
+					<button type="button" class="btn btn-sm btn-warning waiting">출고<br>대기</button>
 					</c:when>
-					<c:when test="${!vo.pr_state.equals('준비')}">
-					<button type="button" class="btn btn-sm btn-primary">출고${vo.pr_state}</button> 
+					<c:when test="${vo.pr_state eq '출고준비' && vo.productStockVO.ps_cnt lt vo.pr_cnt}">
+					<button type="button" class="btn btn-sm btn-danger">출고<br>불가</button>
+					</c:when>
+					<c:when test="${vo.pr_state eq '출고완료'}">
+					<button type="button" class="btn btn-sm btn-primary">출고<br>완료</button> 
 					</c:when>
 					</c:choose>
 					
