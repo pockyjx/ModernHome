@@ -112,13 +112,14 @@
 
 	    // 삭제 버튼 누를 시
 		$("#deleteButton").click(function(){
-			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
-			var workId = selectedCheckbox.val();
+			var selectedCheckbox = $("input[name='work_id']:checked");
+// 			var workId = selectedCheckbox.val();
 			
-			if(selectedCheckbox.length === 1) {
-				location.href = "/production/instruct/delete?work_id=" + workId;
-			} else {
+			if(selectedCheckbox.length === 0) {
 				alert("삭제할 행을 선택해주세요!");
+				
+				// 선택안하면 submit을 막음
+				event.preventDefault();
 				return false;
 			}
 		});
@@ -234,7 +235,7 @@
 		
 		<c:forEach var="list" items="${instrList}" varStatus="no">
 			<tr>
-				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}" class="form-check-input"></td>
+				<td><input type="checkbox" name="work_id" value="${list.work_id}" class="form-check-input"></td>
 				<td><span onclick="infoPopup('${list.work_id}', '${list.pro_id}');" class="text-primary">${list.work_num}</span></td>
 				<td>${list.line_num}</td>
 				<td>${list.pro_num}</td>

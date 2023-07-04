@@ -23,7 +23,7 @@ public interface PerformanceService {
 	public void modifyPrfrm(WijoinVO vo) throws Exception;
 	
 	// 생산실적 삭제
-	public void deletePrfrm(WijoinVO vo) throws Exception;
+	public void deletePrfrm(int prfrm_id) throws Exception;
 	
 	// 생산실적 검색
 	public List<WijoinVO> getPrfrmList(String gb_yn, String work_num, String startDate, String endDate, PageVO vo) throws Exception;

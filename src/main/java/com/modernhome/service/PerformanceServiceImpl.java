@@ -42,8 +42,8 @@ public class PerformanceServiceImpl implements PerformanceService {
 	}
 
 	@Override
-	public void deletePrfrm(WijoinVO vo) throws Exception {
-		dao.deletePrfrm(vo);
+	public void deletePrfrm(int prfrm_id) throws Exception {
+		dao.deletePrfrm(prfrm_id);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
@@ -124,10 +125,14 @@ public class DefectiveController {
 	
 	// 불량 삭제
 	@RequestMapping(value = "/delDef")
-	public String delDefective(@ModelAttribute("df_id") Integer df_id) throws Exception {
+	public String delDefective(@RequestParam(value = "df_id", required = false) Integer[] df_id) throws Exception {
 		logger.debug("delDefective() 호출");
 		
-		dfService.delDefective(df_id);
+		if(df_id != null) {
+			for(int dfId : df_id) {
+				dfService.delDefective(dfId);
+			}
+		}
 		
 		return "redirect:/production/defective/list";
 	}

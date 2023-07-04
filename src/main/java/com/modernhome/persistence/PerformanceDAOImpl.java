@@ -58,9 +58,9 @@ public class PerformanceDAOImpl implements PerformanceDAO {
 	}
 
 	@Override
-	public void deletePrfrm(WijoinVO vo) throws Exception {
+	public void deletePrfrm(int prfrm_id) throws Exception {
 		logger.debug("WP DAOImpl_deletePrfrm() 실행");
-		sqlSession.delete(NAMESPACE + ".deletePrfrm", vo);
+		sqlSession.delete(NAMESPACE + ".deletePrfrm", prfrm_id);
 	}
 
 	@Override

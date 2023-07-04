@@ -237,7 +237,15 @@
 		// 삭제 버튼 누를 시
 		$("#deleteButton").click(function(){
 			var dfCheckbox = $("input[name='df_id']:checked");
-			var df_id = dfCheckbox.val();
+// 			var df_id = dfCheckbox.val();
+			
+			if(selectedCheckbox.length === 0) {
+				alert("삭제할 행을 선택해주세요!");
+				
+				// 선택안하면 submit을 막음
+				event.preventDefault();
+				return false;
+			}
 		});
 		
 	 	// 유효성 검사
