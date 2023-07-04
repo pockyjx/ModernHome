@@ -237,9 +237,11 @@
  		// 출고 대기 버튼
  		$(".waiting").click(function() {
  			var mr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
-//  			alert(mr_id);
+ 			var ma_id = $(this).closest("tr").find('td:eq(11)').text();
+
+ 			alert(mr_id + ", " + ma_id);
  			
- 			location.href="/release/waitingRelease?txt=mr&rel_id="+mr_id;
+ 			location.href="/release/waitingRelease?txt=mr&rel_id="+mr_id+"&item_id="+ma_id;
  			
  		});
         
