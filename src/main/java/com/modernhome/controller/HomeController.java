@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.modernhome.domain.DefectiveVO;
 import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.OutOrderResultVO;
+import com.modernhome.service.DefectiveService;
 import com.modernhome.service.InorderService;
 import com.modernhome.service.OutOrderService;
 
@@ -30,6 +32,9 @@ public class HomeController {
 	
 	@Autowired
 	private InorderService ioService;
+	
+	@Autowired
+	private DefectiveService dfService;
 	
 	
 	
@@ -57,7 +62,7 @@ public class HomeController {
 		
 		// 발주 그래프
 		List<InorderVO> monthlyIOResult = ioService.monthlyIOResult();
-		logger.debug("월별 발주 : " + monthlyIOResult);
+//		logger.debug("월별 발주 : " + monthlyIOResult);
 		
 		objectMapper = new ObjectMapper();
 		String monthlyIOResultJson = objectMapper.writeValueAsString(monthlyIOResult);
@@ -66,6 +71,15 @@ public class HomeController {
 		
 		
 		
+		
+		// 품질 - 불량 그래프
+		DefectiveVO dfCnt = dfService.dfCnt();
+		logger.debug("불량률 " + dfCnt);
+		
+		objectMapper = new ObjectMapper();
+		String dfCntJson = objectMapper.writeValueAsString(dfCnt);
+		
+		model.addAttribute("dfCnt", dfCntJson);
 		
 		
 		
