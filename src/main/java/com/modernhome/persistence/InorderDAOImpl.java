@@ -109,4 +109,14 @@ public class InorderDAOImpl implements InorderDAO {
 	}
 
 	
+	
+	
+	
+	// 발주 월별 그래프
+	@Override
+	public List<InorderVO> monthlyIOResult() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".monthlyIOResult");
+	}
+
+	
 }
