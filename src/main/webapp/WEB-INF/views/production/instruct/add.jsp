@@ -112,79 +112,80 @@
 	
 	<c:set var="now" value="<%=new java.util.Date()%>"/>
 	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
-<div class="d-flex align-items-center justify-content-between mb-2">
-	<h3 class="m-4">작업지시서 작성</h3>
-</div>
+
+<h3 class="m-4" style="text-align: center;">작업지시서 작성</h3>
 
 <div class="bg-light text-center rounded p-4 m-3">
-	<form name="addForm" action="/production/instruct/add" method="post">
-		<table class="table text-start align-middle table-bordered table-hover mb-0">
-			<tr>
-				<th>지시번호</th>
-				<td><input type="text" class="form-control" name="work_num" value="${idnum[0].work_num}" 
-						 style="border: none; background: transparent;" readonly></td>
-					
-				<th>수주번호</th>
-				<td id="oo_num">
-					<input type="text" class="form-control" name="oo_num" <c:if test='${!empty param.oo_num}'>value="${param.oo_num}"</c:if> readonly>
-				</td>
-			</tr>
-			<tr>
-				<th>품번</th>
-				<td><input type="text" class="form-control" name="pro_num" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_num}"</c:if> 
-						 style="border: none; background: transparent;" readonly></td>
-				<th>수량</th>
-				<td><input type="text" class="form-control" name="work_cnt" id="wcntInput" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_cnt}"</c:if>></td>
-			</tr>
-			<tr>
-				<th>품명</th>
-				<td><input type="text" class="form-control" name="pro_name" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_name}"</c:if> 
-						 style="border: none; background: transparent;" readonly></td>
-				<th>단위</th>
-				<td><input type="text" class="form-control" name="pro_unit" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_unit}"</c:if> 
-						 style="border: none; background: transparent;" readonly></td>
-			</tr>
-			<tr>
-				<th>납기일</th>
-				<td><c:if test='${!empty param.oo_num}'>${fn:substring(reqList[0].oo_end_date, 0, 10)}</c:if></td>
-				<th>생산라인</th>
-				<td id="line_num">
-					<input type="text" class="form-control" name="line_num" <c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if> readonly>
-				</td>
-			</tr>
-			<tr>
-				<th>납품지점</th>
-				<td><input type="text" class="form-control" name="clt_name" <c:if test='${!empty param.oo_num}'>value="${reqList[0].clt_name}"</c:if> 
-						 style="border: none; background: transparent;" readonly></td>
-				<th>작성일</th>
-				<td><c:out value='${today}'/></td>
-			</tr>
-			<tr>
-				<th rowspan="10">원재료</th>
-				<th>품목코드</th>
-				<th>품목명</th>
-				<th>수량</th>
-			</tr>
-			<c:forEach var="req" items="${reqList}">
+	<div class="table-responsive">
+		<form name="addForm" action="/production/instruct/add" method="post">
+			<table class="table align-middle table-bordered table-hover mb-0">
 				<tr>
-					<td>${req.ma_num}</td>
-					<td>${req.ma_name}</td>
-					<td class="cl_req_cnt">${req.req_cnt}</td>
+					<th style="background-color: rgba(0,0,0,0.075);">지시번호</th>
+					<td><input type="text" class="form-control" name="work_num" value="${idnum[0].work_num}" 
+							 style="border: none; background: transparent;" readonly></td>
+						
+					<th style="background-color: rgba(0,0,0,0.075);">수주번호</th>
+					<td id="oo_num">
+						<input type="text" class="form-control" name="oo_num" <c:if test='${!empty param.oo_num}'>value="${param.oo_num}"</c:if> readonly>
+					</td>
 				</tr>
-			</c:forEach>
-		</table>
-		<input type="hidden" name="work_id" value="${idnum[0].work_id}">
-		<input type="hidden" name="pro_id" value="${reqList[0].pro_id}">
-		<input type="hidden" name="req_id" value="${reqList[0].req_id}">
-		<input type="hidden" name="clt_id" value="${reqList[0].clt_id}">
-		<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
-		<input type="hidden" name="oo_id" id="oo_id" <c:if test='${!empty param.oo_id}'>value="${param.oo_id}"</c:if> readonly>
-		<input type="hidden" name="line_id" id="line_id" <c:if test='${!empty param.line_id}'>value="${param.line_id}"</c:if> readonly>
-		<div>
-			<input type="button" value="취소" class="btn btn-secondary m-2" onclick="window.close();">
-			<input type="button" value="저장" id="addSubmint" class="btn btn-success m-2">
-		</div>
-	</form>
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075);">품번</th>
+					<td><input type="text" class="form-control" name="pro_num" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_num}"</c:if> 
+							 style="border: none; background: transparent;" readonly></td>
+					<th style="background-color: rgba(0,0,0,0.075);">수량</th>
+					<td><input type="text" class="form-control" name="work_cnt" id="wcntInput" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_cnt}"</c:if>></td>
+				</tr>
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075);">품명</th>
+					<td><input type="text" class="form-control" name="pro_name" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_name}"</c:if> 
+							 style="border: none; background: transparent;" readonly></td>
+					<th style="background-color: rgba(0,0,0,0.075);">단위</th>
+					<td><input type="text" class="form-control" name="pro_unit" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_unit}"</c:if> 
+							 style="border: none; background: transparent;" readonly></td>
+				</tr>
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075);">납기일</th>
+					<td><c:if test='${!empty param.oo_num}'>${fn:substring(reqList[0].oo_end_date, 0, 10)}</c:if></td>
+					<th style="background-color: rgba(0,0,0,0.075);">생산라인</th>
+					<td id="line_num">
+						<input type="text" class="form-control" name="line_num" <c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if> readonly>
+					</td>
+				</tr>
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075);">납품지점</th>
+					<td><input type="text" class="form-control" name="clt_name" <c:if test='${!empty param.oo_num}'>value="${reqList[0].clt_name}"</c:if> 
+							 style="border: none; background: transparent;" readonly></td>
+					<th style="background-color: rgba(0,0,0,0.075);">작성일</th>
+					<td><c:out value='${today}'/></td>
+				</tr>
+				<tr>
+					<th rowspan="10" style="background-color: rgba(0,0,0,0.075);">원재료</th>
+					<th style="background-color: rgba(0,0,0,0.075);">품목코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+					<th style="background-color: rgba(0,0,0,0.075);">수량</th>
+				</tr>
+				<c:forEach var="req" items="${reqList}">
+					<tr>
+						<td>${req.ma_num}</td>
+						<td>${req.ma_name}</td>
+						<td class="cl_req_cnt">${req.req_cnt}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<input type="hidden" name="work_id" value="${idnum[0].work_id}">
+			<input type="hidden" name="pro_id" value="${reqList[0].pro_id}">
+			<input type="hidden" name="req_id" value="${reqList[0].req_id}">
+			<input type="hidden" name="clt_id" value="${reqList[0].clt_id}">
+			<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
+			<input type="hidden" name="oo_id" id="oo_id" <c:if test='${!empty param.oo_id}'>value="${param.oo_id}"</c:if> readonly>
+			<input type="hidden" name="line_id" id="line_id" <c:if test='${!empty param.line_id}'>value="${param.line_id}"</c:if> readonly>
+			<div>
+				<input type="button" value="취소" class="btn btn-secondary m-2" onclick="window.close();">
+				<input type="button" value="저장" id="addSubmint" class="btn btn-success m-2">
+			</div>
+		</form>
+	</div>
 </div>
 	
 </body>

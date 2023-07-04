@@ -57,18 +57,17 @@
 
 <body>
 	
-<div class="bg-light text-center rounded p-4 m-3">
-	<div class="d-flex align-items-center justify-content-between mb-4">
-		<h5>수주</h5>
-	</div>
-	<table class="table text-start align-middle table-bordered table-hover mb-0">
+<h3 class="m-4" style="text-align: center;">수주 목록</h3>
+	
+<div class="bg-light text-center rounded p-4 m-3" style="margin-left:3rem; margin-right:3rem;">
+	<table class="table align-middle table-bordered table-hover mb-0">
 		<tr>
-			<th>수주 코드</th>
-			<th>품목 코드</th>
-			<th>품목명</th>
-			<th>거래처</th>
-			<th>수주량</th>
-			<th colspan="2">출하 예정일</th>
+			<th style="background-color: rgba(0,0,0,0.075);">수주 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">품목 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+			<th style="background-color: rgba(0,0,0,0.075);">거래처</th>
+			<th style="background-color: rgba(0,0,0,0.075);">수주량</th>
+			<th colspan="2" style="background-color: rgba(0,0,0,0.075);">출하 예정일</th>
 		</tr>
 		<c:forEach var="onum" items="${onumList}">
 			<tr>

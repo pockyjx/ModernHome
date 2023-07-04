@@ -58,5 +58,10 @@ public class LineServiceImpl implements LineService {
 		dao.regLineShutdown(lsvo);
 	}
 
+	@Override
+	public List<LineShutdownVO> getListLineShutdown(Integer line_id) throws Exception {
+		return dao.getListLineShutdown(line_id);
+	}
+
 
 } // LineServiceImpl

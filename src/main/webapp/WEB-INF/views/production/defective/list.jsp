@@ -297,34 +297,33 @@
 }
 </style>
 
-	<form method="get" class="bg-light rounded p-3 m-3">
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">불량 타입</label>
-			<div class="col-sm-10">
-				<select name="df_type">
-					<option value="all">전체</option>
-					<option value="pro">공정검사</option>
-					<option value="ma">수입검사</option>
-					<option value="re">출고검사</option>
-				</select>
-			</div>
+<form method="get" class="bg-light rounded p-3 m-3">
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">불량 타입</label>
+		<div class="col-sm-10">
+			<select name="df_type">
+				<option value="all">전체</option>
+				<option value="pro">공정검사</option>
+				<option value="ma">수입검사</option>
+				<option value="re">출고검사</option>
+			</select>
 		</div>
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">품목명</label>
-			<div class="col-sm-10">
-				<input type="text" name="nameSearch">
-			</div>
+	</div>
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">품목명</label>
+		<div class="col-sm-10">
+			<input type="text" name="nameSearch">
 		</div>
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">라인 코드</label>
-			<div class="col-sm-10">
-				<input type="text" name="line_num">
-				<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
-			</div>
+	</div>
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">라인 코드</label>
+		<div class="col-sm-10">
+			<input type="text" name="line_num">
+			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
 		</div>
-	</form>
+	</div>
+</form>
 
-<br>
 		
 <form id="defList">
 	<div class="d-flex align-items-center justify-content-between mb-2">
@@ -350,21 +349,22 @@
 		
 		<div class="table-responsive">
 			<!-- 불량 리스트 -->
-			<table class="table-defective table text-start align-middle table-bordered table-hover mb-0">
+			<table class="table-defective table align-middle table-bordered table-hover mb-0">
 				<tr>
-					<th><input type="checkbox" class="form-check-input"></th>
-					<th>불량코드</th>
-					<th>불량타입</th>
-					<th>라인코드/거래처</th>
-					<th>품목코드</th>
-					<th>품목명</th>
-					<th>검수자</th>
-					<th>등록일자</th>
-					<th>불량수량</th>
-					<th>불량사유</th>
-					<th>수리가능 여부</th>
-					<th>처리일</th>
-					<th>수리/폐기</th>
+					<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+					<th style="background-color: rgba(0,0,0,0.075);">불량코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">불량타입</th>
+					<th style="background-color: rgba(0,0,0,0.075);">코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">라인코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">품목코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+					<th style="background-color: rgba(0,0,0,0.075);">검수자</th>
+					<th style="background-color: rgba(0,0,0,0.075);">등록일자</th>
+					<th style="background-color: rgba(0,0,0,0.075);">불량수량</th>
+					<th style="background-color: rgba(0,0,0,0.075);">불량사유</th>
+					<th style="background-color: rgba(0,0,0,0.075);">수리가능 여부</th>
+					<th style="background-color: rgba(0,0,0,0.075);">처리일</th>
+					<th style="background-color: rgba(0,0,0,0.075);">수리/폐기</th>
 				</tr>
 			
 				<c:forEach var="df" items="${dfList}">
@@ -372,9 +372,11 @@
 						<td><input type="checkbox" class="form-check-input" name="df_id" value="${df.df_id}"></td>
 						<td>${df.df_num}</td>
 						<td>${df.df_type}</td>
-						<td>${(df.df_type == "공정검사") ? df.line_num : df.clt_name}</td>
-						<td>${(df.df_type == "공정검사") ? df.pro_num : df.ma_num}</td>
-						<td>${(df.df_type == "공정검사") ? df.pro_name : df.ma_name}</td>
+						<td>${df.df_type == "공정검사" ? df.work_num : df.rec_num}</td>
+<%-- 						<td>${df.df_type == "공정검사" ? df.work_num : (df.df_type == "수입검사" ? df.rec_num : df.rel_num)}</td> --%>
+						<td>${df.df_type == "공정검사" ? df.line_num : ""}</td>
+						<td>${df.df_type == "공정검사" ? df.pro_num : df.ma_num}</td>
+						<td>${df.df_type == "공정검사" ? df.pro_name : df.ma_name}</td>
 						<td>${df.emp_name}</td>
 						<td>
 							<c:if test="${!empty wp.update_date}">${fn:substring(df.update_date, 0, 10)}</c:if>

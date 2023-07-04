@@ -131,7 +131,7 @@ public class QualityDAOImpl implements QualityDAO{
 		sqlSession.update(NAMESPACE+".updateMaterialQuality",wvo);
 		
 	}
-
+	
 	@Override
 	public void addQC(WijoinVO wvo) throws Exception {
 		logger.debug("QualityDAOImpl_addQC() 실행");

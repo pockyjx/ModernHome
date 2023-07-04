@@ -26,4 +26,7 @@ public interface LineService {
 	// 라인 수정 정보 저장
 	public void regLineShutdown(LineShutdownVO lsvo) throws Exception;
 	
+	// 특정 라인의 수정 이력 출력
+	public List<LineShutdownVO> getListLineShutdown(Integer line_id) throws Exception;
+	
 } // LineService
