@@ -92,13 +92,14 @@
     	
     <!-- 발주 등록 -->	
     <insert id="regInorder">
-	    INSERT INTO in_order (io_num, ma_id, clt_id, io_cnt, io_unit, io_date, io_state, rec_date, io_reg_date, emp_id)
+	    INSERT INTO in_order (io_num, ma_id, clt_id, io_cnt, io_unit, io_amount, io_date, io_state, rec_date, io_reg_date, emp_id)
 	    SELECT
 	        CONCAT(SUBSTRING(io_num, 1, 2), LPAD(max(io_id) + 1, 6, '0')),
 	        #{ma_id},
 	        #{clt_id},
 	        #{io_cnt},
 	        #{io_unit},
+	        #{ma_price}*#{io_cnt},
 	        now(),
 	        #{io_state},
 	        #{rec_date},

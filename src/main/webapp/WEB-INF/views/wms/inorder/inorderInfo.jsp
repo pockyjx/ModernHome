@@ -42,8 +42,9 @@
 			<tr>
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재코드</th>
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재명</th>
-				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">발주량</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">단가</th>
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">단위</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">발주량</th>
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">총금액</th>
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">발주일자</th>
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">입고예정일</th>
@@ -54,8 +55,9 @@
 				<tr>
 					<td style="text-align: center;">${vo.ma_num}</td>
 					<td style="text-align: center;">${vo.ma_name}</td>
-					<td style="text-align: center;">${vo.io_cnt}</td>
+					<td style="text-align: center;">${vo.ma_price}</td>
 					<td style="text-align: center;">${vo.io_unit}</td>
+					<td style="text-align: center;">${vo.io_cnt}</td>
 					<td style="text-align: center;">${vo.ma_price*vo.io_cnt}</td>
 					<td style="text-align: center;">${fn:substring(vo.io_date, 0, 10)}</td>
 					<td style="text-align: center;">${fn:substring(vo.rec_date, 0, 10)}</td>
