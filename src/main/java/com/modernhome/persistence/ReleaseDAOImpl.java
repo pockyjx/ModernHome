@@ -198,7 +198,7 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 	// 완제품 출고 대기 처리
 	@Override
 	public void waitingPR(Integer pr_id) throws Exception {
-		
+		sqlSession.update(NAMESPACE + ".waitingPR", pr_id);
 	}
 	
 	

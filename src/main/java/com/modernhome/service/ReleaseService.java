@@ -37,5 +37,8 @@ public interface ReleaseService {
 	
 	// 자재 출고 대기 처리
 	public void waitingMR(Integer mr_id) throws Exception;
+	
+	// 완제품 출고 대기 처리
+	public void waitingPR(Integer pr_id) throws Exception;
 
 }

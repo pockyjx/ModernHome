@@ -10,13 +10,12 @@
             font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
     </style>
-<link href="/resources/img/favicon.ico" rel="icon">
+<link rel="icon" href="/resources/img/favicon.svg" type="image/x-icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 <link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
-
 
 <title>완제품 팝업</title>
 
@@ -67,7 +66,7 @@
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">완제품 id</th>
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">완제품 코드</th>
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">완제품명</th>
-				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">완제품가격</th>
+				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">완제품 가격</th>
 			</tr>
 			
 			<c:forEach items="${popUpPro }" var="vo">
@@ -80,7 +79,6 @@
 			</c:forEach>
 		</table>
 	</div>
-	
 	<br>
 	
 	<!-- 페이징 버튼 -->
@@ -114,9 +112,3 @@
 		</ul>
 	</nav>
 	<!-- 페이징 버튼 -->
-	
-	
-	
-
-</body>
-</html>

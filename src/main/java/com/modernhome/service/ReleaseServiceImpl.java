@@ -148,6 +148,13 @@ public class ReleaseServiceImpl implements ReleaseService {
 	public void waitingMR(Integer mr_id) throws Exception {
 		rDAO.waitingMR(mr_id);
 	}
+
+	// 완제품 출고 대기 처리
+	@Override
+	public void waitingPR(Integer pr_id) throws Exception {
+		rDAO.waitingPR(pr_id);
+	}
+	
 	
 	
 }

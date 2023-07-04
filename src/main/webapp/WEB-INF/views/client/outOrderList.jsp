@@ -385,16 +385,20 @@ $(document).ready(function() {
 	// ------------- 팝업창
 	// 거래처 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click", "input[name='clt_num']", function() {
+		var left = (screen.width - 600) / 2;
+		var top = (screen.height - 680) / 2;
 // 		// 창이 열릴 시 포커스를 없앰
 // 		$("input").blur();
-		window.open('/client/addPopup?txt=clt', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+		window.open('/client/addPopup?txt=clt', 'popup', 'width=600, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	});
 
 	// 완제품 코드 입력란 클릭 시 팝업창 열기
 	$(document).on("click", "input[name='pro_num']", function() {
+		var left = (screen.width - 600) / 2;
+		var top = (screen.height - 680) / 2;
 // 		// 창이 열릴 시 포커스를 없앰
 // 		$("input").blur();
-		window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+		window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	});
 	
 	
@@ -404,9 +408,9 @@ $(document).ready(function() {
 			
 		//alert(pro_id);
 		
-		var left = (screen.width - 600) / 2;
-			var top = (screen.height - 300) / 2;
-		window.open('/client/outOrderContract?oo_num='+oo_num+'', 'popup', 'width=600, height=300, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+		var left = (screen.width - 800) / 2;
+			var top = (screen.height - 400) / 2;
+		window.open('/client/outOrderContract?oo_num='+oo_num+'', 'popup', 'width=800, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	
 	});
 	
@@ -551,7 +555,7 @@ function updateCltCost() {
 				    	<th style="background-color: rgba(0,0,0,0.075);">거래처이름</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">완제품<br>코드</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">완제품명</th>
-				    	<th style="background-color: rgba(0,0,0,0.075);">완제품가격</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">완제품<br>가격</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">주문량</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">수주금액</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">수주일자</th>
