@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.MaterialReleaseVO;
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductReleaseVO;
@@ -87,6 +88,22 @@ public class ReleaseServiceImpl implements ReleaseService {
 		return rDAO.getProductReleaseList(startDate, endDate, pro_name, pr_num, vo);
 	}
 	
+	@Override
+	public int getPrSearchCnt2(ProductReleaseVO vo) throws Exception {
+		return rDAO.getPrSearchCnt2(vo);
+	}
+	
+	
+	@Override
+	public List<ProductReleaseVO> shpPrList(ProductReleaseVO vo, PageVO pvo) {
+		return rDAO.shpPrList(vo, pvo);
+	}
+
+	@Override
+	public Integer shpPrCnt(ProductReleaseVO vo) {
+		return rDAO.shpPrCnt(vo);
+	}
+
 	// 검색 결과 개수
 	@Override
 	public int getPrSearchCnt(String startDate, String endDate, String pro_name, String pr_num) throws Exception {
@@ -138,10 +155,7 @@ public class ReleaseServiceImpl implements ReleaseService {
 		
 	}
 
-	@Override
-	public int getPrSearchCnt(ProductReleaseVO vo) throws Exception {
-		return rDAO.getPrSearchCnt(vo);
-	}
+	
 
 	// 자재 출고 대기 처리
 	@Override

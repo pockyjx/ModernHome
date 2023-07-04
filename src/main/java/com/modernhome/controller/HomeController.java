@@ -1,11 +1,19 @@
 package com.modernhome.controller;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.modernhome.domain.InorderVO;
+import com.modernhome.domain.OutOrderResultVO;
+import com.modernhome.service.InorderService;
+import com.modernhome.service.OutOrderService;
 
 /**
  * Handles requests for the application home page.
@@ -15,12 +23,53 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	
+	// 객체주입
+	@Autowired
+	private OutOrderService oService;
+	
+	@Autowired
+	private InorderService ioService;
+	
+	
+	
+	// http://localhost:8088/
 	@RequestMapping(value = "/")
-	public String root(HttpSession session) {
+	public String root(Model model) throws Exception{
 		logger.debug(" C : root() 호출! ");
-		if(session.getAttribute("emp_id") == null) {
-			return "redirect:/employee/login";
-		}
+		
+		ObjectMapper objectMapper;
+		
+		
+		// 수주 그래프
+		List<OutOrderResultVO> monthlyOrderResult = oService.monthlyOrderResult();
+//		logger.debug("월별 수주 실적 : " + monthlyOrderResult);
+		
+		
+		// ObjectMapper를 사용하여 List<OutOrderResultVO>를 JSON 문자열로 변환
+		objectMapper = new ObjectMapper();
+		String monthlyOrderResultJson = objectMapper.writeValueAsString(monthlyOrderResult);
+		
+		// 모델 객체에 추가
+		model.addAttribute("monthlyOrderResult", monthlyOrderResultJson);
+		
+		
+		
+		// 발주 그래프
+		List<InorderVO> monthlyIOResult = ioService.monthlyIOResult();
+		logger.debug("월별 발주 : " + monthlyIOResult);
+		
+		objectMapper = new ObjectMapper();
+		String monthlyIOResultJson = objectMapper.writeValueAsString(monthlyIOResult);
+		
+		model.addAttribute("monthlyIOResult", monthlyIOResultJson);
+		
+		
+		
+		
+		
+		
+		
 		return "main";
 	}
 	

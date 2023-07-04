@@ -2,6 +2,7 @@ package com.modernhome.service;
 
 import java.util.List;
 
+import com.modernhome.domain.ClientVO;
 import com.modernhome.domain.MaterialReleaseVO;
 import com.modernhome.domain.MaterialVO;
 import com.modernhome.domain.PageVO;
@@ -24,7 +25,12 @@ public interface ReleaseService {
 	public int getTotalCntPr() throws Exception;
 	public List<ProductReleaseVO> getProductReleaseList(String startDate, String endDate, String pro_name, String pr_num, PageVO vo) throws Exception;
 	public int getPrSearchCnt(String startDate, String endDate, String pro_name, String pr_num) throws Exception;
-	public int getPrSearchCnt(ProductReleaseVO vo) throws Exception;
+	public int getPrSearchCnt2(ProductReleaseVO vo) throws Exception;
+	// 출고 팝업 페이징
+	public List<ProductReleaseVO> shpPrList(ProductReleaseVO vo, PageVO pvo);
+		
+	// 출고 수(검색포함)
+	public Integer shpPrCnt(ProductReleaseVO vo);
 	
 	public void regProductRelease(ProductReleaseVO vo) throws Exception;
 //	public void modifyProductRelease(ProductReleaseVO vo) throws Exception;

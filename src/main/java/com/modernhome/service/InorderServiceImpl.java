@@ -72,6 +72,16 @@ public class InorderServiceImpl implements InorderService {
 	
 	
 	
+	
+	// 발주 월별 그래프
+	@Override
+	public List<InorderVO> monthlyIOResult() throws Exception {
+		return iodao.monthlyIOResult();
+	}
+
+	
+	
+	
 
 	
 }

@@ -42,20 +42,20 @@ $(document).ready(function() {
 	
 	// 수주금액 차트
 	var canvas = document.getElementById('monthlyOrderAmount');
-	canvas.width = 400; // 너비 설정
-	canvas.height = 300; // 높이 설정
+// 	canvas.width = 400; // 너비 설정
+// 	canvas.height = 300; // 높이 설정
 	
 	var ctx = canvas.getContext('2d');
 	
 	var myChart = new Chart(ctx, {
-		type: 'bar',
+		type: 'line',
 		data: {
 			labels: months,
 			datasets: [{
 			label: '월별 수주 금액',
 			data: orderAmount,
-			backgroundColor: 'rgba(75, 192, 192, 0.2)',
-			borderColor: 'rgba(75, 192, 192, 1)',
+// 			backgroundColor: 'rgba(75, 192, 192, 0.2)',
+// 			borderColor: 'rgba(75, 192, 192, 1)',
 			borderWidth: 1
 			}]
 		}, // data
@@ -73,20 +73,20 @@ $(document).ready(function() {
 	
 	
 	var canvas1 = document.getElementById('monthlyOrderCount');
-	canvas1.width = 400; // 너비 설정
-	canvas1.height = 300; // 높이 설정
+// 	canvas1.width = 400; // 너비 설정
+// 	canvas1.height = 300; // 높이 설정
 	
 	var ctx = canvas1.getContext('2d');
 	
 	var myChart = new Chart(ctx, {
-		type: 'bar',
+		type: 'line',
 		data: {
 			labels: months,
 			datasets: [{
 			label: '월별 수주 건수',
 			data: orderCount,
-			backgroundColor: 'rgba(75, 192, 192, 0.2)',
-			borderColor: 'rgba(75, 192, 192, 1)',
+// 			backgroundColor: 'rgba(75, 192, 192, 0.2)',
+// 			borderColor: 'rgba(75, 192, 192, 1)',
 			borderWidth: 1
 			}]
 		}, // data
@@ -107,8 +107,28 @@ $(document).ready(function() {
 </head>
 <body>
 
-<canvas id="monthlyOrderAmount"></canvas>
-<canvas id="monthlyOrderCount"></canvas>
+
+	<div class="col-sm-12 col-xl-6">
+		<div class="bg-light rounded h-100 p-4">
+			<h6 class="mb-4">Single Line Chart</h6>
+			<canvas id="monthlyOrderAmount" width="412" height="206"
+				style="display: block; box-sizing: border-box; height: 219.733px; width: 439.467px;"></canvas>
+		</div>
+	</div>
+
+	<div class="col-sm-12 col-xl-6">
+		<div class="bg-light rounded h-100 p-4">
+			<h6 class="mb-4">Single Line Chart</h6>
+			<canvas id="monthlyOrderCount" width="412" height="206"
+				style="display: block; box-sizing: border-box; height: 219.733px; width: 439.467px;"></canvas>
+		</div>
+	</div>
+
+<!-- 수주 그래프 -->
+
+
+
+
 
 </body>
 </html>
