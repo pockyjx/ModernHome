@@ -289,15 +289,26 @@
 	</select>
 	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 출력 -->
 	
-	<!-- 입고테이블에서 입고 대기일 경우 qc 테이블에 추가 -->
+	<!-- 출고 테이블(자재)에서 출고대기일 경우 qc 테이블에 추가 -->
 	<insert id="addMrQC" parameterType="WijoinVO">
         <selectKey keyProperty="qc_id,qc_num" resultType="WijoinVO" order="BEFORE">
             SELECT ifnull(MAX(qc_id), 0) + 1 AS qc_id, concat('QC', lpad(ifnull(max(qc_id), 0) + 1, 4, 0)) AS qc_num 
             FROM quality_checking
         </selectKey>
-			INSERT INTO quality_checking (qc_id, qc_num, mr_id, ma_id, mr_yn, qc_cnt, emp_id, fi_type) 
-	         #{qc_id}, #{qc_num}, #{rec_id}, #{ma_id}, '대기', 0, #{emp_id}, '자재'
+			INSERT INTO quality_checking (qc_id, qc_num, mr_id, ma_id, qc_yn, qc_cnt, emp_id, fi_type) 
+	         #{qc_id}, #{qc_num}, #{mr_id}, #{ma_id}, '대기', 0, #{emp_id}, '자재'
 	</insert>
-	<!-- 입고테이블에서 입고 대기일 경우 qc 테이블에 추가 -->
+	<!-- 출고 테이블(자재)에서 출고대기일 경우 qc 테이블에 추가 -->
+	
+	<!-- 출고 테이블(완제품)에서 출고대기일 경우 qc 테이블에 추가 -->
+	<insert id="addPrQC" parameterType="WijoinVO">
+        <selectKey keyProperty="qc_id,qc_num" resultType="WijoinVO" order="BEFORE">
+            SELECT ifnull(MAX(qc_id), 0) + 1 AS qc_id, concat('QC', lpad(ifnull(max(qc_id), 0) + 1, 4, 0)) AS qc_num 
+            FROM quality_checking
+        </selectKey>
+			INSERT INTO quality_checking (qc_id, qc_num, pr_id, pro_id, qc_yn, qc_cnt, emp_id, fi_type) 
+	         #{qc_id}, #{qc_num}, #{pr_id}, #{pro_id}, '대기', 0, #{emp_id}, '완제품'
+	</insert>
+	<!-- 출고 테이블(완제품)에서 출고대기일 경우 qc 테이블에 추가 -->
 	
 </mapper>

@@ -100,5 +100,15 @@ public class QualityServiceImpl implements QualityService{
 	public List<WijoinVO> getMrList() throws Exception {
 		return qdao.getMrList();
 	}
+
+	@Override
+	public void addMrQC(WijoinVO wvo) throws Exception {
+		qdao.addMrQC(wvo);
+	}
+	
+	@Override
+	public void addPrQC(WijoinVO wvo) throws Exception {
+		qdao.addPrQC(wvo);
+	}
 	
 } // QualityServiceImpl

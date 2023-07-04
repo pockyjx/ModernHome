@@ -131,7 +131,7 @@ public class QualityDAOImpl implements QualityDAO{
 		sqlSession.update(NAMESPACE+".updateMaterialQuality",wvo);
 		
 	}
-
+	
 	@Override
 	public void addQC(WijoinVO wvo) throws Exception {
 		logger.debug("QualityDAOImpl_addQC() 실행");
@@ -155,6 +155,20 @@ public class QualityDAOImpl implements QualityDAO{
 	public List<WijoinVO> getMrList() throws Exception {
 		logger.debug("QualityDAOImpl_getMrlist() 실행");
 		return sqlSession.selectList(NAMESPACE + ".getMrList");
+	}
+
+	@Override
+	public void addMrQC(WijoinVO wvo) throws Exception {
+		logger.debug("QualityDAOImpl_addMrQC() 실행");
+		
+		sqlSession.insert(NAMESPACE+".addMrQC", wvo);
+	}
+
+	@Override
+	public void addPrQC(WijoinVO wvo) throws Exception {
+		logger.debug("QualityDAOImpl_addPrQC() 실행");
+		
+		sqlSession.insert(NAMESPACE+".addPrQC", wvo);
 	}
 
 }
