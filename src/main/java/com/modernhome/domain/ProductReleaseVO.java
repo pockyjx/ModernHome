@@ -12,6 +12,12 @@ public class ProductReleaseVO {
 	private String pr_state;
 	private Integer emp_id;
 	
+	private String oo_num;
+	private String clt_name;
+	private String pro_name;
+	private Integer oo_cnt;
+	private String oo_end_date;
+	
 	private ProductVO productVO;
 	private ProductStockVO productStockVO;
 	private WarehouseVO warehouseVO;
@@ -109,14 +115,53 @@ public class ProductReleaseVO {
 	public void setClientVO(ClientVO clientVO) {
 		this.clientVO = clientVO;
 	}
+	public String getClt_name() {
+		return clt_name;
+	}
+	public void setClt_name(String clt_name) {
+		this.clt_name = clt_name;
+	}
+	public String getPro_name() {
+		return pro_name;
+	}
+	public void setPro_name(String pro_name) {
+		this.pro_name = pro_name;
+	}
+	public Integer getOo_cnt() {
+		return oo_cnt;
+	}
+	public void setOo_cnt(Integer oo_cnt) {
+		this.oo_cnt = oo_cnt;
+	}
+	public String getOo_end_date() {
+		return oo_end_date;
+	}
+	public void setOo_end_date(String oo_end_date) {
+		this.oo_end_date = oo_end_date;
+	}
+	public void setPr_cnt(Integer pr_cnt) {
+		this.pr_cnt = pr_cnt;
+	}
+	
+	public String getOo_num() {
+		return oo_num;
+	}
+	public void setOo_num(String oo_num) {
+		this.oo_num = oo_num;
+	}
 	@Override
 	public String toString() {
 		return "ProductReleaseVO [pr_id=" + pr_id + ", pr_num=" + pr_num + ", pro_id=" + pro_id + ", oo_id=" + oo_id
 				+ ", wh_id=" + wh_id + ", pr_cnt=" + pr_cnt + ", pr_date=" + pr_date + ", pr_state=" + pr_state
-				+ ", emp_id=" + emp_id + ", productVO=" + productVO + ", productStockVO=" + productStockVO
-				+ ", warehouseVO=" + warehouseVO + ", employeeVO=" + employeeVO + ", outOrderVO=" + outOrderVO
-				+ ", clientVO=" + clientVO + "]";
+				+ ", emp_id=" + emp_id + ", oo_num=" + oo_num + ", clt_name=" + clt_name + ", pro_name=" + pro_name
+				+ ", oo_cnt=" + oo_cnt + ", oo_end_date=" + oo_end_date + ", productVO=" + productVO
+				+ ", productStockVO=" + productStockVO + ", warehouseVO=" + warehouseVO + ", employeeVO=" + employeeVO
+				+ ", outOrderVO=" + outOrderVO + ", clientVO=" + clientVO + "]";
 	}
+	
+
+	
+	
 	
 
 }
