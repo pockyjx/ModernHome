@@ -130,7 +130,7 @@
 	
 	<!-- 검색 결과 개수 계산 -->
 	<select id="getQualitySearchCnt" resultType="int">
-		SELECT count(qc_id)
+		SELECT count(qc.qc_id)
 		FROM quality_checking qc
 	    LEFT JOIN work_instr wi ON qc.work_id = wi.work_id 
 	    LEFT JOIN line l ON qc.line_id = l.line_id 
@@ -186,7 +186,6 @@
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
-		LIMIT #{startPage}, #{pageSize}
 		<where>
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
@@ -201,6 +200,7 @@
 				AND qc_yn = #{qc_yn}
 			</if>
 		</where>
+		LIMIT #{startPage}, #{pageSize}
 	</select>
 	
 	<!-- 품질검사(자재) 검색 -->

@@ -27,15 +27,13 @@
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-clipboard me-2"></i>기준정보관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="/info/req/reqList" class="dropdown-item">ㄴ<i class=" me-2"></i>소요량관리</a>
-                            <a href="/info/item/productList" class="dropdown-item">ㄴ<i class=" me-2"></i>완제품관리</a>
-                            <a href="/info/item/materialList" class="dropdown-item">ㄴ<i class=" me-2"></i>자재관리</a>
+                            <a href="/info/item/productList" class="dropdown-item">ㄴ<i class=" me-2"></i>품목관리</a>
                         </div>
                     </div>
  					<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-dolly me-2"></i>자재관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="/stock/productStockList" class="dropdown-item">ㄴ<i class=" me-2"></i>완제품재고현황</a>
-                            <a href="/stock/materialStockList" class="dropdown-item">ㄴ<i class=" me-2"></i>자재재고현황</a>
+                            <a href="/stock/productStockList" class="dropdown-item">ㄴ<i class=" me-2"></i>재고현황</a>
                             <a href="/wms/inorder/inorderlist" class="dropdown-item">ㄴ<i class=" me-2"></i>발주관리</a>
                             <a href="/wms/receive/receivelist" class="dropdown-item">ㄴ<i class=" me-2"></i>입고관리</a>
                             <a href="/release/materialRelease" class="dropdown-item">ㄴ<i class=" me-2"></i>자재출고관리</a>
@@ -45,10 +43,9 @@
  					<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-cog me-2"></i>생산관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
+                            <a href="/production/line/lineList" class="dropdown-item">ㄴ<i class=" me-2"></i>생산라인관리</a>
                             <a href="/production/instruct/list" class="dropdown-item">ㄴ<i class=" me-2"></i>작업지시관리</a>
                             <a href="/production/performance/list" class="dropdown-item">ㄴ<i class=" me-2"></i>생산실적관리</a>
-                            <a href="/production/line/lineList" class="dropdown-item">ㄴ<i class=" me-2"></i>생산라인관리</a>
-                            <a href="" class="dropdown-item">ㄴ<i class=" me-2"></i>생산관리현황</a>
                         </div>
                     </div>
  					<div class="nav-item dropdown">
@@ -63,8 +60,9 @@
                     <div class="nav-item dropdown">
  						<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-check-circle me-2"></i>품질관리</a>
 					 	<div class="dropdown-menu bg-transparent border-0">
-                           <a href="/production/quality/qualitylist" class="dropdown-item">ㄴ<i class=" me-2"></i>완제품 검사</a>
                            <a href="/production/quality/materialQualityList" class="dropdown-item">ㄴ<i class=" me-2"></i>자재 검사</a>
+                           <a href="/production/quality/qualitylist" class="dropdown-item">ㄴ<i class=" me-2"></i>완제품 검사</a>
+                           <a href="/production/quality/factoryInspection" class="dropdown-item">ㄴ<i class=" me-2"></i>출고 검사</a>
                            <a href="/production/defective/list" class="dropdown-item">ㄴ<i class=" me-2"></i>불량관리</a>
                        </div>
  					</div>

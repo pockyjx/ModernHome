@@ -42,7 +42,20 @@
                 		"df_cnt",
                 		"qc_yn"
                 	];
-
+	                
+	                var cellIds = [
+                		"rec_num",
+                		"qc_num",
+                		"ma_num",
+                		"ma_name",
+                		"update_emp_id",
+                		"update_date",
+                		"qc_cnt",
+                		"rec_cnt",
+                		"df_cnt",
+                		"qc_yn"
+	                ];
+ 
 	                // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 	                row.find("td:not(:first-child)").each(function(index){
 	                	
@@ -50,6 +63,7 @@
 	                	var cellType = index === 5? "date" : "text";
 	                	var cellReadonly = [0,1,2,3,7].includes(index) ? "readonly='readonly'" : "";
 	                	var cellName = cellNames[index];
+	                	var cellId = cellIds[index];
 	                	var cellContent;
 
 	                    if (index === 9 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
@@ -63,7 +77,7 @@
 	                    }else if (index === 4){
 	                    	cellContent = '<td><input type="'+ cellType +  '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
 	                    }else {
-	                    	cellContent = '<td><input type="'+  cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+	                    	cellContent = '<td><input type="'+  cellType + '" name="' +cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellReadonly + '></td>';
 	                    }
 
 	                    $(this).html(cellContent);
@@ -197,6 +211,27 @@
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         }  // 체크박스 선택 시 체크박스 개수 구하기
         
+        // submit 버튼 유효성
+        $("#submitButton").click(function() {
+        	
+        	var form = $("#qc_cnt");
+        	var form = $("#rec_cnt");
+        	form.attr("method", "post");
+        	form.attr("action", "/production/quality/updateMaterialQuality");
+        	
+        	var qc_cnt = $("#qc_cnt").val();
+        	var rec_cnt = $("#rec_cnt").val();
+        	
+        	if(qc_cnt > rec_cnt){
+        		$("#qc_cnt").focus();
+        		alert("검사량은 생산량을 초과할 수 없습니다!");
+        		return;
+        	}
+        	
+        	form.submit();
+        		
+        });
+        
         
 	     }); 
     </script>
@@ -208,49 +243,86 @@
 	</style>
 </head>
 <body>
-		<h2>품질현황(자재) 조회</h2>
-		<form method="get">
-		
-			품질검사코드 <input type="text" name="qc_num">
-			품질검사여부
-				<select name="qc_yn">
-					<option>전체</option>
-					<option>대기</option>
-					<option>진행중</option>
-					<option>완료</option>
-				</select>
-			<div>
-				<label>검수일자</label>
-				<input type="date" name="startDate">
-					~
-				<input type="date" name="endDate">
-			</div>
-			<input type="submit" value="조회">
-		</form>
-		
-		<h2>품질현황(자재) 목록</h2>
-		
-			<form id="materialQualityList">
-			<span id="selectedCheckboxCount">0</span>
 
-			<input type="button" id="cancleButton" value="취소" disabled="disabled">
-			<input type="button" id="updateButton" value="수정">
-			<input type="submit" id="submitButton" value="저장" formaction="updateMaterialQuality" formmethod="post" disabled="disabled">
-			
-			<table class="table-materialQualityList" border="1">
+<form method="get" name="search" action="" class="bg-light rounded p-3 m-3">
+
+		<div class="row mb-3">
+			<label for="mqSearch" class="col-sm-2 col-form-label"><b>품질검사코드</b></label>
+		 	<div class="col-sm-4">
+		 		<input type="text" name="qc_num" value="${qc_num}" placeholder="품질검사코드를 입력하세요" class="form-control">
+		 	</div>
+		</div>
+		
+		<div class="row mb-3">	
+			<label for="mqSearch" class="col-sm-2 col-form-label"><b>품질검사여부</b></label> 
+			<div class="col-sm-2">
+				<select name="qc_yn" class="form-select" style="background-color: #fff;">
+					<option value="전체">전체</option>
+					<option value="대기">대기</option>
+					<option value="진행중">진행중</option>
+					<option value="완료">완료</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="row mb-3">
+			<label for="mqSearch" class="col-sm-2 col-form-label"><b>검수일자</b></label>
+				<div class="col-sm-2">
+					<div class="col-auto">
+						<input type="date" name="startDate" class="form-control">
+					</div>
+				</div>
+				<div class="col-auto">
+				~
+				</div>
+				<div class="col-sm-2">
+					<div class="col-auto">
+						<input type="date" name="endDate" class="form-control">
+					</div>
+				</div>
+		
+		      	<div class="col-auto">
+					<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+				</div>
+		</div>
+</form>
+	
+<hr>
+	
+<form id="materialQualityList" method="post">
+	<div class="d-flex align-items-center justify-content-between mb-2">
+		<h3 class="m-4">수입 검사</h3>
+		<div>
+			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
+				<button type="button"  class="btn btn-primary m-2" id="cancleButton" disabled="disabled">X 취소</button>
+				<button type="button" class="btn btn-primary m-2" id="updateButton" ><i class="fa fa-edit"></i> 수정</button>
+				<button type="button" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled">
+					<i class="fa fa-download"></i> 저장</button>
+			</c:if>
+		</div>
+	</div>
+	
+	<div class="bg-light text-center rounded p-4 m-3">	
+		<div class="d-flex align-items-center justify-content-between mb-4">	
+			<span id="selectedCheckboxCount">0</span>
+		</div>
+		
+		<div class="table-responsive">
+			<table class="table-materialQualityList table align-middle table-bordered table-hover mb-0" >
 				<tr>
-					<th><input type="checkbox"></th>
-					<th>입고코드</th>
-					<th>품질검사코드</th>
-					<th>자재코드</th>
-					<th>자재명</th>
-					<th>검수자</th>
-					<th>검수일자</th>
-					<th>검수량</th>
-					<th>입고량</th>
-					<th>불량수량</th>
-					<th>검수상태</th>
+					<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+					<th style="background-color: rgba(0,0,0,0.075);">입고코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">품질검사코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">자재코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
+					<th style="background-color: rgba(0,0,0,0.075);">검수자</th>
+					<th style="background-color: rgba(0,0,0,0.075);">검수일자</th>
+					<th style="background-color: rgba(0,0,0,0.075);">검수량</th>
+					<th style="background-color: rgba(0,0,0,0.075);">입고량</th>
+					<th style="background-color: rgba(0,0,0,0.075);">불량수량</th>
+					<th style="background-color: rgba(0,0,0,0.075);">검수상태</th>
 				</tr>
+				
 				<c:forEach var="mq" items="${materialQualityList}" varStatus="status">
 					<tr>
 						<td><input type="checkbox" name="selectedQcId" value="${mq.qc_id}"></td>
@@ -270,41 +342,43 @@
 					</tr>
 				</c:forEach>
 			</table>
-		</form>
+		</div>
+	</div>
+</form>
 		
-			<!-- 페이지 이동 버튼 -->
-	
-			<nav aria-label="Page navigation example">
-		  		<ul class="pagination justify-content-center pagination-sm">
-		  		
-		  			<c:if test="${pm.prev }">
-					<li class="page-item">
-						<a class="page-link" href="/production/quality/materialQualityList?page=${pm.startPage-1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Previous">
-		       			<span aria-hidden="true">&laquo;</span>
-		      			</a>
-		    		</li>
-		    		</c:if>
-		    		
-		    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-		    		<li 
-		    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-		    		>
-		    				<a class="page-link" href="/production/quality/materialQualityList?page=${idx}&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}">${idx }</a>
-		    		</li>
-		    		</c:forEach>
-					
-					<c:if test="${pm.next && pm.endPage > 0}">
-					<li class="page-item">
-		      			<a class="page-link" href="/production/quality/materialQualityList?page=${pm.endPage+1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Next">
-		        		<span aria-hidden="true">&raquo;</span>
-		      			</a>
-		    		</li>
-		    		</c:if>
-		    		
-		  		</ul>
-			</nav>
+<!-- 페이지 이동 버튼 -->
+
+	<nav aria-label="Page navigation example">
+	 		<ul class="pagination justify-content-center pagination-sm">
+	 		
+	 			<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/production/quality/materialQualityList?page=${pm.startPage-1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Previous">
+	      			<span aria-hidden="true">&laquo;</span>
+	     			</a>
+	   		</li>
+	   		</c:if>
+	   		
+	   		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+	   		<li 
+	   			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+	   		>
+	   				<a class="page-link" href="/production/quality/materialQualityList?page=${idx}&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}">${idx }</a>
+	   		</li>
+	   		</c:forEach>
 			
-			<!-- 페이지 이동 버튼 -->
+			<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+	     			<a class="page-link" href="/production/quality/materialQualityList?page=${pm.endPage+1 }&qc_num=${qc_num}&startDate=${startDate}&endDate=${endDate}&qc_yn=${qc_yn}" aria-label="Next">
+	       		<span aria-hidden="true">&raquo;</span>
+	     			</a>
+	   		</li>
+	   		</c:if>
+	   		
+	 		</ul>
+	</nav>
+
+<!-- 페이지 이동 버튼 -->
 		
 </body>
 </html>
