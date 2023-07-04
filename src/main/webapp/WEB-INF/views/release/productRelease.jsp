@@ -140,6 +140,25 @@
 // 			}
 // 		});
 
+		// 삭제버튼
+    	$("#deleteButton").click(function(){
+    		
+    		
+    		var selectedCheckbox = $("input[name='selectedId']:checked");
+    		
+    		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+    		if (selectedCheckbox.length === 0){
+    			alert("삭제할 행을 선택하세요!");
+    			
+    			// 선택안하면 submit을 막음
+    			event.preventDefault();
+    			
+    		}
+    	});
+		
+		
+		
+		
      // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
         $("#releaseList th input[type='checkbox']").click(function() {
             var checkbox = $(this);
@@ -182,11 +201,15 @@
         
         // 완제품 코드 입력란 클릭 시 팝업창 열기
         $(document).on("click", "input[id='oo_num']", function() {
-     	   window.open('/release/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+        	var left = (screen.width - 650) / 2;
+			var top = (screen.height - 680) / 2;
+     	   window.open('/release/addPopup?txt=pro', 'popup', 'width=650, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
         });
         $(document).on("click", "input[id='ps_cnt']", function() {
+        	var left = (screen.width - 580) / 2;
+			var top = (screen.height - 680) / 2;
         	if($('#pro_id').val() != "" ) {
-	      	   window.open('/release/addPopup?txt=ps&mapro_id='+ $('#pro_id').val(), 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	      	   window.open('/release/addPopup?txt=ps&mapro_id='+ $('#pro_id').val(), 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
         	}else {
         		alert("수주코드를 입력해주세요");
         	}

@@ -145,6 +145,25 @@
 // 			}
 // 		});
 
+		
+		// 삭제버튼
+    	$("#deleteButton").click(function(){
+    		
+    		
+    		var selectedCheckbox = $("input[name='selectedId']:checked");
+    		
+    		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+    		if (selectedCheckbox.length === 0){
+    			alert("삭제할 행을 선택하세요!");
+    			
+    			// 선택안하면 submit을 막음
+    			event.preventDefault();
+    			
+    		}
+    	});
+		
+		
+		
 	     // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
         $("#releaseList th input[type='checkbox']").click(function() {
             var checkbox = $(this);
@@ -185,13 +204,18 @@
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         } // 체크박스 선택 시 체크박스 개수 구하기
         
+        
         // 완제품 코드 입력란 클릭 시 팝업창 열기
         $(document).on("click", "input[id='work_num']", function() {
-     	   window.open('/release/addPopup?txt=ma', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+        	var left = (screen.width - 650) / 2;
+			var top = (screen.height - 680) / 2;
+        	window.open('/release/addPopup?txt=ma', 'popup', 'width=650, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
         });
         $(document).on("click", "input[id='ms_cnt']", function() {
+        	var left = (screen.width - 580) / 2;
+			var top = (screen.height - 680) / 2;
         	if($('ma_id').val() != "" ) {
-	      	   window.open('/release/addPopup?txt=ms&mapro_id='+ $('#ma_id').val(), 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	      	   window.open('/release/addPopup?txt=ms&mapro_id='+ $('#ma_id').val(), 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
         	}else {
         		alert("작업지시코드를 입력해주세요");
         	}
