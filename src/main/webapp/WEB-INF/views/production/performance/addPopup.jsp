@@ -54,18 +54,17 @@
 
 <body>
 
-<div class="bg-light text-center rounded p-4 m-3">
-	<div class="d-flex align-items-center justify-content-between mb-4">
-		<h5>작업지시</h5>
-	</div>
-	<table class="table text-start align-middle table-bordered table-hover mb-0">
+<h3 class="m-4" style="text-align: center;">작업지시</h3>
+
+<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
+	<table class="table align-middle table-bordered table-hover mb-0">
 		<tr>
-			<th>작업지시코드</th>
-			<th>품목코드</th>
-			<th>품목명</th>
-			<th>라인코드</th>
-			<th>지시 수량</th>
-			<th colspan="8">불량 수량</th>
+			<th style="background-color: rgba(0,0,0,0.075);">작업지시코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">품목코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+			<th style="background-color: rgba(0,0,0,0.075);">라인코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">지시 수량</th>
+			<th colspan="8" style="background-color: rgba(0,0,0,0.075);">불량 수량</th>
 		</tr>
 		<c:forEach var="qi" items="${qiList}">
 			<tr>

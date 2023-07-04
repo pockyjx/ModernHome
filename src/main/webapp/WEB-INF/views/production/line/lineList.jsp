@@ -205,8 +205,14 @@
 	});
 
 	function updateButton(lineId, useYn) {
-		var url = "/production/line/popup?line_id=" + lineId + "&use_yn=" + useYn;
+		var url = "/production/line/modifyPopup?line_id=" + lineId + "&use_yn=" + useYn;
 		window.open(url, 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+	}
+	
+	// 작업지시 코드 선택 시 팝업창 열기
+	function lsPopup(lineId) {
+		window.open('/production/line/lsPopup?line_id=' + lineId, 'popup', 
+			'width=600, height=400, top=300, left=650, location=no, status=no');
 	}
 </script>
 
@@ -291,7 +297,7 @@
 			    <c:forEach var="vo" items="${lineList}" varStatus="status">
 			        <tr>
 			            <td><input type="checkbox" name="selectedLineId" value="${vo.line_id}" class="form-check-input"></td>
-			            <td>${vo.line_num}</td>
+			            <td><span onclick="lsPopup('${vo.line_id}');" class="text-primary">${vo.line_num}</span></td>
 			            <td>${vo.line_name}</td>
 			            <td>
 							<c:if test="${!empty vo.update_date}">${fn:substring(vo.update_date, 0, 10)}</c:if>

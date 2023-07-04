@@ -81,6 +81,13 @@ public class LineDAOImpl implements LineDAO {
 		sqlSession.insert(NAMESPACE + ".regLineShutdown", lsvo);
 	}
 
+	@Override
+	public List<LineShutdownVO> getListLineShutdown(Integer line_id) throws Exception {
+		logger.debug("DAO -> mapper 호출 -> SQL 실행(라인수정정보 출력)");
+		
+		return sqlSession.selectList(NAMESPACE + ".listLineShutdown", line_id);
+	}
+
 
 
 } // LineDAOImpl

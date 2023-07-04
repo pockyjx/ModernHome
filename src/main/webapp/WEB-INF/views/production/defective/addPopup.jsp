@@ -120,20 +120,18 @@
 		onclick="handleCheckbox(this, '수입검사')"> 수입검사</label>
 </div>
 	
-<%-- ${wiList} <hr> ${resList} --%>
 
-<div class="table-pr bg-light text-center rounded p-4 m-3" style="display: none">
-	<div class="d-flex align-items-center justify-content-between mb-4">
-		<h5>작업지시</h5>
-	</div>
-	<table class="table text-start align-middle table-bordered table-hover mb-0">
+<div class="table-pr bg-light text-center rounded p-4 mx-3" style="display: none">
+	<h3 class="m-4" style="text-align: center;">작업지시</h3>
+	
+	<table class="table align-middle table-bordered table-hover mb-0">
 		<tr>
-			<th>작업지시 코드</th>
-			<th>품목 코드</th>
-			<th>품목명</th>
-			<th>라인 코드</th>
-			<th>지시 수량</th>
-			<th colspan="6">불량 수량</th>
+			<th style="background-color: rgba(0,0,0,0.075);">작업지시 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">품목 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+			<th style="background-color: rgba(0,0,0,0.075);">라인 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">지시 수량</th>
+			<th colspan="6" style="background-color: rgba(0,0,0,0.075);">불량 수량</th>
 		</tr>
 		<c:forEach var="wi" items="${wiList}">
 			<tr>
@@ -153,19 +151,18 @@
 	</table>
 </div>
 	
-<div class="table-ma bg-light text-center rounded p-4 m-3" style="display: none">
-	<div class="d-flex align-items-center justify-content-between mb-4">
-		<h5>입고</h5>
-	</div>
-	<table class="table text-start align-middle table-bordered table-hover mb-0">
+<div class="table-ma bg-light text-center rounded p-4 mx-3" style="display: none">
+	<h3 class="m-4" style="text-align: center;">입고</h3>
+	
+	<table class="table align-middle table-bordered table-hover mb-0">
 		<tr>
-			<th>입고 코드</th>
-			<th>자재 코드</th>
-			<th>자재명</th>
-			<th>입고 수량</th>
-			<th>입고 등록일</th>
-			<th>거래처</th>
-			<th colspan="5">불량 수량</th>
+			<th style="background-color: rgba(0,0,0,0.075);">입고 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">자재 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
+			<th style="background-color: rgba(0,0,0,0.075);">입고 수량</th>
+			<th style="background-color: rgba(0,0,0,0.075);">입고 등록일</th>
+			<th style="background-color: rgba(0,0,0,0.075);">거래처</th>
+			<th colspan="5" style="background-color: rgba(0,0,0,0.075);">불량 수량</th>
 		</tr>
 		<c:forEach var="rec" items="${recList}">
 			<tr>

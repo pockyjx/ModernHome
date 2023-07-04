@@ -216,41 +216,43 @@
 	<div class="d-flex align-items-center justify-content-between mb-4">
 		<span id="selectedCheckboxCount">0</span>
 	</div>
-
-	<table class="table-instrList table text-start align-middle table-bordered table-hover mb-0">
-		<tr>
-			<th><input type="checkbox" class="form-check-input"></th>
-			<th>작업지시코드</th>
-			<th>라인코드</th>
-			<th>품목코드</th>
-			<th>품목명</th>
-			<th>작업상태</th>
-			<th>지시일자</th>
-			<th>지시수량</th>
-			<th>수주번호</th>
-			<th>납품예정일</th>
-			<th>담당자</th>
-		</tr>
-		
-		<c:forEach var="list" items="${instrList}" varStatus="no">
+	
+	<div class="table-responsive">
+		<table class="table-instrList table align-middle table-bordered table-hover mb-0">
 			<tr>
-				<td><input type="checkbox" name="work_id" value="${list.work_id}" class="form-check-input"></td>
-				<td><span onclick="infoPopup('${list.work_id}', '${list.pro_id}');" class="text-primary">${list.work_num}</span></td>
-				<td>${list.line_num}</td>
-				<td>${list.pro_num}</td>
-				<td>${list.pro_name}</td>
-				<td>${list.work_state == '대기' ? "대기" : (list.work_state == '진행중' ? "진행중" : "완료")}</td>
-				<td>
-					<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
-					<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
-				</td>
-				<td>${list.work_cnt}</td>
-				<td>${list.oo_num}</td>
-				<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
-				<td>${list.emp_name}</td>
+				<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+				<th style="background-color: rgba(0,0,0,0.075);">작업지시코드</th>
+				<th style="background-color: rgba(0,0,0,0.075);">라인코드</th>
+				<th style="background-color: rgba(0,0,0,0.075);">품목코드</th>
+				<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+				<th style="background-color: rgba(0,0,0,0.075);">작업상태</th>
+				<th style="background-color: rgba(0,0,0,0.075);">지시일자</th>
+				<th style="background-color: rgba(0,0,0,0.075);">지시수량</th>
+				<th style="background-color: rgba(0,0,0,0.075);">수주번호</th>
+				<th style="background-color: rgba(0,0,0,0.075);">납품예정일</th>
+				<th style="background-color: rgba(0,0,0,0.075);">담당자</th>
 			</tr>
-		</c:forEach>
-	</table>
+			
+			<c:forEach var="list" items="${instrList}" varStatus="no">
+				<tr>
+					<td><input type="checkbox" name="work_id" value="${list.work_id}" class="form-check-input"></td>
+					<td><span onclick="infoPopup('${list.work_id}', '${list.pro_id}');" class="text-primary">${list.work_num}</span></td>
+					<td>${list.line_num}</td>
+					<td>${list.pro_num}</td>
+					<td>${list.pro_name}</td>
+					<td>${list.work_state == '대기' ? "대기" : (list.work_state == '진행중' ? "진행중" : "완료")}</td>
+					<td>
+						<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
+						<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
+					</td>
+					<td>${list.work_cnt}</td>
+					<td>${list.oo_num}</td>
+					<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
+					<td>${list.emp_name}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 </div>
 
 <!-- 페이지 이동 버튼 -->

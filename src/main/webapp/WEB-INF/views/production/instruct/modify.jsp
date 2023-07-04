@@ -110,82 +110,82 @@
 
 <body>
 
-<div class="d-flex align-items-center justify-content-between mb-2">
-	<h3 class="m-4">작업지시서 수정</h3>
-</div>
+<h3 class="m-4" style="text-align: center;">작업지시서 수정</h3>
 
 <div class="bg-light text-center rounded p-4 m-3">
-	<form name="modifyForm" action="/production/instruct/modify" method="post">
-		<table class="table text-start align-middle table-bordered table-hover mb-0">
-			<tr>
-				<th>지시번호</th>
-				<td>${wiList[0].work_num}</td>
-				<th>수주번호</th>
-				<td id="oo_num">${wiList[0].oo_num}</td>
-			</tr>
-			<tr>
-				<th>품번</th>
-				<td>${wiList[0].pro_num}</td>
-				<th>수량</th>
-				<td><input type="text" class="form-control" name="work_cnt" id="wcntInput" value="${wiList[0].work_cnt}"></td>
-			</tr>
-			<tr>
-				<th>품명</th>
-				<td>${wiList[0].pro_name}</td>
-				<th>작업상태</th>
-				<td>
-					<c:if test="${wiList[0].work_state == '대기'}">
-						<button id="btnWS" class="btn btn-sm btn-outline-secondary">대기</button>
-					</c:if>
-					<c:if test="${wiList[0].work_state == '진행중'}">
-						<button id="btnWS" class="btn btn-sm btn-primary">진행중</button>
-					</c:if>
-					<input id="work_state" type="hidden" name="work_state">
-				</td>
-			</tr>
-			<tr>
-				<th>납기일</th>
-				<td>${fn:substring(wiList[0].oo_end_date, 0, 10)}</td>
-				<th>생산라인</th>
-				<td id="line_num">
-					<input type="text" class="form-control" name="line_num" value="${(empty param.line_num) ? wiList[0].line_num : param.line_num}" readonly>
-				</td>
-			</tr>
-			<tr>
-				<th>납품지점</th>
-				<td>${wiList[0].clt_name}</td>
-				<th>작성일</th>
-				<td>
-					<c:if test="${!empty wiList[0].update_date}">${fn:substring(wiList[0].update_date, 0, 10)}</c:if>
-					<c:if test="${empty wiList[0].update_date}">${fn:substring(wiList[0].reg_date, 0, 10)}</c:if>
-				</td>
-			</tr>
-			<tr>
-				<th rowspan="10">원재료</th>
-				<th>품목코드</th>
-				<th>품목명</th>
-				<th>수량</th>
-			</tr>
-			<c:forEach var="req" items="${reqList}">
+	<div class="table-responsive">
+		<form name="modifyForm" action="/production/instruct/modify" method="post">
+			<table class="table align-middle table-bordered table-hover mb-0">
 				<tr>
-					<td>${req.ma_num}</td>
-					<td>${req.ma_name}</td>
-					<td class="cl_req_cnt">${req.req_cnt}</td>
+					<th style="background-color: rgba(0,0,0,0.075);">지시번호</th>
+					<td>${wiList[0].work_num}</td>
+					<th style="background-color: rgba(0,0,0,0.075);">수주번호</th>
+					<td id="oo_num">${wiList[0].oo_num}</td>
 				</tr>
-			</c:forEach>
-		</table>
-		<input type="hidden" name="work_id" value="${wiList[0].work_id}">
-		<input type="hidden" name="pro_id" value="${wiList[0].pro_id}">
-		<input type="hidden" name="req_id" value="${wiList[0].req_id}">
-		<input type="hidden" name="oo_id" value="${wiList[0].oo_id}">
-		<input type="hidden" name="clt_id" value="${wiList[0].clt_id}">
-		<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
-		<input type="hidden" name="line_id" value="${(empty param.line_id) ? wiList[0].line_id : param.line_id}">
-		<div>
-			<input type="button" value="취소" class="btn btn-secondary m-2" onclick="window.close();">
-			<input type="button" value="수정" id="addSubmint" class="btn btn-success m-2"> 
-		</div>
-	</form>
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075);">품번</th>
+					<td>${wiList[0].pro_num}</td>
+					<th style="background-color: rgba(0,0,0,0.075);">수량</th>
+					<td><input type="text" class="form-control" name="work_cnt" id="wcntInput" value="${wiList[0].work_cnt}"></td>
+				</tr>
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075);">품명</th>
+					<td>${wiList[0].pro_name}</td>
+					<th style="background-color: rgba(0,0,0,0.075);">작업상태</th>
+					<td>
+						<c:if test="${wiList[0].work_state == '대기'}">
+							<button id="btnWS" class="btn btn-sm btn-outline-secondary">대기</button>
+						</c:if>
+						<c:if test="${wiList[0].work_state == '진행중'}">
+							<button id="btnWS" class="btn btn-sm btn-primary">진행중</button>
+						</c:if>
+						<input id="work_state" type="hidden" name="work_state">
+					</td>
+				</tr>
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075);">납기일</th>
+					<td>${fn:substring(wiList[0].oo_end_date, 0, 10)}</td>
+					<th style="background-color: rgba(0,0,0,0.075);">생산라인</th>
+					<td id="line_num">
+						<input type="text" class="form-control" name="line_num" value="${(empty param.line_num) ? wiList[0].line_num : param.line_num}" readonly>
+					</td>
+				</tr>
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075);">납품지점</th>
+					<td>${wiList[0].clt_name}</td>
+					<th style="background-color: rgba(0,0,0,0.075);">작성일</th>
+					<td>
+						<c:if test="${!empty wiList[0].update_date}">${fn:substring(wiList[0].update_date, 0, 10)}</c:if>
+						<c:if test="${empty wiList[0].update_date}">${fn:substring(wiList[0].reg_date, 0, 10)}</c:if>
+					</td>
+				</tr>
+				<tr>
+					<th rowspan="10" style="background-color: rgba(0,0,0,0.075);">원재료</th>
+					<th style="background-color: rgba(0,0,0,0.075);">품목코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+					<th style="background-color: rgba(0,0,0,0.075);">수량</th>
+				</tr>
+				<c:forEach var="req" items="${reqList}">
+					<tr>
+						<td>${req.ma_num}</td>
+						<td>${req.ma_name}</td>
+						<td class="cl_req_cnt">${req.req_cnt}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<input type="hidden" name="work_id" value="${wiList[0].work_id}">
+			<input type="hidden" name="pro_id" value="${wiList[0].pro_id}">
+			<input type="hidden" name="req_id" value="${wiList[0].req_id}">
+			<input type="hidden" name="oo_id" value="${wiList[0].oo_id}">
+			<input type="hidden" name="clt_id" value="${wiList[0].clt_id}">
+			<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">
+			<input type="hidden" name="line_id" value="${(empty param.line_id) ? wiList[0].line_id : param.line_id}">
+			<div>
+				<input type="button" value="취소" class="btn btn-secondary m-2" onclick="window.close();">
+				<input type="button" value="수정" id="addSubmint" class="btn btn-success m-2"> 
+			</div>
+		</form>
+	</div>
 </div>
 	
 </body>

@@ -39,7 +39,7 @@ public interface QualityDAO {
 	// 품질검사(자재) 수정
 	public void updateMaterialQuality(WijoinVO wvo) throws Exception;
 	
-	// 
+	// 입고에서 입고대기일 경우 품질검사 자동 등록
 	public void addQC(WijoinVO wvo) throws Exception;
 	
 	// 품질검사(자재)에서 불량개수가 0이면 입고완료로 변경
@@ -47,7 +47,7 @@ public interface QualityDAO {
 	
 	// 출고검사 목록 조회(페이징)
 	public List<WijoinVO> getMrList(PageVO pvo) throws Exception;
-	
+
 	// 출고검사 개수(페이징)
 	public int getTotalCntFi() throws Exception;
 	
@@ -65,6 +65,5 @@ public interface QualityDAO {
 	
 	// 완제품 출고에서 출고대기일 경우 품질검사 자동 등록
 	public void addPrQC(WijoinVO wvo) throws Exception;
-
 	
 } // QualityDAO

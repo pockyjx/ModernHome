@@ -45,10 +45,9 @@
 
 <body>
 
-<div class="bg-light text-center rounded p-4 m-3">
-	<div class="d-flex align-items-center justify-content-between mb-4">
-		<h5>라인</h5>
-	</div>
+<h3 class="m-4" style="text-align: center;">라인 목록</h3>
+
+<div class="bg-light text-center rounded p-4 m-3" style="margin-left:3rem; margin-right:3rem;">
 	<c:choose>
 		<c:when test="${empty param.work_id}">
 			<form id="fr" action="/production/instruct/add" method="get" target="add">
@@ -57,10 +56,10 @@
 			<form id="fr" action="/production/instruct/modify" method="get" target="add">
 		</c:when>
 	</c:choose>
-		<table class="table text-start align-middle table-bordered table-hover mb-0">
+		<table class="table align-middle table-bordered table-hover mb-0">
 			<tr>
-				<th>라인 코드</th>
-				<th colspan="2">사용 유무</th>
+				<th style="background-color: rgba(0,0,0,0.075);">라인 코드</th>
+				<th colspan="2" style="background-color: rgba(0,0,0,0.075);">사용 유무</th>
 			</tr>
 			<c:forEach var="lnum" items="${liList}">
 				<c:if test="${lnum.use_yn == 'Y'}">
