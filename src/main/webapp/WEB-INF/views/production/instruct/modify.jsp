@@ -125,7 +125,7 @@
 			</tr>
 			<tr>
 				<th>납기일</th>
-				<td>${wiList[0].oo_end_date}</td>
+				<td>${fn:substring(wiList[0].oo_end_date, 0, 10)}</td>
 				<th>생산라인</th>
 				<td id="line_num">
 					<input type="text" class="form-control" name="line_num" value="${(empty param.line_num) ? wiList[0].line_num : param.line_num}" readonly>

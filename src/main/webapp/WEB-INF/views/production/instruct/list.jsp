@@ -138,6 +138,11 @@
 	        var selectedCheckboxes = $(".table-instrList td input[type='checkbox']:checked").length;
 	        $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	    }
+		
+		// 진행 중인 작업에서 완료 버튼 클릭 시 작업상태 완료 처리
+		$("#btnStateDone").click(function() {
+			
+		});
 	});
 	
 	// 체크박스 중복 X
@@ -224,6 +229,7 @@
 			<th>수주번호</th>
 			<th>납품예정일</th>
 			<th>담당자</th>
+			<th>상태처리</th>
 		</tr>
 		
 		<c:forEach var="list" items="${instrList}" varStatus="no">
@@ -242,6 +248,7 @@
 				<td>${list.oo_num}</td>
 				<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
 				<td>${list.emp_name}</td>
+				<td><button type="button" id="btnStateDone" class="btn btn-success m-2">지시완료</button></td>
 			</tr>
 		</c:forEach>
 	</table>
