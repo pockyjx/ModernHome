@@ -181,7 +181,7 @@
 		COUNT(*) monthlyOrderCount, SUM(clt_cost) AS monthlyOrderAmount
 		FROM out_order
 		GROUP BY DATE_FORMAT(oo_start_date, '%Y-%m')
-		ORDER BY month;
+		ORDER BY month
 	</select>
 	<!-- 월별 수주건수, 금액 계산 -->
 	
