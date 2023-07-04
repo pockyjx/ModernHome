@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
@@ -113,17 +114,22 @@ public class PerformanceController {
 	
 	// 생산실적 삭제
 	@RequestMapping(value = "/delPrfrm")
-	public String delPrfrmInfo(Model model, WijoinVO vo) throws Exception {
+	public String delPrfrmInfo(Model model, WijoinVO vo, 
+			@RequestParam(value = "prfrm_id", required = false) Integer[] prfrm_id) throws Exception {
 		logger.debug("delPrfrmInfo() 호출");
 		logger.debug("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% vo : {}", vo);
 		
-		// 생산실적 삭제 시 재고에 반영한 실적수량 차감 -> 로직 생각해보기
+		// 생산실적 삭제 시 재고에 반영한 실적수량 차감
 		int subCnt = vo.getPrfrm_cnt() * -1;
 		logger.debug("삭제할 생산실적 : " + subCnt);
 		vo.setPrfrm_cnt(subCnt);
 		wpService.addPS(vo);
 		
-		wpService.deletePrfrm(vo);
+		if(prfrm_id != null) {
+			for(int prfrmId : prfrm_id) {
+				wpService.deletePrfrm(prfrmId);
+			}
+		}
 		
 		return "redirect:/production/performance/list";
 	}

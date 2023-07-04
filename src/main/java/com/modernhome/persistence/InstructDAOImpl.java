@@ -128,4 +128,10 @@ public class InstructDAOImpl implements InstructDAO {
 		sqlSession.update(NAMESPACE + ".modifyInstrMrState", wjvo);
 	}
 
+	@Override
+	public void modifyOoInstrState(Integer work_id) throws Exception {
+		logger.debug("WorkInstrDAOImpl_modifyOoInstrState() 실행");
+		sqlSession.update(NAMESPACE + ".modifyOoInstrState", work_id);
+	}
+
 }

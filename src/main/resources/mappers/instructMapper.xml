@@ -218,6 +218,15 @@
 	<!-- 자재 출고 테이블에서 해당 작업지시 코드와 일치하고, 소요량에 맞는 자재 id 전부가 '출고완료'라면 자동으로 작업지시 상태가 '진행중' 변경 -->
 	
 	
+	<!-- 작업지시 상태가 진행중 또는 완료일 때 수주 테이블의 상태를 자동으로 '진행중'으로 변경 -->
+	<update id="modifyOoInstrState">
+		UPDATE out_order SET oo_state = (
+			SELECT IF((SELECT oo_id FROM work_instr WHERE work_state != '대기' AND work_id = #{work_id}) IS NULL, '대기', '진행중') AS oo_state
+		) WHERE oo_id = (SELECT oo_id FROM work_instr WHERE work_id = #{work_id})
+	</update>
+	<!-- 작업지시 상태가 진행중 또는 완료일 때 수주 테이블의 상태를 자동으로 '진행중'으로 변경 -->
+	
+	
 	<!-- 작업지시의 상태가 '완료'일 경우 품질검사 자동 등록 -->
 	<insert id="addQC" parameterType="WijoinVO">
 		<selectKey keyProperty="qc_id,qc_num" resultType="WijoinVO" order="BEFORE">
