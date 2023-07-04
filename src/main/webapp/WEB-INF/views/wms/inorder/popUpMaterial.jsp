@@ -28,10 +28,12 @@
 	      var ma_id = $(this).find("td:eq(0)").text();
 	      var ma_num = $(this).find("td:eq(1)").text();
 	      var ma_name = $(this).find("td:eq(2)").text();
+	      var ma_price = $(this).find("td:eq(3)").text();
 			
 	      opener.document.getElementById("ma_id").value = ma_id;
 	      opener.document.getElementById("ma_num").value = ma_num;
 	      opener.document.getElementById("ma_name").value = ma_name;
+	      opener.document.getElementById("ma_price").value = ma_price;
 	      
 	      window.close();
 	      
@@ -63,6 +65,7 @@
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재id</th>
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재코드</th>
 				<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재명</th>
+				<th style="display: none;">자재 단가</th>
 			</tr>
 			
 			<c:forEach items="${popUpMate }" var="vo">
@@ -70,6 +73,7 @@
 				<td style="text-align: center;">${vo.ma_id }</td>
 				<td style="text-align: center;">${vo.ma_num }</td>
 				<td style="text-align: center;">${vo.ma_name }</td>
+				<td style="display: none;">${vo.ma_price }</td>
 			</tr>
 			</c:forEach>
 		</table>
