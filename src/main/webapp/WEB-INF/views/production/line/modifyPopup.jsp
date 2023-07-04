@@ -32,9 +32,11 @@
 		if(useYn === "Y") {
 			$("h4").html("가동 중지 하시겠습니까?");
 			$("p").html("현재 라인은 가동 중입니다.<br>중지 사유를 입력하세요.");
+			$("input[name='ls_yn']").val("중지");
 		} else if(useYn === "N") {
 			$("h4").html("다시 가동 하시겠습니까?");
 			$("p").html("현재 라인은 점검 중입니다.<br>가동 사유를 입력하세요.");
+			$("input[name='ls_yn']").val("가동");
 		}
 		
 		$(".submitButton").click(function() {
@@ -42,7 +44,7 @@
 			var formValue = $("form[name='modifyForm']").serialize();
 			
 			$.ajax({
-				url : "${contextPath}/production/line/popup",
+				url : "${contextPath}/production/line/modifyPopup",
 				type : "POST",
 				data : formValue,
 				success : function() {
@@ -66,6 +68,7 @@
 		<h4></h4>
 		<p></p>
 		<input type="text" name="ls_rsns" class="form-control">
+		<input type="hidden" name="ls_yn" value="">
 		<input type="hidden" name="line_id" value="${param.line_id}">
 		<input type="hidden" name="use_yn" value="${param.use_yn}">
 		<input type="hidden" name="emp_id" value="${sessionScope.emp_id}">

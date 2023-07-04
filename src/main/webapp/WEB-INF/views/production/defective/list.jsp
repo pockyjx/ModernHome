@@ -355,7 +355,8 @@
 					<th><input type="checkbox" class="form-check-input"></th>
 					<th>불량코드</th>
 					<th>불량타입</th>
-					<th>라인코드/거래처</th>
+					<th>코드</th>
+					<th>라인코드</th>
 					<th>품목코드</th>
 					<th>품목명</th>
 					<th>검수자</th>
@@ -372,9 +373,11 @@
 						<td><input type="checkbox" class="form-check-input" name="df_id" value="${df.df_id}"></td>
 						<td>${df.df_num}</td>
 						<td>${df.df_type}</td>
-						<td>${(df.df_type == "공정검사") ? df.line_num : df.clt_name}</td>
-						<td>${(df.df_type == "공정검사") ? df.pro_num : df.ma_num}</td>
-						<td>${(df.df_type == "공정검사") ? df.pro_name : df.ma_name}</td>
+						<td>${df.df_type == "공정검사" ? df.work_num : df.rec_num}</td>
+<%-- 						<td>${df.df_type == "공정검사" ? df.work_num : (df.df_type == "수입검사" ? df.rec_num : df.rel_num)}</td> --%>
+						<td>${df.df_type == "공정검사" ? df.line_num : ""}</td>
+						<td>${df.df_type == "공정검사" ? df.pro_num : df.ma_num}</td>
+						<td>${df.df_type == "공정검사" ? df.pro_name : df.ma_name}</td>
 						<td>${df.emp_name}</td>
 						<td>
 							<c:if test="${!empty wp.update_date}">${fn:substring(df.update_date, 0, 10)}</c:if>

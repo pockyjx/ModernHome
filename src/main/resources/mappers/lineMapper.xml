@@ -72,9 +72,19 @@
 	
 	<!-- 라인 수정 때마다 라인 가동중지 테이블에 이력 저장 -->
 	<insert id="regLineShutdown">
-		INSERT INTO line_shutdown (line_id, ls_rsns, emp_id)
-		VALUES (#{line_id}, #{ls_rsns}, #{emp_id})
+		INSERT INTO line_shutdown (line_id, ls_yn, ls_rsns, emp_id)
+		VALUES (#{line_id}, #{ls_yn}, #{ls_rsns}, #{emp_id})
 	</insert>
 	<!-- 라인 수정 때마다 라인 가동중지 테이블에 이력 저장 -->
+	
+	<!-- 특정 라인의 가동 중지 내역 출력 -->
+	<select id="listLineShutdown" resultType="LineShutdownVO">
+		SELECT line_num, ls_yn, ls_rsns, ls.reg_date, ls.emp_id, emp.emp_name 
+		FROM line_shutdown ls 
+		JOIN line li ON li.line_id = ls.line_id 
+		JOIN employee emp ON emp.emp_id = ls.emp_id 
+		WHERE li.line_id = #{line_id}
+	</select>
+	<!-- 특정 라인의 가동 중지 내역 출력 -->
 
 </mapper>
