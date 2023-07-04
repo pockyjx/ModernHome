@@ -87,7 +87,7 @@
 			
 			// 각 셀의 값을 원래 상태로 되돌림
 			row.find("td:not(:first-child)").each(function(index) {
-				var cellValue = $(this).find("input").val();
+				var cellValue = $(this).data('prevValue');
 				$(this).html(cellValue);
 			});
 			
@@ -124,8 +124,8 @@
 			// input type의 name 값 지정
 			var cellNames = [
 				"req_num",
+				"pro_id",
 				"pro_num",
-				"",
 				"pro_name",
 				"ma_num",
 				"ma_name",
@@ -138,8 +138,8 @@
 			// input type의 id값 지정
 			var cellIds = [
 				"req_num",
+				"pro_id",
 				"pro_num",
-				"",
 				"pro_name",
 				"ma_num",
 				"ma_name",
@@ -154,11 +154,9 @@
 			row.find("td:not(:first-child)").each(function(index) {
 				
 				var cellValue = $(this).text();
-
-				if(index == 9) {
-					cellValue = ${sessionScope.emp_id}
-				}
+				console.log(cellNames[index] + " : " + cellValue);
 				
+				var cellType = index === 6 ? "number" : "text";
 				var cellOption = "";
 				
 				if(index == 0 || index == 9) {
@@ -169,24 +167,23 @@
 					cellOption = "disabled";
 				}
 				
-				
-				var cellType = index === 6 ? "number" : "text";
-				
 				var cellName = cellNames[index];
 				var cellId = cellIds[index];
 				var cellContent;
 				
-				var originalValue = row.find(".original-value").val();
-				
 				// 첫 행 링크 유지
-				if(index === 1) {
+				if(index === 2) {
 					return;
+				}else if(index === 9) {
+					cellContent = '<td><input type="'+cellType+'" name="'+cellName+'" value="'+${sessionScope.emp_id}+'"'+cellOption+' class="form-control"></td>';
+				}else if(index === 6) {
+					cellContent = '<td><input type="'+cellType+'" name="'+cellName+'" value="'+cellValue+'" id="'+cellId+'"'+cellOption+' class="form-control"></td>';
 				}else {
-					cellContent = 
-						'<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control"></td>';
+					cellContent = '<td><input type="'+cellType+'" name="'+cellName+'" value="'+cellValue+'" id="'+cellId+'" '+cellOption+' class="form-control"></td>';
 				}
 				
-// 				$(this).html('<input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' class="form-control">');
+				$(this).data('prevValue', cellValue);
+				
 				$(this).html(cellContent);
 				
 				$("#updateButton").attr("disabled", "disabled");
@@ -195,6 +192,7 @@
 				
 				$("#cancleButton").removeAttr("disabled");
 				$("#submitButton").removeAttr("disabled");
+				
 				
 				pageStatus = "update";
 			});
@@ -428,7 +426,7 @@
 					<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}" class="form-check-input"></td>
 					<td>${vo.req_num }</td>
 					<td style="display: none;">${vo.pro_id }</td>
-					<td><a href="javascript:void(0);" class="openBOM">${vo.pro_num }</a></td>
+					<td><span class="openBOM"><a href="javascript:void(0);" class="openBOM">${vo.pro_num }</a></span></td>
 					<td>${vo.pro_name }</td>
 					<td>${vo.ma_num }</td>
 					<td>${vo.ma_name }</td>
