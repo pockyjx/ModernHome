@@ -230,9 +230,11 @@
         // 출고 대기 버튼
  		$(".waiting").click(function() {
  			var pr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
-//  			alert(pr_id);
+			var pro_id = $(this).closest("tr").find('td:eq(12)').text();
  			
- 			location.href="/release/waitingRelease?txt=pr&rel_id="+pr_id;
+ 			alert(pr_id + ", " + pro_id);
+ 			
+ 			location.href="/release/waitingRelease?txt=pr&rel_id="+pr_id+"&item_id="+pro_id;
  			
  		});
         

@@ -21,6 +21,7 @@ import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductReleaseVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.service.InstructService;
+import com.modernhome.service.QualityService;
 import com.modernhome.service.ReleaseService;
 
 @Controller
@@ -34,6 +35,9 @@ public class ReleaseController {
 	
 	@Autowired
 	InstructService iService;
+	
+	@Autowired
+	QualityService qService;
 	
 	// http://localhost:8088/release/materialRelease
 	@RequestMapping(value = "/materialRelease")
@@ -233,15 +237,31 @@ public class ReleaseController {
 	@RequestMapping(value = "/waitingRelease", method = RequestMethod.GET)
 	public String waitingRelease(
 			@RequestParam(value = "txt", required = false) String txt, 
-			@RequestParam(value = "rel_id", required = false) Integer rel_id) throws Exception {
+			@RequestParam(value = "rel_id", required = false) Integer rel_id, 
+			@RequestParam(value = "item_id", required = false) Integer item_id) throws Exception {
+		
+		WijoinVO wvo = new WijoinVO();
 		
 		if(txt.equals("mr")) {
 			logger.debug("자재 출고 대기 처리!");
 			rService.waitingMR(rel_id);
+			
+			// 품질 검사 자동 등록
+			wvo.setMr_id(rel_id);
+			wvo.setMa_id(item_id);
+			qService.addMrQC(wvo);
+			
 			return "redirect:/release/materialRelease";
+			
 		}else if(txt.equals("pr")) {
 			logger.debug("완제품 출고 대기 처리!");
 			rService.waitingPR(rel_id);
+			
+			// 품질 검사 자동 등록
+			wvo.setPr_id(rel_id);
+			wvo.setPro_id(item_id);;
+			qService.addPrQC(wvo);
+			
 			return "redirect:/release/productRelease";
 		}
 		
