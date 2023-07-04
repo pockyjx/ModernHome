@@ -419,30 +419,28 @@ public class ClientController {
 		}
 		// - 수주 등록시 팝업
 		
-		
-		
-		
-		
-		
+
 		// 출하등록할때 팝업
-				else if(txt.equals("clt2")) { // 거래처 목록 팝업2
-					List<ProductReleaseVO> popUpClt2 = rService.getProductReleaseList(pvo);
+				else if(txt.equals("clt2")) { // 출고 목록 팝업2
+					List<ProductReleaseVO> popUpClt2;
+					
+						logger.debug("출고 검색 팝업 호출");
+						popUpClt2 = rService.shpPrList(ppvo, pvo);
+					
 					model.addAttribute("popUpClt2", popUpClt2);
 					
 					pm.setPageVO(pvo);
-					pm.setTotalCount(rService.getPrSearchCnt(ppvo));
+					pm.setTotalCount(rService.shpPrCnt(ppvo));
 					model.addAttribute("pm", pm);
 					
 					model.addAttribute("ProductReleaseVO", ppvo);
 					
-					return "/client/popUpClient2";
-				}
 				
-				return "/client/clientList";
+				return "/client/popUpClient2";
 				
 			}
-	
-	
+			return "/client/clientList";
+	}
 	
 	// BOM (수주계약서)
 	// http://localhost:8088/info/req/BOM

@@ -38,6 +38,7 @@
 	});
 	
 	$(document).ready(function() {
+		// 지시수량 변경 시 소요량 변경
 		var cntVal = 1;
 		var reqValArr = [];
 		
@@ -59,6 +60,22 @@
 					}
 				}
 			});
+		});
+		
+		// 작업상태 버튼 클릭 시 변경
+		$("input[type='button']").click(function() {
+			var value = $(this).val();
+			
+			if(value === '대기') {
+				alert("자재 출고완료 전까지 변경 불가능합니다!");
+			}
+			if(value === '진행중') {
+				if(confirm("완료로 변경하시겠습니까? (완료 후 저장하시면 변경이 불가능합니다.)")) {
+					alert("완료 처리 되었습니다.");
+					$(this).val("완료");
+					$(this).removeClass("btn btn-sm btn-primary").addClass("btn btn-sm btn-success");
+				}
+			}
 		});
 	});
 
@@ -116,11 +133,12 @@
 				<td>${wiList[0].pro_name}</td>
 				<th>작업상태</th>
 				<td>
-					<select name="work_state" class="form-control">
-						<option value="대기" <c:if test="${wiList[0].work_state == '대기'}">selected</c:if>>대기</option>
-						<option value="진행중" <c:if test="${wiList[0].work_state == '진행중'}">selected</c:if>>진행중</option>
-						<option value="완료" <c:if test="${wiList[0].work_state == '완료'}">selected</c:if>>완료</option>
-					</select>
+					<c:if test="${wiList[0].work_state == '대기'}">
+						<input type="button" name="work_state" class="btn btn-sm btn-outline-secondary" value="대기">
+					</c:if>
+					<c:if test="${wiList[0].work_state == '진행중'}">
+						<input type="button" name="work_state" class="btn btn-sm btn-primary" value="진행중">
+					</c:if>
 				</td>
 			</tr>
 			<tr>

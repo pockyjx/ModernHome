@@ -34,4 +34,10 @@ public interface InorderService {
 	// 발주서 조회
 	public List<InorderVO> getIoList(int io_id) throws Exception;
 	
+	
+	
+	
+	// 발주 월별 그래프
+	public List<InorderVO> monthlyIOResult() throws Exception;
+	
 }	

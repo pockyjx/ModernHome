@@ -185,8 +185,27 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 	}
 
 	@Override
-	public int getPrSearchCnt(ProductReleaseVO vo) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".prSearchCnt", vo);
+	public int getPrSearchCnt2(ProductReleaseVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".prSearchCnt2", vo);
+	}
+	
+	
+	// 출고 팝업 페이징
+	@Override
+	public List<ProductReleaseVO> shpPrList(ProductReleaseVO vo, PageVO pvo) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("vo", vo);
+		paramMap.put("pvo", pvo);
+		logger.debug("paramMap : " + paramMap);
+		
+		return sqlSession.selectList(NAMESPACE + ".shpPrList", paramMap);
+	}
+
+	// 출고 팝업 검색 페이징
+	@Override
+	public Integer shpPrCnt(ProductReleaseVO productReleaseVO) {
+		logger.debug(sqlSession.selectOne(NAMESPACE + ".shpPrCnt", productReleaseVO) + "@@@@@@@@@");
+		return sqlSession.selectOne(NAMESPACE + ".shpPrCnt", productReleaseVO);
 	}
 
 	// 자재 출고 대기 처리

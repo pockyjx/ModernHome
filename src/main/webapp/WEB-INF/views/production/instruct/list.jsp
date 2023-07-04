@@ -40,12 +40,12 @@
 		// 추가 버튼 클릭 시 팝업창 열기
 		$(document).on("click", "#addRowButton", function() {
 			window.name = "add";
-			window.open('/production/instruct/add', 'popup', 'width=500, height=600, top=300, left=650, location=no, status=no');
+			window.open('/production/instruct/add', 'popup', 'width=600, height=700, top=300, left=650, location=no, status=no');
 		});
 		
 		// 수정 버튼 누를 시
 		$("#updateButton").click(function(){
-			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
+			var selectedCheckbox = $("input[name='work_id']:checked");
 			
 			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 			if (selectedCheckbox.length === 1) {
@@ -59,7 +59,7 @@
 				
 				window.name = "add";
 				window.open('/production/instruct/modify?work_id=' + workId, 'popup', 
-						'width=500, height=600, top=300, left=650, location=no, status=no');
+						'width=600, height=700, top=300, left=650, location=no, status=no');
 			}else if (selectedCheckbox.length === 0){
 				alert("수정할 행을 선택해주세요!")
 				return false;
@@ -161,7 +161,7 @@
 	// 작업지시 코드 선택 시 팝업창 열기
 	function infoPopup(workId, proId) {
 		window.open('/production/instruct/info?work_id=' + workId + '&pro_id=' + proId, 'popup', 
-			'width=500, height=600, top=300, left=650, location=no, status=no');
+			'width=600, height=700, top=300, left=650, location=no, status=no');
 	}
 </script>
 <style>
@@ -230,7 +230,6 @@
 			<th>수주번호</th>
 			<th>납품예정일</th>
 			<th>담당자</th>
-			<th>상태처리</th>
 		</tr>
 		
 		<c:forEach var="list" items="${instrList}" varStatus="no">
@@ -249,9 +248,6 @@
 				<td>${list.oo_num}</td>
 				<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
 				<td>${list.emp_name}</td>
-				<td>
-					<c:if test="${list.work_state == '진행중'}"><button type="button" id="btnStateDone" class="btn btn-success m-2">지시완료</button></c:if>
-				</td>
 			</tr>
 		</c:forEach>
 	</table>

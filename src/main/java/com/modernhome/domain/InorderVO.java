@@ -25,6 +25,12 @@ public class InorderVO {
 	private String clt_name;
 	
 	private String emp_name;
+	
+	
+	
+	private Integer monthlyIOCount;
+	private Integer monthlyIOAmount;
+	private String month;
 
 	// join 할 테이블
 //	private MaterialVO materialVO;
@@ -190,7 +196,38 @@ public class InorderVO {
 	public void setEmp_name(String emp_name) {
 		this.emp_name = emp_name;
 	}
+	
+	
 
+	
+	
+	
+	public Integer getMonthlyIOCount() {
+		return monthlyIOCount;
+	}
+
+	public void setMonthlyIOCount(Integer monthlyIOCount) {
+		this.monthlyIOCount = monthlyIOCount;
+	}
+
+	public Integer getMonthlyIOAmount() {
+		return monthlyIOAmount;
+	}
+
+	public void setMonthlyIOAmount(Integer monthlyIOAmount) {
+		this.monthlyIOAmount = monthlyIOAmount;
+	}
+
+	public String getMonth() {
+		return month;
+	}
+
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	
+	
 	@Override
 	public String toString() {
 		return "InorderVO [io_id=" + io_id + ", io_num=" + io_num + ", ma_id=" + ma_id + ", io_cnt=" + io_cnt
@@ -198,7 +235,11 @@ public class InorderVO {
 				+ io_state + ", rec_date=" + rec_date + ", clt_id=" + clt_id + ", emp_id=" + emp_id + ", io_reg_date="
 				+ io_reg_date + ", io_update_date=" + io_update_date + ", update_emp_id=" + update_emp_id + ", ma_num="
 				+ ma_num + ", ma_name=" + ma_name + ", ma_price=" + ma_price + ", clt_num=" + clt_num + ", clt_name="
-				+ clt_name + ", emp_name=" + emp_name + "]";
+				+ clt_name + ", emp_name=" + emp_name + ", monthlyIOCount=" + monthlyIOCount + ", monthlyIOAmount="
+				+ monthlyIOAmount + ", month=" + month + "]";
 	}
 
+	
+
+	
 }
