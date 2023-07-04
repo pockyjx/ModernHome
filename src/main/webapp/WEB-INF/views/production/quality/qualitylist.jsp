@@ -195,6 +195,13 @@
         }  // 체크박스 선택 시 체크박스 개수 구하기
         
         
+        $("#submitButton").click(function() {
+        	alert("클릭");
+        	
+        });
+        
+        
+        
 	     }); 
     </script>
     
@@ -253,15 +260,17 @@
 	</div>
 </form>
 <!-- 검색칸 -->
+
+<hr>
 		
 <form action="qualityList">
 	<div class="d-flex align-items-center justify-content-between mb-2">  			
-		<h3 class="m-4"> 품질현황(완제품) 목록 </h3> 
+		<h3 class="m-4"> 완제품 검사 </h3> 
 		<div>
 			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-				<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+				<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="updateQuality" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>
 	</div>

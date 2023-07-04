@@ -222,20 +222,20 @@
 <form method="GET" name="search" class="bg-light rounded p-3 m-3">
 
 	<div class="row mb-3">
-		<label for="lineSearch" class="col-sm-2 col-form-label">라인코드</label>
+		<label for="lineSearch" class="col-sm-2 col-form-label"><b>라인코드</b></label>
 		<div class="col-sm-4">
 			<input type="text" name="line_num" value="${line_name }" placeholder="라인코드를 입력하세요" class="form-control">
 		</div>
 	</div>
 	<div class="row mb-3">
-		<label for="lineSearch" class="col-sm-2 col-form-label">라인명</label>
+		<label for="lineSearch" class="col-sm-2 col-form-label"><b>라인명</b></label>
 		<div class="col-sm-4">
 			<input type="text" name="line_name" value="${line_name }" placeholder="라인명을 입력하세요" class="form-control">
 		</div>
 	</div>
 	
 	<div class="row mb-3">
-		<label for="lineSearch" class="col-sm-2 col-form-label">사용여부</label>
+		<label for="lineSearch" class="col-sm-2 col-form-label"><b>사용여부</b></label>
 		<div class="col-sm-2">
 			<select name="use_yn" class="form-select" style="background-color: #fff;">
 				<option value="전체">전체</option>
@@ -250,10 +250,11 @@
 	
 </form>
 
+<hr>
 	
 <form id="lineList" method="post">
 	<div class="d-flex align-items-center justify-content-between mb-2">
-		<h3 class="m-4">라인 리스트</h3>
+		<h3 class="m-4">생산 라인 관리</h3>
 		<div>
 			<c:if test="${(sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2) || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
