@@ -219,67 +219,75 @@
 </head>
 <body>
 	
-	<form method="GET" class="bg-light rounded p-3 m-3">
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">라인코드</label>
-			<div class="col-sm-10">
-				<input type="text" name="line_num">
-			</div>
-		</div>
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">라인명</label>
-			<div class="col-sm-10">
-				<input type="text" name="line_name">
-			</div>
-		</div>
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">사용여부</label>
-			<div class="col-sm-10">
-				<select name="use_yn">
-					<option>전체</option>
-					<option value="Y">가동</option>
-					<option value="N">점검 중</option>
-				</select>
-				<input class="btn btn-info rounded-pill m-2" type="submit" value="조회">
-			</div>
-		</div>
-	</form>
+<form method="GET" name="search" class="bg-light rounded p-3 m-3">
 
+	<div class="row mb-3">
+		<label for="lineSearch" class="col-sm-2 col-form-label"><b>라인코드</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="line_num" value="${line_name }" placeholder="라인코드를 입력하세요" class="form-control">
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label for="lineSearch" class="col-sm-2 col-form-label"><b>라인명</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="line_name" value="${line_name }" placeholder="라인명을 입력하세요" class="form-control">
+		</div>
+	</div>
 	
-	<form id="lineList">
-		<div class="d-flex align-items-center justify-content-between mb-2">
-			<h3 class="m-4">라인 리스트</h3>
-			<div>
-				<c:if test="${(sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2) || sessionScope.emp_auth == 3}">
-					<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
-						<i class="fa fa-plus"></i> 추가</button>
-					<button type="button" class="btn btn-sm btn-primary m-2" id="cancelButton" disabled>X 취소</button>
+	<div class="row mb-3">
+		<label for="lineSearch" class="col-sm-2 col-form-label"><b>사용여부</b></label>
+		<div class="col-sm-2">
+			<select name="use_yn" class="form-select" style="background-color: #fff;">
+				<option value="전체">전체</option>
+				<option value="Y">가동</option>
+				<option value="N">점검 중</option>
+			</select>
+		</div>
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+	</div>
+	
+</form>
+
+<hr>
+	
+<form id="lineList" method="post">
+	<div class="d-flex align-items-center justify-content-between mb-2">
+		<h3 class="m-4">생산 라인 관리</h3>
+		<div>
+			<c:if test="${(sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2) || sessionScope.emp_auth == 3}">
+				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
+					<i class="fa fa-plus"></i> 추가</button>
+				<button type="button" class="btn btn-sm btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 <!-- 					<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton"> -->
 <!-- 						<i class="fa fa-edit"></i> 수정</button> -->
-					<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteLineButton" formaction="deleteLine" formmethod="post">
-						<i class="fa fa-trash"></i> 삭제</button>
+				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteLineButton" formaction="deleteLine" formmethod="post">
+					<i class="fa fa-trash"></i> 삭제</button>
 <!-- 					<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regLine" formmethod="post" disabled="disabled"> -->
 <!-- 						<i class="fa fa-download"></i> 저장</button> -->
-					<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" disabled>
-						<i class="fa fa-download"></i> 저장</button>
-				</c:if>
-			</div>
+				<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" disabled>
+					<i class="fa fa-download"></i> 저장</button>
+			</c:if>
+		</div>
+	</div>
+	
+	<div class="bg-light text-center rounded p-4 m-3">
+		<div class="d-flex align-items-center justify-content-between mb-4">
+			<span id="selectedCheckboxCount">0</span>
 		</div>
 		
-		<div class="bg-light text-center rounded p-4 m-3">
-			<div class="d-flex align-items-center justify-content-between mb-4">
-			<span id="selectedCheckboxCount">0</span>
-			</div>
-			
-			<table class="table-lineList table text-start align-middle table-bordered table-hover mb-0">
+		<div class="table-responsive">
+			<table class="table-lineList table align-middle table-bordered table-hover mb-0">
 			    <tr>
-			        <th><input type="checkbox" class="form-check-input"></th>
-			        <th>라인코드</th>
-			        <th>라인명</th>
-			        <th>등록일</th>
-			        <th>등록자</th>
-			        <th>라인관리</th>
+			        <th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+			        <th style="background-color: rgba(0,0,0,0.075);">라인코드</th>
+			        <th style="background-color: rgba(0,0,0,0.075);">라인명</th>
+			        <th style="background-color: rgba(0,0,0,0.075);">등록일</th>
+			        <th style="background-color: rgba(0,0,0,0.075);">등록자</th>
+			        <th style="background-color: rgba(0,0,0,0.075);">라인관리</th>
 			    </tr>
+			    
 			    <c:forEach var="vo" items="${lineList}" varStatus="status">
 			        <tr>
 			            <td><input type="checkbox" name="selectedLineId" value="${vo.line_id}" class="form-check-input"></td>
@@ -298,7 +306,8 @@
 			    </c:forEach>
 			</table>
 		</div>
-	</form>
+	</div>
+</form>
 	
 </body>
 </html>
