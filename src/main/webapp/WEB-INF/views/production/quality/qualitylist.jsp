@@ -234,7 +234,7 @@
 			</select>
 		</div>
 	</div>	
-			
+			 
 	<div class="row mb-3">
 		<label for="qc_nameSearch" class="col-sm-2 col-form-label"><b>검수일자</b></label>
 			<div class="col-sm-2">

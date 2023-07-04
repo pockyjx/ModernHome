@@ -55,7 +55,7 @@
                 		"df_cnt",
                 		"qc_yn"
 	                ];
-
+ 
 	                // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 	                row.find("td:not(:first-child)").each(function(index){
 	                	
