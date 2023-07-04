@@ -248,7 +248,9 @@
 				<td>${list.oo_num}</td>
 				<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
 				<td>${list.emp_name}</td>
-				<td><button type="button" id="btnStateDone" class="btn btn-success m-2">지시완료</button></td>
+				<td>
+					<c:if test="${list.work_state == '진행중'}"><button type="button" id="btnStateDone" class="btn btn-success m-2">지시완료</button></c:if>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

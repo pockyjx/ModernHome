@@ -88,4 +88,9 @@ public class InstructServiceImpl implements InstructService {
 		dao.modifyInstrMrState(wjvo);
 	}
 
+	@Override
+	public void modifyOoInstrState(Integer work_id) throws Exception {
+		dao.modifyOoInstrState(work_id);
+	}
+
 }
