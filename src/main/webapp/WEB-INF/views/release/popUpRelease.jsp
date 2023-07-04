@@ -1,12 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 
+<link rel="stylesheet" as="style" crossorigin 
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    
+    <style type="text/css">
+        * {
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+    </style>
+<link rel="icon" href="/resources/img/favicon.svg" type="image/x-icon">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+<link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/style.css" rel="stylesheet">
+    
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function() {
@@ -79,83 +89,86 @@
 	});
 </script>
 
-</head>
-<body>
 <div id=oo>
 	<c:if test="${param.txt == 'pro' }">
 
-		<h1>수주 목록</h1>
+		<h3 class="m-4" style="text-align: center;">수주 목록</h3>
 	
-		<table border="1">		
-			<tr>
-				<th>수주코드</th>
-				<th>납품처명</th>
-				<th>완제품명</th>
-				<th>주문수량</th>
-				<th>납품일자</th>
-			</tr>
-	<%-- 		${popUpPro } --%>
-			<c:forEach items="${list }" var="vo">
-			<tr>
-				<td>${vo.outOrderVO.oo_num }</td>
-				<td>${vo.clientVO.clt_name }</td>
-				<td>${vo.productVO.pro_name }</td>
-				<td>${vo.pr_cnt }</td>
-				<td>${vo.outOrderVO.oo_end_date }</td>
-				<td style="display: none;">${vo.pro_id }</td>
-				<td style="display: none;">${vo.oo_id }</td>
-			</tr>
-			</c:forEach>
-		
-		</table>
+		<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
+			<table border="1" class="table-outOrderList table align-middle table-bordered table-hover mb-0">		
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">수주코드</th>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">납품처명</th>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">완제품명</th>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">주문수량</th>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">납품일자</th>
+				</tr>
+		<%-- 		${popUpPro } --%>
+				<c:forEach items="${list }" var="vo">
+				<tr>
+					<td style="text-align: center;">${vo.outOrderVO.oo_num }</td>
+					<td style="text-align: center;">${vo.clientVO.clt_name }</td>
+					<td style="text-align: center;">${vo.productVO.pro_name }</td>
+					<td style="text-align: center;">${vo.pr_cnt }</td>
+					<td style="text-align: center;">${vo.outOrderVO.oo_end_date }</td>
+					<td style="display: none;">${vo.pro_id }</td>
+					<td style="display: none;">${vo.oo_id }</td>
+				</tr>
+				</c:forEach>
+			</table>
+		</div>
 	</c:if>
 </div>
 
 <div id=ps>
 	<c:if test="${param.txt == 'ps' }">
-		<h1>재고 목록</h1>
+	
+		<h3 class="m-4" style="text-align: center;">재고 목록</h3>
 		
-		<table id="ps_table" border="1">	
-			<tr>
-				<th>제품명</th>
-				<th>현 재고</th>
-				<th>창고명</th>
-			</tr>
-			<tr>
-				<td>${vo.productVO.pro_name }</td>
-				<td>${vo.productStockVO.ps_cnt }</td>
-				<td>${vo.warehouseVO.wh_name }</td>
-				<td style="display: none;">${vo.wh_id }</td>
-			</tr>	
-		</table>
+		<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
+			<table border="1" class="table-psList table align-middle table-bordered table-hover mb-0" id="ps_table">		
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">제품명</th>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">현 재고</th>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">창고명</th>
+				</tr>
+				<tr>
+					<td style="text-align: center;">${vo.productVO.pro_name }</td>
+					<td style="text-align: center;">${vo.productStockVO.ps_cnt }</td>
+					<td style="text-align: center;">${vo.warehouseVO.wh_name }</td>
+					<td style="display: none;">${vo.wh_id }</td>
+				</tr>	
+			</table>
+		</div>
 	</c:if>
 </div>
 
 <div id=wn>
 	<c:if test="${param.txt == 'ma' }">
 
-		<h1>작업지시 목록</h1>
+		<h3 class="m-4" style="text-align: center;">작업지시 목록</h3>
 	
-		<table border="1">		
-			<tr>
-				<th>작업지시코드</th>
-				<th>자재명</th>
-				<th>주문수량</th>
-				<th>작업지시일자</th>
-			</tr>
-	<%-- 		${popUpPro } --%>
-			<c:forEach items="${list }" var="vo">
-			<tr>
-				<td>${vo.workInstrVO.work_num }</td>
-				<td>${vo.materialVO.ma_name }</td>
-				<td>${vo.mr_cnt }</td>
-				<td>${vo.workInstrVO.reg_date }</td>
-				<td style="display: none;">${vo.ma_id }</td>
-				<td style="display: none;">${vo.work_id }</td>
-			</tr>
-			</c:forEach>
-		
-		</table>
+		<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
+			<table border="1" class="table-List table align-middle table-bordered table-hover mb-0">	
+				<tr>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">작업지시코드</th>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재명</th>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">주문수량</th>
+					<th style="background-color: rgba(0,0,0,0.075); text-align: center;">작업지시일자</th>
+				</tr>
+		<%-- 		${popUpPro } --%>
+				<c:forEach items="${list }" var="vo">
+				<tr>
+					<td style="text-align: center;">${vo.workInstrVO.work_num }</td>
+					<td style="text-align: center;">${vo.materialVO.ma_name }</td>
+					<td style="text-align: center;">${vo.mr_cnt }</td>
+					<td style="text-align: center;">${vo.workInstrVO.reg_date }</td>
+					<td style="display: none;">${vo.ma_id }</td>
+					<td style="display: none;">${vo.work_id }</td>
+				</tr>
+				</c:forEach>
+			</table>
+		</div>
 	</c:if>
 </div>
 
