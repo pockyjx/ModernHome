@@ -40,24 +40,32 @@
 		// 추가 버튼 클릭 시 팝업창 열기
 		$(document).on("click", "#addRowButton", function() {
 			window.name = "add";
-			window.open('/production/instruct/add', 'popup', 'width=500, height=600, top=300, left=650, location=no, status=no');
+			window.open('/production/instruct/add', 'popup', 'width=600, height=700, top=300, left=650, location=no, status=no');
 		});
 		
 		// 수정 버튼 누를 시
 		$("#updateButton").click(function(){
-			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
+			var selectedCheckbox = $("input[name='work_id']:checked");
 			
 			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 			if (selectedCheckbox.length === 1) {
 				var workId = selectedCheckbox.val();
+				var workState = selectedCheckbox.closest("tr").find("td:eq(5)").text();
+				
+				if(workState === '완료') {
+					alert("작업지시가 완료인 상태는 수정 불가능합니다!");
+					return false;
+				}
 				
 				window.name = "add";
 				window.open('/production/instruct/modify?work_id=' + workId, 'popup', 
-						'width=500, height=600, top=300, left=650, location=no, status=no');
+						'width=600, height=700, top=300, left=650, location=no, status=no');
 			}else if (selectedCheckbox.length === 0){
 				alert("수정할 행을 선택해주세요!")
+				return false;
 			}else {
 				alert("수정은 하나의 행만 가능합니다!");
+				return false;
 			}
 		});
 		
@@ -104,13 +112,14 @@
 
 	    // 삭제 버튼 누를 시
 		$("#deleteButton").click(function(){
-			var selectedCheckbox = $("input[name='selectedWorkId']:checked");
-			var workId = selectedCheckbox.val();
+			var selectedCheckbox = $("input[name='work_id']:checked");
+// 			var workId = selectedCheckbox.val();
 			
-			if(selectedCheckbox.length === 1) {
-				location.href = "/production/instruct/delete?work_id=" + workId;
-			} else {
+			if(selectedCheckbox.length === 0) {
 				alert("삭제할 행을 선택해주세요!");
+				
+				// 선택안하면 submit을 막음
+				event.preventDefault();
 				return false;
 			}
 		});
@@ -130,6 +139,11 @@
 	        var selectedCheckboxes = $(".table-instrList td input[type='checkbox']:checked").length;
 	        $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	    }
+		
+		// 진행 중인 작업에서 완료 버튼 클릭 시 작업상태 완료 처리
+		$("#btnStateDone").click(function() {
+			
+		});
 	});
 	
 	// 체크박스 중복 X
@@ -147,7 +161,7 @@
 	// 작업지시 코드 선택 시 팝업창 열기
 	function infoPopup(workId, proId) {
 		window.open('/production/instruct/info?work_id=' + workId + '&pro_id=' + proId, 'popup', 
-			'width=500, height=600, top=300, left=650, location=no, status=no');
+			'width=600, height=700, top=300, left=650, location=no, status=no');
 	}
 </script>
 <style>
@@ -220,16 +234,12 @@
 		
 		<c:forEach var="list" items="${instrList}" varStatus="no">
 			<tr>
-				<td><input type="checkbox" name="selectedWorkId" value="${list.work_id}" class="form-check-input"></td>
+				<td><input type="checkbox" name="work_id" value="${list.work_id}" class="form-check-input"></td>
 				<td><span onclick="infoPopup('${list.work_id}', '${list.pro_id}');" class="text-primary">${list.work_num}</span></td>
 				<td>${list.line_num}</td>
 				<td>${list.pro_num}</td>
 				<td>${list.pro_name}</td>
-				<td>
-				    <c:if test="${list.work_state=='대기'}">대기</c:if>
-				    <c:if test="${list.work_state=='진행중'}">진행중</c:if>
-				    <c:if test="${list.work_state=='완료'}">완료</c:if>
-				</td>
+				<td>${list.work_state == '대기' ? "대기" : (list.work_state == '진행중' ? "진행중" : "완료")}</td>
 				<td>
 					<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
 					<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>

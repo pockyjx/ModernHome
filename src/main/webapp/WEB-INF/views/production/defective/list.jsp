@@ -237,7 +237,15 @@
 		// 삭제 버튼 누를 시
 		$("#deleteButton").click(function(){
 			var dfCheckbox = $("input[name='df_id']:checked");
-			var df_id = dfCheckbox.val();
+// 			var df_id = dfCheckbox.val();
+			
+			if(selectedCheckbox.length === 0) {
+				alert("삭제할 행을 선택해주세요!");
+				
+				// 선택안하면 submit을 막음
+				event.preventDefault();
+				return false;
+			}
 		});
 		
 	 	// 유효성 검사
@@ -378,13 +386,13 @@
 						<td>${fn:substring(df.solved_date, 0, 10)}</td>
 						<td>
 							<c:if test="${df.solved_date == null && df.df_type.equals('공정검사') && df.repair_yn.equals('가능')}">
-								<button type="button" onclick="repairAndDiscard('repair', '${df.df_id}', ${df.df_cnt});" class="btn btn-success m-2">수리</button>
+								<button type="button" onclick="repairAndDiscard('repair', '${df.df_id}', ${df.df_cnt});" class="btn btn-sm btn-success">수리</button>
 							</c:if>
 							<c:if test="${df.solved_date == null && df.df_type.equals('공정검사') && df.repair_yn.equals('불가')}">
-								<button type="button" onclick="repairAndDiscard('discard', '${df.df_id}', ${df.df_cnt});" class="btn btn-danger m-2">폐기</button>
+								<button type="button" onclick="repairAndDiscard('discard', '${df.df_id}', ${df.df_cnt});" class="btn btn-sm btn-danger">폐기</button>
 							</c:if>
 							<c:if test="${df.solved_date != null}">
-								<button class="btn btn-outline-secondary m-2" disabled>완료</button>
+								<button class="btn btn-sm btn-outline-secondary" disabled>완료</button>
 							</c:if>
 						</td>
 					</tr>

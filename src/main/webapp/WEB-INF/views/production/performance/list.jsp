@@ -133,7 +133,15 @@
 		// 삭제 버튼 누를 시
 		$("#deleteButton").click(function(){
 			var prfrmCheckbox = $("input[name='prfrm_id']:checked");
-			var prfrm_id = prfrmCheckbox.val();
+// 			var prfrm_id = prfrmCheckbox.val();
+			
+			if(prfrmCheckbox.length === 0) {
+				alert("삭제할 행을 선택해주세요!");
+				
+				// 선택안하면 submit을 막음
+				event.preventDefault();
+				return false;
+			}
 		});
 		
 		// 유효성 검사

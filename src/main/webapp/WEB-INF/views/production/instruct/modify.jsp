@@ -33,11 +33,11 @@
 		window.name = "add";
 		var url = window.location.href;
 		var wiVal = new URLSearchParams(new URL(url).search).get('work_id');
-		console.log(wiVal);
 		window.open('/production/instruct/addPopup?txt=li&work_id=' + wiVal, 'popup', 'width=400, height=200, top=300, left=650, location=no, status=no');
 	});
 	
 	$(document).ready(function() {
+		// 지시수량 변경 시 소요량 변경
 		var cntVal = 1;
 		var reqValArr = [];
 		
@@ -59,6 +59,24 @@
 					}
 				}
 			});
+		});
+		
+		// 작업상태 버튼 클릭 시 변경
+		$("#btnWS").click(function() {
+			var value = $(this).text();
+			
+			if(value === '대기') {
+				alert("자재 출고완료 전까지 변경 불가능합니다!");
+			}
+			if(value === '진행중') {
+				if(confirm("완료로 변경하시겠습니까? (완료 후 저장하시면 변경이 불가능합니다.)")) {
+					alert("완료 처리 되었습니다.");
+					$(this).text("완료");
+					$(this).removeClass("btn btn-sm btn-primary").addClass("btn btn-sm btn-success");
+					$("#work_state").val("완료");
+				}
+			}
+			return false;
 		});
 	});
 
@@ -116,16 +134,18 @@
 				<td>${wiList[0].pro_name}</td>
 				<th>작업상태</th>
 				<td>
-					<select name="work_state" class="form-control">
-						<option value="대기" <c:if test="${wiList[0].work_state == '대기'}">selected</c:if>>대기</option>
-						<option value="진행중" <c:if test="${wiList[0].work_state == '진행중'}">selected</c:if>>진행중</option>
-						<option value="완료" <c:if test="${wiList[0].work_state == '완료'}">selected</c:if>>완료</option>
-					</select>
+					<c:if test="${wiList[0].work_state == '대기'}">
+						<button id="btnWS" class="btn btn-sm btn-outline-secondary">대기</button>
+					</c:if>
+					<c:if test="${wiList[0].work_state == '진행중'}">
+						<button id="btnWS" class="btn btn-sm btn-primary">진행중</button>
+					</c:if>
+					<input id="work_state" type="hidden" name="work_state">
 				</td>
 			</tr>
 			<tr>
 				<th>납기일</th>
-				<td>${wiList[0].oo_end_date}</td>
+				<td>${fn:substring(wiList[0].oo_end_date, 0, 10)}</td>
 				<th>생산라인</th>
 				<td id="line_num">
 					<input type="text" class="form-control" name="line_num" value="${(empty param.line_num) ? wiList[0].line_num : param.line_num}" readonly>
@@ -154,6 +174,7 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<input type="hidden" name="work_id" value="${wiList[0].work_id}">
 		<input type="hidden" name="pro_id" value="${wiList[0].pro_id}">
 		<input type="hidden" name="req_id" value="${wiList[0].req_id}">
 		<input type="hidden" name="oo_id" value="${wiList[0].oo_id}">

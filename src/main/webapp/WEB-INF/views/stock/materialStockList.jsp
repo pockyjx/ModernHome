@@ -32,11 +32,11 @@
 <div >
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
-	    <a class="nav-link active" aria-current="page" href="/stock/materialStockList">자재</a>
-	  </li>
-	  <li class="nav-item">
 	    <a class="nav-link" href="/stock/productStockList">완제품</a>
 		</li>
+	  <li class="nav-item">
+	    <a class="nav-link active" aria-current="page" href="/stock/materialStockList">자재</a>
+	  </li>
 	</ul>
 </div>
 

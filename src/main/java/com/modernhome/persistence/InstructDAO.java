@@ -50,4 +50,7 @@ public interface InstructDAO {
 	// 자재 출고 테이블에서 해당 작업지시에 대한 자재 모두가 출고 완료일 경우 작업지시 테이블의 상태 '진행중'으로 변경
 	public void modifyInstrMrState(WijoinVO wjvo) throws Exception;
 	
+	// 작업지시 상태가 진행중&완료일 경우 수주 테이블의 상태를 '진행중'으로 변경
+	public void modifyOoInstrState(Integer work_id) throws Exception;
+	
 }

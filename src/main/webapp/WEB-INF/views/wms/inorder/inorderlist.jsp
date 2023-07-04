@@ -171,13 +171,26 @@
             
             // 수정 버튼 누를 시
 			$("#updateButton").click(function(){
-				
 				var selectedCheckbox = $("input[name='selectedIoId']:checked");
 				
 				// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 				if (selectedCheckbox.length === 1) {
 					var empId = selectedCheckbox.val();
 					var row = selectedCheckbox.closest("tr");
+					var io_state = selectedCheckbox.closest("tr").find('td:eq(10)').text();
+					
+					// 발주 상태가 완료일 경우에는 수정 불가능
+					if(io_state == "완료") {
+	 					alert("완료상태인 발주는 수정할 수 없습니다!");
+	 					
+	 					// css 삭제
+	 					$(".table-inorderList tr").removeClass("selected");
+	 					
+	 					// 체크박스 해제
+	 					$(".table-inorderList input[type='checkbox']").prop("checked", false);
+						
+	 					return;
+					}
 					
 					// input type의 name 값 지정
 					var cellNames = [

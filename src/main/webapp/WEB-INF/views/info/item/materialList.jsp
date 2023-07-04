@@ -280,11 +280,11 @@ $("#deleteButton").click(function(){
 <div>
 	<ul class="nav nav-tabs">
 	  <li class="nav-item">
-	    <a class="nav-link active" aria-current="page" href="/info/item/materialList">자재</a>
-	  </li>
-	  <li class="nav-item">
 	    <a class="nav-link" href="/info/item/productList">완제품</a>
 		</li>
+	  <li class="nav-item">
+	    <a class="nav-link active" aria-current="page" href="/info/item/materialList">자재</a>
+	  </li>
 	</ul>
 </div>
 
