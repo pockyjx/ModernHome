@@ -239,7 +239,7 @@
  			var mr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
  			var ma_id = $(this).closest("tr").find('td:eq(11)').text();
 
- 			alert(mr_id + ", " + ma_id);
+			// alert(mr_id + ", " + ma_id);
  			
  			location.href="/release/waitingRelease?txt=mr&rel_id="+mr_id+"&item_id="+ma_id;
  			

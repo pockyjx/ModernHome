@@ -256,6 +256,12 @@ public class ReleaseController {
 		}else if(txt.equals("pr")) {
 			logger.debug("완제품 출고 대기 처리!");
 			rService.waitingPR(rel_id);
+			
+			// 품질 검사 자동 등록
+			wvo.setPr_id(rel_id);
+			wvo.setPro_id(item_id);;
+			qService.addPrQC(wvo);
+			
 			return "redirect:/release/productRelease";
 		}
 		
