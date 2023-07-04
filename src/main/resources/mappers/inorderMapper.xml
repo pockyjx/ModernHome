@@ -185,4 +185,25 @@
 	<!-- 발주서 조회 -->
 	
 	
+	
+	
+	<!-- 발주 그래프 -->
+	
+	<!-- 월별 발주량 -->
+	<select id="monthlyIOResult" resultType="com.modernhome.domain.InorderVO">
+		SELECT DATE_FORMAT(io_date, '%Y-%m') AS month,
+		COUNT(*) monthlyIOCount, SUM(m.ma_price*i.io_cnt) AS monthlyIOAmount
+		FROM in_order i
+		JOIN material m ON i.ma_id = m.ma_id
+		GROUP BY DATE_FORMAT(io_date, '%Y-%m')
+		ORDER BY month
+	</select>
+	<!-- 월별 발주량 -->
+	
+	
+	<!-- 발주 그래프 -->
+	
+	
+	
+	
   </mapper>  
