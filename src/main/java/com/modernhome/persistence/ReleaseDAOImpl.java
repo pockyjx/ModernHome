@@ -145,15 +145,25 @@ public class ReleaseDAOImpl implements ReleaseDAO {
 	}
 
 	@Override
-	public List<ProductReleaseVO> getOutorderInfo() throws Exception {
+	public List<ProductReleaseVO> getOutorderInfo(PageVO vo) throws Exception {
 		logger.debug("수주 정보 조회!");
-		return sqlSession.selectList(NAMESPACE + ".getOutorderinfo");	
+		return sqlSession.selectList(NAMESPACE + ".getOutorderinfo", vo);	
+	}
+	
+	@Override
+	public int getOutorderInfoCnt() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getOutorderinfoCnt");
 	}
 
 	@Override
-	public List<MaterialReleaseVO> getWorkInstrInfo() throws Exception {
+	public List<MaterialReleaseVO> getWorkInstrInfo(PageVO vo) throws Exception {
 		logger.debug("수주 정보 조회!");
-		return sqlSession.selectList(NAMESPACE + ".getWorkInstrInfo");
+		return sqlSession.selectList(NAMESPACE + ".getWorkInstrInfo", vo);
+	}
+	
+	@Override
+	public int getWorkInstrInfoCnt() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getWorkInstrInfoCnt");
 	}
 
 	@Override

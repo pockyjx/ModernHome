@@ -101,16 +101,29 @@ public class ReleaseController {
 		return "redirect:/release/materialRelease";
 	}
 	
+	// 출고 등록 시 팝업
 	@RequestMapping(value = "/addPopup", method = RequestMethod.GET )
-	public String popUpGET(Model model, @ModelAttribute("txt") String txt, @RequestParam(value="mapro_id", required = false) Integer mapro_id) throws Exception {
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt, @RequestParam(value="mapro_id", required = false) Integer mapro_id, 
+							PageVO vo) throws Exception {
 		logger.debug("popUpProductGET() 호출!");
+		PageMaker pm = new PageMaker();
 		
 		if(txt.equals("pro")) {
-			model.addAttribute("list", rService.getOutorderInfo());
+			model.addAttribute("list", rService.getOutorderInfo(vo));
+			
+			pm.setPageVO(vo);
+    		pm.setTotalCount(rService.getOutorderInfoCnt());
+    		model.addAttribute("pm", pm);
+			
 		}else if(txt.equals("ps")) {
 			model.addAttribute("vo", rService.getProductStock(mapro_id));
 		}else if(txt.equals("ma")) {
-			model.addAttribute("list", rService.getWorkInstrInfo());
+			model.addAttribute("list", rService.getWorkInstrInfo(vo));
+			
+			pm.setPageVO(vo);
+    		pm.setTotalCount(rService.getWorkInstrInfoCnt());
+    		model.addAttribute("pm", pm);
+			
 		}else if(txt.equals("ms")) {
 			model.addAttribute("vo", rService.getMaterialStock(mapro_id));
 		}
@@ -204,6 +217,7 @@ public class ReleaseController {
 			WijoinVO wvo = new WijoinVO();
 			wvo.setWork_id(work_id);
 			iService.modifyInstrMrState(wvo);
+			iService.modifyOoInstrState(work_id);
 			
 			return "redirect:/release/materialRelease";
 			

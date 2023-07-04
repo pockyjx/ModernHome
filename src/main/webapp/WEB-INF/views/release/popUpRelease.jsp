@@ -91,7 +91,7 @@
 
 <div id=oo>
 	<c:if test="${param.txt == 'pro' }">
-
+	
 		<h3 class="m-4" style="text-align: center;">수주 목록</h3>
 	
 		<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
@@ -117,6 +117,42 @@
 				</c:forEach>
 			</table>
 		</div>
+		
+		<!-- 페이징 버튼 -->
+	
+	<nav aria-label="Page navigation example">
+  		<ul class="pagination justify-content-center pagination-sm">
+  		
+  			<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/release/addPopup?page=${pm.startPage-1 }&txt=pro" aria-label="Previous">
+       			<span aria-hidden="true">&laquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+    		<li 
+    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+    		>
+    			<a class="page-link" href="/release/addPopup?page=${idx}&txt=pro">${idx }</a>
+    		</li>
+    		</c:forEach>
+			
+			<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+      			<a class="page-link" href="/release/addPopup?page=${pm.endPage+1 }&txt=pro" aria-label="Next">
+        		<span aria-hidden="true">&raquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+  		</ul>
+	</nav>
+	
+	<!-- 페이징 버튼 -->
+		
+		
 	</c:if>
 </div>
 
@@ -145,7 +181,7 @@
 
 <div id=wn>
 	<c:if test="${param.txt == 'ma' }">
-
+	
 		<h3 class="m-4" style="text-align: center;">작업지시 목록</h3>
 	
 		<div class="bg-light text-center rounded p-4" style="margin-left:3rem; margin-right:3rem;">
@@ -169,6 +205,41 @@
 				</c:forEach>
 			</table>
 		</div>
+		
+		<!-- 페이징 버튼 -->
+	
+	<nav aria-label="Page navigation example">
+  		<ul class="pagination justify-content-center pagination-sm">
+  		
+  			<c:if test="${pm.prev }">
+			<li class="page-item">
+				<a class="page-link" href="/release/addPopup?page=${pm.startPage-1 }&txt=ma" aria-label="Previous">
+       			<span aria-hidden="true">&laquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
+    		<li 
+    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+    		>
+    			<a class="page-link" href="/release/addPopup?page=${idx}&txt=ma">${idx }</a>
+    		</li>
+    		</c:forEach>
+			
+			<c:if test="${pm.next && pm.endPage > 0}">
+			<li class="page-item">
+      			<a class="page-link" href="/release/addPopup?page=${pm.endPage+1 }&txt=ma" aria-label="Next">
+        		<span aria-hidden="true">&raquo;</span>
+      			</a>
+    		</li>
+    		</c:if>
+    		
+  		</ul>
+	</nav>
+	
+	<!-- 페이징 버튼 -->
+		
 	</c:if>
 </div>
 
