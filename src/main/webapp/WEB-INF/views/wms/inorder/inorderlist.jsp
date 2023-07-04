@@ -515,6 +515,7 @@
 		
 		<input type="hidden" name="clt_id" id="clt_id">
 		<input type="hidden" name="ma_id" id="ma_id">
+		<input type="hidden" name="ma_price" id="ma_price">
 				
 		<div class="table-responsive">		
 			<table class="table-inorderList table align-middle table-bordered table-hover mb-0">
