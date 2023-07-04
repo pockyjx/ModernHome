@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.modernhome.domain.DefectiveVO;
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 
@@ -115,6 +116,16 @@ public class DefectiveDAOImpl implements DefectiveDAO {
 	public void modifyDefective2(WijoinVO vo) throws Exception {
 		logger.debug("defeciveDAOImpl - modifyDefective2() 실행");
 		sqlSession.update(NAMESPACE + ".modifyDef2", vo);
+	}
+
+	
+	
+	
+	
+	// 불량 그래프 계산용
+	@Override
+	public DefectiveVO dfCnt() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".dfCnt");
 	}
 	
 }
