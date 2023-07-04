@@ -162,7 +162,6 @@
 		#{wh_id}, #{mr_cnt}, null, #{mr_state}, #{emp_id}
 		FROM material_release
 	</insert>
-	<!-- 완제품 등록 -->
 
 	<!-- 완제품 삭제 -->
 	<delete id="delmtRelease">
@@ -178,14 +177,28 @@
 		pro_unit = #{pro_unit}, pro_price = #{pro_price}
 		where mr_num = #{mr_num}
 	</update>
+	
+	<!-- 자재 출고 팝업 (페이징) -->
 	<select id="getWorkInstrInfo" resultMap="MaterialReleaseVO">
 		select wi.work_num , m.ma_name , wi.work_cnt * r.req_cnt mr_cnt,
 		wi.reg_date, m.ma_id, wi.work_id
 		from work_instr wi
 		join product p on wi.pro_id = p.pro_id
 		join requirement r on p.pro_id = r.pro_id
-		join material m on r.ma_id = m.ma_id ;
+		join material m on r.ma_id = m.ma_id
+		LIMIT #{startPage}, #{pageSize}
 	</select>
+	<!-- 자재 출고 팝업 (페이징) -->
+	
+	<select id="getWorkInstrInfoCnt" resultType="int">
+		select count(wi.work_num)
+		from work_instr wi
+		join product p on wi.pro_id = p.pro_id
+		join requirement r on p.pro_id = r.pro_id
+		join material m on r.ma_id = m.ma_id
+	</select>
+	
+	
 	<select id="getMaterialStock" resultMap="MaterialReleaseVO">
 		select m.ma_name,
 		ms.ms_cnt, w.wh_name, w.wh_id
@@ -389,7 +402,8 @@
 		delete from product_release
 		where pr_id = #{pr_id}
 	</delete>
-
+	
+	<!-- 수주 정보 팝업 (페이징) -->
 	<select id="getOutorderinfo" resultMap="ProductReleaseVO">
 		select oo.oo_num, c.clt_name, p.pro_name, oo.oo_cnt pr_cnt, oo.oo_end_date,
 		p.pro_id, oo.oo_id
@@ -397,8 +411,20 @@
 		join client c on oo.clt_id = c.clt_id
 		join product p on oo.pro_id =
 		p.pro_id
-		join product_stock ps on p.pro_id = ps.pro_id;
+		join product_stock ps on p.pro_id = ps.pro_id
+		LIMIT #{startPage}, #{pageSize}
 	</select>
+	<!-- 수주 정보 팝업 (페이징) -->
+	
+	<select id="getOutorderinfoCnt" resultType="int">
+		select count(oo.oo_num)
+		from out_order oo
+		join client c on oo.clt_id = c.clt_id
+		join product p on oo.pro_id =
+		p.pro_id
+		join product_stock ps on p.pro_id = ps.pro_id
+	</select>
+
 	<select id="getProductStock" resultMap="ProductReleaseVO">
 		select p.pro_name,
 		ps.ps_cnt, w.wh_name, w.wh_id
