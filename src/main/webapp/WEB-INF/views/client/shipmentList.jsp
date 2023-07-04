@@ -57,7 +57,7 @@ $(document).ready(function() {
 	// 추가버튼 1번 누르면 추가버튼 비활성화
 	$("#addRowButton").click(function() {
 		
-		// 거래처 코드 입력란 클릭 시 팝업창 열기
+		// 출고 코드 입력란 클릭 시 팝업창 열기
 	    $(document).on("click", "input[name='pr_num']", function() {
 	 	   window.open('/client/addPopup?txt=clt2', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	    });
