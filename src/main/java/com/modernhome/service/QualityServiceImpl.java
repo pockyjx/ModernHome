@@ -95,20 +95,51 @@ public class QualityServiceImpl implements QualityService{
 	}
 	
 	
-	// 출고검사 목록 출력
+	// 출고검사 목록 출력(페이징)
 	@Override
-	public List<WijoinVO> getMrList() throws Exception {
-		return qdao.getMrList();
+	public List<WijoinVO> getMrList(PageVO pvo) throws Exception {
+		return qdao.getMrList(pvo);
 	}
 
+	// 출고검사 개수
+	@Override
+	public int getTotalCntFi() throws Exception {
+		return qdao.getTotalCntFi();
+	}
+	
+	// 출고검사 목록 출력 + 검색
+	@Override
+	public List<WijoinVO> getMrListSearch(String qc_num, String qc_yn, String startDate, String endDate, PageVO pvo) throws Exception {
+		return qdao.getMrListSearch(qc_num, qc_yn, startDate, endDate, pvo);
+	}
+
+	// 출고검사 검색 결과 개수
+	@Override
+	public int getMrListSearchCnt(String qc_num, String qc_yn, String startDate, String endDate) throws Exception {
+		return qdao.getMrListSearchCnt(qc_num, qc_yn, startDate, endDate);
+	}
+
+	// 출고검사 수정
+	@Override
+	public void updateFactoryInspection(WijoinVO wvo) throws Exception {
+		qdao.updateFactoryInspection(wvo);
+		
+	}
+
+	// 자재 출고에서 출고대기일 경우 품질검사 자동 등록
 	@Override
 	public void addMrQC(WijoinVO wvo) throws Exception {
 		qdao.addMrQC(wvo);
 	}
 	
+	// 완제품 출고에서 출고대기일 경우 품질검사 자동 등록
 	@Override
 	public void addPrQC(WijoinVO wvo) throws Exception {
 		qdao.addPrQC(wvo);
 	}
+
+
+
+
 	
 } // QualityServiceImpl
