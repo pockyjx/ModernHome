@@ -254,10 +254,7 @@
 						<td>${wp.line_num}</td>
 						<td>${wp.pro_num}</td>
 						<td>${wp.pro_name}</td>
-						<td>
-							<c:if test="${!empty wp.update_date}">${fn:substring(wp.update_date, 0, 10)}</c:if>
-							<c:if test="${empty wp.update_date}">${fn:substring(wp.reg_date, 0, 10)}</c:if>
-						</td>
+						<td>${fn:substring(wp.reg_date, 0, 10)}</td>
 						<td>${wp.gb_yn}</td>
 						<td>${wp.prfrm_cnt}</td>
 						<td>${wp.df_cnt}</td>

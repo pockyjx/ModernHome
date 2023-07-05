@@ -32,20 +32,17 @@
 			var pro_id = $(this).find("td:eq(2)").text();
 			var pro_num = $(this).find("td:eq(3)").text();
 			var pro_name = $(this).find("td:eq(4)").text();
-			var line_id = $(this).find("td:eq(5)").text();
-			var line_num = $(this).find("td:eq(6)").text();
-			var work_cnt = $(this).find("td:eq(7)").text();
-			var df_type = $(this).find("td:eq(8)").text();
-			var qc_id = $(this).find("td:eq(9)").text();
-			var df_cnt = $(this).find("td:eq(10)").text();
+			var work_cnt = $(this).find("td:eq(6)").text();
+			var df_type = $(this).find("td:eq(7)").text();
+			var qc_id = $(this).find("td:eq(8)").text();
+			var df_cnt = $(this).find("td:eq(9)").text();
 			
 			opener.document.getElementsByName("work_id")[0].value = work_id;
-// 			opener.document.getElementsByName("work_num")[0].value = work_num;
+			opener.document.getElementsByName("work_num")[0].value = work_num;
 			opener.document.getElementsByName("pro_id")[0].value = pro_id;
 			opener.document.getElementsByName("pro_num")[0].value = pro_num;
 			opener.document.getElementsByName("pro_name")[0].value = pro_name;
-			opener.document.getElementsByName("line_id")[0].value = line_id;
-			opener.document.getElementById("lnumPop").value = line_num;
+// 			opener.document.getElementsByName("line_id")[0].value = line_id;
 // 			opener.document.getElementsByName("work_cnt")[0].value = work_cnt;
 			opener.document.getElementById("dfTypePop").value = df_type;
 			opener.document.getElementsByName("qc_id")[0].value = qc_id;
@@ -61,14 +58,13 @@
 			var ma_num = $(this).find("td:eq(3)").text();
 			var ma_name = $(this).find("td:eq(4)").text();
 			var rec_cnt = $(this).find("td:eq(5)").text();
-			var rec_in_state = $(this).find("td:eq(6)").text();
+// 			var rec_in_state = $(this).find("td:eq(6)").text();
 			var df_type = $(this).find("td:eq(7)").text();
 			var qc_id = $(this).find("td:eq(8)").text();
-			var clt_name = $(this).find("td:eq(9)").text();
 			var df_cnt = $(this).find("td:eq(10)").text();
 			
 			opener.document.getElementsByName("rec_id")[0].value = rec_id;
-// 			opener.document.getElementsByName("rec_num")[0].value = rec_num;
+			opener.document.getElementsByName("rec_num")[0].value = rec_num;
 			opener.document.getElementsByName("ma_id")[0].value = ma_id;
 			opener.document.getElementsByName("ma_num")[0].value = ma_num;
 			opener.document.getElementsByName("ma_name")[0].value = ma_name;
@@ -76,8 +72,6 @@
 // 			opener.document.getElementsByName("rec_in_state")[0].value = rec_in_state;
 			opener.document.getElementById("dfTypePop").value = df_type;
 			opener.document.getElementsByName("qc_id")[0].value = qc_id;
-			opener.document.getElementsByName("clt_name")[0].value = clt_name;
-			opener.document.getElementsByName("df_cnt")[0].value = df_cnt;
 			opener.document.getElementsByName("df_cnt")[0].value = df_cnt;
 			
 			window.close();
@@ -131,7 +125,7 @@
 			<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
 			<th style="background-color: rgba(0,0,0,0.075);">라인 코드</th>
 			<th style="background-color: rgba(0,0,0,0.075);">지시 수량</th>
-			<th colspan="6" style="background-color: rgba(0,0,0,0.075);">불량 수량</th>
+			<th colspan="5" style="background-color: rgba(0,0,0,0.075);">불량 수량</th>
 		</tr>
 		<c:forEach var="wi" items="${wiList}">
 			<tr>
@@ -140,7 +134,6 @@
 				<td style="display: none">${wi.pro_id}</td>
 				<td>${wi.pro_num}</td>
 				<td>${wi.pro_name}</td>
-				<td style="display: none">${wi.line_id}</td>
 				<td>${wi.line_num}</td>
 				<td>${wi.work_cnt}</td>
 				<td style="display: none">공정검사</td>

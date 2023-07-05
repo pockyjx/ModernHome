@@ -33,12 +33,12 @@
 						 '<td><input type="checkbox" class="form-check-input"></td>' +
 						 '<td><input type="text" class="form-control" name="df_num" value="${dfNum[0].df_num}" style="border: none; background: transparent;" readonly></td>' +
 						 '<td id="typePop"><input id="dfTypePop" type="text" class="form-control" name="df_type" style="border: none; background: transparent;" readonly></td>' +
-						 '<td><input id="lnumPop" type="text" class="form-control" name="line_num" style="border: none; background: transparent;" readonly>' +
-						 '<input type="text" class="form-control" name="clt_name" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="text" class="form-control" name="work_num" style="border: none; background: transparent;" readonly>' +
+							 '<input type="text" class="form-control" name="rec_num" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="pro_num" style="border: none; background: transparent;" readonly>' +
-						 '<input type="text" class="form-control" name="ma_num" style="border: none; background: transparent;" readonly></td>' +
+							 '<input type="text" class="form-control" name="ma_num" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="pro_name" style="border: none; background: transparent;" readonly>' +
-						 '<input type="text" class="form-control" name="ma_name" style="border: none; background: transparent;" readonly></td>' +
+							 '<input type="text" class="form-control" name="ma_name" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
 						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input id="df_cnt" type="text" class="form-control" name="df_cnt"></td>' +
@@ -102,26 +102,19 @@
 				
 				// 각 셀의 값을 원래 상태로 되돌림
 				row.find("td:not(:first-child)").each(function(index) {
-					
 					var cellValue = $(this).find("input").val();
-					
-					if ($(this).find("select").length) {
-						// <select>가 있는 경우 선택된 옵션의 텍스트로 변경
-						var selectedOptionText = $(this).find("select option:selected").text();
-						$(this).html(selectedOptionText);
-					}else {
-						// <select>가 없는 경우 셀 값을 그대로 표시
-						$(this).html(cellValue);
-					}
+					var cellValueSelect = $(this).find("select").val();
+					$(this).html(cellValue);
+					$(this).html(cellValueSelect);
 				});
 				
 				// selected 클래스를 없앰 (css 없애기)
-				$(".table-inorderList tr").removeClass("selected");
+				$(".table-defective tr").removeClass("selected");
 				
 				// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 				$("#addRowButton").removeAttr("disabled");
 				$("#updateButton").removeAttr("disabled");
-				$("#deleteInorderButton").removeAttr("disabled");
+				$("#deleteButton").removeAttr("disabled");
 				
 				$("#cancelButton").attr("disabled", "disabled");
 				$("#submitButton").attr("disabled", "disabled");
@@ -221,16 +214,6 @@
 			checkbox.closest('tr').toggleClass('selected', isChecked);
 			
 			updateSelectedCheckboxCount();
-		});
-		
-		// 체크박스 클릭 시 선택된 행 삭제
-		$(".table-defective").on("click", "td input[type='checkbox']", function() {
-			var checkbox = $(this);
-			if (checkbox.prop("checked")) {
-				checkbox.closest("tr").addClass("selected");
-			} else {
-				checkbox.closest("tr").removeClass("selected");
-			}
 		});
 		
 		// 삭제 버튼 누를 시
@@ -364,10 +347,19 @@
 						<td><input type="checkbox" class="form-check-input" name="df_id" value="${df.df_id}"></td>
 						<td>${df.df_num}</td>
 						<td>${df.df_type}</td>
-						<td>${df.df_type == "공정검사" ? df.work_num : df.rec_num}</td>
-<%-- 						<td>${df.df_type == "공정검사" ? df.work_num : (df.df_type == "수입검사" ? df.rec_num : df.rel_num)}</td> --%>
-						<td>${df.df_type == "공정검사" ? df.pro_num : df.ma_num}</td>
-						<td>${df.df_type == "공정검사" ? df.pro_name : df.ma_name}</td>
+						<td>
+							<c:if test="${df.df_type == '공정검사'}">${df.work_num}</c:if>
+							<c:if test="${df.df_type == '수입검사'}">${df.rec_num}</c:if>
+<%-- 							<c:if test="${df.df_type == '출고검사'}">${df.work_num}</c:if> --%>
+						</td>
+						<td>
+							<c:if test="${df.df_type == '공정검사'}">${df.pro_num}</c:if>
+							<c:if test="${df.df_type == '수입검사'}">${df.ma_num}</c:if>
+						</td>
+						<td>
+							<c:if test="${df.df_type == '공정검사'}">${df.pro_name}</c:if>
+							<c:if test="${df.df_type == '수입검사'}">${df.ma_name}</c:if>
+						</td>
 						<td>${df.emp_name}</td>
 						<td>
 							<c:if test="${!empty wp.update_date}">${fn:substring(df.update_date, 0, 10)}</c:if>
