@@ -371,10 +371,10 @@
 						<td>${df.repair_yn}</td>
 						<td>${fn:substring(df.solved_date, 0, 10)}</td>
 						<td>
-							<c:if test="${df.solved_date == null && df.df_type.equals('공정검사') && df.repair_yn.equals('가능')}">
+							<c:if test="${df.solved_date == null && !df.df_type.equals('수입검사') && df.repair_yn.equals('가능')}">
 								<button type="button" onclick="repairAndDiscard('repair', '${df.df_id}', ${df.df_cnt});" class="btn btn-sm btn-success">수리</button>
 							</c:if>
-							<c:if test="${df.solved_date == null && df.df_type.equals('공정검사') && df.repair_yn.equals('불가')}">
+							<c:if test="${df.solved_date == null && !df.df_type.equals('수입검사') && df.repair_yn.equals('불가')}">
 								<button type="button" onclick="repairAndDiscard('discard', '${df.df_id}', ${df.df_cnt});" class="btn btn-sm btn-danger">폐기</button>
 							</c:if>
 							<c:if test="${df.solved_date != null}">
