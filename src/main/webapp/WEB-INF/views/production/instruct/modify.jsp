@@ -126,7 +126,7 @@
 					<th style="background-color: rgba(0,0,0,0.075);">품번</th>
 					<td>${wiList[0].pro_num}</td>
 					<th style="background-color: rgba(0,0,0,0.075);">수량</th>
-					<td><input type="text" class="form-control" name="work_cnt" id="wcntInput" value="${wiList[0].work_cnt}"></td>
+					<td><input type="number" class="form-control" name="work_cnt" id="wcntInput" value="${wiList[0].work_cnt}"></td>
 				</tr>
 				<tr>
 					<th style="background-color: rgba(0,0,0,0.075);">품명</th>

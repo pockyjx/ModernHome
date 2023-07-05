@@ -18,10 +18,10 @@ public interface DefectiveDAO {
 	public List<WijoinVO> creatDefNum() throws Exception;
 	
 	// 검색한 불량 목록 출력
-	public List<WijoinVO> getDefList(String df_type, String nameSearch, String line_num, PageVO vo) throws Exception;
+	public List<WijoinVO> getDefList(String df_type, String nameSearch, PageVO vo) throws Exception;
 	
 	// 검색한 글 개수
-	public int getDfSearchCnt(String df_type, String nameSearch, String line_num) throws Exception;
+	public int getDfSearchCnt(String df_type, String nameSearch, PageVO vo) throws Exception;
 	
 	// 품질검사가 완료이면서 작업지시id가 있는 목록
 	public List<WijoinVO> getQcFinInstr() throws Exception;

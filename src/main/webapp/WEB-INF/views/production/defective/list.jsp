@@ -38,7 +38,7 @@
 						 '<td><input id="code3" type="text" class="form-control" style="border: none; background: transparent;" readonly>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
 						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;" readonly></td>' +
-						 '<td><input id="df_cnt" type="text" class="form-control" name="df_cnt"></td>' +
+						 '<td><input id="df_cnt" type="number" class="form-control" name="df_cnt"></td>' +
 						 '<td><input id="df_rsns" type="text" class="form-control" name="df_rsns"></td>' +
 						 '<td><select id="repair_yn" class="form-control" name="repair_yn">' +
 						 '<option value="가능">가능</option>' +

@@ -40,15 +40,15 @@ public class DefectiveServiceImpl implements DefectiveService {
 	}
 
 	@Override
-	public List<WijoinVO> getDefList(String df_type, String nameSearch, String line_num, PageVO vo) throws Exception {
+	public List<WijoinVO> getDefList(String df_type, String nameSearch, PageVO vo) throws Exception {
 		logger.debug("defectiveServiceImpl - getDefList() 출력");
-		return dao.getDefList(df_type, nameSearch, line_num, vo);
+		return dao.getDefList(df_type, nameSearch, vo);
 	}
 
 	@Override
-	public int getDfSearchCnt(String df_type, String nameSearch, String line_num) throws Exception {
+	public int getDfSearchCnt(String df_type, String nameSearch, PageVO vo) throws Exception {
 		logger.debug("defectiveServiceImpl - getDfSearchCnt() 출력");
-		return dao.getDfSearchCnt(df_type, nameSearch, line_num);
+		return dao.getDfSearchCnt(df_type, nameSearch, vo);
 	}
 
 	@Override
