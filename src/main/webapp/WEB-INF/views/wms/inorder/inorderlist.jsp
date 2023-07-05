@@ -42,7 +42,6 @@
 // 				$( "input[name='startDate']" ).datepicker(config);
 // 				$( "input[name='endDate']" ).datepicker(config);
 // 			});
-			
 //-------------------------------------------------------------------------------------------------
 		var pageStatus = "";
 		
