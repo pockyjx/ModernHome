@@ -29,7 +29,7 @@
     			$(".table-reqList tr").removeClass("selected");
 	        	 
 	             var newRow = '<tr>' +
-	                 '<td><input type="checkbox"></td> class="form-check-input"' +
+	                 '<td><input type="checkbox" class="form-check-input"></td>' +
 	                 '<td><input type="text" class="form-control" name="req_num" id="req_num" placeholder="자동 부여" style="border: none; background: transparent;" readonly></td>' +
 	                 '<td><input type="text" class="form-control" name="pro_num" placeholder="완제품 코드" readonly id="pro_num"></td>' +
 	                 '<td><input type="text" class="form-control" name="pro_name" id="pro_name" style="border: none; background: transparent;" readonly ></td>' +
@@ -152,9 +152,10 @@
 			row.find("td:not(:first-child)").each(function(index) {
 				
 				var cellValue = $(this).text();
-				console.log(cellNames[index] + " : " + cellValue);
+				console.log(cellNames[index] + "[" + index + "] : " + cellValue);
 				
 				var cellType = index === 5 ? "number" : "text";
+				var cellMin = index === 5 ? "min=0" : "";
 				var cellOption = "";
 				
 				if(index == 0 || index == 8) {
@@ -175,7 +176,7 @@
 				}else if(index === 8) {
 					cellContent = '<td><input type="'+cellType+'" name="'+cellName+'" value="'+${sessionScope.emp_id}+'"'+cellOption+' class="form-control"></td>';
 				}else if(index === 5) {
-					cellContent = '<td><input type="'+cellType+'" name="'+cellName+'" value="'+cellValue+'" id="'+cellId+'"'+cellOption+' class="form-control"></td>';
+					cellContent = '<td><input type="'+cellType+'" name="'+cellName+'" value="'+cellValue+'" id="'+cellId+'"'+cellOption+' min="0" class="form-control"></td>';
 				}else {
 					cellContent = '<td><input type="'+cellType+'" name="'+cellName+'" value="'+cellValue+'" id="'+cellId+'" '+cellOption+' class="form-control"></td>';
 				}
@@ -303,9 +304,14 @@
       
       // 목록에서 완제품 코드 클릭 시 해당 완제품의 BOM 출력
       $(".openBOM").click(function() {
-    	 var pro_num = $(this).closest("tr").find('td:eq(2)').text();
     	  
-// 		alert(pro_num);
+    	 var pro_num = $(this).closest("tr").find('td:eq(2)').text();
+    	 
+//     	 if(pageStatus == 'update') {
+//     		 pro_num = $(this).closest("tr").find('td:eq(3)').text();
+//     	 }
+
+		//   alert(pro_num);
     	 
     	var left = (screen.width - 750) / 2;
  		var top = (screen.height - 400) / 2;
@@ -371,6 +377,8 @@
 	
 </form>
 
+<hr>
+
 <form id="reqList">
 	
 	<div class="d-flex align-items-center justify-content-between mb-2">
@@ -422,7 +430,7 @@
 				<tr>	
 					<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}" class="form-check-input"></td>
 					<td>${vo.req_num }</td>
-					<td><span class="openBOM"><a href="javascript:void(0);" class="openBOM">${vo.pro_num }</a></span></td>
+					<td><a href="javascript:void(0);" class="openBOM">${vo.pro_num }</a></td>
 					<td>${vo.pro_name }</td>
 					<td>${vo.ma_num }</td>
 					<td>${vo.ma_name }</td>

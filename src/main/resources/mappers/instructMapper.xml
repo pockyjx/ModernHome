@@ -110,10 +110,10 @@
 				AND pro_num like CONCAT('%', #{pro_num}, '%')
 			</if>
 			<if test="startDate != ''">
-	        	AND IFNULL(wi.update_date, wi.reg_date) &gt;= #{startDate}
+	        	AND wi.reg_date &gt;= #{startDate}
 	        </if>
 	        <if test="endDate != ''">
-	        	AND #{endDate} &gt;= DATE(IFNULL(wi.update_date, wi.reg_date))
+	        	AND #{endDate} &gt;= DATE(wi.reg_date)
 	        </if>
 		</where>
 	</select>
@@ -144,10 +144,10 @@
 				AND pro_num like CONCAT('%', #{pro_num}, '%')
 			</if>
 			<if test="startDate != ''">
-	        	AND IFNULL(wi.update_date, wi.reg_date) &gt;= #{startDate}
+	        	AND wi.reg_date &gt;= #{startDate}
 	        </if>
 	        <if test="endDate != ''">
-	        	AND #{endDate} &gt;= DATE(IFNULL(wi.update_date, wi.reg_date))
+	        	AND #{endDate} &gt;= DATE(wi.reg_date)
 	        </if>
 		</where>
 		ORDER BY wi.work_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
