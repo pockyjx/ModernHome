@@ -117,6 +117,9 @@
 				<if test="df_type == 'ma'">
 					df_type = '수입검사'
 				</if>
+				<if test="df_type == 're'">
+					df_type = '출고검사'
+				</if>
 			</if>
 			<if test="nameSearch != ''">
 				<if test="df_type == 'all'">
@@ -127,6 +130,9 @@
 				</if>
 				<if test="df_type == 'ma'">
 					AND ma_name like CONCAT('%', #{nameSearch}, '%') 
+				</if>
+				<if test="df_type == 're'">
+					AND (ma_name like CONCAT('%', #{nameSearch}, '%') OR pro_name like CONCAT('%', #{nameSearch}, '%')) 
 				</if>
 			</if>
 		</where>
@@ -166,6 +172,9 @@
 				<if test="df_type == 'ma'">
 					df_type = '수입검사'
 				</if>
+				<if test="df_type == 're'">
+					df_type = '출고검사'
+				</if>
 			</if>
 			<if test="nameSearch != ''">
 				<if test="df_type == 'all'">
@@ -176,6 +185,9 @@
 				</if>
 				<if test="df_type == 'ma'">
 					AND ma_name like CONCAT('%', #{nameSearch}, '%') 
+				</if>
+				<if test="df_type == 're'">
+					AND (ma_name like CONCAT('%', #{nameSearch}, '%') OR pro_name like CONCAT('%', #{nameSearch}, '%')) 
 				</if>
 			</if>
 		</where>

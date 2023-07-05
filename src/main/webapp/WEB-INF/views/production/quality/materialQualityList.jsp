@@ -317,7 +317,7 @@
 	
 <form id="materialQualityList" method="post">
 	<div class="d-flex align-items-center justify-content-between mb-2">
-		<h3 class="m-4">자재 검사</h3>
+		<h3 class="m-4">수입 검사</h3>
 		<div>
 			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 1  || sessionScope.emp_auth == 3}">
 				<button type="button"  class="btn btn-primary m-2" id="cancleButton" disabled="disabled">X 취소</button>

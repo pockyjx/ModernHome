@@ -43,10 +43,10 @@
 						 '<option value="불량품">불량품</option>' +
 						 '</select>' +
 						 '</td>' +
-						 '<td><input type="text" class="form-control" name="prfrm_cnt" id="prfrm_cnt"></td>' +
-						 '<td><input type="text" class="form-control" name="df_cnt" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="number" class="form-control" name="prfrm_cnt" id="prfrm_cnt"></td>' +
+						 '<td><input type="number" class="form-control" name="df_cnt" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
-						 '<td><input type="text" class="form-control" name="work_cnt" style="border: none; background: transparent;" readonly>' +
+						 '<td><input type="number" class="form-control" name="work_cnt" style="border: none; background: transparent;" readonly>' +
 						 '<input type="hidden" class="form-control" name="work_id">' +
 						 '<input type="hidden" class="form-control" name="line_id">' +
 						 '<input type="hidden" class="form-control" name="pro_id"></td>' +
@@ -55,7 +55,7 @@
 			// 클릭 시 팝업창 열기
 			$(document).on("click", "td[id='work_num']", function() {
 				window.name = "add";
-				window.open('/production/performance/addPopup', 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+				window.open('/production/performance/addPopup', 'popup', 'width=700, height=500, top=300, left=650, location=no, status=no');
 			});
 			
 			// 첫번째 자식<tr> 뒤에서 부터 행을 추가함

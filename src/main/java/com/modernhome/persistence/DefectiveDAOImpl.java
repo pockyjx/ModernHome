@@ -46,26 +46,25 @@ public class DefectiveDAOImpl implements DefectiveDAO {
 	}
 
 	@Override
-	public List<WijoinVO> getDefList(String df_type, String nameSearch, String line_num, PageVO vo) throws Exception {
+	public List<WijoinVO> getDefList(String df_type, String nameSearch, PageVO vo) throws Exception {
 		logger.debug("defeciveDAOImpl - getDefList() 실행");
 
 		Map<String, Object> parameterMap = new HashMap<>();
 		parameterMap.put("df_type", df_type);
 		parameterMap.put("nameSearch", nameSearch);
-		parameterMap.put("line_num", line_num);
 		parameterMap.put("pageVO", vo);
 		
 		return sqlSession.selectList(NAMESPACE + ".getListSearch", parameterMap);
 	}
 
 	@Override
-	public int getDfSearchCnt(String df_type, String nameSearch, String line_num) throws Exception {
+	public int getDfSearchCnt(String df_type, String nameSearch, PageVO vo) throws Exception {
 		logger.debug("defeciveDAOImpl - getDfSearchCnt() 실행");
 
 		Map<String, Object> parameterMap = new HashMap<>();
 		parameterMap.put("df_type", df_type);
 		parameterMap.put("nameSearch", nameSearch);
-		parameterMap.put("line_num", line_num);
+		parameterMap.put("pageVO", vo);
 		
 		return sqlSession.selectOne(NAMESPACE + ".dfSearchCnt", parameterMap);
 	}
