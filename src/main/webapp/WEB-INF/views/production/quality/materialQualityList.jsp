@@ -43,53 +43,30 @@
                 		"qc_yn"
                 	];
 	                
-// 	                var cellIds = [
-//                 		"rec_num",
-//                 		"qc_num",
-//                 		"ma_num",
-//                 		"ma_name",
-//                 		"update_emp_id",
-//                 		"update_date",
-//                 		"qc_cnt",
-//                 		"rec_cnt",
-//                 		"df_cnt",
-//                 		"qc_yn"
-// 	                ];
+	                var cellIds = [
+                		"rec_num",
+                		"qc_num",
+                		"ma_num",
+                		"ma_name",
+                		"update_emp_id",
+                		"update_date",
+                		"qc_cnt",
+                		"rec_cnt",
+                		"df_cnt",
+                		"qc_yn"
+	                ];
  
 	                // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 	                row.find("td:not(:first-child)").each(function(index){
-	                	
-// 	                	var cellValue = $(this).text();
-// 	                	var cellType = index === 5? "date" : "text";
-// 	                	var cellReadonly = [0,1,2,3,7].includes(index) ? "readonly='readonly'" : "";
-// 	                	var cellName = cellNames[index];
-// 	                	var cellId = cellIds[index];
-// 	                	var cellContent;
-
-// 	                    if (index === 9 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
-// 	                        cellContent = '<td>' +
-// 	                            '<select name="' + cellName + '">' +
-// 	                            '<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
-// 	                            '<option value="진행중" ' + (cellValue === '진행중' ? 'selected' : '') + '>진행중</option>' +
-// 	                            '<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
-// 	                            '</select>' +
-// 	                            '</td>';
-// 	                    }else if (index === 4){
-// 	                    	cellContent = '<td><input type="'+ cellType +  '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
-// 	                    }else {
-// 	                    	cellContent = '<td><input type="'+  cellType + '" name="' +cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
-// 	                    }
-
-// // 	                    $(this).html(cellContent);
 
 						var cellValue = $(this).text();
 						if(index == 4) {
 							cellValue = ${sessionScope.emp_id}
 						}
 						var cellName = cellNames[index];
+						var cellId = cellIds[index];
 						var cellContent;
 						var cellOption = "";
-// 						var cellType = index === 5? "date" : "text";
 						
 						if(index == 6 || index == 8 || index == 9) {
 							cellOption = "";
@@ -109,7 +86,7 @@
 	                            '</td>';
 						}else {
 // 							cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
-							cellContent = '<td><input name="' + cellName + '" value="' + cellValue + '"' + cellOption+ '></td>';
+							cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
 						}
 	                    
 						// 기존 값을 임시 변수에 저장 -> 수정 후 취소버튼 시 담당자 칸에 세션값이 나오는 문제 해결위해
@@ -249,6 +226,38 @@
         }  // 체크박스 선택 시 체크박스 개수 구하기
         
         
+        $("#submitButton").click(function(){
+        	
+        	var form = $("#materialQualityList");
+        	form.attr("method","post");
+        	form.attr("action","/production/quality/updateMaterialQuality");
+        	
+//         	var value = $(this).text();
+        	var qc_cnt = $('#qc_cnt').val();
+        	var rec_cnt = $('#rec_cnt').val();
+        	var df_cnt = $('#df_cnt').val();
+        	
+        	if(qc_cnt == 0 || qc_cnt == ""){
+        		alert('검수량을 입력하세요!');
+        		$("#qc_cnt").focus();
+        		return;
+        	}
+        	
+        	if(qc_cnt > rec_cnt){
+        		alert('검수량은 입고량을 초과할 수 없습니다!');
+        		$("#qc_cnt").focus();
+        		return;
+        	}
+        	
+        	
+        	if(qc_cnt == rec_cnt){
+        		alert('검사가 완료되었습니다!');
+        		$("#qc_yn").val("완료");
+        	}
+        	
+        	form.submit();
+        });
+        
         
 	     }); 
     </script>
@@ -310,12 +319,12 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">자재 검사</h3>
 		<div>
-			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
+			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 1  || sessionScope.emp_auth == 3}">
 				<button type="button"  class="btn btn-primary m-2" id="cancleButton" disabled="disabled">X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton" ><i class="fa fa-edit"></i> 수정</button>
-				<button type="submit" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled">
+<!-- 				<button type="submit" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled"> -->
+					 <button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
 					<i class="fa fa-download"></i> 저장</button>
-<!-- 					 <button type="button" class="btn btn-primary m-2" id="submitButton" disabled> -->
 			</c:if>
 		</div>
 	</div>

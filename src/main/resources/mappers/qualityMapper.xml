@@ -275,7 +275,7 @@
 	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 출력 -->
 	<select id="getMrList" resultMap="wijoinRM">
 		SELECT qc.qc_id, qc_num, mr.mr_id, mr_num, mr.ma_id, ma_num, ma_name, mr_cnt, mr_state, pr.pr_id, pr_num, pr.pro_id, pro_num, pro_name, pr_cnt, pr_state, 
-			wh_name, fi_type, qc_date, qc.update_date, qc.emp_id, qc.update_emp_id, qc.qc_yn, qc.qc_cnt, 
+			wh_name, fi_type, qc_date, qc.update_date, qc.emp_id, qc.update_emp_id, qc.qc_yn, qc.qc_cnt, qc.df_cnt,
 			CASE
 		    WHEN qc.update_emp_id IS NULL THEN
 		        (SELECT emp_name FROM employee WHERE emp_id = qc.emp_id)
@@ -297,7 +297,7 @@
 	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 검색 -->
 	<select id="getMrListSearch" resultMap="wijoinRM">
 		SELECT qc.qc_id, qc_num, mr.mr_id, mr_num, mr.ma_id, ma_num, ma_name, mr_cnt, mr_state, pr.pr_id, pr_num, pr.pro_id, pro_num, pro_name, pr_cnt, pr_state, 
-			wh_name, fi_type, qc_date, qc.update_date, qc.emp_id, qc.update_emp_id, qc.qc_yn, qc.qc_cnt,
+			wh_name, fi_type, qc_date, qc.update_date, qc.emp_id, qc.update_emp_id, qc.qc_yn, qc.qc_cnt, qc.df_cnt,
 			CASE
 		    WHEN qc.update_emp_id IS NULL THEN
 		        (SELECT emp_name FROM employee WHERE emp_id = qc.emp_id)
@@ -309,21 +309,21 @@
 		LEFT JOIN product pro ON pr.pro_id = pro.pro_id 
 		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id 
 		LEFT JOIN material ma ON mr.ma_id = ma.ma_id 
-		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id 
+		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id OR mr.wh_id = wh.wh_id
 		LEFT JOIN employee emp ON qc.emp_id = emp.emp_id
 		<where>
-			qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL
+			(qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL)
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
-			</if>
-			<if test="qc_yn != '전체'">
-				AND qc_yn = #{qc_yn}
 			</if>
 			<if test="startDate != ''">
 				AND qc.qc_date &gt;= #{startDate}
 			</if>
 			<if test="endDate != ''">
 				AND #{endDate} &gt;= DATE(qc.qc_date) 
+			</if>
+			<if test="qc_yn != '전체'">
+				AND qc_yn = #{qc_yn}
 			</if>
 		</where> 
 		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
@@ -337,9 +337,9 @@
 		LEFT JOIN product pro ON pr.pro_id = pro.pro_id 
 		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id 
 		LEFT JOIN material ma ON mr.ma_id = ma.ma_id 
-		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id 
+		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id OR mr.wh_id = wh.wh_id
 		LEFT JOIN employee emp ON qc.emp_id = emp.emp_id
-<!-- 		WHERE qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL -->
+		WHERE qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL
 	</select>
 	
 	<select id="getMrListSearchCnt" resultType="int">
@@ -349,9 +349,10 @@
 		LEFT JOIN product pro ON pr.pro_id = pro.pro_id 
 		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id 
 		LEFT JOIN material ma ON mr.ma_id = ma.ma_id 
-		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id 
+		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id OR mr.wh_id = wh.wh_id
 		LEFT JOIN employee emp ON qc.emp_id = emp.emp_id
 		<where>
+			(qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL)
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
 			</if>
@@ -369,7 +370,7 @@
 	
 	<update id="updateFactoryInspection">
 		UPDATE quality_checking 
-		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}
+		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}, df_cnt = #{df_cnt}
 		WHERE qc_num = #{qc_num}
 	</update>
 	
