@@ -299,7 +299,7 @@ public class ClientController {
 		
 		// 출하 등록
 		@RequestMapping(value = "/regShipment")
-		public String regShipment(ShipmentVO svo) throws Exception{
+		public String regShipment(ShipmentJoinVO svo) throws Exception{
 			
 			
 		if(svo.getShp_num() == null) {	
