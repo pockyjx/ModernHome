@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+		<c:set var="now" value="<%=new java.util.Date()%>"/>
+    	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
 <script>
 		<!-- 캘린터 위젯 적용 -->
 // 			/* 설정 */	
@@ -71,7 +73,7 @@
 	                '<td><input type="date" name="io_date" style="border: none; background: transparent;" readonly></td>' +
 	                '<td><input type="text" name="io_state" value="미완료" style="border: none; background: transparent;" readonly></td>' +
 	                '<td><input type="date" name="rec_date" id="rec_date"></td>' +
-	                '<td><input type="date" name="io_reg_date" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="io_reg_date" value="<c:out value='${today}'/>" style="border: none; background: transparent;" readonly></td>' +
 	                '<td><input type="text" name="emp_id" style="border: none; background: transparent;" value="${sessionScope.emp_id }" readonly></td>' +
 	                '</tr>';
 	                
