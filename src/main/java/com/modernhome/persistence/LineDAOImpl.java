@@ -88,6 +88,15 @@ public class LineDAOImpl implements LineDAO {
 		return sqlSession.selectList(NAMESPACE + ".listLineShutdown", line_id);
 	}
 
+	
+	
+	
+	// 월별 평균 고장 건수
+	@Override
+	public List<LineVO> shutdownCnt() throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".shutdownCnt");
+	}
+
 
 
 } // LineDAOImpl

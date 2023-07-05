@@ -6,6 +6,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+
+
 
 
 <script>
@@ -67,8 +71,6 @@ $(document).ready(function() {
 	
 	
 	var canvas1 = document.getElementById('monthlyOrderCount');
-// 	canvas1.width = 400; // 너비 설정
-// 	canvas1.height = 300; // 높이 설정
 	
 	var ctx = canvas1.getContext('2d');
 	
@@ -79,8 +81,6 @@ $(document).ready(function() {
 			datasets: [{
 			label: '월별 수주 건수',
 			data: orderCount,
-// 			backgroundColor: 'rgba(75, 192, 192, 0.2)', // 색깔지정
-// 			borderColor: 'rgba(75, 192, 192, 1)',
 			borderWidth: 1
 			}]
 		}, // data
@@ -127,8 +127,6 @@ $(document).ready(function() {
 	
 	// 발주금액 차트
 	var canvas = document.getElementById('monthlyIOAmount');
-// 	canvas.width = 400; // 너비 설정
-// 	canvas.height = 300; // 높이 설정
 	
 	var ctx = canvas.getContext('2d');
 	
@@ -157,8 +155,6 @@ $(document).ready(function() {
 	
 	// 발주건수 차트
 	var canvas1 = document.getElementById('monthlyIOCount');
-// 	canvas.width = 400; // 너비 설정
-// 	canvas.height = 300; // 높이 설정
 	
 	var ctx = canvas1.getContext('2d');
 	
@@ -169,8 +165,6 @@ $(document).ready(function() {
 			datasets: [{
 			label: '월별 발주 건수',
 			data: IOCount,
-// 			backgroundColor: 'rgba(75, 192, 192, 0.2)', // 색깔지정
-// 			borderColor: 'rgba(75, 192, 192, 1)',
 			borderWidth: 1
 			}]
 		}, // data
@@ -204,21 +198,128 @@ $(document).ready(function() {
 	var scratched = dfCnt.scratched;
 	var damaged = dfCnt.damaged;
 	
-	
+	var dfCnt = [];
 	
 	var canvas = document.getElementById('dfCnt');
 	
 	var ctx = canvas.getContext('2d');
 	
 	var myChart = new Chart(ctx, {
-		type: 'pie',
+		type: 'doughnut',
 		data: {
 			labels: ['양품', '불량품'] ,
 			datasets: [{
 			label: '불량률',
-			data: [(totalMr - totalDf) / totalMr * 100, totalDf / totalMr * 100] ,
-// 			backgroundColor: 'rgba(75, 192, 192, 0.2)', // 색깔지정
-// 			borderColor: 'rgba(75, 192, 192, 1)',
+			data: [((totalMr - totalDf) / totalMr) * 100 ,(totalDf / totalMr) * 100] ,
+			borderWidth: 1
+			}]
+		}, // data
+		options: {
+			plugins: {
+				tooltip: {
+					callbacks: {
+						label: function (context) {
+							var value = context.dataset.data[context.dataIndex];
+							return value.toFixed(2) + '%'; // 소수점 둘째자리까지 표시하고 '%' 기호 추가
+						}
+					}
+				}
+			},
+		    scales: {
+				x: {
+					display: false // x축 숨기기
+				},
+				y: {
+					display: false // y축 숨기기
+				}
+			},
+			responsive: false // 차트 크기를 고정, 이거 안하면 차트가 부모요소에 꽉 채워서 나옴
+	    }
+	
+	}); // 차트
+	
+	
+	
+	var canvas1 = document.getElementById('dfRsns');
+	
+	var ctx1 = canvas1.getContext('2d');
+	
+	
+	
+	
+	var myChart = new Chart(ctx1, {
+		type: 'doughnut',
+		data: {
+			labels: ['변색', '찍힘', '파손', '기타'] ,
+			datasets: [{
+			label: '불량률',
+			data: [discolored / totalDf * 100, scratched / totalDf * 100, damaged / totalDf * 100, (totalDf - discolored - scratched - damaged) * 100] ,
+			borderWidth: 1
+			}]
+		}, // data
+		options: {
+			plugins: {
+				tooltip: {
+					callbacks: {
+						label: function (context) {
+							var value = context.dataset.data[context.dataIndex];
+							return value.toFixed(2) + '%'; // 소수점 둘째자리까지 표시하고 '%' 기호 추가
+						}
+					}
+				}
+			},
+		    scales: {
+				x: {
+					display: false // x축 숨기기
+				},
+				y: {
+					display: false // y축 숨기기
+				}
+			},
+			responsive: false // 차트 크기를 고정, 이거 안하면 차트가 부모요소에 꽉 채워서 나옴
+	    }
+	
+	}); // 차트
+	
+	
+}); // 품질 jQuery
+
+
+
+
+
+$(document).ready(function() {
+	
+	var shutdownCnt = JSON.parse('${shutdownCnt}');
+	
+	
+	var months = [];
+	var counts = [];
+	
+	
+	for(var i = 0; i < shutdownCnt.length; i++){
+		var count = shutdownCnt[i].count;
+		counts.push(count);
+	}
+	
+	for(var i = 0; i < shutdownCnt.length; i++){
+		var month = shutdownCnt[i].month;
+		months.push(month);
+	}
+	
+	
+	
+	var canvas = document.getElementById('shutdownCnt');
+	
+	var ctx = canvas.getContext('2d');
+	
+	var myChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: months ,
+			datasets: [{
+			label: '월별 평균고장수',
+			data: counts ,
 			borderWidth: 1
 			}]
 		}, // data
@@ -230,22 +331,18 @@ $(document).ready(function() {
 			},
 			responsive: false // 차트 크기를 고정, 이거 안하면 차트가 부모요소에 꽉 채워서 나옴
 		}
-	
+		
 	}); // 차트
-
 	
 	
-}); // 품질 jQuery
-
+	
+	
+});
 
 </script>
 
 <!-- </head> -->
 <!-- <body> -->
-
-
-
-
 
 
 
@@ -301,7 +398,6 @@ $(document).ready(function() {
 <!--     Sale & Revenue End -->
 
 
-
     <div class="container-fluid pt-4 px-4"> <!-- 이 안에 div 다 넣어도 되는듯 -->
 		<div class="row g-4">
 		
@@ -341,7 +437,7 @@ $(document).ready(function() {
 			
 			
 		<div>
-		품질
+		품질 (자재출고검사)
 		</div>	
 			
 			<div class="col-sm-12 col-xl-6">
@@ -351,6 +447,28 @@ $(document).ready(function() {
 				</div>
 			</div>
 			
+			
+			<div class="col-sm-12 col-xl-6">
+				<div class="bg-light rounded h-100 p-4">
+					<h6 class="mb-4">Single Line Chart</h6>
+					<canvas id="dfRsns" width="422" height="422" style="display: block; box-sizing: border-box; height: 450.133px; width: 450.133px;"></canvas>
+				</div>
+			</div>
+			
+			
+			
+			
+		<div>
+		생산
+		</div>
+			
+			
+			<div class="col-sm-12 col-xl-6">
+				<div class="bg-light rounded h-100 p-4">
+					<h6 class="mb-4">Single Line Chart</h6>
+					<canvas id="shutdownCnt" width="412" height="206" style="display: block; box-sizing: border-box; height: 219.733px; width: 439.467px;"></canvas>
+				</div>
+			</div>
 			
 			
 			
@@ -362,8 +480,6 @@ $(document).ready(function() {
     </div>
     Sales Chart End <br>
 
-
-                    
 
 
 
