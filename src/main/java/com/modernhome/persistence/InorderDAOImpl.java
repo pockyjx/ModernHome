@@ -108,15 +108,25 @@ public class InorderDAOImpl implements InorderDAO {
 		return sqlSession.selectList(NAMESPACE + ".getIoList", io_id);
 	}
 
+	// 발주 팝업 목록
+	@Override
+	public List<InorderVO> getIoPopup(PageVO vo) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getInorderPopup", vo);
+	}
 	
+	// 발주 팝업 목록 개수
+	@Override
+	public int getIoPopupCnt() throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getIoPopupCnt");
+	}
 	
-	
-	
+
 	// 발주 월별 그래프
 	@Override
 	public List<InorderVO> monthlyIOResult() throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".monthlyIOResult");
 	}
+
 
 	
 }
