@@ -124,7 +124,6 @@
 			// input type의 name 값 지정
 			var cellNames = [
 				"req_num",
-				"pro_id",
 				"pro_num",
 				"pro_name",
 				"ma_num",
@@ -138,7 +137,6 @@
 			// input type의 id값 지정
 			var cellIds = [
 				"req_num",
-				"pro_id",
 				"pro_num",
 				"pro_name",
 				"ma_num",
@@ -156,12 +154,12 @@
 				var cellValue = $(this).text();
 				console.log(cellNames[index] + " : " + cellValue);
 				
-				var cellType = index === 6 ? "number" : "text";
+				var cellType = index === 5 ? "number" : "text";
 				var cellOption = "";
 				
-				if(index == 0 || index == 9) {
+				if(index == 0 || index == 8) {
 					cellOption = "readonly";
-				}else if(index == 6){
+				}else if(index == 5){
 					cellOption = "";
 				}else {
 					cellOption = "disabled";
@@ -172,11 +170,11 @@
 				var cellContent;
 				
 				// 첫 행 링크 유지
-				if(index === 2) {
+				if(index === 1) {
 					return;
-				}else if(index === 9) {
+				}else if(index === 8) {
 					cellContent = '<td><input type="'+cellType+'" name="'+cellName+'" value="'+${sessionScope.emp_id}+'"'+cellOption+' class="form-control"></td>';
-				}else if(index === 6) {
+				}else if(index === 5) {
 					cellContent = '<td><input type="'+cellType+'" name="'+cellName+'" value="'+cellValue+'" id="'+cellId+'"'+cellOption+' class="form-control"></td>';
 				}else {
 					cellContent = '<td><input type="'+cellType+'" name="'+cellName+'" value="'+cellValue+'" id="'+cellId+'" '+cellOption+' class="form-control"></td>';
@@ -305,13 +303,13 @@
       
       // 목록에서 완제품 코드 클릭 시 해당 완제품의 BOM 출력
       $(".openBOM").click(function() {
-    	 var pro_id = $(this).closest("tr").find('td:eq(2)').text();
+    	 var pro_num = $(this).closest("tr").find('td:eq(2)').text();
     	  
-//     	alert(pro_id);
+// 		alert(pro_num);
     	 
     	var left = (screen.width - 750) / 2;
  		var top = (screen.height - 400) / 2;
-    	window.open('/info/req/BOM?pro_id='+pro_id+'', 'popup', 'width=750, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+    	window.open('/info/req/BOM?pro_num='+pro_num+'', 'popup', 'width=750, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
     	 
       });
       
@@ -410,7 +408,6 @@
 				<tr>
 					<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
 					<th style="background-color: rgba(0,0,0,0.075);">소요량 코드</th>
-					<th style="display: none;">완제품id</th>
 					<th style="background-color: rgba(0,0,0,0.075);">완제품 코드</th>
 					<th style="background-color: rgba(0,0,0,0.075);">완제품명</th>
 					<th style="background-color: rgba(0,0,0,0.075);">자재 코드</th>
@@ -425,7 +422,6 @@
 				<tr>	
 					<td><input type="checkbox" name="selectedReqId" value="${vo.req_id}" class="form-check-input"></td>
 					<td>${vo.req_num }</td>
-					<td style="display: none;">${vo.pro_id }</td>
 					<td><span class="openBOM"><a href="javascript:void(0);" class="openBOM">${vo.pro_num }</a></span></td>
 					<td>${vo.pro_name }</td>
 					<td>${vo.ma_num }</td>
