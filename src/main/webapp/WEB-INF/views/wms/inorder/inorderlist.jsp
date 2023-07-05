@@ -66,7 +66,7 @@
 	                '<td><input type="text" name="clt_num" placeholder="여기를 눌러 검색하세요" id="clt_num" readonly></td>' +
 	                '<td><input type="text" name="clt_name" id="clt_name" style="border: none; background: transparent;" readonly></td>' +
 	                '<td><input type="text" name="io_cnt" id="io_cnt" placeholder="발주량을 입력하세요"></td>' +
-	                '<td><input type="text" name="io_unit" value="EA" style="border: none; background: transparent;" readonly></td>' +
+	                '<td><input type="text" name="ma_price" id="ma_price" style="border: none; background: transparent;" readonly></td>' +
 	                '<td><input type="text" name="io_amount" placeholder="총금액(자동계산)" style="border: none; background: transparent;" readonly></td>' +
 	                '<td><input type="date" name="io_date" style="border: none; background: transparent;" readonly></td>' +
 	                '<td><input type="text" name="io_state" value="미완료" style="border: none; background: transparent;" readonly></td>' +
@@ -181,10 +181,11 @@
 					var row = selectedCheckbox.closest("tr");
 					var io_state = selectedCheckbox.closest("tr").find('td:eq(10)').text();
 					
+					
 					// io_num 값을 넘기기 위해 히든에 추가함
 // 					var ioNumInput = '<input type="hidden" name="io_num" value="' + io_num + '">';
 // 					$(this).closest("form").append(ioNumInput);
-					
+
 					
 					// 발주 상태가 완료일 경우에는 수정 불가능
 					if(io_state == "완료") {
@@ -256,7 +257,7 @@
 // 						if (index === 0){
 // 							return;
 // 						}else 
-							if (index === 9){
+						if (index === 9){
 							cellContent = '<td>' +
 							'<select name="' + cellName + '">' +
 							'<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
@@ -264,7 +265,8 @@
 							'</select>' +
 							'</td>';
 						}else if (index === 12){
-							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
+							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellOption + '></td>';
+						
 						}else {
 							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
 						}
@@ -432,6 +434,13 @@
 			var top = (screen.height - 680) / 2;
 			window.open('/wms/inorder/addPopup?txt=ma', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 			});
+       
+       // 발주금액 업데이트
+       function updateIoAmount() {
+    	   var 
+       }
+       
+       
 	
 </script>
 <style>
@@ -517,7 +526,7 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">             
 		<h3 class="m-4">발주 목록</h3>
 		<div>	
-			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth == '2') || sessionScope.emp_auth == '3' }">
+			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3' }">
 				<button type="button" class="btn btn-primary m-2" id="addRowButton">
 					<i class="fa fa-plus"></i> 추가</button>
 	    		<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
