@@ -303,7 +303,7 @@ $("#deleteButton").click(function(){
 			<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
 			<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/info/delMaterial" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
 			
-			<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="/info/regMaterial" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+			<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/info/regMaterial" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
 		</c:if>
 	</div>
 </div>
