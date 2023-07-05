@@ -22,7 +22,7 @@ $(document).ready(function() {
 	
 	updateSelectedCheckboxCount();
 
-	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+	// <th> 쪽 체크박스 클릭 시 해당 열의 <td>  부분의 행들을 선택하고 배경색 지정
 	$(".table-shipmentList th input[type='checkbox']").click(function() {
 		var checkbox = $(this);
 		var isChecked = checkbox.prop('checked');

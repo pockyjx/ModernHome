@@ -7,7 +7,7 @@ import com.modernhome.domain.ShipmentJoinVO;
 
 public interface ShipmentDAO {
 
-	// 출하 조회
+	// 출하  조회
 	public List<ShipmentJoinVO> shipmentList(PageVO pvo);
 	
 	// 출하 검색 리스트
