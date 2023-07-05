@@ -334,7 +334,7 @@
 				<button type="button"  class="btn btn-primary m-2" id="cancleButton" disabled="disabled">X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton" ><i class="fa fa-edit"></i> 수정</button>
 <!-- 				<button type="button" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled"> -->
-					 <button type="button" class="btn btn-primary m-2" id="submitButton" disabled>
+					 <button type="submit" class="btn btn-primary m-2" id="submitButton" disabled>
 					<i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>
