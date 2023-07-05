@@ -12,9 +12,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />   
-    
+    	<c:set var="now" value="<%=new java.util.Date()%>"/>
+    	<c:set var="today"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></c:set>
     <script>
-    
 	     $(document).ready(function() {
 	    	 
 	    	 updateSelectedCheckboxCount();
@@ -37,7 +37,7 @@
 	                 '<td><input type="text" class="form-control" name="ma_name" id="ma_name" style="border: none; background: transparent;" readonly></td>' +
 	                 '<td><input type="number" class="form-control" name="req_cnt" id="req_cnt" placeholder="소요량" min="0"></td>' +
 	                 '<td><input type="text" class="form-control" name="req_unit" value="EA" style="border: none; background: transparent;" readonly></td>' +
-	                 '<td><input type="date" class="form-control" name="req_reg_date" style="border: none; background: transparent;" readonly></td>' +
+	                 '<td><input type="text" class="form-control" name="req_reg_date" value="<c:out value='${today}'/>" style="border: none; background: transparent;" readonly></td>' +
 	                 '<td><input type="text" class="form-control" name="emp_id" value="${sessionScope.emp_id }" style="border: none; background: transparent;" readonly></td>' +
 	                 '</tr>';
 	             $(".table-reqList tr:nth-child(1)").after(newRow);
