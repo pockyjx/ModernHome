@@ -150,7 +150,7 @@ public class QualityDAOImpl implements QualityDAO{
 
 	
 	
-	// 출고검사 목록 출력 
+	// 출고검사 목록 출력(페이징)
 	@Override
 	public List<WijoinVO> getMrList(PageVO pvo) throws Exception {
 		logger.debug("QualityDAOImpl_getMrlist() 실행");

@@ -369,7 +369,7 @@ public class ClientController {
 			}else { // 완제품 팝업 처음 실행했을 때
 				
 				logger.debug("완제품 팝업 호출!");
-				popUpPro = iService.getProListPage(pvo); // 기존 페이징 적용된 검색 메서드 사용!
+				popUpPro = iService.getProListPage(pvo); // 기존 페이징 적용된 검색 메서드 사용 !
 				model.addAttribute("popUpPro", popUpPro);
 				
 				// 페이징 정보 추가

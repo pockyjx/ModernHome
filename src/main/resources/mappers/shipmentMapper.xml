@@ -14,7 +14,7 @@
 		JOIN client c ON shipment.clt_id = c.clt_id
 		JOIN product p ON shipment.pro_id = p.pro_id
 	</select>
-	<!-- 출하 전체수 계산 -->
+	<!-- 출하 전체수  계산 -->
 	
 	<!-- 출하 불러오기 -->
 	<select id="shipmentList" resultType="com.modernhome.domain.ShipmentJoinVO">

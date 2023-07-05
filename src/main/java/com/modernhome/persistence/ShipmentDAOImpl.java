@@ -27,7 +27,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	
 	
 	
-	// 출하 전체수 계산
+	// 출하 전체수  계산
 	@Override
 	public int shipmentCnt() throws Exception {
 		logger.debug("shipmentCnt 실행");

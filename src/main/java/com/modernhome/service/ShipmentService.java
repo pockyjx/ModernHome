@@ -14,7 +14,7 @@ public interface ShipmentService {
 	// 출하 조회
 	public List<ShipmentJoinVO> shipmentList(PageVO pvo) throws Exception;
 	
-	// 출하 검색결과수 계산
+	// 출하 검색결과수   계산
 	public int shpSearchCnt(ShipmentJoinVO svo) throws Exception;
 	
 	// 출하조회 + 검색
