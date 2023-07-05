@@ -43,7 +43,7 @@
 						 '<option value="불량품">불량품</option>' +
 						 '</select>' +
 						 '</td>' +
-						 '<td><input type="text" class="form-control" name="prfrm_cnt"></td>' +
+						 '<td><input type="text" class="form-control" name="prfrm_cnt" id="prfrm_cnt"></td>' +
 						 '<td><input type="text" class="form-control" name="df_cnt" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
 						 '<td><input type="text" class="form-control" name="work_cnt" style="border: none; background: transparent;" readonly>' +
@@ -147,8 +147,14 @@
 		// 유효성 검사
 		$("#submitButton").click(function() {
 			var form = $("#prfrmList");
-			var prfrm_cnt = $("#ma_num").val();
+			var work_num = $("#wnumPop").val();
+			var prfrm_cnt = $("#prfrm_cnt").val();
 			
+			if(work_num == null || work_num == "") {
+				$("#work_num").focus();
+				alert("실적을 등록할 작업지시를 선택하세요!");
+				return false;
+			}
 			if(prfrm_cnt == null || prfrm_cnt == "") {
 				$("#prfrm_cnt").focus();
 				alert("실적 수량을 입력하세요!");

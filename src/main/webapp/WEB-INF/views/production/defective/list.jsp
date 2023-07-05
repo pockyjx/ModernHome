@@ -144,7 +144,6 @@
 				var cellNames = [
 					"df_num",
 					"df_type",
-					"line_num",
 					"pro_num",
 					"pro_name",
 					"emp_name",
@@ -313,12 +312,6 @@
 		<label class="col-sm-2 col-form-label">품목명</label>
 		<div class="col-sm-10">
 			<input type="text" name="nameSearch">
-		</div>
-	</div>
-	<div class="row mb-3">
-		<label class="col-sm-2 col-form-label">라인 코드</label>
-		<div class="col-sm-10">
-			<input type="text" name="line_num">
 			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
 		</div>
 	</div>
@@ -354,8 +347,7 @@
 					<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
 					<th style="background-color: rgba(0,0,0,0.075);">불량코드</th>
 					<th style="background-color: rgba(0,0,0,0.075);">불량타입</th>
-					<th style="background-color: rgba(0,0,0,0.075);">코드</th>
-					<th style="background-color: rgba(0,0,0,0.075);">라인코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">공정코드</th>
 					<th style="background-color: rgba(0,0,0,0.075);">품목코드</th>
 					<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
 					<th style="background-color: rgba(0,0,0,0.075);">검수자</th>
@@ -374,7 +366,6 @@
 						<td>${df.df_type}</td>
 						<td>${df.df_type == "공정검사" ? df.work_num : df.rec_num}</td>
 <%-- 						<td>${df.df_type == "공정검사" ? df.work_num : (df.df_type == "수입검사" ? df.rec_num : df.rel_num)}</td> --%>
-						<td>${df.df_type == "공정검사" ? df.line_num : ""}</td>
 						<td>${df.df_type == "공정검사" ? df.pro_num : df.ma_num}</td>
 						<td>${df.df_type == "공정검사" ? df.pro_name : df.ma_name}</td>
 						<td>${df.emp_name}</td>

@@ -241,10 +241,7 @@
 					<td>${list.pro_num}</td>
 					<td>${list.pro_name}</td>
 					<td>${list.work_state == '대기' ? "대기" : (list.work_state == '진행중' ? "진행중" : "완료")}</td>
-					<td>
-						<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
-						<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
-					</td>
+					<td>${fn:substring(list.reg_date, 0, 10)}</td>
 					<td>${list.work_cnt}</td>
 					<td>${list.oo_num}</td>
 					<td>${fn:substring(list.oo_end_date, 0, 10)}</td>

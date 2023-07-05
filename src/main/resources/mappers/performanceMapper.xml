@@ -109,13 +109,13 @@
 				gb_yn = #{gb_yn}
 			</if>
 			<if test="work_num != ''">
-				AND wp.work_id = (SELECT wi.work_id FROM work_instr wi WHERE wi.work_num like CONCAT('%', #{work_num}, '%'))
+				AND work_num like CONCAT('%', #{work_num}, '%')
 			</if>
 			<if test="startDate != ''">
-	        	AND IFNULL(wp.update_date, .reg_date) &gt;= #{startDate}
+	        	AND IFNULL(wp.update_date, wp.reg_date) &gt;= #{startDate}
 	        </if>
 	        <if test="endDate != ''">
-	        	AND #{endDate} &gt;= DATE(IFNULL(wp.update_date, .reg_date))
+	        	AND #{endDate} &gt;= IFNULL(wp.update_date, wp.reg_date)
 	        </if>
 		</where>
 	</select>
@@ -143,13 +143,13 @@
 				gb_yn = #{gb_yn}
 			</if>
 			<if test="work_num != ''">
-				AND wi.work_num like CONCAT('%', #{work_num}, '%')
+				AND work_num like CONCAT('%', #{work_num}, '%')
 			</if>
 			<if test="startDate != ''">
-	        	AND IFNULL(wp.update_date, .reg_date) &gt;= #{startDate}
+	        	AND IFNULL(wp.update_date, wp.reg_date) &gt;= #{startDate}
 	        </if>
 	        <if test="endDate != ''">
-	        	AND #{endDate} &gt;= DATE(IFNULL(wp.update_date, .reg_date))
+	        	AND #{endDate} &gt;= IFNULL(wp.update_date, wp.reg_date)
 	        </if>
 		</where>
 		ORDER BY wi.work_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
