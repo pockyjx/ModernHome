@@ -69,8 +69,7 @@ public class QualityServiceImpl implements QualityService{
 	
 	// 검색 결과(자재) 개수
 	@Override
-	public int getMaterialQualitySearchCnt(String qc_num, String startDate, String endDate, String qc_yn)
-			throws Exception {
+	public int getMaterialQualitySearchCnt(String qc_num, String startDate, String endDate, String qc_yn) throws Exception {
 		return qdao.getMaterialQualitySearchCnt(qc_num,startDate,endDate,qc_yn);
 	}
 
@@ -81,6 +80,7 @@ public class QualityServiceImpl implements QualityService{
 		
 	}
 
+	// 입고에서 입고대기일 경우 품질검사 자동 등록
 	@Override
 	public void addQC(WijoinVO wvo) throws Exception {
 		qdao.addQC(wvo);

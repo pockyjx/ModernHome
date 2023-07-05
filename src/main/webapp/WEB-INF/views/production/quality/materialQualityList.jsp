@@ -43,18 +43,18 @@
                 		"qc_yn"
                 	];
 	                
-	                var cellIds = [
-                		"rec_num",
-                		"qc_num",
-                		"ma_num",
-                		"ma_name",
-                		"update_emp_id",
-                		"update_date",
-                		"qc_cnt",
-                		"rec_cnt",
-                		"df_cnt",
-                		"qc_yn"
-	                ];
+// 	                var cellIds = [
+//                 		"rec_num",
+//                 		"qc_num",
+//                 		"ma_num",
+//                 		"ma_name",
+//                 		"update_emp_id",
+//                 		"update_date",
+//                 		"qc_cnt",
+//                 		"rec_cnt",
+//                 		"df_cnt",
+//                 		"qc_yn"
+// 	                ];
  
 	                // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 	                row.find("td:not(:first-child)").each(function(index){
@@ -77,23 +77,23 @@
 // 	                    }else if (index === 4){
 // 	                    	cellContent = '<td><input type="'+ cellType +  '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
 // 	                    }else {
-// 	                    	cellContent = '<td><input type="'+  cellType + '" name="' +cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+// 	                    	cellContent = '<td><input type="'+  cellType + '" name="' +cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
 // 	                    }
 
-// 	                    $(this).html(cellContent);
+// // 	                    $(this).html(cellContent);
 
 						var cellValue = $(this).text();
 						if(index == 4) {
 							cellValue = ${sessionScope.emp_id}
 						}
 						var cellName = cellNames[index];
-						var cellId = cellIds[index];
 						var cellContent;
 						var cellOption = "";
+// 						var cellType = index === 5? "date" : "text";
 						
-						if(index == 6 || index == 9) {
+						if(index == 6 || index == 8 || index == 9) {
 							cellOption = "";
-						}else if(index == 0 || index == 4){
+						}else if(index == 0 || index == 4 || index == 1){
 							cellOption = "readonly";
 						}else {
 							cellOption = "disabled";
@@ -177,8 +177,7 @@
 		
 		}); // 취소버튼
 		
-		//체크박스 선택 시 체크박스의 개수 구하기
-		updateSelectedCheckboxCount();
+
 		
 		
 	   	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
@@ -210,6 +209,9 @@
 		var isChecked = checkbox.prop('checked');
 		checkbox.closest('tr').toggleClass('selected', isChecked);
 		});
+		
+		//체크박스 선택 시 체크박스의 개수 구하기
+		updateSelectedCheckboxCount();
 
         // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
         $(".table-materialQualityList th input[type='checkbox']").click(function() {
@@ -246,28 +248,6 @@
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         }  // 체크박스 선택 시 체크박스 개수 구하기
         
-//         // submit 버튼 유효성
-//         $("#submitButton").click(function() {
-        	
-//         	var form = $("#qc_cnt");
-//         	var form = $("#rec_cnt");
-//         	form.attr("method", "post");
-//         	form.attr("action", "/production/quality/updateMaterialQuality");
-        	
-//         	var qc_cnt = $("#qc_cnt").val();
-//         	var rec_cnt = $("#rec_cnt").val();
-        	
-
-        	
-//         	if(qc_cnt == 0 || qc_cnt == ""){
-//         		$("#qc_cnt").focus();
-//         		alert("검사량을 입력해 주세요!");
-//         		return;
-//        		}
-        	
-//         	form.submit();
-        		
-//         });
         
         
 	     }); 
@@ -286,7 +266,7 @@
 		<div class="row mb-3">
 			<label for="mqSearch" class="col-sm-2 col-form-label"><b>품질검사코드</b></label>
 		 	<div class="col-sm-4">
-		 		<input type="text" name="qc_num" value="${qc_num}" placeholder="품질검사코드를 입력하세요" class="form-control">
+		 		<input type="text" name="qc_num"  class="form-control" placeholder="품질검사코드를 입력하세요">
 		 	</div>
 		</div>
 		
@@ -333,9 +313,9 @@
 			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
 				<button type="button"  class="btn btn-primary m-2" id="cancleButton" disabled="disabled">X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton" ><i class="fa fa-edit"></i> 수정</button>
-<!-- 				<button type="button" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled"> -->
-					 <button type="submit" class="btn btn-primary m-2" id="submitButton" disabled>
+				<button type="submit" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled">
 					<i class="fa fa-download"></i> 저장</button>
+<!-- 					 <button type="button" class="btn btn-primary m-2" id="submitButton" disabled> -->
 			</c:if>
 		</div>
 	</div>
@@ -370,8 +350,8 @@
 						<td>${mq.ma_name}</td>
 						<td>${mq.emp_name}</td>
 						<td>
-							<c:if test="${!empty vo.update_date}">${fn:substring(vo.update_date, 0, 10)}</c:if>
-							<c:if test="${empty vo.update_date}">${fn:substring(vo.qc_date, 0, 10)}</c:if>
+							<c:if test="${!empty mq.update_date}">${fn:substring(mq.update_date, 0, 10)}</c:if>
+							<c:if test="${empty mq.update_date}">${fn:substring(mq.qc_date, 0, 10)}</c:if>
 						</td>
 						<td>${mq.qc_cnt}</td>
 						<td>${mq.rec_cnt}</td>
