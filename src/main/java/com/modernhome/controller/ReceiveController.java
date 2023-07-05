@@ -105,7 +105,6 @@ public class ReceiveController {
 			
 			model.addAttribute("pm", pm);
 			
-			
 			return "/wms/receive/popUpInorder";
 			
 		}
