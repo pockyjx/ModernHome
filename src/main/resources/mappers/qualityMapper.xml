@@ -234,6 +234,7 @@
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
 		<where>
+		 	rec.rec_id IS NOT NULL
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
 			</if>
