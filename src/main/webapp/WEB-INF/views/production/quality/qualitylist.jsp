@@ -51,12 +51,44 @@
 	                // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 	                row.find("td:not(:first-child)").each(function(index){
 	                	
-	                	var cellValue = $(this).text();
-	                	var cellType = index === 7? "date" : "text";
-	                	var cellReadonly = [0,1,2,3,4,5,9].includes(index) ? "readonly='readonly'" : "";
-	                	var cellName = cellNames[index];
-	                	var cellContent;
+// 	                	var cellValue = $(this).text();
+// 	                	var cellType = index === 7? "date" : "text";
+// 	                	var cellReadonly = [0,1,2,3,4,5,9].includes(index) ? "readonly='readonly'" : "";
+// 	                	var cellName = cellNames[index];
+// 	                	var cellContent;
 
+// 	                    if (index === 11 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
+// 	                        cellContent = '<td>' +
+// 	                            '<select name="' + cellName + '">' +
+// 	                            '<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
+// 	                            '<option value="진행중" ' + (cellValue === '진행중' ? 'selected' : '') + '>진행중</option>' +
+// 	                            '<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
+// 	                            '</select>' +
+// 	                            '</td>';
+// 	                    }else if (index === 6){
+// 	                    	cellContent = '<td><input type="'+ cellType +  '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
+// 	                    }else {
+// 	                    	cellContent = '<td><input type="'+  cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+// 	                    }
+
+// 	                    $(this).html(cellContent);
+
+						var cellValue = $(this).text();
+						if(index == 6){
+							cellValue = ${sessionScope.emp_id}
+						}
+						var cellName = cellNames[index];
+						var cellContent;
+						var cellOption = "";
+						
+						if(index == 8 || index == 10 || index == 11){
+							cellOption = "";
+						}else if(index == 0 || index == 1 || index == 6){
+							cellOption = "readonly";
+						}else {
+							cellOption = "disabled";
+						}
+						
 	                    if (index === 11 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
 	                        cellContent = '<td>' +
 	                            '<select name="' + cellName + '">' +
@@ -65,12 +97,13 @@
 	                            '<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
 	                            '</select>' +
 	                            '</td>';
-	                    }else if (index === 6){
-	                    	cellContent = '<td><input type="'+ cellType +  '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
-	                    }else {
-	                    	cellContent = '<td><input type="'+  cellType + '" name="' + cellName + '" value="' + cellValue + '"' + cellReadonly + '></td>';
-	                    }
-
+   	                    }else {
+                    		cellContent = '<td><input name="' + cellName + '" value="' + cellValue + '"' + cellOption + '></td>';
+   	                    }
+	                    
+	                    // 기존 값을 임시 변수에 저장
+	                    $(this).data('prevValue',cellValue);
+	                    
 	                    $(this).html(cellContent);
 
 	                    // 버튼 활성화
@@ -194,11 +227,6 @@
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         }  // 체크박스 선택 시 체크박스 개수 구하기
         
-        
-//         $("#submitButton").click(function() {
-//         	alert("클릭");
-        	
-//         });
         
         
         

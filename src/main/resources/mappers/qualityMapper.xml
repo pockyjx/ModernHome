@@ -110,7 +110,7 @@
 	<!-- 품질검사(완제품) 수정 -->
 	<update id="updateQuality">
 		UPDATE quality_checking 
-		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}
+		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}, df_cnt = #{df_cnt}
 		WHERE qc_num = #{qc_num}
 	</update>
 	<!-- 품질검사(완제품) 수정 -->
@@ -139,6 +139,7 @@
 	    LEFT JOIN work_prfrm wp ON qc.qc_id = wp.qc_id 
 	    LEFT JOIN employee e ON qc.emp_id = e.emp_id
 		<where>
+			wi.work_id IS NOT NULL
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
 			</if>
