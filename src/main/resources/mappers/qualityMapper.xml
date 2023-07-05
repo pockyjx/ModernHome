@@ -368,11 +368,13 @@
 		</where> 
 	</select>
 	
+	<!-- 출고검사 수정 -->
 	<update id="updateFactoryInspection">
 		UPDATE quality_checking 
 		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}, df_cnt = #{df_cnt}
 		WHERE qc_num = #{qc_num}
 	</update>
+	<!-- 출고검사 수정 -->
 	
 	<!-- 출고 테이블(자재)에서 출고대기일 경우 qc 테이블에 추가 -->
 	<insert id="addMrQC" parameterType="WijoinVO">

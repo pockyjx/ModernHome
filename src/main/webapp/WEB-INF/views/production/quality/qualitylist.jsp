@@ -84,13 +84,7 @@
 						}
 						
 	                    if (index === 11 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
-	                        cellContent = '<td>' +
-	                            '<select name="' + cellName + '">' +
-	                            '<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
-	                            '<option value="진행중" ' + (cellValue === '진행중' ? 'selected' : '') + '>진행중</option>' +
-	                            '<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
-	                            '</select>' +
-	                            '</td>';
+	                    	cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ ' readonly></td>';
    	                    }else {
                     		cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + '></td>';
    	                    }
@@ -223,7 +217,6 @@
         
         
         $("#submitButton").click(function(){
-//         	alert("뿅");
         	
         	var form = $("#qualityList");
         	form.attr("method","post");
@@ -242,6 +235,14 @@
         		alert('검수량은 생산량을 초과할 수 없습니다!');
         		$('#qc_cnt').focus();
         		return;
+        	}
+        	
+        	if(qc_cnt > 0 && prfrm_cnt){
+        		$("#qc_yn").val('진행중');
+        	}
+        	
+        	if(qc_cnt == prfrm_cnt){
+        		$("#qc_yn").val('완료');
         	}
         	
         	form.submit();
