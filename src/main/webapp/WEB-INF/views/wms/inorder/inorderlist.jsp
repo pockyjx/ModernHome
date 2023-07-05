@@ -400,8 +400,8 @@
 			var io_id = $(this).closest("tr").find('td:eq(14)').text();
 	    	  
     		var left = (screen.width - 900) / 2;
-	 		var top = (screen.height - 400) / 2;
-	    	window.open('/wms/inorder/inorderInfo?io_id='+io_id+'', 'popup', 'width=900, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+	 		var top = (screen.height - 450) / 2;
+	    	window.open('/wms/inorder/inorderInfo?io_id='+io_id+'', 'popup', 'width=900, height=450, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	    	 
 	      
 	     });

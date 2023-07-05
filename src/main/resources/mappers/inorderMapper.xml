@@ -175,7 +175,8 @@
 	
 	<!-- 발주서 조회 -->
 	<select id="getIoList" resultMap="inorderResultMap">
-		SELECT i.io_num, c.clt_num, c.clt_name, m.ma_num, m.ma_name, i.io_cnt, i.io_unit, m.ma_price, 
+		SELECT i.io_num, c.clt_num, c.clt_name, c.clt_rep, c.clt_tel, c.clt_adr, c.clt_post, c.clt_email,
+				m.ma_num, m.ma_name, m.ma_price, i.io_cnt, i.io_unit, m.ma_price, 
 				i.io_date, i.rec_date, e.emp_name
 		FROM in_order i
         JOIN client c ON i.clt_id = c.clt_id
