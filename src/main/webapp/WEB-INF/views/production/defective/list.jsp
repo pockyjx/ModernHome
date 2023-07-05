@@ -33,12 +33,9 @@
 						 '<td><input type="checkbox" class="form-check-input"></td>' +
 						 '<td><input type="text" class="form-control" name="df_num" value="${dfNum[0].df_num}" style="border: none; background: transparent;" readonly></td>' +
 						 '<td id="typePop"><input id="dfTypePop" type="text" class="form-control" name="df_type" style="border: none; background: transparent;" readonly></td>' +
-						 '<td><input type="text" class="form-control" name="work_num" style="border: none; background: transparent;" readonly>' +
-							 '<input type="text" class="form-control" name="rec_num" style="border: none; background: transparent;" readonly></td>' +
-						 '<td><input type="text" class="form-control" name="pro_num" style="border: none; background: transparent;" readonly>' +
-							 '<input type="text" class="form-control" name="ma_num" style="border: none; background: transparent;" readonly></td>' +
-						 '<td><input type="text" class="form-control" name="pro_name" style="border: none; background: transparent;" readonly>' +
-							 '<input type="text" class="form-control" name="ma_name" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input id="code1" type="text" class="form-control" style="border: none; background: transparent;" readonly>' +
+						 '<td><input id="code2" type="text" class="form-control" style="border: none; background: transparent;" readonly>' +
+						 '<td><input id="code3" type="text" class="form-control" style="border: none; background: transparent;" readonly>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
 						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input id="df_cnt" type="text" class="form-control" name="df_cnt"></td>' +
@@ -52,6 +49,8 @@
 						 '<input type="hidden" class="form-control" name="qc_id">' +
 						 '<input type="hidden" class="form-control" name="work_id">' +
 						 '<input type="hidden" class="form-control" name="rec_id">' +
+						 '<input type="hidden" class="form-control" name="mr_id">' +
+						 '<input type="hidden" class="form-control" name="pr_id">' +
 						 '<input type="hidden" class="form-control" name="line_id">' +
 						 '<input type="hidden" class="form-control" name="pro_id"></td>' +
 						 '<input type="hidden" class="form-control" name="ma_id"></td>' +
@@ -60,7 +59,7 @@
 			// 클릭 시 팝업창 열기
 			$(document).on("click", "td[id='typePop']", function() {
 				window.name = "add";
-				window.open('/production/defective/addPopup', 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+				window.open('/production/defective/addPopup', 'popup', 'width=700, height=500, top=300, left=650, location=no, status=no');
 			});
 			
 			// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
@@ -137,6 +136,7 @@
 				var cellNames = [
 					"df_num",
 					"df_type",
+					"work_num",
 					"pro_num",
 					"pro_name",
 					"emp_name",
@@ -153,9 +153,7 @@
 					var cellType = "text";
 					var cellName = cellNames[index];
 					
-					if(index === 1) {
-						$(this).html('<input id="dfTypePop" class="form-control" type="hidden" name="' + cellName + '" value="' + cellValue + '">');
-					}else if(index === 8) {
+					if(index === 8) {
 						$(this).html('<input id="df_rsns" class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
 					} else if(index === 9) {
 						$(this).html(
@@ -227,6 +225,13 @@
 				// 선택안하면 submit을 막음
 				event.preventDefault();
 				return false;
+			}
+		});
+		
+		// 엔터키 입력 시 삭제(submit) 버튼 활성화 막기
+		$("#defList").on("keydown", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
 			}
 		});
 		
@@ -305,7 +310,7 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">불량 리스트</h3>
 		<div class="me-2">
-			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2 || sessionScope.emp_auth == 3}">
+			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 1 || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
@@ -347,24 +352,20 @@
 						<td><input type="checkbox" class="form-check-input" name="df_id" value="${df.df_id}"></td>
 						<td>${df.df_num}</td>
 						<td>${df.df_type}</td>
-						<td>
-							<c:if test="${df.df_type == '공정검사'}">${df.work_num}</c:if>
-							<c:if test="${df.df_type == '수입검사'}">${df.rec_num}</c:if>
-<%-- 							<c:if test="${df.df_type == '출고검사'}">${df.work_num}</c:if> --%>
-						</td>
-						<td>
-							<c:if test="${df.df_type == '공정검사'}">${df.pro_num}</c:if>
-							<c:if test="${df.df_type == '수입검사'}">${df.ma_num}</c:if>
-						</td>
-						<td>
-							<c:if test="${df.df_type == '공정검사'}">${df.pro_name}</c:if>
-							<c:if test="${df.df_type == '수입검사'}">${df.ma_name}</c:if>
-						</td>
+						<c:if test="${df.df_type == '공정검사'}"><td>${df.work_num}</td></c:if>
+						<c:if test="${df.df_type == '수입검사'}"><td>${df.rec_num}</td></c:if>
+						<c:if test="${df.df_type == '출고검사'}"><td>${!empty df.mr_id ? df.mr_num : df.pr_num}</td></c:if>
+						
+						<c:if test="${df.df_type == '공정검사'}"><td>${df.pro_num}</td></c:if>
+						<c:if test="${df.df_type == '수입검사'}"><td>${df.ma_num}</td></c:if>
+						<c:if test="${df.df_type == '출고검사'}"><td>${!empty df.mr_id ? df.ma_num : df.pro_num}</td></c:if>
+						
+						<c:if test="${df.df_type == '공정검사'}"><td>${df.pro_name}</td></c:if>
+						<c:if test="${df.df_type == '수입검사'}"><td>${df.ma_name}</td></c:if>
+						<c:if test="${df.df_type == '출고검사'}"><td>${!empty df.mr_id ? df.ma_name : df.pro_name}</td></c:if>
 						<td>${df.emp_name}</td>
-						<td>
-							<c:if test="${!empty wp.update_date}">${fn:substring(df.update_date, 0, 10)}</c:if>
-							<c:if test="${empty wp.update_date}">${fn:substring(df.reg_date, 0, 10)}</c:if>
-						</td>
+						<c:if test="${!empty wp.update_date}"><td>${fn:substring(df.update_date, 0, 10)}</td></c:if>
+						<c:if test="${empty wp.update_date}"><td>${fn:substring(df.reg_date, 0, 10)}</td></c:if>
 						<td>${df.df_cnt}</td>
 						<td>${df.df_rsns}</td>
 						<td>${df.repair_yn}</td>

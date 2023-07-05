@@ -98,12 +98,13 @@ public class DefectiveServiceImpl implements DefectiveService {
 		logger.debug("defectiveServiceImpl - modifyDefective2() 출력");
 		dao.modifyDefective2(vo);
 	}
+	
+	@Override
+	public List<WijoinVO> getQcFinMrPr() throws Exception {
+		logger.debug("defectiveServiceImpl - getQcFinMrPr() 출력");
+		return dao.getQcFinMrPr();
+	}
 
-	
-	
-	
-	
-	
 	// 불량 그래프 계산용
 	@Override
 	public DefectiveVO dfCnt() throws Exception {

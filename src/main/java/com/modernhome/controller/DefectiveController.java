@@ -89,9 +89,13 @@ public class DefectiveController {
 		// 품질검사 상태가 '완료'이면서 불량이 아직 등록되지 않은 입고 목록
 		List<WijoinVO> recList = dfService.getQcFinRec();
 		
+		// 품질검사 상태가 '완료'이면서 불량이 아직 등록되지 않은 출고 목록
+		List<WijoinVO> mrprList = dfService.getQcFinMrPr();
+		
 		// 정보 전달
 		model.addAttribute("wiList", wiList);
 		model.addAttribute("recList", recList);
+		model.addAttribute("mrprList", mrprList);
 		
 		return "/production/defective/addPopup";
 	}
