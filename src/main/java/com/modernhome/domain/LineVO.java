@@ -1,8 +1,5 @@
 package com.modernhome.domain;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 public class LineVO {
 	
 	private Integer line_id;
@@ -14,6 +11,10 @@ public class LineVO {
 	private String update_date;
 	private Integer update_emp_id;
 	private String emp_name;
+	
+	
+	private String month;
+	private float count;
 	
 	public Integer getLine_id() {
 		return line_id;
@@ -69,12 +70,25 @@ public class LineVO {
 	public void setEmp_name(String emp_name) {
 		this.emp_name = emp_name;
 	}
-	
+	public String getMonth() {
+		return month;
+	}
+	public void setMonth(String month) {
+		this.month = month;
+	}
+	public float getCount() {
+		return count;
+	}
+	public void setCount(float count) {
+		this.count = count;
+	}
 	@Override
 	public String toString() {
 		return "LineVO [line_id=" + line_id + ", line_num=" + line_num + ", line_name=" + line_name + ", use_yn="
 				+ use_yn + ", reg_date=" + reg_date + ", emp_id=" + emp_id + ", update_date=" + update_date
-				+ ", update_emp_id=" + update_emp_id + ", emp_name=" + emp_name + "]";
+				+ ", update_emp_id=" + update_emp_id + ", emp_name=" + emp_name + ", month=" + month + ", count="
+				+ count + "]";
 	}
+	
 	
 }
