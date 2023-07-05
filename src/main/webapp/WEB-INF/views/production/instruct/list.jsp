@@ -123,6 +123,13 @@
 				return false;
 			}
 		});
+		
+		// 엔터키 입력 시 삭제(submit) 버튼 활성화 막기
+		$("form").on("keydown", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+			}
+		});
 	
 	    // <td> 쪽 체크박스 클릭 시 행 선택
 	    $(".table-instrList td input[type='checkbox']").click(function() {
@@ -201,7 +208,7 @@
 <div class="d-flex align-items-center justify-content-between mb-2">
 	<h3 class="m-4">작업지시 리스트</h3>
 	<div>
-		<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2 || sessionScope.emp_auth == 3}">
+		<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 1 || sessionScope.emp_auth == 3}">
 			<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton">
 				<i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
@@ -241,10 +248,7 @@
 					<td>${list.pro_num}</td>
 					<td>${list.pro_name}</td>
 					<td>${list.work_state == '대기' ? "대기" : (list.work_state == '진행중' ? "진행중" : "완료")}</td>
-					<td>
-						<c:if test="${!empty list.update_date}">${fn:substring(list.update_date, 0, 10)}</c:if>
-						<c:if test="${empty list.update_date}">${fn:substring(list.reg_date, 0, 10)}</c:if>
-					</td>
+					<td>${fn:substring(list.reg_date, 0, 10)}</td>
 					<td>${list.work_cnt}</td>
 					<td>${list.oo_num}</td>
 					<td>${fn:substring(list.oo_end_date, 0, 10)}</td>
