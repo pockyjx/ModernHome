@@ -8,8 +8,13 @@
 	<!-- 출하 전체수 계산 -->
 	<select id="shipmentCnt" resultType="int">
 		SELECT COUNT(*) FROM shipment
+		
+		JOIN employee e ON shipment.emp_id = e.emp_id
+		JOIN out_order o on shipment.oo_id = o.oo_id
+		JOIN client c ON shipment.clt_id = c.clt_id
+		JOIN product p ON shipment.pro_id = p.pro_id
 	</select>
-	<!-- 출하 전체수 계산 -->
+	<!-- 출하 전체수  계산 -->
 	
 	<!-- 출하 불러오기 -->
 	<select id="shipmentList" resultType="com.modernhome.domain.ShipmentJoinVO">
@@ -65,12 +70,26 @@
 	
 	<!-- 출하 검색 -->
 	<select id="shipmentListSearch" resultType="com.modernhome.domain.ShipmentJoinVO">
-	SELECT shp_num, emp_name, oo_num, clt_name, pro_num, pro_name,  shp_cnt, shp_date
-	FROM shipment
+		SELECT shp_num, shipment.emp_id, shipment.update_emp_id, pr_num, oo_num, clt_name, pro_name, oo_cnt, oo_end_date, shp_date, shp_state,
+		CASE
+			WHEN shipment.update_emp_id IS NULL THEN
+			(SELECT emp_name FROM employee WHERE emp_id = shipment.emp_id)
+			ELSE
+			(SELECT emp_name FROM employee WHERE emp_id = shipment.update_emp_id)
+			END AS emp_name,
+			
+			CASE
+			WHEN update_shp_date IS NULL THEN
+			shp_reg_date
+			ELSE
+			update_shp_date
+			END AS shp_reg_date
+		from shipment
 	JOIN employee e ON shipment.emp_id = e.emp_id
 	JOIN out_order o on shipment.oo_id = o.oo_id
 	JOIN client c ON shipment.clt_id = c.clt_id
 	JOIN product p ON shipment.pro_id = p.pro_id
+	JOIN product_release pr ON shipment.pr_id = pr.pr_id
 	<where>
 		<if test="svo.clt_name != ''">
 			clt_name LIKE CONCAT('%', #{svo.clt_name}, '%')
@@ -97,9 +116,13 @@
 		</selectKey>
 	
 	
-		INSERT INTO shipment (shp_num, emp_id, oo_id, clt_id, pro_id, shp_cnt, shp_date)
-		VALUES (#{shp_num}, #{emp_id}, #{oo_id}, #{clt_id}, #{pro_id}, #{shp_cnt},
-		CASE WHEN #{shp_date} = '' THEN NULL ELSE #{shp_date} END)
+		INSERT INTO shipment (shp_num, emp_id, pr_id, oo_id, clt_id, pro_id, shp_state, shp_date)
+		VALUES (#{shp_num}, #{emp_id},
+		 (SELECT pr_id FROM product_release WHERE pr_num = #{pr_num} LIMIT 1),
+		 (SELECT oo_id FROM out_order WHERE oo_num = #{oo_num} LIMIT 1),
+   		 (SELECT clt_id FROM client WHERE clt_name = #{clt_name} LIMIT 1),
+   		 (SELECT pro_id FROM product WHERE pro_name = #{pro_name} LIMIT 1),
+   		 #{shp_state}, #{shp_date})
 	</insert>
 	<!-- 출하 등록 -->
 	
@@ -111,8 +134,13 @@
 	
 	<!-- 출하 수정 -->
 	<update id="updateShipment">
-		UPDATE shipment SET update_emp_id = #{update_emp_id}, shp_cnt = #{shp_cnt},
-		shp_date = CASE WHEN #{shp_date} = '' THEN NULL ELSE #{shp_date} END
+		UPDATE shipment SET update_emp_id = #{update_emp_id},
+		      pr_id = (SELECT pr_id FROM product_release WHERE pr_num = #{pr_num} LIMIT 1),
+    		  oo_id = (SELECT oo_id FROM out_order WHERE oo_num = #{oo_num} LIMIT 1),
+    		  clt_id = (SELECT clt_id FROM client WHERE clt_name = #{clt_name} LIMIT 1),
+    		  pro_id = (SELECT pro_id FROM product WHERE pro_name = #{pro_name} LIMIT 1),
+    		  shp_state = #{shp_state},
+    		  shp_date = #{shp_date}
 		WHERE shp_num = #{shp_num}
 	</update>
 	<!-- 출하 수정 -->

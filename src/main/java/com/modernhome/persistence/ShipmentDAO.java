@@ -4,11 +4,10 @@ import java.util.List;
 
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ShipmentJoinVO;
-import com.modernhome.domain.ShipmentVO;
 
 public interface ShipmentDAO {
 
-	// 출하 조회
+	// 출하  조회
 	public List<ShipmentJoinVO> shipmentList(PageVO pvo);
 	
 	// 출하 검색 리스트
@@ -22,11 +21,11 @@ public interface ShipmentDAO {
 		
 	
 	// 출하 등록
-	public void regShipment(ShipmentVO svo);
+	public void regShipment(ShipmentJoinVO svo);
 	
 	// 출하 삭제
 	public void deleteShipment(String shp_num);
 	
 	// 출하 수정
-	public void updateShipment(ShipmentVO svo);
+	public void updateShipment(ShipmentJoinVO svo);
 }
