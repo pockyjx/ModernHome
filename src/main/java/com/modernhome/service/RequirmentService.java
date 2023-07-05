@@ -30,6 +30,6 @@ public interface RequirmentService {
 	public void deleteRequirement(int req_id) throws Exception;
 
 	// 완제품 별 소요량 조회
-	public List<ReqJoinVO> getBOMList(int pro_id) throws Exception;
+	public List<ReqJoinVO> getBOMList(String pro_num) throws Exception;
 	
 }

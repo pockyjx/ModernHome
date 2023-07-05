@@ -330,7 +330,7 @@
 					   		<td>${fn:substring(vo.rec_date, 0, 10)}</td>
 					   		<td>${vo.emp_name}</td>
 					   		<td>
-					   		<c:if test="${sessionScope.emp_dept eq '자재' && (sessionScope.emp_auth == '2' || sessionScope.emp_auth == '3')}">
+					   		<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3'}">
 					   		<c:choose>
 					   		<c:when test="${vo.rec_in_state eq '입고대기'}">
 							<button type="button" class="btn btn-sm btn-danger">입고<br>대기</button>

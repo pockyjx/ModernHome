@@ -161,7 +161,7 @@
 		FROM requirement r
 		JOIN product p ON p.pro_id = r.pro_id
 		JOIN material m ON m.ma_id = r.ma_id
-		WHERE p.pro_id = #{pro_id};
+		WHERE p.pro_num = #{pro_num};
 	</select>
 	<!-- 완제품 id에 따른 소요량 조회 -->
 	
