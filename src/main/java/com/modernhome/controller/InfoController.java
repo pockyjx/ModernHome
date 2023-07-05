@@ -357,10 +357,10 @@ public class InfoController {
 	// BOM
 	// http://localhost:8088/info/req/BOM
 	@RequestMapping(value = "/req/BOM", method = RequestMethod.GET)
-	public void BOM(@RequestParam(value = "pro_id") Integer pro_id, Model model) throws Exception {
+	public void BOM(@RequestParam(value = "pro_num") String pro_num, Model model) throws Exception {
 		logger.debug("BOM() 호출!");
 		
-		List<ReqJoinVO> BOMList = rService.getBOMList(pro_id);
+		List<ReqJoinVO> BOMList = rService.getBOMList(pro_num);
 		model.addAttribute("BOMList", BOMList);
 		
 	}

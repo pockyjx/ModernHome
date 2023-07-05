@@ -96,15 +96,14 @@ public class ReceiveController {
 		PageMaker pm = new PageMaker();
 		
 		if(txt.equals("io")) { // 발주 목록 팝업
-			List<InorderVO> popUpIo = ioService.getInorderList(pvo);
+			List<InorderVO> popUpIo = ioService.getIoPopup(pvo);
 			model.addAttribute("popUpIo", popUpIo);
 			
 			// 페이징 정보 추가
 			pm.setPageVO(pvo);
-			pm.setTotalCount(ioService.getTotalCntMate());
+			pm.setTotalCount(ioService.getIoPopupCnt());
 			
 			model.addAttribute("pm", pm);
-			
 			
 			return "/wms/receive/popUpInorder";
 			

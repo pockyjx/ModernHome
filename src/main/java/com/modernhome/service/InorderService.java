@@ -6,6 +6,8 @@ import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ReqJoinVO;
 
+import jdk.jshell.spi.ExecutionControl.ExecutionControlException;
+
 public interface InorderService {
 	
 	// 발주 조회 (페이징)
@@ -34,8 +36,11 @@ public interface InorderService {
 	// 발주서 조회
 	public List<InorderVO> getIoList(int io_id) throws Exception;
 	
+	// 발주 팝업 목록
+	public List<InorderVO> getIoPopup(PageVO vo) throws Exception;
 	
-	
+	// 발주 팝업 목록 개수
+	public int getIoPopupCnt() throws Exception;	
 	
 	// 발주 월별 그래프
 	public List<InorderVO> monthlyIOResult() throws Exception;

@@ -171,13 +171,20 @@
             
             // 수정 버튼 누를 시
 			$("#updateButton").click(function(){
+				
 				var selectedCheckbox = $("input[name='selectedIoId']:checked");
 				
 				// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 				if (selectedCheckbox.length === 1) {
+// 					var io_num = selectedCheckbox.val();
 					var empId = selectedCheckbox.val();
 					var row = selectedCheckbox.closest("tr");
 					var io_state = selectedCheckbox.closest("tr").find('td:eq(10)').text();
+					
+					// io_num 값을 넘기기 위해 히든에 추가함
+// 					var ioNumInput = '<input type="hidden" name="io_num" value="' + io_num + '">';
+// 					$(this).closest("form").append(ioNumInput);
+					
 					
 					// 발주 상태가 완료일 경우에는 수정 불가능
 					if(io_state == "완료") {
@@ -231,9 +238,6 @@
 					row.find("td:not(:first-child)").each(function(index) {
 						
 						var cellValue = $(this).text();
-						if(index == 12) {
-		                    cellValue = ${sessionScope.emp_id}
-		                }
 						var cellType = index === 10 ? "date" : "text"; // 날짜 타입은 date로 설정
 						var cellName = cellNames[index];
 						var cellId = cellIds[index];
@@ -248,13 +252,19 @@
 							cellOption = "disabled";
 						}
 						
-						if (index === 9){
+						// 첫 행 링크(a태그) 유지하기 위해 적어둔 것
+// 						if (index === 0){
+// 							return;
+// 						}else 
+							if (index === 9){
 							cellContent = '<td>' +
 							'<select name="' + cellName + '">' +
 							'<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
 							'<option value="미완료" ' + (cellValue === '미완료' ? 'selected' : '') + '>미완료</option>' +
 							'</select>' +
 							'</td>';
+						}else if (index === 12){
+							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
 						}else {
 							cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
 						}
@@ -400,8 +410,8 @@
 			var io_id = $(this).closest("tr").find('td:eq(14)').text();
 	    	  
     		var left = (screen.width - 900) / 2;
-	 		var top = (screen.height - 400) / 2;
-	    	window.open('/wms/inorder/inorderInfo?io_id='+io_id+'', 'popup', 'width=900, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+	 		var top = (screen.height - 450) / 2;
+	    	window.open('/wms/inorder/inorderInfo?io_id='+io_id+'', 'popup', 'width=900, height=450, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	    	 
 	      
 	     });
