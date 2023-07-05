@@ -134,7 +134,7 @@
 					<td><input type="text" class="form-control" name="pro_num" <c:if test='${!empty param.oo_num}'>value="${reqList[0].pro_num}"</c:if> 
 							 style="border: none; background: transparent;" readonly></td>
 					<th style="background-color: rgba(0,0,0,0.075);">수량</th>
-					<td><input type="text" class="form-control" name="work_cnt" id="wcntInput" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_cnt}"</c:if>></td>
+					<td><input type="number" class="form-control" name="work_cnt" id="wcntInput" <c:if test='${!empty param.oo_num}'>value="${reqList[0].oo_cnt}"</c:if>></td>
 				</tr>
 				<tr>
 					<th style="background-color: rgba(0,0,0,0.075);">품명</th>
