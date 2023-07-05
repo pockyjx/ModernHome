@@ -120,7 +120,8 @@
     <!-- 발주 수정 -->
     <update id="updateInorder">
 		UPDATE in_order
-		SET io_cnt = #{io_cnt}, io_state = #{io_state}, rec_date = #{rec_date}, io_update_date = now(), update_emp_id = #{update_emp_id} 
+		SET io_cnt = #{io_cnt}, io_state = #{io_state}, rec_date = #{rec_date}, 
+		io_amount = #{io_cnt}*#{ma_price}, io_update_date = now(), update_emp_id = #{update_emp_id} 
 		WHERE io_num = #{io_num}
 	</update>	
     <!-- 발주 수정 -->	

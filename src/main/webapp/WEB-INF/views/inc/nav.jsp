@@ -79,12 +79,12 @@
 <!--                     </div> -->
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="/resources/img/user.jpg" alt="">
-                            <span class="d-none d-lg-inline-flex">${sessionScope.emp_name }님</span>
+                            <img class="rounded-circle me-lg-2" src="/resources/img/profile.jpg" style="width: 30px;">
+                            <span class="d-none d-lg-inline-flex">(${sessionScope.emp_name })님</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">${sessionScope.emp_id }</a>
-                            <a href="#" class="dropdown-item">${sessionScope.emp_dept }</a>
+                            <a href="#" class="dropdown-item">(${sessionScope.emp_dept })팀</a>
                             <a href="/employee/logout" class="dropdown-item">로그아웃</a>
                         </div>
                     </div>
