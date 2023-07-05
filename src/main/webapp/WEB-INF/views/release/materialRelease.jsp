@@ -208,8 +208,8 @@
         // 완제품 코드 입력란 클릭 시 팝업창 열기
         $(document).on("click", "input[id='work_num']", function() {
         	var left = (screen.width - 650) / 2;
-			var top = (screen.height - 680) / 2;
-        	window.open('/release/addPopup?txt=ma', 'popup', 'width=650, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+			var top = (screen.height - 450) / 2;
+        	window.open('/release/addPopup?txt=ma', 'popup', 'width=650, height=450, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
         });
         $(document).on("click", "input[id='ms_cnt']", function() {
         	var left = (screen.width - 580) / 2;

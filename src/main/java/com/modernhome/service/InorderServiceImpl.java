@@ -69,10 +69,18 @@ public class InorderServiceImpl implements InorderService {
 		return iodao.getIoList(io_id);
 	}
 
+	// 발주 팝업 목록
+	@Override
+	public List<InorderVO> getIoPopup(PageVO vo) throws Exception {
+		return iodao.getIoPopup(vo);
+	}
 	
-	
-	
-	
+	// 발주 팝업 목록 개수
+	@Override
+	public int getIoPopupCnt() throws Exception {
+		return iodao.getIoPopupCnt();
+	}
+
 	// 발주 월별 그래프
 	@Override
 	public List<InorderVO> monthlyIOResult() throws Exception {
