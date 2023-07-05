@@ -208,7 +208,7 @@
 						"clt_num",
 						"clt_name",
 			            "io_cnt",
-			            "io_unit",
+			            "ma_price",
 			            "io_amount",
 			            "io_date",
 			            "io_state",
@@ -225,7 +225,7 @@
 						"clt_num",
 						"clt_name",
 			            "io_cnt",
-			            "io_unit",
+			            "ma_price",
 			            "io_amount",
 			            "io_date",
 			            "io_state",
@@ -247,7 +247,7 @@
 						
 						if(index == 5 || index == 9 || index == 10) {
 							cellOption = "";
-						}else if(index == 0 || index == 12){
+						}else if(index == 0 || index == 12 || index == 6){
 							cellOption = "readonly";
 						}else {
 							cellOption = "disabled";
@@ -435,12 +435,7 @@
 			window.open('/wms/inorder/addPopup?txt=ma', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 			});
        
-       // 발주금액 업데이트
-       function updateIoAmount() {
-    	   var 
-       }
-       
-       
+
 	
 </script>
 <style>
@@ -547,7 +542,7 @@
 		
 		<input type="hidden" name="clt_id" id="clt_id">
 		<input type="hidden" name="ma_id" id="ma_id">
-		<input type="hidden" name="ma_price" id="ma_price">
+<!-- 		<input type="hidden" name="ma_price" id="ma_price"> -->
 				
 		<div class="table-responsive">		
 			<table class="table-inorderList table align-middle table-bordered table-hover mb-0">
@@ -559,7 +554,7 @@
 				    	<th style="background-color: rgba(0,0,0,0.075);">거래처<br>코드</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">거래처명</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">발주량</th>
-				    	<th style="background-color: rgba(0,0,0,0.075);">단위</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">단가</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">총금액</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">발주일자</th>
 				    	<th style="background-color: rgba(0,0,0,0.075);">발주상태</th>
@@ -578,7 +573,7 @@
 					    	<td>${vo.clt_num}</td>
 					    	<td>${vo.clt_name}</td>
 					    	<td>${vo.io_cnt}</td>
-					    	<td>${vo.io_unit}</td>
+					    	<td>${vo.ma_price}</td>
 					    	<td>${vo.ma_price*vo.io_cnt}</td>
 					    	<td>${fn:substring(vo.io_date, 0, 10)}</td>
 					   		<td>${vo.io_state}</td>
