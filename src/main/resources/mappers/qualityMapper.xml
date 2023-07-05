@@ -88,6 +88,7 @@
 	    LEFT JOIN work_prfrm wp ON qc.qc_id = wp.qc_id 
 	    LEFT JOIN employee e ON qc.emp_id = e.emp_id
 		<where>
+			wi.work_id IS NOT NULL
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
 			</if>
@@ -187,6 +188,7 @@
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
 		<where>
+			rec.rec_id IS NOT NULLs
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
 			</if>
@@ -200,7 +202,7 @@
 				AND qc_yn = #{qc_yn}
 			</if>
 		</where>
-		LIMIT #{startPage}, #{pageSize}
+		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	
 	<!-- 품질검사(자재) 검색 -->
@@ -271,7 +273,29 @@
 	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 출력 -->
 	<select id="getMrList" resultMap="wijoinRM">
 		SELECT qc.qc_id, qc_num, mr.mr_id, mr_num, mr.ma_id, ma_num, ma_name, mr_cnt, mr_state, pr.pr_id, pr_num, pr.pro_id, pro_num, pro_name, pr_cnt, pr_state, 
-			wh_name, fi_type, qc_date, qc.update_date, qc.emp_id, qc.update_emp_id, 
+			wh_name, fi_type, qc_date, qc.update_date, qc.emp_id, qc.update_emp_id, qc.qc_yn, qc.qc_cnt, 
+			CASE
+		    WHEN qc.update_emp_id IS NULL THEN
+		        (SELECT emp_name FROM employee WHERE emp_id = qc.emp_id)
+		    ELSE
+		        (SELECT emp_name FROM employee WHERE emp_id = qc.update_emp_id)
+			END AS emp_name
+		FROM quality_checking qc 
+		LEFT JOIN product_release pr ON qc.pr_id = pr.pr_id 
+		LEFT JOIN product pro ON pr.pro_id = pro.pro_id 
+		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id 
+		LEFT JOIN material ma ON mr.ma_id = ma.ma_id 
+		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id OR mr.wh_id = wh.wh_id
+		LEFT JOIN employee emp ON qc.emp_id = emp.emp_id
+		WHERE qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL
+		LIMIT #{startPage}, #{pageSize}
+	</select>
+	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 출력 -->
+	
+	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 검색 -->
+	<select id="getMrListSearch" resultMap="wijoinRM">
+		SELECT qc.qc_id, qc_num, mr.mr_id, mr_num, mr.ma_id, ma_num, ma_name, mr_cnt, mr_state, pr.pr_id, pr_num, pr.pro_id, pro_num, pro_name, pr_cnt, pr_state, 
+			wh_name, fi_type, qc_date, qc.update_date, qc.emp_id, qc.update_emp_id, qc.qc_yn, qc.qc_cnt,
 			CASE
 		    WHEN qc.update_emp_id IS NULL THEN
 		        (SELECT emp_name FROM employee WHERE emp_id = qc.emp_id)
@@ -285,19 +309,88 @@
 		LEFT JOIN material ma ON mr.ma_id = ma.ma_id 
 		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id 
 		LEFT JOIN employee emp ON qc.emp_id = emp.emp_id
-		WHERE qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL
+		<where>
+			qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL
+			<if test="qc_num != ''">
+				AND qc_num like CONCAT('%', #{qc_num}, '%')
+			</if>
+			<if test="qc_yn != '전체'">
+				AND qc_yn = #{qc_yn}
+			</if>
+			<if test="startDate != ''">
+				AND qc.qc_date &gt;= #{startDate}
+			</if>
+			<if test="endDate != ''">
+				AND #{endDate} &gt;= DATE(qc.qc_date) 
+			</if>
+		</where> 
+		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
-	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 출력 -->
+	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 검색 -->
 	
-	<!-- 입고테이블에서 입고 대기일 경우 qc 테이블에 추가 -->
+	<select id="getTotalCntFi" resultType="int">
+		SELECT count(qc.qc_id)
+		FROM quality_checking qc
+		LEFT JOIN product_release pr ON qc.pr_id = pr.pr_id 
+		LEFT JOIN product pro ON pr.pro_id = pro.pro_id 
+		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id 
+		LEFT JOIN material ma ON mr.ma_id = ma.ma_id 
+		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id 
+		LEFT JOIN employee emp ON qc.emp_id = emp.emp_id
+<!-- 		WHERE qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL -->
+	</select>
+	
+	<select id="getMrListSearchCnt" resultType="int">
+		SELECT count(qc.qc_id)
+		FROM quality_checking qc
+		LEFT JOIN product_release pr ON qc.pr_id = pr.pr_id 
+		LEFT JOIN product pro ON pr.pro_id = pro.pro_id 
+		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id 
+		LEFT JOIN material ma ON mr.ma_id = ma.ma_id 
+		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id 
+		LEFT JOIN employee emp ON qc.emp_id = emp.emp_id
+		<where>
+			<if test="qc_num != ''">
+				AND qc_num like CONCAT('%', #{qc_num}, '%')
+			</if>
+			<if test="qc_yn != '전체'">
+				AND qc_yn = #{qc_yn}
+			</if>
+			<if test="startDate != ''">
+				AND qc.qc_date &gt;= #{startDate}
+			</if>
+			<if test="endDate != ''">
+				AND #{endDate} &gt;= DATE(qc.qc_date) 
+			</if>
+		</where> 
+	</select>
+	
+	<update id="updateFactoryInspection">
+		UPDATE quality_checking 
+		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}
+		WHERE qc_num = #{qc_num}
+	</update>
+	
+	<!-- 출고 테이블(자재)에서 출고대기일 경우 qc 테이블에 추가 -->
 	<insert id="addMrQC" parameterType="WijoinVO">
         <selectKey keyProperty="qc_id,qc_num" resultType="WijoinVO" order="BEFORE">
             SELECT ifnull(MAX(qc_id), 0) + 1 AS qc_id, concat('QC', lpad(ifnull(max(qc_id), 0) + 1, 4, 0)) AS qc_num 
             FROM quality_checking
         </selectKey>
-			INSERT INTO quality_checking (qc_id, qc_num, mr_id, ma_id, mr_yn, qc_cnt, emp_id, fi_type) 
-	         #{qc_id}, #{qc_num}, #{rec_id}, #{ma_id}, '대기', 0, #{emp_id}, '자재'
+			INSERT INTO quality_checking (qc_id, qc_num, mr_id, ma_id, qc_yn, qc_cnt, emp_id, fi_type) 
+	        VALUES (#{qc_id}, #{qc_num}, #{mr_id}, #{ma_id}, '대기', 0, #{emp_id}, '자재')
 	</insert>
-	<!-- 입고테이블에서 입고 대기일 경우 qc 테이블에 추가 -->
+	<!-- 출고 테이블(자재)에서 출고대기일 경우 qc 테이블에 추가 -->
+	
+	<!-- 출고 테이블(완제품)에서 출고대기일 경우 qc 테이블에 추가 -->
+	<insert id="addPrQC" parameterType="WijoinVO">
+        <selectKey keyProperty="qc_id,qc_num" resultType="WijoinVO" order="BEFORE">
+            SELECT ifnull(MAX(qc_id), 0) + 1 AS qc_id, concat('QC', lpad(ifnull(max(qc_id), 0) + 1, 4, 0)) AS qc_num 
+            FROM quality_checking
+        </selectKey>
+			INSERT INTO quality_checking (qc_id, qc_num, pr_id, pro_id, qc_yn, qc_cnt, emp_id, fi_type) 
+	        VALUES (#{qc_id}, #{qc_num}, #{pr_id}, #{pro_id}, '대기', 0, #{emp_id}, '완제품')
+	</insert>
+	<!-- 출고 테이블(완제품)에서 출고대기일 경우 qc 테이블에 추가 -->
 	
 </mapper>

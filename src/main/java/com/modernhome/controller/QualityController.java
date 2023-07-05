@@ -163,11 +163,60 @@ public class QualityController {
 	// http://localhost:8088/production/quality/factoryInspection
 	// 출고 검사 목록 출력
 	@RequestMapping(value = "/quality/factoryInspection", method = RequestMethod.GET)
-	public void getFiList(Model model) throws Exception {
-		
+	public void getFiList(Model model,
+			@ModelAttribute(value="qc_num") String qc_num,
+			@ModelAttribute(value = "qc_yn") String qc_yn,
+			@ModelAttribute(value = "startDate") String startDate,
+			@ModelAttribute(value="endDate") String endDate,
+		PageVO pvo) throws Exception {
 		logger.debug("getFiList() 호출 (출고검사 목록 출력)");
-		List<WijoinVO> mrList = qService.getMrList();
-		model.addAttribute("mrList", mrList);
+		
+		PageMaker pm = new PageMaker();
+		
+		List<WijoinVO> mrList = null;
+		
+		if(!qc_num.isEmpty() || !qc_yn.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty()) {
+			
+			mrList = qService.getMrListSearch(qc_num, qc_yn, startDate, endDate, pvo);
+			
+			logger.debug("검색어 O, 검색된 데이터만 출력");
+			
+			model.addAttribute("mrList", mrList);
+			
+			// 페이징 정보 전달
+			pm.setPageVO(pvo);
+			pm.setTotalCount(qService.getMrListSearchCnt(qc_num, qc_yn, startDate, endDate));
+			model.addAttribute("pm",pm); 
+			
+			// 검색 정보 전달
+			model.addAttribute("qc_num", qc_num);
+			model.addAttribute("qc_yn", qc_yn);
+			model.addAttribute("startDate", startDate);
+			model.addAttribute("endDate", endDate);
+				
+		}else {
+			
+			logger.debug("검색어 X, 전체 데이터 출력");
+			mrList = qService.getMrList(pvo);
+			model.addAttribute("mrList", mrList);
+			
+			pm.setPageVO(pvo);
+			pm.setTotalCount(qService.getTotalCntFi());
+			model.addAttribute("pm",pm);
+		}
+	}
+	
+	@RequestMapping(value = "/quality/updateFactoryInspection", method = RequestMethod.POST)
+	public String updateFactoryInspectionPOST(WijoinVO wvo) throws Exception{
+		
+		logger.debug(" updateFactoryInspectionPOST() 호출(품질업데이트)");
+		
+		logger.debug("wvo : " + wvo);
+		
+		qService.updateFactoryInspection(wvo);
+		
+		return "redirect:/production/quality/factoryInspection";
+		
 	}
 	
 	

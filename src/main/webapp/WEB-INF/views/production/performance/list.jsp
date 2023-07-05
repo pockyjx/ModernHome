@@ -176,32 +176,31 @@
 }
 </style>
 
-	<form method="get" class="bg-light rounded p-3 m-3">
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">양불 여부</label>
-			<div class="col-sm-10">
-				<label><input type="checkbox" name="gb_yn" value="양품" class="form-check-input" 
-					${param.gb_yn == '양품' ? 'checked' : ''} onclick="handleCheckbox(this, '양품')"> 양품</label>
-				<label><input type="checkbox" name="gb_yn" value="불량품" class="form-check-input" 
-					${param.gb_yn == '불량품' ? 'checked' : ''} onclick="handleCheckbox(this, '불량품')"> 불량품</label>
-			</div>
+<form method="get" class="bg-light rounded p-3 m-3">
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">양불 여부</label>
+		<div class="col-sm-10">
+			<label><input type="checkbox" name="gb_yn" value="양품" class="form-check-input" 
+				${param.gb_yn == '양품' ? 'checked' : ''} onclick="handleCheckbox(this, '양품')"> 양품</label>
+			<label><input type="checkbox" name="gb_yn" value="불량품" class="form-check-input" 
+				${param.gb_yn == '불량품' ? 'checked' : ''} onclick="handleCheckbox(this, '불량품')"> 불량품</label>
 		</div>
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">작업지시코드</label>
-			<div class="col-sm-10">
-				<input type="text" name="work_num">
-			</div>
+	</div>
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">작업지시코드</label>
+		<div class="col-sm-10">
+			<input type="text" name="work_num">
 		</div>
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">등록일자</label>
-			<div class="col-sm-10">
-				<input type="date" name="startDate"> ~ <input type="date" name="endDate">
-				<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
-			</div>
+	</div>
+	<div class="row mb-3">
+		<label class="col-sm-2 col-form-label">등록일자</label>
+		<div class="col-sm-10">
+			<input type="date" name="startDate"> ~ <input type="date" name="endDate">
+			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
 		</div>
-	</form>
+	</div>
+</form>
 
-<br>
 		
 <form id="prfrmList">
 	<div class="d-flex align-items-center justify-content-between mb-2">
@@ -225,20 +224,20 @@
 		
 		<div class="table-responsive">
 			<!-- 생산실적 리스트 -->
-			<table class="table-prfrmList table text-start align-middle table-bordered table-hover mb-0">
+			<table class="table-prfrmList table align-middle table-bordered table-hover mb-0">
 				<tr>
-					<th><input type="checkbox" class="form-check-input"></th>
-					<th>생산실적코드</th>
-					<th>작업지시코드</th>
-					<th>라인코드</th>
-					<th>품목코드</th>
-					<th>품목명</th>
-					<th>등록일</th>
-					<th>양불여부</th>
-					<th>실적수량</th>
-					<th>불량수량</th>
-					<th>담당자</th>
-					<th>목표수량</th>
+					<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+					<th style="background-color: rgba(0,0,0,0.075);">생산실적코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">작업지시코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">라인코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">품목코드</th>
+					<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+					<th style="background-color: rgba(0,0,0,0.075);">등록일</th>
+					<th style="background-color: rgba(0,0,0,0.075);">양불여부</th>
+					<th style="background-color: rgba(0,0,0,0.075);">실적수량</th>
+					<th style="background-color: rgba(0,0,0,0.075);">불량수량</th>
+					<th style="background-color: rgba(0,0,0,0.075);">담당자</th>
+					<th style="background-color: rgba(0,0,0,0.075);">목표수량</th>
 				</tr>
 			
 				<c:forEach var="wp" items="${wpList}">

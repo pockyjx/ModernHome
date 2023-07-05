@@ -61,9 +61,15 @@ public class ReleaseServiceImpl implements ReleaseService {
 	}
 	// 작업지시 정보 조회
 	@Override
-	public List<MaterialReleaseVO> getWorkInstrInfo() throws Exception {
-		return rDAO.getWorkInstrInfo();
+	public List<MaterialReleaseVO> getWorkInstrInfo(PageVO vo) throws Exception {
+		return rDAO.getWorkInstrInfo(vo);
 	}
+	
+	@Override
+	public int getWorkInstrInfoCnt() throws Exception {
+		return rDAO.getWorkInstrInfoCnt();
+	}
+
 	// 자재재고 수량 조회
 	@Override
 	public MaterialReleaseVO getMaterialStock(Integer ma_id) throws Exception {
@@ -132,9 +138,15 @@ public class ReleaseServiceImpl implements ReleaseService {
 	}
 	// 수주 정보 조회
 	@Override
-	public List<ProductReleaseVO> getOutorderInfo() throws Exception {
-		return rDAO.getOutorderInfo() ;
+	public List<ProductReleaseVO> getOutorderInfo(PageVO vo) throws Exception {
+		return rDAO.getOutorderInfo(vo);
 	}
+	
+	@Override
+	public int getOutorderInfoCnt() throws Exception {
+		return rDAO.getOutorderInfoCnt();
+	}
+
 	// 제품재고 수량 조회
 	@Override
 	public ProductReleaseVO getProductStock(Integer pro_id) throws Exception {

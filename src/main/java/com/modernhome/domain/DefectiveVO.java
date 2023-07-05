@@ -9,12 +9,19 @@ public class DefectiveVO {
 	private String df_type;
 	private int ma_id;
 	private int line_id;
-	private char repair_yn;
+	private String repair_yn;
 	private int df_cnt;
 	private String df_rsns;
 	private LocalDateTime reg_date;
 	private LocalDateTime solved_date;
 	
+	
+	// 결함 그래프 출력용
+	private Integer totalDf;
+	private Integer discolored;
+	private Integer scratched;
+	private Integer damaged;
+	private Integer totalMr;
 	public int getDf_id() {
 		return df_id;
 	}
@@ -45,10 +52,10 @@ public class DefectiveVO {
 	public void setLine_id(int line_id) {
 		this.line_id = line_id;
 	}
-	public char getRepair_yn() {
+	public String getRepair_yn() {
 		return repair_yn;
 	}
-	public void setRepair_yn(char repair_yn) {
+	public void setRepair_yn(String repair_yn) {
 		this.repair_yn = repair_yn;
 	}
 	public int getDf_cnt() {
@@ -75,12 +82,51 @@ public class DefectiveVO {
 	public void setSolved_date(LocalDateTime solved_date) {
 		this.solved_date = solved_date;
 	}
-	
+	public Integer getTotalDf() {
+		return totalDf;
+	}
+	public void setTotalDf(Integer totalDf) {
+		this.totalDf = totalDf;
+	}
+	public Integer getDiscolored() {
+		return discolored;
+	}
+	public void setDiscolored(Integer discolored) {
+		this.discolored = discolored;
+	}
+	public Integer getScratched() {
+		return scratched;
+	}
+	public void setScratched(Integer scratched) {
+		this.scratched = scratched;
+	}
+	public Integer getDamaged() {
+		return damaged;
+	}
+	public void setDamaged(Integer damaged) {
+		this.damaged = damaged;
+	}
+	public Integer getTotalMr() {
+		return totalMr;
+	}
+	public void setTotalMr(Integer totalMr) {
+		this.totalMr = totalMr;
+	}
 	@Override
 	public String toString() {
 		return "DefectiveVO [df_id=" + df_id + ", df_num=" + df_num + ", df_type=" + df_type + ", ma_id=" + ma_id
 				+ ", line_id=" + line_id + ", repair_yn=" + repair_yn + ", df_cnt=" + df_cnt + ", df_rsns=" + df_rsns
-				+ ", reg_date=" + reg_date + ", solved_date=" + solved_date + "]";
+				+ ", reg_date=" + reg_date + ", solved_date=" + solved_date + ", totalDf=" + totalDf + ", discolored="
+				+ discolored + ", scratched=" + scratched + ", damaged=" + damaged + ", totalMr=" + totalMr + "]";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

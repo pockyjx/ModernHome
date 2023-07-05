@@ -59,13 +59,46 @@
 	                // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 	                row.find("td:not(:first-child)").each(function(index){
 	                	
-	                	var cellValue = $(this).text();
-	                	var cellType = index === 5? "date" : "text";
-	                	var cellReadonly = [0,1,2,3,7].includes(index) ? "readonly='readonly'" : "";
-	                	var cellName = cellNames[index];
-	                	var cellId = cellIds[index];
-	                	var cellContent;
+// 	                	var cellValue = $(this).text();
+// 	                	var cellType = index === 5? "date" : "text";
+// 	                	var cellReadonly = [0,1,2,3,7].includes(index) ? "readonly='readonly'" : "";
+// 	                	var cellName = cellNames[index];
+// 	                	var cellId = cellIds[index];
+// 	                	var cellContent;
 
+// 	                    if (index === 9 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
+// 	                        cellContent = '<td>' +
+// 	                            '<select name="' + cellName + '">' +
+// 	                            '<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
+// 	                            '<option value="진행중" ' + (cellValue === '진행중' ? 'selected' : '') + '>진행중</option>' +
+// 	                            '<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
+// 	                            '</select>' +
+// 	                            '</td>';
+// 	                    }else if (index === 4){
+// 	                    	cellContent = '<td><input type="'+ cellType +  '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
+// 	                    }else {
+// 	                    	cellContent = '<td><input type="'+  cellType + '" name="' +cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellReadonly + '></td>';
+// 	                    }
+
+// 	                    $(this).html(cellContent);
+
+						var cellValue = $(this).text();
+						if(index == 4) {
+							cellValue = ${sessionScope.emp_id}
+						}
+						var cellName = cellNames[index];
+						var cellId = cellIds[index];
+						var cellContent;
+						var cellOption = "";
+						
+						if(index == 6 || index == 9) {
+							cellOption = "";
+						}else if(index == 0 || index == 4){
+							cellOption = "readonly";
+						}else {
+							cellOption = "disabled";
+						}
+						
 	                    if (index === 9 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
 	                        cellContent = '<td>' +
 	                            '<select name="' + cellName + '">' +
@@ -74,13 +107,16 @@
 	                            '<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
 	                            '</select>' +
 	                            '</td>';
-	                    }else if (index === 4){
-	                    	cellContent = '<td><input type="'+ cellType +  '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
-	                    }else {
-	                    	cellContent = '<td><input type="'+  cellType + '" name="' +cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellReadonly + '></td>';
-	                    }
+						}else {
+// 							cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
+							cellContent = '<td><input name="' + cellName + '" value="' + cellValue + '"' + cellOption+ '></td>';
+						}
+	                    
+						// 기존 값을 임시 변수에 저장 -> 수정 후 취소버튼 시 담당자 칸에 세션값이 나오는 문제 해결위해
+						$(this).data('prevValue', cellValue);
+						
+						$(this).html(cellContent);
 
-	                    $(this).html(cellContent);
 
 	                    // 버튼 활성화
 	                    $("#updateButton").attr("disabled", "disabled");
@@ -141,7 +177,11 @@
 		
 		}); // 취소버튼
 		
-    	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+		//체크박스 선택 시 체크박스의 개수 구하기
+		updateSelectedCheckboxCount();
+		
+		
+	   	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
         $(".table-materialQualityList th input[type='checkbox']").click(function() {
             var checkbox = $(this);
             var isChecked = checkbox.prop('checked');
@@ -163,18 +203,13 @@
             });
         });
 
-        // <td> 쪽 체크박스 클릭 시 행 선택
-        $(".table-materialQualityList td input[type='checkbox']").click(function() {
-            var checkbox = $(this);
-            var isChecked = checkbox.prop('checked');
-            checkbox.closest('tr').toggleClass('selected', isChecked);
-        });
-        
 
-
-
-		// 체크박스 선택 시 체크박스의 개수 구하기
-        updateSelectedCheckboxCount();
+		// <td> 쪽 체크박스 클릭 시 행 선택
+		$(".table-materialQualityList td input[type='checkbox']").click(function() {
+		var checkbox = $(this);
+		var isChecked = checkbox.prop('checked');
+		checkbox.closest('tr').toggleClass('selected', isChecked);
+		});
 
         // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
         $(".table-materialQualityList th input[type='checkbox']").click(function() {
@@ -211,26 +246,28 @@
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         }  // 체크박스 선택 시 체크박스 개수 구하기
         
-        // submit 버튼 유효성
-        $("#submitButton").click(function() {
+//         // submit 버튼 유효성
+//         $("#submitButton").click(function() {
         	
-        	var form = $("#qc_cnt");
-        	var form = $("#rec_cnt");
-        	form.attr("method", "post");
-        	form.attr("action", "/production/quality/updateMaterialQuality");
+//         	var form = $("#qc_cnt");
+//         	var form = $("#rec_cnt");
+//         	form.attr("method", "post");
+//         	form.attr("action", "/production/quality/updateMaterialQuality");
         	
-        	var qc_cnt = $("#qc_cnt").val();
-        	var rec_cnt = $("#rec_cnt").val();
+//         	var qc_cnt = $("#qc_cnt").val();
+//         	var rec_cnt = $("#rec_cnt").val();
         	
-        	if(qc_cnt > rec_cnt){
-        		$("#qc_cnt").focus();
-        		alert("검사량은 생산량을 초과할 수 없습니다!");
-        		return;
-        	}
+
         	
-        	form.submit();
+//         	if(qc_cnt == 0 || qc_cnt == ""){
+//         		$("#qc_cnt").focus();
+//         		alert("검사량을 입력해 주세요!");
+//         		return;
+//        		}
+        	
+//         	form.submit();
         		
-        });
+//         });
         
         
 	     }); 
@@ -291,12 +328,13 @@
 	
 <form id="materialQualityList" method="post">
 	<div class="d-flex align-items-center justify-content-between mb-2">
-		<h3 class="m-4">수입 검사</h3>
+		<h3 class="m-4">자재 검사</h3>
 		<div>
 			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
 				<button type="button"  class="btn btn-primary m-2" id="cancleButton" disabled="disabled">X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton" ><i class="fa fa-edit"></i> 수정</button>
-				<button type="button" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled">
+<!-- 				<button type="button" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled"> -->
+					 <button type="submit" class="btn btn-primary m-2" id="submitButton" disabled>
 					<i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>

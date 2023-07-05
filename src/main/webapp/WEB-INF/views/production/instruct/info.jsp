@@ -45,59 +45,60 @@
 
 <body>
 
-<div class="d-flex align-items-center justify-content-between mb-4">
-	<h3 class="m-4">작업지시서</h3>
-</div>
+
+<h3 class="m-4" style="text-align: center;">작업지시서</h3>
 	
 <div class="bg-light text-center rounded p-4 m-3">
-	<table class="table text-start align-middle table-bordered table-hover mb-0">
-		<tr>
-			<th>지시번호</th>
-			<td>${wiList[0].work_num}</td>
-			<th>수주번호</th>
-			<td>${wiList[0].oo_num}</td>
-		</tr>
-		<tr>
-			<th>품번</th>
-			<td>${wiList[0].pro_num}</td>
-			<th>수량</th>
-			<td>${wiList[0].oo_cnt}</td>
-		</tr>
-		<tr>
-			<th>품명</th>
-			<td>${wiList[0].pro_name}</td>
-			<th>단위</th>
-			<td>${wiList[0].pro_unit}</td>
-		</tr>
-		<tr>
-			<th>납기일</th>
-			<td>${fn:substring(wiList[0].oo_end_date, 0, 10)}</td>
-			<th>생산라인</th>
-			<td>${wiList[0].line_num}</td>
-		</tr>
-		<tr>
-			<th>납품지점</th>
-			<td>${wiList[0].clt_name}</td>
-			<th>작성일</th>
-			<td>
-				<c:if test="${!empty wiList[0].update_date}">${fn:substring(wiList[0].update_date, 0, 10)}</c:if>
-				<c:if test="${empty wiList[0].update_date}">${fn:substring(wiList[0].reg_date, 0, 10)}</c:if>
-			</td>
-		</tr>
-		<tr>
-			<th rowspan="10">원재료</th>
-			<th>품목코드</th>
-			<th>품목명</th>
-			<th>수량</th>
-		</tr>
-		<c:forEach var="list" items="${reqList}">
+	<div class="table-responsive">
+		<table class="table align-middle table-bordered table-hover mb-0">
 			<tr>
-				<td>${list.ma_num}</td>
-				<td>${list.ma_name}</td>
-				<td>${list.req_cnt * list.work_cnt}</td>
+				<th style="background-color: rgba(0,0,0,0.075);">지시번호</th>
+				<td>${wiList[0].work_num}</td>
+				<th style="background-color: rgba(0,0,0,0.075);">수주번호</th>
+				<td>${wiList[0].oo_num}</td>
 			</tr>
-		</c:forEach>
-	</table>
+			<tr>
+				<th style="background-color: rgba(0,0,0,0.075);">품번</th>
+				<td>${wiList[0].pro_num}</td>
+				<th style="background-color: rgba(0,0,0,0.075);">수량</th>
+				<td>${wiList[0].oo_cnt}</td>
+			</tr>
+			<tr>
+				<th style="background-color: rgba(0,0,0,0.075);">품명</th>
+				<td>${wiList[0].pro_name}</td>
+				<th style="background-color: rgba(0,0,0,0.075);">단위</th>
+				<td>${wiList[0].pro_unit}</td>
+			</tr>
+			<tr>
+				<th style="background-color: rgba(0,0,0,0.075);">납기일</th>
+				<td>${fn:substring(wiList[0].oo_end_date, 0, 10)}</td>
+				<th style="background-color: rgba(0,0,0,0.075);">생산라인</th>
+				<td>${wiList[0].line_num}</td>
+			</tr>
+			<tr>
+				<th style="background-color: rgba(0,0,0,0.075);">납품지점</th>
+				<td>${wiList[0].clt_name}</td>
+				<th style="background-color: rgba(0,0,0,0.075);">작성일</th>
+				<td>
+					<c:if test="${!empty wiList[0].update_date}">${fn:substring(wiList[0].update_date, 0, 10)}</c:if>
+					<c:if test="${empty wiList[0].update_date}">${fn:substring(wiList[0].reg_date, 0, 10)}</c:if>
+				</td>
+			</tr>
+			<tr>
+				<th rowspan="10" style="background-color: rgba(0,0,0,0.075);">원재료</th>
+				<th style="background-color: rgba(0,0,0,0.075);">품목코드</th>
+				<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+				<th style="background-color: rgba(0,0,0,0.075);">수량</th>
+			</tr>
+			<c:forEach var="list" items="${reqList}">
+				<tr>
+					<td>${list.ma_num}</td>
+					<td>${list.ma_name}</td>
+					<td>${list.req_cnt * list.work_cnt}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
 </div>
 
 </body>

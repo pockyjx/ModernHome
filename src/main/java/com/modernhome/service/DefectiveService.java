@@ -2,6 +2,7 @@ package com.modernhome.service;
 
 import java.util.List;
 
+import com.modernhome.domain.DefectiveVO;
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 
@@ -45,5 +46,11 @@ public interface DefectiveService {
 	
 	// 수리 처리 후 불량 추가수정
 	public void modifyDefective2(WijoinVO vo) throws Exception;
+	
+	
+	
+	
+	// 불량 그래프 계산용
+	public DefectiveVO dfCnt() throws Exception;
 	
 }

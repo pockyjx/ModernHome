@@ -258,5 +258,25 @@
 		WHERE df_id = #{df_id}
 	</update>
 	<!-- 수리 & 폐기 처리 후 불량 수정 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 불량 그래프 출력용 -->
+	<select id="dfCnt" resultType="com.modernhome.domain.DefectiveVO">
+		SELECT
+			SUM(df_cnt) AS totalDf,
+			SUM(CASE WHEN df_rsns LIKE '%변색%' THEN df_cnt ELSE 0 END) AS discolored,
+			SUM(CASE WHEN df_rsns LIKE '%찍힘%' THEN df_cnt ELSE 0 END) AS scratched,
+			SUM(CASE WHEN df_rsns LIKE '%파손%' THEN df_cnt ELSE 0 END) AS damaged,
+			(SELECT sum(qc_cnt) FROM quality_checking WHERE mr_id IS NOT NULL) AS totalMr
+		FROM defective
+		WHERE df_type='출고검사' AND ma_id IS NOT NULL;
+	</select>
+	<!-- 불량 그래프 출력용 -->
 
 </mapper>

@@ -59,7 +59,7 @@
 <body>
 
 
-<div class="bg-light text-center rounded p-4 m-3">
+<div class="bg-light text-center rounded p-4 mx-3">
 	<form name="modifyForm">
 		<h4></h4>
 		<p>처리 후 변경이 불가능합니다.</p>

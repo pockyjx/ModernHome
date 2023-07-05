@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.modernhome.domain.DefectiveVO;
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.persistence.DefectiveDAO;
@@ -96,6 +97,17 @@ public class DefectiveServiceImpl implements DefectiveService {
 	public void modifyDefective2(WijoinVO vo) throws Exception {
 		logger.debug("defectiveServiceImpl - modifyDefective2() 출력");
 		dao.modifyDefective2(vo);
+	}
+
+	
+	
+	
+	
+	
+	// 불량 그래프 계산용
+	@Override
+	public DefectiveVO dfCnt() throws Exception {
+		return dao.dfCnt();
 	}
 	
 }

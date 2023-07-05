@@ -131,7 +131,7 @@ public class QualityDAOImpl implements QualityDAO{
 		sqlSession.update(NAMESPACE+".updateMaterialQuality",wvo);
 		
 	}
-
+	
 	@Override
 	public void addQC(WijoinVO wvo) throws Exception {
 		logger.debug("QualityDAOImpl_addQC() 실행");
@@ -152,9 +152,67 @@ public class QualityDAOImpl implements QualityDAO{
 	
 	// 출고검사 목록 출력 
 	@Override
-	public List<WijoinVO> getMrList() throws Exception {
+	public List<WijoinVO> getMrList(PageVO pvo) throws Exception {
 		logger.debug("QualityDAOImpl_getMrlist() 실행");
-		return sqlSession.selectList(NAMESPACE + ".getMrList");
+		return sqlSession.selectList(NAMESPACE + ".getMrList",pvo);
+	}
+	
+	// 총 개수 계산(페이징)
+	@Override
+	public int getTotalCntFi() throws Exception {
+		return sqlSession.selectOne(NAMESPACE+".getTotalCntFi");
+	}
+
+	// 출고검사 목록 출력 + 검색
+	@Override
+	public List<WijoinVO> getMrListSearch(String qc_num, String qc_yn, String startDate, String endDate, PageVO pvo) throws Exception {
+		logger.debug("QualityDAOImpl_getMrListSearch(검색) 실행");
+		
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("qc_num", qc_num);
+		parameterMap.put("qc_yn", qc_yn);
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		parameterMap.put("pageVO", pvo);
+		
+		return sqlSession.selectList(NAMESPACE+".getMrListSearch", parameterMap);
+	}
+
+	// 출고검사 검색 결과 개수 (페이징)
+	@Override
+	public int getMrListSearchCnt(String qc_num, String qc_yn, String startDate, String endDate) throws Exception {
+
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("qc_num", qc_num);
+		parameterMap.put("qc_yn", qc_yn);
+		parameterMap.put("startDate", startDate);
+		parameterMap.put("endDate", endDate);
+		
+		return sqlSession.selectOne(NAMESPACE+".getMrListSearchCnt", parameterMap);
+	}
+
+	// 출고검사 수정
+	@Override
+	public void updateFactoryInspection(WijoinVO wvo) throws Exception {
+		logger.debug("DAO -> mapper 호출 -> SQL 실행(품질등록)");
+		sqlSession.update(NAMESPACE+".updateFactoryInspection",wvo);
+		
+	}
+	
+	// 자재 출고에서 출고대기일 경우 품질검사 자동 등록
+	@Override
+	public void addMrQC(WijoinVO wvo) throws Exception {
+		logger.debug("QualityDAOImpl_addMrQC() 실행");
+		
+		sqlSession.insert(NAMESPACE+".addMrQC", wvo);
+	}
+
+	// 완제품 출고에서 출고대기일 경우 품질검사 자동 등록
+	@Override
+	public void addPrQC(WijoinVO wvo) throws Exception {
+		logger.debug("QualityDAOImpl_addPrQC() 실행");
+		
+		sqlSession.insert(NAMESPACE+".addPrQC", wvo);
 	}
 
 }

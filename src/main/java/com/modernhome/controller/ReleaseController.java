@@ -21,6 +21,7 @@ import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ProductReleaseVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.service.InstructService;
+import com.modernhome.service.QualityService;
 import com.modernhome.service.ReleaseService;
 
 @Controller
@@ -34,6 +35,9 @@ public class ReleaseController {
 	
 	@Autowired
 	InstructService iService;
+	
+	@Autowired
+	QualityService qService;
 	
 	// http://localhost:8088/release/materialRelease
 	@RequestMapping(value = "/materialRelease")
@@ -101,16 +105,29 @@ public class ReleaseController {
 		return "redirect:/release/materialRelease";
 	}
 	
+	// 출고 등록 시 팝업
 	@RequestMapping(value = "/addPopup", method = RequestMethod.GET )
-	public String popUpGET(Model model, @ModelAttribute("txt") String txt, @RequestParam(value="mapro_id", required = false) Integer mapro_id) throws Exception {
+	public String popUpGET(Model model, @ModelAttribute("txt") String txt, @RequestParam(value="mapro_id", required = false) Integer mapro_id, 
+							PageVO vo) throws Exception {
 		logger.debug("popUpProductGET() 호출!");
+		PageMaker pm = new PageMaker();
 		
 		if(txt.equals("pro")) {
-			model.addAttribute("list", rService.getOutorderInfo());
+			model.addAttribute("list", rService.getOutorderInfo(vo));
+			
+			pm.setPageVO(vo);
+    		pm.setTotalCount(rService.getOutorderInfoCnt());
+    		model.addAttribute("pm", pm);
+			
 		}else if(txt.equals("ps")) {
 			model.addAttribute("vo", rService.getProductStock(mapro_id));
 		}else if(txt.equals("ma")) {
-			model.addAttribute("list", rService.getWorkInstrInfo());
+			model.addAttribute("list", rService.getWorkInstrInfo(vo));
+			
+			pm.setPageVO(vo);
+    		pm.setTotalCount(rService.getWorkInstrInfoCnt());
+    		model.addAttribute("pm", pm);
+			
 		}else if(txt.equals("ms")) {
 			model.addAttribute("vo", rService.getMaterialStock(mapro_id));
 		}
@@ -204,6 +221,7 @@ public class ReleaseController {
 			WijoinVO wvo = new WijoinVO();
 			wvo.setWork_id(work_id);
 			iService.modifyInstrMrState(wvo);
+			iService.modifyOoInstrState(work_id);
 			
 			return "redirect:/release/materialRelease";
 			
@@ -219,15 +237,31 @@ public class ReleaseController {
 	@RequestMapping(value = "/waitingRelease", method = RequestMethod.GET)
 	public String waitingRelease(
 			@RequestParam(value = "txt", required = false) String txt, 
-			@RequestParam(value = "rel_id", required = false) Integer rel_id) throws Exception {
+			@RequestParam(value = "rel_id", required = false) Integer rel_id, 
+			@RequestParam(value = "item_id", required = false) Integer item_id) throws Exception {
+		
+		WijoinVO wvo = new WijoinVO();
 		
 		if(txt.equals("mr")) {
 			logger.debug("자재 출고 대기 처리!");
 			rService.waitingMR(rel_id);
+			
+			// 품질 검사 자동 등록
+			wvo.setMr_id(rel_id);
+			wvo.setMa_id(item_id);
+			qService.addMrQC(wvo);
+			
 			return "redirect:/release/materialRelease";
+			
 		}else if(txt.equals("pr")) {
 			logger.debug("완제품 출고 대기 처리!");
 			rService.waitingPR(rel_id);
+			
+			// 품질 검사 자동 등록
+			wvo.setPr_id(rel_id);
+			wvo.setPro_id(item_id);;
+			qService.addPrQC(wvo);
+			
 			return "redirect:/release/productRelease";
 		}
 		
