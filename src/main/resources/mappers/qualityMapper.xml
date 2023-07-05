@@ -188,7 +188,7 @@
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
 		<where>
-			rec.rec_id IS NOT NULLs
+			rec.rec_id IS NOT NULL
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
 			</if>
@@ -210,7 +210,7 @@
 	<!-- 품질검사(자재) 수정 -->
 	<update id="updateMaterialQuality">
 		UPDATE quality_checking 
-		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}
+		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}, df_cnt = #{df_cnt}
 		WHERE qc_num = #{qc_num}
 	</update>
 	<!-- 품질검사(자재) 수정 -->
@@ -234,6 +234,7 @@
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
 		<where>
+		 	rec.rec_id IS NOT NULL
 			<if test="qc_num != ''">
 				AND qc_num like CONCAT('%', #{qc_num}, '%')
 			</if>

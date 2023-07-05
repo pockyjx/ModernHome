@@ -186,6 +186,7 @@
 		join product p on wi.pro_id = p.pro_id
 		join requirement r on p.pro_id = r.pro_id
 		join material m on r.ma_id = m.ma_id
+		WHERE wi.work_state = '대기'
 		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 자재 출고 팝업 (페이징) -->
@@ -196,6 +197,7 @@
 		join product p on wi.pro_id = p.pro_id
 		join requirement r on p.pro_id = r.pro_id
 		join material m on r.ma_id = m.ma_id
+		WHERE wi.work_state = '대기'
 	</select>
 	
 	
