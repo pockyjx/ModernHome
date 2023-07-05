@@ -40,8 +40,7 @@ public class DefectiveController {
 	// 불량 목록 출력 (+ 검색)
 	@RequestMapping(value = "/list")
 	public void getDefList(Model model, WijoinVO wjvo, PageVO pvo, 
-			@ModelAttribute(value = "df_type") String df_type, @ModelAttribute(value = "nameSearch") String nameSearch, 
-			@ModelAttribute(value = "line_num") String line_num) throws Exception {
+			@ModelAttribute(value = "df_type") String df_type, @ModelAttribute(value = "nameSearch") String nameSearch) throws Exception {
 		logger.debug("getDefList() 호출");
 		
 		PageMaker pm = new PageMaker();
@@ -49,9 +48,9 @@ public class DefectiveController {
 		// 불량 목록
 		List<WijoinVO> dfList = null;
 		
-		if(df_type != null || nameSearch != null || line_num != null) {
+		if(df_type != null || nameSearch != null) {
 			logger.debug("검색어 O");
-			dfList = dfService.getDefList(df_type, nameSearch, line_num, pvo);
+			dfList = dfService.getDefList(df_type, nameSearch, pvo);
 			
 			// 페이징 정보 전달
 			pm.setPageVO(pvo);
