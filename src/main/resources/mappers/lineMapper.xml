@@ -86,5 +86,15 @@
 		WHERE li.line_id = #{line_id}
 	</select>
 	<!-- 특정 라인의 가동 중지 내역 출력 -->
+	
+	
+	<select id="shutdownCnt" resultType="com.modernhome.domain.LineVO">
+		SELECT DATE_FORMAT(reg_date, '%Y-%m') AS month, COUNT(*) / (SELECT count(DISTINCT line_id) FROM line) AS count
+		FROM line_shutdown
+		WHERE ls_yn = '중지'
+		GROUP BY DATE_FORMAT(reg_date, '%Y-%m')
+		ORDER BY month
+	</select>
+	
 
 </mapper>

@@ -29,4 +29,8 @@ public interface LineService {
 	// 특정 라인의 수정 이력 출력
 	public List<LineShutdownVO> getListLineShutdown(Integer line_id) throws Exception;
 	
+	
+	// 월별 평균 고장 건수
+	public List<LineVO> shutdownCnt() throws Exception;
+	
 } // LineService
