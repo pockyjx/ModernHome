@@ -47,6 +47,21 @@
                 		"df_cnt",
                 		"qc_yn"
                 	];
+	                
+	                var cellIds = [
+                		"qc_num",
+//                 		"fi_type",
+                		"mr_num",
+                		"wh_name",
+                		"ma_num",
+                		"ma_name",
+                		"update_emp_id",
+                		"update_date",
+                		"qc_cnt",
+                		"cntValue",
+                		"df_cnt",
+                		"qc_yn"
+	                ];
 
 	                // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
 	                row.find("td:not(:first-child)").each(function(index){
@@ -56,13 +71,13 @@
 	                		cellValue = ${sessionScope.emp_id}
 	                	}
 	                	var cellName = cellNames[index];
-// 	                	var cellId = cellIds[index];
+	                	var cellId = cellIds[index];
 	                	var cellContent;
 	                	var cellOption = "";
 	                	
 	                	if(index == 7 || index == 9 || index == 10){
 	                		cellOption = "";
-	                	}else if(index == 0 || index == 5){
+	                	}else if(index == 0 || index == 5 || index == 1){
 	                		cellOption = "readonly";
 	                	}else {
 	                		cellOption = "disabled";
@@ -77,7 +92,7 @@
 	                            '</select>' +
 	                            '</td>';
 	                    }else {
-	                    	cellContent = '<td><input name="' + cellName + '" value="' + cellValue + '"' + cellOption + '></td>';
+	                    	cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + '></td>';
 	                    }
 	                    
 						$(this).data('prevValue', cellValue);
@@ -106,7 +121,7 @@
 				// 수정버튼 취소
 				if(pageStatus == "update"){
 					// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
-					$("#table-fiList tr").each(function() {
+					$(".table-fiList tr").each(function() {
 					var row = $(this);
 						
 					// 폼 초기화(기존내용으로)
@@ -175,6 +190,30 @@
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         }  // 체크박스 선택 시 체크박스 개수 구하기
         
+		$("#submitButton").click(function(){
+
+			var form = $("#fiList");
+			form.attr("method","post");
+			form.attr("action","/production/quality/updateFactoryInspection");
+			
+			var qc_cnt = $('#qc_cnt').val();
+			var cntValue = $('#cntValue').val();
+			
+        	if(qc_cnt == 0 || qc_cnt == ""){
+        		alert('검수량을 입력하세요!');
+        		$("#qc_cnt").focus();
+        		return;
+        	}
+        	
+        	if(qc_cnt > cntValue){
+        		alert('검수량은 입고량을 초과할 수 없습니다!');
+        		$("#qc_cnt").focus();
+        		return;
+        	}
+        	
+        	form.submit();
+			
+		});
         
 	     }); 
     </script>
@@ -234,17 +273,19 @@
 	
 	</div>
 </form>	
+
 			
+<hr>
 
 	
-<form id="fiList">
+<form id="fiList" method="post">
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4"> 출고 검사 </h3> 
 		<div>
-			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
+			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 1  || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-				<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="updateFactoryInspection" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
+				<button type="button" class="btn btn-primary m-2" id="submitButton" disabled><i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>
 	</div>

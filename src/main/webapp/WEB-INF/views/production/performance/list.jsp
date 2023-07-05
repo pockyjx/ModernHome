@@ -43,7 +43,7 @@
 						 '<option value="불량품">불량품</option>' +
 						 '</select>' +
 						 '</td>' +
-						 '<td><input type="text" class="form-control" name="prfrm_cnt"></td>' +
+						 '<td><input type="text" class="form-control" name="prfrm_cnt" id="prfrm_cnt"></td>' +
 						 '<td><input type="text" class="form-control" name="df_cnt" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
 						 '<td><input type="text" class="form-control" name="work_cnt" style="border: none; background: transparent;" readonly>' +
@@ -144,11 +144,24 @@
 			}
 		});
 		
+		// 엔터키 입력 시 삭제(submit) 버튼 활성화 막기
+		$("#prfrmList").on("keydown", function(event) {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+			}
+		});
+		
 		// 유효성 검사
 		$("#submitButton").click(function() {
 			var form = $("#prfrmList");
-			var prfrm_cnt = $("#ma_num").val();
+			var work_num = $("#wnumPop").val();
+			var prfrm_cnt = $("#prfrm_cnt").val();
 			
+			if(work_num == null || work_num == "") {
+				$("#work_num").focus();
+				alert("실적을 등록할 작업지시를 선택하세요!");
+				return false;
+			}
 			if(prfrm_cnt == null || prfrm_cnt == "") {
 				$("#prfrm_cnt").focus();
 				alert("실적 수량을 입력하세요!");
@@ -206,7 +219,7 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">생산실적 리스트</h3>
 		<div>
-			<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 2 || sessionScope.emp_auth == 3}">
+			<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 1 || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="delPrfrm" formmethod="post">
@@ -248,10 +261,7 @@
 						<td>${wp.line_num}</td>
 						<td>${wp.pro_num}</td>
 						<td>${wp.pro_name}</td>
-						<td>
-							<c:if test="${!empty wp.update_date}">${fn:substring(wp.update_date, 0, 10)}</c:if>
-							<c:if test="${empty wp.update_date}">${fn:substring(wp.reg_date, 0, 10)}</c:if>
-						</td>
+						<td>${fn:substring(wp.reg_date, 0, 10)}</td>
 						<td>${wp.gb_yn}</td>
 						<td>${wp.prfrm_cnt}</td>
 						<td>${wp.df_cnt}</td>

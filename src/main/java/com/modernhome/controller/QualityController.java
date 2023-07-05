@@ -173,11 +173,9 @@ public class QualityController {
 		
 		PageMaker pm = new PageMaker();
 		
-		List<WijoinVO> mrList = null;
-		
 		if(!qc_num.isEmpty() || !qc_yn.isEmpty() || !startDate.isEmpty() || !endDate.isEmpty()) {
 			
-			mrList = qService.getMrListSearch(qc_num, qc_yn, startDate, endDate, pvo);
+			List<WijoinVO> mrList = qService.getMrListSearch(qc_num, qc_yn, startDate, endDate, pvo);
 			
 			logger.debug("검색어 O, 검색된 데이터만 출력");
 			
@@ -197,7 +195,7 @@ public class QualityController {
 		}else {
 			
 			logger.debug("검색어 X, 전체 데이터 출력");
-			mrList = qService.getMrList(pvo);
+			List<WijoinVO>mrList = qService.getMrList(pvo);
 			model.addAttribute("mrList", mrList);
 			
 			pm.setPageVO(pvo);
@@ -206,6 +204,7 @@ public class QualityController {
 		}
 	}
 	
+	// 출고검사 업데이트
 	@RequestMapping(value = "/quality/updateFactoryInspection", method = RequestMethod.POST)
 	public String updateFactoryInspectionPOST(WijoinVO wvo) throws Exception{
 		

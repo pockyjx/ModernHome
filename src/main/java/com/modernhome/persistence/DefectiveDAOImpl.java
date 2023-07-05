@@ -117,10 +117,12 @@ public class DefectiveDAOImpl implements DefectiveDAO {
 		logger.debug("defeciveDAOImpl - modifyDefective2() 실행");
 		sqlSession.update(NAMESPACE + ".modifyDef2", vo);
 	}
-
 	
-	
-	
+	@Override
+	public List<WijoinVO> getQcFinMrPr() throws Exception {
+		logger.debug("defeciveDAOImpl - getQcFinMrPr() 실행");
+		return sqlSession.selectList(NAMESPACE + ".qcFinMrPr");
+	}
 	
 	// 불량 그래프 계산용
 	@Override

@@ -19,8 +19,10 @@
 var pageStatus = "";
 
 $(document).ready(function() {
+	
+	updateSelectedCheckboxCount();
 
-	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+	// <th> 쪽 체크박스 클릭 시 해당 열의 <td>  부분의 행들을 선택하고 배경색 지정
 	$(".table-shipmentList th input[type='checkbox']").click(function() {
 		var checkbox = $(this);
 		var isChecked = checkbox.prop('checked');
@@ -40,6 +42,7 @@ $(document).ready(function() {
 				}
 			}
 		});
+		updateSelectedCheckboxCount();
 	});
 	
 	// <td> 쪽 체크박스 클릭 시 행 선택
@@ -47,20 +50,26 @@ $(document).ready(function() {
 		var checkbox = $(this);
 		var isChecked = checkbox.prop('checked');
 		checkbox.closest('tr').toggleClass('selected', isChecked);
+		
+		updateSelectedCheckboxCount();
 	});
 	
 	// ------------------ 체크박스
 	
-	
+		// 출고 코드 입력란 클릭 시 팝업창 열기
+	    $(document).on("click", "input[name='pr_num']", function() {
+	 	   window.open('/client/addPopup?txt=clt2', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	    });
 	
 		// 추가 버튼 클릭 시 행 추가
 	// 추가버튼 1번 누르면 추가버튼 비활성화
 	$("#addRowButton").click(function() {
 		
-		// 출고 코드 입력란 클릭 시 팝업창 열기
-	    $(document).on("click", "input[name='pr_num']", function() {
-	 	   window.open('/client/addPopup?txt=clt2', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-	    });
+	
+		
+	    var currentDate = new Date();  // 현재 날짜 및 시간을 가져옴
+	    var formattedDate = currentDate.toISOString().split('T')[0];  // 날짜 형식으로 변환 (YYYY-MM-DD)
+
 		
 		var newRow = '<tr>' +
 		'<td><input type="checkbox"></td>' +
@@ -69,12 +78,12 @@ $(document).ready(function() {
 		'<td><input type="text" name="pr_num" id="pr_num"></td>' +
 		'<td><input type="text" name="oo_num" id="oo_num" readonly></td>' +
 		'<td><input type="text" name="clt_name" id="clt_name" readonly></td>' +
-		'<td><input type="text" name="pro_name" id="pro_name" disabled readonly></td>' +
+		'<td><input type="text" name="pro_name" id="pro_name" readonly></td>' +
 		'<td><input type="text" name="oo_cnt" id="oo_cnt" readonly></td>' +
 		'<td><input type="text" name="oo_end_date" id="oo_end_date" readonly></td>' +
-		'<td><input type="text" name="shp_date"></td>' +
-		'<td><input type="text" name="shp_state" id="shp_state" readonly></td>' +
-		'<td><input type="text" name="shp_reg_date"></td>' +	
+	    '<td><input type="date" name="shp_date" id="shp_date" value="' + formattedDate + '"></td>' +
+		'<td><input type="text" name="shp_state" id="shp_state" value="출하준비" readonly></td>' +
+		'<td><input type="text" name="shp_reg_date" readonly disabled></td>' +	
 		'</td>' +
 		'</tr>';
 		
@@ -91,15 +100,12 @@ $(document).ready(function() {
 		
 		pageStatus = "reg";
 		
+		updateSelectedCheckboxCount();
+		
 	}); // 여기까지 추가 버튼
 	
 	
     
-    
-    // 완제품 코드 입력란 클릭 시 팝업창 열기
-//     $(document).on("click", "input[name='pro_num']", function() {
-//  	   window.open('/client/addPopup?txt=pro', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
-//     });
     
  // 취소버튼
 	$("#cancleButton").click(function(){
@@ -175,6 +181,7 @@ $(document).ready(function() {
 			});
 		} // if(update)문
 	
+		updateSelectedCheckboxCount();
 	}); // 취소버튼
 	
 	
@@ -191,15 +198,22 @@ $(document).ready(function() {
 			var empId = selectedCheckbox.val();
 			var row = selectedCheckbox.closest("tr");
 			
+// 			var ooNumInput = '<input type="hidden" name="shp_num" value="' + shp_num + '">';
+// 			$(this).closest("form").append(shpNumInput);
+			
 			// input type의 name 값 지정
 			var cellNames = [
 	            "shp_num",
 	            "update_emp_id",
-	            "clt_id",
-	            "pro_id",
+	            "pr_num",
+	            "oo_num",
+	            "clt_name",
 	            "pro_name",
-	            "shp_cnt",
+	            "oo_cnt",
+	            "oo_end_date",
 	            "shp_date",
+	            "shp_state",
+	            "update_shp_date",
 			];
 			
 			
@@ -207,18 +221,20 @@ $(document).ready(function() {
 			row.find("td:not(:first-child)").each(function(index) {
 				//
 				var cellValue = $(this).text();
-				var cellType = [6].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
-				var cellReadonly = [0, 1, 2, 4].includes(index) ? "readonly='readonly'" : "";
+				var cellType = [8].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
+				var cellReadonly = [0, 1, 3, 4, 5, 6, 7, 9, 10].includes(index) ? "readonly='readonly'" : "";
 				var cellName = cellNames[index];
-				var cellDisabled = [2, 3, 4].includes(index)? "disabled" : "";
+				var cellDisabled = [].includes(index)? "disabled" : "";
 				var cellContent;
 				
 
 				if (index === 1){
 					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
-				}else {
-					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="'
-					+ cellValue + '"' + cellReadonly + ' ' + cellDisabled + '></td>';
+				}
+				else {
+					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellName + '"' + '" value="' + cellValue + '"'
+// 					+ cellReadonly + '></td>';
+					+ cellReadonly + ' ' + cellDisabled + '></td>';
 				}
 				
 				
@@ -247,6 +263,74 @@ $(document).ready(function() {
 		}
 	}); 
 	
+	// 삭제버튼
+	$("#deleteButton").click(function(){
+		
+		var selectedCheckbox = $("input[name='selected']:checked");
+		
+		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+		if (selectedCheckbox.length === 0){
+			alert("삭제할 행을 선택하세요!");
+			
+			// 선택안하면 submit을 막음
+			event.preventDefault();
+		}
+		
+	});
+	
+	// submit버튼 유효성
+	$("#submitButton").click(function() {
+		
+		var form = $("#shipmentList");
+		form.attr("method", "post");
+		form.attr("action", "/client/regShipment");
+		var clt_num = $("#pr_num").val();
+		var shp_date = $("#shp_date").val();
+		
+			// 등록할 때
+			if(pageStatus == "reg"){
+			
+				if(pr_num == null || pr_num == "") {
+					$("#pr_num").focus();
+					alert("출고 코드를 입력하세요!");
+					return;
+				}
+				if(shp_date == null || shp_date == "") {
+					$("#shp_date").focus();
+					alert("출하일자를 입력하세요!");
+					return;
+				}
+				
+				
+			} //if문
+			
+			
+			// 업데이트할 때
+			if(pageStatus == "update"){
+				if(pr_num == null || pr_num == "") {
+					$("#pr_num").focus();
+					alert("출고 코드를 입력하세요!");
+					return;
+				}
+				if(shp_date == null || shp_date == "") {
+					$("#shp_date").focus();
+					alert("출하일자를 입력하세요!");
+					return;
+				}
+			} //if문
+			
+			
+		
+		
+		form.submit();
+	}); //submit버튼 유효성
+	
+	// 체크박스 선택 시 체크박스 개수 구하기
+	function updateSelectedCheckboxCount() {
+		var totalCheckboxes = $(".table-shipmentList td input[type='checkbox']").length;
+		var selectedCheckboxes = $(".table-shipmentList td input[type='checkbox']:checked").length;
+		$("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
+	}
 	
 
 
@@ -263,83 +347,119 @@ $(document).ready(function() {
 }
 </style>
 
-<!-- http://localhost:8088/client/shi	pmentList -->
+<!-- http://localhost:8088/client/shipmentList -->
 <body>
-		<h2>출하 관리</h2>
-			<fieldset>
-               	<form name="search" method="get" action="">
-		       		<br>
-		       		<div>
-                   		<label>출하일자</label>
-                   		<div>
-		                   	<input type="date" name="startDate">
-                   			~
-		                   	<input type="date" name="endDate">
-                   		</div>
-                   	</div>
-		       		<span>거래처명 :
-		       			<input type="text" name="clt_name" placeholder="거래처명을 입력하세요">
-		       		</span>
-		       		<span>담당자 :
-		       			<input type="text" name="emp_name" placeholder="담당자를 입력하세요">
-		       		</span>
-		       		
-		      		<input type="submit" value="조회">
-             	</form>
-             </fieldset>  
+		<form method="get" name="search" action="" class="bg-light rounded p-3 m-3">
+	
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>출하일자</b></label>
+			
+			<div class="col-sm-2">
+    			<div class="col-auto">
+     			<input type="date" name="startDate" class="form-control">
+     			</div>
+   			</div>
+   			
+   				<div class="col-auto">
+   				~
+   				</div>
+   				
+     		<div class="col-sm-2">
+    			<div class="col-auto">
+    				<input type="date" name="endDate" class="form-control">
+   				</div>
+    		</div>
+    		
+   	</div>
+   	
+	
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>거래처명</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="clt_name" value="${svo.clt_name}" placeholder="거래처명을 입력하세요" class="form-control">
+		</div>
+	</div>
+			
+	<div class="row mb-3">
+		<label for="ioSearch" class="col-sm-2 col-form-label"><b>담당자</b></label>
+		<div class="col-sm-4">
+			<input type="text" name="emp_name" value="${svo.emp_name}" placeholder="담당자를 입력하세요" class="form-control">
+		</div>
+		
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
+		</div>
+	</div>		
+</form>
+<!-- 검색칸 -->
              
-		<h2>출하</h2>
-		
-		<form id="shipmentList">
-	
-		<input type="hidden" name="pro_id" id="pro_id">
-		<input type="hidden" name="clt_id" id="clt_id">
-	
-	
-		<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
-		<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-		<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-		<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
-		<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteShipment" formmethod="post">
-		<i class="fa fa-trash"></i> 삭제</button>
-		<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regShipment" formmethod="post" disabled>
-		<i class="fa fa-download"></i> 저장</button>
+		<form id="shipmentList" method="post">		
+	<div class="d-flex align-items-center justify-content-between mb-2">             
+		<h3 class="m-4">출하 목록</h3>
+		<div>
+			<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
+			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+			<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
+			<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="deleteShipment" formmethod="post">
+			<i class="fa fa-trash"></i> 삭제</button>
+			<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regShipment" formmethod="post" disabled>
+			<i class="fa fa-download"></i> 저장</button>
 		</c:if>
+		</div>
+	</div>
+	
+	<div class="bg-light text-center rounded p-4 m-3">
+		<div class="d-flex align-items-center justify-content-between mb-4">	
+			<span id="selectedCheckboxCount">0</span>
+		</div>
+	
+
 		
-		
-			<table class="table-shipmentList" border="1">
-				<tr>
-					<th><input type="checkbox"></th>
-			    	<th>출하코드</th>
-			    	<th>담당자</th>
-			    	<th>출고코드</th>
-			    	<th>수주코드</th>
-			    	<th>거래처</th>
-			    	<th>완제품명</th>
-			    	<th>출하량</th>
-			    	<th>납기예정일</th>
-			    	<th>출하일자</th>
-			    	<th>진행상황</th>
-			    	<th>등록일</th>
-				</tr>
-			  	<c:forEach var="shipmentList" items="${shipmentList }">
+		<div class="table-responsive">	
+			<table class="table-shipmentList table align-middle table-bordered table-hover mb-0">
 					<tr>
-						<td><input type="checkbox" name="selected" value="${shipmentList.shp_num}"></td>
-				    	<td>${shipmentList.shp_num}</td>
-				    	<td>${shipmentList.emp_name}</td>
-				    	<td>${shipmentList.pr_num}</td>
-				    	<td>${shipmentList.oo_num}</td>
-				    	<td>${shipmentList.clt_name}</td>
-				    	<td>${shipmentList.pro_name}</td>
-				    	<td>${shipmentList.oo_cnt}</td>
-				    	<td>${shipmentList.oo_end_date}</td>
-				    	<td>${fn:substring(shipmentList.shp_date, 0, 10)}</td>
-				    	<td>${shipmentList.shp_state}</td>
-				    	<td>${fn:substring(shipmentList.shp_reg_date, 0, 10)}</td>
-				    </tr>
-			    </c:forEach>
+						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input"></th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">출하<br>코드</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">담당자</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">출고<br>코드</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">수주<br>코드</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">거래처<br>이름</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">완제품명</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">출하량</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">납기<br>예정일</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">출하일자</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">진행상황</th>
+				    	<th style="background-color: rgba(0,0,0,0.075);">등록일</th>
+					</tr>
+					
+				  	<c:forEach var="shipmentList" items="${shipmentList }">
+						<tr>
+							<td><input type="checkbox" name="selected" value="${shipmentList.shp_num}" class="form-check-input"></td>
+							
+							<td>${shipmentList.shp_num}</td>
+							
+							<td>${shipmentList.emp_name}</td>
+					
+				    		<td>${shipmentList.pr_num}</td>
+				    		<td>${shipmentList.oo_num}</td>
+				    		<td>${shipmentList.clt_name}</td>
+				    		<td>${shipmentList.pro_name}</td>
+				    		<td>${shipmentList.oo_cnt}</td>
+				    		<td>${fn:substring(shipmentList.oo_end_date, 0, 10)}</td>
+				    		<td>${fn:substring(shipmentList.shp_date, 0, 10)}</td>
+				    		<td>
+				    		${shipmentList.shp_state}
+				    		</td>
+				    		<td>${fn:substring(shipmentList.shp_reg_date, 0, 10)}</td>
+						</tr>
+								<input type="hidden" name="pro_id" id="pro_id">
+								<input type="hidden" name="clt_id" id="clt_id">
+					</c:forEach>
 			</table>
-		</form>
+		</div>
+	</div>
+</form>
 		
 		<!-- 페이지 이동 버튼 -->
 	

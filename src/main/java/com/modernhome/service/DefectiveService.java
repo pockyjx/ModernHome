@@ -47,8 +47,8 @@ public interface DefectiveService {
 	// 수리 처리 후 불량 추가수정
 	public void modifyDefective2(WijoinVO vo) throws Exception;
 	
-	
-	
+	// 품질검사가 완료이면서 출고id가 있는 목록
+	public List<WijoinVO> getQcFinMrPr() throws Exception;
 	
 	// 불량 그래프 계산용
 	public DefectiveVO dfCnt() throws Exception;

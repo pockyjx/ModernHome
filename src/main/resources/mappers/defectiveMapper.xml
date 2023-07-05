@@ -62,7 +62,7 @@
 	
 	<!-- 불량 목록 출력 (페이징 처리) -->
 	<select id="getList" resultMap="wijoinRM">
-		SELECT df.df_id, df_num, df_type, wi.work_id, work_num, rec.rec_id, rec_num, rec_in_state, li.line_id, line_num, clt.clt_id, clt_name, 
+		SELECT df.df_id, df_num, df_type, wi.work_id, work_num, rec.rec_id, rec_num, mr.mr_id, mr_num, pr.pr_id, pr_num, 
 			pro.pro_id, pro_num, pro_name, ma.ma_id, ma_num, ma_name, df.emp_id, df.update_emp_id, 
 			df.reg_date, df.update_emp_id, df.df_cnt, df_rsns, repair_yn, solved_date, 
 			CASE 
@@ -72,14 +72,14 @@
 			(SELECT emp_name FROM employee WHERE emp_id = df.update_emp_id)
 			END AS emp_name 
 		FROM defective df 
-		LEFT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
-		LEFT JOIN product pro ON qc.pro_id = pro.pro_id 
-		LEFT JOIN work_instr wi ON wi.work_id = qc.work_id 
-		LEFT JOIN receive rec ON rec.rec_id = df.rec_id 
-		LEFT JOIN material ma ON ma.ma_id = df.ma_id 
-		LEFT JOIN employee emp ON emp.emp_id = df.emp_id 
-		LEFT JOIN client clt ON clt.clt_id = rec.clt_id 
-		LEFT JOIN line li ON qc.line_id = li.line_id 
+		LEFT JOIN quality_checking qc ON df.qc_id = qc.qc_id 
+		LEFT JOIN work_instr wi ON qc.work_id = wi.work_id 
+		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id 
+		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id 
+		LEFT JOIN product_release pr ON qc.pr_id = pr.pr_id 
+		LEFT JOIN material ma ON mr.ma_id = ma.ma_id OR rec.ma_id = ma.ma_id 
+		LEFT JOIN product pro ON pr.pro_id = pro.pro_id OR wi.pro_id = pro.pro_id 
+		LEFT JOIN employee emp ON df.emp_id = emp.emp_id
 		ORDER BY df.df_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	<!-- 불량 목록 출력 (페이징 처리) -->
@@ -98,23 +98,36 @@
 	<select id="dfSearchCnt" resultMap="wijoinRM">
 		SELECT count(df.df_id) 
 		FROM defective df 
-		LEFT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
-		LEFT JOIN product pro ON qc.pro_id = pro.pro_id 
-		LEFT JOIN work_instr wi ON wi.work_id = qc.work_id 
-		LEFT JOIN receive rec ON rec.rec_id = df.rec_id 
-		LEFT JOIN material ma ON ma.ma_id = df.ma_id 
-		LEFT JOIN employee emp ON emp.emp_id = df.emp_id 
-		LEFT JOIN client clt ON clt.clt_id = rec.clt_id 
-		LEFT JOIN line li ON qc.line_id = li.line_id 
+		LEFT JOIN quality_checking qc ON df.qc_id = qc.qc_id 
+		LEFT JOIN work_instr wi ON qc.work_id = wi.work_id 
+		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id 
+		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id 
+		LEFT JOIN product_release pr ON qc.pr_id = pr.pr_id 
+		LEFT JOIN material ma ON mr.ma_id = ma.ma_id OR rec.ma_id = ma.ma_id 
+		LEFT JOIN product pro ON pr.pro_id = pro.pro_id OR wi.pro_id = pro.pro_id 
+		LEFT JOIN employee emp ON df.emp_id = emp.emp_id
 		<where>
-			<if test="df_type != 'all'">
-				df_type = #{df_type}
+			<if test="df_type != ''">
+				<if test="df_type == 'all'">
+					df_type IS NOT NULL
+				</if>
+				<if test="df_type == 'pro'">
+					df_type = '공정검사'
+				</if>
+				<if test="df_type == 'ma'">
+					df_type = '수입검사'
+				</if>
 			</if>
-			<if test="work_num != ''">
-				AND wi.work_nu like CONCAT('%', #{work_num}, '%')
-			</if>
-			<if test="line_num != ''">
-				AND li.line_num like CONCAT('%', #{line_num}, '%')
+			<if test="nameSearch != ''">
+				<if test="df_type == 'all'">
+					AND (pro_name like CONCAT('%', #{nameSearch}, '%') OR ma_name like CONCAT('%', #{nameSearch}, '%')) 
+				</if>
+				<if test="df_type == 'pro'">
+					AND pro_name like CONCAT('%', #{nameSearch}, '%') 
+				</if>
+				<if test="df_type == 'ma'">
+					AND ma_name like CONCAT('%', #{nameSearch}, '%') 
+				</if>
 			</if>
 		</where>
 		ORDER BY df.df_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
@@ -124,7 +137,7 @@
 	
 	<!-- 불량 검색 출력 (페이징 처리) -->
 	<select id="getListSearch" resultMap="wijoinRM">
-		SELECT df.df_id, df_num, df_type, wi.work_id, work_num, rec.rec_id, rec_num, rec_in_state, li.line_id, line_num, clt.clt_id, clt_name, 
+		SELECT df.df_id, df_num, df_type, wi.work_id, work_num, rec.rec_id, rec_num, mr.mr_id, mr_num, pr.pr_id, pr_num, 
 			pro.pro_id, pro_num, pro_name, ma.ma_id, ma_num, ma_name, df.emp_id, df.update_emp_id, 
 			df.reg_date, df.update_emp_id, df.df_cnt, df_rsns, repair_yn, solved_date, 
 			CASE 
@@ -134,31 +147,36 @@
 			(SELECT emp_name FROM employee WHERE emp_id = df.update_emp_id)
 			END AS emp_name 
 		FROM defective df 
-		LEFT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
-		LEFT JOIN product pro ON qc.pro_id = pro.pro_id 
-		LEFT JOIN work_instr wi ON wi.work_id = qc.work_id 
-		LEFT JOIN receive rec ON rec.rec_id = df.rec_id 
-		LEFT JOIN material ma ON ma.ma_id = df.ma_id 
-		LEFT JOIN employee emp ON emp.emp_id = df.emp_id 
-		LEFT JOIN client clt ON clt.clt_id = rec.clt_id 
-		LEFT JOIN line li ON qc.line_id = li.line_id 
+		LEFT JOIN quality_checking qc ON df.qc_id = qc.qc_id 
+		LEFT JOIN work_instr wi ON qc.work_id = wi.work_id 
+		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id 
+		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id 
+		LEFT JOIN product_release pr ON qc.pr_id = pr.pr_id 
+		LEFT JOIN material ma ON mr.ma_id = ma.ma_id OR rec.ma_id = ma.ma_id 
+		LEFT JOIN product pro ON pr.pro_id = pro.pro_id OR wi.pro_id = pro.pro_id 
+		LEFT JOIN employee emp ON df.emp_id = emp.emp_id 
 		<where>
 			<if test="df_type != ''">
-				df_type = #{df_type}
+				<if test="df_type == 'all'">
+					df_type IS NOT NULL
+				</if>
+				<if test="df_type == 'pro'">
+					df_type = '공정검사'
+				</if>
+				<if test="df_type == 'ma'">
+					df_type = '수입검사'
+				</if>
 			</if>
 			<if test="nameSearch != ''">
 				<if test="df_type == 'all'">
 					AND (pro_name like CONCAT('%', #{nameSearch}, '%') OR ma_name like CONCAT('%', #{nameSearch}, '%')) 
 				</if>
-				<if test="df_type == '완제품'">
+				<if test="df_type == 'pro'">
 					AND pro_name like CONCAT('%', #{nameSearch}, '%') 
 				</if>
-				<if test="df_type == '자재'">
+				<if test="df_type == 'ma'">
 					AND ma_name like CONCAT('%', #{nameSearch}, '%') 
 				</if>
-			</if>
-			<if test="line_num != ''">
-				AND line_num like CONCAT('%', #{line_num}, '%') 
 			</if>
 		</where>
 		ORDER BY df.df_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
@@ -169,13 +187,7 @@
 	<!-- 품질검사 완료 && 작업지시id가 존재 -->
 	<select id="qcFinInstr" resultMap="wijoinRM">
 		SELECT df.df_id, df_num, df_type, qc.qc_id, wi.work_id, work_num, work_cnt, li.line_id, line_num, pro.pro_id, pro_num, pro_name, 
-			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, qc.df_cnt, df_rsns, repair_yn, solved_date, 
-			CASE 
-			WHEN df.update_emp_id IS NULL THEN
-			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
-			ELSE
-			(SELECT emp_name FROM employee WHERE emp_id = df.update_emp_id)
-			END AS emp_name 
+			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, qc.df_cnt, df_rsns, repair_yn, solved_date 
 		FROM defective df 
 		RIGHT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
 		LEFT JOIN product pro ON qc.pro_id = pro.pro_id 
@@ -190,13 +202,7 @@
 	<!-- 품질검사 완료 && 입고id가 존재 -->
 	<select id="qcFinRec" resultMap="wijoinRM">
 		SELECT df.df_id, df_num, df_type, qc.qc_id, rec.rec_id, rec_num, rec_in_state, rec_cnt, clt.clt_id, clt_name, ma.ma_id, ma_num, ma_name, 
-			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, qc.df_cnt, df_rsns, repair_yn, solved_date, rec.rec_date, 
-			CASE 
-			WHEN df.update_emp_id IS NULL THEN
-			(SELECT emp_name FROM employee WHERE emp_id = df.emp_id)
-			ELSE
-			(SELECT emp_name FROM employee WHERE emp_id = df.update_emp_id)
-			END AS emp_name 
+			df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, qc.df_cnt, df_rsns, repair_yn, solved_date, rec.rec_date 
 		FROM defective df 
 		RIGHT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
 		LEFT JOIN receive rec ON rec.rec_id = qc.rec_id 
@@ -208,10 +214,26 @@
 	<!-- 품질검사 완료 && 입고id가 존재 -->
 	
 	
+	<!-- 품질검사 완료 && 출고id가 존재 -->
+	<select id="qcFinMrPr" resultMap="wijoinRM">
+		SELECT df.df_id, df_num, df_type, qc.qc_id, mr.mr_id, mr_num, ma.ma_id, ma_num, ma_name, pr.pr_id, pr_num, pro.pro_id, pro_num, pro_name, wh.wh_id, wh_name, 
+			mr_cnt, pr_cnt, df.emp_id, df.update_emp_id, df.reg_date, df.update_emp_id, qc.df_cnt, df_rsns, repair_yn, solved_date 
+		FROM defective df 
+		RIGHT JOIN quality_checking qc ON qc.qc_id = df.qc_id 
+		LEFT JOIN material_release mr ON qc.mr_id = mr.mr_id 
+		LEFT JOIN product_release pr ON qc.pr_id = pr.pr_id 
+		LEFT JOIN material ma ON mr.ma_id = ma.ma_id 
+		LEFT JOIN product pro ON pr.pro_id = pro.pro_id 
+		LEFT JOIN warehouse wh ON mr.wh_id = wh.wh_id OR pr.wh_id = wh.wh_id 
+		WHERE qc.qc_yn = '완료' AND (qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL) AND df.qc_id IS NULL AND qc.df_cnt &gt; 0
+	</select>
+	<!-- 품질검사 완료 && 출고id가 존재 -->
+	
+	
 	<!-- 불량 등록 -->
 	<insert id="addDef">
-		INSERT INTO defective (df_id, df_num, df_type, qc_id, ma_id, line_id, rec_id, repair_yn, df_cnt, df_rsns, emp_id) 
-		VALUES (#{df_id}, #{df_num}, #{df_type}, #{qc_id}, #{ma_id}, #{line_id}, #{rec_id}, #{repair_yn}, #{df_cnt}, #{df_rsns}, #{emp_id})
+		INSERT INTO defective (df_id, df_num, df_type, qc_id, ma_id, repair_yn, df_cnt, df_rsns, emp_id) 
+		VALUES (#{df_id}, #{df_num}, #{df_type}, #{qc_id}, #{ma_id}, #{repair_yn}, #{df_cnt}, #{df_rsns}, #{emp_id})
 	</insert>
 	<!-- 불량 등록 -->
 	
@@ -219,9 +241,10 @@
 	<!-- 불량이 등록된 입고 번호의 상태와 입고수량 반영 -->
 	<update id="modifyRec" parameterType="WijoinVO">
 		<selectKey keyColumn="rec_id,rec_cnt,df_cnt" resultType="WijoinVO" order="BEFORE">
-			SELECT df_id, rec.rec_id, rec_cnt, df_cnt 
-			FROM defective df JOIN receive rec ON rec.rec_id = df.rec_id 
-			WHERE df_id = #{df_id} AND df_cnt >= #{df_cnt}
+			SELECT df_id, rec.rec_id, rec_cnt, df.df_cnt  
+			FROM defective df JOIN quality_checking qc ON qc.qc_id = df.qc_id 
+			JOIN receive rec ON rec.rec_id = qc.rec_id 
+			WHERE df_id = #{df_id} AND df.df_cnt >= #{df_cnt}
 		</selectKey>
 		UPDATE receive SET rec_cnt = rec_cnt - #{df_cnt}, rec_in_state = '검사완료' 
 		WHERE rec_id = #{rec_id} AND #{df_cnt} &gt; 0

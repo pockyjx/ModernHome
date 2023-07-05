@@ -32,21 +32,19 @@
 			var pro_id = $(this).find("td:eq(2)").text();
 			var pro_num = $(this).find("td:eq(3)").text();
 			var pro_name = $(this).find("td:eq(4)").text();
-			var line_id = $(this).find("td:eq(5)").text();
-			var line_num = $(this).find("td:eq(6)").text();
-			var work_cnt = $(this).find("td:eq(7)").text();
-			var df_type = $(this).find("td:eq(8)").text();
-			var qc_id = $(this).find("td:eq(9)").text();
-			var df_cnt = $(this).find("td:eq(10)").text();
+			var work_cnt = $(this).find("td:eq(6)").text();
+			var df_type = $(this).find("td:eq(7)").text();
+			var qc_id = $(this).find("td:eq(8)").text();
+			var df_cnt = $(this).find("td:eq(9)").text();
 			
 			opener.document.getElementsByName("work_id")[0].value = work_id;
-// 			opener.document.getElementsByName("work_num")[0].value = work_num;
+			opener.document.getElementById("code1").value = work_num;
+			opener.document.getElementById("code1").setAttribute("name", "work_num");
 			opener.document.getElementsByName("pro_id")[0].value = pro_id;
-			opener.document.getElementsByName("pro_num")[0].value = pro_num;
-			opener.document.getElementsByName("pro_name")[0].value = pro_name;
-			opener.document.getElementsByName("line_id")[0].value = line_id;
-			opener.document.getElementById("lnumPop").value = line_num;
-// 			opener.document.getElementsByName("work_cnt")[0].value = work_cnt;
+			opener.document.getElementById("code2").value = pro_num;
+			opener.document.getElementById("code2").setAttribute("name", "pro_num");
+			opener.document.getElementById("code3").value = pro_name;
+			opener.document.getElementById("code3").setAttribute("name", "pro_name");
 			opener.document.getElementById("dfTypePop").value = df_type;
 			opener.document.getElementsByName("qc_id")[0].value = qc_id;
 			opener.document.getElementsByName("df_cnt")[0].value = df_cnt;
@@ -61,23 +59,67 @@
 			var ma_num = $(this).find("td:eq(3)").text();
 			var ma_name = $(this).find("td:eq(4)").text();
 			var rec_cnt = $(this).find("td:eq(5)").text();
-			var rec_in_state = $(this).find("td:eq(6)").text();
 			var df_type = $(this).find("td:eq(7)").text();
 			var qc_id = $(this).find("td:eq(8)").text();
-			var clt_name = $(this).find("td:eq(9)").text();
 			var df_cnt = $(this).find("td:eq(10)").text();
 			
 			opener.document.getElementsByName("rec_id")[0].value = rec_id;
-// 			opener.document.getElementsByName("rec_num")[0].value = rec_num;
+			opener.document.getElementById("code1").value = rec_num;
+			opener.document.getElementById("code1").setAttribute("name", "rec_num");
 			opener.document.getElementsByName("ma_id")[0].value = ma_id;
-			opener.document.getElementsByName("ma_num")[0].value = ma_num;
-			opener.document.getElementsByName("ma_name")[0].value = ma_name;
-// 			opener.document.getElementsByName("rec_cnt")[0].value = rec_cnt;
-// 			opener.document.getElementsByName("rec_in_state")[0].value = rec_in_state;
+			opener.document.getElementById("code2").value = ma_num;
+			opener.document.getElementById("code2").setAttribute("name", "ma_num");
+			opener.document.getElementById("code3").value = ma_name;
+			opener.document.getElementById("code3").setAttribute("name", "ma_name");
 			opener.document.getElementById("dfTypePop").value = df_type;
 			opener.document.getElementsByName("qc_id")[0].value = qc_id;
-			opener.document.getElementsByName("clt_name")[0].value = clt_name;
 			opener.document.getElementsByName("df_cnt")[0].value = df_cnt;
+			
+			window.close();
+		});
+		
+		$(".table-mrpr tr").click(function() {
+			var mr_id = $(this).find("td:eq(0)").text();
+			var pr_id = $(this).find("td:eq(1)").text();
+			var mr_num = $(this).find("td:eq(2)").text();
+			var pr_num = $(this).find("td:eq(3)").text();
+			var ma_id = $(this).find("td:eq(4)").text();
+			var pro_id = $(this).find("td:eq(5)").text();
+			var ma_num = $(this).find("td:eq(6)").text();
+			var pro_num = $(this).find("td:eq(7)").text();
+			var ma_name = $(this).find("td:eq(8)").text();
+			var pro_name = $(this).find("td:eq(9)").text();
+			var mr_cnt = $(this).find("td:eq(10)").text();
+			var pr_cnt = $(this).find("td:eq(11)").text();
+			var df_type = $(this).find("td:eq(12)").text();
+			var qc_id = $(this).find("td:eq(13)").text();
+			var df_cnt = $(this).find("td:eq(15)").text();
+			
+			console.log(mr_id);
+			console.log(pr_id);
+
+			if(mr_id !== null && mr_id !== ""){
+				opener.document.getElementsByName("mr_id")[0].value = mr_id;
+				opener.document.getElementById("code1").value = mr_num
+				opener.document.getElementById("code1").setAttribute("name", "mr_num");
+				opener.document.getElementsByName("ma_id")[0].value = ma_id;
+				opener.document.getElementById("code2").value = ma_num;
+				opener.document.getElementById("code2").setAttribute("name", "ma_num");
+				opener.document.getElementById("code3").value = ma_name;
+				opener.document.getElementById("code3").setAttribute("name", "ma_name");
+			}
+			if(pr_id !== null && pr_id !== ""){
+				opener.document.getElementsByName("pr_id")[0].value = pr_id;
+				opener.document.getElementById("code1").value = pr_num
+				opener.document.getElementById("code1").setAttribute("name", "pr_num");
+				opener.document.getElementsByName("pro_id")[0].value = ma_id;
+				opener.document.getElementById("code2").value = pro_num;
+				opener.document.getElementById("code2").setAttribute("name", "pro_num");
+				opener.document.getElementById("code3").value = pro_name;
+				opener.document.getElementById("code3").setAttribute("name", "pro_name");
+			}
+			opener.document.getElementById("dfTypePop").value = df_type;
+			opener.document.getElementsByName("qc_id")[0].value = qc_id;
 			opener.document.getElementsByName("df_cnt")[0].value = df_cnt;
 			
 			window.close();
@@ -95,18 +137,27 @@
 			}
 		});
 		
+// 		console.log(value);
+		
 		// 테이블 숨기기
 		if(checkbox.checked) {
 			if(value === '공정검사') {
 				$(".table-pr").show();
 				$(".table-ma").hide();
+				$(".table-mrpr").hide();
 			} else if(value === '수입검사') {
 				$(".table-ma").show();
 				$(".table-pr").hide();
+				$(".table-mrpr").hide();
+			}else if(value === '출고검사') {
+				$(".table-mrpr").show();
+				$(".table-pr").hide();
+				$(".table-ma").hide();
 			}
 		} else {
 			$(".table-pr").hide();
 			$(".table-ma").hide();
+			$(".table-mrpr").hide();
 		}
 	}
 </script>
@@ -118,11 +169,13 @@
 		onclick="handleCheckbox(this, '공정검사')"> 공정검사</label>
 	<label><input type="checkbox" name="df_type" value="수입검사" class="form-check-input" 
 		onclick="handleCheckbox(this, '수입검사')"> 수입검사</label>
+	<label><input type="checkbox" name="df_type" value="출고검사" class="form-check-input" 
+		onclick="handleCheckbox(this, '출고검사')"> 출고검사</label>
 </div>
 	
 
 <div class="table-pr bg-light text-center rounded p-4 mx-3" style="display: none">
-	<h3 class="m-4" style="text-align: center;">작업지시</h3>
+	<h3 class="m-4" style="text-align: center;">작업지시 목록</h3>
 	
 	<table class="table align-middle table-bordered table-hover mb-0">
 		<tr>
@@ -131,7 +184,7 @@
 			<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
 			<th style="background-color: rgba(0,0,0,0.075);">라인 코드</th>
 			<th style="background-color: rgba(0,0,0,0.075);">지시 수량</th>
-			<th colspan="6" style="background-color: rgba(0,0,0,0.075);">불량 수량</th>
+			<th colspan="5" style="background-color: rgba(0,0,0,0.075);">불량 수량</th>
 		</tr>
 		<c:forEach var="wi" items="${wiList}">
 			<tr>
@@ -140,7 +193,6 @@
 				<td style="display: none">${wi.pro_id}</td>
 				<td>${wi.pro_num}</td>
 				<td>${wi.pro_name}</td>
-				<td style="display: none">${wi.line_id}</td>
 				<td>${wi.line_num}</td>
 				<td>${wi.work_cnt}</td>
 				<td style="display: none">공정검사</td>
@@ -152,7 +204,7 @@
 </div>
 	
 <div class="table-ma bg-light text-center rounded p-4 mx-3" style="display: none">
-	<h3 class="m-4" style="text-align: center;">입고</h3>
+	<h3 class="m-4" style="text-align: center;">입고 목록</h3>
 	
 	<table class="table align-middle table-bordered table-hover mb-0">
 		<tr>
@@ -177,6 +229,41 @@
 				<td style="display: none">${rec.qc_id}</td>
 				<td>${rec.clt_name}</td>
 				<td>${rec.df_cnt}</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
+	
+<div class="table-mrpr bg-light text-center rounded p-4 mx-3" style="display: none">
+	<h3 class="m-4" style="text-align: center;">출고 목록</h3>
+	
+	<table class="table align-middle table-bordered table-hover mb-0">
+		<tr>
+			<th style="background-color: rgba(0,0,0,0.075);">출고 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">품목 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075);">품목명</th>
+			<th style="background-color: rgba(0,0,0,0.075);">출고 수량</th>
+			<th style="background-color: rgba(0,0,0,0.075);">창고명</th>
+			<th colspan="12" style="background-color: rgba(0,0,0,0.075);">불량 수량</th>
+		</tr>
+		<c:forEach var="mrpr" items="${mrprList}">
+			<tr>
+				<td style="display: none">${mrpr.mr_id}</td>
+				<td style="display: none">${mrpr.pr_id}</td>
+				<td <c:if test="${empty mrpr.mr_id}">style="display: none"</c:if>>${mrpr.mr_num}</td>
+				<td <c:if test="${!empty mrpr.mr_id}">style="display: none"</c:if>>${mrpr.pr_num}</td>
+				<td style="display: none">${mrpr.ma_id}</td>
+				<td style="display: none">${mrpr.pro_id}</td>
+				<td <c:if test="${empty mrpr.mr_id}">style="display: none"</c:if>>${mrpr.ma_num}</td>
+				<td <c:if test="${empty mrpr.pr_id}">style="display: none"</c:if>>${mrpr.pro_num}</td>
+				<td <c:if test="${empty mrpr.mr_id}">style="display: none"</c:if>>${mrpr.ma_name}</td>
+				<td <c:if test="${empty mrpr.pr_id}">style="display: none"</c:if>>${mrpr.pro_name}</td>
+				<td <c:if test="${empty mrpr.mr_id}">style="display: none"</c:if>>${mrpr.mr_cnt}</td>
+				<td <c:if test="${empty mrpr.pr_id}">style="display: none"</c:if>>${mrpr.pr_cnt}</td>
+				<td style="display: none">출고검사</td>
+				<td style="display: none">${mrpr.qc_id}</td>
+				<td>${mrpr.wh_name}</td>
+				<td>${mrpr.df_cnt}</td>
 			</tr>
 		</c:forEach>
 	</table>

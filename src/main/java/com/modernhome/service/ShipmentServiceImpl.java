@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ShipmentJoinVO;
-import com.modernhome.domain.ShipmentVO;
 import com.modernhome.persistence.ShipmentDAO;
 
 @Service
@@ -18,7 +17,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 	private ShipmentDAO sDAO;
 	
 	
-	// 출하 전체수 계산
+	// 출하 전체수  계산
 	@Override
 	public int shipmentCnt() throws Exception {
 		return sDAO.shipmentCnt();
@@ -44,7 +43,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 	// 출하정보 등록
 	@Override
-	public void regShipment(ShipmentVO svo) {
+	public void regShipment(ShipmentJoinVO svo) {
 		sDAO.regShipment(svo);
 		
 	}
@@ -58,7 +57,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 	// 출하정보 수정
 	@Override
-	public void updateShipment(ShipmentVO svo) {
+	public void updateShipment(ShipmentJoinVO svo) {
 		sDAO.updateShipment(svo);
 		
 	}

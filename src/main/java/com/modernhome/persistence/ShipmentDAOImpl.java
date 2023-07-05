@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ShipmentJoinVO;
-import com.modernhome.domain.ShipmentVO;
 
 @Repository
 public class ShipmentDAOImpl implements ShipmentDAO {
@@ -28,7 +27,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	
 	
 	
-	// 출하 전체수 계산
+	// 출하 전체수  계산
 	@Override
 	public int shipmentCnt() throws Exception {
 		logger.debug("shipmentCnt 실행");
@@ -68,7 +67,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 	// 출하 등록
 	@Override
-	public void regShipment(ShipmentVO svo) {
+	public void regShipment(ShipmentJoinVO svo) {
 		logger.debug("DAO -> mapper -> SQL 실행(출하 등록)");
 		
 		logger.debug("svo : " + svo);
@@ -89,7 +88,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 
 	// 출하 수정
 	@Override
-	public void updateShipment(ShipmentVO svo) {
+	public void updateShipment(ShipmentJoinVO svo) {
 		logger.debug("DAO -> 출하 수정");
 		
 		sqlSession.update(NAMESAPCE + ".updateShipment", svo);
