@@ -83,8 +83,6 @@ $(document).ready(function() {
 		'<td>' +
 		'<select name="oo_state">' +
 		'<option value="대기">대기</option>' +
-		'<option value="진행중">진행중</option>' +
-		'<option value="완료">완료</option>' +
 		'</select>' +
 		'</td>' +
 		'</tr>';
@@ -243,8 +241,6 @@ $(document).ready(function() {
 					cellContent = '<td>' +
 					'<select name="' + cellName + '">' +
 					'<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
-					'<option value="진행중" ' + (cellValue === '진행중' ? 'selected' : '') + '>진행중</option>' +
-					'<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
 					'</select>' +
 					'</td>';
 				}else if (index === 1){
