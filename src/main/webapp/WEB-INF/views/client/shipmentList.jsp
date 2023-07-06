@@ -22,7 +22,7 @@ $(document).ready(function() {
 	
 	updateSelectedCheckboxCount();
 
-	// <th> 쪽 체크박스 클릭 시 해당 열의 <td>  부분의 행들을 선택하고 배경색 지정
+	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
 	$(".table-shipmentList th input[type='checkbox']").click(function() {
 		var checkbox = $(this);
 		var isChecked = checkbox.prop('checked');
@@ -60,6 +60,18 @@ $(document).ready(function() {
 	    $(document).on("click", "input[name='pr_num']", function() {
 	 	   window.open('/client/addPopup?txt=clt2', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
 	    });
+	
+	
+	    // 출하 처리 버튼
+ 		$(".release").click(function () {
+ 			var shp_num = $(this).closest("tr").find('td:eq(0)').find('input').val();
+ 			var shp_state = $(this).closest("tr").find('td:eq(10)').text();
+ 			
+ 			if(result = window.confirm("출하 하시겠습니까? (출하 후 변경이 불가능합니다.)")) {
+ 				location.href = "/client/acceptRelease?txt=mr&shp_num=" + shp_num + "&shp_state=" + shp_state; 				
+ 			}
+ 			
+ 		});
 	
 		// 추가 버튼 클릭 시 행 추가
 	// 추가버튼 1번 누르면 추가버튼 비활성화
@@ -193,10 +205,13 @@ $(document).ready(function() {
 		 
 		var selectedCheckbox = $("input[name='selected']:checked");
 		
+		
 		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 		if (selectedCheckbox.length === 1) {
 			var empId = selectedCheckbox.val();
 			var row = selectedCheckbox.closest("tr");
+			
+			
 			
 // 			var ooNumInput = '<input type="hidden" name="shp_num" value="' + shp_num + '">';
 // 			$(this).closest("form").append(shpNumInput);
@@ -230,6 +245,9 @@ $(document).ready(function() {
 
 				if (index === 1){
 					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" value="' + ${sessionScope.emp_id} + '"' + cellReadonly + '></td>';
+				}
+				else if (index === 9){
+					return;
 				}
 				else {
 					cellContent = '<td><input type="' + cellType + '" name="' + cellName + '" id="' + cellName + '"' + '" value="' + cellValue + '"'
@@ -449,7 +467,14 @@ $(document).ready(function() {
 				    		<td>${fn:substring(shipmentList.oo_end_date, 0, 10)}</td>
 				    		<td>${fn:substring(shipmentList.shp_date, 0, 10)}</td>
 				    		<td>
-				    		${shipmentList.shp_state}
+				    			<c:choose>
+								<c:when test="${shipmentList.shp_state eq '출하준비' }">
+								<button type="button" class="btn btn-sm btn-success release">출하<br>준비</button>
+								</c:when>
+								<c:when test="${shipmentList.shp_state eq '출하완료'}">
+								<button type="button" class="btn btn-sm btn-primary">출하<br>완료</button> 
+								</c:when>
+								</c:choose>
 				    		</td>
 				    		<td>${fn:substring(shipmentList.shp_reg_date, 0, 10)}</td>
 						</tr>
