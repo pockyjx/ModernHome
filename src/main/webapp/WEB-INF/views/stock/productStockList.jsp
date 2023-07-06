@@ -13,14 +13,14 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>완제품코드</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="pro_num" value="${psvo.pro_num }" class="form-control">
+			<input type="text" name="pro_num" value="${psvo.pro_num }" class="form-control" placeholder="완제품코드를 입력하세요">
 		</div>
 	</div>
 	
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>완제품명</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="pro_name" value="${psvo.pro_name }" class="form-control">
+			<input type="text" name="pro_name" value="${psvo.pro_name }" class="form-control" placeholder="완제품명을 입력하세요">
 		</div>
 		<div class="col-auto">
 			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
