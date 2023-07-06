@@ -344,6 +344,7 @@ public class ClientController {
 				ShipmentJoinVO svo = new ShipmentJoinVO();
 				svo.setShp_num(shp_num);
 				sService.modifyShpState(svo);
+				sService.modifyShpState2(svo);
 				
 				return "redirect:/client/shipmentList";
 				

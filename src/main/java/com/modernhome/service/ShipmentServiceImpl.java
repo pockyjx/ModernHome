@@ -67,6 +67,13 @@ public class ShipmentServiceImpl implements ShipmentService {
 		sDAO.modifyShpState(svo);
 		
 	}
+
+	@Override
+	public void modifyShpState2(ShipmentJoinVO svo) throws Exception {
+		sDAO.modifyShpState2(svo);
+	}
+	
+	
 	
 	
 	

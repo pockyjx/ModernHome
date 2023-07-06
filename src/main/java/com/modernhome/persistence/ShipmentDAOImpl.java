@@ -104,6 +104,18 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		sqlSession.update(NAMESAPCE + ".modifyShpState", svo);
 		
 	}
+
+
+
+	@Override
+	public void modifyShpState2(ShipmentJoinVO svo) throws Exception {
+		logger.debug("modifyShpState2() 실행");
+		
+		sqlSession.update(NAMESAPCE + ".modifyShpState2", svo);
+		
+	}
+	
+	
 	
 	
 
