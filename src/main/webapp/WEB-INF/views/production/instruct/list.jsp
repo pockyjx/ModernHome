@@ -192,14 +192,14 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">품목코드</label>
 		<div class="col-sm-10">
-			<input type="text" name="pro_num">
+			<input type="text" name="pro_num" placeholder="품목코드를 입력하세요.">
 		</div>
 	</div>
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">지시일자</label>
 		<div class="col-sm-10">
 			<input type="date" name="startDate"> ~ <input type="date" name="endDate">
-			<button class="btn btn-sm btn-primary m-2"" type="submit">조회</button>
+			<button class="btn btn-sm btn-primary m-2" type="submit">조회</button>
 		</div>
 	</div>
 </form>

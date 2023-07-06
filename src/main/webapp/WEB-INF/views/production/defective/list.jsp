@@ -299,8 +299,8 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">품목명</label>
 		<div class="col-sm-10">
-			<input type="text" name="nameSearch">
-			<button class="btn btn-sm btn-primary m-2"" type="submit">조회</button>
+			<input type="text" name="nameSearch" placeholder="품목명을 입력하세요.">
+			<button class="btn btn-sm btn-primary m-2" type="submit">조회</button>
 		</div>
 	</div>
 </form>
