@@ -287,7 +287,7 @@
 <form method="get" class="bg-light rounded p-3 m-3">
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">불량 타입</label>
-		<div class="col-sm-10">
+		<div class="col-sm-2">
 			<select name="df_type" class="form-select" style="background-color: #fff;">
 				<option value="all">전체</option>
 				<option value="pro">공정검사</option>
@@ -298,9 +298,12 @@
 	</div>
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">품목명</label>
-		<div class="col-sm-10">
+		<div class="col-sm-4">
 			<input type="text" name="nameSearch" placeholder="품목명을 입력하세요" class="form-control">
-			<button class="btn btn-sm btn-primary m-2" type="submit">조회</button>
+		</div>
+		
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
 		</div>
 	</div>
 </form>
@@ -311,14 +314,14 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">불량 리스트</h3>
 		<div class="me-2">
-			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 1 || sessionScope.emp_auth == 3}">
-				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-				<button type="button" class="btn btn-sm btn-primary m-2" id="updateButton">
+			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= '1' || sessionScope.emp_auth == '3'}">
+				<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+				<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+				<button type="button" class="btn btn-primary m-2" id="updateButton">
 						<i class="fa fa-edit"></i> 수정</button>
-				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="delDef" formmethod="post">
+				<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="delDef" formmethod="post">
 					<i class="fa fa-trash"></i> 삭제</button>
-				<button type="button" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regDef" formmethod="post" disabled>
+				<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="regDef" formmethod="post" disabled>
 					<i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>

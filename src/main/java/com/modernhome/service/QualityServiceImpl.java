@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.modernhome.domain.PageVO;
+import com.modernhome.domain.QualityCheckingVO;
 import com.modernhome.domain.WijoinVO;
 import com.modernhome.persistence.QualityDAO;
 
@@ -151,11 +152,16 @@ public class QualityServiceImpl implements QualityService{
 		qdao.modifyPro(wvo);
 		
 	}
+
 	
 	
-
-
-
-
+	
+	
+	
+	// 불량률 계산
+	@Override
+	public List<QualityCheckingVO> dfRate() throws Exception {
+		return qdao.dfRate();
+	}
 	
 } // QualityServiceImpl
