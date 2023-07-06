@@ -113,7 +113,7 @@ public class DefectiveController {
 			// 불량 등록
 			dfService.addDefective(vo);
 			// 불량 개수가 1개 이상인 자재(입고) -> 자재 입고수량 차감
-			dfService.modifyRec(vo);
+//			dfService.modifyRec(vo);
 		} else {
 			dfService.modifyDefective(vo);
 			dfService.modifyRec(vo);

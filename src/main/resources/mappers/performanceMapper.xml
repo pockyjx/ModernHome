@@ -90,7 +90,7 @@
 		LEFT JOIN product pro ON wp.pro_id = pro.pro_id 
 		LEFT JOIN employee emp ON wp.emp_id = emp.emp_id 
 		LEFT JOIN quality_checking qc ON wi.work_id = qc.work_id 
-		ORDER BY wi.work_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+		ORDER BY wi.work_id DESC LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	<!-- 생산실적 목록 출력 (페이징 처리) -->
 	
@@ -118,6 +118,7 @@
 	        	AND #{endDate} &gt;= IFNULL(wp.update_date, wp.reg_date)
 	        </if>
 		</where>
+		ORDER BY wi.work_id DESC 
 	</select>
 	<!-- 검색한 생산실적 개수 (페이징 처리) -->
 	
@@ -152,7 +153,7 @@
 	        	AND #{endDate} &gt;= IFNULL(wp.update_date, wp.reg_date)
 	        </if>
 		</where>
-		ORDER BY wi.work_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+		ORDER BY wi.work_id DESC LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	<!-- 생산실적 검색 출력 (페이징 처리) -->
 	

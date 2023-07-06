@@ -154,6 +154,7 @@ public class QualityController {
 		logger.debug("wvo : " + wvo);
 		
 		qService.updateMaterialQuality(wvo);
+		qService.modifyRecState(wvo);
 		
 		return "redirect:/production/quality/materialQualityList";
 		

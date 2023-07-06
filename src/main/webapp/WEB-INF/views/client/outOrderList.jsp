@@ -83,8 +83,6 @@ $(document).ready(function() {
 		'<td>' +
 		'<select name="oo_state">' +
 		'<option value="대기">대기</option>' +
-		'<option value="진행중">진행중</option>' +
-		'<option value="완료">완료</option>' +
 		'</select>' +
 		'</td>' +
 		'</tr>';
@@ -229,7 +227,7 @@ $(document).ready(function() {
 				
 				var cellValue = $(this).text();
 				var cellType = [9, 10].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
-				var cellReadonly = [0, 1, 6, 8, 12].includes(index) ? "readonly='readonly'" : "";
+				var cellReadonly = [0, 1, 5, 6, 8, 12].includes(index) ? "readonly='readonly'" : "";
 				var cellName = cellNames[index];
 				var cellDisabled = [2, 4, 11].includes(index)? "disabled" : "";
 				var cellContent;
@@ -243,8 +241,6 @@ $(document).ready(function() {
 					cellContent = '<td>' +
 					'<select name="' + cellName + '">' +
 					'<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
-					'<option value="진행중" ' + (cellValue === '진행중' ? 'selected' : '') + '>진행중</option>' +
-					'<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
 					'</select>' +
 					'</td>';
 				}else if (index === 1){
