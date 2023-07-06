@@ -201,15 +201,31 @@
 	</div>
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">작업지시코드</label>
-		<div class="col-sm-10">
+		<div class="col-sm-4">
 			<input type="text" name="work_num" placeholder="작업지시코드를 입력하세요" class="form-control">
 		</div>
 	</div>
 	<div class="row mb-3">
-		<label class="col-sm-2 col-form-label">등록일자</label>
-		<div class="col-sm-10">
-			<input type="date" name="startDate" class="col-sm-2 col-form-label"> ~ <input type="date" name="endDate" class="col-sm-2 col-form-label">
-			<button class="btn btn-sm btn-primary m-2" type="submit">조회</button>
+		<label for="ioSearch" class="col-sm-2 col-form-label">등록일자</label>
+		
+		<div class="col-sm-2">
+   			<div class="col-auto">
+   				<input type="date" name="startDate" class="form-control">
+			</div>
+		</div>
+  				
+		<div class="col-auto">
+		~
+		</div>
+  				
+		<div class="col-sm-2">
+			<div class="col-auto">
+				<input type="date" name="endDate" class="form-control">
+			</div>
+		</div>
+   		
+		<div class="col-auto">
+			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
 		</div>
 	</div>
 </form>
@@ -220,12 +236,12 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">생산실적 리스트</h3>
 		<div>
-			<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= 1 || sessionScope.emp_auth == 3}">
-				<button type="button" class="btn btn-sm btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-				<button type="button" class="btn btn-sm btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-				<button type="submit" class="btn btn-sm btn-primary m-2" id="deleteButton" formaction="delPrfrm" formmethod="post">
+			<c:if test="${sessionScope.emp_dept eq '생산' && sessionScope.emp_auth >= '1' || sessionScope.emp_auth == '3'}">
+				<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
+				<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
+				<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="delPrfrm" formmethod="post">
 					<i class="fa fa-trash"></i> 삭제</button>
-				<button type="submit" class="btn btn-sm btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled>
+				<button type="submit" class="btn btn-primary m-2" id="submitButton" formaction="regPrfrm" formmethod="post" disabled>
 					<i class="fa fa-download"></i> 저장</button>
 			</c:if>
 		</div>
