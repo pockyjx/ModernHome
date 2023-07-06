@@ -42,8 +42,8 @@ public interface QualityService {
 	// 입고에서 입고대기일 경우 품질검사 자동 등록
 	public void addQC(WijoinVO wvo) throws Exception;
 	
-	// 품질검사(자재)에서 불량개수가 0이면 입고완료로 변경
-	public void modifyRec(WijoinVO wvo) throws Exception;
+	// 수입검사에서 검사완료가 되면 자재 입고 관리 페이지에 입고완료
+	public void modifyRecState(WijoinVO wvo) throws Exception;
 	
 	/////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -67,5 +67,11 @@ public interface QualityService {
 	
 	// 완제품 출고에서 출고대기일 경우 품질검사 자동 등록
 	public void addPrQC(WijoinVO wvo) throws Exception;
+	
+	// 출고검사에서 자재가 검사완료가되면 자재출고페이지에 출고완료로 변경
+	public void modifyRel(WijoinVO wvo) throws Exception;
+	
+	// 출고검사에서 완제품이 검사완료가 되면 완제품 출고 페이지에 출고완료로 변경
+	public void modifyPro(WijoinVO wvo) throws Exception;
 	
 }// QualityService

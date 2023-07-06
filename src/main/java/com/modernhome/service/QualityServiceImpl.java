@@ -87,10 +87,10 @@ public class QualityServiceImpl implements QualityService{
 		
 	}
 	
-	// 품질검사(자재)에서 불량개수가 0이면 입고완료로 변경
+	// 수입검사에서 검사완료가 되면 자재 입고 관리 페이지에 입고완료
 	@Override
-	public void modifyRec(WijoinVO wvo) throws Exception {
-		qdao.modifyRec(wvo);
+	public void modifyRecState(WijoinVO wvo) throws Exception {
+		qdao.modifyRecState(wvo);
 		
 	}
 	
@@ -137,6 +137,22 @@ public class QualityServiceImpl implements QualityService{
 	public void addPrQC(WijoinVO wvo) throws Exception {
 		qdao.addPrQC(wvo);
 	}
+
+	// 출고검사에서 자재가 검사완료가 되면 자재출고페이지에 출고완료로 변경
+	@Override
+	public void modifyRel(WijoinVO wvo) throws Exception {
+		qdao.modifyRel(wvo);
+		
+	}
+
+	// 출고검사에서 완제품이 검사완료가 되면 완제품 출고페이지에 출고완료로 변경
+	@Override
+	public void modifyPro(WijoinVO wvo) throws Exception {
+		qdao.modifyPro(wvo);
+		
+	}
+	
+	
 
 
 

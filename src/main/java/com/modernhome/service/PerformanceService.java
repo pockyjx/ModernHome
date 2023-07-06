@@ -19,9 +19,6 @@ public interface PerformanceService {
 	// 생산실적 등록
 	public void addPrfrm(WijoinVO vo) throws Exception;
 	
-	// 생산실적 수정
-	public void modifyPrfrm(WijoinVO vo) throws Exception;
-	
 	// 생산실적 삭제
 	public void deletePrfrm(int prfrm_id) throws Exception;
 	
@@ -36,5 +33,8 @@ public interface PerformanceService {
 	
 	// 생산실적 검색 개수
 	public int getWpSearchCnt(String gb_yn, String work_num, String startDate, String endDate, PageVO vo) throws Exception;
+	
+	// 생산실적 등록 시 수주의 상태를 '생산완료'로 변경
+	public void modifyOoState(int prfrm_id) throws Exception;
 	
 }

@@ -140,12 +140,12 @@ public class QualityDAOImpl implements QualityDAO{
 		
 	}
 	
-	// 품질검사(자재)에서 불량개수가 0이면 입고완료로 변경
+	// 수입검사에서 검사완료가 되면 자재 입고 관리 페이지에 입고완료
 	@Override
-	public void modifyRec(WijoinVO wvo) throws Exception {
+	public void modifyRecState(WijoinVO wvo) throws Exception {
 		logger.debug("QualityDAOImpl_modifyRec() 실행"); 
 		
-		sqlSession.insert(NAMESPACE+".modifyRec",wvo);
+		sqlSession.update(NAMESPACE+".modifyRec",wvo);
 	}
 
 	
@@ -213,6 +213,22 @@ public class QualityDAOImpl implements QualityDAO{
 		logger.debug("QualityDAOImpl_addPrQC() 실행");
 		
 		sqlSession.insert(NAMESPACE+".addPrQC", wvo);
+	}
+
+	// 출고검사에서 자재가 검사완료가 되면 자재 출고페이지에 출고완료로 변경
+	@Override
+	public void modifyRel(WijoinVO wvo) throws Exception {
+		logger.debug("QualityDAOImpl_modifyRel() 실행");
+		
+		sqlSession.update(NAMESPACE+".modifyRel",wvo);
+	}
+
+	// 출고검사에서 완제품이 검사완료가 되면 완제품 출고페이지에 '출고완료로'변경
+	@Override
+	public void modifyPro(WijoinVO wvo) throws Exception {
+		logger.debug("QualityDAOImpl_modifyPro() 실행");
+		
+		sqlSession.update(NAMESPACE+".modifyPro",wvo);
 	}
 
 }

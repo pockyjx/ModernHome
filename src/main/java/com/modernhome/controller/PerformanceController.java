@@ -101,9 +101,13 @@ public class PerformanceController {
 		
 		wpService.addPrfrm(vo);
 		
-		// 생산실적 첫 등록 시, 해당 생산실적에서 나온 완제품 수량을 재고에 추가
+		// 생산실적 등록 시, 해당 생산실적에서 나온 완제품 수량을 재고에 추가
 		wpService.addPS(vo);
 		logger.debug("생산량을 완제품 재고에 추가함");
+		
+		// 생산실적 등록 시, 수주 상태를 '생산완료'로 변경
+		wpService.modifyOoState(vo.getPrfrm_cnt());
+		logger.debug("수주 상태 변경 완료");
 		
 		return "redirect:/production/performance/list";
 	}

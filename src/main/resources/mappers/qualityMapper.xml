@@ -264,14 +264,7 @@
 	</insert>
 	<!-- 입고테이블에서 입고 대기일 경우 qc 테이블에 추가 -->
 	
-	<!-- 불량개수가 0이면 입고상태 변경 -->
-	<update id="modifyRec" parameterType="WijoinVO">
-		UPDATE receive SET rec_in_state = '검사완료'
-	  	WHERE rec_id = #{rec_id} AND df_cnt = 0
-	</update>
-	<!-- 불량개수가 0이면 입고상태 변경 -->
-	
-	
+		
 	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 출력 -->
 	<select id="getMrList" resultMap="wijoinRM">
 		SELECT qc.qc_id, qc_num, mr.mr_id, mr_num, mr.ma_id, ma_num, ma_name, mr_cnt, mr_state, pr.pr_id, pr_num, pr.pro_id, pro_num, pro_name, pr_cnt, pr_state, 
@@ -368,11 +361,13 @@
 		</where> 
 	</select>
 	
+	<!-- 출고검사 수정 -->
 	<update id="updateFactoryInspection">
 		UPDATE quality_checking 
 		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}, df_cnt = #{df_cnt}
 		WHERE qc_num = #{qc_num}
 	</update>
+	<!-- 출고검사 수정 -->
 	
 	<!-- 출고 테이블(자재)에서 출고대기일 경우 qc 테이블에 추가 -->
 	<insert id="addMrQC" parameterType="WijoinVO">
@@ -395,5 +390,26 @@
 	        VALUES (#{qc_id}, #{qc_num}, #{pr_id}, #{pro_id}, '대기', 0, #{emp_id}, '완제품')
 	</insert>
 	<!-- 출고 테이블(완제품)에서 출고대기일 경우 qc 테이블에 추가 -->
+	
+	<!-- 수입검사에서 검사완료가되면 자재 입고 관리페이지에 검사완료로 변경 -->
+	<update id="modifyRecState" parameterType="WijoinVO">
+		UPDATE receive SET rec_in_state = '검사완료',rec_cnt = rec_cnt - #{df_cnt}
+		WHERE rec_id = #{rec_id} AND qc_yn = '완료'
+	</update>
+	<!-- 수입검사에서 검사완료가되면 자재 입고 관리페이지에 검사완료로 변경 -->
+	
+	<!-- 출고검사에서 자재가 검사완료가 되면 자채 출고 페이지에 출고완료로 변경 -->
+	<update id="modifyRel" parameterType="WijoinVO">
+		UPDATE materialRelease SET mr_state = '검사완료',mr_cnt = mr_cnt - #{df_cnt}
+		WHERE mr_id = #{mr_id} AND qc_yn = '완료'
+	</update>
+	<!-- 출고검사에서 자재가 검사완료가 되면 자채 출고 페이지에 출고완료로 변경 -->
+	
+	<!-- 출고검사에서 완제품이 검사완료가 되면 완제품 출고펭지에 출고완료로 변경 -->
+	<update id="modifyPro" parameterType="WijoinVO">
+		UPDATE productRelease SET pr_state = '검사완료',pr_cnt = pr_cnt - #{df_cnt}
+		WHERE pr_id = #{pr_id} AND qc_yn='완료'
+	</update>
+	<!-- 출고검사에서 완제품이 검사완료가 되면 완제품 출고펭지에 출고완료로 변경 -->
 	
 </mapper>
