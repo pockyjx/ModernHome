@@ -367,7 +367,7 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>검색어</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="search" value="${search }" class="form-control">
+			<input type="text" name="search" value="${search }" class="form-control" placeholder="검색어를 입력하세요">
 		</div>
 		
 		<div class="col-auto">
