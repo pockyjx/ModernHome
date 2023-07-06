@@ -411,9 +411,9 @@
 		p.pro_id, oo.oo_id
 		from out_order oo
 		join client c on oo.clt_id = c.clt_id
-		join product p on oo.pro_id =
-		p.pro_id
+		join product p on oo.pro_id = p.pro_id
 		join product_stock ps on p.pro_id = ps.pro_id
+		WHERE oo.oo_state = '생산완료'
 		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 수주 정보 팝업 (페이징) -->
@@ -422,9 +422,9 @@
 		select count(oo.oo_num)
 		from out_order oo
 		join client c on oo.clt_id = c.clt_id
-		join product p on oo.pro_id =
-		p.pro_id
+		join product p on oo.pro_id = p.pro_id
 		join product_stock ps on p.pro_id = ps.pro_id
+		WHERE oo.oo_state = '생산완료'
 	</select>
 
 	<select id="getProductStock" resultMap="ProductReleaseVO">
