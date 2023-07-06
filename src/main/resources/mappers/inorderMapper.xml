@@ -208,7 +208,6 @@
 	
 	<!-- 발주 팝업 목록 -->
 	<select id="getInorderPopup" resultMap="inorderResultMap">
-        <![CDATA[
 	        SELECT io_id, io_num, m.ma_id, m.ma_num, m.ma_name, c.clt_id, c.clt_num, c.clt_name,
 					i.io_cnt, i.io_unit, m.ma_price, i.io_date, i.io_state, i.rec_date, i.emp_id, i.io_reg_date, i.io_update_date, i.update_emp_id,
 	        CASE
@@ -221,10 +220,14 @@
 	        JOIN employee e ON i.emp_id = e.emp_id
 	        JOIN material m ON i.ma_id = m.ma_id
 	        JOIN client c ON i.clt_id = c.clt_id
-	        WHERE io_state = '완료'
+		    WHERE io_state = '완료'
+		    and not exists (
+				select 1
+				from receive
+				where receive.io_id = i.io_id
+			)
 	        ORDER BY io_id DESC
 			LIMIT #{startPage}, #{pageSize}
-        ]]>
     </select>
 	<!-- 발주 팝업 목록 -->
 	
@@ -236,6 +239,11 @@
         JOIN material m ON i.ma_id = m.ma_id
         JOIN client c ON i.clt_id = c.clt_id
         WHERE io_state = '완료'
+        and not exists (
+			select 1
+			from receive
+			where receive.io_id = i.io_id
+		)
 	</select>
 	<!-- 발주 팝업 목록 개수 -->
 	
