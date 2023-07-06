@@ -32,4 +32,6 @@ public interface ShipmentDAO {
 	
 	// 출하 테이블에서 출하상태를 '출하완료'으로 변경
 	public void modifyShpState(ShipmentJoinVO svo) throws Exception;
+	
+	public void modifyShpState2(ShipmentJoinVO svo) throws Exception;
 }

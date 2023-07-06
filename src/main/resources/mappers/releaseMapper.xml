@@ -365,22 +365,28 @@
 	<!-- 출하 출고 계산 -->
 
 	<!-- 출하 출고 리스트(페이징) -->
-	<select id="shpPrList"
-		resultType="com.modernhome.domain.ProductReleaseVO">
-		SELECT pr_num, oo_num, clt_name, pro_name, oo_cnt, oo_end_date
-		FROM product_release
-		JOIN out_order o ON product_release.oo_id = o.oo_id
-		JOIN client c ON o.clt_id = c.clt_id
-		JOIN product p ON product_release.pro_id = p.pro_id
-		<where>
+<select id="shpPrList"
+	resultType="com.modernhome.domain.ProductReleaseVO">
+	SELECT pr_num, oo_num, clt_name, pro_name, oo_cnt, oo_end_date
+	FROM product_release
+	JOIN out_order o ON product_release.oo_id = o.oo_id
+	JOIN client c ON o.clt_id = c.clt_id
+	JOIN product p ON product_release.pro_id = p.pro_id
+	<where>
 		pr_state = '출고완료'
-			<if test="vo.pr_num != null and vo.pr_num != ''">
-				AND pr_num LIKE CONCAT('%', #{vo.pr_num}, '%')
-			</if>
-		</where>
-		ORDER BY pr_id DESC
-		LIMIT #{pvo.startPage}, #{pvo.pageSize}
-	</select>
+		<if test="vo.pr_num != null and vo.pr_num != ''">
+			AND pr_num LIKE CONCAT('%', #{vo.pr_num}, '%')
+		</if>
+		AND NOT EXISTS (
+		SELECT 1
+		FROM shipment
+		WHERE shipment.pr_id = product_release.pr_id
+		)
+	</where>
+	ORDER BY pr_id DESC
+	LIMIT #{pvo.startPage}, #{pvo.pageSize}
+</select>
+
 	<!-- 출하 출고 리스트(페이징) -->
 
 
