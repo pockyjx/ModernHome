@@ -214,6 +214,11 @@ public class QualityController {
 		
 		qService.updateFactoryInspection(wvo);
 		
+		if(wvo.getQc_yn().equals("완료")) {
+			qService.modifyPro(wvo);
+			qService.modifyRel(wvo);
+		}
+		
 		return "redirect:/production/quality/factoryInspection";
 		
 	}

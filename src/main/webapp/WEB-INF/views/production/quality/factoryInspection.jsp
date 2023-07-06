@@ -45,7 +45,9 @@
                 		"qc_cnt",
                 		"mr_cnt",
                 		"df_cnt",
-                		"qc_yn"
+                		"qc_yn",
+//                 		"mr_id",
+//                 		"pr_id"
                 	];
 	                
 	                var cellIds = [
@@ -60,7 +62,9 @@
                 		"qc_cnt",
                 		"cntValue",
                 		"df_cnt",
-                		"qc_yn"
+                		"qc_yn",
+//                 		"mr_id",
+//                 		"pr_id"
 	                ];
 
 	                // 각 셀을 수정 가능한 텍스트 입력 필드로 변경
@@ -77,17 +81,15 @@
 	                	
 	                	if(index == 7 || index == 9 || index == 10){
 	                		cellOption = "";
-	                	}else if(index == 0 || index == 5 || index == 1){
+	                	}else if(index == 0 || index == 5 || index == 1 || index == 11 || index == 12){
 	                		cellOption = "readonly";
 	                	}else {
 	                		cellOption = "disabled";
 	                	}
 
-	                    if (index === 10 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
-	                    	cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ ' readonly></td>';
-	                    }else {
-	                    	cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + '></td>';
-	                    }
+	                   cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + '></td>';
+	                    
+	                 
 	                    
 						$(this).data('prevValue', cellValue);
 
@@ -332,6 +334,7 @@
 							<td>${vo.fi_type == '자재' ? vo.mr_cnt : vo.pr_cnt}</td>
 							<td>${vo.df_cnt}</td>
 							<td>${vo.qc_yn}</td>
+<%-- 							<td style="display: none;"><input name="mr_id" value="${vo.mr_id}" type="hidden"><input name="pr_id" value="${vo.pr_id}" type="hidden"></td> --%>
 						</tr>
 					</c:forEach>
 			</table>
