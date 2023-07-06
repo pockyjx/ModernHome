@@ -10,10 +10,15 @@
 <title>작업지시서 작성</title>
 </head>
 
-<!-- Google Web Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin 
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    
+    <style type="text/css">
+        * {
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+    </style>
+<link rel="icon" href="/resources/img/faviconn.svg" type="image/x-icon">
 <!-- Icon Font Stylesheet -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -33,7 +38,9 @@
 	// 클릭 시 팝업창 열기
 	$(document).on("click", "td[id='oo_num']", function() {
 		window.name = "add";
-		window.open('/production/instruct/addPopup?txt=oo', 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+		var left = (screen.width - 700) / 2;
+		var top = (screen.height - 700) / 2;
+		window.open('/production/instruct/addPopup?txt=oo', 'popup', 'width=700, height=700, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	});
 	
 	$(document).on("click", "td[id='line_num']", function() {
@@ -126,7 +133,7 @@
 						
 					<th style="background-color: rgba(0,0,0,0.075);">수주번호</th>
 					<td id="oo_num">
-						<input type="text" class="form-control" name="oo_num" <c:if test='${!empty param.oo_num}'>value="${param.oo_num}"</c:if> readonly>
+						<input type="text" placeholder="(여기를 눌러 입력하세요)" class="form-control" name="oo_num" <c:if test='${!empty param.oo_num}'>value="${param.oo_num}"</c:if> readonly>
 					</td>
 				</tr>
 				<tr>
@@ -149,7 +156,7 @@
 					<td><c:if test='${!empty param.oo_num}'>${fn:substring(reqList[0].oo_end_date, 0, 10)}</c:if></td>
 					<th style="background-color: rgba(0,0,0,0.075);">생산라인</th>
 					<td id="line_num">
-						<input type="text" class="form-control" name="line_num" <c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if> readonly>
+						<input type="text" placeholder="(여기를 눌러 입력하세요)"  class="form-control" name="line_num" <c:if test='${!empty param.line_num}'>value="${param.line_num}"</c:if> readonly>
 					</td>
 				</tr>
 				<tr>
