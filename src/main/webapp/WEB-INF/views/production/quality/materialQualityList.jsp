@@ -76,12 +76,9 @@
 							cellOption = "disabled";
 						}
 						
-	                    if (index === 9 ) {
-							cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ ' readonly></td>';
-						}else {
-// 							cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
+	                    
 							cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
-						}
+						
 	                    
 						// 기존 값을 임시 변수에 저장 -> 수정 후 취소버튼 시 담당자 칸에 세션값이 나오는 문제 해결위해
 						$(this).data('prevValue', cellValue);
