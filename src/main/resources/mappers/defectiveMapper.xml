@@ -258,7 +258,7 @@
 			JOIN receive rec ON rec.rec_id = qc.rec_id 
 			WHERE df_id = #{df_id} AND df.df_cnt >= #{df_cnt}
 		</selectKey>
-		UPDATE receive SET rec_cnt = rec_cnt - #{df_cnt}, rec_in_state = '검사완료' 
+		UPDATE receive SET rec_cnt = rec_cnt - #{df_cnt} 
 		WHERE rec_id = #{rec_id} AND #{df_cnt} &gt; 0
 	</update>
 	<!-- 불량이 등록된 입고 번호의 상태와 입고수량 반영 -->

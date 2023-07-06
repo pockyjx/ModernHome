@@ -181,15 +181,6 @@
 	<!-- 생산실적 추가 저장 -->
 	
 	
-	<!-- 생산실적 수정 저장 -->
-	<update id="modifyPrfrm" parameterType="WijoinVO">
-		UPDATE work_prfrm SET gb_yn = #{gb_yn}, prfrm_cnt = #{prfrm_cnt}, 
-			update_date = now(), update_emp_id = #{emp_id} 
-		WHERE prfrm_id = #{prfrm_id}
-	</update>
-	<!-- 생산실적 수정 저장 -->
-	
-	
 	<!-- 생산실적 삭제 -->
 	<delete id="deletePrfrm">
 		DELETE FROM work_prfrm WHERE prfrm_id = #{prfrm_id}
@@ -203,5 +194,13 @@
 		WHERE pro_id = (SELECT pro_id FROM work_prfrm wp WHERE prfrm_id = #{prfrm_id})
 	</update>
 	<!-- 생산실적 등록 시, 양품 개수 완제품 재고에 추가 -->
+	
+	
+	<!-- 생산실적 등록 시, 수주의 상태를 '생산완료'로 변경 -->
+	<update id="modifyOoState" parameterType="WijoinVO">
+		UPDATE out_order SET oo_state = '생산완료' 
+		WHERE oo_id = (SELECT oo_id FROM work_instr WHERE work_id = (SELECT work_id FROM work_prfrm WHERE prfrm_id = #{prfrm_id}))
+	</update>
+	<!-- 생산실적 등록 시, 수주의 상태를 '생산완료'로 변경 -->
 
 </mapper>

@@ -37,11 +37,6 @@ public class PerformanceServiceImpl implements PerformanceService {
 	}
 
 	@Override
-	public void modifyPrfrm(WijoinVO vo) throws Exception {
-		dao.modifyPrfrm(vo);
-	}
-
-	@Override
 	public void deletePrfrm(int prfrm_id) throws Exception {
 		dao.deletePrfrm(prfrm_id);
 	}
@@ -64,6 +59,11 @@ public class PerformanceServiceImpl implements PerformanceService {
 	@Override
 	public int getWpSearchCnt(String gb_yn, String work_num, String startdate, String endDate, PageVO vo) throws Exception {
 		return dao.getWpSearchCnt(gb_yn, work_num, startdate, endDate, vo);
+	}
+
+	@Override
+	public void modifyOoState(int prfrm_id) throws Exception {
+		dao.modifyOoState(prfrm_id);
 	}
 	
 }
