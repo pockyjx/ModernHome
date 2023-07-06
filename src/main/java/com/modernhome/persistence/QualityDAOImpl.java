@@ -145,7 +145,7 @@ public class QualityDAOImpl implements QualityDAO{
 	public void modifyRecState(WijoinVO wvo) throws Exception {
 		logger.debug("QualityDAOImpl_modifyRec() 실행"); 
 		
-		sqlSession.update(NAMESPACE+".modifyRec",wvo);
+		sqlSession.update(NAMESPACE+".modifyRecState",wvo);
 	}
 
 	
