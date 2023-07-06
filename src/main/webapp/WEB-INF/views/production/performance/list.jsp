@@ -202,18 +202,19 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">작업지시코드</label>
 		<div class="col-sm-10">
-			<input type="text" name="work_num">
+			<input type="text" name="work_num" placeholder="작업지시코드를 입력하세요" class="form-control">
 		</div>
 	</div>
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">등록일자</label>
 		<div class="col-sm-10">
-			<input type="date" name="startDate"> ~ <input type="date" name="endDate">
-			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+			<input type="date" name="startDate" class="col-sm-2 col-form-label"> ~ <input type="date" name="endDate" class="col-sm-2 col-form-label">
+			<button class="btn btn-sm btn-primary m-2" type="submit">조회</button>
 		</div>
 	</div>
 </form>
 
+<hr>
 		
 <form id="prfrmList">
 	<div class="d-flex align-items-center justify-content-between mb-2">

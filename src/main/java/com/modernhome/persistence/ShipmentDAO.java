@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.modernhome.domain.PageVO;
 import com.modernhome.domain.ShipmentJoinVO;
+import com.modernhome.domain.WijoinVO;
 
 public interface ShipmentDAO {
 
-	// 출하  조회
+	// 출하 조회
 	public List<ShipmentJoinVO> shipmentList(PageVO pvo);
 	
 	// 출하 검색 리스트
@@ -28,4 +29,7 @@ public interface ShipmentDAO {
 	
 	// 출하 수정
 	public void updateShipment(ShipmentJoinVO svo);
+	
+	// 출하 테이블에서 출하상태를 '출하완료'으로 변경
+	public void modifyShpState(ShipmentJoinVO svo) throws Exception;
 }

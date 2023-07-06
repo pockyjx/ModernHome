@@ -27,7 +27,7 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	
 	
 	
-	// 출하 전체수  계산
+	// 출하 전체수 계산
 	@Override
 	public int shipmentCnt() throws Exception {
 		logger.debug("shipmentCnt 실행");
@@ -94,7 +94,16 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 		sqlSession.update(NAMESAPCE + ".updateShipment", svo);
 		
 	}
-	
+
+
+
+	@Override
+	public void modifyShpState(ShipmentJoinVO svo) throws Exception {
+		logger.debug("modifyShpState() 실행");
+		
+		sqlSession.update(NAMESAPCE + ".modifyShpState", svo);
+		
+	}
 	
 	
 

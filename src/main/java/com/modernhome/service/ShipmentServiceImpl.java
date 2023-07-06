@@ -17,7 +17,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 	private ShipmentDAO sDAO;
 	
 	
-	// 출하 전체수  계산
+	// 출하 전체수 계산
 	@Override
 	public int shipmentCnt() throws Exception {
 		return sDAO.shipmentCnt();
@@ -59,6 +59,12 @@ public class ShipmentServiceImpl implements ShipmentService {
 	@Override
 	public void updateShipment(ShipmentJoinVO svo) {
 		sDAO.updateShipment(svo);
+		
+	}
+
+	@Override
+	public void modifyShpState(ShipmentJoinVO svo) throws Exception {
+		sDAO.modifyShpState(svo);
 		
 	}
 	

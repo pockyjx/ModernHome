@@ -305,7 +305,7 @@
       // 목록에서 완제품 코드 클릭 시 해당 완제품의 BOM 출력
       $(".openBOM").click(function() {
     	  
-    	 var pro_num = $(this).closest("tr").find('td:eq(2)').text();
+    	 var pro_num = $(this).text();
     	 
 //     	 if(pageStatus == 'update') {
 //     		 pro_num = $(this).closest("tr").find('td:eq(3)').text();
