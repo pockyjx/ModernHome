@@ -177,10 +177,12 @@
 				
 				// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 				if (selectedCheckbox.length === 1) {
-					var io_num = selectedCheckbox.val();
 					var empId = selectedCheckbox.val();
 					var row = selectedCheckbox.closest("tr");
 					var io_state = selectedCheckbox.closest("tr").find('td:eq(10)').text();
+					var io_num = selectedCheckbox.closest("tr").find('td:eq(1)').text();
+					
+					alert(io_num);
 					
 					
 					// io_num 값을 넘기기 위해 히든에 추가함
@@ -409,7 +411,7 @@
 			
 		// 목록에서 발주 코드 클릭 시 해당 발주코드 발주서 출력
 	      $(".openinorderInfo").click(function() {
-			var io_id = $(this).closest("tr").find('td:eq(14)').text();
+			var io_num = $(this).text();
 	    	  
     		var left = (screen.width - 900) / 2;
 	 		var top = (screen.height - 450) / 2;
