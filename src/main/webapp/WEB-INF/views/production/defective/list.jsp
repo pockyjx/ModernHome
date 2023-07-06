@@ -174,7 +174,7 @@
 					pageStatus = "update";
 				});
 			}else if (dfCheckbox.length === 0){
-				alert("수정할 행을 선택해주세요!")
+				alert("수정할 행을 선택하세요!")
 				return false;
 			}else {
 				alert("수정은 하나의 행만 가능합니다!");
@@ -288,7 +288,7 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">불량 타입</label>
 		<div class="col-sm-10">
-			<select name="df_type">
+			<select name="df_type" class="form-select" style="background-color: #fff;">
 				<option value="all">전체</option>
 				<option value="pro">공정검사</option>
 				<option value="ma">수입검사</option>
@@ -299,7 +299,7 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">품목명</label>
 		<div class="col-sm-10">
-			<input type="text" name="nameSearch" placeholder="품목명을 입력하세요.">
+			<input type="text" name="nameSearch" placeholder="품목명을 입력하세요" class="form-control">
 			<button class="btn btn-sm btn-primary m-2" type="submit">조회</button>
 		</div>
 	</div>
