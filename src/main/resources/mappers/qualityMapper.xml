@@ -67,6 +67,7 @@
 	    LEFT JOIN product p ON qc.pro_id = p.pro_id 
 	    LEFT JOIN employee e ON qc.emp_id = e.emp_id
 	    WHERE wi.work_id IS NOT NULL
+	    ORDER BY qc_id DESC
 	    LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 품질검사(완제품) 목록 조회 -->
@@ -100,6 +101,7 @@
 				AND qc_yn = #{qc_yn}
 			</if>
 		</where>
+		ORDER BY qc_id DESC
 		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	
@@ -167,6 +169,7 @@
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
 		WHERE rec.rec_id IS NOT NULL
+		ORDER BY qc_id DESC
 		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 품질검사(자재) 목록 조회 -->
@@ -199,6 +202,7 @@
 				AND qc_yn = #{qc_yn}
 			</if>
 		</where>
+		ORDER BY qc_id DESC
 		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	
@@ -245,6 +249,7 @@
 				AND qc_yn = #{qc_yn}
 			</if>
 		</where>
+		ORDER BY qc_id DESC
 	</select>
 	<!-- 검색 결과 개수 계산(자재) -->
 	
@@ -279,6 +284,7 @@
 		LEFT JOIN warehouse wh ON pr.wh_id = wh.wh_id OR mr.wh_id = wh.wh_id
 		LEFT JOIN employee emp ON qc.emp_id = emp.emp_id
 		WHERE qc.mr_id IS NOT NULL OR qc.pr_id IS NOT NULL
+		ORDER BY qc_id DESC
 		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 출력 -->
@@ -315,6 +321,7 @@
 				AND qc_yn = #{qc_yn}
 			</if>
 		</where> 
+		ORDER BY qc_id DESC
 		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	<!-- 출고 테이블에서 상태가 '출고대기'인 목록 검색 -->
