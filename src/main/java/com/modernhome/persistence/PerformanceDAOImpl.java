@@ -52,12 +52,6 @@ public class PerformanceDAOImpl implements PerformanceDAO {
 	}
 
 	@Override
-	public void modifyPrfrm(WijoinVO vo) throws Exception {
-		logger.debug("WP DAOImpl_modifyPrfrm() 실행");
-		sqlSession.update(NAMESPACE + ".modifyPrfrm", vo);
-	}
-
-	@Override
 	public void deletePrfrm(int prfrm_id) throws Exception {
 		logger.debug("WP DAOImpl_deletePrfrm() 실행");
 		sqlSession.delete(NAMESPACE + ".deletePrfrm", prfrm_id);
@@ -101,6 +95,12 @@ public class PerformanceDAOImpl implements PerformanceDAO {
 		parameterMap.put("pageVO", vo);
 		
 		return sqlSession.selectOne(NAMESPACE + ".wpSearchCnt", parameterMap);
+	}
+
+	@Override
+	public void modifyOoState(int prfrm_id) throws Exception {
+		logger.debug("WP DAOImpl_modifyOoState() 실행");
+		sqlSession.update(NAMESPACE + ".modifyOoState", prfrm_id);
 	}
 	
 }
