@@ -25,10 +25,10 @@
 		$("#addRowButton").click(function() {
 			var newRow = '<tr>' +
 						'<td><input type="checkbox" class="form-check-input"></td>' +
-						'<td><input class="form-control" type="text" name="line_num" placeholder="자동으로 부여" style="border: none; background: transparent;" readonly></td>' +
-						'<td><input class="form-control" type="text" name="line_name" id="line_name"></td>' +
+						'<td><input class="form-control" type="text" name="line_num" placeholder="(자동으로 부여)" style="border: none; background: transparent;" readonly></td>' +
+						'<td><input class="form-control" type="text" name="line_name" id="line_name" placeholder="라인명"></td>' +
 						'<td><input class="form-control" type="text" name="reg_date" style="border: none; background: transparent;" readonly></td>' +
-						'<td><input class="form-control" type="text" name="emp_id" placeholder="담당자" value="${sessionScope.emp_id}" style="border: none; background: transparent;" readonly></td>' +
+						'<td><input class="form-control" type="text" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;" readonly></td>' +
 						'<td>' +
 						'<select class="form-control" name="use_yn" id="use_yn">' +
 						'<option value="Y">Y</option>' +
