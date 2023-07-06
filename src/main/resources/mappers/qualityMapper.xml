@@ -360,7 +360,7 @@
 	<!-- 출고검사 수정 -->
 	<update id="updateFactoryInspection">
 		UPDATE quality_checking 
-		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}, df_cnt = #{df_cnt}
+		SET update_emp_id = #{update_emp_id}, qc_cnt = #{qc_cnt}, update_date = now(), qc_yn = #{qc_yn}, df_cnt = #{df_cnt} 
 		WHERE qc_num = #{qc_num}
 	</update>
 	<!-- 출고검사 수정 -->
@@ -390,21 +390,21 @@
 	<!-- 수입검사에서 검사완료가되면 자재 입고 관리페이지에 검사완료로 변경 -->
 	<update id="modifyRecState" parameterType="WijoinVO">
 		UPDATE receive SET rec_in_state = '검사완료',rec_cnt = rec_cnt - #{df_cnt}
-		WHERE rec_id = #{rec_id} AND qc_yn = '완료'
+		WHERE rec_id = #{rec_id}
 	</update>
 	<!-- 수입검사에서 검사완료가되면 자재 입고 관리페이지에 검사완료로 변경 -->
 	
-	<!-- 출고검사에서 자재가 검사완료가 되면 자채 출고 페이지에 출고완료로 변경 -->
+	<!-- 출고검사에서 자재가 검사완료가 되면 자채 출고페이지에 출고완료로 변경 -->
 	<update id="modifyRel" parameterType="WijoinVO">
-		UPDATE materialRelease SET mr_state = '검사완료',mr_cnt = mr_cnt - #{df_cnt}
-		WHERE mr_id = #{mr_id} AND qc_yn = '완료'
+		UPDATE material_release SET mr_state = '검사완료',mr_cnt = mr_cnt - #{df_cnt}
+		WHERE mr_id = (SELECT mr_id FROM quality_checking WHERE qc_num = #{qc_num})
 	</update>
 	<!-- 출고검사에서 자재가 검사완료가 되면 자채 출고 페이지에 출고완료로 변경 -->
 	
-	<!-- 출고검사에서 완제품이 검사완료가 되면 완제품 출고펭지에 출고완료로 변경 -->
+	<!-- 출고검사에서 완제품이 검사완료가 되면 완제품 출고페이지에 출고완료로 변경 -->
 	<update id="modifyPro" parameterType="WijoinVO">
-		UPDATE productRelease SET pr_state = '검사완료',pr_cnt = pr_cnt - #{df_cnt}
-		WHERE pr_id = #{pr_id} AND qc_yn='완료'
+		UPDATE product_release SET pr_state = '검사완료',pr_cnt = pr_cnt - #{df_cnt}
+		WHERE pr_id = (SELECT pr_id FROM quality_checking WHERE qc_num = #{qc_num})
 	</update>
 	<!-- 출고검사에서 완제품이 검사완료가 되면 완제품 출고펭지에 출고완료로 변경 -->
 	
