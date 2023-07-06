@@ -11,7 +11,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link rel="icon" href="/resources/img/favicon.svg" type="image/x-icon">
+    <link rel="icon" href="/resources/img/faviconn.svg" type="image/x-icon">
 
     <!-- Font -->
     <link rel="stylesheet" as="style" crossorigin 
