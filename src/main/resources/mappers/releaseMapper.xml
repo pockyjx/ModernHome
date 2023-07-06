@@ -187,6 +187,12 @@
 		join requirement r on p.pro_id = r.pro_id
 		join material m on r.ma_id = m.ma_id
 		WHERE wi.work_state = '대기'
+		AND NOT exists (
+			select 1
+            from material_release mr
+            where wi.work_id = mr.work_id
+            and m.ma_id = mr.ma_id
+        )
 		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 자재 출고 팝업 (페이징) -->
@@ -198,6 +204,12 @@
 		join requirement r on p.pro_id = r.pro_id
 		join material m on r.ma_id = m.ma_id
 		WHERE wi.work_state = '대기'
+		AND NOT exists (
+			select 1
+            from material_release mr
+            where wi.work_id = mr.work_id
+            and m.ma_id = mr.ma_id
+        )
 	</select>
 	
 	
@@ -420,6 +432,11 @@
 		join product p on oo.pro_id = p.pro_id
 		join product_stock ps on p.pro_id = ps.pro_id
 		WHERE oo.oo_state = '생산완료'
+		and not exists(
+			select 1
+            from product_release
+            where product_release.oo_id = oo.oo_id
+        )
 		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 수주 정보 팝업 (페이징) -->
@@ -431,6 +448,11 @@
 		join product p on oo.pro_id = p.pro_id
 		join product_stock ps on p.pro_id = ps.pro_id
 		WHERE oo.oo_state = '생산완료'
+		and not exists(
+			select 1
+            from product_release
+            where product_release.oo_id = oo.oo_id
+        )
 	</select>
 
 	<select id="getProductStock" resultMap="ProductReleaseVO">

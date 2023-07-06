@@ -113,7 +113,7 @@ public class HomeController {
 		
 		// 고장률
 		List<QualityCheckingVO> dfRate = qService.dfRate();
-		logger.debug("dfRate : " + dfRate);
+//		logger.debug("dfRate : " + dfRate);
 		
 		objectMapper = new ObjectMapper();
 		String dfRateJson = objectMapper.writeValueAsString(dfRate);
