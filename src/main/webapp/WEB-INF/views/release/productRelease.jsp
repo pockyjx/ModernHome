@@ -232,7 +232,7 @@
  			var pr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
 			var pro_id = $(this).closest("tr").find('td:eq(12)').text();
  			
- 			alert(pr_id + ", " + pro_id);
+//  			alert(pr_id + ", " + pro_id);
  			
  			location.href="/release/waitingRelease?txt=pr&rel_id="+pr_id+"&item_id="+pro_id;
  			

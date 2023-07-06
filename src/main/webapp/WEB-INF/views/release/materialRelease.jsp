@@ -227,7 +227,7 @@
  			var ma_id = $(this).closest("tr").find('td:eq(11)').text();
  			var mr_cnt = $(this).closest("tr").find('td:eq(4)').text();
  			var work_id = $(this).closest("tr").find('td:eq(13)').text();
- 			alert(mr_id +"/"+ ma_id +"/"+ mr_cnt+"/"+work_id);
+//  			alert(mr_id +"/"+ ma_id +"/"+ mr_cnt+"/"+work_id);
  			if(result = window.confirm("출고하시겠습니까? (출고 후 변경이 불가능합니다.)")) {
 				location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt+"&work_id="+work_id; 				
  			}
