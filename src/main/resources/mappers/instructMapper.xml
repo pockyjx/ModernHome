@@ -63,7 +63,7 @@
 		LEFT JOIN line li ON wi.line_id = li.line_id  
 		LEFT JOIN product pro ON wi.pro_id = pro.pro_id
 		LEFT JOIN material_release mr ON wi.work_id = mr.work_id
-		ORDER BY wi.work_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+		ORDER BY wi.work_id DESC LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	<!-- 작업지시 목록 조회 (페이징 처리) -->
 	
@@ -116,6 +116,7 @@
 	        	AND #{endDate} &gt;= DATE(wi.reg_date)
 	        </if>
 		</where>
+		ORDER BY wi.work_id DESC 
 	</select>
 	<!-- 검색한 작업지시 개수 (페이징 처리) -->
 	
@@ -150,7 +151,7 @@
 	        	AND #{endDate} &gt;= DATE(wi.reg_date)
 	        </if>
 		</where>
-		ORDER BY wi.work_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+		ORDER BY wi.work_id DESC LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	<!-- 작업지시 검색 (페이징 처리) -->
 	

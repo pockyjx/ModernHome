@@ -80,7 +80,7 @@
 		LEFT JOIN material ma ON mr.ma_id = ma.ma_id OR rec.ma_id = ma.ma_id 
 		LEFT JOIN product pro ON pr.pro_id = pro.pro_id OR wi.pro_id = pro.pro_id 
 		LEFT JOIN employee emp ON df.emp_id = emp.emp_id
-		ORDER BY df.df_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+		ORDER BY df.df_id DESC LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	<!-- 불량 목록 출력 (페이징 처리) -->
 	
@@ -136,7 +136,7 @@
 				</if>
 			</if>
 		</where>
-		ORDER BY df.df_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+		ORDER BY df.df_id DESC LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	<!-- 검색한 불량 목록 개수 (페이징 처리)  -->
 	
@@ -191,7 +191,7 @@
 				</if>
 			</if>
 		</where>
-		ORDER BY df.df_id LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
+		ORDER BY df.df_id DESC LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	<!-- 불량 검색 출력 (페이징 처리) -->
 	
