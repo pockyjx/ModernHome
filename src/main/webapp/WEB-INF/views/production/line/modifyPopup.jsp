@@ -42,6 +42,15 @@
 		$(".submitButton").click(function() {
 			// 서버에 저장할 데이터 전송을 위한 ajax
 			var formValue = $("form[name='modifyForm']").serialize();
+			var rsns = $("input[name='ls_rsns']").val();
+		
+// 			alert(rsns);
+		
+			if(rsns == "" || rsns == null) {
+				alert('사유를 입력하세요!');
+				$("input[name='ls_rsns']").focus();
+				return;
+			}
 			
 			$.ajax({
 				url : "${contextPath}/production/line/modifyPopup",
