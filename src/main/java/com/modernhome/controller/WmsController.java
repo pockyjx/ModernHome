@@ -251,10 +251,10 @@ public class WmsController {
     
     // 발주서
     @RequestMapping(value = "/inorder/inorderInfo", method = RequestMethod.GET)
-    public void inorderList(@RequestParam(value="io_id") Integer io_id, Model model) throws Exception {
+    public void inorderList(@RequestParam(value="io_num") String io_num, Model model) throws Exception {
     	logger.debug("inorderInfo() 호출!");
     	
-    	List<InorderVO> inorderList = ioService.getIoList(io_id);
+    	List<InorderVO> inorderList = ioService.getIoList(io_num);
     	model.addAttribute("inorderList", inorderList);
     }
     

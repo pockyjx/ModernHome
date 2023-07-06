@@ -34,7 +34,7 @@ public interface InorderDAO {
 	public void deleteInorder(int io_id) throws Exception;
 	
 	// 발주서 가져오기
-	public List<InorderVO> getIoList(int io_id) throws Exception;
+	public List<InorderVO> getIoList(String io_num) throws Exception;
 	
 	// 발주 팝업 목록 (상태 = 완료)
 	public List<InorderVO> getIoPopup(PageVO vo) throws Exception;

@@ -164,13 +164,13 @@
 
 <body>
 
-<div class="col-sm-10 bg-light text-center rounded">
+<div class="col-sm-10 bg-light text-center col-form-label table align-middle" style="display: flex; justify-content: center;">
 	<label><input type="checkbox" name="df_type" value="공정검사" class="form-check-input" 
-		onclick="handleCheckbox(this, '공정검사')"> 공정검사</label>
+		onclick="handleCheckbox(this, '공정검사')"> 공정검사 </label>
 	<label><input type="checkbox" name="df_type" value="수입검사" class="form-check-input" 
-		onclick="handleCheckbox(this, '수입검사')"> 수입검사</label>
+		onclick="handleCheckbox(this, '수입검사')"> 수입검사 </label>
 	<label><input type="checkbox" name="df_type" value="출고검사" class="form-check-input" 
-		onclick="handleCheckbox(this, '출고검사')"> 출고검사</label>
+		onclick="handleCheckbox(this, '출고검사')"> 출고검사 </label>
 </div>
 	
 
