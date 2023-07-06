@@ -3,6 +3,7 @@ package com.modernhome.service;
 import java.util.List;
 
 import com.modernhome.domain.PageVO;
+import com.modernhome.domain.QualityCheckingVO;
 import com.modernhome.domain.WijoinVO;
 
 public interface QualityService {
@@ -73,5 +74,9 @@ public interface QualityService {
 	
 	// 출고검사에서 완제품이 검사완료가 되면 완제품 출고 페이지에 출고완료로 변경
 	public void modifyPro(WijoinVO wvo) throws Exception;
+	
+	
+	// 불량률 계산
+	public List<QualityCheckingVO> dfRate() throws Exception;
 	
 }// QualityService

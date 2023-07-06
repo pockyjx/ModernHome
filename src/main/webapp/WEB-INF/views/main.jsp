@@ -332,12 +332,81 @@ $(document).ready(function() {
 			responsive: false // 차트 크기를 고정, 이거 안하면 차트가 부모요소에 꽉 채워서 나옴
 		}
 		
-	}); // 차트
+	}); // 평균고장수 차트
 	
 	
 	
+	var dfRate = JSON.parse('${dfRate}');
 	
-});
+	
+	var qc_cnts = [];
+	var df_cnts = [];
+	var months = [];
+	
+	for(var i = 0; i < dfRate.length; i++){
+		var qc_cnt = dfRate[i].qc_cnt;
+		qc_cnts.push(qc_cnt);
+	}
+	
+	for(var i = 0; i < dfRate.length; i++){
+		var df_cnt = dfRate[i].df_cnt;
+		df_cnts.push(df_cnt);
+	}
+	
+	for(var i = 0; i < dfRate.length; i++){
+		var qc_date = dfRate[i].qc_date;
+		months.push(qc_date);
+	}
+	
+	
+	var canvas1 = document.getElementById('dfRate');
+	
+	var ctx1 = canvas1.getContext('2d');
+	
+	var myChart = new Chart(ctx1, {
+		type: 'line',
+		data: {
+			labels: months ,
+			datasets: [{
+			label: ['불량률'],
+			data: [df_cnts/qc_cnts*100],
+			borderWidth: 1
+			}]
+		}, // data
+		options: {
+			plugins: {
+				tooltip: {
+					callbacks: {
+						label: function (context) {
+							var value = context.dataset.data[context.dataIndex];
+							return value.toFixed(2) + '%'; // 소수점 둘째자리까지 표시하고 '%' 기호 추가
+						}
+					}
+				}
+			},
+			
+		    scales: {
+				y: {
+					beginAtZero: true,
+					max: 100
+				}
+			},
+			responsive: false // 차트 크기를 고정, 이거 안하면 차트가 부모요소에 꽉 채워서 나옴
+	    }
+		
+	}); // 불량률 차트
+	
+	
+	
+}); // 고장수, 불량률jQuery
+
+
+
+$(document).ready(function(){
+	
+
+	
+}); // 월별불량률 jQuery
 
 </script>
 
@@ -407,13 +476,13 @@ $(document).ready(function() {
 			
 			<div class="col-sm-12 col-xl-6">
 				<div class="bg-light rounded h-100 p-4">
-					<h6 class="mb-4">Single Line Chart</h6>
+<!-- 					<h6 class="mb-4">월별 수주 금액</h6> -->
 					<canvas id="monthlyOrderAmount" width="412" height="206" style="display: block; box-sizing: border-box; height: 219.733px; width: 439.467px;"></canvas>
 				</div>
 			</div>
 			<div class="col-sm-12 col-xl-6">
 				<div class="bg-light rounded h-100 p-4">
-					<h6 class="mb-4">Single Line Chart</h6>
+<!-- 					<h6 class="mb-4">월별 수주 건수</h6> -->
 					<canvas id="monthlyOrderCount" width="412" height="206" style="display: block; box-sizing: border-box; height: 219.733px; width: 439.467px;"></canvas>
 				</div>
 			</div>
@@ -424,13 +493,13 @@ $(document).ready(function() {
 		
 			<div class="col-sm-12 col-xl-6">
 				<div class="bg-light rounded h-100 p-4">
-					<h6 class="mb-4">Single Line Chart</h6>
+<!-- 					<h6 class="mb-4">Single Line Chart</h6> -->
 					<canvas id="monthlyIOAmount" width="412" height="206" style="display: block; box-sizing: border-box; height: 219.733px; width: 439.467px;"></canvas>
 				</div>
 			</div>
 			<div class="col-sm-12 col-xl-6">
 				<div class="bg-light rounded h-100 p-4">
-					<h6 class="mb-4">Single Line Chart</h6>
+<!-- 					<h6 class="mb-4">Single Line Chart</h6> -->
 					<canvas id="monthlyIOCount" width="412" height="206" style="display: block; box-sizing: border-box; height: 219.733px; width: 439.467px;"></canvas>
 				</div>
 			</div>
@@ -442,7 +511,7 @@ $(document).ready(function() {
 			
 			<div class="col-sm-12 col-xl-6">
 				<div class="bg-light rounded h-100 p-4">
-					<h6 class="mb-4">Single Line Chart</h6>
+<!-- 					<h6 class="mb-4">Single Line Chart</h6> -->
 					<canvas id="dfCnt" width="422" height="422" style="display: block; box-sizing: border-box; height: 450.133px; width: 450.133px;"></canvas>
 				</div>
 			</div>
@@ -450,7 +519,7 @@ $(document).ready(function() {
 			
 			<div class="col-sm-12 col-xl-6">
 				<div class="bg-light rounded h-100 p-4">
-					<h6 class="mb-4">Single Line Chart</h6>
+<!-- 					<h6 class="mb-4">Single Line Chart</h6> -->
 					<canvas id="dfRsns" width="422" height="422" style="display: block; box-sizing: border-box; height: 450.133px; width: 450.133px;"></canvas>
 				</div>
 			</div>
@@ -465,8 +534,15 @@ $(document).ready(function() {
 			
 			<div class="col-sm-12 col-xl-6">
 				<div class="bg-light rounded h-100 p-4">
-					<h6 class="mb-4">Single Line Chart</h6>
+<!-- 					<h6 class="mb-4">Single Line Chart</h6> -->
 					<canvas id="shutdownCnt" width="412" height="206" style="display: block; box-sizing: border-box; height: 219.733px; width: 439.467px;"></canvas>
+				</div>
+			</div>
+			
+			<div class="col-sm-12 col-xl-6">
+				<div class="bg-light rounded h-100 p-4">
+<!-- 					<h6 class="mb-4">Single Line Chart</h6> -->
+					<canvas id="dfRate" width="412" height="206" style="display: block; box-sizing: border-box; height: 219.733px; width: 439.467px;"></canvas>
 				</div>
 			</div>
 			
@@ -478,84 +554,84 @@ $(document).ready(function() {
 		</div> <!-- row g-4 -->
 		
     </div>
-    Sales Chart End <br>
+<!--     Sales Chart End <br> -->
 
 
 
 
 
-    Recent Sales Start
-    <div class="container-fluid pt-4 px-4">
-        <div class="bg-light text-center rounded p-4">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h6 class="mb-0">Recent Salse</h6>
-                <a href="">Show All</a>
-            </div>
-            <div class="table-responsive">
-                <table class="table text-start align-middle table-bordered table-hover mb-0">
-                    <thead>
-                        <tr class="text-dark">
-                            <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Invoice</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
-                            <td>01 Jan 2045</td>
-                            <td>INV-0123</td>
-                            <td>Jhon Doe</td>
-                            <td>$123</td>
-                            <td>Paid</td>
-                            <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    Recent Sales End
+<!--     Recent Sales Start -->
+<!--     <div class="container-fluid pt-4 px-4"> -->
+<!--         <div class="bg-light text-center rounded p-4"> -->
+<!--             <div class="d-flex align-items-center justify-content-between mb-4"> -->
+<!--                 <h6 class="mb-0">Recent Salse</h6> -->
+<!--                 <a href="">Show All</a> -->
+<!--             </div> -->
+<!--             <div class="table-responsive"> -->
+<!--                 <table class="table text-start align-middle table-bordered table-hover mb-0"> -->
+<!--                     <thead> -->
+<!--                         <tr class="text-dark"> -->
+<!--                             <th scope="col"><input class="form-check-input" type="checkbox"></th> -->
+<!--                             <th scope="col">Date</th> -->
+<!--                             <th scope="col">Invoice</th> -->
+<!--                             <th scope="col">Customer</th> -->
+<!--                             <th scope="col">Amount</th> -->
+<!--                             <th scope="col">Status</th> -->
+<!--                             <th scope="col">Action</th> -->
+<!--                         </tr> -->
+<!--                     </thead> -->
+<!--                     <tbody> -->
+<!--                         <tr> -->
+<!--                             <td><input class="form-check-input" type="checkbox"></td> -->
+<!--                             <td>01 Jan 2045</td> -->
+<!--                             <td>INV-0123</td> -->
+<!--                             <td>Jhon Doe</td> -->
+<!--                             <td>$123</td> -->
+<!--                             <td>Paid</td> -->
+<!--                             <td><a class="btn btn-sm btn-primary" href="">Detail</a></td> -->
+<!--                         </tr> -->
+<!--                         <tr> -->
+<!--                             <td><input class="form-check-input" type="checkbox"></td> -->
+<!--                             <td>01 Jan 2045</td> -->
+<!--                             <td>INV-0123</td> -->
+<!--                             <td>Jhon Doe</td> -->
+<!--                             <td>$123</td> -->
+<!--                             <td>Paid</td> -->
+<!--                             <td><a class="btn btn-sm btn-primary" href="">Detail</a></td> -->
+<!--                         </tr> -->
+<!--                         <tr> -->
+<!--                             <td><input class="form-check-input" type="checkbox"></td> -->
+<!--                             <td>01 Jan 2045</td> -->
+<!--                             <td>INV-0123</td> -->
+<!--                             <td>Jhon Doe</td> -->
+<!--                             <td>$123</td> -->
+<!--                             <td>Paid</td> -->
+<!--                             <td><a class="btn btn-sm btn-primary" href="">Detail</a></td> -->
+<!--                         </tr> -->
+<!--                         <tr> -->
+<!--                             <td><input class="form-check-input" type="checkbox"></td> -->
+<!--                             <td>01 Jan 2045</td> -->
+<!--                             <td>INV-0123</td> -->
+<!--                             <td>Jhon Doe</td> -->
+<!--                             <td>$123</td> -->
+<!--                             <td>Paid</td> -->
+<!--                             <td><a class="btn btn-sm btn-primary" href="">Detail</a></td> -->
+<!--                         </tr> -->
+<!--                         <tr> -->
+<!--                             <td><input class="form-check-input" type="checkbox"></td> -->
+<!--                             <td>01 Jan 2045</td> -->
+<!--                             <td>INV-0123</td> -->
+<!--                             <td>Jhon Doe</td> -->
+<!--                             <td>$123</td> -->
+<!--                             <td>Paid</td> -->
+<!--                             <td><a class="btn btn-sm btn-primary" href="">Detail</a></td> -->
+<!--                         </tr> -->
+<!--                     </tbody> -->
+<!--                 </table> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!--     Recent Sales End -->
 
 
 

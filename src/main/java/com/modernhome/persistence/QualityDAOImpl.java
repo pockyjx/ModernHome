@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.modernhome.domain.PageVO;
+import com.modernhome.domain.QualityCheckingVO;
 import com.modernhome.domain.WijoinVO;
 
 @Repository
@@ -229,6 +230,14 @@ public class QualityDAOImpl implements QualityDAO{
 		logger.debug("QualityDAOImpl_modifyPro() 실행");
 		
 		sqlSession.update(NAMESPACE+".modifyPro",wvo);
+	}
+	
+	
+	
+	// 불량률 계산
+	@Override
+	public List<QualityCheckingVO> dfRate() throws Exception {
+		return sqlSession.selectList(NAMESPACE+".dfRate");
 	}
 
 }

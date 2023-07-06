@@ -14,10 +14,12 @@ import com.modernhome.domain.DefectiveVO;
 import com.modernhome.domain.InorderVO;
 import com.modernhome.domain.LineVO;
 import com.modernhome.domain.OutOrderResultVO;
+import com.modernhome.domain.QualityCheckingVO;
 import com.modernhome.service.DefectiveService;
 import com.modernhome.service.InorderService;
 import com.modernhome.service.LineService;
 import com.modernhome.service.OutOrderService;
+import com.modernhome.service.QualityService;
 
 /**
  * Handles requests for the application home page.
@@ -40,6 +42,9 @@ public class HomeController {
 	
 	@Autowired
 	private LineService lService;
+	
+	@Autowired
+	private QualityService qService;
 	
 	
 	
@@ -79,7 +84,7 @@ public class HomeController {
 		
 		// 품질 - 불량 그래프
 		DefectiveVO dfCnt = dfService.dfCnt();
-		logger.debug("불량률 " + dfCnt);
+//		logger.debug("불량률 " + dfCnt);
 		
 		objectMapper = new ObjectMapper();
 		String dfCntJson = objectMapper.writeValueAsString(dfCnt);
@@ -94,7 +99,7 @@ public class HomeController {
 		
 		// 평균 고장 건수(라인)
 		List<LineVO> shutdownCnt = lService.shutdownCnt();
-		logger.debug("평균고장건수 : " + shutdownCnt);
+//		logger.debug("평균고장건수 : " + shutdownCnt);
 		
 		objectMapper = new ObjectMapper();
 		String shutdownCntJson = objectMapper.writeValueAsString(shutdownCnt);
@@ -106,6 +111,14 @@ public class HomeController {
 		
 		
 		
+		// 고장률
+		List<QualityCheckingVO> dfRate = qService.dfRate();
+		logger.debug("dfRate : " + dfRate);
+		
+		objectMapper = new ObjectMapper();
+		String dfRateJson = objectMapper.writeValueAsString(dfRate);
+		
+		model.addAttribute("dfRate", dfRateJson);
 		
 		
 		

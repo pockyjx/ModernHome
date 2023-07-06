@@ -408,4 +408,20 @@
 	</update>
 	<!-- 출고검사에서 완제품이 검사완료가 되면 완제품 출고펭지에 출고완료로 변경 -->
 	
+	
+	
+	
+	<!-- 불량률 계산 -->
+	<select id="dfRate" resultType="com.modernhome.domain.QualityCheckingVO">
+		SELECT
+			DATE_FORMAT(qc_date, '%Y-%m') AS qc_date,
+			sum(qc_cnt) qc_cnt, sum(df_cnt) df_cnt
+		FROM quality_checking
+		WHERE work_id IS NOT NULL AND pro_id IS NOT NULL AND qc_yn = '완료'
+		GROUP BY DATE_FORMAT(qc_date, '%Y-%m')
+		ORDER BY qc_date
+	</select>
+	<!-- 불량률 계산 -->
+	
+	
 </mapper>
