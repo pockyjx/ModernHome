@@ -188,7 +188,7 @@ $(document).ready(function() {
 
 //불량 그래프
 $(document).ready(function() {
-	
+$(~~~~).click(func)	
 	
 	var dfCnt = JSON.parse('${dfCnt}');
 	
@@ -359,6 +359,18 @@ $(document).ready(function() {
 	}
 	
 	
+	var data = [];
+
+	for (var i = 0; i < df_cnts.length; i++) {
+		if (qc_cnts[i] !== 0) {
+			data.push(df_cnts[i] / qc_cnts[i] * 100);
+		} else {
+			data.push(0); // 대비값이 0인 경우를 처리하기 위해 추가
+		}
+	}
+	
+
+	
 	var canvas1 = document.getElementById('dfRate');
 	
 	var ctx1 = canvas1.getContext('2d');
@@ -369,7 +381,7 @@ $(document).ready(function() {
 			labels: months ,
 			datasets: [{
 			label: ['불량률'],
-			data: [df_cnts/qc_cnts*100],
+			data: data,
 			borderWidth: 1
 			}]
 		}, // data
@@ -404,70 +416,47 @@ $(document).ready(function() {
 
 $(document).ready(function(){
 	
-
+	$('#home').click(function(){
+		
+	}); // home click
 	
-}); // 월별불량률 jQuery
+	$('#sales').click(function(){
+		
+	}); // sales click
+	
+	$('#materials').click(function(){
+		
+	}); // materials click
+	
+	$('#quality').click(function(){
+		
+	}); // quality click
+	
+	$('#production').click(function(){
+		
+	}); // production click
+	
+	
+	
+}); // 탭(차트)버튼
 
 </script>
 
-<!-- </head> -->
-<!-- <body> -->
+
+<div>
+	<ul class="nav nav-tabs">
+		<li id="home" class="nav-item nav-link">home</li>
+		<li id="sales" class="nav-item nav-link active">영업</li>
+		<li id="materials" class="nav-item nav-link">자재</li>
+		<li id="quality" class="nav-item nav-link">품질</li>
+		<li id="production" class="nav-item nav-link">생산</li>
+	</ul>
+</div>
 
 
 
 
-
-
-
-
-
-<!-- Content Start -->
-<!-- <div class="content"> --> <!-- 이거는 nav에 있기 떄문에 추석처리 -->
-<!--     Sale & Revenue Start -->
-<!--     <div class="container-fluid pt-4 px-4"> -->
-<!--         <div class="row g-4"> -->
-<!--             <div class="col-sm-6 col-xl-3"> -->
-<!--                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4"> -->
-<!--                     <i class="fa fa-chart-line fa-3x text-primary"></i> -->
-<!--                     <div class="ms-3"> -->
-<!--                         <p class="mb-2">Today Sale</p> -->
-<!--                         <h6 class="mb-0">$1234</h6> -->
-<!--                     </div> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-sm-6 col-xl-3"> -->
-<!--                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4"> -->
-<!--                     <i class="fa fa-chart-bar fa-3x text-primary"></i> -->
-<!--                     <div class="ms-3"> -->
-<!--                         <p class="mb-2">Total Sale</p> -->
-<!--                         <h6 class="mb-0">$1234</h6> -->
-<!--                     </div> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-sm-6 col-xl-3"> -->
-<!--                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4"> -->
-<!--                     <i class="fa fa-chart-area fa-3x text-primary"></i> -->
-<!--                     <div class="ms-3"> -->
-<!--                         <p class="mb-2">Today Revenue</p> -->
-<!--                         <h6 class="mb-0">$1234</h6> -->
-<!--                     </div> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-sm-6 col-xl-3"> -->
-<!--                 <div class="bg-light rounded d-flex align-items-center justify-content-between p-4"> -->
-<!--                     <i class="fa fa-chart-pie fa-3x text-primary"></i> -->
-<!--                     <div class="ms-3"> -->
-<!--                         <p class="mb-2">Total Revenue</p> -->
-<!--                         <h6 class="mb-0">$1234</h6> -->
-<!--                     </div> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--         </div> -->
-<!--     </div> -->
-<!--     Sale & Revenue End -->
-
-
-    <div class="container-fluid pt-4 px-4"> <!-- 이 안에 div 다 넣어도 되는듯 -->
+<div class="container-fluid pt-4 px-4"> <!-- 이 안에 div 다 넣어도 되는듯 -->
 		<div class="row g-4">
 		
 		<div>
