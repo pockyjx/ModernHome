@@ -65,8 +65,8 @@ public class InorderServiceImpl implements InorderService {
 
 	// 발주서 가져오기
 	@Override
-	public List<InorderVO> getIoList(int io_id) throws Exception {
-		return iodao.getIoList(io_id);
+	public List<InorderVO> getIoList(String io_num) throws Exception {
+		return iodao.getIoList(io_num);
 	}
 
 	// 발주 팝업 목록

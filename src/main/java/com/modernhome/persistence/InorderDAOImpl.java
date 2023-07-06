@@ -103,9 +103,9 @@ public class InorderDAOImpl implements InorderDAO {
 
 	// 발주서 가져오기
 	@Override
-	public List<InorderVO> getIoList(int io_id) throws Exception {
-		logger.debug(io_id + "번 발주서 조회!");
-		return sqlSession.selectList(NAMESPACE + ".getIoList", io_id);
+	public List<InorderVO> getIoList(String io_num) throws Exception {
+		logger.debug(io_num + "번 발주서 조회!");
+		return sqlSession.selectList(NAMESPACE + ".getIoList", io_num);
 	}
 
 	// 발주 팝업 목록

@@ -177,15 +177,15 @@
 				
 				// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 				if (selectedCheckbox.length === 1) {
-// 					var io_num = selectedCheckbox.val();
+					var io_num = selectedCheckbox.val();
 					var empId = selectedCheckbox.val();
 					var row = selectedCheckbox.closest("tr");
 					var io_state = selectedCheckbox.closest("tr").find('td:eq(10)').text();
 					
 					
 					// io_num 값을 넘기기 위해 히든에 추가함
-// 					var ioNumInput = '<input type="hidden" name="io_num" value="' + io_num + '">';
-// 					$(this).closest("form").append(ioNumInput);
+					var ioNumInput = '<input type="hidden" name="io_num" value="' + io_num + '">';
+					$(this).closest("form").append(ioNumInput);
 
 					
 					// 발주 상태가 완료일 경우에는 수정 불가능
@@ -255,10 +255,9 @@
 						}
 						
 						// 첫 행 링크(a태그) 유지하기 위해 적어둔 것
-// 						if (index === 0){
-// 							return;
-// 						}else 
-						if (index === 9){
+						if (index === 0){
+							return;
+						}else if (index === 9){
 							cellContent = '<td>' +
 							'<select name="' + cellName + '">' +
 							'<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
@@ -414,7 +413,7 @@
 	    	  
     		var left = (screen.width - 900) / 2;
 	 		var top = (screen.height - 450) / 2;
-	    	window.open('/wms/inorder/inorderInfo?io_id='+io_id+'', 'popup', 'width=900, height=450, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+	    	window.open('/wms/inorder/inorderInfo?io_num='+io_num+'', 'popup', 'width=900, height=450, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	    	 
 	      
 	     });
