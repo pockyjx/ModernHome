@@ -293,6 +293,7 @@
 	</ul>
 </div>
 
+
 <form id="productList">	
 	
 	<div class="d-flex align-items-center justify-content-between mb-2">
