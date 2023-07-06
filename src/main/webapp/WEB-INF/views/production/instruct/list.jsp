@@ -199,11 +199,12 @@
 		<label class="col-sm-2 col-form-label">지시일자</label>
 		<div class="col-sm-10">
 			<input type="date" name="startDate"> ~ <input type="date" name="endDate">
-			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+			<button class="btn btn-sm btn-primary m-2"" type="submit">조회</button>
 		</div>
 	</div>
 </form>
 
+<hr>
 
 <div class="d-flex align-items-center justify-content-between mb-2">
 	<h3 class="m-4">작업지시 리스트</h3>

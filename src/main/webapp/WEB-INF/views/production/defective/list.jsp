@@ -300,11 +300,12 @@
 		<label class="col-sm-2 col-form-label">품목명</label>
 		<div class="col-sm-10">
 			<input type="text" name="nameSearch">
-			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+			<button class="btn btn-sm btn-primary m-2"" type="submit">조회</button>
 		</div>
 	</div>
 </form>
 
+<hr>
 		
 <form id="defList">
 	<div class="d-flex align-items-center justify-content-between mb-2">
