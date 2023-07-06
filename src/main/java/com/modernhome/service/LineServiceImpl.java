@@ -63,5 +63,18 @@ public class LineServiceImpl implements LineService {
 		return dao.getListLineShutdown(line_id);
 	}
 
+	
+	
+	
+	
+	// 월별 평균 고장 건수
+	@Override
+	public List<LineVO> shutdownCnt() throws Exception {
+		return dao.shutdownCnt();
+	}
+
+	
+	
+	
 
 } // LineServiceImpl

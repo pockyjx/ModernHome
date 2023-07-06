@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.modernhome.domain.DefectiveVO;
 import com.modernhome.domain.InorderVO;
+import com.modernhome.domain.LineVO;
 import com.modernhome.domain.OutOrderResultVO;
 import com.modernhome.service.DefectiveService;
 import com.modernhome.service.InorderService;
+import com.modernhome.service.LineService;
 import com.modernhome.service.OutOrderService;
 
 /**
@@ -35,6 +37,9 @@ public class HomeController {
 	
 	@Autowired
 	private DefectiveService dfService;
+	
+	@Autowired
+	private LineService lService;
 	
 	
 	
@@ -79,7 +84,27 @@ public class HomeController {
 		objectMapper = new ObjectMapper();
 		String dfCntJson = objectMapper.writeValueAsString(dfCnt);
 		
+		
+		// 파싱해서 사용하려면 해야함
 		model.addAttribute("dfCnt", dfCntJson);
+		
+		
+		
+		
+		
+		// 평균 고장 건수(라인)
+		List<LineVO> shutdownCnt = lService.shutdownCnt();
+		logger.debug("평균고장건수 : " + shutdownCnt);
+		
+		objectMapper = new ObjectMapper();
+		String shutdownCntJson = objectMapper.writeValueAsString(shutdownCnt);
+		
+		model.addAttribute("shutdownCnt", shutdownCntJson);
+		
+		
+		
+		
+		
 		
 		
 		

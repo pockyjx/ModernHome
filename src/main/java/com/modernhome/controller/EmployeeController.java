@@ -69,7 +69,7 @@ public class EmployeeController {
 			response.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('아이디 또는 비밀번호를 잘못 입력했습니다. \\n입력하신 내용을 다시 확인해주세요!');");
+				out.println("alert('아이디 또는 비밀번호를 잘못 입력했습니다. \\n입력하신 내용을 다시 확인하세요.');");
 				out.println("history.back();");
 				out.println("</script>");
 				out.close();

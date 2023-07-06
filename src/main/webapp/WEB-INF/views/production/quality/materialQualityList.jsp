@@ -76,14 +76,8 @@
 							cellOption = "disabled";
 						}
 						
-	                    if (index === 9 ) { // 검수상태 (qc_yn) 열인 경우에만 드롭다운으로 변경
-	                        cellContent = '<td>' +
-	                            '<select name="' + cellName + '">' +
-	                            '<option value="대기" ' + (cellValue === '대기' ? 'selected' : '') + '>대기</option>' +
-	                            '<option value="진행중" ' + (cellValue === '진행중' ? 'selected' : '') + '>진행중</option>' +
-	                            '<option value="완료" ' + (cellValue === '완료' ? 'selected' : '') + '>완료</option>' +
-	                            '</select>' +
-	                            '</td>';
+	                    if (index === 9 ) {
+							cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ ' readonly></td>';
 						}else {
 // 							cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
 							cellContent = '<td><input name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption+ '></td>';
@@ -232,10 +226,9 @@
         	form.attr("method","post");
         	form.attr("action","/production/quality/updateMaterialQuality");
         	
-//         	var value = $(this).text();
+
         	var qc_cnt = $('#qc_cnt').val();
         	var rec_cnt = $('#rec_cnt').val();
-        	var df_cnt = $('#df_cnt').val();
         	
         	if(qc_cnt == 0 || qc_cnt == ""){
         		alert('검수량을 입력하세요!');
@@ -249,11 +242,14 @@
         		return;
         	}
         	
-        	
-        	if(qc_cnt == rec_cnt){
-        		alert('검사가 완료되었습니다!');
-        		$("#qc_yn").val("완료");
+        	if(qc_cnt > 0 && qc_cnt < rec_cnt){
+        		 $("#qc_yn").val('진행중');
         	}
+        	
+        	if (qc_cnt == rec_cnt) {
+                $("#qc_yn").val('완료');
+            }
+
         	
         	form.submit();
         });
