@@ -182,7 +182,7 @@
 					var io_state = selectedCheckbox.closest("tr").find('td:eq(10)').text();
 					var io_num = selectedCheckbox.closest("tr").find('td:eq(1)').text();
 					
-					alert(io_num);
+// 					alert(io_num);
 					
 					
 					// io_num 값을 넘기기 위해 히든에 추가함
