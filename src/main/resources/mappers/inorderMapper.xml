@@ -183,7 +183,7 @@
         JOIN client c ON i.clt_id = c.clt_id
         JOIN material m ON i.ma_id = m.ma_id
         JOIN employee e ON i.emp_id = e.emp_id 
-        WHERE i.io_id = #{io_id};
+        WHERE i.io_num = #{io_num};
 	</select>
 	<!-- 발주서 조회 -->
 	
