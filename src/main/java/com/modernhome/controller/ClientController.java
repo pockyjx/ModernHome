@@ -25,6 +25,7 @@ import com.modernhome.domain.ProductReleaseVO;
 import com.modernhome.domain.ProductVO;
 import com.modernhome.domain.ShipmentJoinVO;
 import com.modernhome.domain.ShipmentVO;
+import com.modernhome.domain.WijoinVO;
 import com.modernhome.service.ClientService;
 import com.modernhome.service.ItemService;
 import com.modernhome.service.OutOrderService;
@@ -330,6 +331,26 @@ public class ClientController {
 		}
 		
 		
+		// 출하 처리
+		@RequestMapping(value = "/acceptRelease")
+		public String acceptRelease(
+				@RequestParam(value = "txt", required = false)String txt,
+				@RequestParam(value = "shp_num", required = false)String shp_num,
+				@RequestParam(value = "shp_state", required = false)String shp_state
+				) throws Exception {
+			logger.debug(shp_num+"");
+			if(txt.equals("mr")) {
+				logger.debug(" C: 출하 처리!");
+				ShipmentJoinVO svo = new ShipmentJoinVO();
+				svo.setShp_num(shp_num);
+				sService.modifyShpState(svo);
+				
+				return "redirect:/client/shipmentList";
+				
+			}
+			return "/";
+		}
+		
 	
 		
 	
@@ -369,7 +390,7 @@ public class ClientController {
 			}else { // 완제품 팝업 처음 실행했을 때
 				
 				logger.debug("완제품 팝업 호출!");
-				popUpPro = iService.getProListPage(pvo); // 기존 페이징 적용된 검색 메서드 사용 !
+				popUpPro = iService.getProListPage(pvo); // 기존 페이징 적용된 검색 메서드 사용!
 				model.addAttribute("popUpPro", popUpPro);
 				
 				// 페이징 정보 추가
