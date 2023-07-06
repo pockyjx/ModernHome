@@ -43,7 +43,7 @@
                 		"update_emp_id",
                 		"update_date",
                 		"qc_cnt",
-                		"prfrm_cnt",
+                		"work_cnt",
                 		"df_cnt",
                 		"qc_yn"
                 	];
@@ -58,7 +58,7 @@
                 		"update_emp_id",
                 		"update_date",
                 		"qc_cnt",
-                		"prfrm_cnt",
+                		"work_cnt",
                 		"df_cnt",
                 		"qc_yn"
 	                ];
@@ -223,7 +223,7 @@
         	form.attr("action","/production/quality/updateQuality");
         	
         	var qc_cnt = $('#qc_cnt').val();
-        	var prfrm_cnt = $('#prfrm_cnt').val();
+        	var work_cnt = $('#work_cnt').val();
         	
         	if(qc_cnt == 0 || qc_cnt == ""){
         		alert('검수량을 입력하세요!');
@@ -231,17 +231,17 @@
         		return;
         	}
         	
-        	if(qc_cnt > prfrm_cnt){
+        	if(qc_cnt > work_cnt){
         		alert('검수량은 생산량을 초과할 수 없습니다!');
         		$('#qc_cnt').focus();
         		return;
         	}
         	
-        	if(qc_cnt > 0 && prfrm_cnt){
+        	if(qc_cnt > 0 && work_cnt){
         		$("#qc_yn").val('진행중');
         	}
         	
-        	if(qc_cnt == prfrm_cnt){
+        	if(qc_cnt == work_cnt){
         		$("#qc_yn").val('완료');
         	}
         	
@@ -340,7 +340,7 @@
 						<th style="background-color: rgba(0,0,0,0.075);">검수자</th>
 						<th style="background-color: rgba(0,0,0,0.075);">검수일자</th>
 						<th style="background-color: rgba(0,0,0,0.075);">검수량</th>
-						<th style="background-color: rgba(0,0,0,0.075);">생산량</th>
+						<th style="background-color: rgba(0,0,0,0.075);">작업량</th>
 						<th style="background-color: rgba(0,0,0,0.075);">불량수량</th>
 						<th style="background-color: rgba(0,0,0,0.075);">검수상태</th>
 					</tr>
@@ -360,7 +360,7 @@
 								<c:if test="${empty vo.update_date}">${fn:substring(vo.qc_date, 0, 10)}</c:if>
 							</td>
 							<td>${vo.qc_cnt}</td>
-							<td>${vo.prfrm_cnt}</td>
+							<td>${vo.work_cnt}</td>
 							<td>${vo.df_cnt}</td>
 							<td>${vo.qc_yn}</td>
 						</tr>

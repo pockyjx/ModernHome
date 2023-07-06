@@ -61,7 +61,7 @@
 				window.open('/production/instruct/modify?work_id=' + workId, 'popup', 
 						'width=600, height=700, top=300, left=650, location=no, status=no');
 			}else if (selectedCheckbox.length === 0){
-				alert("수정할 행을 선택해주세요!")
+				alert("수정할 행을 선택하세요!")
 				return false;
 			}else {
 				alert("수정은 하나의 행만 가능합니다!");
@@ -116,7 +116,7 @@
 // 			var workId = selectedCheckbox.val();
 			
 			if(selectedCheckbox.length === 0) {
-				alert("삭제할 행을 선택해주세요!");
+				alert("삭제할 행을 선택하세요!");
 				
 				// 선택안하면 submit을 막음
 				event.preventDefault();
@@ -180,7 +180,7 @@
 <form method="get" class="bg-light rounded p-3 m-3">
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">작업상태</label>
-		<div class="col-sm-10">
+		<div class="col-sm-4">
 			<label><input type="checkbox" name="work_state" value="대기" class="form-check-input"
 				${param.work_state == '대기' ? 'checked' : ''} onclick="handleCheckbox(this, '대기')"> 대기</label>
 			<label><input type="checkbox" name="work_state" value="진행중"  class="form-check-input"
@@ -191,19 +191,32 @@
 	</div>
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">품목코드</label>
-		<div class="col-sm-10">
-			<input type="text" name="pro_num">
+		<div class="col-sm-4">
+			<input type="text" name="pro_num" placeholder="품목코드를 입력하세요" class="form-control">
 		</div>
 	</div>
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">지시일자</label>
-		<div class="col-sm-10">
-			<input type="date" name="startDate"> ~ <input type="date" name="endDate">
-			<button class="btn btn-info rounded-pill m-2" type="submit">조회</button>
+		<div class="col-sm-2">
+    			<div class="col-auto">
+     				<input type="date" name="startDate" class="form-control">
+  				</div>
+   				
+				<div class="col-auto">
+   				~
+   				</div>
+   				
+   			<div class="col-sm-2">
+    			<div class="col-auto">
+     				<input type="date" name="endDate" class="form-control">
+   				</div>
+    		</div>
+			<button class="btn btn-sm btn-primary m-2" type="submit">조회</button>
 		</div>
 	</div>
 </form>
 
+<hr>
 
 <div class="d-flex align-items-center justify-content-between mb-2">
 	<h3 class="m-4">작업지시 리스트</h3>
