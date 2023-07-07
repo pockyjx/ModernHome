@@ -171,8 +171,10 @@
 	
 	// 작업지시 코드 선택 시 팝업창 열기
 	function infoPopup(workId, proId) {
+		var left = (screen.width - 700) / 2;
+		var top = (screen.height - 700) / 2;
 		window.open('/production/instruct/info?work_id=' + workId + '&pro_id=' + proId, 'popup', 
-			'width=600, height=700, top=300, left=650, location=no, status=no');
+				'width=700, height=700, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	}
 </script>
 <style>

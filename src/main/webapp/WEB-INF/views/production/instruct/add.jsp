@@ -38,9 +38,9 @@
 	// 클릭 시 팝업창 열기
 	$(document).on("click", "td[id='oo_num']", function() {
 		window.name = "add";
-		var left = (screen.width - 700) / 2;
-		var top = (screen.height - 700) / 2;
-		window.open('/production/instruct/addPopup?txt=oo', 'popup', 'width=700, height=700, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+		var left = (screen.width - 600) / 2;
+		var top = (screen.height - 600) / 2;
+		window.open('/production/instruct/addPopup?txt=oo', 'popup', 'width=600, height=600, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	});
 	
 	$(document).on("click", "td[id='line_num']", function() {
@@ -52,7 +52,9 @@
 			alert("수주번호 먼저 선택해주세요.");
 			return false;
 		} else {
-			window.open('/production/instruct/addPopup?txt=li', 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+			var left = (screen.width - 300) / 2;
+			var top = (screen.height - 450) / 2;
+			window.open('/production/instruct/addPopup?txt=li', 'popup', 'width=300, height=450, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 		}
 	});
 	

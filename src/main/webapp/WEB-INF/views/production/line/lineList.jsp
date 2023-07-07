@@ -206,13 +206,15 @@
 
 	function updateButton(lineId, useYn) {
 		var url = "/production/line/modifyPopup?line_id=" + lineId + "&use_yn=" + useYn;
-		window.open(url, 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+		window.open(url, 'popup', 'width=400, height=219, top=300, left=650, location=no, status=no');
 	}
 	
 	// 작업지시 코드 선택 시 팝업창 열기
 	function lsPopup(lineId) {
+		var left = (screen.width - 600) / 2;
+		var top = (screen.height - 300) / 2;
 		window.open('/production/line/lsPopup?line_id=' + lineId, 'popup', 
-			'width=600, height=400, top=300, left=650, location=no, status=no');
+			'width=600, height=300, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	}
 </script>
 
