@@ -75,6 +75,7 @@
 		join material_stock ms on mr.ma_id =
 		ms.ma_id
 		join employee e on mr.emp_id = e.emp_id
+		order by mr_id desc
 		LIMIT #{startPage},
 		#{pageSize}
 	</select>
@@ -121,6 +122,7 @@
 				AND #{endDate} &gt;= mr_date
 			</if>
 		</where>
+		order by mr_id desc
 		LIMIT #{pageVO.startPage}, #{pageVO.pageSize}
 	</select>
 	<!-- 자재 출고 검색 (페이징) -->

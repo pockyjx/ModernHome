@@ -3,6 +3,7 @@
 <%@ include file="../inc/header.jsp"%>
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
@@ -228,9 +229,33 @@
  			var mr_cnt = $(this).closest("tr").find('td:eq(4)').text();
  			var work_id = $(this).closest("tr").find('td:eq(13)').text();
 //  			alert(mr_id +"/"+ ma_id +"/"+ mr_cnt+"/"+work_id);
- 			if(result = window.confirm("출고하시겠습니까? (출고 후 변경이 불가능합니다.)")) {
-				location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt+"&work_id="+work_id; 				
- 			}
+
+			Swal.fire({
+				title: '출고처리 하시겠습니까?',
+				text: '출고 후 변경이 불가능합니다.', 
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+	            cancelButtonColor: '#d33',
+	            confirmButtonText: '승인',
+	            cancelButtonText: '취소'
+			}).then((result) => {
+				
+// 				if(result.isConfirmed) {
+// 					Swal.fire({
+// 						icon: 'success', 
+// 						title: '출고가 완료되었습니다!'
+// 					});
+					
+					location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt+"&work_id="+work_id; 				
+	 			
+				
+			});
+			
+// 			if(result = window.confirm("출고하시겠습니까? (출고 후 변경이 불가능합니다.)")) {
+// 					location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt+"&work_id="+work_id; 				
+// 	 			}
+ 			
  			
  		});
  		
