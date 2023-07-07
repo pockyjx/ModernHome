@@ -75,9 +75,9 @@
 						var cellContent;
 						var cellOption = "";
 						
-						if(index == 8 || index == 10 || index == 11){
+						if(index == 8 || index == 10){
 							cellOption = "";
-						}else if(index == 0 || index == 1 || index == 6){
+						}else if(index == 0 || index == 1 || index == 6 || index == 11){
 							cellOption = "readonly";
 						}else {
 							cellOption = "disabled";
