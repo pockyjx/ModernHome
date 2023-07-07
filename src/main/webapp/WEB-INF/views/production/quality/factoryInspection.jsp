@@ -237,7 +237,7 @@
 	<div class="row mb-3">
 		<label for="fi_nameSearch" class="col-sm-2 col-form-label"><b>품질검사코드</b></label> 
 		<div class="col-sm-4">
-			<input type="text" name="qc_num" class="form-control" placeholder="품질검사코드를 입력하세요">
+			<input type="text" name="qc_num" value="${qc_num }" class="form-control" placeholder="품질검사코드를 입력하세요">
 		</div>
 	</div>
 	
