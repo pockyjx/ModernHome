@@ -37,14 +37,16 @@ public class LineDAOImpl implements LineDAO {
 
 	// 라인 조회 + 검색(페이징)
 	@Override
-	public List<LineVO> getLineListSearch(LineVO lvo) throws Exception{
+	public List<LineVO> getLineListSearch(String line_num, String line_name, String use_yn) throws Exception{
 		logger.debug("DAO -> mapper호출 -> SQL 실행 (사원조회 - 검색된 데이터만 출력)");
 
-//		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-//		paramMap.put("livo", lvo);
-//		paramMap.put("pageVO", pvo);
-//		
-		return sqlSession.selectList(NAMESPACE +  ".getLineListSearch");
+		HashMap<String, Object> parameterMap = new HashMap<String, Object>();
+		parameterMap.put("line_num", line_num);
+		parameterMap.put("line_name", line_name);
+		parameterMap.put("use_yn", use_yn);
+		
+		
+		return sqlSession.selectList(NAMESPACE +  ".getLineListSearch", parameterMap);
 	}
 
 	// 라인 등록

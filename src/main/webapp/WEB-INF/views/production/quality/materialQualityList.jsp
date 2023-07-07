@@ -71,9 +71,9 @@
 						var cellContent;
 						var cellOption = "";
 						
-						if(index == 6 || index == 8 || index == 9) {
+						if(index == 6 || index == 8) {
 							cellOption = "";
-						}else if(index == 0 || index == 4 || index == 1){
+						}else if(index == 0 || index == 4 || index == 1 || index == 9){
 							cellOption = "readonly";
 						}else {
 							cellOption = "disabled";
@@ -289,7 +289,7 @@
 		<div class="row mb-3">
 			<label for="mqSearch" class="col-sm-2 col-form-label"><b>품질검사코드</b></label>
 		 	<div class="col-sm-4">
-		 		<input type="text" name="qc_num"  class="form-control" placeholder="품질검사코드를 입력하세요">
+		 		<input type="text" value="${qc_num }" name="qc_num"  class="form-control" placeholder="품질검사코드를 입력하세요">
 		 	</div>
 		</div>
 		

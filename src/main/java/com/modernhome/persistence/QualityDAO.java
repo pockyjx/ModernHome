@@ -9,7 +9,7 @@ import com.modernhome.domain.WijoinVO;
 public interface QualityDAO {
 	
 	// 품질검사(완제품) 목록 조회(페이징)
-	public List<WijoinVO> getQualityList(PageVO pvo) throws Exception;
+	public List<WijoinVO> getQualityList(PageVO pvo) throws Exception; 
 	
 	// 품질검사 개수(페이징)
 	public int getTotalCntQc() throws Exception;
