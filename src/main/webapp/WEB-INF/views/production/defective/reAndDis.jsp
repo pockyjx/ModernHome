@@ -66,7 +66,7 @@ href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/
 <body>
 
 
-<div class="bg-light text-center rounded p-4 mx-3">
+<div class="bg-light text-center rounded p-4">
 	<form name="modifyForm">
 		<h4></h4>
 		<p>처리 후 변경이 불가능합니다.</p>
