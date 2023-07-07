@@ -8,6 +8,7 @@
 <%@ include file="../inc/nav.jsp"%>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
 
 var pageStatus = "";
@@ -63,9 +64,34 @@ $(document).ready(function() {
  			var shp_num = $(this).closest("tr").find('td:eq(0)').find('input').val();
  			var shp_state = $(this).closest("tr").find('td:eq(10)').text();
  			
- 			if(result = window.confirm("출하 하시겠습니까? (출하 후 변경이 불가능합니다.)")) {
- 				location.href = "/client/acceptRelease?txt=mr&shp_num=" + shp_num + "&shp_state=" + shp_state; 				
- 			}
+ 			Swal.fire({
+				title: '출하 하시겠습니까?',
+				text: '출하 후 변경이 불가능합니다.', 
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+	            cancelButtonColor: '#d33',
+	            confirmButtonText: '승인',
+	            cancelButtonText: '취소'
+			}).then((result) => {
+				
+				if(result.isConfirmed) {
+					Swal.fire({
+						icon: 'success', 
+						title: '출하가 완료되었습니다!', 
+						confirmButtonColor: '#3085d6'
+					}).then((result) => {
+						if(result.isConfirmed) {
+							location.href = "/client/acceptRelease?txt=mr&shp_num=" + shp_num + "&shp_state=" + shp_state;						
+						}
+					});
+				}
+ 			
+ 			});
+ 			
+//  			if(result = window.confirm("출하 하시겠습니까? (출하 후 변경이 불가능합니다.)")) {
+//  				location.href = "/client/acceptRelease?txt=mr&shp_num=" + shp_num + "&shp_state=" + shp_state; 				
+//  			}
  			
  		});
 	

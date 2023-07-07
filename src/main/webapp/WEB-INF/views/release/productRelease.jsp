@@ -11,6 +11,15 @@
 		updateSelectedCheckboxCount();
         // 버튼 클릭 시 행 추가
         $("#addRowButton").click(function() {
+        	
+        	updateSelectedCheckboxCount();
+        	
+        	// 모든 체크박스의 체크 해제
+			$(".releaseList input[type='checkbox']").prop("checked", false);
+			
+			// selected 클래스를 없앰 (css 없애기)
+			$(".releaseList tr").removeClass("selected");
+        	
             var newRow = '<tr>' +
                 '<td><input type="checkbox" class="form-check-input"></td>' +
                 '<td><input type="text" placeholder="(자동으로 부여)" style="border: none; background: transparent;" readonly></td>' +
@@ -94,6 +103,9 @@
 				
 				});
 			}
+			
+			updateSelectedCheckboxCount();  
+			
 		}); // 취소 버튼 누를 시
 		
      	// 수정 버튼 누를 시
@@ -356,7 +368,7 @@
 		</div>
 
 	<div class="table-responsive">
-		<table id="releaseList" class="table align-middle table-bordered table-hover mb-0">
+		<table id="releaseList" class="releaseList table align-middle table-bordered table-hover mb-0">
 				<tr class="text-dark">
 					<th scope="col" style="background-color: rgba(0,0,0,0.075);"><input class="form-check-input"	type="checkbox" id="cbx_chkAll"></th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고코드</th>

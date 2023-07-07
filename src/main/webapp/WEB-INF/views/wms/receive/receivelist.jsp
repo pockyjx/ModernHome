@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script>
 		<!-- 캘린터 위젯 적용 -->
@@ -183,9 +184,32 @@
 			var ma_id = $(this).closest("tr").find('td:eq(3)').text();
 			var rec_cnt = $(this).closest("tr").find('td:eq(6)').text();
 			
-			if(result = window.confirm("입고처리 하시겠습니까?")) {
-				location.href="/wms/acceptReceive?rec_id="+rec_id+"&ma_id="+ma_id+"&rec_cnt="+rec_cnt;
-			}
+			Swal.fire({
+				title: '입고처리 하시겠습니까?',
+				text: '입고 후 변경이 불가능합니다.', 
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+	            cancelButtonColor: '#d33',
+	            confirmButtonText: '승인',
+	            cancelButtonText: '취소'
+			}).then((result) => {
+				if(result.isConfirmed) {
+					Swal.fire({
+						icon: 'success', 
+						title: '입고가 완료되었습니다!', 
+						confirmButtonColor: '#3085d6'
+					}).then((result) => {
+						if(result.isConfirmed) {
+							location.href="/wms/acceptReceive?rec_id="+rec_id+"&ma_id="+ma_id+"&rec_cnt="+rec_cnt;
+						}
+					});
+				}
+			});
+			
+// 			if(result = window.confirm("입고처리 하시겠습니까?")) {
+// 				location.href="/wms/acceptReceive?rec_id="+rec_id+"&ma_id="+ma_id+"&rec_cnt="+rec_cnt;
+// 			}
 		});
 	    
 		// 유효성 검사
