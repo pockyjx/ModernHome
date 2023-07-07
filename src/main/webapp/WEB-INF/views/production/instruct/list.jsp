@@ -40,7 +40,9 @@
 		// 추가 버튼 클릭 시 팝업창 열기
 		$(document).on("click", "#addRowButton", function() {
 			window.name = "add";
-			window.open('/production/instruct/add', 'popup', 'width=600, height=700, top=300, left=650, location=no, status=no');
+			var left = (screen.width - 700) / 2;
+			var top = (screen.height - 700) / 2;
+			window.open('/production/instruct/add', 'popup', 'width=700, height=700, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 		});
 		
 		// 수정 버튼 누를 시
@@ -58,8 +60,10 @@
 				}
 				
 				window.name = "add";
+				var left = (screen.width - 700) / 2;
+				var top = (screen.height - 700) / 2;
 				window.open('/production/instruct/modify?work_id=' + workId, 'popup', 
-						'width=600, height=700, top=300, left=650, location=no, status=no');
+						'width=700, height=700, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 			}else if (selectedCheckbox.length === 0){
 				alert("수정할 행을 선택하세요!")
 				return false;

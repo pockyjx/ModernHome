@@ -30,7 +30,7 @@
 	        	 
 	             var newRow = '<tr>' +
 	                 '<td><input type="checkbox" class="form-check-input"></td>' +
-	                 '<td><input type="text" class="form-control" name="req_num" id="req_num" placeholder="자동 부여" style="border: none; background: transparent;" readonly></td>' +
+	                 '<td><input type="text" class="form-control" name="req_num" id="req_num" placeholder="(자동 부여)" style="border: none; background: transparent;" readonly></td>' +
 	                 '<td><input type="text" class="form-control" name="pro_num" placeholder="완제품 코드" readonly id="pro_num"></td>' +
 	                 '<td><input type="text" class="form-control" name="pro_name" id="pro_name" style="border: none; background: transparent;" readonly ></td>' +
 	                 '<td><input type="text" class="form-control" name="ma_num" placeholder="자재 코드" id="ma_num" readonly></td>' +
@@ -323,17 +323,17 @@
          
     // 완제품 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='pro_num']", function() {
-    	var left = (screen.width - 580) / 2;
+    	var left = (screen.width - 600) / 2;
 		var top = (screen.height - 680) / 2;
-    	window.open('/info/req/addPopup?txt=pro', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+    	window.open('/info/req/addPopup?txt=pro', 'popup', 'width=600, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
    		
     });
     
     // 자재 코드 입력란 클릭 시 팝업창 열기
     $(document).on("click", "input[name='ma_num']", function() {
-    	var left = (screen.width - 580) / 2;
+    	var left = (screen.width - 600) / 2;
 		var top = (screen.height - 680) / 2;
- 	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+ 	   window.open('/info/req/addPopup?txt=ma', 'popup', 'width=600, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
     });
     
 
