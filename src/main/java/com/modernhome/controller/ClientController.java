@@ -153,6 +153,8 @@ public class ClientController {
 		List<OutOrderJoinVO> outOrderList;
 		PageMaker pm = new PageMaker();
 		
+		// 검색정보 전달
+		model.addAttribute("ovo", ovo);
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
 		if(ovo.getOo_start_date_1() != null || ovo.getOo_start_date_2() != null || ovo.getOo_end_date_1() != null
@@ -170,8 +172,7 @@ public class ClientController {
 			model.addAttribute("outOrderList", outOrderList);
 			model.addAttribute("pm", pm);
 			
-			// 검색정보 전달
-			model.addAttribute("ovo", ovo);
+
 			
 		}else {
 			logger.debug("검색어 X, 전체 데이터 출력"+ovo);
