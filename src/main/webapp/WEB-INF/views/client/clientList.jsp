@@ -78,7 +78,7 @@
 		'<td><input type="email" name="clt_email" placeholder="이메일을 입력하세요"></td>' +
 		'</tr>';
 		
-		// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
+		// 첫번째 자식<tr> 뒤에서 부터 행을  추가함
 		$(".table-clientList tr:nth-child(1)").after(newRow);
 		
 		// 버튼 활성화, 비활성화
