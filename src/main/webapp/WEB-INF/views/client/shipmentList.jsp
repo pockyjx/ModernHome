@@ -16,7 +16,7 @@ $(document).ready(function() {
 	
 	updateSelectedCheckboxCount();
 
-	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+	// <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의  행들을 선택하고 배경색 지정
 	$(".table-shipmentList th input[type='checkbox']").click(function() {
 		var checkbox = $(this);
 		var isChecked = checkbox.prop('checked');
@@ -462,13 +462,24 @@ $(document).ready(function() {
 				    		<td>${shipmentList.oo_cnt}</td>
 				    		<td>${fn:substring(shipmentList.oo_end_date, 0, 10)}</td>
 				    		<td>${fn:substring(shipmentList.shp_date, 0, 10)}</td>
+				    		
 				    		<td>
 				    			<c:choose>
 								<c:when test="${shipmentList.shp_state eq '출하준비' }">
+								<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
 								<button type="button" class="btn btn-sm btn-success release">출하<br>준비</button>
+								</c:if>
+								<c:if test="${(sessionScope.emp_dept ne '영업' || sessionScope.emp_auth ne 2) && sessionScope.emp_auth ne 3}">
+								${shipmentList.shp_state}
+								</c:if>
 								</c:when>
 								<c:when test="${shipmentList.shp_state eq '출하완료'}">
+								<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
 								<button type="button" class="btn btn-sm btn-primary">출하<br>완료</button> 
+								</c:if>
+								<c:if test="${(sessionScope.emp_dept ne '영업' || sessionScope.emp_auth ne 2) && sessionScope.emp_auth ne 3}">
+								${shipmentList.shp_state}
+								</c:if>
 								</c:when>
 								</c:choose>
 				    		</td>
@@ -482,7 +493,7 @@ $(document).ready(function() {
 	</div>
 </form>
 		
-		<!-- 페이지 이동 버튼 -->
+		<!-- 페이지 이동  버튼 -->
 	
 	<nav aria-label="Page navigation example">
   		<ul class="pagination justify-content-center pagination-sm">
