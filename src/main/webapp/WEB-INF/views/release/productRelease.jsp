@@ -232,8 +232,20 @@
 	            confirmButtonText: '승인',
 	            cancelButtonText: '취소'
 			}).then((result) => {
+				
+				if(result.isConfirmed) {
+					Swal.fire({
+						icon: 'success', 
+						title: '출고가 완료되었습니다!', 
+						confirmButtonColor: '#3085d6'
+					}).then((result) => {
+						if(result.isConfirmed) {
+						location.href="/release/acceptRelease?txt=pr&release_id="+pr_id+"&mapro_id="+pro_id+"&release_cnt="+pr_cnt; 				
+						
+						}
+					});
+				}
  			
-				location.href="/release/acceptRelease?txt=pr&release_id="+pr_id+"&mapro_id="+pro_id+"&release_cnt="+pr_cnt; 				
  			});
  			
 //  			if(result = window.confirm("출고하시겠습니까? (출고 후 변경이 불가능합니다.)")) {
@@ -378,6 +390,7 @@
 					<td>${vo.pr_date }</td>
 					<td style="display: none">${vo.productVO.pro_id }</td>
 					<td>
+					<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3'}">
 					<c:choose>
 					<c:when test="${vo.pr_state eq '검사완료' && vo.productStockVO.ps_cnt ge vo.pr_cnt}">
 					<button type="button" class="btn btn-sm btn-success release">출고<br>처리</button>
@@ -392,6 +405,7 @@
 					<button type="button" class="btn btn-sm btn-primary">출고<br>완료</button> 
 					</c:when>
 					</c:choose>
+					</c:if>
 					
 					</td>
 			    </tr>
