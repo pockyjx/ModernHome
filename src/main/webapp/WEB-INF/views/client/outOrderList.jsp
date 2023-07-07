@@ -521,7 +521,7 @@ function updateCltCost() {
 	<div class="d-flex align-items-center justify-content-between mb-2">             
 		<h3 class="m-4">수주 목록</h3>
 		<div>
-			<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
+			<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth >= 1) || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button type="button" class="btn btn-primary m-2" id="cancelButton" disabled>X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>

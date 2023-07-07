@@ -74,7 +74,7 @@
 		'<td><input type="text" id="clt_rep" name="clt_rep" placeholder="대표자를 입력하세요"></td>' +
 		'<td><input type="text" id="tel" name="clt_tel" placeholder="연락처를 입력하세요"></td>' +
 		'<td><input type="text" id="clt_adr" name="clt_adr" placeholder="주소지를 입력하세요"></td>' +
-		'<td><input type="text" id="clt_post" name="clt_post" placeholder="우편번호를 입력하세요"></td>' +
+		'<td><input type="number" id="clt_post" name="clt_post" placeholder="우편번호를 입력하세요"></td>' +
 		'<td><input type="email" name="clt_email" placeholder="이메일을 입력하세요"></td>' +
 		'</tr>';
 		
@@ -327,6 +327,8 @@
 			
 			form.submit();
 		}); //submit버튼 유효성
+		
+		
 	  
 	  
 	  
@@ -431,7 +433,7 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">거래처 목록</h3>
 		<div>
-			<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
+			<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth >= 1) || sessionScope.emp_auth == 3}">
 				<button type="button" class="btn btn-primary m-2" id="addRowButton">
 					<i class="fa fa-plus"></i> 추가</button>	
 				<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
