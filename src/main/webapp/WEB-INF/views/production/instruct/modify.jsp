@@ -9,6 +9,7 @@
 <title>작업지시서 수정</title>
 </head>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <link rel="stylesheet" as="style" crossorigin 
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     
@@ -74,12 +75,46 @@
 				alert("자재 출고완료 전까지 변경 불가능합니다!");
 			}
 			if(value === '진행중') {
-				if(confirm("완료로 변경하시겠습니까? (완료 후 저장하시면 변경이 불가능합니다.)")) {
-					alert("완료 처리 되었습니다.");
-					$(this).text("완료");
-					$(this).removeClass("btn btn-sm btn-primary").addClass("btn btn-sm btn-success");
-					$("#work_state").val("완료");
-				}
+				
+				Swal.fire({
+					
+					title: '완료로 변경하시겠습니까?',
+					text: '완료 후 저장하시면 변경이 불가능합니다.',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+		            cancelButtonColor: '#d33',
+		            confirmButtonText: '승인',
+		            cancelButtonText: '취소'
+					
+				}).then((result) => {
+					
+					if(result.isConfirmed) {
+						
+	 					Swal.fire({
+	 						icon: 'success', 
+	 						title: '완료 처리 되었습니다!',
+	 						confirmButtonColor: '#3085d6'
+	 					}).then((result) => {
+	 						if(result.isConfirmed) {
+	 							$(this).text("완료");
+	 		 					$(this).removeClass("btn btn-sm btn-primary").addClass("btn btn-sm btn-success");
+	 		 					$("#work_state").val("완료");
+	 	        			}
+	 					});
+	 					
+					}
+	 					
+					
+				});
+				
+// 				if(confirm("완료로 변경하시겠습니까? (완료 후 저장하시면 변경이 불가능합니다.)")) {
+// 					alert("완료 처리 되었습니다.");
+// 					$(this).text("완료");
+// 					$(this).removeClass("btn btn-sm btn-primary").addClass("btn btn-sm btn-success");
+// 					$("#work_state").val("완료");
+// 				}
+				
 			}
 			return false;
 		});

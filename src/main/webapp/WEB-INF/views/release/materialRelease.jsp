@@ -241,13 +241,19 @@
 	            cancelButtonText: '취소'
 			}).then((result) => {
 				
-// 				if(result.isConfirmed) {
-// 					Swal.fire({
-// 						icon: 'success', 
-// 						title: '출고가 완료되었습니다!'
-// 					});
+				if(result.isConfirmed) {
+					Swal.fire({
+						icon: 'success', 
+						title: '출고가 완료되었습니다!', 
+						confirmButtonColor: '#3085d6'
+					}).then((result) => {
+						if(result.isConfirmed) {
+							location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt+"&work_id="+work_id;
+						}
+					});
+				}
 					
-					location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt+"&work_id="+work_id; 				
+						 				
 	 			
 				
 			});
@@ -413,6 +419,7 @@
 					<td>${vo.mr_date }</td>
 					<td style="display: none">${vo.materialVO.ma_id }</td>
 					<td>
+					<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3'}">
 						<c:choose>
 						<c:when test="${vo.mr_state eq '검사완료' && vo.materialStockVO.ms_cnt ge vo.mr_cnt}">
 						<button type="button" class="btn btn-sm btn-success release">출고<br>처리</button>
@@ -427,6 +434,7 @@
 						<button type="button" class="btn btn-sm btn-primary">출고<br>완료</button> 
 						</c:when>
 						</c:choose>
+					</c:if>
 					</td>
 					<td style="display: none">${vo.work_id }</td>
 			    </tr>

@@ -7,6 +7,9 @@
 <%@ include file="../../inc/header.jsp"%>
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -245,6 +248,24 @@
         	
         	if (qc_cnt == rec_cnt) {
                 $("#qc_yn").val('완료');
+                
+			Swal.fire({
+        			
+					title: '검사가 완료되었습니다!',
+					icon: 'success', 
+					confirmButtonColor: '#3085d6',
+					
+        		}).then((result) => {
+        			if(result.isConfirmed) {
+        				form.submit();
+        			}
+        		});
+        		
+        		return;
+        		
+                
+                
+                
             }
 
         	
