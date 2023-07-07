@@ -372,11 +372,6 @@
 			<if test="pr_num != null and pr_num != ''">
 				AND pr_num LIKE CONCAT('%', #{pr_num}, '%')
 			</if>
-		AND NOT EXISTS (
-		SELECT 1
-		FROM shipment
-		WHERE shipment.pr_id = product_release.pr_id
-		)
 		</where>
 	</select>
 	<!-- 출하 출고 계산 -->
@@ -444,7 +439,7 @@
         )
 		LIMIT #{startPage}, #{pageSize}
 	</select>
-	<!-- 수주 정보 팝업  (페이징) -->
+	<!-- 수주 정보 팝업 (페이징) -->
 	
 	<select id="getOutorderinfoCnt" resultType="int">
 		select count(oo.oo_num)

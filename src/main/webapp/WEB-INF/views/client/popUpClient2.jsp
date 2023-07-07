@@ -103,13 +103,13 @@
 			<li 
 				<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
 			>
-				<a class="page-link" href="/client/addPopup?page=${idx}&txt=clt2&pr_num=${ProductReleaseVO.pr_num}">${idx }</a>
+				<a class="page-link" href="/client/addPopup?page=${idx}&txt=clt2&clt_name=${ProductReleaseVO.pr_num}">${idx }</a>
 			</li>
 			</c:forEach>
 			
 			<c:if test="${pm.next && pm.endPage > 0}">
 			<li class="page-item">
-				<a class="page-link" href="/client/addPopup?page=${pm.endPage+1 }&txt=clt2&pr_num=${ProductReleaseVO.pr_num}" aria-label="Next">
+				<a class="page-link" href="/client/addPopup?page=${pm.endPage+1 }&txt=clt2&clt_name=${ProductReleaseVO.pr_num}" aria-label="Next">
 				<span aria-hidden="true">&raquo;</span>
 				</a>
 			</li>
@@ -117,4 +117,4 @@
 			
 		</ul>
 	</nav>
-	<!-- 페이징 버튼  -->
+	<!-- 페이징 버튼 -->
