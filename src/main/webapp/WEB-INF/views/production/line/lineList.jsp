@@ -207,6 +207,7 @@
 	function updateButton(lineId, useYn) {
 		var url = "/production/line/modifyPopup?line_id=" + lineId + "&use_yn=" + useYn;
 		window.open(url, 'popup', 'width=400, height=400, top=300, left=650, location=no, status=no');
+
 	}
 	
 	// 작업지시 코드 선택 시 팝업창 열기
