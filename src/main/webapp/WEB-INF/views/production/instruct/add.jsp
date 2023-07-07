@@ -10,6 +10,7 @@
 <title>작업지시서 작성</title>
 </head>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <link rel="stylesheet" as="style" crossorigin 
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     
@@ -106,9 +107,21 @@
 			type : "POST",
 			data : formValue,
 			success : function() {
-				alert("작업지시서 작성이 완료되었습니다.");
-				opener.location.reload();
-				self.close();
+				
+				Swal.fire({
+					title: '작업지시서 작성이 완료되었습니다!',
+					icon: 'success',
+					confirmButtonColor: '#3085d6'
+				}).then((result) => {
+					if(result.isConfirmed) {
+						opener.location.reload();
+						self.close();
+					}
+				});
+				
+// 				alert("작업지시서 작성이 완료되었습니다.");
+// 				opener.location.reload();
+// 				self.close();
 			},
 			error : function() {
 				alert("작업지시서 작성이 실패했습니다!");

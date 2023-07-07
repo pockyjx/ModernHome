@@ -314,8 +314,8 @@
 		//   alert(pro_num);
     	 
     	var left = (screen.width - 750) / 2;
- 		var top = (screen.height - 400) / 2;
-    	window.open('/info/req/BOM?pro_num='+pro_num+'', 'popup', 'width=750, height=400, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+ 		var top = (screen.height - 500) / 2;
+    	window.open('/info/req/BOM?pro_num='+pro_num+'', 'popup', 'width=750, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
     	 
       });
       
@@ -387,7 +387,7 @@
 		
 	<div>
 	
-		<c:if test="${((sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산') && sessionScope.emp_auth == '2') || sessionScope.emp_auth == '3'}">
+		<c:if test="${((sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산') && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3'}">
 		
 			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
@@ -464,9 +464,9 @@
     		
     		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
     		<li 
-    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
+    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active aria-current=page': 'class=page-item'}" />
     		>
-    				<a class="page-link" href="/info/req/reqList?page=${idx}&search=${search}&option=${option}">${idx }</a>
+    			<a class="page-link" href="/info/req/reqList?page=${idx}&search=${search}&option=${option}">${idx }</a>
     		</li>
     		</c:forEach>
 			
