@@ -32,7 +32,7 @@
 			var newRow = '<tr>' +
 						 '<td><input type="checkbox" class="form-check-input"></td>' +
 						 '<td><input type="text" class="form-control" name="prfrm_num" value="${prfrmNum}" style="border: none; background: transparent;" readonly></td>' +
-						 '<td id="work_num"><input id="wnumPop" type="text" class="form-control" name="work_num" style="border: none; background: transparent;" readonly></td>' +
+						 '<td id="work_num"><input id="wnumPop" type="text" class="form-control" name="work_num" style="border: none; background: transparent;" placeholder="(클릭)" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="line_num" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="pro_num" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="pro_name" style="border: none; background: transparent;" readonly></td>' +
@@ -55,7 +55,9 @@
 			// 클릭 시 팝업창 열기
 			$(document).on("click", "td[id='work_num']", function() {
 				window.name = "add";
-				window.open('/production/performance/addPopup', 'popup', 'width=700, height=500, top=300, left=650, location=no, status=no');
+				var left = (screen.width - 700) / 2;
+				var top = (screen.height - 500) / 2;
+				window.open('/production/performance/addPopup', 'popup', 'width=700, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes')
 			});
 			
 			// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
