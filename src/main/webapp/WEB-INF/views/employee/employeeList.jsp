@@ -100,7 +100,7 @@
 			$(".table-employeeList tr").removeClass("selected");
 			
 			var newRow = '<tr>' +
-				'<td><input type="checkbox"></td>' +
+				'<td><input type="checkbox" class="form-check-input"></td>' +
 				'<td><input type="text" name="emp_id" disabled="disabled" value="(자동으로 부여)" style="border: none; background: transparent;"></td>' +
 				'<td><input type="text" name="emp_name" id="emp_name" placeholder="이름을 입력하세요"></td>' +
 				

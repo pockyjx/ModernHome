@@ -345,7 +345,7 @@
 				
 				<c:forEach var="mq" items="${materialQualityList}" varStatus="status">
 					<tr>
-						<td><input type="checkbox" name="selectedQcId" value="${mq.qc_id}"></td>
+						<td><input type="checkbox" name="selectedQcId" value="${mq.qc_id}" class="form-check-input"></td>
 						<td>${mq.rec_num}</td>
 						<td>${mq.qc_num}</td>
 						<td>${mq.ma_num}</td>

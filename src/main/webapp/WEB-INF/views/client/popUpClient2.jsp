@@ -11,14 +11,14 @@
             font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
     </style>
-<link rel="icon" href="/resources/img/favicon.svg" type="image/x-icon">
+<link rel="icon" href="/resources/img/faviconn.svg" type="image/x-icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 <link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="/resources/css/style.css" rel="stylesheet">
 
-<title>거래처 팝업</title>
+<title>출고 팝업</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -51,7 +51,7 @@
 		<div class="row row" style="margin-left:3rem; margin-top: 3rem;">
 				<input type="hidden" name="txt" value="clt2">
 		
-			<div class="col-sm-4">
+			<div class="col-sm-5">
 				<input type="text" placeholder="출고코드 입력하세요" name="pr_num" value="${ProductReleaseVO.pr_num }" class="form-control">
 			</div>
 			

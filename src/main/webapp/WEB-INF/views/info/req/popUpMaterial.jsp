@@ -10,8 +10,7 @@
             font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
     </style>
-
-<link href="/resources/img/favicon.ico" rel="icon">
+<link rel="icon" href="/resources/img/faviconn.svg" type="image/x-icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 <link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
@@ -48,8 +47,8 @@
 			<input type="hidden" name="txt" value="ma">
 			<input type="hidden" name="ma_num" value="">
 			
-			<div class="col-sm-4">
-				<input type="text" placeholder="자재명을 입력하세요." name="ma_name" value="${mvo.ma_name }" class="form-control">
+			<div class="col-sm-5">
+				<input type="text" placeholder="자재명을 입력하세요" name="ma_name" value="${mvo.ma_name }" class="form-control">
 			</div>
 				
 			<div class="col-auto">
@@ -63,16 +62,16 @@
 		<table border="1" class="table align-middle table-bordered table-hover mb-0">
 	
 		<tr>
-			<th style="background-color: rgba(0,0,0,0.075);">자재 id</th>
-			<th style="background-color: rgba(0,0,0,0.075);">자재 코드</th>
-			<th style="background-color: rgba(0,0,0,0.075);">자재명</th>
+			<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재 id</th>
+			<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075); text-align: center;">자재명</th>
 		</tr>
 		
 		<c:forEach items="${popUpMate }" var="vo">
 		<tr>
-			<td>${vo.ma_id }</td>
-			<td>${vo.ma_num }</td>
-			<td>${vo.ma_name }</td>
+			<td style="text-align: center;">${vo.ma_id }</td>
+			<td style="text-align: center;">${vo.ma_num }</td>
+			<td style="text-align: center;">${vo.ma_name }</td>
 		</tr>
 		</c:forEach>
 		
@@ -84,7 +83,7 @@
 	<!-- 페이징 버튼 -->
 	
 	<nav aria-label="Page navigation example">
-  		<ul class="pagination justify-content-center pagination-sm">
+  		<ul class="pagination justify-content-center pagination-sm" style="margin-top:0rem;">
   		
   			<c:if test="${pm.prev }">
 			<li class="page-item">

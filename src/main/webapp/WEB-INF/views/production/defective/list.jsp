@@ -32,7 +32,7 @@
 			var newRow = '<tr>' +
 						 '<td><input type="checkbox" class="form-check-input"></td>' +
 						 '<td><input type="text" class="form-control" name="df_num" value="${dfNum[0].df_num}" style="border: none; background: transparent;" readonly></td>' +
-						 '<td id="typePop"><input id="dfTypePop" type="text" class="form-control" name="df_type" style="border: none; background: transparent;" readonly></td>' +
+						 '<td id="typePop"><input id="dfTypePop" type="text" class="form-control" name="df_type" placeholder="(클릭)" readonly></td>' +
 						 '<td><input id="code1" type="text" class="form-control" style="border: none; background: transparent;" readonly>' +
 						 '<td><input id="code2" type="text" class="form-control" style="border: none; background: transparent;" readonly>' +
 						 '<td><input id="code3" type="text" class="form-control" style="border: none; background: transparent;" readonly>' +
@@ -59,7 +59,9 @@
 			// 클릭 시 팝업창 열기
 			$(document).on("click", "td[id='typePop']", function() {
 				window.name = "add";
-				window.open('/production/defective/addPopup', 'popup', 'width=700, height=500, top=300, left=650, location=no, status=no');
+				var left = (screen.width - 700) / 2;
+				var top = (screen.height - 500) / 2;
+				window.open('/production/defective/addPopup', 'popup', 'width=700, height=500, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 			});
 			
 			// 첫번째 자식<tr> 뒤에서 부터 행을 추가함
@@ -274,7 +276,7 @@
 		}
 		
 		var url = "/production/defective/reAndDis?rd=" + rd + "&df_id=" + dfId + "&df_cnt=" + dfCnt;
-		window.open(url, 'popup', 'width=400, height=300, top=300, left=650, location=no, status=no');
+		window.open(url, 'popup', 'width=400, height=158, top=300, left=650, location=no, status=no');
 	}
 </script>
 
