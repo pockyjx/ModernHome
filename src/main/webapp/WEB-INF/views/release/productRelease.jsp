@@ -3,6 +3,7 @@
 <%@ include file="../inc/header.jsp"%>
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
 <script>
@@ -221,9 +222,23 @@
  			var pro_id = $(this).closest("tr").find('td:eq(12)').text();
  			var pr_cnt = $(this).closest("tr").find('td:eq(5)').text();
  			
- 			if(result = window.confirm("출고하시겠습니까? (출고 후 변경이 불가능합니다.)")) {
+ 			Swal.fire({
+				title: '출고처리 하시겠습니까?',
+				text: '출고 후 변경이 불가능합니다.', 
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+	            cancelButtonColor: '#d33',
+	            confirmButtonText: '승인',
+	            cancelButtonText: '취소'
+			}).then((result) => {
+ 			
 				location.href="/release/acceptRelease?txt=pr&release_id="+pr_id+"&mapro_id="+pro_id+"&release_cnt="+pr_cnt; 				
- 			}
+ 			});
+ 			
+//  			if(result = window.confirm("출고하시겠습니까? (출고 후 변경이 불가능합니다.)")) {
+// 				location.href="/release/acceptRelease?txt=pr&release_id="+pr_id+"&mapro_id="+pro_id+"&release_cnt="+pr_cnt; 				
+//  			}
  			
  		});
         
