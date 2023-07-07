@@ -16,7 +16,7 @@ public class QualityServiceImpl implements QualityService{
 
 	// 의존성 주입
 	@Inject
-	private QualityDAO qdao;
+	private QualityDAO qdao; 
 
 	// 품질검사(완제품) 목록 조회 (페이징)
 	@Override

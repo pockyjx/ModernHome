@@ -12,7 +12,7 @@ public interface LineDAO {
 	public List<LineVO> getLineList() throws Exception;
 	
 	// 라인조회 + 검색 (페이징)
-	public List<LineVO> getLineListSearch(LineVO lvo) throws Exception;
+	public List<LineVO> getLineListSearch(String line_num, String line_name, String use_yn) throws Exception;
 	
 	// 라인 등록
 	public void regLine(LineVO lvo) throws Exception;

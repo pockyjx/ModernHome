@@ -3,6 +3,7 @@ package com.modernhome.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,23 +40,28 @@ public class LineController {
 	// 라인 목록 조회(GET) - /production/line/lineList
 	// http://localhost:8088/production/line/lineList
 	@RequestMapping(value = "/line/lineList", method = RequestMethod.GET)
-	public void lineListGET(Model model, LineVO lvo) throws Exception{ 
+	public void lineListGET(Model model,
+			@ModelAttribute(value = "line_num") String line_num,
+			@ModelAttribute(value="line_name") String line_name,
+			@ModelAttribute(value="use_yn") String use_yn) throws Exception{ 
 		logger.debug("lineListGET() 호출");
 		logger.debug("/line/lineList.jsp 페이지 이동");
 		
 		
 		// 검색어가 하나라도 있으면 if문 실행, 아닐경우 else문 실행
-		if(lvo.getLine_num()!= null || lvo.getLine_name() != null || lvo.getUse_yn() != null) {
+		if(!line_num.isEmpty() || !line_name.isEmpty() || !use_yn.isEmpty()) {
 			logger.debug("검색어 O, 검색된 데이터만 출력" + lvo);
 			
 			// 서비스 -> 라인목록 가져오기
-			List<LineVO> lineList = lineService.getLineListSearch(lvo);
+			List<LineVO> lineList = lineService.getLineListSearch(line_num,line_name,use_yn);
 			
 			// Model 객체에 저장
 			model.addAttribute("lineList",lineList);
 			
 			// 검색 정보 전달
-			model.addAttribute("livo",lvo);
+			model.addAttribute("line_num",line_num);
+			model.addAttribute("line_name",line_name);
+			model.addAttribute("use_yn", use_yn);
 			
 		}else {
 			

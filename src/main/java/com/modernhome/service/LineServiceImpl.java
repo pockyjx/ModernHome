@@ -26,8 +26,8 @@ public class LineServiceImpl implements LineService {
 	
 	// 라인조회 + 검색
 	@Override
-	public List<LineVO> getLineListSearch(LineVO lvo) throws Exception {
-		return dao.getLineListSearch(lvo);
+	public List<LineVO> getLineListSearch(String line_num, String line_name, String use_yn) throws Exception {
+		return dao.getLineListSearch(line_num, line_name, use_yn);
 	}
 
 	// 라인등록

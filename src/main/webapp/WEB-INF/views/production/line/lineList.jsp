@@ -227,18 +227,18 @@
 </head>
 <body>
 	
-<form method="GET" name="search" class="bg-light rounded p-3 m-3">
+<form method="get" name="search" class="bg-light rounded p-3 m-3">
 
 	<div class="row mb-3">
 		<label for="lineSearch" class="col-sm-2 col-form-label"><b>라인코드</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="line_num" value="${line_name }" placeholder="라인코드를 입력하세요" class="form-control">
+			<input type="text" name="line_num" value="${line_num}" placeholder="라인코드를 입력하세요" class="form-control">
 		</div>
 	</div>
 	<div class="row mb-3">
 		<label for="lineSearch" class="col-sm-2 col-form-label"><b>라인명</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="line_name" value="${line_name }" placeholder="라인명을 입력하세요" class="form-control">
+			<input type="text" name="line_name" value="${line_name}" placeholder="라인명을 입력하세요" class="form-control">
 		</div>
 	</div>
 	
