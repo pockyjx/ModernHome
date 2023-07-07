@@ -62,7 +62,7 @@
 	// 추가버튼 1번 누르면 추가버튼 비활성화
 	$("#addRowButton").click(function() {
 		var newRow = '<tr>' +
-		'<td><input type="checkbox"></td>' +
+		'<td><input type="checkbox" class="form-check-input"></td>' +
 		'<td><input type="text" disabled="disabled" value="(자동으로 부여)" style="border: none; background: transparent;"></td>' +
 		'<td>' +
 			'<select name="clt_sort">' +

@@ -115,7 +115,7 @@
 	    <selectKey keyProperty="req_num" resultType="String" order="BEFORE">
 	        <![CDATA[
 	        SELECT IFNULL(
-	        	(SELECT CONCAT('REQ', #{pro_id}) FROM requirement WHERE pro_id = #{pro_id}),
+	        	(SELECT CONCAT('REQ', #{pro_id}) FROM requirement WHERE pro_id = #{pro_id} limit 1),
 	        	(CONCAT('REQ', #{pro_id}, '-001'))
 	        ) AS req_num
 	        FROM dual

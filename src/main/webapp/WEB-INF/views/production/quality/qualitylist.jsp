@@ -330,7 +330,7 @@
 		<div class="table-responsive">
 			<table class="table-qualityList table align-middle table-bordered table-hover mb-0" >
 					<tr>
-						<th style="background-color: rgba(0,0,0,0.075);"><input class="form-check-input"	type="checkbox" id="cbx_chkAll"></th>
+						<th style="background-color: rgba(0,0,0,0.075);"><input type="checkbox" class="form-check-input" id="cbx_chkAll"></th>
 						<th style="background-color: rgba(0,0,0,0.075);">작업지시번호</th>
 						<th style="background-color: rgba(0,0,0,0.075);">품질검사코드</th>
 						<th style="background-color: rgba(0,0,0,0.075);">라인코드</th>
@@ -347,7 +347,7 @@
 					
 					<c:forEach var="vo" items="${qualityList}" varStatus="status">
 						<tr>
-							<td><input class="form-check-input" type="checkbox" name="selectedQcId" value="${vo.qc_id}"></td>
+							<td><input type="checkbox" name="selectedQcId" value="${vo.qc_id}" class="form-check-input"></td>
 							<td>${vo.work_num}</td>
 							<td>${vo.qc_num}</td>
 							<td>${vo.line_num}</td>

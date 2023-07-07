@@ -11,7 +11,7 @@
         }
     </style>
 
-<link href="/resources/img/favicon.ico" rel="icon">
+<link rel="icon" href="/resources/img/faviconn.svg" type="image/x-icon">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 <link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 <link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
@@ -47,7 +47,7 @@
 			<input type="hidden" name="pro_num" value="">
 			
 			<div class="col-sm-5">
-				<input type="text" placeholder="완제품명을 입력하세요." name="pro_name" value="${productVO.pro_name}" class="form-control">
+				<input type="text" placeholder="완제품명을 입력하세요" name="pro_name" value="${productVO.pro_name}" class="form-control">
 			</div>
 			
 			<div class="col-auto">
@@ -61,16 +61,16 @@
 	<table border="1" class="table align-middle table-bordered table-hover mb-0">
 	
 		<tr>
-			<th style="background-color: rgba(0,0,0,0.075);">완제품 id</th>
-			<th style="background-color: rgba(0,0,0,0.075);">완제품 코드</th>
-			<th style="background-color: rgba(0,0,0,0.075);">완제품명</th>
+			<th style="background-color: rgba(0,0,0,0.075); text-align: center;">완제품 id</th>
+			<th style="background-color: rgba(0,0,0,0.075); text-align: center;">완제품 코드</th>
+			<th style="background-color: rgba(0,0,0,0.075); text-align: center;">완제품명</th>
 		</tr>
 		
 		<c:forEach items="${popUpPro }" var="vo">
 		<tr>
-			<td>${vo.pro_id }</td>
-			<td>${vo.pro_num }</td>
-			<td>${vo.pro_name }</td>
+			<td style="text-align: center;">${vo.pro_id }</td>
+			<td style="text-align: center;">${vo.pro_num }</td>
+			<td style="text-align: center;">${vo.pro_name }</td>
 		</tr>
 		</c:forEach>
 	
@@ -82,7 +82,7 @@
 	<!-- 페이징 버튼 -->
 	
 	<nav aria-label="Page navigation example">
-  		<ul class="pagination justify-content-center pagination-sm">
+  		<ul class="pagination justify-content-center pagination-sm" style="margin-top:0rem;">
   		
   			<c:if test="${pm.prev }">
 			<li class="page-item">

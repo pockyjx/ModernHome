@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link rel="icon" href="/resources/img/faviconn.svg" type="image/x-icon">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+<link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/css/style.css" rel="stylesheet">
 <link rel="stylesheet" as="style" crossorigin 
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     
@@ -10,12 +16,6 @@
             font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
     </style>
-<link rel="icon" href="/resources/img/favicon.svg" type="image/x-icon">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-<link href="/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-<link href="/resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-<link href="/resources/css/bootstrap.min.css" rel="stylesheet">
-<link href="/resources/css/style.css" rel="stylesheet">
     
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

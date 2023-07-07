@@ -6,12 +6,6 @@
 <%@ include file="../inc/header.jsp"%>
 <%@ include file="../inc/sidebar.jsp"%>
 <%@ include file="../inc/nav.jsp"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>출하 관리</title>
-</head>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -58,7 +52,9 @@ $(document).ready(function() {
 	
 		// 출고 코드 입력란 클릭 시 팝업창 열기
 	    $(document).on("click", "input[name='pr_num']", function() {
-	 	   window.open('/client/addPopup?txt=clt2', 'popup', 'width=600, height=500, location=no, status=no, scrollbars=yes');
+	    	var left = (screen.width - 600) / 2;
+			var top = (screen.height - 680) / 2;
+	    	window.open('/client/addPopup?txt=clt2', 'popup', 'width=600, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 	    });
 	
 	
@@ -73,7 +69,7 @@ $(document).ready(function() {
  			
  		});
 	
-		// 추가 버튼 클릭 시 행 추가
+	// 추가 버튼 클릭 시 행 추가
 	// 추가버튼 1번 누르면 추가버튼 비활성화
 	$("#addRowButton").click(function() {
 		
@@ -84,10 +80,10 @@ $(document).ready(function() {
 
 		
 		var newRow = '<tr>' +
-		'<td><input type="checkbox"></td>' +
-		'<td><input type="text" disabled="disabled" value="자동으로 부여"></td>' +
+		'<td><input type="checkbox" class="form-check-input"></td>' +
+		'<td><input type="text" disabled="disabled" value="(자동으로 부여)"></td>' +
 		'<td><input type="text" name="emp_id" value="' + '${sessionScope.emp_id}' + '" readonly></td>' +
-		'<td><input type="text" name="pr_num" id="pr_num"></td>' +
+		'<td><input type="text" name="pr_num" id="pr_num" placeholder="여기를 눌러 검색하세요"></td>' +
 		'<td><input type="text" name="oo_num" id="oo_num" readonly></td>' +
 		'<td><input type="text" name="clt_name" id="clt_name" readonly></td>' +
 		'<td><input type="text" name="pro_name" id="pro_name" readonly></td>' +
