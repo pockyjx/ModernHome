@@ -227,7 +227,7 @@ $(document).ready(function() {
 				
 				var cellValue = $(this).text();
 				var cellType = [9, 10].includes(index) ? "date" : "text"; // 날짜 타입은 date로 설정
-				var cellReadonly = [0, 1, 5, 6, 8, 12].includes(index) ? "readonly='readonly'" : "";
+				var cellReadonly = [0, 1, 3, 5, 6, 8, 12].includes(index) ? "readonly='readonly'" : "";
 				var cellName = cellNames[index];
 				var cellDisabled = [2, 4, 11].includes(index)? "disabled" : "";
 				var cellContent;
