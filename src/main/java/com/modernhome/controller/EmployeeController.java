@@ -110,7 +110,6 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "관리자");
 			session.setAttribute("emp_dept", "인사");
 			session.setAttribute("emp_auth", 3);
-			return "redirect:/info/req/reqList";
 		
 		}else if(auth.equals("인사일반")) {
 			
@@ -118,7 +117,6 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "인사일반");
 			session.setAttribute("emp_dept", "인사");
 			session.setAttribute("emp_auth", 1);
-			return "redirect:/employee/employeeList";
 			
 		}else if(auth.equals("인사팀장")) {
 			
@@ -126,7 +124,6 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "인사팀장");
 			session.setAttribute("emp_dept", "인사");
 			session.setAttribute("emp_auth", 2);
-			return "redirect:/employee/employeeList";
 			
 		}else if(auth.equals("영업일반")) {
 			
@@ -134,7 +131,6 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "영업일반");
 			session.setAttribute("emp_dept", "영업");
 			session.setAttribute("emp_auth", 1);
-			return "redirect:/client/outOrderList";
 			
 		}else if(auth.equals("영업팀장")) {
 			
@@ -142,7 +138,6 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "영업팀장");
 			session.setAttribute("emp_dept", "영업");
 			session.setAttribute("emp_auth", 2);
-			return "redirect:/client/outOrderList";
 			
 		}else if(auth.equals("생산일반")) {
 			
@@ -150,7 +145,6 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "생산일반");
 			session.setAttribute("emp_dept", "생산");
 			session.setAttribute("emp_auth", 1);
-			return "redirect:/stock/productStockList";
 			
 		}else if(auth.equals("생산팀장")) {
 			
@@ -158,7 +152,6 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "생산팀장");
 			session.setAttribute("emp_dept", "생산");
 			session.setAttribute("emp_auth", 2);
-			return "redirect:/stock/productStockList";
 			
 		}else if(auth.equals("자재일반")) {
 			
@@ -166,7 +159,6 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "자재일반");
 			session.setAttribute("emp_dept", "자재");
 			session.setAttribute("emp_auth", 1);
-			return "redirect:/info/req/reqList";
 			
 		}else if(auth.equals("자재팀장")) {
 			
@@ -174,7 +166,6 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "자재팀장");
 			session.setAttribute("emp_dept", "자재");
 			session.setAttribute("emp_auth", 2);
-			return "redirect:/info/req/reqList";
 			
 		}else if(auth.equals("품질일반")) {
 			
@@ -182,7 +173,6 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "품질일반");
 			session.setAttribute("emp_dept", "품질");
 			session.setAttribute("emp_auth", 1);
-			return "redirect:/production/quality/qualitylist";
 			
 		}else if(auth.equals("품질팀장")) {
 			
@@ -190,13 +180,11 @@ public class EmployeeController {
 			session.setAttribute("emp_name", "품질팀장");
 			session.setAttribute("emp_dept", "품질");
 			session.setAttribute("emp_auth", 2);
-			return "redirect:/production/quality/qualitylist";
 			
 		}else {
-			return null;
 		}
 			
-		
+		return "redirect:/";
 	}
 	
 	
