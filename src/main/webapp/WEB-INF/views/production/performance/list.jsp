@@ -32,21 +32,16 @@
 			var newRow = '<tr>' +
 						 '<td><input type="checkbox" class="form-check-input"></td>' +
 						 '<td><input type="text" class="form-control" name="prfrm_num" value="${prfrmNum}" style="border: none; background: transparent;" readonly></td>' +
-						 '<td id="work_num"><input id="wnumPop" type="text" class="form-control" name="work_num" style="border: none; background: transparent;" placeholder="(클릭)" readonly></td>' +
+						 '<td id="work_num"><input id="wnumPop" type="text" class="form-control" name="work_num" placeholder="(클릭)" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="line_num" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="pro_num" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="pro_name" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;" readonly></td>' +
-						 '<td>' +
-						 '<select name="gb_yn" id="selGb" class="form-select mb-3">' +
-						 '<option value="양품">양품</option>' +
-						 '<option value="불량품">불량품</option>' +
-						 '</select>' +
-						 '</td>' +
-						 '<td><input type="number" class="form-control" name="prfrm_cnt" id="prfrm_cnt"></td>' +
+						 '<td><input id="gb_yn" type="text" class="form-control" name="gb_yn" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="number" class="form-control" name="prfrm_cnt" id="prfrm_cnt" min="0"></td>' +
 						 '<td><input type="number" class="form-control" name="df_cnt" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
-						 '<td><input type="number" class="form-control" name="work_cnt" style="border: none; background: transparent;" readonly>' +
+						 '<td><input type="number" id="work_cnt" class="form-control" name="work_cnt" style="border: none; background: transparent;" readonly>' +
 						 '<input type="hidden" class="form-control" name="work_id">' +
 						 '<input type="hidden" class="form-control" name="line_id">' +
 						 '<input type="hidden" class="form-control" name="pro_id"></td>' +
@@ -158,6 +153,10 @@
 			var form = $("#prfrmList");
 			var work_num = $("#wnumPop").val();
 			var prfrm_cnt = $("#prfrm_cnt").val();
+			var work_cnt = $("#work_cnt").val();
+			var gb_yn = $("#gb_yn").val();
+			
+			console.log(work_cnt + ", " + gb_yn);
 			
 			if(work_num == null || work_num == "") {
 				$("#work_num").focus();
@@ -167,6 +166,21 @@
 			if(prfrm_cnt == null || prfrm_cnt == "") {
 				$("#prfrm_cnt").focus();
 				alert("실적 수량을 입력하세요!");
+				return false;
+			}
+			if(gb_yn === "양품" && prfrm_cnt > 0 && prfrm_cnt < work_cnt) {
+				$("#prfrm_cnt").focus();
+				alert("실적 수량을 제대로 입력하세요!");
+				return false;
+			}
+			if(prfrm_cnt < 0) {
+				$("#prfrm_cnt").focus();
+				alert("실적 수량은 0 미만일 수 없습니다!");
+				return false;
+			}
+			if(prfrm_cnt > work_cnt) {
+				$("#prfrm_cnt").focus();
+				alert("실적 수량은 목표 수량을 초과할 수 없습니다!");
 				return false;
 			}
 			form.submit();
@@ -204,7 +218,7 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">작업지시코드</label>
 		<div class="col-sm-4">
-			<input type="text" name="work_num" placeholder="작업지시코드를 입력하세요" class="form-control">
+			<input type="text" name="work_num" placeholder="작업지시코드를 입력하세요" class="form-control" value="${param.work_num}">
 		</div>
 	</div>
 	<div class="row mb-3">
