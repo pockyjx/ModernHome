@@ -45,7 +45,7 @@
 				<input type="hidden" name="txt" value="clt">
 		
 			<div class="col-sm-5">
-				<input type="text" placeholder="거래처명을 입력하세요" name="clt_name" value="${clientVO.clt_name }" class="form-control">
+				<input type="text" placeholder="거래처명을 입력하세요" name="clt_name" value="${clientVO.clt_name }" class="form-control" autofocus>
 			</div>
 			
 			<div class="col-auto">

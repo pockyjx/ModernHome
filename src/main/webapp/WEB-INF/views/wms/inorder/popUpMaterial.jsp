@@ -49,7 +49,7 @@
 				<input type="hidden" name="ma_num" value="">
 				
 			<div class="col-sm-4">
-				<input type="text" placeholder="자재명을 입력하세요" name="ma_name" value="${mvo.ma_name }" class="form-control">
+				<input type="text" placeholder="자재명을 입력하세요" name="ma_name" value="${mvo.ma_name }" class="form-control" autofocus>
 			</div>
 								
 			<div class="col-auto">
