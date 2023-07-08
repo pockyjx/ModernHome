@@ -200,7 +200,7 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">품목코드</label>
 		<div class="col-sm-4">
-			<input type="text" name="pro_num" placeholder="품목코드를 입력하세요" class="form-control">
+			<input type="text" name="pro_num" placeholder="품목코드를 입력하세요" class="form-control" value="${param.pro_num}">
 		</div>
 	</div>
 	

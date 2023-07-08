@@ -106,9 +106,15 @@ public class DefectiveDAOImpl implements DefectiveDAO {
 	}
 
 	@Override
-	public void modifyReAndDis(WijoinVO vo) throws Exception {
-		logger.debug("defeciveDAOImpl - modifyReAndDis() 실행");
-		sqlSession.update(NAMESPACE + ".modifyReAndDis", vo);
+	public void modifyProductReAndDis(WijoinVO vo) throws Exception {
+		logger.debug("defeciveDAOImpl - modifyProductReAndDis() 실행");
+		sqlSession.update(NAMESPACE + ".modifyProductReAndDis", vo);
+	}
+	
+	@Override
+	public void modifyMaterialReAndDis(WijoinVO vo) throws Exception {
+		logger.debug("defeciveDAOImpl - modifyMaterialReAndDis() 실행");
+		sqlSession.update(NAMESPACE + ".modifyMaterialReAndDis", vo);
 	}
 
 	@Override

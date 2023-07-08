@@ -35,6 +35,7 @@
 			var line_num = $(this).find("td:eq(6)").text();
 			var work_cnt = $(this).find("td:eq(7)").text();
 			var df_cnt = $(this).find("td:eq(8)").text();
+			var gb_yn = df_cnt <= 0 ? "양품" : "불량품";
 			
 			opener.document.getElementsByName("work_id")[0].value = work_id;
 			opener.document.getElementById("wnumPop").value = work_num;
@@ -45,7 +46,7 @@
 			opener.document.getElementsByName("line_num")[0].value = line_num;
 			opener.document.getElementsByName("work_cnt")[0].value = work_cnt;
 			opener.document.getElementsByName("df_cnt")[0].value = df_cnt;
-			opener.document.querySelectorAll("#selGb>option")[df_cnt > 0 ? 1 : 0].selected = true;
+			opener.document.getElementById("gb_yn").value = gb_yn;
 			
 			window.close();
 		});

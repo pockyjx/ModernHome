@@ -42,7 +42,10 @@ public interface DefectiveService {
 	public void delDefective(Integer df_id) throws Exception;
 	
 	// 수리 처리한 불량품을 완제품 재고에 증가
-	public void modifyReAndDis(WijoinVO vo) throws Exception;
+	public void modifyProductReAndDis(WijoinVO vo) throws Exception;
+	
+	// 수리 처리한 불량품을 자재 재고에 증가
+	public void modifyMaterialReAndDis(WijoinVO vo) throws Exception;
 	
 	// 수리 처리 후 불량 추가수정
 	public void modifyDefective2(WijoinVO vo) throws Exception;

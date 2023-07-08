@@ -2,17 +2,17 @@ package com.modernhome.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.modernhome.domain.PageMaker;
 import com.modernhome.domain.PageVO;
@@ -144,32 +144,45 @@ public class DefectiveController {
 	// ===========================================
 	
 	
-	// 수리 & 폐기 처리
-	@RequestMapping(value = "/reAndDis", method = RequestMethod.GET)
-	public void repairAndDiscardGET(WijoinVO vo, @ModelAttribute("rd") String rd) throws Exception {
-		logger.debug("repairAndDiscardGET() 호출");
+
+	// 수리 처리
+	@RequestMapping(value = "/repair", method = RequestMethod.POST)
+	@ResponseBody
+	public void repairPOST(@RequestBody WijoinVO vo) throws Exception {
+		logger.debug("repairPOST() 호출");
+		
+		logger.debug("vo.getPro_id - " + vo.getPro_id());
+		logger.debug("vo.getMa_id - " + vo.getMa_id());
+		
+		// 수리한 완제품을 재고에 반영
+		if(vo.getPro_id() != null) dfService.modifyProductReAndDis(vo);
+		
+		// 수리한 자재를 재고에 반영 (출고검사 시)
+		if(vo.getMa_id() != null) dfService.modifyMaterialReAndDis(vo);
+		
+		dfService.modifyDefective2(vo);
 	}
 	
-	// 수리 & 폐기 처리
-	@RequestMapping(value = "/reAndDis", method = RequestMethod.POST)
-	public void repairAndDiscardPOST(WijoinVO vo, @ModelAttribute("rd") String rd) throws Exception {
-		logger.debug("repairAndDiscardPOST() 호출");
+	// 폐기 처리
+	@RequestMapping(value = "/discard", method = RequestMethod.POST)
+	@ResponseBody
+	public void discardPOST(@RequestBody WijoinVO vo) throws Exception {
+		logger.debug("discardPOST() 호출");
 		
-		if(rd.equals("repair")) {
-			// 수리한 완제품을 재고에 반영
-			logger.debug("############수리############df_id : " + vo.getDf_id() + ", #################df_cnt : " + vo.getDf_cnt() + ", ###########emp_id : " + vo.getEmp_id());
-			
-			dfService.modifyReAndDis(vo);
-			dfService.modifyDefective2(vo);
-		} else {
-			// 폐기한 완제품을 재고에서 삭제
-			int discardCnt = vo.getDf_cnt() * -1;
-			vo.setDf_cnt(discardCnt);
-			logger.debug("############수리############df_id : " + vo.getDf_id() + ", #################df_cnt : " + vo.getDf_cnt() + ", ###########emp_id : " + vo.getEmp_id());
-			
-			dfService.modifyReAndDis(vo);
-			dfService.modifyDefective2(vo);
-		}
+		logger.debug("vo.getPro_id - " + vo.getPro_id());
+		logger.debug("vo.getMa_id - " + vo.getMa_id());
+		
+		int discardCnt = vo.getDf_cnt() * -1;
+		vo.setDf_cnt(discardCnt);
+		
+		// 폐기한 완제품을 재고에서 삭제
+		if(vo.getPro_id() != null) dfService.modifyProductReAndDis(vo);
+		
+		// 폐기한 자재를 재고에서 삭제
+		if(vo.getMa_id() != null) dfService.modifyMaterialReAndDis(vo);
+		
+		dfService.modifyDefective2(vo);
+		
 	}
 	
 }

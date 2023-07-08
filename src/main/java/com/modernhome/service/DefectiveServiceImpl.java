@@ -88,9 +88,15 @@ public class DefectiveServiceImpl implements DefectiveService {
 	}
 
 	@Override
-	public void modifyReAndDis(WijoinVO vo) throws Exception {
-		logger.debug("defectiveServiceImpl - modifyReAndDis() 출력");
-		dao.modifyReAndDis(vo);
+	public void modifyProductReAndDis(WijoinVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - modifyProductReAndDis() 출력");
+		dao.modifyProductReAndDis(vo);
+	}
+	
+	@Override
+	public void modifyMaterialReAndDis(WijoinVO vo) throws Exception {
+		logger.debug("defectiveServiceImpl - modifyMaterialReAndDis() 출력");
+		dao.modifyMaterialReAndDis(vo);
 	}
 
 	@Override
