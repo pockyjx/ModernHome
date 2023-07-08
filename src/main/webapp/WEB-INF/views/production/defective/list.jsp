@@ -5,6 +5,7 @@
 <%@ include file="../../inc/sidebar.jsp"%>
 <%@ include file="../../inc/nav.jsp"%>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
@@ -264,20 +265,102 @@
 	 		}
 	 		form.submit();
 	 	});
+	 	
+		$(".reAndDis").click(function() {
+			var df_id = $(this).closest('tr').find("input[name='df_id']").val();
+			var df_cnt = $(this).closest('tr').find("td:eq(8)").text();
+			var pro_id = $(this).closest('tr').find("td:eq(12)").text();
+			var ma_id = $(this).closest('tr').find("td:eq(13)").text();
+			var empAuth = ${sessionScope.emp_auth};
+			var empId = ${sessionScope.emp_id};
+			var data = {
+							df_id : df_id,
+							df_cnt : df_cnt,
+							pro_id : pro_id,
+							ma_id : ma_id,
+							emp_id : empId
+						};
+			
+			var rd = $(this).closest('tr').find("button[type='button']").text();
+			
+			if(empAuth === 1) {
+				alert("권한이 없습니다.");
+				return false;
+			}
+			
+			if(rd === "수리") {
+				Swal.fire({
+					title: '수리 처리 하시겠습니까?',
+					text: '처리 후 수정할 수 없습니다.',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+		            cancelButtonColor: '#d33',
+		            confirmButtonText: '승인',
+		            cancelButtonText: '취소'
+				}).then((result) => {
+					if(result.isConfirmed) {
+						$.ajax({
+							url : "${contextPath}/production/defective/repair",
+							type : "POST",
+							contentType : "application/json",
+							data : JSON.stringify(data),
+							success : function() {
+								Swal.fire({
+									title: '처리 완료되었습니다!',
+									icon: 'success',
+									confirmButtonColor: '#3085d6'
+								}).then((result) => {
+									if(result.isConfirmed) {
+										location.reload();
+									}
+								});
+							},
+							error : function() {
+								alert("처리 실패했습니다!");
+							}
+						});
+					}
+				});
+			}	// 수리 클릭 시
+			
+			if(rd === "폐기") {
+				Swal.fire({
+					title: '폐기 처리 하시겠습니까?',
+					text: '처리 후 수정할 수 없습니다.',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+		            cancelButtonColor: '#d33',
+		            confirmButtonText: '승인',
+		            cancelButtonText: '취소'
+				}).then((result) => {
+					if(result.isConfirmed) {
+						$.ajax({
+							url : "${contextPath}/production/defective/discard",
+							type : "POST",
+							contentType : "application/json",
+							data : JSON.stringify(data),
+							success : function() {
+								Swal.fire({
+									title: '처리 완료되었습니다!',
+									icon: 'success',
+									confirmButtonColor: '#3085d6'
+								}).then((result) => {
+									if(result.isConfirmed) {
+										location.reload();
+									}
+								});
+							},
+							error : function() {
+								alert("처리 실패했습니다!");
+							}
+						});
+					}
+				});
+			}	// 폐기 클릭 시
+		});
 	});
-	
-	function repairAndDiscard(rd, dfId, dfCnt) {
-		var sessionEmpAuth = ${sessionScope.emp_auth};
-		console.log(sessionEmpAuth)
-		
-		if(sessionEmpAuth < 2) {
-			alert("권한이 없습니다.");
-			return false;
-		}
-		
-		var url = "/production/defective/reAndDis?rd=" + rd + "&df_id=" + dfId + "&df_cnt=" + dfCnt;
-		window.open(url, 'popup', 'width=400, height=158, top=300, left=650, location=no, status=no');
-	}
 </script>
 
 <style>
@@ -301,7 +384,7 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label">품목명</label>
 		<div class="col-sm-4">
-			<input type="text" name="nameSearch" placeholder="품목명을 입력하세요" class="form-control">
+			<input type="text" name="nameSearch" placeholder="품목명을 입력하세요" class="form-control" value="${param.nameSearch}">
 		</div>
 		
 		<div class="col-auto">
@@ -376,17 +459,23 @@
 						<td>${df.df_rsns}</td>
 						<td>${df.repair_yn}</td>
 						<td>${fn:substring(df.solved_date, 0, 10)}</td>
-						<td>
-							<c:if test="${df.solved_date == null && !df.df_type.equals('수입검사') && df.repair_yn.equals('가능')}">
-								<button type="button" onclick="repairAndDiscard('repair', '${df.df_id}', ${df.df_cnt});" class="btn btn-sm btn-success">수리</button>
-							</c:if>
-							<c:if test="${df.solved_date == null && !df.df_type.equals('수입검사') && df.repair_yn.equals('불가')}">
-								<button type="button" onclick="repairAndDiscard('discard', '${df.df_id}', ${df.df_cnt});" class="btn btn-sm btn-danger">폐기</button>
-							</c:if>
-							<c:if test="${df.solved_date != null}">
+						<td style="display: none;">${df.pro_id}</td>
+						<td style="display: none;">${df.ma_id}</td>
+						<c:if test="${df.solved_date == null && !df.df_type.equals('수입검사') && df.repair_yn.equals('가능')}">
+							<td class="reAndDis">
+								<button type="button" class="btn btn-sm btn-success">수리</button>
+							</td>
+						</c:if>
+						<c:if test="${df.solved_date == null && !df.df_type.equals('수입검사') && df.repair_yn.equals('불가')}">
+							<td class="reAndDis">
+								<button type="button" class="btn btn-sm btn-danger">폐기</button>
+							</td>
+						</c:if>
+						<c:if test="${df.solved_date != null}">
+							<td>
 								<button class="btn btn-sm btn-outline-secondary" disabled>완료</button>
-							</c:if>
-						</td>
+							</td>
+						</c:if>
 					</tr>
 				</c:forEach>
 			</table>

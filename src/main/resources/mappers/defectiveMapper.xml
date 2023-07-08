@@ -279,12 +279,20 @@
 	<!-- 불량 삭제 -->
 	
 	
-	<!-- 완제품 수리 & 폐기 처리 시 재고 반영 -->
-	<update id="modifyReAndDis">
+	<!-- 완제품 수리 & 폐기 처리 시 완제품 재고 반영 -->
+	<update id="modifyProductReAndDis">
 		UPDATE product_stock SET ps_cnt = ps_cnt + #{df_cnt}, ps_update_date = now(), update_emp_id = #{emp_id} 
 		WHERE pro_id = (SELECT pro_id FROM quality_checking WHERE qc_id = (SELECT qc_id FROM defective WHERE df_id = #{df_id}))
 	</update>
-	<!-- 완제품 수리 & 폐기 처리 시 재고 반영 -->
+	<!-- 완제품 수리 & 폐기 처리 시 완제품 재고 반영 -->
+	
+	
+	<!-- 자재 수리 & 폐기 처리 시 자재 재고 반영 -->
+	<update id="modifyMaterialReAndDis">
+		UPDATE material_stock SET ms_cnt = ms_cnt + #{df_cnt} 
+		WHERE ma_id = (SELECT ma_id FROM quality_checking WHERE qc_id = (SELECT qc_id FROM defective WHERE df_id = #{df_id}))
+	</update>
+	<!-- 자재 수리 & 폐기 처리 시 자재 재고 반영 -->
 	
 	
 	<!-- 수리 & 폐기 처리 후 불량 수정 -->
