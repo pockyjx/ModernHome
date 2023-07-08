@@ -47,7 +47,7 @@
 			<input type="hidden" name="pro_num" value="">
 			
 			<div class="col-sm-5">
-				<input type="text" placeholder="완제품명을 입력하세요" name="pro_name" value="${productVO.pro_name}" class="form-control">
+				<input type="text" placeholder="완제품명을 입력하세요" name="pro_name" value="${productVO.pro_name}" class="form-control" autofocus>
 			</div>
 			
 			<div class="col-auto">

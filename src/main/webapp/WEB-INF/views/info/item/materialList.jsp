@@ -27,7 +27,7 @@
              var newRow = '<tr>' +
                  '<td><input type="checkbox" class="form-check-input"></td>' +
                  '<td><input type="text" name="ma_num" class="form-control" style="border: none; background: transparent;" placeholder="(자동으로 부여)" readonly></td>' +
-                 '<td><input type="text" name="ma_name" id="ma_name" class="form-control" placeholder="자재명을 입력하세요""></td>' +
+                 '<td><input type="text" name="ma_name" id="ma_name" class="form-control" placeholder="자재명을 입력하세요" autofocus></td>' +
                  '<td><input type="text" name="ma_unit" class="form-control" value="EA" style="border: none; background: transparent;" readonly></td>' +
                  '<td><input type="number" name="ma_price" id="ma_price" class="form-control" placeholder="자재 단가를 입력하세요" min="0"></td>' +
                  '</tr>';

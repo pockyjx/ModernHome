@@ -52,7 +52,7 @@
 				<input type="hidden" name="txt" value="clt2">
 		
 			<div class="col-sm-5">
-				<input type="text" placeholder="출고코드 입력하세요" name="pr_num" value="${ProductReleaseVO.pr_num }" class="form-control">
+				<input type="text" placeholder="출고코드 입력하세요" name="pr_num" value="${ProductReleaseVO.pr_num }" class="form-control" autofocus>
 			</div>
 			
 			<div class="col-auto">

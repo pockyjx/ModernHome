@@ -13,7 +13,7 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>자재코드</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="ma_num" value="${msvo.ma_num }" class="form-control" placeholder="자재코드를 입력하세요"></label>
+			<input type="text" name="ma_num" value="${msvo.ma_num }" class="form-control" placeholder="자재코드를 입력하세요" autofocus></label>
 		</div>
 	</div>
 	
