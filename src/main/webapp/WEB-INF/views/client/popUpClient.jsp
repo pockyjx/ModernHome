@@ -90,9 +90,7 @@
 			</c:if>
 			
 			<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-			<li 
-				<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-			>
+			<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
 				<a class="page-link" href="/client/addPopup?page=${idx}&txt=clt&clt_name=${clientVO.clt_name}">${idx }</a>
 			</li>
 			</c:forEach>
