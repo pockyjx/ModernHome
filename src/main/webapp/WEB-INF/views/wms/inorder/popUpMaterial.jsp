@@ -94,9 +94,7 @@
     		</c:if>
     		
     		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-    		<li 
-    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-    		>
+    		<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
     			<a class="page-link" href="/wms/inorder/addPopup?page=${idx}&txt=ma&ma_num=${mvo.ma_num}&ma_name=${mvo.ma_name}">${idx }</a>
     		</li>
     		</c:forEach>

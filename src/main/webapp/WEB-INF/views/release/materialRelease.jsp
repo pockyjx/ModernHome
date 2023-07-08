@@ -458,9 +458,7 @@
    		</c:if>
    		
    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-   		<li 
-   			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-   		>
+   		<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
    				<a class="page-link" href="/release/materialRelease?page=${idx}&startDate=${startDate}&endDate=${endDate}&ma_nameSearch=${ma_name}&mr_numSearch=${mr_num}">${idx }</a>
    		</li>
    		</c:forEach>

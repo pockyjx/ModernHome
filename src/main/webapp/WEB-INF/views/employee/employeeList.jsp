@@ -665,9 +665,7 @@
 			
 		<!-- 버튼 -->
 		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-		<li 
-				<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-			>
+		<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
 			
 			<c:choose>
 				<c:when test="${not empty evo.emp_id || not empty evo.emp_name || not empty evo.emp_dept || not empty evo.emp_rank || not empty evo.emp_state}">

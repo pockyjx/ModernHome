@@ -630,9 +630,7 @@ function updateCltCost() {
 			
 		<!-- 버튼 -->
 		<c:forEach begin="${pm.startPage }" end="${pm.endPage}" step="1" var="idx">
-		<li 
-				<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-			>
+		<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
 			
 			<c:choose>
 				<c:when test="${not empty ovo.oo_start_date_1 || not empty ovo.oo_start_date_2 || not empty ovo.oo_end_date_1 || not empty ovo.oo_end_date_2 || not empty ovo.clt_name || not empty ovo.emp_name}">

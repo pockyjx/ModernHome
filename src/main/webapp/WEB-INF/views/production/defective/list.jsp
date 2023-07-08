@@ -498,7 +498,7 @@
    		</c:if>
    		
    		<c:forEach begin="${pm.startPage}" end="${pm.endPage}" step="1" var="idx">
-	   		<li <c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />>
+	   		<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
 	   			<a class="page-link" href="/production/defective/list?page=${idx}&df_type=${df_type}&nameSearch=${nameSearch}&line_num=${line_num}&nameSearch=${nameSearch}">${idx}</a>
 	   		</li>
    		</c:forEach>
