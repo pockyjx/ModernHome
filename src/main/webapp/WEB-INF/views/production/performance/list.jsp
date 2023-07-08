@@ -156,7 +156,7 @@
 			var work_cnt = $("#work_cnt").val();
 			var gb_yn = $("#gb_yn").val();
 			
-			console.log(work_cnt + ", " + gb_yn);
+			console.log(typeof(work_cnt) + ", " + typeof(prfrm_cnt));
 			
 			if(work_num == null || work_num == "") {
 				$("#work_num").focus();
@@ -168,19 +168,19 @@
 				alert("실적 수량을 입력하세요!");
 				return false;
 			}
-			if(gb_yn === "양품" && prfrm_cnt > 0 && prfrm_cnt < work_cnt) {
+			if(prfrm_cnt <= 0) {
 				$("#prfrm_cnt").focus();
-				alert("실적 수량을 제대로 입력하세요!");
+				alert("실적 수량은 0 이하일 수 없습니다!");
 				return false;
 			}
-			if(prfrm_cnt < 0) {
-				$("#prfrm_cnt").focus();
-				alert("실적 수량은 0 미만일 수 없습니다!");
-				return false;
-			}
-			if(prfrm_cnt > work_cnt) {
+			if(Number(prfrm_cnt) > Number(work_cnt)) {
 				$("#prfrm_cnt").focus();
 				alert("실적 수량은 목표 수량을 초과할 수 없습니다!");
+				return false;
+			}
+			if(Number(prfrm_cnt) < Number(work_cnt)) {
+				$("#prfrm_cnt").focus();
+				alert("실적 수량을 정확히 입력하세요!");
 				return false;
 			}
 			form.submit();
