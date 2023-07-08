@@ -4,7 +4,7 @@ public class OutOrderResultVO {
 	
 	private String month;
 	private Integer monthlyOrderCount;
-	private Integer monthlyOrderAmount;
+	private long monthlyOrderAmount;
 	
 	
 	public Integer getMonthlyOrderCount() {
@@ -13,10 +13,10 @@ public class OutOrderResultVO {
 	public void setMonthlyOrderCount(Integer monthlyOrderCount) {
 		this.monthlyOrderCount = monthlyOrderCount;
 	}
-	public Integer getMonthlyOrderAmount() {
+	public long getMonthlyOrderAmount() {
 		return monthlyOrderAmount;
 	}
-	public void setMonthlyOrderAmount(Integer monthlyOrderAmount) {
+	public void setMonthlyOrderAmount(long monthlyOrderAmount) {
 		this.monthlyOrderAmount = monthlyOrderAmount;
 	}
 	
