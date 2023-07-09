@@ -32,7 +32,7 @@ public class InorderVO {
 	private String emp_name;
 
 	private Integer monthlyIOCount;
-	private Integer monthlyIOAmount;
+	private long monthlyIOAmount;
 	private String month;
 	
 	
@@ -197,10 +197,10 @@ public class InorderVO {
 	public void setMonthlyIOCount(Integer monthlyIOCount) {
 		this.monthlyIOCount = monthlyIOCount;
 	}
-	public Integer getMonthlyIOAmount() {
+	public long getMonthlyIOAmount() {
 		return monthlyIOAmount;
 	}
-	public void setMonthlyIOAmount(Integer monthlyIOAmount) {
+	public void setMonthlyIOAmount(long monthlyIOAmount) {
 		this.monthlyIOAmount = monthlyIOAmount;
 	}
 	public String getMonth() {

@@ -52,7 +52,7 @@
 				<input type="hidden" name="txt" value="clt2">
 		
 			<div class="col-sm-5">
-				<input type="text" placeholder="출고코드 입력하세요" name="pr_num" value="${ProductReleaseVO.pr_num }" class="form-control">
+				<input type="text" placeholder="출고코드 입력하세요" name="pr_num" value="${ProductReleaseVO.pr_num }" class="form-control" autofocus>
 			</div>
 			
 			<div class="col-auto">
@@ -100,9 +100,7 @@
 			</c:if>
 			
 			<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-			<li 
-				<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-			>
+			<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
 				<a class="page-link" href="/client/addPopup?page=${idx}&txt=clt2&pr_num=${ProductReleaseVO.pr_num}">${idx }</a>
 			</li>
 			</c:forEach>

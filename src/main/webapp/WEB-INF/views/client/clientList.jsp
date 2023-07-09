@@ -107,6 +107,15 @@
 			// 두번째 tr (추가된 행)을 삭제함
 			$(".table-clientList tr:nth-child(2)").remove();
 			
+			
+			// 모든 체크박스의 체크 해제
+			$(".table-clientList input[type='checkbox']").prop("checked", false);
+			
+			// selected 클래스를 없앰 (css 없애기)
+			$(".table-clientList tr").removeClass("selected");
+			
+			
+			
 			// 버튼 활성화, 비활성화
 			$("#addRowButton").removeAttr("disabled");
 			$("#updateButton").removeAttr("disabled");
@@ -498,9 +507,7 @@
     		</c:if>
     		
     		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-    		<li 
-    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-    		>
+    		<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
     				<a class="page-link" href="/client/clientList?page=${idx}&clt_name=${cvo.clt_name}&clt_rep=${cvo.clt_rep}&clt_sort=${cvo.clt_sort}">${idx }</a>
     		</li>
     		</c:forEach>

@@ -13,7 +13,7 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>완제품코드</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="pro_num" value="${psvo.pro_num }" class="form-control" placeholder="완제품코드를 입력하세요">
+			<input type="text" name="pro_num" value="${psvo.pro_num }" class="form-control" placeholder="완제품코드를 입력하세요" autofocus>
 		</div>
 	</div>
 	
@@ -81,9 +81,7 @@
     		</c:if>
     		
     		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-    		<li 
-    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-    		>
+    		<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
     			<a class="page-link" href="/stock/productStockList?page=${idx}&pro_num=${psvo.pro_num}&pro_name=${psvo.pro_name}">${idx }</a>
     		</li>
     		</c:forEach>

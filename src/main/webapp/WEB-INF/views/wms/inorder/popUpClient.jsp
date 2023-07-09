@@ -46,7 +46,7 @@
 <!-- 				<input type="hidden" name="clt_num" value=""> --> <!-- clt_num은 넘길필요 없기 때문에 주석처리 -->
 			
 			<div class="col-sm-4">
-				<input type="text" placeholder="거래처명을 입력하세요" name="clt_name" value="${cvo.clt_name }" class="form-control">
+				<input type="text" placeholder="거래처명을 입력하세요" name="clt_name" value="${cvo.clt_name }" class="form-control" autofocus>
 			</div>
 			
 			<div class="col-auto">
@@ -91,9 +91,7 @@
     		</c:if>
     		
     		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-    		<li 
-    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-    		>
+    		<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
     			<a class="page-link" href="/wms/inorder/addPopup?page=${idx}&txt=clt&clt_name=${cvo.clt_name}">${idx }</a>
     		</li>
     		</c:forEach>

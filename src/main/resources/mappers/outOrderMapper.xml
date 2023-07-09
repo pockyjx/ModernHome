@@ -58,7 +58,15 @@
 			clt_name LIKE CONCAT('%', #{clt_name}, '%')
 		</if>
 		<if test="emp_name != null">
-			AND emp_name LIKE CONCAT('%', #{emp_name}, '%') 
+			AND (
+				CASE
+					WHEN update_emp_id IS NULL THEN
+					(SELECT emp_name FROM employee WHERE emp_id = out_order.emp_id)
+					ELSE
+					(SELECT emp_name FROM employee WHERE emp_id = out_order.update_emp_id)
+				END
+			LIKE '%${emp_name}%'
+			)
 		</if>
 		<if test="oo_start_date_1 != ''">
 			AND oo_start_date &gt;= #{oo_start_date_1}
@@ -106,7 +114,15 @@
 			clt_name LIKE CONCAT('%', #{ovo.clt_name}, '%')
 		</if>
 		<if test="ovo.emp_name != null">
-			AND emp_name LIKE CONCAT('%', #{ovo.emp_name}, '%') 
+			AND (
+				CASE
+					WHEN update_emp_id IS NULL THEN
+					(SELECT emp_name FROM employee WHERE emp_id = out_order.emp_id)
+					ELSE
+					(SELECT emp_name FROM employee WHERE emp_id = out_order.update_emp_id)
+				END
+			LIKE '%${ovo.emp_name}%'
+			)
 		</if>
 		<if test="ovo.oo_start_date_1 != ''">
 			AND oo_start_date &gt;= #{ovo.oo_start_date_1}

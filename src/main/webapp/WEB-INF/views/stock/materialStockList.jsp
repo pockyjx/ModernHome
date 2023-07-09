@@ -13,7 +13,7 @@
 	<div class="row mb-3">
 		<label class="col-sm-2 col-form-label"><b>자재코드</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="ma_num" value="${msvo.ma_num }" class="form-control" placeholder="자재코드를 입력하세요"></label>
+			<input type="text" name="ma_num" value="${msvo.ma_num }" class="form-control" placeholder="자재코드를 입력하세요" autofocus></label>
 		</div>
 	</div>
 	
@@ -82,9 +82,7 @@
     		</c:if>
     		
     		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
-    		<li 
-    			<c:out value="${pm.pageVO.page == idx ? 'class=page-item active': 'class=page-item'}" />
-    		>
+    		<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
     			<a class="page-link" href="/stock/materialStockList?page=${idx}&ma_num=${msvo.ma_num}&ma_name=${msvo.ma_name}">${idx }</a>
     		</li>
     		</c:forEach>
