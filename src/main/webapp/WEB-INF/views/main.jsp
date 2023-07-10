@@ -321,7 +321,7 @@ $(document).ready(function() {
 				labels: ['변색', '찍힘', '파손', '기타'] ,
 				datasets: [{
 				label: '불량률',
-				data: [discolored / totalDf * 100, scratched / totalDf * 100, damaged / totalDf * 100, (totalDf - discolored - scratched - damaged) * 100] ,
+				data: [discolored / totalDf * 100, scratched / totalDf * 100, damaged / totalDf * 100, (totalDf - discolored - scratched - damaged) / totalDf * 100] ,
 				borderWidth: 1
 				}]
 			}, // data
