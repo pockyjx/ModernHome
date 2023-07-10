@@ -135,6 +135,13 @@
 				var df_id = dfCheckbox.val();
 				var row = dfCheckbox.closest("tr");
 				
+				var rd = row.find("button[type='button']").text();
+				
+				if(rd === '완료') {
+					alert("수리나 폐기 처리가 완료된 후에는 수정 불가능합니다!");
+					return false;
+				}
+				
 				// input type의 name 값 지정
 				var cellNames = [
 					"df_num",
@@ -473,7 +480,7 @@
 						</c:if>
 						<c:if test="${df.solved_date != null}">
 							<td>
-								<button class="btn btn-sm btn-outline-secondary" disabled>완료</button>
+								<button type="button" class="btn btn-sm btn-outline-secondary" disabled>완료</button>
 							</td>
 						</c:if>
 					</tr>
