@@ -158,8 +158,8 @@
 			var selectedCheckboxes = $(".table-instrList td input[type='checkbox']:checked");
 			
 			if (selectedCheckboxes.length === 0) {
-			  alert("선택된 항목이 없습니다.");
-			  return;
+				alert("선택된 항목이 없습니다.");
+				return;
 			}
 			
 			var exportData = [];
@@ -189,8 +189,9 @@
 			var workbookOutput = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
 			saveAs(
 				new Blob([workbookOutput], { type: "application/octet-stream" }),
-				"exported_data.xlsx"
+				"작업지시 리스트.xlsx"
 			);
+			
 			selectedCheckboxes.prop("checked", false);
 			$(".table-instrList tr").removeClass("selected");
 		});
