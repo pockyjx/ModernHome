@@ -232,17 +232,17 @@
         		return;
         	}
         	
-        	if(qc_cnt > work_cnt){
+        	if(Number(qc_cnt) > Number(work_cnt)){
         		alert('검수량은 생산량을 초과할 수 없습니다!');
         		$('#qc_cnt').focus();
         		return;
         	}
         	
-        	if(qc_cnt > 0 && work_cnt){
+        	if(Number(qc_cnt) > 0 && Number(qc_cnt) < Number(work_cnt)){
         		$("#qc_yn").val('진행중');
         	}
         	
-        	if(qc_cnt == work_cnt){
+        	if(Number(qc_cnt) == Number(work_cnt)){
         		$("#qc_yn").val('완료');
         		
         		Swal.fire({

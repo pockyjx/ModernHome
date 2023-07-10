@@ -39,7 +39,7 @@
 						 '<td><input type="text" class="form-control" name="reg_date" value="' + today + '" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input id="gb_yn" type="text" class="form-control" name="gb_yn" style="border: none; background: transparent;" readonly></td>' +
 						 '<td><input type="number" class="form-control" name="prfrm_cnt" id="prfrm_cnt" min="0"></td>' +
-						 '<td><input type="number" class="form-control" name="df_cnt" style="border: none; background: transparent;" readonly></td>' +
+						 '<td><input type="number" id="df_cnt" class="form-control" name="df_cnt" style="border: none; background: transparent;" readonly></td>' +
 						 '<td>${sessionScope.emp_name}<input type="hidden" class="form-control" name="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;"></td>' +
 						 '<td><input type="number" id="work_cnt" class="form-control" name="work_cnt" style="border: none; background: transparent;" readonly>' +
 						 '<input type="hidden" class="form-control" name="work_id">' +
@@ -155,8 +155,7 @@
 			var prfrm_cnt = $("#prfrm_cnt").val();
 			var work_cnt = $("#work_cnt").val();
 			var gb_yn = $("#gb_yn").val();
-			
-			console.log(typeof(work_cnt) + ", " + typeof(prfrm_cnt));
+			var df_cnt = $("#df_cnt").val();
 			
 			if(work_num == null || work_num == "") {
 				$("#work_num").focus();
@@ -178,7 +177,7 @@
 				alert("실적 수량은 목표 수량을 초과할 수 없습니다!");
 				return false;
 			}
-			if(Number(prfrm_cnt) < Number(work_cnt)) {
+			if((Number(prfrm_cnt) + Number(df_cnt)) < Number(work_cnt)) {
 				$("#prfrm_cnt").focus();
 				alert("실적 수량을 정확히 입력하세요!");
 				return false;

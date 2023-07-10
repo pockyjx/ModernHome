@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
 <script>
 	$(document).ready(function() {
 		// 체크박스 선택 시 체크박스의 개수 구하기
@@ -150,11 +152,50 @@
 	        var selectedCheckboxes = $(".table-instrList td input[type='checkbox']:checked").length;
 	        $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
 	    }
-		
-		// 진행 중인 작업에서 완료 버튼 클릭 시 작업상태 완료 처리
-		$("#btnStateDone").click(function() {
+				
+		// 엑셀다운
+		$("#exportButton").click(function () {
+			var selectedCheckboxes = $(".table-instrList td input[type='checkbox']:checked");
 			
+			if (selectedCheckboxes.length === 0) {
+			  alert("선택된 항목이 없습니다.");
+			  return;
+			}
+			
+			var exportData = [];
+			
+			var headers = [];
+			$(".table-instrList th").each(function(){
+				headers.push($(this).text());
+			});
+			exportData.push(headers);
+			
+			selectedCheckboxes.each(function () {
+			var row = [];
+			$(this)
+				.closest("tr")
+				.find("td")
+				.each(function () {
+					row.push($(this).text());
+				});
+			exportData.push(row);
+			});
+			
+			var workbook = XLSX.utils.book_new();
+			var worksheet = XLSX.utils.aoa_to_sheet(exportData);
+			
+			XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+			
+			var workbookOutput = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+			saveAs(
+				new Blob([workbookOutput], { type: "application/octet-stream" }),
+				"exported_data.xlsx"
+			);
+			selectedCheckboxes.prop("checked", false);
+			$(".table-instrList tr").removeClass("selected");
 		});
+		
+	
 	});
 	
 	// 체크박스 중복 X
@@ -284,6 +325,10 @@
 		</table>
 	</div>
 </div>
+
+
+	<button type="button" class="btn btn-success m-2" style="float: right;" id="exportButton">엑셀다운</button>
+
 
 <!-- 페이지 이동 버튼 -->
 <nav aria-label="Page navigation example">

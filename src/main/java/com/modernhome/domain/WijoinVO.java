@@ -41,6 +41,7 @@ public class WijoinVO {
 	
 	private Integer io_id;
 	private String io_num;
+	private Integer io_cnt;
 	private Integer rec_cnt;
 	private String rec_num;
 	private Integer rec_id;
@@ -289,6 +290,12 @@ public class WijoinVO {
 	public void setIo_num(String io_num) {
 		this.io_num = io_num;
 	}
+	public Integer getIo_cnt() {
+		return io_cnt;
+	}
+	public void setIo_cnt(Integer io_cnt) {
+		this.io_cnt = io_cnt;
+	}
 	public Integer getRec_cnt() {
 		return rec_cnt;
 	}
@@ -433,13 +440,15 @@ public class WijoinVO {
 				+ ", reg_date=" + reg_date + ", update_date=" + update_date + ", oo_end_date=" + oo_end_date
 				+ ", qc_id=" + qc_id + ", qc_num=" + qc_num + ", qc_yn=" + qc_yn + ", qc_cnt=" + qc_cnt + ", qc_date="
 				+ qc_date + ", repaired=" + repaired + ", prfrm_id=" + prfrm_id + ", prfrm_cnt=" + prfrm_cnt
-				+ ", ma_id=" + ma_id + ", io_id=" + io_id + ", io_num=" + io_num + ", rec_cnt=" + rec_cnt + ", rec_num="
-				+ rec_num + ", rec_id=" + rec_id + ", rec_in_state=" + rec_in_state + ", rec_date=" + rec_date
-				+ ", prfrm_num=" + prfrm_num + ", gb_yn=" + gb_yn + ", df_id=" + df_id + ", df_num=" + df_num
-				+ ", df_type=" + df_type + ", repair_yn=" + repair_yn + ", df_cnt=" + df_cnt + ", df_rsns=" + df_rsns
-				+ ", solved_date=" + solved_date + ", pr_id=" + pr_id + ", pr_num=" + pr_num + ", pr_cnt=" + pr_cnt
-				+ ", mr_id=" + mr_id + ", mr_num=" + mr_num + ", mr_cnt=" + mr_cnt + ", fi_type=" + fi_type
-				+ ", wh_name=" + wh_name + "]";
+				+ ", ma_id=" + ma_id + ", io_id=" + io_id + ", io_num=" + io_num + ", io_cnt=" + io_cnt + ", rec_cnt="
+				+ rec_cnt + ", rec_num=" + rec_num + ", rec_id=" + rec_id + ", rec_in_state=" + rec_in_state
+				+ ", rec_date=" + rec_date + ", prfrm_num=" + prfrm_num + ", gb_yn=" + gb_yn + ", df_id=" + df_id
+				+ ", df_num=" + df_num + ", df_type=" + df_type + ", repair_yn=" + repair_yn + ", df_cnt=" + df_cnt
+				+ ", df_rsns=" + df_rsns + ", solved_date=" + solved_date + ", pr_id=" + pr_id + ", pr_num=" + pr_num
+				+ ", pr_cnt=" + pr_cnt + ", mr_id=" + mr_id + ", mr_num=" + mr_num + ", mr_cnt=" + mr_cnt + ", fi_type="
+				+ fi_type + ", wh_name=" + wh_name + "]";
 	}
+	
+
 	
 }

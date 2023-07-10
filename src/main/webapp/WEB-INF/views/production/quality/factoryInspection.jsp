@@ -203,17 +203,17 @@
         		return;
         	}
         	
-        	if(qc_cnt > cntValue){
+        	if(Number(qc_cnt) > Number(cntValue)){
         		alert('검수량은 입고량을 초과할 수 없습니다!');
         		$("#qc_cnt").focus();
         		return;
         	}
         	
-        	if(qc_cnt > 0 && qc_cnt < cntValue){
+        	if(Number(qc_cnt) > 0 && Number(qc_cnt) < Number(cntValue)){
         		$("#qc_yn").val('진행중');
         	}
         	
-        	if(qc_cnt == cntValue){
+        	if(Number(qc_cnt) == Number(cntValue)){
         		$("#qc_yn").val('완료');
         		
 			Swal.fire({
