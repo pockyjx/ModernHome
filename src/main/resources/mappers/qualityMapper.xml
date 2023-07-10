@@ -43,6 +43,7 @@
 		<result property="prfrm_num" column="prfrm_num"/>
 		<result property="ma_id" column="ma_id"/>
 		<result property="io_id" column="io_id"/>
+		<result property="io_cnt" column="io_cnt"/>
 		<result property="rec_id" column="rec_id"/>
 		<result property="df_cnt" column="df_cnt"/>
 		<result property="shp_id" column="shp_id"/>
@@ -157,7 +158,7 @@
 	
 	<!-- 품질검사(자재) 목록 조회 -->
 	<select id="getMaterialQualityList" resultMap="wijoinRM">
-		SELECT qc.qc_id, rec.rec_num, qc.qc_num, ma.ma_num , ma.ma_name , qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.df_cnt, qc.qc_cnt, rec.rec_cnt, qc.qc_yn,
+		SELECT qc.qc_id, rec.rec_num, qc.qc_num, ma.ma_num , ma.ma_name , qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.df_cnt, qc.qc_cnt, io.io_cnt, qc.qc_yn,
 		CASE
 			WHEN qc.update_emp_id IS NULL THEN
 				(SELECT emp_name FROM employee WHERE emp_id = qc.emp_id)
@@ -168,6 +169,7 @@
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
+		LEFT JOIN in_order io ON rec.io_id = io.io_id
 		WHERE rec.rec_id IS NOT NULL
 		ORDER BY qc_id DESC
 		LIMIT #{startPage}, #{pageSize}
@@ -176,7 +178,7 @@
 	
 	<!-- 품질검사(자재) 검색 -->
 	<select id="getMaterialQualitySearch" resultMap="wijoinRM">
-		SELECT qc.qc_id, rec.rec_num, qc.qc_num, ma.ma_num , ma.ma_name , qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.df_cnt, qc.qc_cnt, rec.rec_cnt, qc.qc_yn,
+		SELECT qc.qc_id, rec.rec_num, qc.qc_num, ma.ma_num , ma.ma_name , qc.emp_id, qc.update_emp_id, qc.qc_date, qc.update_date, qc.df_cnt, qc.qc_cnt, io.io_cnt, qc.qc_yn,
 		CASE
 			WHEN qc.update_emp_id IS NULL THEN
 				(SELECT emp_name FROM employee WHERE emp_id = qc.emp_id)
@@ -187,6 +189,7 @@
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
+		LEFT JOIN in_order io ON rec.io_id = io.io_id
 		<where>
 			rec.rec_id IS NOT NULL
 			<if test="qc_num != ''">
@@ -223,6 +226,7 @@
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
+		LEFT JOIN in_order io ON rec.io_id = io.io_id
 		WHERE rec.rec_id IS NOT NULL
 	</select>
 	<!-- 전체 글 수 계산(자재) -->
@@ -234,6 +238,7 @@
 		LEFT JOIN employee e ON qc.emp_id = e.emp_id 
 		LEFT JOIN receive rec ON qc.rec_id = rec.rec_id
 		LEFT JOIN material ma ON qc.ma_id = ma.ma_id
+		LEFT JOIN in_order io ON rec.io_id = io.io_id
 		<where>
 		 	rec.rec_id IS NOT NULL
 			<if test="qc_num != ''">
@@ -396,7 +401,7 @@
 	
 	<!-- 수입검사에서 검사완료가되면 자재 입고 관리페이지에 검사완료로 변경 -->
 	<update id="modifyRecState" parameterType="WijoinVO">
-		UPDATE receive SET rec_in_state = '검사완료',rec_cnt = rec_cnt - #{df_cnt}
+		UPDATE receive SET rec_in_state = '검사완료',rec_cnt = #{rec_cnt}
 		WHERE rec_id = (SELECT rec_id FROM quality_checking WHERE qc_num = #{qc_num})
 	</update>
 	<!-- 수입검사에서 검사완료가되면 자재 입고 관리페이지에 검사완료로 변경 -->

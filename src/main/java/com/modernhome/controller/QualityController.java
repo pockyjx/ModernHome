@@ -154,6 +154,9 @@ public class QualityController {
 		logger.debug("wvo : " + wvo);
 		
 		qService.updateMaterialQuality(wvo);
+		
+		int tmp = wvo.getIo_cnt() - wvo.getDf_cnt();
+		wvo.setRec_cnt(tmp);
 		qService.modifyRecState(wvo);
 		
 		return "redirect:/production/quality/materialQualityList";

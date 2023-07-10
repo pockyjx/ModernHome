@@ -41,7 +41,7 @@
                 		"update_emp_id",
                 		"update_date",
                 		"qc_cnt",
-                		"rec_cnt",
+                		"io_cnt",
                 		"df_cnt",
                 		"qc_yn"
                 	];
@@ -54,7 +54,7 @@
                 		"update_emp_id",
                 		"update_date",
                 		"qc_cnt",
-                		"rec_cnt",
+                		"io_cnt",
                 		"df_cnt",
                 		"qc_yn"
 	                ];
@@ -73,7 +73,7 @@
 						
 						if(index == 6 || index == 8) {
 							cellOption = "";
-						}else if(index == 0 || index == 4 || index == 1 || index == 9){
+						}else if(index == 0 || index == 4 || index == 1 || index == 9 || index == 7){
 							cellOption = "readonly";
 						}else {
 							cellOption = "disabled";
@@ -228,7 +228,7 @@
         	
 
         	var qc_cnt = $('#qc_cnt').val();
-        	var rec_cnt = $('#rec_cnt').val();
+        	var io_cnt = $('#io_cnt').val();
         	
         	if(qc_cnt == 0 || qc_cnt == ""){
         		alert('검수량을 입력하세요!');
@@ -236,17 +236,17 @@
         		return;
         	}
         	
-        	if(qc_cnt > rec_cnt){
+        	if(Number(qc_cnt) > Number(io_cnt)){
         		alert('검수량은 입고량을 초과할 수 없습니다!');
         		$("#qc_cnt").focus();
         		return;
         	}
         	
-        	if(qc_cnt > 0 && qc_cnt < rec_cnt){
+        	if(Number(qc_cnt) > 0 && Number(qc_cnt) < Number(io_cnt)){
         		 $("#qc_yn").val('진행중');
         	}
         	
-        	if (qc_cnt == rec_cnt) {
+        	if (Number(qc_cnt) == Number(io_cnt)) {
                 $("#qc_yn").val('완료');
                 
 			Swal.fire({
@@ -377,7 +377,7 @@
 							<c:if test="${empty mq.update_date}">${fn:substring(mq.qc_date, 0, 10)}</c:if>
 						</td>
 						<td>${mq.qc_cnt}</td>
-						<td>${mq.rec_cnt}</td>
+						<td>${mq.io_cnt}</td>
 						<td>${mq.df_cnt}</td>
 						<td>${mq.qc_yn}</td>
 					</tr>
