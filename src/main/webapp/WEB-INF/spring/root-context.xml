@@ -12,9 +12,10 @@
 	<!-- HikariCP - 설정정보 -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig" >
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:mysql://db.itwillbs.dev:3306/class7_230118_team4_final"/>
-		<property name="username" value="class7_230118_team4"/>
-		<property name="password" value="1234"/>
+		<property name="jdbcUrl" 
+		value="jdbc:log4jdbc:mysql://itwillbs-rds-class7-team4.cwyqfeylunq5.ap-northeast-2.rds.amazonaws.com:3306/class7_230118_team4_final"/>
+		<property name="username" value="root"/>
+		<property name="password" value="class70118"/>
 	</bean>
 	
 	<!-- HikariCP DataSource : 커넥션풀 DB연결 정보 -->

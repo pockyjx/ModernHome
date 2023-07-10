@@ -70,6 +70,7 @@
 			
 			// 추가버튼, 취소버튼 활성화
 			$("#addRowButton").attr("disabled", "disabled");
+			$("#updateButton").attr("disabled", "disabled");
 			$("#deleteButton").attr("disabled", "disabled");
 			$("#cancleButton").removeAttr("disabled");
 			$("#submitButton").removeAttr("disabled");
@@ -77,54 +78,7 @@
 			pageStatus = "reg";
 		});
 		
-		// 취소 버튼 누를 시 
-		$("#cancleButton").click(function(){
-			// 등록버튼 취소
-			if(pageStatus == "reg"){
-				// 두번째 tr (추가된 행)을 삭제함
-				$(".table-defective tr:nth-child(2)").remove();
-				
-				// 추가버튼, 취소버튼 비활성화
-				$("#addRowButton").removeAttr("disabled");
-				$("#deleteButton").removeAttr("disabled");
-				$("#cancleButton").attr("disabled", "disabled");
-				$("#submitButton").attr("disabled", "disabled");
-				
-				pageStatus = "";
-			}
-			// 수정버튼 취소
-			if(pageStatus == "update"){
-				
-				// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
-				$(".table-defective tr").each(function() {
-				var row = $(this);
-					
-				// 폼 초기화(기존내용으로)
-				$("#defList")[0].reset();
-				
-				// 각 셀의 값을 원래 상태로 되돌림
-				row.find("td:not(:first-child)").each(function(index) {
-					var cellValue = $(this).find("input").val();
-					var cellValueSelect = $(this).find("select").val();
-					$(this).html(cellValue);
-					$(this).html(cellValueSelect);
-				});
-				
-				// selected 클래스를 없앰 (css 없애기)
-				$(".table-defective tr").removeClass("selected");
-				
-				// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
-				$("#addRowButton").removeAttr("disabled");
-				$("#updateButton").removeAttr("disabled");
-				$("#deleteButton").removeAttr("disabled");
-				
-				$("#cancelButton").attr("disabled", "disabled");
-				$("#submitButton").attr("disabled", "disabled");
-				
-				pageStatus = "";
-				});
-			}
-		});
+		var cellButton = "";
 
 		// 수정 버튼 누를 시
 		$("#updateButton").click(function(){
@@ -136,6 +90,7 @@
 				var row = dfCheckbox.closest("tr");
 				
 				var rd = row.find("button[type='button']").text();
+				cellButton = $(this).find(".reAndDis").html();
 				
 				if(rd === '완료') {
 					alert("수리나 폐기 처리가 완료된 후에는 수정 불가능합니다!");
@@ -167,17 +122,22 @@
 						$(this).html('<input id="df_rsns" class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
 					} else if(index === 9) {
 						$(this).html(
-							'<select id="repair_yn" class="form-control" name="' + cellNames[index] + '">'
+							'<select id="repair_yn" class="form-control" name="' + cellName + '">'
 							+ '<option value="가능">가능</option>'
 							+ '<option value="불가">불가</option>'
 							+ '</select>');
-					} else if(index !== 11) {
+					} else if(index === 13) {
+// 						var rdClass = rd === '수리' ? "btn btn-sm btn-success reAndDis" : "btn btn-sm btn-danger reAndDis";
+// 						$(this).html('<button type="button" class="' + rdClass + '" disabled>' + rd + '</button>');
+						$(this).find(".reAndDis").attr("disabled", "disabled");
+					} else {
 						$(this).html('<input class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + 
 								'" style="border: none; background: transparent;" disabled>');
 					}
 					
 					$("#updateButton").attr("disabled", "disabled");
 					$("#addRowButton").attr("disabled", "disabled");
+					$("#deleteButton").attr("disabled", "disabled");
 					$("#cancleButton").removeAttr("disabled");
 					$("#submitButton").removeAttr("disabled");
 					
@@ -189,6 +149,60 @@
 			}else {
 				alert("수정은 하나의 행만 가능합니다!");
 				return false;
+			}
+		});
+		
+		// 취소 버튼 누를 시 
+		$("#cancleButton").click(function(){
+			// 등록버튼 취소
+			if(pageStatus == "reg"){
+				// 두번째 tr (추가된 행)을 삭제함
+				$(".table-defective tr:nth-child(2)").remove();
+				
+				// 추가버튼, 취소버튼 비활성화
+				$("#addRowButton").removeAttr("disabled");
+				$("#deleteButton").removeAttr("disabled");
+				$("#cancleButton").attr("disabled", "disabled");
+				$("#submitButton").attr("disabled", "disabled");
+				
+				pageStatus = "";
+			}
+			// 수정버튼 취소
+			if(pageStatus == "update"){
+				
+				// 모든행에 대해 반복작업, 테이블 이름에 맞게 수정
+				$(".table-defective tr").each(function() {
+				var row = $(this);
+					
+				// 폼 초기화(기존내용으로)
+				$("#defList")[0].reset();
+				
+				// 각 셀의 값을 원래 상태로 되돌림
+				row.find("td:not(:first-child)").each(function(index) {
+					var cellValue = $(this).find("input").val();
+					var cellValueSelect = $(this).find("select").val();
+					
+					$(this).html(cellValue);
+					$(this).html(cellValueSelect);
+					
+					if(index === 13) {
+						$(this).find(".reAndDis").removeAttr("disabled");
+					}
+				});
+				
+				// selected 클래스를 없앰 (css 없애기)
+				$(".table-defective tr").removeClass("selected");
+				
+				// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
+				$("#addRowButton").removeAttr("disabled");
+				$("#updateButton").removeAttr("disabled");
+				$("#deleteButton").removeAttr("disabled");
+				
+				$("#cancelButton").attr("disabled", "disabled");
+				$("#submitButton").attr("disabled", "disabled");
+				
+				pageStatus = "";
+				});
 			}
 		});
         
@@ -229,7 +243,7 @@
 			var dfCheckbox = $("input[name='df_id']:checked");
 // 			var df_id = dfCheckbox.val();
 			
-			if(selectedCheckbox.length === 0) {
+			if(dfCheckbox.length === 0) {
 				alert("삭제할 행을 선택해주세요!");
 				
 				// 선택안하면 submit을 막음
@@ -274,6 +288,8 @@
 	 	});
 	 	
 		$(".reAndDis").click(function() {
+			console.log("클릭함!");
+			
 			var df_id = $(this).closest('tr').find("input[name='df_id']").val();
 			var df_cnt = $(this).closest('tr').find("td:eq(8)").text();
 			var pro_id = $(this).closest('tr').find("td:eq(12)").text();
@@ -469,19 +485,13 @@
 						<td style="display: none;">${df.pro_id}</td>
 						<td style="display: none;">${df.ma_id}</td>
 						<c:if test="${df.solved_date == null && !df.df_type.equals('수입검사') && df.repair_yn.equals('가능')}">
-							<td class="reAndDis">
-								<button type="button" class="btn btn-sm btn-success">수리</button>
-							</td>
+							<td><button type="button" class="btn btn-sm btn-success reAndDis">수리</button></td>
 						</c:if>
 						<c:if test="${df.solved_date == null && !df.df_type.equals('수입검사') && df.repair_yn.equals('불가')}">
-							<td class="reAndDis">
-								<button type="button" class="btn btn-sm btn-danger">폐기</button>
-							</td>
+							<td><button type="button" class="btn btn-sm btn-danger reAndDis">폐기</button></td>
 						</c:if>
 						<c:if test="${df.solved_date != null}">
-							<td>
-								<button type="button" class="btn btn-sm btn-outline-secondary" disabled>완료</button>
-							</td>
+							<td><button type="button" class="btn btn-sm btn-outline-secondary" disabled>완료</button></td>
 						</c:if>
 					</tr>
 				</c:forEach>
