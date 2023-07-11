@@ -121,7 +121,7 @@
 					var row = $(this);
 						
 					// 폼 초기화(기존내용으로)
-// 					$("#qualityList")[0].reset();
+					$("#qualityList")[0].reset();
 					
 					// 각 셀의 값을 원래 상태로 되돌림
 				row.find("td:not(:first-child)").each(function(index) {
@@ -145,7 +145,7 @@
 					});
 				} // if(update)문
 			
-				updateSelectedCheckboxCount();
+				
 				
 			}); // 취소버튼
 			
@@ -169,6 +169,7 @@
 	                    }
 	                }
 	            });
+	            updateSelectedCheckboxCount();
 	        });
 
 	        // <td> 쪽 체크박스 클릭 시 행 선택
