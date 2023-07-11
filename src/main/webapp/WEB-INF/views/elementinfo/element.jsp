@@ -28,7 +28,7 @@
 			var shp = "<c:out value='${vo.shipmentVO}'/>"
 			var line_defect = "<c:out value='${vo.line_qc_defect}'/>"
 			var pr_defect = "<c:out value='${vo.pr_qc_defect}'/>"
-			console.log(pr_defect);
+			var shp_state = "<c:out value='${vo.shipmentVO.shp_state}'/>"
 			if(isEmpty(mr)) {
 				$('#rec_btn').addClass('blink');
 			}else if(!isEmpty(mr)) {
@@ -59,6 +59,12 @@
 						}else if(!isEmpty(shp)) {
 							$('#pr_btn').removeClass('btn-primary');
 							$('#pr_btn').addClass('btn-success');
+							if(shp_state == '출하대기') {
+								$('#shp_btn').addClass('blink');
+							}else if(shp_state == '출하완료') {
+								$('#shp_btn').removeClass('btn-primary');
+								$('#shp_btn').addClass('btn-success');
+							}
 						}else {
 						}
 					}
