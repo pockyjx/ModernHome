@@ -65,6 +65,11 @@ public class ElementInfoDAOImpl implements ElementInfoDAO {
 		sqlSession.update(NAMESPACE+ ".updateSHP", parameterMap);
 		
 	}
+
+	@Override
+	public ElementInfoVO getElementInfo(String ele_num) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getElementInfo", ele_num);
+	}
 	
 	
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,18 +27,18 @@ public class ElementInfoController {
 
 	@Autowired
 	private ElementInfoService eService;
-//	@RequestMapping(value = "/receive")
-//	public ResponseEntity<String> receive(@RequestBody ElementInfoVO vo) throws Exception {
-//		logger.debug(" elementinfo - receive");
-//		logger.debug(vo + "");
-//		HttpStatus status = HttpStatus.OK;
-//		String result = "";
-//		return new ResponseEntity<String>(result, status);
-//	}
-	@RequestMapping(value = "/element")
-	public void elementInfo() throws Exception {
+	
+	@RequestMapping(value = "/element", method = RequestMethod.GET)
+	public void elementInfoGET(Model model, @RequestParam(value = "ele_numSearch", required = false) String ele_num) throws Exception {
 		
+		if(ele_num != null) {
+			ElementInfoVO vo = new ElementInfoVO();
+			vo = eService.getElementInfo(ele_num);
+			logger.debug("" + vo);
+			model.addAttribute("vo", vo);
+		}
 	}
+
 	@RequestMapping(value = "/popupReceive")
 	public void popupReceive() throws Exception {
 		

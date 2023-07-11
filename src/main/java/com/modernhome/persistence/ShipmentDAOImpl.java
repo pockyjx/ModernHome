@@ -78,11 +78,11 @@ public class ShipmentDAOImpl implements ShipmentDAO {
 	
 	// 출하 삭제
 	@Override
-	public void deleteShipment(String shp_num) {
+	public void deleteShipment(String shp_id) {
 		logger.debug("DAO -> mapper -> SQL 실행 - 출하 삭제");
 		
-		logger.debug("shp_num : " + shp_num);
-		sqlSession.delete(NAMESAPCE + ".deleteShipment", shp_num);
+		logger.debug("shp_num : " + shp_id);
+		sqlSession.delete(NAMESAPCE + ".deleteShipment", shp_id);
 		
 	}
 

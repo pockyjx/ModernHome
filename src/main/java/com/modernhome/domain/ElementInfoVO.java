@@ -15,6 +15,20 @@ public class ElementInfoVO {
 	private Integer pr_qc_defect;
 	private Integer shp_id;
 	private Integer cnt;
+
+	private ReceiveVO receiveVO;
+	private MaterialVO materialVO;
+	private MaterialReleaseVO materialReleaseVO;
+	private WorkInstrVO workInstrVO;
+	private OutOrderVO outOrderVO;
+	private LineVO lineVO;
+	private ProductVO productVO;
+	private QualityCheckingVO liQualityCheckingVO;
+	private DefectiveVO liDefectiveVO;
+	private QualityCheckingVO prQualityCheckingVO;
+	private DefectiveVO prDefectiveVO;
+	private ProductReleaseVO productReleaseVO;
+	private ShipmentVO shipmentVO;
 	
 	public String getEle_num() {
 		return ele_num;
@@ -100,11 +114,95 @@ public class ElementInfoVO {
 	public void setCnt(Integer cnt) {
 		this.cnt = cnt;
 	}
+	public ReceiveVO getReceiveVO() {
+		return receiveVO;
+	}
+	public void setReceiveVO(ReceiveVO receiveVO) {
+		this.receiveVO = receiveVO;
+	}
+	public MaterialVO getMaterialVO() {
+		return materialVO;
+	}
+	public void setMaterialVO(MaterialVO materialVO) {
+		this.materialVO = materialVO;
+	}
+	public MaterialReleaseVO getMaterialReleaseVO() {
+		return materialReleaseVO;
+	}
+	public void setMaterialReleaseVO(MaterialReleaseVO materialReleaseVO) {
+		this.materialReleaseVO = materialReleaseVO;
+	}
+	public WorkInstrVO getWorkInstrVO() {
+		return workInstrVO;
+	}
+	public void setWorkInstrVO(WorkInstrVO workInstrVO) {
+		this.workInstrVO = workInstrVO;
+	}
+	public OutOrderVO getOutOrderVO() {
+		return outOrderVO;
+	}
+	public void setOutOrderVO(OutOrderVO outOrderVO) {
+		this.outOrderVO = outOrderVO;
+	}
+	public LineVO getLineVO() {
+		return lineVO;
+	}
+	public void setLineVO(LineVO lineVO) {
+		this.lineVO = lineVO;
+	}
+	public ProductVO getProductVO() {
+		return productVO;
+	}
+	public void setProductVO(ProductVO productVO) {
+		this.productVO = productVO;
+	}
+	public QualityCheckingVO getLiQualityCheckingVO() {
+		return liQualityCheckingVO;
+	}
+	public void setLiQualityCheckingVO(QualityCheckingVO liQualityCheckingVO) {
+		this.liQualityCheckingVO = liQualityCheckingVO;
+	}
+	public DefectiveVO getLiDefectiveVO() {
+		return liDefectiveVO;
+	}
+	public void setLiDefectiveVO(DefectiveVO liDefectiveVO) {
+		this.liDefectiveVO = liDefectiveVO;
+	}
+	public QualityCheckingVO getPrQualityCheckingVO() {
+		return prQualityCheckingVO;
+	}
+	public void setPrQualityCheckingVO(QualityCheckingVO prQualityCheckingVO) {
+		this.prQualityCheckingVO = prQualityCheckingVO;
+	}
+	public DefectiveVO getPrDefectiveVO() {
+		return prDefectiveVO;
+	}
+	public void setPrDefectiveVO(DefectiveVO prDefectiveVO) {
+		this.prDefectiveVO = prDefectiveVO;
+	}
+	public ProductReleaseVO getProductReleaseVO() {
+		return productReleaseVO;
+	}
+	public void setProductReleaseVO(ProductReleaseVO productReleaseVO) {
+		this.productReleaseVO = productReleaseVO;
+	}
+	public ShipmentVO getShipmentVO() {
+		return shipmentVO;
+	}
+	public void setShipmentVO(ShipmentVO shipmentVO) {
+		this.shipmentVO = shipmentVO;
+	}
 	@Override
 	public String toString() {
 		return "ElementInfoVO [ele_num=" + ele_num + ", rec_id=" + rec_id + ", ma_id=" + ma_id + ", mr_id=" + mr_id
 				+ ", work_id=" + work_id + ", pro_id=" + pro_id + ", line_qc_id=" + line_qc_id + ", line_qc_defect="
 				+ line_qc_defect + ", lot_num=" + lot_num + ", pr_id=" + pr_id + ", pr_qc_id=" + pr_qc_id
-				+ ", pr_qc_defect=" + pr_qc_defect + ", shp_id=" + shp_id + ", cnt=" + cnt + "]";
+				+ ", pr_qc_defect=" + pr_qc_defect + ", shp_id=" + shp_id + ", cnt=" + cnt + ", receiveVO=" + receiveVO
+				+ ", materialVO=" + materialVO + ", materialReleaseVO=" + materialReleaseVO + ", workInstrVO="
+				+ workInstrVO + ", outOrderVO=" + outOrderVO + ", lineVO=" + lineVO + ", productVO=" + productVO
+				+ ", liQualityCheckingVO=" + liQualityCheckingVO + ", liDefectiveVO=" + liDefectiveVO
+				+ ", prQualityCheckingVO=" + prQualityCheckingVO + ", prDefectiveVO=" + prDefectiveVO
+				+ ", productReleaseVO=" + productReleaseVO + ", shipmentVO=" + shipmentVO + "]";
 	}
+	
 }

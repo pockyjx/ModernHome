@@ -52,5 +52,9 @@ public class ElementInfoServiceImpl implements ElementInfoService {
 		eDAO.updateSHP(parameterMap);
 		
 	}
+	@Override
+	public ElementInfoVO getElementInfo(String ele_num) throws Exception {
+		return eDAO.getElementInfo(ele_num);
+	}
 
 }
