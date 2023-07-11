@@ -323,7 +323,7 @@ $(document).ready(function() {
 				datasets: [{
 				label: '불량률',
 				data: [discolored / totalDf * 100, scratched / totalDf * 100, damaged / totalDf * 100, (totalDf - discolored - scratched - damaged) / totalDf * 100] ,
-				backgroundColor: ['#ffe06b', '#ff9c9c', '#59c6f0', '#95da95'], // 색상 설정
+				backgroundColor: ['#ffe06b', '#ff9c9c', '#59c6f0', '#95da95'], //색상 설정
 				borderWidth: 1
 				}]
 			}, // data
