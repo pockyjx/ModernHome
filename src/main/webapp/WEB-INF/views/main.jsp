@@ -18,7 +18,7 @@ $(document).ready(function() {
 	// 영업실적
 	$('#sales').click(function(){
 		
-		$('.chartTitle').html('<h5>영업실적</h5>');
+		$('.chartTitle').html('<h4>영업 실적</h4>');
 		
 		if (typeof myChart !== 'undefined') {
 			myChart.destroy();
@@ -131,7 +131,7 @@ $(document).ready(function() {
 	// 자재 실적
 	$('#materials').click(function(){
 		
-		$('.chartTitle').html('<h5>자재실적</h5>');
+		$('.chartTitle').html('<h4>자재 실적</h4>');
 		
 		if (typeof myChart !== 'undefined') {
 			myChart.destroy();
@@ -241,7 +241,7 @@ $(document).ready(function() {
 	// 품질 실적
 	$('#quality').click(function(){
 		
-		$('.chartTitle').html('<h5>품질실적</h5>');
+		$('.chartTitle').html('<h4>품질 실적</h4>');
 		
 		if (typeof myChart !== 'undefined') {
 			myChart.destroy();
@@ -362,7 +362,7 @@ $(document).ready(function() {
 	// 생산 실적
 	$('#production').click(function(){
 		
-		$('.chartTitle').html('<h5>생산실적</h5>');
+		$('.chartTitle').html('<h4>생산 실적</h4>');
 		
 		if (typeof myChart !== 'undefined') {
 			myChart.destroy();
