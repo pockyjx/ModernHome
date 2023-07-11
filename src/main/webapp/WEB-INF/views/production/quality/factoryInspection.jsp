@@ -123,7 +123,7 @@
 					var row = $(this);
 						
 					// 폼 초기화(기존내용으로)
-// 					$("#qualityList")[0].reset();
+					$("#fiList")[0].reset();
 					
 					// 각 셀의 값을 원래 상태로 되돌림
 				row.find("td:not(:first-child)").each(function(index) {
@@ -134,7 +134,7 @@
 				});
 					
 					// selected 클래스를 없앰 (css 없애기)
-					$("#table-fiList tr").removeClass("selected");
+					$(".table-fiList tr").removeClass("selected");
 					
 					// 추가버튼, 수정버튼 활성화, 취소버튼 비활성화
 					$("#updateButton").removeAttr("disabled");
