@@ -248,6 +248,23 @@
 						confirmButtonColor: '#3085d6'
 					}).then((result) => {
 						if(result.isConfirmed) {
+							var eidata = new Object();
+							eidata.mr_id = mr_id;
+							eidata.ma_id = ma_id;
+							eidata.work_id = work_id;
+							eidata.cnt = mr_cnt;
+							$.ajax({
+								type: 'post',
+								url: '/elements/updateMR',
+								contentType: 'application/json',
+								data: JSON.stringify(eidata),
+								success: function(data) {
+									console.log(data);
+								},
+								error: function() {
+									return;
+								}
+							});
 							location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt+"&work_id="+work_id;
 						}
 					});
@@ -270,8 +287,6 @@
  			var mr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
  			var ma_id = $(this).closest("tr").find('td:eq(11)').text();
 
-			// alert(mr_id + ", " + ma_id);
- 			
  			location.href="/release/waitingRelease?txt=mr&rel_id="+mr_id+"&item_id="+ma_id;
  			
  		});

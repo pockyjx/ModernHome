@@ -18,7 +18,7 @@
 	
 	<!-- 출하 불러오기 -->
 	<select id="shipmentList" resultType="com.modernhome.domain.ShipmentJoinVO">
-		SELECT shp_num, shipment.emp_id, shipment.update_emp_id, pr_num, oo_num, clt_name, pro_name, oo_cnt, oo_end_date, shp_date, shp_state,
+		SELECT shp_id, shp_num, shipment.emp_id, shipment.update_emp_id, pr_num, oo_num, clt_name, pro_name, oo_cnt, oo_end_date, shp_date, shp_state,
 		CASE
 			WHEN shipment.update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = shipment.emp_id)
@@ -70,7 +70,7 @@
 	
 	<!-- 출하 검색 -->
 	<select id="shipmentListSearch" resultType="com.modernhome.domain.ShipmentJoinVO">
-		SELECT shp_num, shipment.emp_id, shipment.update_emp_id, pr_num, oo_num, clt_name, pro_name, oo_cnt, oo_end_date, shp_date, shp_state,
+		SELECT shp_id, shp_num, shipment.emp_id, shipment.update_emp_id, pr_num, oo_num, clt_name, pro_name, oo_cnt, oo_end_date, shp_date, shp_state,
 		CASE
 			WHEN shipment.update_emp_id IS NULL THEN
 			(SELECT emp_name FROM employee WHERE emp_id = shipment.emp_id)

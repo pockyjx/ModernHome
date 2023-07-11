@@ -5,43 +5,38 @@
 <%@ include file="../inc/nav.jsp"%>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
 
 <script>
 	$(document).ready(function() {
-		updateSelectedCheckboxCount();
+		updateSelectedCheckboxCount();		
         // 버튼 클릭 시 행 추가
         $("#addRowButton").click(function() {
-        	
-        	updateSelectedCheckboxCount();
-        	
-        	// 모든 체크박스의 체크 해제
-			$(".releaseList input[type='checkbox']").prop("checked", false);
-			
-			// selected 클래스를 없앰 (css 없애기)
-			$(".releaseList tr").removeClass("selected");
-        	
             var newRow = '<tr>' +
                 '<td><input type="checkbox" class="form-check-input"></td>' +
-                '<td><input type="text" placeholder="(자동으로 부여)" style="border: none; background: transparent;" readonly></td>' +
-                '<td><input type="text" name="oo_num" id="oo_num" placeholder="여기를 눌러 검색하세요" readonly></td>' +
-                '<td><input type="text" name="clt_name" id="clt_name" style="border: none; background: transparent;" readonly></td>' +
-                '<td><input type="text" name="pro_name" id="pro_name" style="border: none; background: transparent;" readonly disabled></td>' +
-                '<td><input type="text" name="pr_cnt" id="oo_cnt" style="border: none; background: transparent;" readonly value="0"></td>' +
-                '<td><input type="text" name="ps_cnt" id="ps_cnt" placeholder="여기를 눌러 검색하세요" readonly></td>' +
-                '<td><input type="text" name="wh_name" id="wh_name" style="border: none; background: transparent;" readonly disabled></td>' +
-                '<td><input type="datetime-local" name="oo_end_date" id="oo_end_date" style="border: none; background: transparent;" readonly disabled></td>' +
-                '<td><input type="text" name="pr_state" id="pr_state" value="출고준비" style="border: none; background: transparent;" readonly></td>' +
+                '<td><input type="text" name="mr_num" placeholder="(자동으로 부여)" style="border: none; background: transparent;" readonly></td>' +
+                '<td><input type="text" name="work_num" id="work_num" placeholder="여기를 눌러 검색하세요" readonly ></td>' +
+                '<td><input type="text" name="ma_name" id="ma_name" style="border: none; background: transparent;" readonly></td>' +
+                '<td><input type="text" name="mr_cnt" id="mr_cnt" style="border: none; background: transparent;" readonly></td>' +
+                '<td><input type="text" name="ms_cnt" id="ms_cnt" placeholder="여기를 눌러 검색하세요" readonly></td>' +
+                '<td><input type="text" name="wh_name" id="wh_name" style="border: none; background: transparent;" readonly></td>' +
+                '<td><input type="datetime-local" name="reg_date" id="reg_date" style="border: none; background: transparent;" readonly></td>' +
+                '<td><input type="text" name="mr_state" id="mr_state" value="출고준비" style="border: none; background: transparent;" readonly></td>' +
                 '<td><input type="text" name="emp_id" id="emp_id" value="${sessionScope.emp_id}" style="border: none; background: transparent;" readonly></td>' +
                 '<td></td>' +
                 '<td>' +
-                '<input type="hidden" name="pro_id" id="pro_id" value="0">' +
-                '<input type="hidden" name="oo_id" id="oo_id" value="0">' +
+                '<input type="hidden" name="ma_id" id="ma_id" value="0">' +
+                '<input type="hidden" name="work_id" id="work_id" value="0">' +
                 '<input type="hidden" name="wh_id" id="wh_id" value="0">' +
                 '</td>' +
                 '</tr>';
                 
             $("#releaseList tr:nth-child(1)").after(newRow);
-
+            
         	// 추가버튼, 수정버튼 비활성화, 취소버튼 활성화
 			$("#addRowButton").attr("disabled", "disabled");
 			$("#updateButton").attr("disabled", "disabled");
@@ -52,8 +47,8 @@
 			
 			pageStatus = "reg";
         }); // 추가 버튼
-        
-        // 취소 버튼 누를 시 
+
+		// 취소 버튼 누를 시 
 		$("#cancleButton").click(function(){
 			
 			// 등록버튼 취소
@@ -103,11 +98,9 @@
 				
 				});
 			}
-			
-			updateSelectedCheckboxCount();  
-			
-		}); // 취소 버튼 누를 시
 		
+		}); // 취소 버튼 누를 시
+        
      	// 수정 버튼 누를 시
 // 		$("#updateButton").click(function(){
 // 			var selectedCheckbox = $("input[name='selectedId']:checked");
@@ -153,6 +146,7 @@
 // 			}
 // 		});
 
+		
 		// 삭제버튼
     	$("#deleteButton").click(function(){
     		
@@ -171,8 +165,7 @@
 		
 		
 		
-		
-     // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
+	     // <th> 쪽 체크박스 클릭 시 해당 열의 <td> 부분의 행들을 선택하고 배경색 지정
         $("#releaseList th input[type='checkbox']").click(function() {
             var checkbox = $(this);
             var isChecked = checkbox.prop('checked');
@@ -196,7 +189,7 @@
             updateSelectedCheckboxCount();
             
         });
-
+		
         // <td> 쪽 체크박스 클릭 시 행 선택
         $("#releaseList td input[type='checkbox']").click(function() {
             var checkbox = $(this);
@@ -212,29 +205,32 @@
             $("#selectedCheckboxCount").text("전체 ("+selectedCheckboxes + '/' + totalCheckboxes+")");
         } // 체크박스 선택 시 체크박스 개수 구하기
         
+        
         // 완제품 코드 입력란 클릭 시 팝업창 열기
-        $(document).on("click", "input[id='oo_num']", function() {
-        	var left = (screen.width - 650) / 2;
-			var top = (screen.height - 680) / 2;
-     	   window.open('/release/addPopup?txt=pro', 'popup', 'width=650, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+        $(document).on("click", "input[id='work_num']", function() {
+        	var left = (screen.width - 700) / 2;
+			var top = (screen.height - 630) / 2;
+        	window.open('/release/addPopup?txt=ma', 'popup', 'width=700, height=630, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
         });
-        $(document).on("click", "input[id='ps_cnt']", function() {
+        $(document).on("click", "input[id='ms_cnt']", function() {
         	var left = (screen.width - 580) / 2;
 			var top = (screen.height - 680) / 2;
-        	if($('#pro_id').val() != "" ) {
-	      	   window.open('/release/addPopup?txt=ps&mapro_id='+ $('#pro_id').val(), 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+        	if($('ma_id').val() != "" ) {
+	      	   window.open('/release/addPopup?txt=ms&mapro_id='+ $('#ma_id').val(), 'popup', 'width=580, height=680, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
         	}else {
-        		alert("수주코드를 입력해주세요");
+        		alert("작업지시코드를 입력해주세요");
         	}
          });
-        
+ 		
         // 출고 처리 버튼
- 		$(".release").click(function () {
- 			var pr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
- 			var pro_id = $(this).closest("tr").find('td:eq(12)').text();
- 			var pr_cnt = $(this).closest("tr").find('td:eq(5)').text();
- 			var oo_num = $(this).closest("tr").find('td:eq(3)').text();
- 			Swal.fire({
+        $(".release").click(function () {
+ 			var mr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
+ 			var ma_id = $(this).closest("tr").find('td:eq(11)').text();
+ 			var mr_cnt = $(this).closest("tr").find('td:eq(4)').text();
+ 			var work_id = $(this).closest("tr").find('td:eq(13)').text();
+//  			alert(mr_id +"/"+ ma_id +"/"+ mr_cnt+"/"+work_id);
+
+			Swal.fire({
 				title: '출고처리 하시겠습니까?',
 				text: '출고 후 변경이 불가능합니다.', 
 				icon: 'warning',
@@ -252,55 +248,79 @@
 						confirmButtonColor: '#3085d6'
 					}).then((result) => {
 						if(result.isConfirmed) {
-						location.href="/release/acceptRelease?txt=pr&release_id="+pr_id+"&mapro_id="+pro_id+"&release_cnt="+pr_cnt; 				
-						
+							var eidata = new Object();
+							eidata.mr_id = mr_id;
+							eidata.ma_id = ma_id;
+							eidata.work_id = work_id;
+							eidata.cnt = mr_cnt;
+							$.ajax({
+								type: 'post',
+								url: '/elements/updateMR',
+								contentType: 'application/json',
+								data: JSON.stringify(eidata),
+								success: function(data) {
+									console.log(data);
+								},
+								error: function() {
+									return;
+								}
+							});
+							location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt+"&work_id="+work_id;
 						}
 					});
 				}
- 			
- 			});
- 			
-//  			if(result = window.confirm("출고하시겠습니까? (출고 후 변경이 불가능합니다.)")) {
-// 				location.href="/release/acceptRelease?txt=pr&release_id="+pr_id+"&mapro_id="+pro_id+"&release_cnt="+pr_cnt; 				
-//  			}
- 			
- 		});
-        
-        // 출고 대기 버튼
- 		$(".waiting").click(function() {
- 			var pr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
-			var pro_id = $(this).closest("tr").find('td:eq(12)').text();
- 			var oo_num = $(this).closest("tr").find('td:eq(2)').text();
- 			alert("pr_id : "+pr_id+" / oo_num : "+oo_num);
-//  			alert(pr_id + ", " + pro_id);
-			$.ajax({
-				type: 'post',
-				url: '/elements/updatePR?pr_id='+pr_id+'&oo_num='+oo_num,
-				contentType: 'application/json',
-				success: function(data) {
-					console.log(data);
-				},
-				error: function() {
-					return;
-				}
+					
+						 				
+	 			
+				
 			});
- 			location.href="/release/waitingRelease?txt=pr&rel_id="+pr_id+"&item_id="+pro_id;
+			
+// 			if(result = window.confirm("출고하시겠습니까? (출고 후 변경이 불가능합니다.)")) {
+// 					location.href="/release/acceptRelease?txt=mr&release_id="+mr_id+"&mapro_id="+ma_id+"&release_cnt="+mr_cnt+"&work_id="+work_id; 				
+// 	 			}
+ 			
+ 			
+ 		});
+ 		
+ 		// 출고 대기 버튼
+ 		$(".waiting").click(function() {
+ 			var mr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
+ 			var ma_id = $(this).closest("tr").find('td:eq(11)').text();
+
+ 			location.href="/release/waitingRelease?txt=mr&rel_id="+mr_id+"&item_id="+ma_id;
  			
  		});
         
+        
+ 		
+//  		$("#submitButton").click(function() {
+//  			var ma_id = $('#ma_id').val();
+//  			var work_id = $('#work_id').val();
+//  			var wh_id = $('#wh_id').val();
+//  			var mr_cnt = $('#mr_cnt').val();
+//  			var mr_state = $('#mr_state').val();
+//  			var emp_id = Number($('#emp_id').val());
+//  			alert(ma_id);
+//  			alert(work_id);
+//  			alert(wh_id);
+//  			alert(mr_cnt);
+//  			alert(mr_state);
+//  			alert(emp_id);
+ 			
+//  		})
  		$("#submitButton").click(function() {
- 			var form = $("#productRelease");
+ 			var form = $("#materialRelease");
  			form.attr("method", "post");
- 			form.attr("action", "/release/regPRRelease");
- 			var oo_num = $("#oo_num").val();
- 			var ps_cnt = $("#ps_cnt").val();
- 			if(oo_num == null || oo_num == "") {
- 				$("#oo_num").focus();
- 				alert("수주코드를 입력하세요");
+ 			form.attr("action", "/release/regMTRelease");
+ 			var work_num = $("#work_num").val();
+ 			var ms_cnt = $("#ms_cnt").val();
+ 			if(work_num == null || work_num == "") {
+ 				$("#work_num").focus();
+ 				alert("작업지시코드를 입력하세요");
  				return;
  			}
- 			if(ps_cnt == null || ps_cnt == "") {
- 				$("#ps_cnt").focus();
+ 			if(ms_cnt == null || ms_cnt == "") {
+ 				$("#ms_cnt").focus();
  				alert("현 재고를 입력하세요");
  				return;
  			}
@@ -308,6 +328,7 @@
  		});
 	});
 </script>
+
 <style>
     .selected {
         background-color: #b3ccff;
@@ -315,124 +336,88 @@
 </style>
 
 <form name="search" method="get" class="bg-light rounded p-3 m-3">
-	
+
 	<div class="row mb-3">
-		<label for="pro_nameSearch" class="col-sm-2 col-form-label"><b>출고코드</b></label>
+		<label for="mr_numSearch" class="col-sm-2 col-form-label"><b>자재코드</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="pr_numSearch" class="form-control" placeholder="출고코드를 입력하세요" value="${pr_numSearch }">
+			<input type="text" name="mr_numSearch" class="form-control" placeholder="자재코드를 입력하세요" value="${mr_num }">
 		</div>
-	</div>
-	
-	<div class="row mb-3">
-		<label for="pro_nameSearch" class="col-sm-2 col-form-label"><b>품목명</b></label>
-		<div class="col-sm-4">
-			<input type="text" name="pro_nameSearch" class="form-control" placeholder="제품명을 입력하세요" value="${pro_nameSearch }">
-		</div>
-	</div>
-	
-	<div class="row mb-3">
-		<label for="" class="col-sm-2 col-form-label"><b>출고일자</b></label>
-		
-		<div class="col-sm-2">
-			<div class="col-auto">
-				<input type="datetime-local" name="startDate" class="form-control">
-			</div>
-		</div>
-			
-			<div class="col-auto">
-   				~
-			</div>
-			
-		<div class="col-sm-2">
-			<div class="col-auto">
-				<input type="datetime-local" name="endDate" class="form-control">
-			</div>
-		</div>
-		
 		<div class="col-auto">
 			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
 		</div>	
-	
 	</div>
+	
 </form>
 
 <hr>
 
-<form id="productRelease" name="release">
 
-	<div class="d-flex align-items-center justify-content-between mb-2">
-		<h3 class="m-4">제품출고</h3>
-		<div>
-			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3' }">
-				<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
-				<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
-				<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/release/delPRRelease" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
-				<button type="button" class="btn btn-primary m-2" id="submitButton" formaction="/release/regPRRelease" formmethod="post" disabled><i class="fa fa-download"></i> 저장</button>
-			</c:if>
-		</div>
+<form id="materialRelease" name="release">
+
+<div class="d-flex align-items-center justify-content-between mb-2">
+
+<h3 class="m-4">자재 정보</h3>
+</div>
+
+<div class="bg-light text-center rounded p-4 m-3">
+
+	<div class="d-flex align-items-center justify-content-between mb-4">
+		<span id="selectedCheckboxCount">0</span>
 	</div>
 
-	<div class="bg-light text-center rounded p-4 m-3">
-
-		<div class="d-flex align-items-center justify-content-between mb-4">
-			<span id="selectedCheckboxCount">0</span>
-		</div>
 
 	<div class="table-responsive">
-		<table id="releaseList" class="releaseList table align-middle table-bordered table-hover mb-0">
+		<table id="releaseList" class="table align-middle table-bordered table-hover mb-0">
 				<tr class="text-dark">
-					<th scope="col" style="background-color: rgba(0,0,0,0.075);"><input class="form-check-input"	type="checkbox" id="cbx_chkAll"></th>
+					<th scope="col" style="background-color: rgba(0,0,0,0.075);"><input class="form-check-input" type="checkbox" id="cbx_chkAll"></th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고코드</th>
-			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">수주코드</th>
-			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">납품처명</th>
-			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">완제품명</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">작업지시<br>코드</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">자재명</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">주문수량</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">현<br>재고</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">창고명</th>
-			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">납기일자</th>
+			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">작업지시일자</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">진행현황</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">담당자</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고일자</th>
 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고처리</th>
-			    	<th scope="col" style="display: none">pro_id</th>
-<!-- 			    	<th scope="col" style="display: none">pro_id</th> -->
+					<td style="display: none">작업지시 id</td>
 				</tr>
-			  	<c:forEach var="vo" items="${prReleaseList}">
+			  	<c:forEach var="vo" items="${mtReleaseList}">
 				<tr>
-					<td><input class="form-check-input" type="checkbox" value="${vo.pr_id }" name="selectedId"></td>
-					<td>${vo.pr_num }</td>
-					<td>${vo.outOrderVO.oo_num }</td>
-					<td>${vo.clientVO.clt_name }</td>
-					<td>${vo.productVO.pro_name }</td>
-					<td>${vo.pr_cnt }</td>
-					<td>${vo.productStockVO.ps_cnt }</td>
+					<td><input class="form-check-input" type="checkbox" name="selectedId" value="${vo.mr_id}"></td>
+					<td>${vo.mr_num }</td>
+					<td>${vo.workInstrVO.work_num }</td>
+					<td>${vo.materialVO.ma_name }</td>
+					<td>${vo.mr_cnt }</td>
+					<td>${vo.materialStockVO.ms_cnt }</td>
 					<td>${vo.warehouseVO.wh_name }</td>
-					<td>${vo.outOrderVO.oo_end_date }</td>
-					<td>${vo.pr_state }</td>
+					<td>${vo.workInstrVO.reg_date }</td>
+					<td>${vo.mr_state }</td>
 					<td>${vo.employeeVO.emp_name }</td>
-					<td>${vo.pr_date }</td>
-					<td style="display: none">${vo.productVO.pro_id }</td>
+					<td>${vo.mr_date }</td>
+					<td style="display: none">${vo.materialVO.ma_id }</td>
 					<td>
 					<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3'}">
-					<c:choose>
-					<c:when test="${vo.pr_state eq '검사완료' && vo.productStockVO.ps_cnt ge vo.pr_cnt}">
-					<button type="button" class="btn btn-sm btn-success release">출고<br>처리</button>
-					</c:when>
-					<c:when test="${vo.pr_state eq '출고준비' && vo.productStockVO.ps_cnt ge vo.pr_cnt}">
-					<button type="button" class="btn btn-sm btn-warning waiting">출고<br>대기</button>
-					</c:when>
-					<c:when test="${vo.pr_state eq '출고준비' && vo.productStockVO.ps_cnt lt vo.pr_cnt}">
-					<button type="button" class="btn btn-sm btn-danger">출고<br>불가</button>
-					</c:when>
-					<c:when test="${vo.pr_state eq '출고완료'}">
-					<button type="button" class="btn btn-sm btn-primary">출고<br>완료</button> 
-					</c:when>
-					</c:choose>
+						<c:choose>
+						<c:when test="${vo.mr_state eq '검사완료' && vo.materialStockVO.ms_cnt ge vo.mr_cnt}">
+						<button type="button" class="btn btn-sm btn-success release">출고<br>처리</button>
+						</c:when>
+						<c:when test="${vo.mr_state eq '출고준비' && vo.materialStockVO.ms_cnt ge vo.mr_cnt}">
+						<button type="button" class="btn btn-sm btn-warning waiting">출고<br>대기</button>
+						</c:when>
+						<c:when test="${vo.mr_state eq '출고준비' && vo.materialStockVO.ms_cnt lt vo.mr_cnt}">
+						<button type="button" class="btn btn-sm btn-danger">출고<br>불가</button>
+						</c:when>
+						<c:when test="${vo.mr_state eq '출고완료'}">
+						<button type="button" class="btn btn-sm btn-primary">출고<br>완료</button> 
+						</c:when>
+						</c:choose>
 					</c:if>
-					
 					</td>
+					<td style="display: none">${vo.work_id }</td>
 			    </tr>
-		   		</c:forEach>
+			    </c:forEach>
 		</table>
 	</div>
 </div>
@@ -445,7 +430,7 @@
  		
  			<c:if test="${pm.prev }">
 		<li class="page-item">
-			<a class="page-link" href="/release/productRelease?page=${pm.startPage-1 }&startDate=${startDate}&endDate=${endDate}&pro_nameSearch=${pro_nameSearch}&pr_numSearch=${pr_numSearch}" aria-label="Previous">
+			<a class="page-link" href="/release/materialRelease?page=${pm.startPage-1 }&startDate=${startDate}&endDate=${endDate}&ma_nameSearch=${ma_name}&mr_numSearch=${mr_num}" aria-label="Previous">
       			<span aria-hidden="true">&laquo;</span>
      			</a>
    		</li>
@@ -453,13 +438,13 @@
    		
    		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" step="1" var="idx">
    		<li class="<c:out value='${pm.pageVO.page == idx ? "page-item active" : "page-item"}' />">
-   				<a class="page-link" href="/release/productRelease?page=${idx}&startDate=${startDate}&endDate=${endDate}&pro_nameSearch=${pro_nameSearch}&pr_numSearch=${pr_numSearch}">${idx }</a>
+   				<a class="page-link" href="/release/materialRelease?page=${idx}&startDate=${startDate}&endDate=${endDate}&ma_nameSearch=${ma_name}&mr_numSearch=${mr_num}">${idx }</a>
    		</li>
    		</c:forEach>
 		
 		<c:if test="${pm.next && pm.endPage > 0}">
 		<li class="page-item">
-     			<a class="page-link" href="/release/productRelease?page=${pm.endPage+1 }&startDate=${startDate}&endDate=${endDate}&pro_nameSearch=${pro_nameSearch}&pr_numSearch=${pr_numSearch}" aria-label="Next">
+     			<a class="page-link" href="/release/materialRelease?page=${pm.endPage+1 }&startDate=${startDate}&endDate=${endDate}&ma_nameSearch=${ma_name}&mr_numSearch=${mr_num}" aria-label="Next">
        		<span aria-hidden="true">&raquo;</span>
      			</a>
    		</li>

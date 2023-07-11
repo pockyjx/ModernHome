@@ -61,9 +61,10 @@ $(document).ready(function() {
 	
 	    // 출하 처리 버튼
  		$(".release").click(function () {
- 			var shp_num = $(this).closest("tr").find('td:eq(0)').find('input').val();
+ 			var shp_num = $(this).closest("tr").find('td:eq(1)').text();
  			var shp_state = $(this).closest("tr").find('td:eq(10)').text();
- 			
+ 			var shp_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
+ 			var pr_num = $(this).closest("tr").find('td:eq(3)').text();
  			Swal.fire({
 				title: '출하 하시겠습니까?',
 				text: '출하 후 변경이 불가능합니다.', 
@@ -82,6 +83,18 @@ $(document).ready(function() {
 						confirmButtonColor: '#3085d6'
 					}).then((result) => {
 						if(result.isConfirmed) {
+							$.ajax({
+								type: 'post',
+								url: '/elements/updateSHP?shp_id='+shp_id+'&pr_num='+pr_num,
+								contentType: 'application/json',
+								success: function(data) {
+									console.log(data);
+								},
+								error: function(data) {
+									console.log(data);
+									return;
+								}
+							});
 							location.href = "/client/acceptRelease?txt=mr&shp_num=" + shp_num + "&shp_state=" + shp_state;						
 						}
 					});
@@ -475,7 +488,7 @@ $(document).ready(function() {
 					
 				  	<c:forEach var="shipmentList" items="${shipmentList }">
 						<tr>
-							<td><input type="checkbox" name="selected" value="${shipmentList.shp_num}" class="form-check-input"></td>
+							<td><input type="checkbox" name="selected" value="${shipmentList.shp_id}" class="form-check-input"></td>
 							
 							<td>${shipmentList.shp_num}</td>
 							
