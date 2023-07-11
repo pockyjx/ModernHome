@@ -201,6 +201,9 @@
 						confirmButtonColor: '#3085d6'
 					}).then((result) => {
 						if(result.isConfirmed) {
+				        	var left = (screen.width - 700) / 2;
+							var top = (screen.height - 630) / 2;
+							window.open('/elementinfo/popupReceive?cnt='+rec_cnt+'&rec_id='+rec_id+'&ma_id='+ma_id, 'popup', 'width=650, height=700, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
 							location.href="/wms/acceptReceive?rec_id="+rec_id+"&ma_id="+ma_id+"&rec_cnt="+rec_cnt;
 						}
 					});

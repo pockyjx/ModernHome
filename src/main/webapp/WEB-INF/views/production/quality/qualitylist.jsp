@@ -254,6 +254,12 @@
 					
         		}).then((result) => {
         			if(result.isConfirmed) {
+        				var qc_id = $(".table-qualityList td input[type='checkbox']:checked").val();
+        				var work_num = $('#work_num').val();
+        				var df_cnt = $('#df_cnt').val();
+        				var left = (screen.width - 700) / 2;
+						var top = (screen.height - 630) / 2;
+						window.open('/elementinfo/popupLineQC?cnt='+df_cnt+'&line_qc_id='+qc_id+'&work_num='+work_num, 'popup', 'width=650, height=700, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
         				form.submit();
         			}
         		});

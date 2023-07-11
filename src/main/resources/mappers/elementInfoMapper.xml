@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mapper.ElementInfoMapper">
+	<insert id="regElements">
+		insert into element_info (ele_num, rec_id, ma_id) values (#{ele_num}, #{rec_id}, #{ma_id});
+	</insert>
+	
+	<update id="updateMR">
+		update element_info 
+		set mr_id = #{mr_id}, 
+		work_id = #{work_id}, 
+		pro_id = (select pro_id from work_instr where work_id = #{work_id})
+		where ele_num in (
+			select ele_num 
+			from (
+				select ele_num 
+				from element_info 
+				where ma_id = #{ma_id} 
+				and mr_id is null 
+				order by ele_num 
+				limit 0, #{cnt}
+			)A
+		);
+	</update>
+	
+	<select id="getWorkedList" resultType="com.modernhome.domain.ElementInfoVO">
+		select ele_num, line_qc_id, ei.pro_id, line_qc_defect
+		from element_info ei 
+		join work_instr wi on ei.work_id = wi.work_id 
+		 where wi.work_num = #{work_num};
+	</select>
+	
+	<update id="updateLQC">
+		update element_info set line_qc_id = #{line_qc_id} 
+			<if test="line_qc_defect != null">
+				, line_qc_defect = #{line_qc_defect} 
+			</if>
+			<if test="line_qc_defect == null">
+				, line_qc_defect = 0 
+			</if>
+			
+			, lot_num = #{lot_num} 
+		where ele_num = #{ele_num};
+	</update>
+	
+	<update id="updatePR" parameterType="java.util.Map">
+		update element_info set 
+		pr_id = #{pr_id}  
+		where ele_num in (
+			select ele_num from (
+				select ele_num
+				from element_info ei
+				join work_instr wi on wi.work_id = ei.work_id
+				join out_order oo on wi.oo_id = oo.oo_id
+				where oo_num = #{oo_num} and lot_num is not null
+			)A
+		);
+	</update>
+	
+	<select id="getReleasedList" resultType="com.modernhome.domain.ElementInfoVO">
+		select ele_num, pr_qc_id, line_qc_defect
+		from element_info ei 
+		join product_release pr on ei.pr_id = pr.pr_id 
+		 where pr.pr_num = #{pr_num};
+	</select>
+	
+	<update id="updatePrQC">
+		update element_info set pr_qc_id = #{pr_qc_id} 
+			<if test="pr_qc_defect != null">
+				, pr_qc_defect = #{pr_qc_defect} 
+			</if>
+			<if test="pr_qc_defect == null">
+				, pr_qc_defect = 0 
+			</if>
+		where ele_num = #{ele_num};
+	</update>
+	
+	<update id="updateSHP" parameterType="java.util.Map">
+		update element_info set 
+		shp_id = #{shp_id}  
+		where ele_num in (
+			select ele_num from (
+				select ele_num
+				from element_info ei
+				join product_release pr on ei.pr_id = pr.pr_id
+				where pr.pr_num = #{pr_num} and pr_qc_defect = 0
+			)A
+		);
+	</update>
+</mapper>

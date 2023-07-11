@@ -73,6 +73,7 @@
                             <a href="/employee/employeeList" class="dropdown-item">ㄴ<i class=" me-2"></i>사원조회</a>
                         </div>
                     </div>
+                    <a href="/elementinfo/element" class="nav-item nav-link active"><i class="fas fa-search"></i>자재정보검색</a>
 <!--                     <div class="nav-item dropdown"> -->
 <!--                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a> -->
 <!--                         <div class="dropdown-menu bg-transparent border-0"> -->

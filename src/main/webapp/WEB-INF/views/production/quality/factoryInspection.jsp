@@ -224,6 +224,14 @@
 					
         		}).then((result) => {
         			if(result.isConfirmed) {
+        				var pr_num = $('#mr_num').val();
+        				if(pr_num != null && pr_num.charAt(0) == 'P') {
+	        				var qc_id = $(".table-fiList td input[type='checkbox']:checked").val();
+	        				var df_cnt = $('#df_cnt').val();
+	        				var left = (screen.width - 700) / 2;
+							var top = (screen.height - 630) / 2;
+							window.open('/elementinfo/popupPrQC?cnt='+df_cnt+'&pr_qc_id='+qc_id+'&pr_num='+pr_num, 'popup', 'width=650, height=700, top=' + top + ', left=' + left + ', location=no, status=no, scrollbars=yes');
+        				}
         				form.submit();
         			}
         		});
