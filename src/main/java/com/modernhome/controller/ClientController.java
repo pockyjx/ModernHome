@@ -323,8 +323,8 @@ public class ClientController {
 			
 			logger.debug("deleteShipment() 호출 (출하 삭제)");
 			if(selected != null) {
-				for(String shp_num : selected) {
-					sService.deleteShipment(shp_num);
+				for(String shp_id : selected) {
+					sService.deleteShipment(shp_id);
 				}
 			}
 			

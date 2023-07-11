@@ -25,7 +25,7 @@ public interface ShipmentDAO {
 	public void regShipment(ShipmentJoinVO svo);
 	
 	// 출하 삭제
-	public void deleteShipment(String shp_num);
+	public void deleteShipment(String shp_id);
 	
 	// 출하 수정
 	public void updateShipment(ShipmentJoinVO svo);

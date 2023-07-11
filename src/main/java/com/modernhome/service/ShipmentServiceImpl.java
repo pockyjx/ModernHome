@@ -50,8 +50,8 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 	// 출하정보 삭제
 	@Override
-	public void deleteShipment(String shp_num) {
-		sDAO.deleteShipment(shp_num);
+	public void deleteShipment(String shp_id) {
+		sDAO.deleteShipment(shp_id);
 		
 	}
 

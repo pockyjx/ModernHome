@@ -4,6 +4,89 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.itwillbs.mapper.ElementInfoMapper">
+
+	<resultMap type="ReceiveVO" id="ReceiveVO">
+		<result property="rec_num" column="rec_num"/>
+		<result property="rec_date" column="rec_date"/>
+	</resultMap>
+	<resultMap type="MaterialVO" id="MaterialVO">
+		<result property="ma_num" column="ma_num"/>
+		<result property="ma_name" column="ma_name"/>
+	</resultMap>
+	<resultMap type="MaterialReleaseVO" id="MaterialReleaseVO">
+		<result property="mr_num" column="mr_num"/>
+		<result property="mr_date" column="mr_date"/>
+		<result property="mr_state" column="mr_state"/>
+	</resultMap>
+	<resultMap type="WorkInstrVO" id="WorkInstrVO">
+		<result property="work_num" column="work_num"/>
+		<result property="reg_date" column="reg_date"/>
+		<result property="work_state" column="work_state"/>
+
+	</resultMap>
+	<resultMap type="OutOrderVO" id="OutOrderVO">
+		<result property="oo_num" column="oo_num"/>
+	</resultMap>
+	<resultMap type="LineVO" id="LineVO">
+		<result property="line_name" column="line_name"/>
+	</resultMap>
+	<resultMap type="ProductVO" id="ProductVO">
+		<result property="pro_num" column="pro_num"/>
+		<result property="pro_name" column="pro_name"/>
+	</resultMap>
+	<resultMap type="QualityCheckingVO" id="LqualityCheckingVO">
+		<result property="qc_num" column="lqc_num"/>
+		<result property="qc_date" column="lqc_date"/>
+	</resultMap>
+	<resultMap type="DefectiveVO" id="LdefectiveVO">
+		<result property="repair_yn" column="lrepair_yn"/>
+	</resultMap>
+	<resultMap type="QualityCheckingVO" id="PqualityCheckingVO">
+		<result property="qc_num" column="pqc_num"/>
+		<result property="qc_date" column="pqc_date"/>
+	</resultMap>
+	<resultMap type="DefectiveVO" id="PdefectiveVO">
+		<result property="repair_yn" column="prepair_yn"/>
+	</resultMap>
+	<resultMap type="ProductReleaseVO" id="ProductReleaseVO">
+		<result property="pr_num" column="pr_num"/>
+		<result property="pr_date" column="pr_date"/>
+		<result property="pr_state" column="pr_state"/>
+	</resultMap>
+	<resultMap type="ShipmentVO" id="ShipmentVO">
+		<result property="shp_num" column="shp_num"/>
+		<result property="shp_date" column="shp_date"/>
+		<result property="shp_state" column="shp_state"/>
+	</resultMap>
+	
+	<resultMap type="ElementInfoVO" id="ElementInfoVO">
+		<id property="ele_num" column="ele_num"/>
+		<result property="rec_id" column="rec_id"/>
+		<result property="ma_id" column="ma_id"/>
+		<result property="mr_id" column="mr_id"/>
+		<result property="work_id" column="work_id"/>
+		<result property="pro_id" column="pro_id"/>
+		<result property="line_qc_id" column="line_qc_id"/>
+		<result property="line_qc_defect" column="line_qc_defect"/>
+		<result property="lot_num" column="lot_num"/>
+		<result property="pr_id" column="pr_id"/>
+		<result property="pr_qc_id" column="pr_qc_id"/>
+		<result property="pr_qc_defect" column="pr_qc_defect"/>
+		
+		<collection property="receiveVO"  resultMap="ReceiveVO"/>
+		<collection property="materialVO"  resultMap="MaterialVO"/>
+		<collection property="materialReleaseVO"  resultMap="MaterialReleaseVO"/>
+		<collection property="workInstrVO"  resultMap="WorkInstrVO"/>
+		<collection property="outOrderVO"  resultMap="OutOrderVO"/>
+		<collection property="lineVO"  resultMap="LineVO"/>
+		<collection property="productVO"  resultMap="ProductVO"/>
+		<collection property="liQualityCheckingVO"  resultMap="LqualityCheckingVO"/>
+		<collection property="liDefectiveVO"  resultMap="LdefectiveVO"/>
+		<collection property="productReleaseVO"  resultMap="ProductReleaseVO"/>
+		<collection property="prQualityCheckingVO"  resultMap="PqualityCheckingVO"/>
+		<collection property="prDefectiveVO"  resultMap="PdefectiveVO"/>
+		<collection property="shipmentVO"  resultMap="ShipmentVO"/>
+	</resultMap>
 	<insert id="regElements">
 		insert into element_info (ele_num, rec_id, ma_id) values (#{ele_num}, #{rec_id}, #{ma_id});
 	</insert>
@@ -90,4 +173,32 @@
 			)A
 		);
 	</update>
+	
+	<select id="getElementInfo" resultMap="ElementInfoVO">
+		select ei.ele_num, re.rec_num, re.rec_date, 
+		ma.ma_num, ma.ma_name, 
+		mr.mr_num, mr.mr_date, mr_state, 
+		oo.oo_num, wi.work_num, wi.reg_date, wi.work_state, line_name, 
+		pro.pro_num, pro_name, 
+		lqc.qc_num lqc_num, lqc.qc_date lqc_date, ei.line_qc_defect, ldf.repair_yn lrepair_yn, 
+		ei.lot_num,
+		pr.pr_num, pr.pr_date, pr.pr_state,
+		prqc.qc_num pqc_num, prqc.qc_date pqc_date, ei.pr_qc_defect, prdf.repair_yn prepair_yn,
+		shp.shp_num, shp.shp_date, shp.shp_state
+		from element_info ei
+		join receive re on re.rec_id = ei.rec_id
+		join material ma on ma.ma_id = ei.ma_id
+		left join material_release mr on mr.mr_id = ei.mr_id
+		left join work_instr wi on wi.work_id = ei.work_id
+		left join out_order oo on oo.oo_id = wi.oo_id
+		left join line li on li.line_id = wi.line_id
+		left join product pro on pro.pro_id = ei.pro_id
+		left join quality_checking lqc on lqc.qc_id = ei.line_qc_id
+		left join defective ldf on ldf.qc_id = ei.line_qc_id
+		left join product_release pr on pr.pr_id = ei.pr_id
+		left join quality_checking prqc on prqc.qc_id = ei.pr_qc_id
+		left join defective prdf on prdf.qc_id = ei.pr_qc_id
+		left join shipment shp on shp.shp_id = ei.shp_id
+		where ei.ele_num = #{ele_num}
+	</select>
 </mapper>

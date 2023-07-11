@@ -7,20 +7,22 @@ import com.modernhome.domain.ElementInfoVO;
 
 public interface ElementInfoDAO {
 
-	void regElements(ElementInfoVO vo) throws Exception;
+	public void regElements(ElementInfoVO vo) throws Exception;
 
-	void updateMR(ElementInfoVO vo) throws Exception;
+	public void updateMR(ElementInfoVO vo) throws Exception;
 
-	List<ElementInfoVO> getWorkedList(String work_num) throws Exception;
+	public List<ElementInfoVO> getWorkedList(String work_num) throws Exception;
 
-	void updateLQC(ElementInfoVO vo) throws Exception;
+	public void updateLQC(ElementInfoVO vo) throws Exception;
 
-	void updatePR(Map<String, Object> parameterMap) throws Exception;
+	public void updatePR(Map<String, Object> parameterMap) throws Exception;
 
-	List<ElementInfoVO> getReleasedList(String pr_num) throws Exception;
+	public List<ElementInfoVO> getReleasedList(String pr_num) throws Exception;
 
-	void updatePrQC(ElementInfoVO vo) throws Exception;
+	public void updatePrQC(ElementInfoVO vo) throws Exception;
 
-	void updateSHP(Map<String, Object> parameterMap) throws Exception;
+	public void updateSHP(Map<String, Object> parameterMap) throws Exception;
+
+	public ElementInfoVO getElementInfo(String ele_num) throws Exception;
 
 }

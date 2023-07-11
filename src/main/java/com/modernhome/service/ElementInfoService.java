@@ -23,4 +23,6 @@ public interface ElementInfoService {
 
 	public void updateSHP(Map<String, Object> parameterMap) throws Exception;
 
+	public ElementInfoVO getElementInfo(String ele_num) throws Exception;
+
 }

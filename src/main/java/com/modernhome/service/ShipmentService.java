@@ -28,7 +28,7 @@ public interface ShipmentService {
 	public void regShipment(ShipmentJoinVO svo);
 	
 	// 수주정보 삭제
-	public void deleteShipment(String shp_num);
+	public void deleteShipment(String shp_id);
 		
 	// 수주정보 수정
 	public void updateShipment(ShipmentJoinVO svo);

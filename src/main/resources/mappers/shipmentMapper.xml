@@ -128,7 +128,7 @@
 	
 	<!-- 출하 삭제 -->
 	<delete id="deleteShipment">
-		DELETE FROM shipment WHERE shp_num = #{shp_num}
+		DELETE FROM shipment WHERE shp_id = #{shp_id}
 	</delete>
 	<!-- 출하 삭제 -->
 	
