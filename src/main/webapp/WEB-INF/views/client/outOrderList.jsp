@@ -326,6 +326,11 @@ $(document).ready(function() {
 					alert("주문량를 입력하세요!");
 					return;
 				}
+				if(oo_cnt <= 0) {
+					$("#oo_cnt").focus();
+					alert("주문량은 0 이하일 수 없습니다!");
+					return;
+				}
 				if(oo_start_date == null || oo_start_date == "") {
 					$("#oo_start_date").focus();
 					alert("수주일자를 입력하세요!");
@@ -345,6 +350,11 @@ $(document).ready(function() {
 				if(oo_cnt == null || oo_cnt == "") {
 					$("#oo_cnt").focus();
 					alert("주문량를 입력하세요!");
+					return;
+				}
+				if(oo_cnt <= 0) {
+					$("#oo_cnt").focus();
+					alert("주문량은 0 이하일 수 없습니다!");
 					return;
 				}
 				if(oo_start_date == null || oo_start_date == "") {

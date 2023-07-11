@@ -301,6 +301,11 @@
 						alert("우편번호를 입력하세요!");
 						return;
 						}
+					if(clt_post <= 0) {
+						$("#clt_post").focus();
+						alert("정확한 우편번호를 입력하세요!");
+						return;
+					}
 				} //if문
 			
 				
@@ -325,12 +330,17 @@
 						$("#clt_adr").focus();
 						alert("주소를 입력하세요!");
 						return;
-						}
+					}
 					if(clt_post == null || clt_post == "") {
 						$("#clt_post").focus();
 						alert("우편번호를 입력하세요!");
 						return;
-						}
+					}
+					if(clt_post <= 0) {
+						$("#clt_post").focus();
+						alert("정확한 우편번호를 입력하세요!");
+						return;
+					}
 				} //if문
 			
 			
