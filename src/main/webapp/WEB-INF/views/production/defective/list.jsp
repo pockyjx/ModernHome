@@ -422,7 +422,7 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">불량 리스트</h3>
 		<div class="me-2">
-			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= '1' || sessionScope.emp_auth == '3'}">
+			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= '2' || sessionScope.emp_auth == '3'}">
 				<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton">

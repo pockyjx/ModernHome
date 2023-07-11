@@ -386,7 +386,7 @@
 
 <h3 class="m-4">자재 출고</h3>
 	<div>
-		<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3' }">
+		<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '2') || sessionScope.emp_auth == '3' }">
 			<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 			<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 			<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/release/delMTRelease" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
@@ -434,7 +434,7 @@
 					<td>${vo.mr_date }</td>
 					<td style="display: none">${vo.materialVO.ma_id }</td>
 					<td>
-					<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3'}">
+					<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '2') || sessionScope.emp_auth == '3'}">
 						<c:choose>
 						<c:when test="${vo.mr_state eq '검사완료' && vo.materialStockVO.ms_cnt ge vo.mr_cnt}">
 						<button type="button" class="btn btn-sm btn-success release">출고<br>처리</button>

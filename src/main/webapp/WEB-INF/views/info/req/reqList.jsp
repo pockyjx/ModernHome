@@ -387,7 +387,7 @@
 		
 	<div>
 	
-		<c:if test="${((sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산') && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3'}">
+		<c:if test="${((sessionScope.emp_dept eq '자재' || sessionScope.emp_dept eq '생산') && sessionScope.emp_auth >= '2') || sessionScope.emp_auth == '3'}">
 		
 			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
