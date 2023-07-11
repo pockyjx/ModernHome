@@ -92,7 +92,7 @@
 <form name="search" action="" method="get" class="bg-light rounded p-3 m-3">
 
 	<div class="row mb-3">
-		<label for="ele_numSearch" class="col-sm-2 col-form-label"><b>자재코드</b></label>
+		<label for="ele_numSearch" class="col-sm-2 col-form-label"><b>자재일련번호</b></label>
 		<div class="col-sm-4">
 			<input type="text" name="ele_numSearch" class="form-control" placeholder="자재코드를 입력하세요" value="${ele_num }">
 		</div>
