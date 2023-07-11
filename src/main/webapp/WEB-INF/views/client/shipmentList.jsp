@@ -450,7 +450,7 @@ $(document).ready(function() {
 	<div class="d-flex align-items-center justify-content-between mb-2">             
 		<h3 class="m-4">출하 목록</h3>
 		<div>
-			<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth == 2) || sessionScope.emp_auth == 3}">
+			<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth >= 2) || sessionScope.emp_auth == 3}">
 			<button type="button" class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 			<button type="button" class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 			<button type="button" class="btn btn-primary m-2" id="updateButton"><i class="fa fa-edit"></i> 수정</button>
@@ -505,7 +505,7 @@ $(document).ready(function() {
 				    		<td>
 				    			<c:choose>
 								<c:when test="${shipmentList.shp_state eq '출하준비' }">
-								<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth >= 1) || sessionScope.emp_auth == 3}">
+								<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth >= 2) || sessionScope.emp_auth == 3}">
 								<button type="button" class="btn btn-sm btn-success release">출하<br>준비</button>
 								</c:if>
 								<c:if test="${(sessionScope.emp_dept ne '영업') && sessionScope.emp_auth ne 3}">
@@ -513,7 +513,7 @@ $(document).ready(function() {
 								</c:if>
 								</c:when>
 								<c:when test="${shipmentList.shp_state eq '출하완료'}">
-								<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth >= 1) || sessionScope.emp_auth == 3}">
+								<c:if test="${(sessionScope.emp_dept eq '영업' && sessionScope.emp_auth >= 2) || sessionScope.emp_auth == 3}">
 								<button type="button" class="btn btn-sm btn-primary">출하<br>완료</button> 
 								</c:if>
 								<c:if test="${(sessionScope.emp_dept ne '영업') && sessionScope.emp_auth ne 3}">

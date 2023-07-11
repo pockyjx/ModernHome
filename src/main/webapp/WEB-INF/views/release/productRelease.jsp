@@ -361,7 +361,7 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">제품출고</h3>
 		<div>
-			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3' }">
+			<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '2') || sessionScope.emp_auth == '3' }">
 				<button class="btn btn-primary m-2" id="addRowButton"><i class="fa fa-plus"></i> 추가</button>
 				<button class="btn btn-primary m-2" id="cancleButton" disabled>X 취소</button>
 				<button type="submit" class="btn btn-primary m-2" id="deleteButton" formaction="/release/delPRRelease" formmethod="post"><i class="fa fa-trash"></i> 삭제</button>
@@ -411,7 +411,7 @@
 					<td>${vo.pr_date }</td>
 					<td style="display: none">${vo.productVO.pro_id }</td>
 					<td>
-					<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '1') || sessionScope.emp_auth == '3'}">
+					<c:if test="${(sessionScope.emp_dept eq '자재' && sessionScope.emp_auth >= '2') || sessionScope.emp_auth == '3'}">
 					<c:choose>
 					<c:when test="${vo.pr_state eq '검사완료' && vo.productStockVO.ps_cnt ge vo.pr_cnt}">
 					<button type="button" class="btn btn-sm btn-success release">출고<br>처리</button>

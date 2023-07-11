@@ -333,7 +333,7 @@
 	<div class="d-flex align-items-center justify-content-between mb-2">
 		<h3 class="m-4">수입 검사</h3>
 		<div>
-			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 1  || sessionScope.emp_auth == 3}">
+			<c:if test="${sessionScope.emp_dept eq '품질' && sessionScope.emp_auth >= 2  || sessionScope.emp_auth == 3}">
 				<button type="button"  class="btn btn-primary m-2" id="cancleButton" disabled="disabled">X 취소</button>
 				<button type="button" class="btn btn-primary m-2" id="updateButton" ><i class="fa fa-edit"></i> 수정</button>
 <!-- 				<button type="submit" class="btn btn-primary m-2" id="submitButton"  formaction="updateMaterialQuality" formmethod="post" disabled="disabled"> -->
