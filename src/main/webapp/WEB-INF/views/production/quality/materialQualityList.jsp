@@ -116,7 +116,7 @@
 				
 				// 폼 초기화(기존내용으로)
 				// 가져가서 쓰는 경우 폼에 이름 지정해줘야해요
-
+				$("#materialQualityList")[0].reset();
 				
 					// 각 셀의 값을 원래 상태로 되돌림
 				row.find("td:not(:first-child)").each(function(index) {
