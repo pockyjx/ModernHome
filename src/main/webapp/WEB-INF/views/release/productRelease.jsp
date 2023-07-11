@@ -271,8 +271,6 @@
  			var pr_id = $(this).closest("tr").find('td:eq(0)').find('input').val();
 			var pro_id = $(this).closest("tr").find('td:eq(12)').text();
  			var oo_num = $(this).closest("tr").find('td:eq(2)').text();
- 			alert("pr_id : "+pr_id+" / oo_num : "+oo_num);
-//  			alert(pr_id + ", " + pro_id);
 			$.ajax({
 				type: 'post',
 				url: '/elements/updatePR?pr_id='+pr_id+'&oo_num='+oo_num,
