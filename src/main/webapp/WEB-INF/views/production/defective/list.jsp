@@ -118,7 +118,10 @@
 					var cellType = "text";
 					var cellName = cellNames[index];
 					
-					if(index === 8) {
+					if(index === 2) {
+						$(this).html('<input id="dfTypePop" class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + 
+								'" style="border: none; background: transparent;" readonly>');
+					} else if(index === 8) {
 						$(this).html('<input id="df_rsns" class="form-control" type="' + cellType + '" name="' + cellName + '" value="' + cellValue + '">');
 					} else if(index === 9) {
 						$(this).html(

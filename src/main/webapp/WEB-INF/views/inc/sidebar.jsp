@@ -33,11 +33,12 @@
  					<div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fas fa-dolly me-2"></i>자재관리</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="/stock/productStockList" class="dropdown-item">ㄴ<i class=" me-2"></i>재고현황</a>
                             <a href="/wms/inorder/inorderlist" class="dropdown-item">ㄴ<i class=" me-2"></i>발주관리</a>
                             <a href="/wms/receive/receivelist" class="dropdown-item">ㄴ<i class=" me-2"></i>입고관리</a>
                             <a href="/release/materialRelease" class="dropdown-item">ㄴ<i class=" me-2"></i>자재출고관리</a>
                             <a href="/release/productRelease" class="dropdown-item">ㄴ<i class=" me-2"></i>제품출고관리</a>
+                            <a href="/stock/productStockList" class="dropdown-item">ㄴ<i class=" me-2"></i>재고현황</a>
+		                    <a href="/elementinfo/element" class="dropdown-item">ㄴ<i class=" me-2"></i>자재정보검색</a>
                         </div>
                     </div>
  					<div class="nav-item dropdown">
@@ -73,7 +74,6 @@
                             <a href="/employee/employeeList" class="dropdown-item">ㄴ<i class=" me-2"></i>사원조회</a>
                         </div>
                     </div>
-                    <a href="/elementinfo/element" class="nav-item nav-link active"><i class="fas fa-search"></i>자재정보검색</a>
 <!--                     <div class="nav-item dropdown"> -->
 <!--                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a> -->
 <!--                         <div class="dropdown-menu bg-transparent border-0"> -->

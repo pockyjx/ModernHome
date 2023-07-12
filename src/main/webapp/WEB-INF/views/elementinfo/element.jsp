@@ -92,9 +92,9 @@
 <form name="search" action="" method="get" class="bg-light rounded p-3 m-3">
 
 	<div class="row mb-3">
-		<label for="ele_numSearch" class="col-sm-2 col-form-label"><b>자재코드</b></label>
+		<label for="ele_numSearch" class="col-sm-2 col-form-label"><b>자재일련번호</b></label>
 		<div class="col-sm-4">
-			<input type="text" name="ele_numSearch" class="form-control" placeholder="자재코드를 입력하세요" value="${ele_num }">
+			<input type="text" name="ele_numSearch" class="form-control" placeholder="자재일련번호를 입력하세요" value="${ele_num }">
 		</div>
 		<div class="col-auto">
 			<button class="btn btn-primary m-3" type="submit" style="width:70px;">조회</button>
@@ -130,8 +130,8 @@
 <!-- 			    	<th scope="col" style="background-color: rgba(0,0,0,0.075);">출고처리</th> -->
 <!-- 					<td style="display: none">작업지시 id</td> -->
 				<tr>
-				<th>입고정보</th>		<td>입고코드</td>		<td>${vo.receiveVO.rec_num }</td>	
-				<th>공정검사정보</th>	<td>검사코드</td>	<td><c:if test="${!empty vo.liQualityCheckingVO }">${vo.liQualityCheckingVO.qc_num }</c:if></td> 
+				<th rowspan="2">입고정보</th>		<td>입고코드</td>		<td>${vo.receiveVO.rec_num }</td>	
+				<th rowspan="4">공정검사정보</th>	<td>검사코드</td>	<td><c:if test="${!empty vo.liQualityCheckingVO }">${vo.liQualityCheckingVO.qc_num }</c:if></td> 
 				<td rowspan="14">
 <%-- 				<c:if test="${empty vo.materialReleaseVO }"> --%>
 <!-- 					<button type="button" class="btn btn-danger rounded-pill m-2 blink">입고</button><br> -->
@@ -153,56 +153,56 @@
 				</td>				
 				</tr>
 				<tr>
-				<td></td>				<td>입고일자</td>		<td>${vo.receiveVO.rec_date }</td>	
-				<td></td>				<td>검사일자</td>	<td><c:if test="${!empty vo.liQualityCheckingVO }">${vo.liQualityCheckingVO.qc_date }</c:if></td>
+										<td>입고일자</td>		<td>${vo.receiveVO.rec_date }</td>	
+										<td>검사일자</td>	<td><c:if test="${!empty vo.liQualityCheckingVO }">${vo.liQualityCheckingVO.qc_date }</c:if></td>
 				</tr>
 				<tr>
-				<th>자재정보</th>		<td>자재코드</td>		<td>${vo.materialVO.ma_num }</td>	
-				<td></td>				<td>불량여부</td>	<td><c:if test="${vo.line_qc_defect == 1 }">불량</c:if></td>
+				<th rowspan="2">자재정보</th>		<td>자재코드</td>		<td>${vo.materialVO.ma_num }</td>	
+										<td>불량여부</td>	<td><c:if test="${vo.line_qc_defect == 1 }">불량</c:if></td>
 				</tr>
 				<tr>
-				<td></td>				<td>자재명</td>			<td>${vo.materialVO.ma_name }</td>	
-				<td></td>				<td>수리여부</td>	<td><c:if test="${!empty vo.liDefectiveVO && vo.line_qc_defect == 1}">${vo.liDefectiveVO.repair_yn }</c:if></td>
+									<td>자재명</td>			<td>${vo.materialVO.ma_name }</td>	
+										<td>수리여부</td>	<td><c:if test="${!empty vo.liDefectiveVO && vo.line_qc_defect == 1}">${vo.liDefectiveVO.repair_yn }</c:if></td>
 				</tr>
 				<tr>
-				<th>자재출고정보</th>	<td>출고코드</td>		<td><c:if test="${!empty vo.materialReleaseVO }">${vo.materialReleaseVO.mr_num }</c:if></td>	
+				<th rowspan="3">자재출고정보</th>	<td>출고코드</td>		<td><c:if test="${!empty vo.materialReleaseVO }">${vo.materialReleaseVO.mr_num }</c:if></td>	
 				<th>로트정보</th>		<td>로트번호</td>	<td>${vo.lot_num }</td>
 				</tr>
 				<tr>
-				<td></td>				<td>출고일자</td>		<td><c:if test="${!empty vo.materialReleaseVO }">${vo.materialReleaseVO.mr_date }</c:if></td>	
-				<th>제품출고정보</th>	<td>제품출고코드</td>	<td><c:if test="${!empty vo.productReleaseVO }">${vo.productReleaseVO.pr_num }</c:if></td>
+										<td>출고일자</td>		<td><c:if test="${!empty vo.materialReleaseVO }">${vo.materialReleaseVO.mr_date }</c:if></td>	
+				<th rowspan="2">제품출고정보</th>	<td>제품출고코드</td>	<td><c:if test="${!empty vo.productReleaseVO }">${vo.productReleaseVO.pr_num }</c:if></td>
 				</tr>
 				<tr>
-				<td></td>				<td>출고상태</td>			<td><c:if test="${!empty vo.materialReleaseVO }">${vo.materialReleaseVO.mr_state }</c:if></td>	
-				<td></td>			<td>출고일자</td>	<td><c:if test="${!empty vo.productReleaseVO }">${vo.productReleaseVO.pr_date }</c:if></td>
+										<td>출고상태</td>			<td><c:if test="${!empty vo.materialReleaseVO }">${vo.materialReleaseVO.mr_state }</c:if></td>	
+										<td>출고일자</td>	<td><c:if test="${!empty vo.productReleaseVO }">${vo.productReleaseVO.pr_date }</c:if></td>
 				</tr>
 				<tr>
-				<th>작업지시정보</th>	<td>수주코드</td>		<td><c:if test="${!empty vo.outOrderVO }">${vo.outOrderVO.oo_num }</c:if></td>	
-				<th>출고검사정보</th>	<td>검사코드</td>	<td><c:if test="${!empty vo.prQualityCheckingVO }">${vo.prQualityCheckingVO.qc_num }</c:if></td>
+				<th rowspan="7">작업지시정보</th>	<td>수주코드</td>		<td><c:if test="${!empty vo.outOrderVO }">${vo.outOrderVO.oo_num }</c:if></td>	
+				<th rowspan="4">출고검사정보</th>	<td>검사코드</td>	<td><c:if test="${!empty vo.prQualityCheckingVO }">${vo.prQualityCheckingVO.qc_num }</c:if></td>
 				</tr>
 				<tr>
-				<td></td>				<td>작업지시코드</td>	<td><c:if test="${!empty vo.workInstrVO }">${vo.workInstrVO.work_num }</c:if></td>	
-				<td></td>				<td>검사일자</td>	<td><c:if test="${!empty vo.prQualityCheckingVO }">${vo.prQualityCheckingVO.qc_date }</c:if></td>
+										<td>작업지시코드</td>	<td><c:if test="${!empty vo.workInstrVO }">${vo.workInstrVO.work_num }</c:if></td>	
+										<td>검사일자</td>	<td><c:if test="${!empty vo.prQualityCheckingVO }">${vo.prQualityCheckingVO.qc_date }</c:if></td>
 				</tr>
 				<tr>
-				<td></td>				<td>작업지시일자</td>	<td><c:if test="${!empty vo.workInstrVO }">${vo.workInstrVO.reg_date }</c:if></td>	
-				<td></td>				<td>불량여부</td>	<td><c:if test="${vo.pr_qc_defect == 1 }">불량</c:if></td>
+										<td>작업지시일자</td>	<td><c:if test="${!empty vo.workInstrVO }">${vo.workInstrVO.reg_date }</c:if></td>	
+										<td>불량여부</td>	<td><c:if test="${vo.pr_qc_defect == 1 }">불량</c:if></td>
 				</tr>
 				<tr>
-				<td></td>				<td>라인</td>			<td><c:if test="${!empty vo.lineVO }">${vo.lineVO.line_name }</c:if></td>	
-				<td></td>				<td>수리여부</td>	<td><c:if test="${!empty vo.prDefectiveVO && vo.pr_qc_defect == 1}">${vo.prDefectiveVO.repair_yn }</c:if></td>
+										<td>라인</td>			<td><c:if test="${!empty vo.lineVO }">${vo.lineVO.line_name }</c:if></td>	
+										<td>수리여부</td>	<td><c:if test="${!empty vo.prDefectiveVO && vo.pr_qc_defect == 1}">${vo.prDefectiveVO.repair_yn }</c:if></td>
 				</tr>
 				<tr>
-				<td></td>				<td>제품코드</td>		<td><c:if test="${!empty vo.productVO }">${vo.productVO.pro_num }</c:if></td>	
-				<th>출하정보</th>		<td>출하코드</td>	<td><c:if test="${!empty vo.shipmentVO }">${vo.shipmentVO.shp_num }</c:if></td>
+										<td>제품코드</td>		<td><c:if test="${!empty vo.productVO }">${vo.productVO.pro_num }</c:if></td>	
+				<th rowspan="3">출하정보</th>		<td>출하코드</td>	<td><c:if test="${!empty vo.shipmentVO }">${vo.shipmentVO.shp_num }</c:if></td>
 				</tr>
 				<tr>
-				<td></td>				<td>제품명</td>			<td><c:if test="${!empty vo.productVO }">${vo.productVO.pro_name }</c:if></td>	
-				<td></td>				<td>출하일자</td>	<td><c:if test="${!empty vo.shipmentVO }">${vo.shipmentVO.shp_date }</c:if></td>
+										<td>제품명</td>			<td><c:if test="${!empty vo.productVO }">${vo.productVO.pro_name }</c:if></td>	
+										<td>출하일자</td>	<td><c:if test="${!empty vo.shipmentVO }">${vo.shipmentVO.shp_date }</c:if></td>
 				</tr>
 				<tr>
-				<td></td>				<td></td>				<td></td>	
-				<td></td>				<td>출하상태</td>	<td><c:if test="${!empty vo.shipmentVO }">${vo.shipmentVO.shp_state }</c:if></td>
+										<td></td>				<td></td>	
+										<td>출하상태</td>	<td><c:if test="${!empty vo.shipmentVO }">${vo.shipmentVO.shp_state }</c:if></td>
 				</tr>
 <%-- 			  	<c:forEach var="vo" items="${mtReleaseList}"> --%>
 <!-- 				<tr> -->
