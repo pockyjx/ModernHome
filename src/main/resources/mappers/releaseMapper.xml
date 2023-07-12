@@ -195,6 +195,7 @@
             where wi.work_id = mr.work_id
             and m.ma_id = mr.ma_id
         )
+        order by wi.work_id desc
 		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 자재 출고 팝업 (페이징) -->
@@ -444,6 +445,7 @@
             from product_release
             where product_release.oo_id = oo.oo_id
         )
+        order by oo.oo_id desc
 		LIMIT #{startPage}, #{pageSize}
 	</select>
 	<!-- 수주 정보 팝업 (페이징) -->
