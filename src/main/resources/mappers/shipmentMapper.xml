@@ -146,7 +146,7 @@
 	
 		<!-- 출하 테이블에서 출하상태를 '출하완료'으로 변경 -->
 	<update id="modifyShpState" parameterType="ShipmentJoinVO">
-		UPDATE shipment SET shp_state = '출하완료'
+		UPDATE shipment SET shp_state = '출하완료', shp_date = CURDATE()
 		WHERE shp_num = #{shp_num}
 	</update>
 	
