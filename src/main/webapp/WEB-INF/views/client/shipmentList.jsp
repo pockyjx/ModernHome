@@ -128,7 +128,7 @@ $(document).ready(function() {
 		'<td><input type="text" name="pro_name" id="pro_name" readonly></td>' +
 		'<td><input type="text" name="oo_cnt" id="oo_cnt" readonly></td>' +
 		'<td><input type="text" name="oo_end_date" id="oo_end_date" readonly></td>' +
-	    '<td><input type="date" name="shp_date" id="shp_date" value="' + formattedDate + '"></td>' +
+	    '<td><input type="text" name="shp_date" id="shp_date" readonly disabled></td>' +
 		'<td><input type="text" name="shp_state" id="shp_state" value="출하준비" readonly></td>' +
 		'<td><input type="text" name="shp_reg_date" readonly disabled></td>' +	
 		'</td>' +
@@ -346,11 +346,6 @@ $(document).ready(function() {
 				if(pr_num == null || pr_num == "") {
 					$("#pr_num").focus();
 					alert("출고 코드를 입력하세요!");
-					return;
-				}
-				if(shp_date == null || shp_date == "") {
-					$("#shp_date").focus();
-					alert("출하일자를 입력하세요!");
 					return;
 				}
 				
